@@ -1,0 +1,276 @@
+import type {
+  Contact, Company, Lead, Deal, Activity, CrmTask, CrmNote,
+  Segment, LifecycleStageData, AiInsight,
+  SalesForecast, TeamPerformance,
+  FollowUp, Proposal, LeadSourceEntry as LeadSource, QualificationData, WinLossData
+
+
+export const mockContacts: Contact[] = [
+  { id: 'c1', firstName: 'Arjun', lastName: 'Mehta', email: 'arjun@techcorp.in', phone: '+91 98765 43210', company: 'TechCorp India', companyId: 'co1', title: 'CTO', source: 'linkedin', lifecycleStage: 'opportunity', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 87, aiIntent: 'high', tags: ['enterprise', 'AI', 'SaaS'], lastInteraction: '2 hours ago', createdAt: '2025-01-15', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'Mumbai', state: 'MH', country: 'India' } },
+  { id: 'c2', firstName: 'Sarah', lastName: 'Chen', email: 'sarah@innovate.io', phone: '+1 555 123 4567', company: 'Innovate Labs', companyId: 'co2', title: 'VP of Product', source: 'referral', lifecycleStage: 'sql', owner: 'Rahul Verma', ownerId: 'u2', healthScore: 72, aiIntent: 'medium', tags: ['product', 'startup'], lastInteraction: '1 day ago', createdAt: '2025-02-20', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'San Francisco', state: 'CA', country: 'USA' } },
+  { id: 'c3', firstName: 'David', lastName: 'Kim', email: 'david@globaltrade.com', phone: '+82 10 9876 5432', company: 'Global Trade Co', companyId: 'co3', title: 'Head of Operations', source: 'event', lifecycleStage: 'lead', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 45, aiIntent: 'low', tags: ['enterprise', 'logistics'], lastInteraction: '1 week ago', createdAt: '2025-03-10', address: { city: 'Seoul', state: 'Seoul', country: 'South Korea' } },
+  { id: 'c4', firstName: 'Emily', lastName: 'Johnson', email: 'emily@startupxyz.com', phone: '+1 555 987 6543', company: 'StartupXYZ', companyId: 'co4', title: 'CEO', source: 'ad_campaign', lifecycleStage: 'mql', owner: 'Ananya Das', ownerId: 'u3', healthScore: 63, aiIntent: 'high', tags: ['startup', 'fintech', 'series-a'], lastInteraction: '3 hours ago', createdAt: '2025-04-01', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'New York', state: 'NY', country: 'USA' } },
+  { id: 'c5', firstName: 'Raj', lastName: 'Patel', email: 'raj@indiamart.in', phone: '+91 87654 32109', company: 'IndiaMart Solutions', companyId: 'co5', title: 'Director', source: 'organic', lifecycleStage: 'customer', owner: 'Rahul Verma', ownerId: 'u2', healthScore: 92, aiIntent: 'high', tags: ['retail', 'enterprise', 'loyal'], lastInteraction: '30 min ago', createdAt: '2024-11-05', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'Bangalore', state: 'KA', country: 'India' } },
+  { id: 'c6', firstName: 'Maria', lastName: 'Santos', email: 'maria@latam.co', phone: '+55 11 91234 5678', company: 'LatAm Commerce', companyId: 'co6', title: 'CFO', source: 'cold_call', lifecycleStage: 'customer', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 78, aiIntent: 'medium', tags: ['enterprise', 'LATAM'], lastInteraction: '5 hours ago', createdAt: '2024-12-15', address: { city: 'São Paulo', state: 'SP', country: 'Brazil' } },
+  { id: 'c7', firstName: 'James', lastName: 'Wilson', email: 'james@ukenterprise.co.uk', phone: '+44 20 7946 0958', company: 'UK Enterprise Ltd', companyId: 'co7', title: 'Procurement Head', source: 'linkedin', lifecycleStage: 'retained', owner: 'Ananya Das', ownerId: 'u3', healthScore: 95, aiIntent: 'high', tags: ['enterprise', 'advocate', 'UK'], lastInteraction: '1 hour ago', createdAt: '2024-08-20', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'London', state: 'London', country: 'UK' } },
+  { id: 'c8', firstName: 'Aisha', lastName: 'Khan', email: 'aisha@mid-east.biz', phone: '+971 50 123 4567', company: 'Gulf Ventures', companyId: 'co8', title: 'Managing Director', source: 'event', lifecycleStage: 'advocate', owner: 'Rahul Verma', ownerId: 'u2', healthScore: 98, aiIntent: 'high', tags: ['VIP', 'enterprise', 'gulf'], lastInteraction: '15 min ago', createdAt: '2024-06-10', address: { city: 'Dubai', state: 'Dubai', country: 'UAE' } },
+  { id: 'c9', firstName: 'Tom', lastName: 'Nguyen', email: 'tom@asiapacific.sg', phone: '+65 9123 4567', company: 'APAC Digital', companyId: 'co9', title: 'Product Manager', source: 'website', lifecycleStage: 'lead', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 35, aiIntent: 'inactive', tags: ['startup', 'APAC'], lastInteraction: '3 weeks ago', createdAt: '2025-05-01', address: { city: 'Singapore', state: 'SG', country: 'Singapore' } },
+  { id: 'c10', firstName: 'Lisa', lastName: 'Anderson', email: 'lisa@nordic.tech', phone: '+46 70 123 4567', company: 'Nordic Tech AB', companyId: 'co10', title: 'COO', source: 'referral', lifecycleStage: 'opportunity', owner: 'Ananya Das', ownerId: 'u3', healthScore: 68, aiIntent: 'medium', tags: ['enterprise', 'Nordic', 'SaaS'], lastInteraction: '2 days ago', createdAt: '2025-03-25', address: { city: 'Stockholm', state: 'Stockholm', country: 'Sweden' } },
+  { id: 'c11', firstName: 'Alex', lastName: 'Turner', email: 'alex@cloudnine.dev', phone: '+1 555 456 7890', company: 'CloudNine Dev', companyId: 'co11', title: 'Engineering Lead', source: 'organic', lifecycleStage: 'mql', owner: 'Rahul Verma', ownerId: 'u2', healthScore: 55, aiIntent: 'medium', tags: ['startup', 'devtools', 'cloud'], lastInteraction: '4 days ago', createdAt: '2025-04-15' },
+  { id: 'c12', firstName: 'Nina', lastName: 'Petrov', email: 'nina@eastern.eu', phone: '+48 600 123 456', company: 'Eastern Europe Corp', companyId: 'co12', title: 'Business Analyst', source: 'import', lifecycleStage: 'sql', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 60, aiIntent: 'medium', tags: ['enterprise', 'EU', 'analytics'], lastInteraction: '6 hours ago', createdAt: '2025-02-10', address: { city: 'Warsaw', state: 'Mazowieckie', country: 'Poland' } },
+];
+
+export const mockCompanies: Company[] = [
+  { id: 'co1', name: 'TechCorp India', website: 'techcorp.in', industry: 'Technology', employeeCount: '500-1000', arr: 2400000, linkedContacts: 3, activeDeals: 2, healthScore: 87, owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2025-01-15' },
+  { id: 'co2', name: 'Innovate Labs', website: 'innovate.io', industry: 'SaaS', employeeCount: '50-200', arr: 800000, linkedContacts: 2, activeDeals: 1, healthScore: 72, owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2025-02-20' },
+  { id: 'co3', name: 'Global Trade Co', website: 'globaltrade.com', industry: 'Logistics', employeeCount: '1000-5000', arr: 5600000, linkedContacts: 1, activeDeals: 0, healthScore: 45, owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2025-03-10' },
+  { id: 'co4', name: 'StartupXYZ', website: 'startupxyz.com', industry: 'Fintech', employeeCount: '10-50', arr: 200000, linkedContacts: 2, activeDeals: 3, healthScore: 63, owner: 'Ananya Das', ownerId: 'u3', createdAt: '2025-04-01' },
+  { id: 'co5', name: 'IndiaMart Solutions', website: 'indiamart.in', industry: 'Retail', employeeCount: '200-500', arr: 1200000, linkedContacts: 4, activeDeals: 1, healthScore: 92, owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2024-11-05' },
+  { id: 'co6', name: 'LatAm Commerce', website: 'latam.co', industry: 'E-Commerce', employeeCount: '500-1000', arr: 3400000, linkedContacts: 2, activeDeals: 2, healthScore: 78, owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2024-12-15' },
+  { id: 'co7', name: 'UK Enterprise Ltd', website: 'ukenterprise.co.uk', industry: 'Consulting', employeeCount: '100-500', arr: 1800000, linkedContacts: 3, activeDeals: 1, healthScore: 95, owner: 'Ananya Das', ownerId: 'u3', createdAt: '2024-08-20' },
+  { id: 'co8', name: 'Gulf Ventures', website: 'gulfventures.ae', industry: 'Investment', employeeCount: '50-200', arr: 4200000, linkedContacts: 2, activeDeals: 4, healthScore: 98, owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2024-06-10' },
+  { id: 'co9', name: 'APAC Digital', website: 'asiapacific.sg', industry: 'Digital Media', employeeCount: '10-50', arr: 150000, linkedContacts: 1, activeDeals: 0, healthScore: 35, owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2025-05-01' },
+  { id: 'co10', name: 'Nordic Tech AB', website: 'nordic.tech', industry: 'SaaS', employeeCount: '100-500', arr: 960000, linkedContacts: 2, activeDeals: 2, healthScore: 68, owner: 'Ananya Das', ownerId: 'u3', createdAt: '2025-03-25' },
+  { id: 'co11', name: 'CloudNine Dev', website: 'cloudnine.dev', industry: 'Developer Tools', employeeCount: '10-50', arr: 320000, linkedContacts: 1, activeDeals: 1, healthScore: 55, owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2025-04-15' },
+  { id: 'co12', name: 'Eastern Europe Corp', website: 'eastern.eu', industry: 'Analytics', employeeCount: '200-500', arr: 1400000, linkedContacts: 2, activeDeals: 1, healthScore: 60, owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2025-02-10' },
+];
+
+export const mockLeads: Lead[] = [
+  { id: 'l1', firstName: 'Vikram', lastName: 'Singh', email: 'vikram@newco.in', phone: '+91 99887 76655', company: 'NewCo Solutions', source: 'linkedin', score: 92, intent: 'hot', status: 'new', expectedRevenue: 180000, assignedRep: 'Priya Sharma', assignedRepId: 'u1', campaign: 'LinkedIn Q1 Campaign', nextAction: 'Schedule demo call', nextActionDate: '2026-04-12', createdAt: '2026-04-08' },
+  { id: 'l2', firstName: 'Rachel', lastName: 'Green', email: 'rachel@freshstartup.com', phone: '+1 555 234 5678', company: 'FreshStartup', source: 'website', score: 78, intent: 'warm', status: 'contacted', expectedRevenue: 95000, assignedRep: 'Rahul Verma', assignedRepId: 'u2', nextAction: 'Send proposal', nextActionDate: '2026-04-14', createdAt: '2026-04-05' },
+  { id: 'l3', firstName: 'Chen', lastName: 'Wei', email: 'chen@shanghaitech.cn', phone: '+86 138 0013 8000', company: 'Shanghai Tech', source: 'event', score: 65, intent: 'warm', status: 'qualified', expectedRevenue: 320000, assignedRep: 'Ananya Das', assignedRepId: 'u3', campaign: 'Tech Summit 2026', nextAction: 'Follow up on pricing', nextActionDate: '2026-04-11', createdAt: '2026-03-28' },
+  { id: 'l4', firstName: 'Olivia', lastName: 'Brown', email: 'olivia@mediaco.com', phone: '+44 7911 123456', company: 'MediaCo UK', source: 'referral', score: 45, intent: 'cold', status: 'new', expectedRevenue: 50000, assignedRep: 'Priya Sharma', assignedRepId: 'u1', createdAt: '2026-04-09' },
+  { id: 'l5', firstName: 'Ahmed', lastName: 'Hassan', email: 'ahmed@cairobiz.com', phone: '+20 100 123 4567', company: 'Cairo Business Hub', source: 'ad_campaign', score: 85, intent: 'hot', status: 'new', expectedRevenue: 220000, assignedRep: 'Rahul Verma', assignedRepId: 'u2', campaign: 'Google Ads MENA', nextAction: 'Initial discovery call', nextActionDate: '2026-04-10', createdAt: '2026-04-07' },
+  { id: 'l6', firstName: 'Sophie', lastName: 'Martin', email: 'sophie@paristech.fr', phone: '+33 6 12 34 56 78', company: 'Paris Tech Solutions', source: 'cold_call', score: 30, intent: 'cold', status: 'contacted', expectedRevenue: 75000, assignedRep: 'Ananya Das', assignedRepId: 'u3', createdAt: '2026-04-01' },
+  { id: 'l7', firstName: 'Kento', lastName: 'Tanaka', email: 'kento@tokyocorp.jp', phone: '+81 90 1234 5678', company: 'Tokyo Corp', source: 'event', score: 88, intent: 'hot', status: 'qualified', expectedRevenue: 450000, assignedRep: 'Priya Sharma', assignedRepId: 'u1', campaign: 'APAC Business Summit', nextAction: 'Prepare custom demo', nextActionDate: '2026-04-13', createdAt: '2026-03-25' },
+  { id: 'l8', firstName: 'Carlos', lastName: 'Rodriguez', email: 'carlos@mexico.biz', phone: '+52 55 1234 5678', company: 'Mexico Business', source: 'organic', score: 52, intent: 'warm', status: 'new', expectedRevenue: 110000, assignedRep: 'Rahul Verma', assignedRepId: 'u2', createdAt: '2026-04-06' },
+];
+
+export const mockDeals: Deal[] = [
+  { id: 'd1', name: 'TechCorp Enterprise License', company: 'TechCorp India', companyId: 'co1', contactId: 'c1', contactName: 'Arjun Mehta', value: 480000, currency: 'USD', stage: 'proposal', probability: 65, expectedClose: '2026-05-15', owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2026-02-10', createdDate: '2026-02-10', weightedValue: 312000, aging: 12, daysInStage: 12 },
+  { id: 'd2', name: 'Innovate Labs SaaS Migration', company: 'Innovate Labs', companyId: 'co2', contactId: 'c2', contactName: 'Sarah Chen', value: 180000, currency: 'USD', stage: 'demo', probability: 45, expectedClose: '2026-06-01', owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2026-03-01', weightedValue: 81000, aging: 8 },
+  { id: 'd3', name: 'IndiaMart Expansion Pack', company: 'IndiaMart Solutions', companyId: 'co5', contactId: 'c5', contactName: 'Raj Patel', value: 320000, currency: 'USD', stage: 'negotiation', probability: 80, expectedClose: '2026-04-20', owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2026-01-20', weightedValue: 256000, aging: 25 },
+  { id: 'd4', name: 'Gulf Ventures Annual Plan', company: 'Gulf Ventures', companyId: 'co8', contactId: 'c8', contactName: 'Aisha Khan', value: 750000, currency: 'USD', stage: 'qualified', probability: 55, expectedClose: '2026-07-01', owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2026-03-15', weightedValue: 412500, aging: 5 },
+  { id: 'd5', name: 'StartupXYZ Starter Kit', company: 'StartupXYZ', companyId: 'co4', contactId: 'c4', contactName: 'Emily Johnson', value: 48000, currency: 'USD', stage: 'won', probability: 100, expectedClose: '2026-04-01', owner: 'Ananya Das', ownerId: 'u3', createdAt: '2026-02-15', weightedValue: 48000, aging: 0 },
+  { id: 'd6', name: 'UK Enterprise Consulting', company: 'UK Enterprise Ltd', companyId: 'co7', contactId: 'c7', contactName: 'James Wilson', value: 220000, currency: 'USD', stage: 'proposal', probability: 70, expectedClose: '2026-05-30', owner: 'Ananya Das', ownerId: 'u3', createdAt: '2026-03-10', weightedValue: 154000, aging: 15 },
+  { id: 'd7', name: 'LatAm Commerce Integration', company: 'LatAm Commerce', companyId: 'co6', contactId: 'c6', contactName: 'Maria Santos', value: 350000, currency: 'USD', stage: 'demo', probability: 50, expectedClose: '2026-06-15', owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2026-03-20', weightedValue: 175000, aging: 10 },
+  { id: 'd8', name: 'Nordic Tech Pilot', company: 'Nordic Tech AB', companyId: 'co10', contactId: 'c10', contactName: 'Lisa Anderson', value: 96000, currency: 'USD', stage: 'new', probability: 20, expectedClose: '2026-08-01', owner: 'Ananya Das', ownerId: 'u3', createdAt: '2026-04-01', weightedValue: 19200, aging: 3 },
+  { id: 'd9', name: 'CloudNine Dev Tools', company: 'CloudNine Dev', companyId: 'co11', contactId: 'c11', contactName: 'Alex Turner', value: 64000, currency: 'USD', stage: 'lost', probability: 0, expectedClose: '2026-04-10', owner: 'Rahul Verma', ownerId: 'u2', createdAt: '2026-02-20', weightedValue: 0, aging: 0 },
+  { id: 'd10', name: 'Eastern Europe Analytics Suite', company: 'Eastern Europe Corp', companyId: 'co12', contactId: 'c12', contactName: 'Nina Petrov', value: 280000, currency: 'USD', stage: 'qualified', probability: 60, expectedClose: '2026-06-20', owner: 'Priya Sharma', ownerId: 'u1', createdAt: '2026-03-05', weightedValue: 168000, aging: 7 },
+];
+
+export const mockActivities: Activity[] = [
+  { id: 'a1', type: 'call', subject: 'Discovery call with Arjun Mehta', description: 'Discussed enterprise licensing requirements for 500+ seats', contactName: 'Arjun Mehta', contactId: 'c1', companyName: 'TechCorp India', userName: 'Priya Sharma', userId: 'u1', date: '2026-04-09T14:30:00', duration: '32 min', outcome: 'Positive - follow up scheduled' },
+  { id: 'a2', type: 'email', subject: 'Proposal sent to Innovate Labs', description: 'Sent SaaS migration proposal with pricing breakdown', contactName: 'Sarah Chen', contactId: 'c2', companyName: 'Innovate Labs', userName: 'Rahul Verma', userId: 'u2', date: '2026-04-09T11:15:00', outcome: 'Awaiting response' },
+  { id: 'a3', type: 'meeting', subject: 'Quarterly review with IndiaMart', description: 'Reviewed Q1 metrics and discussed expansion plans', contactName: 'Raj Patel', contactId: 'c5', companyName: 'IndiaMart Solutions', userName: 'Rahul Verma', userId: 'u2', date: '2026-04-09T09:00:00', duration: '1h 15min', outcome: 'Deal progressing well' },
+  { id: 'a4', type: 'whatsapp', subject: 'Quick check-in with Aisha Khan', description: 'Follow up on annual plan discussion', contactName: 'Aisha Khan', contactId: 'c8', companyName: 'Gulf Ventures', userName: 'Rahul Verma', userId: 'u2', date: '2026-04-09T08:30:00', outcome: 'Interested, wants a call next week' },
+  { id: 'a5', type: 'proposal', subject: 'Proposal viewed by Emily Johnson', description: 'StartupXYZ viewed the starter kit proposal 3 times', contactName: 'Emily Johnson', contactId: 'c4', companyName: 'StartupXYZ', userName: 'Ananya Das', userId: 'u3', date: '2026-04-08T16:45:00' },
+  { id: 'a6', type: 'website_visit', subject: 'Arjun Mehta visited pricing page', description: 'Spent 8 minutes on pricing and features pages', contactName: 'Arjun Mehta', contactId: 'c1', companyName: 'TechCorp India', userName: 'System', userId: 'system', date: '2026-04-08T15:20:00' },
+  { id: 'a7', type: 'demo', subject: 'Product demo for LatAm Commerce', description: 'Showcased integration capabilities and API documentation', contactName: 'Maria Santos', contactId: 'c6', companyName: 'LatAm Commerce', userName: 'Priya Sharma', userId: 'u1', date: '2026-04-08T14:00:00', duration: '45 min', outcome: 'Very interested, wants technical deep-dive' },
+  { id: 'a8', type: 'note', subject: 'Internal note - UK Enterprise risk', description: 'James Wilson mentioned budget constraints for Q2.', contactName: 'James Wilson', contactId: 'c7', companyName: 'UK Enterprise Ltd', userName: 'Ananya Das', userId: 'u3', date: '2026-04-08T11:00:00' },
+  { id: 'a9', type: 'call', subject: 'Cold call to Sophie Martin', description: 'Introductory call, discussed basic requirements', contactName: 'Sophie Martin', contactId: null, companyName: 'Paris Tech Solutions', userName: 'Ananya Das', userId: 'u3', date: '2026-04-07T15:30:00', duration: '12 min', outcome: 'Neutral - send info by email' },
+  { id: 'a10', type: 'email', subject: 'Follow up email to David Kim', description: 'No response to previous emails. Trying different approach.', contactName: 'David Kim', contactId: 'c3', companyName: 'Global Trade Co', userName: 'Priya Sharma', userId: 'u1', date: '2026-04-07T10:00:00', outcome: 'No response yet' },
+  { id: 'a11', type: 'payment', subject: 'Payment received from StartupXYZ', description: 'Starter Kit annual subscription payment confirmed', contactName: 'Emily Johnson', contactId: 'c4', companyName: 'StartupXYZ', userName: 'System', userId: 'system', date: '2026-04-07T09:15:00' },
+  { id: 'a12', type: 'meeting', subject: 'Product demo for Nordic Tech', description: 'Initial demo call scheduled', contactName: 'Lisa Anderson', contactId: 'c10', companyName: 'Nordic Tech AB', userName: 'Ananya Das', userId: 'u3', date: '2026-04-06T14:00:00', duration: '30 min', outcome: 'Interested in pilot program' },
+  { id: 'a13', type: 'file_share', subject: 'Shared case study with Nina Petrov', description: 'Eastern Europe Corp - Analytics success story PDF', contactName: 'Nina Petrov', contactId: 'c12', companyName: 'Eastern Europe Corp', userName: 'Priya Sharma', userId: 'u1', date: '2026-04-05T16:00:00' },
+  { id: 'a14', type: 'call', subject: 'Support call with Raj Patel', description: 'Addressed integration questions for the expansion pack', contactName: 'Raj Patel', contactId: 'c5', companyName: 'IndiaMart Solutions', userName: 'Rahul Verma', userId: 'u2', date: '2026-04-05T11:30:00', duration: '20 min', outcome: 'Resolved - deal back on track' },
+];
+
+export const mockTasks: CrmTask[] = [
+  { id: 't1', title: 'Send proposal to Arjun Mehta', description: 'Prepare and send enterprise license proposal', type: 'proposal', status: 'in_progress', priority: 'high', assignee: 'Priya Sharma', assigneeId: 'u1', contactName: 'Arjun Mehta', contactId: 'c1', dealName: 'TechCorp Enterprise License', dealId: 'd1', dueDate: '2026-04-10', isOverdue: false, isRecurring: false, createdAt: '2026-04-08' },
+  { id: 't2', title: 'Follow up with Sarah Chen', description: 'Check if she reviewed the SaaS migration proposal', type: 'follow_up', status: 'todo', priority: 'medium', assignee: 'Rahul Verma', assigneeId: 'u2', contactName: 'Sarah Chen', contactId: 'c2', dealName: 'Innovate Labs SaaS Migration', dealId: 'd2', dueDate: '2026-04-11', isOverdue: false, isRecurring: false, createdAt: '2026-04-09' },
+  { id: 't3', title: 'Schedule demo for Tokyo Corp', description: 'Prepare custom demo for APAC region', type: 'demo', status: 'todo', priority: 'high', assignee: 'Priya Sharma', assigneeId: 'u1', contactName: 'Kento Tanaka', dueDate: '2026-04-13', isOverdue: false, isRecurring: false, createdAt: '2026-04-08' },
+  { id: 't4', title: 'Weekly pipeline review', description: 'Review all active deals and update forecasts', type: 'meeting', status: 'todo', priority: 'medium', assignee: 'Priya Sharma', assigneeId: 'u1', dueDate: '2026-04-11', isOverdue: false, isRecurring: true, recurringPattern: 'Weekly', createdAt: '2026-03-01' },
+  { id: 't5', title: 'Update CRM records for IndiaMart', description: 'Add latest meeting notes and update deal stage', type: 'follow_up', status: 'todo', priority: 'low', assignee: 'Rahul Verma', assigneeId: 'u2', contactName: 'Raj Patel', contactId: 'c5', dueDate: '2026-04-10', isOverdue: false, isRecurring: false, createdAt: '2026-04-09' },
+  { id: 't6', title: 'Call Ahmed Hassan', description: 'Initial discovery call for Cairo Business Hub', type: 'call', status: 'overdue', priority: 'urgent', assignee: 'Rahul Verma', assigneeId: 'u2', contactName: 'Ahmed Hassan', dueDate: '2026-04-08', isOverdue: true, isRecurring: false, createdAt: '2026-04-05' },
+  { id: 't7', title: 'Prepare Q2 revenue forecast', description: 'Compile all deal data and prepare forecast report', type: 'custom', status: 'in_progress', priority: 'high', assignee: 'Ananya Das', assigneeId: 'u3', dueDate: '2026-04-15', isOverdue: false, isRecurring: false, createdAt: '2026-04-01' },
+  { id: 't8', title: 'Onboarding call with Lisa Anderson', description: 'Walk through pilot program setup', type: 'meeting', status: 'done', priority: 'medium', assignee: 'Ananya Das', assigneeId: 'u3', contactName: 'Lisa Anderson', contactId: 'c10', dealName: 'Nordic Tech Pilot', dealId: 'd8', dueDate: '2026-04-07', isOverdue: false, isRecurring: false, createdAt: '2026-04-03' },
+];
+
+export const mockNotes: CrmNote[] = [
+  { id: 'n1', title: 'Meeting Notes - TechCorp Discovery', content: 'Arjun is looking for an enterprise solution to replace their current CRM. Key requirements: 500+ seats, custom workflows, API integration with SAP. Budget is approved for Q2. Decision maker is the CTO directly.', contactName: 'Arjun Mehta', contactId: 'c1', author: 'Priya Sharma', authorId: 'u1', isPrivate: false, isPinned: true, type: 'meeting', version: 3, createdAt: '2026-04-09T14:30:00', updatedAt: '2026-04-09T15:00:00' },
+  { id: 'n2', title: 'Proposal Strategy - IndiaMart', content: 'Raj confirmed they want the expansion pack with additional analytics module. Pricing discussion went well. They are comparing with a competitor but our API capabilities are a strong differentiator. Need to close by April 20th.', contactName: 'Raj Patel', contactId: 'c5', author: 'Rahul Verma', authorId: 'u2', isPrivate: false, isPinned: true, type: 'proposal', version: 2, createdAt: '2026-04-09T09:00:00', updatedAt: '2026-04-09T10:30:00' },
+  { id: 'n3', title: 'Internal - UK Enterprise Risk Assessment', content: 'James mentioned budget constraints for Q2. The CFO has frozen new software purchases until July. We need to restructure our proposal as a phased rollout starting with a smaller pilot.', contactName: 'James Wilson', contactId: 'c7', author: 'Ananya Das', authorId: 'u3', isPrivate: true, isPinned: false, type: 'general', version: 1, createdAt: '2026-04-08T11:00:00', updatedAt: '2026-04-08T11:00:00' },
+  { id: 'n4', title: 'Call Log - Sophie Martin', content: 'Introductory cold call. Sophie is the COO at Paris Tech Solutions. Not ready to buy immediately but interested in a demo in Q3. Added to nurture sequence.', contactName: 'Sophie Martin', author: 'Ananya Das', authorId: 'u3', isPrivate: false, isPinned: false, type: 'call_log', version: 1, createdAt: '2026-04-07T15:30:00', updatedAt: '2026-04-07T15:30:00' },
+  { id: 'n5', title: 'Voice Transcript - Gulf Ventures Call', content: 'AI-generated transcript of the quarterly review call with Aisha. Key topics: annual plan renewal, adding 3 new team members, integration with their existing ERP. Aisha expressed high satisfaction.', contactName: 'Aisha Khan', contactId: 'c8', author: 'AI Assistant', authorId: 'ai', isPrivate: false, isPinned: false, type: 'voice_transcript', version: 1, createdAt: '2026-04-08T08:30:00', updatedAt: '2026-04-08T09:00:00' },
+  { id: 'n6', title: 'Competitive Intelligence - APAC Region', content: 'Multiple APAC-based leads showing interest. Tokyo Corp and APAC Digital are both in pipeline. Recommend increasing APAC-focused content and scheduling a regional webinar.', contactName: '', author: 'Priya Sharma', authorId: 'u1', isPrivate: false, isPinned: false, type: 'general', version: 2, createdAt: '2026-04-06T10:00:00', updatedAt: '2026-04-08T16:00:00' },
+];
+
+export const mockSegments: Segment[] = [
+  { id: 's1', name: 'VIP Accounts', type: 'vip', description: 'High-value enterprise accounts with annual revenue above $1M', rules: [{ field: 'company.arr', operator: 'greater_than', value: 1000000, logic: 'and' }], customerCount: 47, growthTrend: 12, lastSynced: '2026-04-09', isSyncedToCampaign: true, createdAt: '2025-10-01' },
+  { id: 's2', name: 'High Intent Buyers', type: 'high_intent', description: 'Contacts showing strong buying signals in the last 30 days', rules: [{ field: 'ai_intent', operator: 'equals', value: 'high', logic: 'and' }], customerCount: 23, growthTrend: 34, lastSynced: '2026-04-09', isSyncedToCampaign: true, createdAt: '2025-11-15' },
+  { id: 's3', name: 'New Leads - This Month', type: 'new_leads', description: 'All leads created in the current month', rules: [{ field: 'created_at', operator: 'in_last', value: '30', logic: 'and' }], customerCount: 156, growthTrend: 8, lastSynced: '2026-04-09', isSyncedToCampaign: false, createdAt: '2026-01-01' },
+  { id: 's4', name: 'Repeat Buyers', type: 'repeat_buyers', description: 'Customers with 2 or more completed deals', rules: [{ field: 'total_deals', operator: 'greater_than', value: 1, logic: 'and' }], customerCount: 31, growthTrend: 5, lastSynced: '2026-04-08', isSyncedToCampaign: true, createdAt: '2025-12-01' },
+  { id: 's5', name: 'Churn Risk', type: 'churn_risk', description: 'Customers with declining engagement scores or health below 50', rules: [{ field: 'health_score', operator: 'less_than', value: 50, logic: 'and' }], customerCount: 12, growthTrend: -3, lastSynced: '2026-04-09', isSyncedToCampaign: false, createdAt: '2025-09-15' },
+  { id: 's6', name: 'Inactive Contacts', type: 'inactive', description: 'No interaction in the last 90 days', rules: [{ field: 'ai_intent', operator: 'equals', value: 'inactive', logic: 'and' }], customerCount: 89, growthTrend: -8, lastSynced: '2026-04-07', isSyncedToCampaign: false, createdAt: '2025-08-01' },
+];
+
+export const mockLifecycleStages: LifecycleStageData[] = [
+  { stage: 'lead', count: 234, conversionRate: 68, dropOffRate: 32, avgDaysInStage: 5, aiInsight: 'Top leads from LinkedIn convert 2x faster than other sources' },
+  { stage: 'mql', count: 159, conversionRate: 52, dropOffRate: 48, avgDaysInStage: 8, aiInsight: 'Leads with demo requests convert at 78% vs 35% for email-only' },
+  { stage: 'sql', count: 83, conversionRate: 72, dropOffRate: 28, avgDaysInStage: 12, aiInsight: 'Enterprise leads (>500 employees) have 3.5x higher conversion rate' },
+  { stage: 'opportunity', count: 60, conversionRate: 58, dropOffRate: 42, avgDaysInStage: 18, aiInsight: 'Deals with 3+ touchpoints in proposal stage close 40% faster' },
+  { stage: 'customer', count: 47, conversionRate: 0, dropOffRate: 0, avgDaysInStage: 0, aiInsight: 'New customers from referrals show 25% higher first-year retention' },
+  { stage: 'retained', count: 38, conversionRate: 81, dropOffRate: 19, avgDaysInStage: 0, aiInsight: 'Customers using 3+ modules have 92% retention rate' },
+  { stage: 'advocate', count: 22, conversionRate: 0, dropOffRate: 0, avgDaysInStage: 0, aiInsight: 'Advocates generate 4.2x more referrals through the partner program' },
+];
+
+export const mockAiInsights: AiInsight[] = [
+  { id: 'ai1', type: 'buying_intent', title: 'High Buying Intent Detected', description: 'Arjun Mehta has visited the pricing page 5 times and downloaded 2 case studies in the last 48 hours. His buying intent score has jumped from 65 to 92.', score: 92, confidence: 89, contactName: 'Arjun Mehta', contactId: 'c1', actionText: 'Schedule proposal call', icon: '🔥' },
+  { id: 'ai2', type: 'churn_prediction', title: 'Churn Risk: Global Trade Co', description: 'David Kim has not responded to 3 follow-up emails in 2 weeks. Health score dropped from 62 to 45. Recommend immediate re-engagement strategy.', score: 78, confidence: 85, contactName: 'David Kim', contactId: 'c3', actionText: 'Create re-engagement plan', icon: '⚠️' },
+  { id: 'ai3', type: 'ltv_forecast', title: 'LTV Forecast: IndiaMart Solutions', description: "Based on current usage patterns and expansion plans, Raj Patel's account LTV is projected at $1.2M over 3 years.", score: 1200000, confidence: 76, contactName: 'Raj Patel', contactId: 'c5', actionText: 'Prepare upsell proposal', icon: '📈' },
+  { id: 'ai4', type: 'next_action', title: 'Best Next Action: Emily Johnson', description: 'This lead has 82% close probability. Best follow-up time: 4–6 PM IST. Recommend sending the finalized proposal with a personalized video walkthrough.', score: 82, confidence: 91, contactName: 'Emily Johnson', contactId: 'c4', actionText: 'Send personalized proposal', icon: '🎯' },
+  { id: 'ai5', type: 'response_probability', title: 'Response Probability: Sarah Chen', description: 'Sarah opens 78% of emails sent before 10 AM PST. Next recommended contact time: April 10 at 9 AM PST.', score: 78, confidence: 83, contactName: 'Sarah Chen', contactId: 'c2', actionText: 'Send timed email', icon: '✉️' },
+  { id: 'ai6', type: 'upsell', title: 'Upsell Opportunity: Gulf Ventures', description: "Aisha Khan's team is heavily using the CRM module. Analytics data shows 3 departments that could benefit from the ERP integration. Estimated upsell value: $280K.", score: 280000, confidence: 88, contactName: 'Aisha Khan', contactId: 'c8', actionText: 'Schedule expansion demo', icon: '💰' },
+  { id: 'ai7', type: 'health', title: 'Customer Health Alert: APAC Digital', description: "Tom Nguyen's engagement has dropped 65% in the last month. Login frequency decreased from daily to weekly. Risk of churn within 45 days.", score: 35, confidence: 79, contactName: 'Tom Nguyen', contactId: 'c9', actionText: 'Schedule retention call', icon: '🔴' },
+  { id: 'ai8', type: 'relationship', title: 'Strong Relationship: UK Enterprise', description: 'James Wilson has referred 3 new prospects in the last quarter. Relationship strength is at 95/100. Consider nominating for the customer advisory board.', score: 95, confidence: 94, contactName: 'James Wilson', contactId: 'c7', actionText: 'Send advisory board invite', icon: '🤝' },
+];
+
+export const revenueStats = {
+  totalPipeline: 2760000,
+  weightedPipeline: 1625700,
+  wonThisMonth: 48000,
+  avgDealSize: 241600,
+  winRate: 35,
+  dealsInPipeline: 8,
+  stuckDeals: 2,
+  forecastQ2: 890000,
+};
+
+
+  SalesLead, SalesDeal, SalesForecast, TeamPerformance,
+  FollowUp, Proposal, LeadSource, QualificationData, WinLossData
+} from '../types';
+
+export const mockSalesLeads: Lead[] = [
+  { id: 'sl1', firstName: 'Vikram', lastName: 'Singh', email: 'vikram@newco.in', phone: '+91 99887 76655', company: 'NewCo Solutions', title: 'CTO', source: 'linkedin', campaign: 'LinkedIn Q1 Campaign', score: 92, intent: 'hot', status: 'new', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 180000, nextAction: 'Schedule demo call', nextActionDate: '2026-04-12', slaDeadline: '2026-04-10T18:00:00', isHighValue: true, createdDate: '2026-04-08', lastActivity: '2 hours ago' },
+  { id: 'sl2', firstName: 'Rachel', lastName: 'Green', email: 'rachel@freshstartup.com', phone: '+1 555 234 5678', company: 'FreshStartup', title: 'CEO', source: 'google_ads', campaign: 'Google Search - SaaS Keywords', score: 78, intent: 'warm', status: 'contacted', assignedRep: 'Rahul Verma', assignedRepId: 'u2', expectedRevenue: 95000, nextAction: 'Send proposal', nextActionDate: '2026-04-14', isHighValue: false, createdDate: '2026-04-05', lastActivity: '1 day ago' },
+  { id: 'sl3', firstName: 'Chen', lastName: 'Wei', email: 'chen@shanghaitech.cn', phone: '+86 138 0013 8000', company: 'Shanghai Tech', title: 'VP Engineering', source: 'event', campaign: 'Tech Summit 2026', score: 65, intent: 'warm', status: 'qualified', assignedRep: 'Ananya Das', assignedRepId: 'u3', expectedRevenue: 320000, nextAction: 'Follow up on pricing', nextActionDate: '2026-04-11', slaDeadline: '2026-04-12T18:00:00', isHighValue: true, createdDate: '2026-03-28', lastActivity: '6 hours ago' },
+  { id: 'sl4', firstName: 'Olivia', lastName: 'Brown', email: 'olivia@mediaco.com', phone: '+44 7911 123456', company: 'MediaCo UK', title: 'Marketing Head', source: 'meta_ads', campaign: 'Instagram Lead Gen', score: 45, intent: 'cold', status: 'new', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 50000, isHighValue: false, createdDate: '2026-04-09', lastActivity: 'Just now' },
+  { id: 'sl5', firstName: 'Ahmed', lastName: 'Hassan', email: 'ahmed@cairobiz.com', phone: '+20 100 123 4567', company: 'Cairo Business Hub', title: 'Managing Director', source: 'google_ads', campaign: 'Google Ads MENA', score: 85, intent: 'hot', status: 'new', assignedRep: 'Rahul Verma', assignedRepId: 'u2', expectedRevenue: 220000, nextAction: 'Initial discovery call', nextActionDate: '2026-04-10', isHighValue: true, createdDate: '2026-04-07', lastActivity: '3 hours ago' },
+  { id: 'sl6', firstName: 'Sophie', lastName: 'Martin', email: 'sophie@paristech.fr', phone: '+33 6 12 34 56 78', company: 'Paris Tech Solutions', title: 'COO', source: 'cold_call', score: 30, intent: 'cold', status: 'contacted', assignedRep: 'Ananya Das', assignedRepId: 'u3', expectedRevenue: 75000, isHighValue: false, createdDate: '2026-04-01', lastActivity: '5 days ago' },
+  { id: 'sl7', firstName: 'Kento', lastName: 'Tanaka', email: 'kento@tokyocorp.jp', phone: '+81 90 1234 5678', company: 'Tokyo Corp', title: 'CEO', source: 'event', campaign: 'APAC Business Summit', score: 88, intent: 'hot', status: 'qualified', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 450000, nextAction: 'Prepare custom demo', nextActionDate: '2026-04-13', isHighValue: true, createdDate: '2026-03-25', lastActivity: '4 hours ago' },
+  { id: 'sl8', firstName: 'Carlos', lastName: 'Rodriguez', email: 'carlos@mexico.biz', phone: '+52 55 1234 5678', company: 'Mexico Business', title: 'Operations Lead', source: 'website', score: 52, intent: 'warm', status: 'new', assignedRep: 'Rahul Verma', assignedRepId: 'u2', expectedRevenue: 110000, isHighValue: false, createdDate: '2026-04-06', lastActivity: '1 day ago' },
+  { id: 'sl9', firstName: 'Aisha', lastName: 'Khalid', email: 'aisha@riyadh.sa', phone: '+966 50 123 4567', company: 'Riyadh Enterprises', title: 'CFO', source: 'whatsapp', score: 72, intent: 'warm', status: 'contacted', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 280000, nextAction: 'Send pricing deck', nextActionDate: '2026-04-11', isHighValue: true, createdDate: '2026-04-02', lastActivity: '8 hours ago' },
+  { id: 'sl10', firstName: 'Marcus', lastName: 'Johnson', email: 'marcus@usatech.com', phone: '+1 555 876 5432', company: 'USA Tech Solutions', title: 'CTO', source: 'referral', campaign: 'Partner Referral Program', score: 90, intent: 'hot', status: 'qualified', assignedRep: 'Ananya Das', assignedRepId: 'u3', expectedRevenue: 520000, nextAction: 'Executive demo', nextActionDate: '2026-04-10', isHighValue: true, createdDate: '2026-03-20', lastActivity: '30 min ago' },
+  { id: 'sl11', firstName: 'Elena', lastName: 'Volkov', email: 'elena@moscowcorp.ru', phone: '+7 916 123 4567', company: 'Moscow Corp', title: 'IT Director', source: 'linkedin', score: 25, intent: 'stale', status: 'contacted', assignedRep: 'Rahul Verma', assignedRepId: 'u2', expectedRevenue: 60000, isDuplicate: false, isHighValue: false, createdDate: '2026-02-15', lastActivity: '2 weeks ago' },
+  { id: 'sl12', firstName: 'Tom', lastName: 'Nguyen', email: 'tom@asiapacific.sg', phone: '+65 9123 4567', company: 'APAC Digital', title: 'Product Manager', source: 'website', score: 35, intent: 'stale', status: 'new', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 40000, isHighValue: false, createdDate: '2026-03-10', lastActivity: '3 weeks ago' },
+];
+
+export const mockSalesDeals: Deal[] = [
+  { id: 'sd1', name: 'NewCo Enterprise Suite', company: 'NewCo Solutions', contactId: 'sl1', contactName: 'Vikram Singh', value: 180000, currency: 'USD', stage: 'proposal', probability: 65, expectedClose: '2026-05-15', owner: 'Priya Sharma', ownerId: 'u1', daysInStage: 8, createdDate: '2026-02-10', weightedValue: 117000, contractType: 'annual', renewalChance: 85, nextMeeting: '2026-04-12', competitors: ['Salesforce', 'HubSpot'], discountPercent: 10 },
+  { id: 'sd2', name: 'FreshStartup SaaS Onboarding', company: 'FreshStartup', contactId: 'sl2', contactName: 'Rachel Green', value: 95000, currency: 'USD', stage: 'demo', probability: 45, expectedClose: '2026-06-01', owner: 'Rahul Verma', ownerId: 'u2', daysInStage: 5, createdDate: '2026-03-01', weightedValue: 42750, contractType: 'monthly', nextMeeting: '2026-04-14', competitors: ['Zoho'] },
+  { id: 'sd3', name: 'Shanghai Tech Full Platform', company: 'Shanghai Tech', contactId: 'sl3', contactName: 'Chen Wei', value: 320000, currency: 'USD', stage: 'negotiation', probability: 80, expectedClose: '2026-04-25', owner: 'Ananya Das', ownerId: 'u3', daysInStage: 12, createdDate: '2026-01-20', weightedValue: 256000, contractType: 'annual', renewalChance: 90, nextMeeting: '2026-04-11', competitors: ['Microsoft Dynamics'], discountPercent: 15 },
+  { id: 'sd4', name: 'Tokyo Corp AI Integration', company: 'Tokyo Corp', contactId: 'sl7', contactName: 'Kento Tanaka', value: 450000, currency: 'USD', stage: 'discovery', probability: 55, expectedClose: '2026-07-01', owner: 'Priya Sharma', ownerId: 'u1', daysInStage: 7, createdDate: '2026-03-15', weightedValue: 247500, contractType: 'annual', nextMeeting: '2026-04-15' },
+  { id: 'sd5', name: 'USA Tech Solutions Deal', company: 'USA Tech Solutions', contactId: 'sl10', contactName: 'Marcus Johnson', value: 520000, currency: 'USD', stage: 'qualified', probability: 60, expectedClose: '2026-06-15', owner: 'Ananya Das', ownerId: 'u3', daysInStage: 4, createdDate: '2026-03-25', weightedValue: 312000, contractType: 'annual', renewalChance: 92, nextMeeting: '2026-04-10', discountPercent: 5 },
+  { id: 'sd6', name: 'Riyadh Enterprises Contract', company: 'Riyadh Enterprises', contactId: 'sl9', contactName: 'Aisha Khalid', value: 280000, currency: 'USD', stage: 'new', probability: 20, expectedClose: '2026-08-01', owner: 'Priya Sharma', ownerId: 'u1', daysInStage: 3, createdDate: '2026-04-01', weightedValue: 56000, contractType: 'annual' },
+  { id: 'sd7', name: 'Mexico Business Starter', company: 'Mexico Business', contactId: 'sl8', contactName: 'Carlos Rodriguez', value: 110000, currency: 'USD', stage: 'won', probability: 100, expectedClose: '2026-04-01', owner: 'Rahul Verma', ownerId: 'u2', daysInStage: 0, createdDate: '2026-02-15', weightedValue: 110000, contractType: 'annual', renewalChance: 78 },
+  { id: 'sd8', name: 'Cairo Hub Consultation', company: 'Cairo Business Hub', contactId: 'sl5', contactName: 'Ahmed Hassan', value: 65000, currency: 'USD', stage: 'lost', probability: 0, expectedClose: '2026-04-05', owner: 'Rahul Verma', ownerId: 'u2', daysInStage: 0, createdDate: '2026-02-20', weightedValue: 0, competitors: ['SAP'] },
+];
+
+export const mockForecasts: SalesForecast[] = [
+  { id: 'f1', repName: 'Priya Sharma', repId: 'u1', pipelineValue: 1030000, weightedForecast: 440500, bestCase: 680000, worstCase: 320000, committed: 400000, month: '2026-04' },
+  { id: 'f2', repName: 'Rahul Verma', repId: 'u2', pipelineValue: 335000, weightedForecast: 208750, bestCase: 285000, worstCase: 150000, committed: 195000, month: '2026-04' },
+  { id: 'f3', repName: 'Ananya Das', repId: 'u3', pipelineValue: 1092000, weightedForecast: 615000, bestCase: 850000, worstCase: 480000, committed: 580000, month: '2026-04' },
+];
+
+export const mockTeamPerformance: TeamPerformance[] = [
+  { id: 'tp1', repName: 'Priya Sharma', repId: 'u1', dealsWon: 12, revenueClosed: 1240000, followUpSla: 94, avgResponseTime: '1.2h', closeRate: 38, aiProductivityScore: 88, rank: 2, targetProgress: 78, targetAmount: 1600000 },
+  { id: 'tp2', repName: 'Rahul Verma', repId: 'u2', dealsWon: 8, revenueClosed: 820000, followUpSla: 87, avgResponseTime: '2.1h', closeRate: 32, aiProductivityScore: 75, rank: 3, targetProgress: 62, targetAmount: 1320000 },
+  { id: 'tp3', repName: 'Ananya Das', repId: 'u3', dealsWon: 15, revenueClosed: 1580000, followUpSla: 96, avgResponseTime: '0.8h', closeRate: 45, aiProductivityScore: 94, rank: 1, targetProgress: 92, targetAmount: 1720000 },
+];
+
+export const mockFollowUps: FollowUp[] = [
+  { id: 'fu1', leadName: 'Vikram Singh', leadId: 'sl1', company: 'NewCo Solutions', type: 'call', status: 'pending', priority: 'high', assignedTo: 'Priya Sharma', assignedToId: 'u1', scheduledDate: '2026-04-10', scheduledTime: '14:00', isOverdue: false, isRecurring: false, aiSuggestion: 'Best time to call: 2-4 PM IST. Lead is most responsive after lunch.', notes: 'Follow up on demo scheduling' },
+  { id: 'fu2', leadName: 'Ahmed Hassan', leadId: 'sl5', company: 'Cairo Business Hub', type: 'whatsapp', status: 'pending', priority: 'urgent', assignedTo: 'Rahul Verma', assignedToId: 'u2', scheduledDate: '2026-04-09', scheduledTime: '10:00', isOverdue: true, isRecurring: false, aiSuggestion: 'Send a brief WhatsApp with pricing PDF attached. Cairo leads respond well to visual content.' },
+  { id: 'fu3', leadName: 'Marcus Johnson', leadId: 'sl10', company: 'USA Tech Solutions', type: 'demo', status: 'pending', priority: 'high', assignedTo: 'Ananya Das', assignedToId: 'u3', scheduledDate: '2026-04-10', scheduledTime: '16:00', isOverdue: false, isRecurring: false, aiSuggestion: 'Prepare executive-level demo focused on ROI metrics and enterprise security.' },
+  { id: 'fu4', leadName: 'Rachel Green', leadId: 'sl2', company: 'FreshStartup', type: 'email', status: 'pending', priority: 'medium', assignedTo: 'Rahul Verma', assignedToId: 'u2', scheduledDate: '2026-04-11', isOverdue: false, isRecurring: false, aiSuggestion: 'Send case study from similar startup customer. Subject line: "How FreshStartup-like company grew 3x with our platform"' },
+  { id: 'fu5', leadName: 'Chen Wei', leadId: 'sl3', company: 'Shanghai Tech', type: 'meeting', status: 'pending', priority: 'high', assignedTo: 'Ananya Das', assignedToId: 'u3', scheduledDate: '2026-04-11', scheduledTime: '09:00', isOverdue: false, isRecurring: false, aiSuggestion: 'Focus meeting on pricing negotiation. Lead has budget approval and is comparing with Microsoft Dynamics.' },
+  { id: 'fu6', leadName: 'Olivia Brown', leadId: 'sl4', company: 'MediaCo UK', type: 'whatsapp', status: 'pending', priority: 'low', assignedTo: 'Priya Sharma', assignedToId: 'u1', scheduledDate: '2026-04-12', isOverdue: false, isRecurring: true, recurringPattern: 'Weekly', aiSuggestion: 'New lead from Meta Ads. Send welcome message with product overview link.' },
+  { id: 'fu7', leadName: 'Kento Tanaka', leadId: 'sl7', company: 'Tokyo Corp', type: 'proposal', status: 'pending', priority: 'high', assignedTo: 'Priya Sharma', assignedToId: 'u1', scheduledDate: '2026-04-13', isOverdue: false, isRecurring: false, aiSuggestion: 'Custom demo preparation needed. Focus on AI features and APAC compliance.' },
+  { id: 'fu8', leadName: 'Sophie Martin', leadId: 'sl6', company: 'Paris Tech Solutions', type: 'call', status: 'missed', priority: 'medium', assignedTo: 'Ananya Das', assignedToId: 'u3', scheduledDate: '2026-04-07', isOverdue: true, isRecurring: false, aiSuggestion: 'Lead went cold. Try re-engagement with industry report or event invitation.' },
+  { id: 'fu9', leadName: 'Elena Volkov', leadId: 'sl11', company: 'Moscow Corp', type: 'email', status: 'snoozed', priority: 'low', assignedTo: 'Rahul Verma', assignedToId: 'u2', scheduledDate: '2026-04-20', isOverdue: false, isRecurring: true, recurringPattern: 'Bi-weekly' },
+  { id: 'fu10', leadName: 'Aisha Khalid', leadId: 'sl9', company: 'Riyadh Enterprises', type: 'email', status: 'pending', priority: 'medium', assignedTo: 'Priya Sharma', assignedToId: 'u1', scheduledDate: '2026-04-11', isOverdue: false, isRecurring: false, aiSuggestion: 'Send pricing deck with Arabic language option. Include regional case study.' },
+];
+
+export const mockProposals: Proposal[] = [
+  { id: 'p1', title: 'Enterprise Suite - NewCo Solutions', dealName: 'NewCo Enterprise Suite', dealId: 'sd1', contactName: 'Vikram Singh', contactId: 'sl1', company: 'NewCo Solutions', status: 'sent', version: 3, totalValue: 180000, currency: 'USD', template: 'Enterprise', viewedByClient: true, lastViewedAt: '2026-04-09T15:30:00', pagesRead: 8, totalPages: 12, createdAt: '2026-03-20', updatedAt: '2026-04-08', sentAt: '2026-04-08T10:00:00' },
+  { id: 'p2', title: 'SaaS Onboarding - FreshStartup', dealName: 'FreshStartup SaaS Onboarding', dealId: 'sd2', contactName: 'Rachel Green', contactId: 'sl2', company: 'FreshStartup', status: 'viewed', version: 1, totalValue: 95000, currency: 'USD', template: 'Startup', viewedByClient: true, lastViewedAt: '2026-04-09T11:00:00', pagesRead: 5, totalPages: 8, createdAt: '2026-04-05', updatedAt: '2026-04-05', sentAt: '2026-04-05T14:00:00' },
+  { id: 'p3', title: 'Full Platform - Shanghai Tech', dealName: 'Shanghai Tech Full Platform', dealId: 'sd3', contactName: 'Chen Wei', contactId: 'sl3', company: 'Shanghai Tech', status: 'negotiation', version: 5, totalValue: 320000, currency: 'USD', template: 'Enterprise', viewedByClient: true, lastViewedAt: '2026-04-09T16:00:00', pagesRead: 15, totalPages: 18, approvalState: 'revision_requested', createdAt: '2026-02-10', updatedAt: '2026-04-09', sentAt: '2026-02-15T09:00:00' },
+  { id: 'p4', title: 'AI Integration - Tokyo Corp', dealName: 'Tokyo Corp AI Integration', dealId: 'sd4', contactName: 'Kento Tanaka', contactId: 'sl7', company: 'Tokyo Corp', status: 'draft', version: 1, totalValue: 450000, currency: 'USD', template: 'Enterprise', viewedByClient: false, pagesRead: 0, totalPages: 0, createdAt: '2026-04-08', updatedAt: '2026-04-08' },
+  { id: 'p5', title: 'Starter Kit - Mexico Business', dealName: 'Mexico Business Starter', dealId: 'sd7', contactName: 'Carlos Rodriguez', contactId: 'sl8', company: 'Mexico Business', status: 'accepted', version: 2, totalValue: 110000, currency: 'USD', template: 'Startup', viewedByClient: true, lastViewedAt: '2026-03-28T10:00:00', pagesRead: 8, totalPages: 8, approvalState: 'approved', paymentStatus: 'paid', createdAt: '2026-03-01', updatedAt: '2026-03-30', sentAt: '2026-03-10T11:00:00' },
+  { id: 'p6', title: 'Consultation - Cairo Hub', dealName: 'Cairo Hub Consultation', dealId: 'sd8', contactName: 'Ahmed Hassan', contactId: 'sl5', company: 'Cairo Business Hub', status: 'rejected', version: 2, totalValue: 65000, currency: 'USD', template: 'Standard', viewedByClient: true, lastViewedAt: '2026-04-03T14:00:00', pagesRead: 6, totalPages: 10, approvalState: 'rejected', createdAt: '2026-03-05', updatedAt: '2026-04-04', sentAt: '2026-03-10T09:00:00' },
+];
+
+export const mockLeadSources: LeadSource[] = [
+  { id: 'ls1', name: 'Instagram Ads', type: 'meta_ads', leadCount: 40, conversionRate: 12, revenue: 480000, trend: 15, webhookStatus: 'active', lastLeadAt: '2026-04-09T16:00:00' },
+  { id: 'ls2', name: 'Google Ads', type: 'google_ads', leadCount: 22, conversionRate: 18, revenue: 660000, trend: 8, webhookStatus: 'active', lastLeadAt: '2026-04-09T14:30:00' },
+  { id: 'ls3', name: 'Website Forms', type: 'website', leadCount: 18, conversionRate: 25, revenue: 540000, trend: -3, webhookStatus: 'active', lastLeadAt: '2026-04-09T12:00:00' },
+  { id: 'ls4', name: 'WhatsApp', type: 'whatsapp', leadCount: 15, conversionRate: 35, revenue: 720000, trend: 22, webhookStatus: 'active', lastLeadAt: '2026-04-09T15:00:00' },
+  { id: 'ls5', name: 'QR Codes', type: 'qr', leadCount: 8, conversionRate: 40, revenue: 240000, trend: 5, webhookStatus: 'active', lastLeadAt: '2026-04-08T18:00:00' },
+  { id: 'ls6', name: 'LinkedIn', type: 'linkedin', leadCount: 12, conversionRate: 30, revenue: 580000, trend: 10, webhookStatus: 'active', lastLeadAt: '2026-04-09T10:00:00' },
+  { id: 'ls7', name: 'CSV Import', type: 'csv_import', leadCount: 25, conversionRate: 8, revenue: 180000, trend: -5, webhookStatus: 'inactive' },
+  { id: 'ls8', name: 'Manual Entry', type: 'manual', leadCount: 10, conversionRate: 45, revenue: 320000, trend: 2, webhookStatus: 'inactive' },
+];
+
+export const mockQualificationData: QualificationData[] = [
+  { leadId: 'sl1', leadName: 'Vikram Singh', budget: { score: 8, maxScore: 10, notes: 'Budget approved by CFO for Q2' }, authority: { score: 9, maxScore: 10, notes: 'CTO and decision maker' }, need: { score: 9, maxScore: 10, notes: 'Urgent need to replace legacy CRM' }, timeline: { score: 7, maxScore: 10, notes: 'Wants to implement within 60 days' }, overallScore: 88, confidence: 92, painPoints: ['Legacy system limitations', 'Poor analytics', 'Manual data entry'], decisionMaker: true, urgency: 8, productFit: 90, aiPurchaseIntent: 92 },
+  { leadId: 'sl7', leadName: 'Kento Tanaka', budget: { score: 9, maxScore: 10, notes: 'Board approved $500K budget' }, authority: { score: 10, maxScore: 10, notes: 'CEO making final decision' }, need: { score: 8, maxScore: 10, notes: 'AI integration for APAC operations' }, timeline: { score: 6, maxScore: 10, notes: 'Flexible timeline, prefers Q3' }, overallScore: 85, confidence: 88, painPoints: ['Regional compliance', 'Multi-language support', 'API integration'], decisionMaker: true, urgency: 6, productFit: 85, aiPurchaseIntent: 85 },
+  { leadId: 'sl5', leadName: 'Ahmed Hassan', budget: { score: 7, maxScore: 10, notes: 'Budget not yet finalized' }, authority: { score: 8, maxScore: 10, notes: 'Managing Director involved' }, need: { score: 8, maxScore: 10, notes: 'Business expansion driving need' }, timeline: { score: 8, maxScore: 10, notes: 'Wants to start in May' }, overallScore: 82, confidence: 85, painPoints: ['Scaling operations', 'Inventory management', 'Team collaboration'], decisionMaker: true, urgency: 7, productFit: 80, aiPurchaseIntent: 80 },
+  { leadId: 'sl10', leadName: 'Marcus Johnson', budget: { score: 10, maxScore: 10, notes: '$600K budget approved' }, authority: { score: 9, maxScore: 10, notes: 'CTO + CFO both involved' }, need: { score: 9, maxScore: 10, notes: 'Enterprise-wide digital transformation' }, timeline: { score: 7, maxScore: 10, notes: 'Phased rollout preferred' }, overallScore: 90, confidence: 95, painPoints: ['Data migration complexity', 'Security compliance', 'Team training'], decisionMaker: true, urgency: 7, productFit: 95, aiPurchaseIntent: 95 },
+  { leadId: 'sl3', leadName: 'Chen Wei', budget: { score: 7, maxScore: 10, notes: 'Negotiating budget allocation' }, authority: { score: 7, maxScore: 10, notes: 'VP Engineering, CEO to approve' }, need: { score: 8, maxScore: 10, notes: 'Platform consolidation project' }, timeline: { score: 6, maxScore: 10, notes: 'Depends on Q2 budget cycle' }, overallScore: 70, confidence: 72, painPoints: ['Vendor consolidation', 'Cost reduction', 'Integration complexity'], decisionMaker: false, urgency: 5, productFit: 75, aiPurchaseIntent: 65 },
+];
+
+export const mockWinLossData: WinLossData = {
+  totalDeals: 48,
+  wonDeals: 22,
+  lostDeals: 26,
+  winRate: 46,
+  avgSalesCycle: 34,
+  avgDiscount: 12,
+  totalWonRevenue: 3640000,
+  totalLostRevenue: 2180000,
+  competitorLosses: [
+    { competitor: 'Salesforce', count: 8, revenue: 720000 },
+    { competitor: 'HubSpot', count: 6, revenue: 480000 },
+    { competitor: 'SAP', count: 4, revenue: 520000 },
+    { competitor: 'Microsoft Dynamics', count: 3, revenue: 340000 },
+    { competitor: 'Zoho', count: 3, revenue: 120000 },
+    { competitor: 'Other', count: 2, revenue: 0 },
+  ],
+  lossReasons: [
+    { reason: 'Price too high', count: 9, percentage: 35 },
+    { reason: 'Chose competitor', count: 7, percentage: 27 },
+    { reason: 'No budget', count: 5, percentage: 19 },
+    { reason: 'Timeline changed', count: 3, percentage: 11 },
+    { reason: 'Product fit', count: 2, percentage: 8 },
+  ],
+  stageDropoffs: [
+    { stage: 'New', entered: 85, exited: 68, dropRate: 20 },
+    { stage: 'Qualified', entered: 68, exited: 52, dropRate: 24 },
+    { stage: 'Discovery', entered: 52, exited: 42, dropRate: 19 },
+    { stage: 'Demo', entered: 42, exited: 35, dropRate: 17 },
+    { stage: 'Proposal', entered: 35, exited: 28, dropRate: 20 },
+    { stage: 'Negotiation', entered: 28, exited: 22, dropRate: 21 },
+    { stage: 'Won', entered: 22, exited: 22, dropRate: 0 },
+  ],
+  monthlyWinLoss: [
+    { month: 'Jan', won: 3, lost: 4 },
+    { month: 'Feb', won: 4, lost: 3 },
+    { month: 'Mar', won: 5, lost: 5 },
+    { month: 'Apr', won: 6, lost: 2 },
+    { month: 'May', won: 2, lost: 4 },
+    { month: 'Jun', won: 2, lost: 3 },
+  ],
+};
+
+export const revenueMetrics = {
+  mrr: 420000,
+  arr: 5040000,
+  closedWon: 3640000,
+  lostRevenue: 2180000,
+  upsellRevenue: 680000,
+  renewalRevenue: 1240000,
+  netNew: 1720000,
+  avgDealSize: 165500,
+};

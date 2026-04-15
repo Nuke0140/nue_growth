@@ -1,0 +1,329 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Megaphone, Plus, BarChart3, Users, ArrowUpRight, IndianRupee,
+  Clock, Calendar, Filter, Mail, MessageCircle, Smartphone, Layers,
+  Zap, Target, CheckCircle2, PauseCircle, FileEdit, TrendingUp
+} from 'lucide-react';
+import { winbackCampaigns } from '@/modules/retention/data/mock-data';
+import { useRetentionStore } from '@/modules/retention/retention-store';
+import type { WinbackCampaign } from '@/modules/retention/types';
+
+function formatINR(num: number): string {
+  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
+  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
+  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
+  return `₹${num}`;
+}
+
+export default function WinbackCampaignsPage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const navigateTo = useRetentionStore((s) => s.navigateTo);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterChannel, setFilterChannel] = useState<string>('all');
+
+  const summary = useMemo(() => {
+    const active = winbackCampaigns.filter((c) => c.status === 'active').length;
+    const totalSent = winbackCampaigns.reduce((s, c) => s + c.sentCount, 0);
+    const reactivated = winbackCampaigns.reduce((s, c) => s + c.reactivated, 0);
+    const avgSuccess = winbackCampaigns.filter((c) => c.successRate > 0).length > 0
+      ? winbackCampaigns.filter((c) => c.successRate > 0).reduce((s, c) => s + c.successRate, 0) / winbackCampaigns.filter((c) => c.successRate > 0).length
+      : 0;
+    return { active, totalSent, reactivated, avgSuccess };
+  }, []);
+
+  const filtered = useMemo(() => {
+    let result = filterStatus === 'all' ? [...winbackCampaigns] : winbackCampaigns.filter((c) => c.status === filterStatus);
+    if (filterChannel !== 'all') result = result.filter((c) => c.channel === filterChannel);
+    return result;
+  }, [filterStatus, filterChannel]);
+
+  const statusConfig: Record<string, { bg: string; text: string; icon: React.ElementType; label: string }> = {
+    active: { bg: isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', icon: Zap, label: 'Active' },
+    completed: { bg: isDark ? 'bg-sky-500/15' : 'bg-sky-50', text: 'text-sky-500', icon: CheckCircle2, label: 'Completed' },
+    draft: { bg: isDark ? 'bg-slate-500/15' : 'bg-slate-100', text: 'text-slate-500', icon: FileEdit, label: 'Draft' },
+    paused: { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', icon: PauseCircle, label: 'Paused' },
+  };
+
+  const channelConfig: Record<string, { bg: string; text: string; label: string }> = {
+    email: { bg: isDark ? 'bg-sky-500/15' : 'bg-sky-50', text: 'text-sky-500', label: 'Email' },
+    whatsapp: { bg: 'bg-green-500/15', text: 'text-green-500', label: 'WhatsApp' },
+    sms: { bg: isDark ? 'bg-violet-500/15' : 'bg-violet-50', text: 'text-violet-500', label: 'SMS' },
+    multi: { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'Multi-Channel' },
+  };
+
+  const getChannelIcon = (channel: string) => {
+    switch (channel) {
+      case 'email': return Mail;
+      case 'whatsapp': return MessageCircle;
+      case 'sms': return Smartphone;
+      default: return Layers;
+    }
+  };
+
+  const successAnalytics = useMemo(() => winbackCampaigns
+    .filter((c) => c.successRate > 0)
+    .map((c) => ({ name: c.name.slice(0, 18), rate: c.successRate, reactivated: c.reactivated, sent: c.sentCount })),
+  []);
+
+  const inactivitySegments = useMemo(() => {
+    const segments: Record<string, { sent: number; reactivated: number }> = {};
+    winbackCampaigns.forEach((c) => {
+      const key = c.segment;
+      if (!segments[key]) segments[key] = { sent: 0, reactivated: 0 };
+      segments[key].sent += c.sentCount;
+      segments[key].reactivated += c.reactivated;
+    });
+    return Object.entries(segments).map(([segment, data]) => ({
+      segment,
+      rate: data.sent > 0 ? (data.reactivated / data.sent) * 100 : 0,
+      sent: data.sent,
+      reactivated: data.reactivated,
+    }));
+  }, []);
+
+  const maxRate = Math.max(...successAnalytics.map((s) => s.rate), 1);
+
+  return (
+    <div className="h-full overflow-y-auto">
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <Megaphone className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold">Win-back Campaigns</h1>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Win-back Campaign System</p>
+            </div>
+          </div>
+          <Button
+            className={cn(
+              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+            )}
+          >
+            <Plus className="w-4 h-4" />
+            Create Campaign
+          </Button>
+        </div>
+
+        {/* Summary KPIs */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Active Campaigns', value: summary.active.toString(), icon: Zap, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+            { label: 'Total Sent', value: summary.totalSent.toString(), icon: Mail, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
+            { label: 'Total Reactivated', value: summary.reactivated.toString(), icon: Users, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+            { label: 'Avg Success Rate', value: `${summary.avgSuccess.toFixed(1)}%`, icon: Target, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{item.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
+                </div>
+              </div>
+              <p className="text-2xl font-bold">{item.value}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-2">
+          <Filter className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+          <span className={cn('text-[10px] font-medium mr-1', isDark ? 'text-white/30' : 'text-black/30')}>Status:</span>
+          {['all', 'active', 'completed', 'draft', 'paused'].map((s) => (
+            <button
+              key={s}
+              onClick={() => setFilterStatus(s)}
+              className={cn(
+                'px-2.5 py-1 text-[10px] font-medium rounded-lg transition-colors capitalize',
+                filterStatus === s
+                  ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                  : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+              )}
+            >
+              {s}
+            </button>
+          ))}
+          <span className={cn('text-[10px] font-medium mx-2', isDark ? 'text-white/20' : 'text-black/20')}>|</span>
+          <span className={cn('text-[10px] font-medium mr-1', isDark ? 'text-white/30' : 'text/black/30')}>Channel:</span>
+          {['all', 'email', 'whatsapp', 'sms', 'multi'].map((ch) => (
+            <button
+              key={ch}
+              onClick={() => setFilterChannel(ch)}
+              className={cn(
+                'px-2.5 py-1 text-[10px] font-medium rounded-lg transition-colors capitalize',
+                filterChannel === ch
+                  ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                  : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+              )}
+            >
+              {ch === 'all' ? 'All' : ch}
+            </button>
+          ))}
+        </div>
+
+        {/* Campaign Cards */}
+        <div className="space-y-3">
+          {filtered.map((campaign: WinbackCampaign, i) => {
+            const sConfig = statusConfig[campaign.status] || statusConfig.draft;
+            const cConfig = channelConfig[campaign.channel] || channelConfig.email;
+            const ChannelIcon = getChannelIcon(campaign.channel);
+            const StatusIcon = sConfig.icon;
+
+            return (
+              <motion.div
+                key={campaign.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className={cn(
+                  'rounded-2xl border p-5 transition-colors',
+                  isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                )}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-sm font-semibold">{campaign.name}</h3>
+                      <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 gap-1', sConfig.bg, sConfig.text)}>
+                        <StatusIcon className="w-2.5 h-2.5" />
+                        {sConfig.label}
+                      </Badge>
+                      <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 gap-1', cConfig.bg, cConfig.text)}>
+                        <ChannelIcon className="w-2.5 h-2.5" />
+                        {cConfig.label}
+                      </Badge>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <Users className="w-3 h-3 inline mr-1" />{campaign.segment}
+                      </span>
+                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <Clock className="w-3 h-3 inline mr-1" />{campaign.inactivityDays}
+                      </span>
+                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <IndianRupee className="w-3 h-3 inline mr-1" />{campaign.offerType}: {campaign.offerValue > 0 ? `${campaign.offerValue}%` : campaign.offerValue === 0 ? 'Free' : formatINR(campaign.offerValue)}
+                      </span>
+                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <Clock className="w-3 h-3 inline mr-1" />Best: {campaign.bestSendTime}
+                      </span>
+                      {campaign.launchedDate !== '—' && (
+                        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <Calendar className="w-3 h-3 inline mr-1" />{campaign.launchedDate}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 shrink-0">
+                    <div className="text-right">
+                      <div className="flex items-center gap-2 justify-end">
+                        <div className={cn('w-20 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${campaign.successRate}%` }}
+                            transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
+                            className={cn('h-full rounded-full', campaign.successRate >= 50 ? (isDark ? 'bg-emerald-500/40' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/40' : 'bg-amber-400'))}
+                          />
+                        </div>
+                        <span className={cn('text-[10px] font-medium', campaign.successRate >= 50 ? 'text-emerald-500' : 'text-amber-500')}>
+                          {campaign.successRate > 0 ? `${campaign.successRate}%` : '—'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                          {campaign.sentCount} sent
+                        </span>
+                        <span className={cn('text-[10px] font-medium', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
+                          {campaign.reactivated} back
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Success Rate Analytics Chart */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Success Rate Analytics</span>
+            </div>
+          </div>
+          <div className="flex items-end gap-2 h-32">
+            {successAnalytics.map((entry, j) => (
+              <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
+                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.rate.toFixed(0)}%</span>
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: `${(entry.rate / maxRate) * 100}%` }}
+                  transition={{ delay: 0.55 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className={cn('w-full rounded-t-sm', entry.rate >= 50 ? (isDark ? 'bg-emerald-500/30' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/30' : 'bg-amber-400'))}
+                />
+                <span className={cn('text-[7px] text-center truncate w-full', isDark ? 'text-white/20' : 'text-black/20')}>{entry.name}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Inactivity Segment Breakdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.4 }}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Target className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Inactivity Segment Breakdown</span>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {inactivitySegments.map((seg, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <span className={cn('text-[10px] w-28 shrink-0 font-medium truncate', isDark ? 'text-white/40' : 'text-black/40')}>{seg.segment}</span>
+                <div className="flex-1 h-5 rounded-lg overflow-hidden" style={{ display: 'flex' }}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${seg.rate}%` }}
+                    transition={{ delay: 0.6 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className={cn('h-full rounded-lg', seg.rate >= 40 ? (isDark ? 'bg-emerald-500/30' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/30' : 'bg-amber-400'))}
+                  />
+                </div>
+                <span className={cn('text-[10px] w-10 text-right font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{seg.rate.toFixed(1)}%</span>
+                <span className={cn('text-[10px] w-24 text-right', isDark ? 'text-white/25' : 'text-black/25')}>
+                  {seg.reactivated}/{seg.sent}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

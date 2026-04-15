@@ -1,0 +1,116 @@
+'use client';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { GitBranch, ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { ConditionRule } from '../types';
+
+const moduleColors: Record<string, string> = {
+  CRM: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  Sales: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  Marketing: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  Finance: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  HR: 'bg-pink-500/10 text-pink-400 border-pink-500/20',
+  Retention: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  AI: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+};
+
+interface ConditionNodeProps {
+  rule: ConditionRule;
+}
+
+export default function ConditionNode({ rule }: ConditionNodeProps) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.01, y: -1 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      className={cn(
+        'rounded-2xl border p-4 shadow-sm',
+        isDark
+          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
+          : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
+      )}
+    >
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className={cn(
+            'w-9 h-9 rounded-xl flex items-center justify-center',
+            isDark ? 'bg-amber-500/15' : 'bg-amber-50',
+          )}>
+            <GitBranch className={cn('w-4 h-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
+          </div>
+          <div>
+            <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              {rule.name}
+            </h4>
+            <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+              {rule.description}
+            </p>
+          </div>
+        </div>
+        <span className={cn(
+          'inline-flex items-center rounded-lg px-2 py-0.5 text-[10px] font-medium border shrink-0',
+          moduleColors[rule.module] || moduleColors.CRM,
+        )}>
+          {rule.module}
+        </span>
+      </div>
+
+      {/* Conditions */}
+      <div className={cn('rounded-xl p-3 mb-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+            IF
+          </span>
+        </div>
+        <div className="space-y-1.5">
+          {rule.conditions.map((cond, i) => (
+            <div key={cond.id} className="flex items-center gap-2 text-xs">
+              {i > 0 && (
+                <span className={cn(
+                  'text-[10px] font-bold px-1.5 py-0.5 rounded',
+                  isDark ? 'bg-violet-500/15 text-violet-300' : 'bg-violet-50 text-violet-600',
+                )}>
+                  {cond.logic || 'AND'}
+                </span>
+              )}
+              <span className={cn('font-mono text-[11px]', isDark ? 'text-white/60' : 'text-black/60')}>
+                {cond.field} {cond.operator} {String(cond.value)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Then / Else */}
+      <div className="space-y-1.5">
+        <div className="flex items-center gap-2">
+          <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
+          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-emerald-400' : 'text-emerald-500')}>
+            THEN
+          </span>
+          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+            {rule.thenAction}
+          </span>
+        </div>
+        {rule.elseAction && (
+          <div className="flex items-center gap-2">
+            <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-red-400' : 'text-red-500')} />
+            <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-red-400' : 'text-red-500')}>
+              ELSE
+            </span>
+            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+              {rule.elseAction}
+            </span>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
