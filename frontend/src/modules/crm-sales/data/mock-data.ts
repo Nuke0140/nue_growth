@@ -3,7 +3,7 @@ import type {
   Segment, LifecycleStageData, AiInsight,
   SalesForecast, TeamPerformance,
   FollowUp, Proposal, LeadSourceEntry as LeadSource, QualificationData, WinLossData
-
+} from '../types';
 
 export const mockContacts: Contact[] = [
   { id: 'c1', firstName: 'Arjun', lastName: 'Mehta', email: 'arjun@techcorp.in', phone: '+91 98765 43210', company: 'TechCorp India', companyId: 'co1', title: 'CTO', source: 'linkedin', lifecycleStage: 'opportunity', owner: 'Priya Sharma', ownerId: 'u1', healthScore: 87, aiIntent: 'high', tags: ['enterprise', 'AI', 'SaaS'], lastInteraction: '2 hours ago', createdAt: '2025-01-15', socialProfiles: [{ platform: 'LinkedIn', url: '#' }], address: { city: 'Mumbai', state: 'MH', country: 'India' } },
@@ -136,11 +136,6 @@ export const revenueStats = {
   stuckDeals: 2,
   forecastQ2: 890000,
 };
-
-
-  SalesLead, SalesDeal, SalesForecast, TeamPerformance,
-  FollowUp, Proposal, LeadSource, QualificationData, WinLossData
-} from '../types';
 
 export const mockSalesLeads: Lead[] = [
   { id: 'sl1', firstName: 'Vikram', lastName: 'Singh', email: 'vikram@newco.in', phone: '+91 99887 76655', company: 'NewCo Solutions', title: 'CTO', source: 'linkedin', campaign: 'LinkedIn Q1 Campaign', score: 92, intent: 'hot', status: 'new', assignedRep: 'Priya Sharma', assignedRepId: 'u1', expectedRevenue: 180000, nextAction: 'Schedule demo call', nextActionDate: '2026-04-12', slaDeadline: '2026-04-10T18:00:00', isHighValue: true, createdDate: '2026-04-08', lastActivity: '2 hours ago' },
