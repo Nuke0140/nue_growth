@@ -1,19 +1,39 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
-import LoginForm from '@/modules/auth/components/login-form';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 export default function LoginPage() {
   const { login, navigateTo } = useAuthStore();
-  const { theme, setTheme } = useTheme();
 
-  const handleLogin = () => {
-    login('user@diginue.com', 'password');
+  const [email, setEmail] = useState('');
+  const [companyCode, setCompanyCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!email || !companyCode || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    setIsLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      login(email, password);
+    }, 1500);
   };
 
   const handleForgotPassword = () => {
@@ -24,81 +44,170 @@ export default function LoginPage() {
     navigateTo('register');
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-[#0a0a0a] dark:via-[#111] dark:to-[#0a0a0a] px-4 py-8">
-      {/* Theme Toggle - top right corner */}
-      <button
-        type="button"
-        onClick={toggleTheme}
-        className="fixed right-5 top-5 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white/80 shadow-sm backdrop-blur-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-white/5"
-        aria-label="Toggle theme"
-      >
-        {theme === 'dark' ? (
-          <Sun className="h-4 w-4 text-yellow-500" />
-        ) : (
-          <Moon className="h-4 w-4 text-gray-600" />
-        )}
-      </button>
-
-      {/* Subtle background decoration */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl dark:bg-blue-900/10" />
-        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-900/10" />
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-[#050505] px-4 py-8 overflow-hidden font-sans selection:bg-blue-500/30 text-zinc-100">
+      
+      {/* Background Glows */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-orange-500/20 blur-[120px]" />
       </div>
 
-      {/* Login Card */}
       <motion.div
-        initial={{ opacity: 0, y: 24, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="relative z-10 w-full max-w-[420px]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 w-full max-w-[420px] flex flex-col items-center"
       >
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
-          className="mb-8 flex justify-center"
-        >
-          <Image
-            src="/diginue-logo.png"
-            alt="DigiNue"
-            width={160}
-            height={50}
-            priority
-            className="object-contain"
-          />
-        </motion.div>
+        {/* Top Section / Logo */}
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-orange-500 shadow-[0_0_30px_rgba(59,130,246,0.5)] mb-4">
+            <div className="absolute inset-[2px] rounded-full bg-[#0a0a0a]" />
+            <div className="relative h-5 w-5 rounded-full bg-gradient-to-br from-blue-400 to-orange-400 blur-[2px]" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-white">NueEra</h1>
+          <p className="mt-2 text-sm text-zinc-400">
+            Run Your Entire Business From One System
+          </p>
+        </div>
 
-        {/* Form Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.15 }}
-          className="rounded-2xl border border-gray-200/80 bg-white p-8 shadow-lg shadow-gray-200/50 dark:border-white/[0.08] dark:bg-[#141414] dark:shadow-none"
-        >
-          <LoginForm
-            onLogin={handleLogin}
-            onForgotPassword={handleForgotPassword}
-            onRegister={handleRegister}
-          />
-        </motion.div>
+        {/* Login Card */}
+        <div className="w-full rounded-[24px] border border-white/[0.08] bg-white/[0.02] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white">Welcome back</h2>
+            <p className="mt-1.5 text-sm text-zinc-400">Sign in to your workspace</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-4">
+              {/* Work Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-xs font-medium text-zinc-300">
+                  Work Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-11 rounded-xl border-white/[0.1] bg-white/[0.03] px-4 text-sm text-white placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                />
+              </div>
+
+              {/* Company Code */}
+              <div className="space-y-2">
+                <Label htmlFor="companyCode" className="text-xs font-medium text-zinc-300">
+                  Company Code
+                </Label>
+                <Input
+                  id="companyCode"
+                  type="text"
+                  placeholder="e.g. ACME"
+                  value={companyCode}
+                  onChange={(e) => setCompanyCode(e.target.value)}
+                  className="h-11 rounded-xl border-white/[0.1] bg-white/[0.03] px-4 text-sm text-white placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password" className="text-xs font-medium text-zinc-300">
+                    Password
+                  </Label>
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-11 rounded-xl border-white/[0.1] bg-white/[0.03] px-4 pr-10 text-sm text-white placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="text-xs text-red-400"
+                >
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="group relative h-11 w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-orange-500 text-sm font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] disabled:opacity-70 disabled:hover:scale-100"
+            >
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Signing in...</span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="idle"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span>Sign In</span>
+                    <ArrowRight className="h-4 w-4 opacity-70 transition-transform group-hover:translate-x-1" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-zinc-400">
+              Don't have an account?{' '}
+              <button
+                type="button"
+                onClick={handleRegister}
+                className="font-medium text-white hover:text-blue-400 transition-colors"
+              >
+                Create account
+              </button>
+            </p>
+          </div>
+        </div>
 
         {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-6 text-center"
-        >
-          <p className="text-xs text-gray-400 dark:text-gray-500">
-            &copy; 2025 DigiNue. All rights reserved.
-          </p>
-        </motion.div>
+        <div className="mt-8 text-center text-xs text-zinc-500">
+          &copy; {new Date().getFullYear()} NueEra Growth OS. All rights reserved.
+        </div>
       </motion.div>
     </div>
   );
