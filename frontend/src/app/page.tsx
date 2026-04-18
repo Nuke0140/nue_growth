@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuthStore } from '@/store/auth-store';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
@@ -45,45 +46,66 @@ export default function Home() {
 
   const isAuthEntry = authEntryPages.has(currentPage);
   const isManagement = managementPages.has(currentPage);
-  const showDashboard = isAuthenticated && (isAuthEntry || !isManagement) && !activeModule;
-  const showManagement = isAuthenticated && isManagement && !activeModule;
-  const showAuth = !isAuthenticated;
-  const showModule = isAuthenticated && !!activeModule;
 
   const CurrentPage = pageComponents[currentPage];
 
-  let content: React.ReactNode;
+  // Clear mock cookies if the user signs out to prevent auto-login loops
+  useEffect(() => {
+    if (!isAuthenticated) {
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }, [isAuthenticated]);
 
-  if (showModule && (activeModule === 'crm' || activeModule === 'sales')) {
-    content = <CrmSalesLayout />;
-  } else if (showModule && activeModule === 'erp') {
-    content = <ErpLayout />;
-  } else if (showModule && activeModule === 'marketing') {
-    content = <MarketingLayout />;
-  } else if (showModule && activeModule === 'finance') {
-    content = <FinanceLayout />;
-  } else if (showModule && activeModule === 'growth') {
-    content = <RetentionLayout />;
-  } else if (showModule && activeModule === 'analytics') {
-    content = <AnalyticsLayout />;
-  } else if (showModule && activeModule === 'automation') {
-    content = <AutomationLayout />;
-  } else if (showModule && activeModule === 'settings') {
-    content = <SettingsLayout />;
-  } else if (showDashboard) {
-    content = <WindowsDesktop />;
-  } else if (showManagement && CurrentPage) {
-    content = <CurrentPage />;
-  } else if (showAuth && CurrentPage) {
-    content = <CurrentPage />;
+  let content: React.ReactNode;
+  let renderKey = 'login';
+
+  if (!isAuthenticated) {
+    // Enforce auth pages when logged out
+    if (isAuthEntry && CurrentPage) {
+      content = <CurrentPage />;
+      renderKey = currentPage;
+    } else {
+      content = <LoginPage />;
+      renderKey = 'login';
+    }
   } else {
-    content = isAuthenticated ? <WindowsDesktop /> : <LoginPage />;
+    // Render authenticated application routes
+    if (activeModule) {
+      renderKey = activeModule;
+      if (activeModule === 'crm' || activeModule === 'sales') {
+        content = <CrmSalesLayout />;
+      } else if (activeModule === 'erp') {
+        content = <ErpLayout />;
+      } else if (activeModule === 'marketing') {
+        content = <MarketingLayout />;
+      } else if (activeModule === 'finance') {
+        content = <FinanceLayout />;
+      } else if (activeModule === 'growth') {
+        content = <RetentionLayout />;
+      } else if (activeModule === 'analytics') {
+        content = <AnalyticsLayout />;
+      } else if (activeModule === 'automation') {
+        content = <AutomationLayout />;
+      } else if (activeModule === 'settings') {
+        content = <SettingsLayout />;
+      } else {
+        content = <WindowsDesktop />;
+        renderKey = 'dashboard';
+      }
+    } else if (isManagement && CurrentPage) {
+      content = <CurrentPage />;
+      renderKey = currentPage;
+    } else {
+      content = <WindowsDesktop />;
+      renderKey = 'dashboard';
+    }
   }
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={showModule ? activeModule : showDashboard ? 'dashboard' : currentPage}
+        key={renderKey}
         variants={pageVariants}
         initial="initial"
         animate="animate"
