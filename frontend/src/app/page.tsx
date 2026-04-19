@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 import { useAuthStore } from '@/store/auth-store';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
 import CrmSalesLayout from '@/modules/crm-sales/crm-sales-layout';
@@ -43,6 +45,7 @@ const pageVariants = {
 
 export default function Home() {
   const { isAuthenticated, currentPage, activeModule } = useAuthStore();
+  const [isInitializing, setIsInitializing] = useState(true);
 
   const isAuthEntry = authEntryPages.has(currentPage);
   const isManagement = managementPages.has(currentPage);
@@ -57,10 +60,39 @@ export default function Home() {
     }
   }, [isAuthenticated]);
 
+  // Artificial loading state for smooth transitions and initial hydration
+  useEffect(() => {
+    setIsInitializing(true);
+    const timer = setTimeout(() => {
+      setIsInitializing(false);
+    }, 700); // 700ms loading screen to smooth out heavy dashboard rendering
+    return () => clearTimeout(timer);
+  }, [isAuthenticated]);
+
   let content: React.ReactNode;
   let renderKey = 'login';
 
-  if (!isAuthenticated) {
+  if (isInitializing) {
+    // Full-screen animated loading spinner
+    content = (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 dark:bg-[#050505]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col items-center gap-6"
+        >
+          <Image src="/logo.png" alt="NueEra" width={90} height={70} className="object-contain animate-pulse opacity-90" priority />
+          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+            <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+            <span className="text-sm font-medium tracking-wide">Preparing Workspace...</span>
+          </div>
+        </motion.div>
+      </div>
+    );
+    renderKey = 'loader';
+  } else if (!isAuthenticated) {
     // Enforce auth pages when logged out
     if (isAuthEntry && CurrentPage) {
       content = <CurrentPage />;
