@@ -6,7 +6,6 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Search,
   ArrowRight,
-  // Icon map for search result types
   User,
   FolderKanban,
   CheckSquare,
@@ -22,9 +21,20 @@ import {
   Wallet,
   BarChart3,
   FolderOpen,
+  // New icons for create / action features
+  Plus,
+  UserPlus,
+  ListPlus,
+  ShieldCheck,
+  ShieldX,
+  UserCog,
+  Lightbulb,
+  Zap,
 } from 'lucide-react';
 import { useErpSearch } from '../../hooks/use-erp-search';
+import { useErpStore } from '../../erp-store';
 import type { SearchResult } from '../../services/search-engine';
+import type { CreateEntityType } from '../../erp-store';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -33,8 +43,10 @@ export interface CommandItem {
   icon: LucideIcon;
   label: string;
   shortcut?: string;
-  section: 'pages' | 'actions' | 'recent';
+  section: 'pages' | 'actions' | 'recent' | 'quick-create' | 'suggested' | 'ai-suggest';
   action: () => void;
+  // Secondary actions for entity results
+  secondaryActions?: { label: string; action: () => void }[];
 }
 
 interface RecentPage {
@@ -68,6 +80,14 @@ const iconMap: Record<string, LucideIcon> = {
   Wallet,
   BarChart3,
   FolderOpen,
+  Plus,
+  UserPlus,
+  ListPlus,
+  ShieldCheck,
+  ShieldX,
+  UserCog,
+  Lightbulb,
+  Zap,
 };
 
 // ── Internal: row model for unified list ──────────────
@@ -77,15 +97,14 @@ interface SectionHeader {
   key: string;
   label: string;
   count: number;
+  icon?: LucideIcon;
 }
 
 interface SelectableRow {
   type: 'selectable';
   key: string;
   globalIndex: number;
-  // For command items (no-query mode)
   commandItem?: CommandItem;
-  // For search results (query mode)
   searchResult?: SearchResult;
 }
 
@@ -100,7 +119,6 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
   const idx = lower.indexOf(q);
 
   if (idx === -1) {
-    // Try fuzzy: find first matching char and highlight from there
     return <>{text}</>;
   }
 
@@ -112,6 +130,24 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
     </>
   );
 }
+
+// ── Create actions config ──────────────────────────────
+
+const createActions: Array<{ type: CreateEntityType; icon: LucideIcon; label: string; shortcut: string }> = [
+  { type: 'project', icon: FolderKanban, label: 'New Project', shortcut: '⌘P' },
+  { type: 'task', icon: ListPlus, label: 'New Task', shortcut: '⌘T' },
+  { type: 'employee', icon: UserPlus, label: 'Add Employee', shortcut: '⌘E' },
+  { type: 'leave', icon: CalendarOff, label: 'Apply Leave', shortcut: '⌘L' },
+  { type: 'asset', icon: Monitor, label: 'Add Asset', shortcut: '⌘A' },
+];
+
+// ── AI Suggestion definitions ──────────────────────────
+
+const aiSuggestions = [
+  { id: 'ai1', label: 'You have 3 overdue tasks — review them now', icon: Clock, actionKeyword: 'overdue' },
+  { id: 'ai2', label: 'MediCare project at risk — view details', icon: AlertTriangle, actionKeyword: 'risk' },
+  { id: 'ai3', label: 'Nikhil Das at 100% allocation — rebalance', icon: UserCog, actionKeyword: 'allocate' },
+];
 
 // ── Command Palette ────────────────────────────────────
 
@@ -128,6 +164,9 @@ export function CommandPalette({
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
+  const openCreateModal = useErpStore((s) => s.openCreateModal);
+  const navigateTo = useErpStore((s) => s.navigateTo);
+
   // Debounce the search query by 150ms
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -143,42 +182,130 @@ export function CommandPalette({
   const { grouped, total } = useErpSearch(debouncedQuery, 50);
   const hasQuery = debouncedQuery.trim().length > 0;
 
-  // Build flat row list (unified for both query / no-query modes)
+  // Detect create/action triggers
+  const queryLower = query.trim().toLowerCase();
+  const isCreateTrigger = ['create', 'new', '+'].some(t => queryLower.startsWith(t));
+  const isActionTrigger = ['approve', 'reject', 'assign'].some(t => queryLower.startsWith(t));
+
+  // Build flat row list
   const { rows, selectableItems } = useMemo(() => {
     const builtRows: FlatRow[] = [];
     const items: (CommandItem | SearchResult)[] = [];
     let idx = 0;
 
+    const addSection = (key: string, label: string, sectionItems: CommandItem[], headerIcon?: LucideIcon) => {
+      if (sectionItems.length === 0) return;
+      builtRows.push({ type: 'header', key, label, count: sectionItems.length, icon: headerIcon });
+      for (const item of sectionItems) {
+        builtRows.push({ type: 'selectable', key: item.id, globalIndex: idx, commandItem: item });
+        items.push(item);
+        idx++;
+      }
+    };
+
     if (hasQuery) {
-      // ── Query mode: show search results grouped by type ──
-      const groupOrder = ['Pages', 'Employees', 'Projects', 'Tasks', 'Leaves', 'Approvals', 'Assets'];
+      // ── Query mode ──
 
-      for (const groupLabel of groupOrder) {
-        const groupItems = grouped[groupLabel];
-        if (!groupItems || groupItems.length === 0) continue;
+      // AI Suggestions section (when there's a relevant keyword match)
+      if (aiSuggestions.some(s => queryLower.includes(s.actionKeyword))) {
+        const matchedAi = aiSuggestions
+          .filter(s => queryLower.includes(s.actionKeyword))
+          .map(s => ({
+            id: `ai-${s.id}`,
+            icon: s.icon,
+            label: s.label,
+            section: 'ai-suggest' as const,
+            action: () => navigateTo('tasks-board'),
+          }));
+        addSection('ai-suggest', 'AI Suggests', matchedAi, Sparkles);
+      }
 
-        builtRows.push({
-          type: 'header',
-          key: `header-${groupLabel}`,
-          label: groupLabel,
-          count: groupItems.length,
-        });
+      // Create trigger mode
+      if (isCreateTrigger) {
+        const filteredCreate = createActions.filter(ca =>
+          ca.label.toLowerCase().includes(queryLower) || queryLower === 'create' || queryLower === 'new' || queryLower === '+'
+        );
+        const createItems = filteredCreate.map(ca => ({
+          id: `create-${ca.type}`,
+          icon: ca.icon,
+          label: ca.label,
+          shortcut: ca.shortcut,
+          section: 'quick-create' as const,
+          action: () => openCreateModal(ca.type),
+        }));
+        addSection('quick-create', 'Create', createItems, Plus);
+      }
 
-        for (const result of groupItems) {
-          builtRows.push({
-            type: 'selectable',
-            key: result.id,
-            globalIndex: idx,
-            searchResult: result,
+      // Action trigger mode
+      if (isActionTrigger) {
+        const actionItems: CommandItem[] = [];
+
+        if (queryLower.startsWith('approve')) {
+          actionItems.push({
+            id: 'action-approve-all',
+            icon: ShieldCheck,
+            label: 'Approve all pending',
+            shortcut: '⌘⇧A',
+            section: 'actions',
+            action: () => navigateTo('approvals'),
           });
-          items.push(result);
-          idx++;
+          // Also search normally for approvals
+        }
+        if (queryLower.startsWith('reject')) {
+          actionItems.push({
+            id: 'action-reject',
+            icon: ShieldX,
+            label: 'Reject approval...',
+            section: 'actions',
+            action: () => navigateTo('approvals'),
+          });
+        }
+        if (queryLower.startsWith('assign')) {
+          actionItems.push({
+            id: 'action-assign',
+            icon: UserCog,
+            label: 'Assign task to...',
+            section: 'actions',
+            action: () => navigateTo('tasks-board'),
+          });
+        }
+
+        addSection('trigger-actions', 'Actions', actionItems, Zap);
+      }
+
+      // Show search results (skip if pure create/action trigger with no additional text)
+      const isPureCreate = ['create', 'new', '+'].includes(queryLower);
+      const isPureAction = ['approve', 'reject', 'assign'].includes(queryLower);
+
+      if (!isPureCreate && !isPureAction) {
+        const groupOrder = ['Pages', 'Employees', 'Projects', 'Tasks', 'Leaves', 'Approvals', 'Assets'];
+        for (const groupLabel of groupOrder) {
+          const groupItems = grouped[groupLabel];
+          if (!groupItems || groupItems.length === 0) continue;
+
+          builtRows.push({
+            type: 'header',
+            key: `header-${groupLabel}`,
+            label: groupLabel,
+            count: groupItems.length,
+          });
+
+          for (const result of groupItems) {
+            builtRows.push({
+              type: 'selectable',
+              key: result.id,
+              globalIndex: idx,
+              searchResult: result,
+            });
+            items.push(result);
+            idx++;
+          }
         }
       }
     } else {
-      // ── No-query mode: show Recent + Pages + Actions ──
+      // ── No-query mode: Recent + Suggested + Quick Create + Pages + Actions ──
       const recent: CommandItem[] = (recentPages ?? [])
-        .slice(0, 5)
+        .slice(0, 3)
         .map((rp) => ({
           id: `recent-${rp.id}`,
           icon: rp.icon,
@@ -187,38 +314,65 @@ export function CommandPalette({
           action: rp.action,
         }));
 
+      const suggestedActions: CommandItem[] = [
+        {
+          id: 'sug-approve',
+          icon: ShieldCheck,
+          label: 'Review pending approvals',
+          section: 'suggested' as const,
+          action: () => navigateTo('approvals'),
+        },
+        {
+          id: 'sug-tasks',
+          icon: CheckSquare,
+          label: 'View overdue tasks',
+          section: 'suggested' as const,
+          action: () => navigateTo('tasks-board'),
+        },
+        {
+          id: 'sug-payroll',
+          icon: Banknote,
+          label: 'Run monthly payroll',
+          section: 'suggested' as const,
+          action: () => navigateTo('payroll'),
+        },
+        {
+          id: 'sug-ai',
+          icon: Sparkles,
+          label: 'AI Ops Intelligence',
+          section: 'suggested' as const,
+          action: () => navigateTo('ai-ops'),
+        },
+      ];
+
+      const quickCreateItems: CommandItem[] = createActions.map(ca => ({
+        id: `qc-${ca.type}`,
+        icon: ca.icon,
+        label: ca.label,
+        shortcut: ca.shortcut,
+        section: 'quick-create' as const,
+        action: () => openCreateModal(ca.type),
+      }));
+
       const pages = navigateCommands.filter((c) => c.section === 'pages');
       const actions = navigateCommands.filter((c) => c.section === 'actions');
 
-      const addSection = (key: string, label: string, sectionItems: CommandItem[]) => {
-        if (sectionItems.length === 0) return;
-        builtRows.push({ type: 'header', key, label, count: sectionItems.length });
-        for (const item of sectionItems) {
-          builtRows.push({
-            type: 'selectable',
-            key: item.id,
-            globalIndex: idx,
-            commandItem: item,
-          });
-          items.push(item);
-          idx++;
-        }
-      };
-
-      addSection('recent', 'Recent', recent);
+      addSection('recent', 'Recent', recent, Clock);
+      addSection('suggested', 'Suggested Actions', suggestedActions, Lightbulb);
+      addSection('quick-create', 'Quick Create', quickCreateItems, Plus);
       addSection('pages', 'Pages', pages);
       addSection('actions', 'Actions', actions);
     }
 
     return { rows: builtRows, selectableItems: items };
-  }, [hasQuery, grouped, navigateCommands, recentPages]);
+  }, [hasQuery, grouped, navigateCommands, recentPages, queryLower, isCreateTrigger, isActionTrigger, openCreateModal, navigateTo]);
 
   // Reset active index when rows change
   useEffect(() => {
     setActiveIndex(0);
   }, [hasQuery, debouncedQuery]);
 
-  // Global ⌘K / Ctrl+K shortcut — toggles open/close
+  // Global ⌘K / Ctrl+K shortcut
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -227,7 +381,6 @@ export function CommandPalette({
           onClose();
         } else {
           setQuery('');
-          // open is controlled externally, so we rely on external handlers
         }
       }
     };
@@ -292,10 +445,8 @@ export function CommandPalette({
         const item = selectableItems[activeIndex];
         if (!item) return;
         if ('type' in item && (item as SearchResult).type) {
-          // It's a SearchResult
           handleSelectSearchResult(item as SearchResult);
         } else if ('section' in item) {
-          // It's a CommandItem
           handleSelectCommand(item as CommandItem);
         }
       }
@@ -306,6 +457,29 @@ export function CommandPalette({
   // Get the Lucide icon for a search result
   const getResultIcon = (iconName: string): LucideIcon => {
     return iconMap[iconName] || Search;
+  };
+
+  // Get secondary actions for search results
+  const getSecondaryActions = (result: SearchResult): Array<{ label: string; action: () => void }> => {
+    switch (result.type) {
+      case 'project':
+        return [
+          { label: 'View Details', action: result.action },
+          { label: 'Set at Risk', action: () => navigateTo('projects') },
+        ];
+      case 'employee':
+        return [
+          { label: 'View Profile', action: result.action },
+          { label: 'Assign Task', action: () => { openCreateModal('task'); } },
+        ];
+      case 'task':
+        return [
+          { label: 'View Task', action: result.action },
+          { label: 'Mark Complete', action: () => navigateTo('tasks-board') },
+        ];
+      default:
+        return [];
+    }
   };
 
   return (
@@ -329,7 +503,7 @@ export function CommandPalette({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -8 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-x-0 top-[15%] z-[101] mx-auto w-full max-w-lg px-4"
+            className="fixed inset-x-0 top-[12%] z-[101] mx-auto w-full max-w-lg px-4"
           >
             <div
               className="rounded-2xl overflow-hidden shadow-2xl"
@@ -344,7 +518,6 @@ export function CommandPalette({
                 style={{ borderBottom: '1px solid var(--ops-border, rgba(255,255,255,0.08))' }}
               >
                 {hasQuery ? (
-                  // Show loading spinner while debouncing
                   <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
                     <Search
                       className="w-5 h-5 absolute"
@@ -371,7 +544,15 @@ export function CommandPalette({
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={hasQuery ? 'Search employees, projects, tasks...' : 'Type a command or search...'}
+                  placeholder={
+                    isCreateTrigger
+                      ? 'What do you want to create?'
+                      : isActionTrigger
+                        ? 'Describe the action...'
+                        : hasQuery
+                          ? 'Search employees, projects, tasks...'
+                          : 'Type a command or search... (try "create", "approve")'
+                  }
                   className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
                   style={{ color: 'var(--ops-text, #f5f5f5)' }}
                 />
@@ -388,7 +569,7 @@ export function CommandPalette({
               </div>
 
               {/* Results */}
-              <div ref={listRef} className="max-h-80 overflow-y-auto py-2 custom-scrollbar">
+              <div ref={listRef} className="max-h-[420px] overflow-y-auto py-2 custom-scrollbar">
                 {/* No results state */}
                 {selectableItems.length === 0 && hasQuery && (
                   <div className="flex flex-col items-center justify-center py-10">
@@ -411,7 +592,7 @@ export function CommandPalette({
                   </div>
                 )}
 
-                {/* No results when no query (shouldn't happen normally) */}
+                {/* No results when no query */}
                 {selectableItems.length === 0 && !hasQuery && (
                   <div className="flex flex-col items-center justify-center py-10">
                     <p
@@ -426,16 +607,20 @@ export function CommandPalette({
                 {/* Render rows */}
                 {rows.map((row) => {
                   if (row.type === 'header') {
+                    const HeaderIcon = row.icon;
                     return (
                       <div
                         key={`s-${row.key}`}
                         className="px-4 py-1.5 flex items-center justify-between"
                       >
-                        <span
-                          className="text-[11px] font-semibold uppercase tracking-wider"
+                        <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
                           style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
                         >
+                          {HeaderIcon && <HeaderIcon className="w-3 h-3" />}
                           {row.label}
+                          {row.label === 'AI Suggests' && (
+                            <Sparkles className="w-3 h-3 text-[#cc5c37]" />
+                          )}
                         </span>
                         {hasQuery && (
                           <span
@@ -457,6 +642,7 @@ export function CommandPalette({
                   if (row.searchResult) {
                     const result = row.searchResult;
                     const Icon = getResultIcon(result.icon);
+                    const secondaryActions = getSecondaryActions(result);
 
                     return (
                       <button
@@ -464,7 +650,7 @@ export function CommandPalette({
                         data-active={isActive ? 'true' : undefined}
                         onClick={() => handleSelectSearchResult(result)}
                         onMouseEnter={() => setActiveIndex(row.globalIndex)}
-                        className="flex items-center gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
+                        className="flex items-start gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
                         style={{
                           backgroundColor: isActive
                             ? 'var(--ops-accent-light, rgba(204,92,55,0.1))'
@@ -472,7 +658,7 @@ export function CommandPalette({
                         }}
                       >
                         <div
-                          className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
+                          className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 mt-0.5"
                           style={{
                             backgroundColor: isActive
                               ? 'rgba(204, 92, 55, 0.15)'
@@ -507,10 +693,29 @@ export function CommandPalette({
                           >
                             {result.subtitle}
                           </div>
+                          {/* Secondary Actions */}
+                          {secondaryActions.length > 0 && isActive && (
+                            <div className="flex gap-2 mt-1.5">
+                              {secondaryActions.map((sa, saIdx) => (
+                                <button
+                                  key={saIdx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const close = onClose;
+                                    close();
+                                    sa.action();
+                                  }}
+                                  className="text-[10px] px-2 py-0.5 rounded-md bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,245,0.5)] hover:text-[#cc5c37] hover:bg-[rgba(204,92,55,0.1)] transition-colors"
+                                >
+                                  {sa.label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         {isActive && (
                           <ArrowRight
-                            className="w-3.5 h-3.5 shrink-0"
+                            className="w-3.5 h-3.5 shrink-0 mt-1"
                             style={{ color: 'var(--ops-accent, #cc5c37)' }}
                           />
                         )}
@@ -521,6 +726,7 @@ export function CommandPalette({
                   if (row.commandItem) {
                     const item = row.commandItem;
                     const Icon = item.icon;
+                    const isAiSection = item.section === 'ai-suggest';
 
                     return (
                       <button
@@ -540,7 +746,9 @@ export function CommandPalette({
                           style={{
                             backgroundColor: isActive
                               ? 'rgba(204, 92, 55, 0.15)'
-                              : 'rgba(255,255,255,0.04)',
+                              : isAiSection
+                                ? 'rgba(204,92,55,0.08)'
+                                : 'rgba(255,255,255,0.04)',
                           }}
                         >
                           <Icon
@@ -548,7 +756,9 @@ export function CommandPalette({
                             style={{
                               color: isActive
                                 ? 'var(--ops-accent, #cc5c37)'
-                                : 'var(--ops-text-muted, rgba(245,245,245,0.35))',
+                                : isAiSection
+                                  ? 'var(--ops-accent, #cc5c37)'
+                                  : 'var(--ops-text-muted, rgba(245,245,245,0.35))',
                             }}
                           />
                         </div>
@@ -557,11 +767,24 @@ export function CommandPalette({
                           style={{
                             color: isActive
                               ? 'var(--ops-text, #f5f5f5)'
-                              : 'var(--ops-text-secondary, rgba(245,245,245,0.7))',
+                              : isAiSection
+                                ? 'var(--ops-text, #f5f5f5)'
+                                : 'var(--ops-text-secondary, rgba(245,245,245,0.7))',
                           }}
                         >
                           {item.label}
                         </span>
+                        {isAiSection && (
+                          <span
+                            className="text-[10px] px-1.5 py-0.5 rounded-full"
+                            style={{
+                              backgroundColor: 'rgba(204,92,55,0.1)',
+                              color: '#cc5c37',
+                            }}
+                          >
+                            AI
+                          </span>
+                        )}
                         {item.shortcut && (
                           <kbd
                             className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono"
@@ -574,7 +797,7 @@ export function CommandPalette({
                             {item.shortcut}
                           </kbd>
                         )}
-                        {isActive && (
+                        {isActive && !isAiSection && (
                           <ArrowRight
                             className="w-3.5 h-3.5 shrink-0"
                             style={{ color: 'var(--ops-accent, #cc5c37)' }}

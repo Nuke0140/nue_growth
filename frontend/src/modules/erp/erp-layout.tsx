@@ -27,6 +27,24 @@ import ApprovalsPage from './approvals-page';
 import AiOpsPage from './ai-ops-page';
 import HrmPage from './hrm-page';
 
+// Orphaned pages — now wired into layout
+import InvoicesPage from './invoices-page';
+import VendorsPage from './vendor-page';
+import FinanceOpsPage from './finance-ops-page';
+import ProfitabilityPage from './profitability-page';
+import DeliveryOpsPage from './delivery-operations-page';
+import ResourcePlanningPage from './resource-planning-page';
+import WorkloadPage from './workload-page';
+import SopTemplatesPage from './sop-templates-page';
+import AiOpsIntelligencePage from './ai-ops-intelligence-page';
+import EmployeeAnalyticsPage from './employee-analytics-page';
+import IncentivesPage from './incentives-page';
+import OnboardingPage from './onboarding-page';
+import ShiftsPage from './shifts-page';
+import InternalChatPage from './internal-chat-page';
+import AssetManagementPage from './asset-management-page';
+import OpsDashboardPage from './ops-dashboard-page';
+
 // Ops components
 import { CommandPalette } from './components/ops/command-palette';
 import { SkeletonDashboard } from './components/ops/skeleton-loader';
@@ -70,7 +88,22 @@ import {
   FolderOpen,
   Monitor,
   CheckCircle2,
-  // New icons
+  // New icons for sidebar
+  Receipt,
+  Truck,
+  Coins,
+  TrendingDown,
+  Package,
+  FileCode,
+  MessageSquare,
+  UserCog,
+  BarChart2,
+  Brain,
+  GitBranch,
+  Wrench,
+  CalendarClock,
+  Gift,
+  // Existing new icons
   History,
   Sparkles,
   UserPlus,
@@ -102,18 +135,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import type { LucideIcon } from 'lucide-react';
-import type { ErpPage } from './types';
+import type { ErpPage, Toast } from './types';
 import { usePermissions } from './hooks/use-permissions';
 
 // ---- Navigation definitions ----
-
-interface NavItem {
-  id: ErpPage;
-  label: string;
-  icon: LucideIcon;
-  badge?: number;
-  parentSection?: 'hrm';
-}
 
 interface NavSubItem {
   id: ErpPage;
@@ -122,47 +147,118 @@ interface NavSubItem {
   badge?: number;
 }
 
-const topNavItems: NavItem[] = [
-  { id: 'ops-dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'projects', label: 'Projects', icon: FolderKanban },
-  { id: 'tasks-board', label: 'Tasks', icon: Columns3, badge: 12 },
-  { id: 'ai-ops' as ErpPage, label: 'AI Intelligence', icon: Sparkles },
-];
+interface NavSection {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  items: NavSubItem[];
+}
 
-const hrmSubItems: NavSubItem[] = [
-  { id: 'employees', label: 'Employees', icon: UserIcon },
-  { id: 'departments', label: 'Departments', icon: Network },
-  { id: 'attendance', label: 'Attendance', icon: Clock },
-  { id: 'leaves', label: 'Leaves', icon: CalendarOff, badge: 5 },
-  { id: 'payroll', label: 'Payroll', icon: Banknote },
-  { id: 'compensation', label: 'Compensation', icon: Wallet },
-  { id: 'performance', label: 'Performance', icon: BarChart3 },
-  { id: 'documents', label: 'Documents', icon: FolderOpen },
-];
-
-const bottomNavItems: NavItem[] = [
-  { id: 'assets', label: 'Assets', icon: Monitor },
-  { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
+const navSections: NavSection[] = [
+  {
+    id: 'operations',
+    label: 'Operations',
+    icon: LayoutDashboard,
+    items: [
+      { id: 'ops-dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'projects', label: 'Projects', icon: FolderKanban },
+      { id: 'tasks-board', label: 'Tasks', icon: Columns3, badge: 12 },
+      { id: 'delivery-ops' as ErpPage, label: 'Delivery', icon: Truck, badge: 4 },
+      { id: 'sop-templates' as ErpPage, label: 'SOPs', icon: FileCode },
+      { id: 'internal-chat' as ErpPage, label: 'Chat', icon: MessageSquare, badge: 3 },
+    ],
+  },
+  {
+    id: 'hrm',
+    label: 'Human Resources',
+    icon: Users,
+    items: [
+      { id: 'employees', label: 'Employees', icon: UserIcon },
+      { id: 'employee-analytics' as ErpPage, label: 'Analytics', icon: BarChart2 },
+      { id: 'departments', label: 'Departments', icon: Network },
+      { id: 'attendance', label: 'Attendance', icon: Clock },
+      { id: 'shifts' as ErpPage, label: 'Shifts', icon: CalendarClock },
+      { id: 'leaves', label: 'Leaves', icon: CalendarOff, badge: 5 },
+      { id: 'payroll', label: 'Payroll', icon: Banknote },
+      { id: 'compensation', label: 'Compensation', icon: Wallet },
+      { id: 'incentives' as ErpPage, label: 'Incentives', icon: Gift },
+      { id: 'performance', label: 'Performance', icon: BarChart3 },
+      { id: 'onboarding' as ErpPage, label: 'Onboarding', icon: UserCog },
+      { id: 'documents', label: 'Documents', icon: FolderOpen },
+    ],
+  },
+  {
+    id: 'finance',
+    label: 'Finance',
+    icon: Coins,
+    items: [
+      { id: 'invoices' as ErpPage, label: 'Invoices', icon: Receipt, badge: 2 },
+      { id: 'vendors' as ErpPage, label: 'Vendors', icon: Package },
+      { id: 'finance-ops' as ErpPage, label: 'Finance Ops', icon: TrendingDown },
+      { id: 'profitability' as ErpPage, label: 'Profitability', icon: BarChart2 },
+    ],
+  },
+  {
+    id: 'resources',
+    label: 'Resources',
+    icon: Wrench,
+    items: [
+      { id: 'resource-planning' as ErpPage, label: 'Planning', icon: GitBranch },
+      { id: 'workload' as ErpPage, label: 'Workload', icon: BarChart2 },
+    ],
+  },
+  {
+    id: 'management',
+    label: 'Management',
+    icon: Settings,
+    items: [
+      { id: 'assets', label: 'Assets', icon: Monitor },
+      { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
+    ],
+  },
+  {
+    id: 'intelligence',
+    label: 'Intelligence',
+    icon: Sparkles,
+    items: [
+      { id: 'ai-ops' as ErpPage, label: 'AI Ops', icon: Brain },
+      { id: 'ai-ops-intelligence' as ErpPage, label: 'AI Deep Dive', icon: Sparkles },
+    ],
+  },
 ];
 
 // Flatten all items for breadcrumb lookup
-const allNavMap: Record<ErpPage, string> = {
+const allNavMap: Record<string, string> = {
   'ops-dashboard': 'Dashboard',
   'projects': 'Projects',
   'project-detail': 'Project Detail',
   'tasks-board': 'Tasks',
   'employees': 'Employees',
   'employee-detail': 'Employee Detail',
+  'employee-analytics': 'Employee Analytics',
   'departments': 'Departments',
   'attendance': 'Attendance',
+  'shifts': 'Shifts',
   'leaves': 'Leaves',
   'payroll': 'Payroll',
   'compensation': 'Compensation',
+  'incentives': 'Incentives',
   'performance': 'Performance',
+  'onboarding': 'Onboarding',
   'documents': 'Documents',
+  'invoices': 'Invoices',
+  'vendors': 'Vendors',
+  'finance-ops': 'Finance Ops',
+  'profitability': 'Profitability',
+  'delivery-ops': 'Delivery Ops',
+  'resource-planning': 'Resource Planning',
+  'workload': 'Workload',
+  'sop-templates': 'SOP Templates',
   'assets': 'Assets',
   'approvals': 'Approvals',
-  'ai-ops': 'AI Intelligence',
+  'ai-ops': 'AI Ops',
+  'ai-ops-intelligence': 'AI Deep Dive',
+  'internal-chat': 'Internal Chat',
   'hrm': 'HRM',
 };
 
@@ -174,16 +270,30 @@ const navIconMap: Record<string, LucideIcon> = {
   'tasks-board': Columns3,
   'employees': UserIcon,
   'employee-detail': UserIcon,
+  'employee-analytics': BarChart2,
   'departments': Network,
   'attendance': Clock,
+  'shifts': CalendarClock,
   'leaves': CalendarOff,
   'payroll': Banknote,
   'compensation': Wallet,
+  'incentives': Gift,
   'performance': BarChart3,
+  'onboarding': UserCog,
   'documents': FolderOpen,
+  'invoices': Receipt,
+  'vendors': Package,
+  'finance-ops': TrendingDown,
+  'profitability': BarChart2,
+  'delivery-ops': Truck,
+  'resource-planning': GitBranch,
+  'workload': BarChart2,
+  'sop-templates': FileCode,
   'assets': Monitor,
   'approvals': CheckCircle2,
-  'ai-ops': Sparkles,
+  'ai-ops': Brain,
+  'ai-ops-intelligence': Sparkles,
+  'internal-chat': MessageSquare,
   'hrm': Users,
 };
 
@@ -195,6 +305,14 @@ const notifTypeConfig: Record<string, { icon: LucideIcon; color: string; bg: str
   success: { icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
 };
 
+// Toast type → color config
+const toastColorConfig: Record<string, { bg: string; border: string; icon: LucideIcon; iconColor: string }> = {
+  success: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', icon: CheckCircle2, iconColor: 'text-emerald-400' },
+  error: { bg: 'bg-red-500/10', border: 'border-red-500/30', icon: AlertCircle, iconColor: 'text-red-400' },
+  warning: { bg: 'bg-amber-500/10', border: 'border-amber-500/30', icon: AlertTriangle, iconColor: 'text-amber-400' },
+  info: { bg: 'bg-blue-500/10', border: 'border-blue-500/30', icon: Info, iconColor: 'text-blue-400' },
+};
+
 // Format notification timestamp to short time
 function formatNotifTime(ts: string): string {
   const date = new Date(ts);
@@ -202,7 +320,7 @@ function formatNotifTime(ts: string): string {
 }
 
 // ---- Page component map ----
-const pageComponents: Record<ErpPage, React.ComponentType> = {
+const pageComponents: Record<string, React.ComponentType> = {
   'ops-dashboard': ErpDashboardPage,
   'projects': ProjectsPage,
   'project-detail': ProjectDetailPage,
@@ -219,7 +337,22 @@ const pageComponents: Record<ErpPage, React.ComponentType> = {
   'assets': AssetsPage,
   'approvals': ApprovalsPage,
   'ai-ops': AiOpsPage,
+  'ai-ops-intelligence': AiOpsIntelligencePage,
   'hrm': HrmPage,
+  // Orphaned pages — now wired
+  'invoices': InvoicesPage,
+  'vendors': VendorsPage,
+  'finance-ops': FinanceOpsPage,
+  'profitability': ProfitabilityPage,
+  'delivery-ops': DeliveryOpsPage,
+  'resource-planning': ResourcePlanningPage,
+  'workload': WorkloadPage,
+  'sop-templates': SopTemplatesPage,
+  'employee-analytics': EmployeeAnalyticsPage,
+  'incentives': IncentivesPage,
+  'onboarding': OnboardingPage,
+  'shifts': ShiftsPage,
+  'internal-chat': InternalChatPage,
 };
 
 // ---- Page Content (with progress bar + skeleton loading) ----
@@ -299,17 +432,133 @@ function PageContent() {
   );
 }
 
+// ---- Toast Container ----
+function ToastContainer() {
+  const { toasts, removeToast } = useErpStore();
+
+  return (
+    <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+      <AnimatePresence mode="popLayout">
+        {toasts.map((toast: Toast) => {
+          const config = toastColorConfig[toast.type] || toastColorConfig.info;
+          const ToastIcon = config.icon;
+          return (
+            <motion.div
+              key={toast.id}
+              layout
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className={cn(
+                'pointer-events-auto flex items-start gap-3 p-3 rounded-xl border backdrop-blur-sm shadow-lg',
+                'bg-[#222325]/95 border-[rgba(255,255,255,0.08)]',
+                config.border
+              )}
+            >
+              <div className={cn('w-5 h-5 mt-0.5 shrink-0', config.iconColor)}>
+                <ToastIcon className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-medium text-[#f5f5f5] leading-tight">
+                  {toast.title}
+                </p>
+                {toast.message && (
+                  <p className="text-[12px] text-[rgba(245,245,245,0.5)] mt-0.5 line-clamp-2">
+                    {toast.message}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => removeToast(toast.id)}
+                className="shrink-0 text-[rgba(245,245,245,0.3)] hover:text-[rgba(245,245,245,0.7)] transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ---- Mobile FAB (Floating Action Button) ----
+function MobileFab() {
+  const isMobile = useIsMobile();
+  const { openCreateModal, setCommandPaletteOpen } = useErpStore();
+  const [fabOpen, setFabOpen] = useState(false);
+
+  if (!isMobile) return null;
+
+  return (
+    <div className="fixed bottom-6 right-6 z-[90] md:hidden">
+      <AnimatePresence>
+        {fabOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-0"
+              onClick={() => setFabOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              transition={{ duration: 0.15 }}
+              className="absolute bottom-16 right-0 bg-[#222325] border border-[rgba(255,255,255,0.08)] rounded-2xl p-1.5 min-w-[180px] shadow-xl"
+            >
+              {[
+                { label: 'New Project', icon: FolderKanban, action: () => openCreateModal('project') },
+                { label: 'Create Task', icon: ListPlus, action: () => openCreateModal('task') },
+                { label: 'Add Employee', icon: UserPlus, action: () => openCreateModal('employee') },
+                { label: 'Search', icon: Search, action: () => setCommandPaletteOpen(true) },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    item.action();
+                    setFabOpen(false);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-[rgba(245,245,245,0.7)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                >
+                  <item.icon className="w-4 h-4 text-[rgba(245,245,245,0.4)]" />
+                  {item.label}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setFabOpen(!fabOpen)}
+        className="relative w-14 h-14 rounded-full bg-[#cc5c37] text-white shadow-lg shadow-[#cc5c37]/30 flex items-center justify-center"
+      >
+        <motion.div
+          animate={{ rotate: fabOpen ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Plus className="w-6 h-6" />
+        </motion.div>
+      </motion.button>
+    </div>
+  );
+}
+
 // ---- Sidebar Nav Item (with badge support) ----
 function SidebarNavItem({
   item,
   isActive,
   onClick,
 }: {
-  item: NavItem | NavSubItem;
+  item: NavSubItem;
   isActive: boolean;
   onClick: () => void;
 }) {
-  const badge = 'badge' in item ? (item as NavItem | NavSubItem & { badge?: number }).badge : undefined;
+  const badge = item.badge;
 
   return (
     <button
@@ -347,6 +596,97 @@ function SidebarNavItem({
   );
 }
 
+// ---- Collapsible Section ----
+function SidebarSection({
+  section,
+  isExpanded,
+  isSectionActive,
+  onToggle,
+  currentPage,
+  onNavClick,
+  accessiblePages,
+}: {
+  section: NavSection;
+  isExpanded: boolean;
+  isSectionActive: boolean;
+  onToggle: () => void;
+  currentPage: ErpPage;
+  onNavClick: (page: ErpPage) => void;
+  accessiblePages: ErpPage[];
+}) {
+  const filteredItems = section.items.filter((item) => accessiblePages.includes(item.id));
+  if (filteredItems.length === 0) return null;
+
+  const firstPage = filteredItems[0].id;
+
+  return (
+    <div className="mb-1">
+      {/* Section label */}
+      <div className="px-3 pt-3 pb-1">
+        <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
+          {section.label}
+        </span>
+      </div>
+
+      {/* Section toggle header */}
+      <button
+        onClick={() => {
+          onToggle();
+          if (!isExpanded) {
+            onNavClick(firstPage);
+          }
+        }}
+        className={cn(
+          'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
+          isSectionActive && !isExpanded
+            ? 'text-[rgba(245,245,245,0.7)]'
+            : 'text-[rgba(245,245,245,0.5)] hover:text-[rgba(245,245,245,0.85)] hover:bg-[rgba(255,255,255,0.04)]'
+        )}
+      >
+        <section.icon
+          className={cn(
+            'w-[18px] h-[18px] transition-colors shrink-0',
+            isSectionActive
+              ? 'text-[#cc5c37]'
+              : 'text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.6)]'
+          )}
+        />
+        <span className="flex-1 text-left truncate">{section.label}</span>
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="w-3.5 h-3.5 text-[rgba(245,245,245,0.2)]" />
+        </motion.div>
+      </button>
+
+      {/* Sub-items */}
+      <AnimatePresence initial={false}>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="ml-3 pl-3 border-l border-[rgba(255,255,255,0.06)] space-y-0.5 py-1">
+              {filteredItems.map((item) => (
+                <SidebarNavItem
+                  key={item.id}
+                  item={item}
+                  isActive={currentPage === item.id}
+                  onClick={() => onNavClick(item.id)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ---- Sidebar ----
 function Sidebar() {
   const {
@@ -355,28 +695,37 @@ function Sidebar() {
     setSidebarOpen,
     hrmExpanded,
     setHrmExpanded,
+    financeExpanded,
+    setFinanceExpanded,
+    opsExpanded,
+    setOpsExpanded,
     navigateTo,
   } = useErpStore();
   const isMobile = useIsMobile();
   const { accessiblePages } = usePermissions();
 
-  const isHrmActive = [
-    'hrm',
-    'employees',
-    'employee-detail',
-    'departments',
-    'attendance',
-    'leaves',
-    'payroll',
-    'compensation',
-    'performance',
-    'documents',
-  ].includes(currentPage);
+  // Section expand states — local for sections without dedicated store state
+  const [resourcesExpanded, setResourcesExpanded] = useState(false);
+  const [managementExpanded, setManagementExpanded] = useState(false);
+  const [intelligenceExpanded, setIntelligenceExpanded] = useState(false);
 
   const handleNavClick = (page: ErpPage) => {
     navigateTo(page);
     if (isMobile) setSidebarOpen(false);
   };
+
+  // Determine which section pages belong to
+  const sectionPageMap: Record<string, ErpPage[]> = useMemo(() => ({
+    operations: ['ops-dashboard', 'projects', 'project-detail', 'tasks-board', 'delivery-ops', 'sop-templates', 'internal-chat'],
+    hrm: ['hrm', 'employees', 'employee-detail', 'employee-analytics', 'departments', 'attendance', 'shifts', 'leaves', 'payroll', 'compensation', 'incentives', 'performance', 'onboarding', 'documents'],
+    finance: ['invoices', 'vendors', 'finance-ops', 'profitability'],
+    resources: ['resource-planning', 'workload'],
+    management: ['assets', 'approvals'],
+    intelligence: ['ai-ops', 'ai-ops-intelligence'],
+  }), []);
+
+  const isSectionActive = (sectionId: string) =>
+    sectionPageMap[sectionId]?.includes(currentPage) ?? false;
 
   return (
     <>
@@ -435,115 +784,52 @@ function Sidebar() {
                 )}
               </div>
 
-              {/* Navigation */}
+              {/* Navigation — collapsible sections */}
               <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
-                {/* Section: Operations */}
-                <div className="mb-1">
-                  <div className="px-3 pt-2 pb-1.5">
-                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
-                      Operations
-                    </span>
-                  </div>
-                  <div className="space-y-0.5">
-                    {topNavItems
-                      .filter((item) => accessiblePages.includes(item.id))
-                      .map((item) => (
-                        <SidebarNavItem
-                          key={item.id}
-                          item={item}
-                          isActive={currentPage === item.id}
-                          onClick={() => handleNavClick(item.id)}
-                        />
-                      ))}
-                  </div>
-                </div>
+                {navSections.map((section) => {
+                  let expanded = false;
+                  let toggle: () => void = () => {};
 
-                {/* Section: HRM (collapsible) */}
-                <div className="mb-1">
-                  <div className="px-3 pt-3 pb-1.5">
-                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
-                      Human Resources
-                    </span>
-                  </div>
+                  switch (section.id) {
+                    case 'operations':
+                      expanded = opsExpanded;
+                      toggle = () => setOpsExpanded(!opsExpanded);
+                      break;
+                    case 'hrm':
+                      expanded = hrmExpanded;
+                      toggle = () => setHrmExpanded(!hrmExpanded);
+                      break;
+                    case 'finance':
+                      expanded = financeExpanded;
+                      toggle = () => setFinanceExpanded(!financeExpanded);
+                      break;
+                    case 'resources':
+                      expanded = resourcesExpanded;
+                      toggle = () => setResourcesExpanded(!resourcesExpanded);
+                      break;
+                    case 'management':
+                      expanded = managementExpanded;
+                      toggle = () => setManagementExpanded(!managementExpanded);
+                      break;
+                    case 'intelligence':
+                      expanded = intelligenceExpanded;
+                      toggle = () => setIntelligenceExpanded(!intelligenceExpanded);
+                      break;
+                  }
 
-                  {/* HRM toggle header */}
-                  <button
-                    onClick={() => {
-                      navigateTo('hrm');
-                      if (!hrmExpanded) setHrmExpanded(true);
-                      if (isMobile) setSidebarOpen(false);
-                    }}
-                    className={cn(
-                      'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
-                      isHrmActive && !hrmExpanded
-                        ? 'text-[rgba(245,245,245,0.7)]'
-                        : 'text-[rgba(245,245,245,0.5)] hover:text-[rgba(245,245,245,0.85)] hover:bg-[rgba(255,255,255,0.04)]'
-                    )}
-                  >
-                    <Users
-                      className={cn(
-                        'w-[18px] h-[18px] transition-colors shrink-0',
-                        isHrmActive
-                          ? 'text-[#cc5c37]'
-                          : 'text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.6)]'
-                      )}
+                  return (
+                    <SidebarSection
+                      key={section.id}
+                      section={section}
+                      isExpanded={expanded}
+                      isSectionActive={isSectionActive(section.id)}
+                      onToggle={toggle}
+                      currentPage={currentPage}
+                      onNavClick={handleNavClick}
+                      accessiblePages={accessiblePages}
                     />
-                    <span className="flex-1 text-left truncate">HRM</span>
-                    <motion.div
-                      animate={{ rotate: hrmExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-3.5 h-3.5 text-[rgba(245,245,245,0.2)]" />
-                    </motion.div>
-                  </button>
-
-                  {/* HRM sub-items */}
-                  <AnimatePresence initial={false}>
-                    {hrmExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <div className="ml-3 pl-3 border-l border-[rgba(255,255,255,0.06)] space-y-0.5 py-1">
-                          {hrmSubItems
-                            .filter((item) => accessiblePages.includes(item.id))
-                            .map((item) => (
-                              <SidebarNavItem
-                                key={item.id}
-                                item={item}
-                                isActive={currentPage === item.id}
-                                onClick={() => handleNavClick(item.id)}
-                              />
-                            ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Section: Bottom items */}
-                <div className="mb-1">
-                  <div className="px-3 pt-3 pb-1.5">
-                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
-                      Management
-                    </span>
-                  </div>
-                  <div className="space-y-0.5">
-                    {bottomNavItems
-                      .filter((item) => accessiblePages.includes(item.id))
-                      .map((item) => (
-                        <SidebarNavItem
-                          key={item.id}
-                          item={item}
-                          isActive={currentPage === item.id}
-                          onClick={() => handleNavClick(item.id)}
-                        />
-                      ))}
-                  </div>
-                </div>
+                  );
+                })}
               </nav>
 
               {/* Sidebar footer — user profile */}
@@ -1084,31 +1370,26 @@ function Topbar() {
 export default function ErpLayout() {
   const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal } = useErpStore();
 
-  // Build command items for the command palette
+  // Build command items for the command palette from all nav sections
   const commands = useMemo(() => {
-    const allItems = [
-      ...topNavItems.map((item) => ({
-        id: item.id,
-        icon: item.icon as LucideIcon,
-        label: item.label,
-        section: 'pages' as const,
-        action: () => navigateTo(item.id),
-      })),
-      ...hrmSubItems.map((item) => ({
-        id: item.id,
-        icon: item.icon as LucideIcon,
-        label: item.label,
-        section: 'pages' as const,
-        action: () => navigateTo(item.id),
-      })),
-      ...bottomNavItems.map((item) => ({
-        id: item.id,
-        icon: item.icon as LucideIcon,
-        label: item.label,
-        section: 'pages' as const,
-        action: () => navigateTo(item.id),
-      })),
-    ];
+    const allItems: Array<{
+      id: string;
+      icon: LucideIcon;
+      label: string;
+      section: 'pages';
+      action: () => void;
+    }> = [];
+    for (const section of navSections) {
+      for (const item of section.items) {
+        allItems.push({
+          id: item.id,
+          icon: item.icon,
+          label: item.label,
+          section: 'pages' as const,
+          action: () => navigateTo(item.id),
+        });
+      }
+    }
     return allItems;
   }, [navigateTo]);
 
@@ -1152,6 +1433,12 @@ export default function ErpLayout() {
           onClose={closeCreateModal}
           type={createModalType || 'task'}
         />
+
+        {/* Toast Container */}
+        <ToastContainer />
+
+        {/* Mobile FAB */}
+        <MobileFab />
       </div>
     </TooltipProvider>
   );

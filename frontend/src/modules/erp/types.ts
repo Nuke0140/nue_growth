@@ -7,32 +7,34 @@ export type ErpPage =
   // Dashboard
   | 'ops-dashboard'
   // Projects
-  | 'projects'
-  | 'project-detail'
+  | 'projects' | 'project-detail'
   // Tasks
   | 'tasks-board'
   // HRM - Employees
-  | 'employees'
-  | 'employee-detail'
+  | 'employees' | 'employee-detail' | 'employee-analytics'
   // HRM - Organization
   | 'departments'
   // HRM - Time & Attendance
-  | 'attendance'
-  | 'leaves'
+  | 'attendance' | 'leaves' | 'shifts'
   // HRM - Compensation
-  | 'payroll'
-  | 'compensation'
-  // HRM - Performance
-  | 'performance'
+  | 'payroll' | 'compensation' | 'incentives'
+  // HRM - Performance & Onboarding
+  | 'performance' | 'onboarding'
   // HRM - Documents
   | 'documents'
+  // Finance
+  | 'invoices' | 'finance-ops' | 'profitability' | 'vendors'
+  // Delivery & Operations
+  | 'delivery-ops' | 'resource-planning' | 'workload' | 'sop-templates'
   // Assets
   | 'assets'
   // Approvals
   | 'approvals'
-  // AI Ops Intelligence
-  | 'ai-ops'
-  // HRM Landing Page
+  // AI
+  | 'ai-ops' | 'ai-ops-intelligence'
+  // Collaboration
+  | 'internal-chat'
+  // HRM Landing
   | 'hrm';
 
 // ---- Project ----
@@ -522,4 +524,133 @@ export type PermissionAction = 'view' | 'create' | 'edit' | 'delete' | 'approve'
 export interface Permission {
   page: ErpPage;
   actions: PermissionAction[];
+}
+
+// ---- Toast / System Feedback ----
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
+export interface Toast {
+  id: string;
+  type: ToastType;
+  title: string;
+  message: string;
+  duration?: number;
+  actionText?: string;
+  actionUrl?: string;
+}
+
+// ---- Smart Alerts ----
+export type AlertPriority = 'critical' | 'high' | 'medium' | 'low';
+export type AlertCategory = 'project' | 'employee' | 'finance' | 'delivery' | 'compliance';
+export interface SmartAlert {
+  id: string;
+  priority: AlertPriority;
+  category: AlertCategory;
+  title: string;
+  description: string;
+  entityId: string;
+  entityType: ErpPage;
+  isRead: boolean;
+  isSilenced: boolean;
+  createdAt: string;
+  actionText?: string;
+}
+
+// ---- AI Insight (Page-Level) ----
+export type AiInsightPriority = 'critical' | 'high' | 'medium' | 'low';
+export interface AiPageInsight {
+  id: string;
+  type: 'risk' | 'opportunity' | 'suggestion' | 'prediction' | 'anomaly';
+  priority: AiInsightPriority;
+  title: string;
+  description: string;
+  confidence: number;
+  actionText: string;
+  actionPage?: ErpPage;
+  entityId?: string;
+  entityType?: string;
+}
+
+// ---- Saved View (Smart Data Tables) ----
+export interface SavedView {
+  id: string;
+  name: string;
+  page: ErpPage;
+  filters: Record<string, string | string[]>;
+  sortColumn?: string;
+  sortDirection?: 'asc' | 'desc';
+  hiddenColumns: string[];
+  isDefault: boolean;
+}
+
+// ---- Column Definition ----
+export interface ColumnDef {
+  key: string;
+  label: string;
+  sortable: boolean;
+  visible: boolean;
+  width?: number;
+  editable?: boolean;
+  type?: 'text' | 'number' | 'date' | 'status' | 'badge' | 'currency';
+}
+
+// ---- Contextual Sidebar ----
+export interface SidebarPanel {
+  id: string;
+  entityType: 'project' | 'employee' | 'task' | 'deal' | 'approval' | 'asset';
+  entityId: string;
+  isOpen: boolean;
+}
+
+// ---- Workflow / Automation ----
+export type WorkflowTriggerType = 'schedule' | 'event' | 'condition' | 'manual';
+export type WorkflowActionType = 'update_status' | 'send_notification' | 'assign' | 'create_task' | 'escalate';
+export interface WorkflowStep {
+  id: string;
+  type: 'trigger' | 'condition' | 'action' | 'delay';
+  config: Record<string, string | number | boolean>;
+}
+export interface Workflow {
+  id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+  trigger: WorkflowTriggerType;
+  steps: WorkflowStep[];
+  runCount: number;
+  lastRunAt: string;
+  createdAt: string;
+}
+
+// ---- Onboarding Tour ----
+export interface TourStep {
+  id: string;
+  target: string; // CSS selector
+  title: string;
+  content: string;
+  position: 'top' | 'bottom' | 'left' | 'right';
+}
+export interface OnboardingTour {
+  id: string;
+  name: string;
+  steps: TourStep[];
+  isCompleted: boolean;
+  currentStep: number;
+}
+
+// ---- Favorites / Pinned ----
+export interface PinnedPage {
+  page: ErpPage;
+  label: string;
+  icon: string; // lucide icon name
+}
+
+// ---- Dashboard Widget ----
+export type WidgetType = 'kpi' | 'chart' | 'activity-feed' | 'ai-insights' | 'risk-alerts' | 'forecast' | 'quick-actions';
+export interface DashboardWidget {
+  id: string;
+  type: WidgetType;
+  title: string;
+  position: { x: number; y: number; w: number; h: number };
+  isVisible: boolean;
+  isCollapsed: boolean;
 }
