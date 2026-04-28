@@ -2,288 +2,215 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
+import { cn } from '@/lib/utils';
 import {
-  Search, Shield, Clock, CheckCircle2, XCircle, ArrowUpCircle,
-  MessageSquare, FileText, Palette, DollarSign, CreditCard,
-  Plane, FileBarChart, GitCompareArrows, ThumbsUp, ThumbsDown,
-  ChevronRight
+  DollarSign, Wallet, Palette, CalendarOff, FileText,
+  FileSignature, Banknote, CheckCircle2, XCircle, Clock,
+  AlertTriangle, MessageSquare, Shield, ThumbsUp, ThumbsDown,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import { mockApprovals } from '@/modules/erp/data/mock-data';
-import type { ApprovalType, ApprovalStatus } from '@/modules/erp/types';
+import { FilterBar } from './components/ops/filter-bar';
+import { KpiWidget } from './components/ops/kpi-widget';
+import { mockApprovals } from './data/mock-data';
+import type { Approval, ApprovalType, ApprovalStatus } from './types';
 
-type FilterKey = 'all' | 'pending' | 'approved' | 'rejected' | 'escalated';
+type TabKey = 'pending' | 'approved' | 'rejected';
 
-function getTypeConfig(type: ApprovalType, isDark: boolean) {
-  const configs: Record<ApprovalType, { icon: React.ElementType; label: string; className: string }> = {
-    content: { icon: FileText, label: 'Content', className: isDark ? 'bg-sky-500/15 text-sky-400 border-sky-500/20' : 'bg-sky-50 text-sky-700 border-sky-200' },
-    design: { icon: Palette, label: 'Design', className: isDark ? 'bg-violet-500/15 text-violet-400 border-violet-500/20' : 'bg-violet-50 text-violet-700 border-violet-200' },
-    invoice: { icon: DollarSign, label: 'Invoice', className: isDark ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-    budget: { icon: CreditCard, label: 'Budget', className: isDark ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200' },
-    payroll: { icon: FileBarChart, label: 'Payroll', className: isDark ? 'bg-pink-500/15 text-pink-400 border-pink-500/20' : 'bg-pink-50 text-pink-700 border-pink-200' },
-    leave: { icon: Plane, label: 'Leave', className: isDark ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/20' : 'bg-cyan-50 text-cyan-700 border-cyan-200' },
-    proposal: { icon: FileText, label: 'Proposal', className: isDark ? 'bg-orange-500/15 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200' },
-  };
-  return configs[type];
-}
+const typeIconMap: Record<ApprovalType, typeof DollarSign> = {
+  invoice: DollarSign,
+  budget: Wallet,
+  design: Palette,
+  leave: CalendarOff,
+  content: FileText,
+  proposal: FileSignature,
+  payroll: Banknote,
+};
 
-function getStatusConfig(status: ApprovalStatus, isDark: boolean) {
-  const configs: Record<ApprovalStatus, { label: string; className: string; animate: boolean }> = {
-    pending: { label: 'Pending', className: isDark ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200', animate: true },
-    approved: { label: 'Approved', className: isDark ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200', animate: false },
-    rejected: { label: 'Rejected', className: isDark ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200', animate: false },
-    escalated: { label: 'Escalated', className: isDark ? 'bg-orange-500/15 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200', animate: false },
-  };
-  return configs[status];
-}
+const typeColorMap: Record<ApprovalType, string> = {
+  invoice: 'rgba(52, 211, 153, 0.12)',
+  budget: 'rgba(251, 191, 36, 0.12)',
+  design: 'rgba(168, 85, 247, 0.12)',
+  leave: 'rgba(96, 165, 250, 0.12)',
+  content: 'rgba(96, 165, 250, 0.12)',
+  proposal: 'rgba(204, 92, 55, 0.12)',
+  payroll: 'rgba(248, 113, 113, 0.12)',
+};
+
+const typeTextColor: Record<ApprovalType, string> = {
+  invoice: '#34d399',
+  budget: '#fbbf24',
+  design: '#a855f7',
+  leave: '#60a5fa',
+  content: '#60a5fa',
+  proposal: '#cc5c37',
+  payroll: '#f87171',
+};
 
 export default function ApprovalsPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [activeTab, setActiveTab] = useState<TabKey>('pending');
 
   const filtered = useMemo(() => {
-    let result = [...mockApprovals];
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(a =>
-        a.title.toLowerCase().includes(q) ||
-        a.requestedBy.toLowerCase().includes(q) ||
-        (a.project || '').toLowerCase().includes(q)
-      );
-    }
-    switch (activeFilter) {
-      case 'pending': result = result.filter(a => a.status === 'pending'); break;
-      case 'approved': result = result.filter(a => a.status === 'approved'); break;
-      case 'rejected': result = result.filter(a => a.status === 'rejected'); break;
-      case 'escalated': result = result.filter(a => a.status === 'escalated'); break;
-    }
-    return result;
-  }, [searchQuery, activeFilter]);
+    if (activeTab === 'pending') return mockApprovals.filter(a => a.status === 'pending' || a.status === 'escalated');
+    if (activeTab === 'approved') return mockApprovals.filter(a => a.status === 'approved');
+    return mockApprovals.filter(a => a.status === 'rejected');
+  }, [activeTab]);
 
   const stats = useMemo(() => ({
-    pending: mockApprovals.filter(a => a.status === 'pending').length,
-    approvedToday: mockApprovals.filter(a => a.status === 'approved').length,
+    pending: mockApprovals.filter(a => a.status === 'pending' || a.status === 'escalated').length,
+    approved: mockApprovals.filter(a => a.status === 'approved').length,
     rejected: mockApprovals.filter(a => a.status === 'rejected').length,
-    avgResponseTime: '4.2h',
   }), []);
 
-  const filters: { key: FilterKey; label: string; count: number }[] = [
-    { key: 'all', label: 'All', count: mockApprovals.length },
-    { key: 'pending', label: 'Pending', count: mockApprovals.filter(a => a.status === 'pending').length },
-    { key: 'approved', label: 'Approved', count: mockApprovals.filter(a => a.status === 'approved').length },
-    { key: 'rejected', label: 'Rejected', count: mockApprovals.filter(a => a.status === 'rejected').length },
-    { key: 'escalated', label: 'Escalated', count: mockApprovals.filter(a => a.status === 'escalated').length },
+  const tabFilters = [
+    { key: 'pending', label: 'Pending', count: stats.pending },
+    { key: 'approved', label: 'Approved', count: stats.approved },
+    { key: 'rejected', label: 'Rejected', count: stats.rejected },
   ];
+
+  function getCardBorderStyle(status: ApprovalStatus) {
+    if (status === 'approved') return { border: '1px solid rgba(52, 211, 153, 0.3)', backgroundColor: 'rgba(52, 211, 153, 0.03)' };
+    if (status === 'rejected') return { border: '1px solid rgba(248, 113, 113, 0.3)', backgroundColor: 'rgba(248, 113, 113, 0.03)' };
+    if (status === 'escalated') return { border: '1px solid rgba(251, 191, 36, 0.3)', backgroundColor: 'rgba(251, 191, 36, 0.03)' };
+    return {};
+  }
+
+  function getStatusBadge(status: ApprovalStatus) {
+    if (status === 'approved') return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(52,211,153,0.12)', color: '#34d399' }}>
+        <CheckCircle2 className="w-3 h-3" /> Approved
+      </span>
+    );
+    if (status === 'rejected') return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(248,113,113,0.12)', color: '#f87171' }}>
+        <XCircle className="w-3 h-3" /> Rejected
+      </span>
+    );
+    if (status === 'escalated') return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(251,191,36,0.12)', color: '#fbbf24' }}>
+        <AlertTriangle className="w-3 h-3" /> Escalated
+      </span>
+    );
+    return (
+      <motion.span
+        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium"
+        style={{ backgroundColor: 'rgba(251,191,36,0.12)', color: '#fbbf24' }}
+        animate={{ opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <Clock className="w-3 h-3" /> Pending
+      </motion.span>
+    );
+  }
+
+  const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
+  const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Approvals</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {filtered.length}
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input
-                type="text"
-                placeholder="Search approvals..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')}
-              />
-            </div>
-          </div>
-        </div>
+        <motion.div variants={fadeUp} className="flex items-center gap-3">
+          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Approvals</h1>
+          <Badge variant="secondary" className="ops-badge">{filtered.length}</Badge>
+        </motion.div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
-          {filters.map((f) => {
-            const isActive = activeFilter === f.key;
-            return (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter(f.key)}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
-                  isActive
-                    ? isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-black/[0.06] text-black shadow-sm'
-                    : isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'
-                )}
-              >
-                <span className="hidden sm:inline">{f.label}</span>
-                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? (isDark ? 'bg-white/[0.15]' : 'bg-black/[0.1]') : (isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'))}>
-                  {f.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        {/* Tabs */}
+        <motion.div variants={fadeUp}>
+          <FilterBar filters={tabFilters} activeFilter={activeTab} onFilterChange={(key) => setActiveTab(key as TabKey)} />
+        </motion.div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Pending', value: stats.pending, icon: Clock, color: 'text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-            { label: 'Approved Today', value: stats.approvedToday, icon: CheckCircle2, color: 'text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-            { label: 'Rejected', value: stats.rejected, icon: XCircle, color: 'text-red-400', bgColor: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-            { label: 'Avg Response', value: stats.avgResponseTime, icon: Shield, color: 'text-sky-400', bgColor: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bgColor)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
-                </div>
-              </div>
-              <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Approval Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {/* Approval Cards */}
+        <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length === 0 ? (
-            <div className={cn('col-span-full rounded-2xl border p-12 text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Shield className={cn('w-12 h-12 mx-auto', isDark ? 'text-white/10' : 'text-black/10')} />
-              <p className={cn('text-sm mt-3', isDark ? 'text-white/40' : 'text-black/40')}>No approvals found</p>
+            <div className="col-span-full ops-card p-12 text-center">
+              <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)', opacity: 0.3 }} />
+              <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>No approvals in this category.</p>
             </div>
           ) : (
             filtered.map((approval, idx) => {
-              const typeConf = getTypeConfig(approval.type, isDark);
-              const statusConf = getStatusConfig(approval.status, isDark);
+              const TypeIcon = typeIconMap[approval.type] || FileText;
+              const isActionable = approval.status === 'pending' || approval.status === 'escalated';
+              const cardStyle = getCardBorderStyle(approval.status);
+
               return (
                 <motion.div
                   key={approval.id}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn(
-                    'rounded-2xl border p-5 space-y-4 transition-colors',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
-                  )}
+                  transition={{ delay: idx * 0.05, duration: 0.3 }}
+                  className="ops-card p-5 space-y-4 transition-colors"
+                  style={{ ...cardStyle, borderRadius: '1rem' }}
                 >
-                  {/* Top Row: Type + Status */}
-                  <div className="flex items-center justify-between">
-                    <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', typeConf.className)}>
-                      <typeConf.icon className="w-3 h-3" />
-                      {typeConf.label}
-                    </span>
-                    {approval.status === 'pending' ? (
-                      <motion.span
-                        className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', statusConf.className)}
-                        animate={{ opacity: [0.6, 1, 0.6] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <Clock className="w-2.5 h-2.5" />
-                        {statusConf.label}
-                      </motion.span>
-                    ) : (
-                      <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', statusConf.className)}>
-                        {statusConf.label}
-                      </span>
-                    )}
+                  {/* Top: Type icon + Status */}
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+                      style={{ backgroundColor: typeColorMap[approval.type] }}
+                    >
+                      <TypeIcon className="w-5 h-5" style={{ color: typeTextColor[approval.type] }} />
+                    </div>
+                    {getStatusBadge(approval.status)}
                   </div>
 
                   {/* Title */}
                   <div>
-                    <p className="text-sm font-semibold leading-snug">{approval.title}</p>
+                    <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--ops-text)' }}>{approval.title}</p>
                     {approval.project && (
-                      <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{approval.project}</p>
+                      <p className="text-[11px] mt-1" style={{ color: 'var(--ops-text-muted)' }}>{approval.project}</p>
                     )}
                   </div>
 
-                  {/* Requested By */}
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-6 w-6">
-                      <AvatarFallback className="text-[9px] font-semibold bg-sky-500/15 text-sky-400">
-                        {approval.requestedBy.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{approval.requestedBy}</span>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>v{approval.version}</span>
+                  {/* Details */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="h-5 w-5">
+                        <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+                          {approval.requestedBy.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>Requested by: {approval.requestedBy}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                      <span>{new Date(approval.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
+                      {approval.version > 1 && (
+                        <span className="ops-badge" style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--ops-text-muted)' }}>v{approval.version}</span>
+                      )}
+                      {approval.comments.length > 0 && (
+                        <span className="inline-flex items-center gap-1">
+                          <MessageSquare className="w-3 h-3" /> {approval.comments.length}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Footer: Comments + Date + Actions */}
-                  <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
-                    <div className="flex items-center gap-3">
-                      {approval.comments.length > 0 && (
-                        <div className="flex items-center gap-1">
-                          <MessageSquare className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{approval.comments.length}</span>
-                        </div>
-                      )}
-                      <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
-                        {new Date(approval.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
-                      </span>
+                  {/* Actions */}
+                  {isActionable && (
+                    <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                      <button
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                        style={{ backgroundColor: 'rgba(52,211,153,0.12)', color: '#34d399' }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(52,211,153,0.2)'; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(52,211,153,0.12)'; }}
+                      >
+                        <ThumbsUp className="w-3.5 h-3.5" /> Approve
+                      </button>
+                      <button
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                        style={{ backgroundColor: 'rgba(248,113,113,0.12)', color: '#f87171' }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(248,113,113,0.2)'; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(248,113,113,0.12)'; }}
+                      >
+                        <ThumbsDown className="w-3.5 h-3.5" /> Reject
+                      </button>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      {(approval.type === 'content' || approval.type === 'design') && (
-                        <TooltipProvider delayDuration={0}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                <GitCompareArrows className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent><p>Compare versions</p></TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      )}
-                      {approval.status === 'pending' && (
-                        <>
-                          <TooltipProvider delayDuration={0}>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-emerald-500/15 text-emerald-400' : 'hover:bg-emerald-50 text-emerald-600')}>
-                                  <ThumbsUp className="w-3.5 h-3.5" />
-                                </button>
-                              </TooltipTrigger>
-                              <TooltipContent><p>Approve</p></TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <TooltipProvider delayDuration={0}>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-red-500/15 text-red-400' : 'hover:bg-red-50 text-red-600')}>
-                                  <ThumbsDown className="w-3.5 h-3.5" />
-                                </button>
-                              </TooltipTrigger>
-                              <TooltipContent><p>Reject</p></TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </>
-                      )}
-                      <ChevronRight className={cn('w-4 h-4', isDark ? 'text-white/15' : 'text-black/15')} />
-                    </div>
-                  </div>
+                  )}
                 </motion.div>
               );
             })
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

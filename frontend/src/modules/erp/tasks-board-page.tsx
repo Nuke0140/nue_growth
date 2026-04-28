@@ -1,267 +1,596 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
-  Search, Plus, GripVertical, Clock, GitBranch, AlertTriangle,
-  Calendar, User, Star, Timer, Link2, CheckCircle2
+  Plus, GitBranch, Clock, AlertTriangle, CheckCircle2,
+  X,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { mockTasks, mockProjects } from '@/modules/erp/data/mock-data';
+import { mockTasks, mockProjects, mockResources } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
+import { SearchInput } from '@/modules/erp/components/ops/search-input';
+import { KanbanBoard, type KanbanColumn, type KanbanTask } from '@/modules/erp/components/ops/kanban-board';
 import type { TaskStage } from '@/modules/erp/types';
 
-type ColumnKey = TaskStage;
+// ── Column definitions ───────────────────────────────────
 
-const columns: { key: ColumnKey; label: string; color: string; dotColor: string }[] = [
-  { key: 'backlog', label: 'Backlog', color: 'bg-zinc-500', dotColor: 'text-zinc-400' },
-  { key: 'todo', label: 'To Do', color: 'bg-sky-500', dotColor: 'text-sky-400' },
-  { key: 'in-progress', label: 'In Progress', color: 'bg-blue-500', dotColor: 'text-blue-400' },
-  { key: 'review', label: 'Review', color: 'bg-violet-500', dotColor: 'text-violet-400' },
-  { key: 'done', label: 'Delivered', color: 'bg-emerald-500', dotColor: 'text-emerald-400' },
-  { key: 'blocked', label: 'Blocked', color: 'bg-red-500', dotColor: 'text-red-400' },
+const COLUMN_DEFS: { key: TaskStage; title: string }[] = [
+  { key: 'backlog', title: 'Backlog' },
+  { key: 'todo', title: 'To Do' },
+  { key: 'in-progress', title: 'In Progress' },
+  { key: 'review', title: 'Review' },
+  { key: 'blocked', title: 'Blocked' },
+  { key: 'done', title: 'Done' },
 ];
 
-function getProjectName(projectId: string): string {
-  const p = mockProjects.find(pr => pr.id === projectId);
+// ── Helpers ──────────────────────────────────────────────
+
+function getProjectShortName(projectId: string): string {
+  const p = mockProjects.find((pr) => pr.id === projectId);
   return p ? p.name.split(' ').slice(0, 2).join(' ') : '';
 }
 
-export default function TasksBoardPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-  const [searchQuery, setSearchQuery] = useState('');
+function formatDueDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('en-IN', {
+    month: 'short',
+    day: 'numeric',
+  });
+}
 
-  const filtered = useMemo(() => {
-    if (!searchQuery) return mockTasks;
-    const q = searchQuery.toLowerCase();
-    return mockTasks.filter(t =>
-      t.title.toLowerCase().includes(q) ||
-      t.assignee.toLowerCase().includes(q) ||
-      getProjectName(t.projectId).toLowerCase().includes(q)
-    );
-  }, [searchQuery]);
+/** Map ErpTask to KanbanTask for the KanbanBoard component */
+function mapToKanbanTask(task: typeof mockTasks[0]): KanbanTask {
+  const tags: string[] = [];
+  if (task.storyPoints > 0) tags.push(`${task.storyPoints} pts`);
+  if (task.isBlocked) tags.push('🚫 Blocked');
 
-  const tasksByStage = useMemo(() => {
-    const grouped: Record<TaskStage, typeof mockTasks> = {
-      'backlog': [], 'todo': [], 'in-progress': [], 'review': [], 'done': [], 'blocked': [],
-    };
-    filtered.forEach(t => { grouped[t.stage].push(t); });
-    return grouped;
-  }, [filtered]);
+  return {
+    id: task.id,
+    title: task.title,
+    subtitle: task.assignee,
+    avatar: undefined,
+    priority: task.isBlocked ? 'critical' : undefined,
+    dueDate: formatDueDate(task.dueDate),
+    tags,
+  };
+}
 
-  const totalTasks = filtered.length;
-  const inProgress = filtered.filter(t => t.stage === 'in-progress').length;
-  const blocked = filtered.filter(t => t.stage === 'blocked').length;
-  const completed = filtered.filter(t => t.stage === 'done').length;
+// ── Stat Card ────────────────────────────────────────────
 
-  const stats = [
-    { label: 'Total Tasks', value: totalTasks, icon: GitBranch },
-    { label: 'In Progress', value: inProgress, icon: Clock },
-    { label: 'Blocked', value: blocked, icon: AlertTriangle },
-    { label: 'Completed', value: completed, icon: CheckCircle2 },
-  ];
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  accent,
+}: {
+  label: string;
+  value: number;
+  icon: React.ElementType;
+  accent?: string;
+}) {
+  return (
+    <div className="ops-card rounded-2xl p-4 flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium" style={{ color: 'var(--ops-text-muted)' }}>
+          {label}
+        </span>
+        <div
+          className="w-7 h-7 rounded-lg flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+        >
+          <Icon className="w-3.5 h-3.5" style={{ color: accent || 'var(--ops-text-muted)' }} />
+        </div>
+      </div>
+      <p className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+// ── Add Task Drawer ──────────────────────────────────────
+
+function AddTaskDrawer({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [projectId, setProjectId] = useState('');
+  const [assignee, setAssignee] = useState('');
+  const [stage, setStage] = useState<string>('todo');
+  const [priority, setPriority] = useState<string>('medium');
+  const [dueDate, setDueDate] = useState('');
+
+  const handleReset = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setProjectId('');
+    setAssignee('');
+    setStage('todo');
+    setPriority('medium');
+    setDueDate('');
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    // In a real app, this would call an API to create the task
+    handleReset();
+    onOpenChange(false);
+  }, [handleReset, onOpenChange]);
+
+  const drawerInputStyle: React.CSSProperties = {
+    backgroundColor: '#2a2b2e',
+    border: '1px solid var(--ops-border)',
+    color: 'var(--ops-text)',
+    borderRadius: '0.75rem',
+  };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-5">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent
+        className="max-h-[85vh]"
+        style={{
+          backgroundColor: 'var(--ops-card-bg)',
+          borderColor: 'var(--ops-border)',
+        }}
+      >
+        <DrawerHeader className="border-b" style={{ borderColor: 'var(--ops-border)' }}>
+          <div className="flex items-center justify-between">
+            <DrawerTitle
+              className="text-base font-semibold"
+              style={{ color: 'var(--ops-text)' }}
+            >
+              Add New Task
+            </DrawerTitle>
+            <DrawerClose asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-lg"
+                style={{ color: 'var(--ops-text-muted)' }}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </DrawerClose>
+          </div>
+          <DrawerDescription style={{ color: 'var(--ops-text-muted)' }}>
+            Create a new task and assign it to a project.
+          </DrawerDescription>
+        </DrawerHeader>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {/* Title */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              Title
+            </Label>
+            <Input
+              placeholder="Task title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              style={drawerInputStyle}
+              className="focus:ring-[#cc5c37]/30 focus:border-[#cc5c37]"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              Description
+            </Label>
+            <textarea
+              placeholder="Task description..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              className="ops-input w-full px-3 py-2 text-sm resize-none"
+              style={drawerInputStyle}
+            />
+          </div>
+
+          {/* Project */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              Project
+            </Label>
+            <Select value={projectId} onValueChange={setProjectId}>
+              <SelectTrigger
+                className="w-full"
+                style={drawerInputStyle}
+              >
+                <SelectValue placeholder="Select project..." />
+              </SelectTrigger>
+              <SelectContent
+                style={{
+                  backgroundColor: 'var(--ops-card-bg)',
+                  borderColor: 'var(--ops-border)',
+                }}
+              >
+                {mockProjects
+                  .filter((p) => p.status === 'active' || p.status === 'inception')
+                  .map((p) => (
+                    <SelectItem
+                      key={p.id}
+                      value={p.id}
+                      style={{ color: 'var(--ops-text)' }}
+                    >
+                      {p.name.split(' ').slice(0, 2).join(' ')}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Assignee */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              Assignee
+            </Label>
+            <Select value={assignee} onValueChange={setAssignee}>
+              <SelectTrigger
+                className="w-full"
+                style={drawerInputStyle}
+              >
+                <SelectValue placeholder="Select assignee..." />
+              </SelectTrigger>
+              <SelectContent
+                style={{
+                  backgroundColor: 'var(--ops-card-bg)',
+                  borderColor: 'var(--ops-border)',
+                }}
+              >
+                {mockResources.map((r) => (
+                  <SelectItem key={r.id} value={r.name}>
+                    <div className="flex items-center gap-2">
+                      <Avatar className="h-5 w-5">
+                        <AvatarFallback
+                          className="text-[8px] font-semibold"
+                          style={{
+                            backgroundColor: 'rgba(204,92,55,0.2)',
+                            color: '#cc5c37',
+                          }}
+                        >
+                          {getInitials(r.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      {r.name}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Stage + Priority row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                Stage
+              </Label>
+              <Select value={stage} onValueChange={setStage}>
+                <SelectTrigger
+                  className="w-full"
+                  style={drawerInputStyle}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent
+                  style={{
+                    backgroundColor: 'var(--ops-card-bg)',
+                    borderColor: 'var(--ops-border)',
+                  }}
+                >
+                  {COLUMN_DEFS.map((col) => (
+                    <SelectItem key={col.key} value={col.key}>
+                      {col.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                Priority
+              </Label>
+              <Select value={priority} onValueChange={setPriority}>
+                <SelectTrigger
+                  className="w-full"
+                  style={drawerInputStyle}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent
+                  style={{
+                    backgroundColor: 'var(--ops-card-bg)',
+                    borderColor: 'var(--ops-border)',
+                  }}
+                >
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="critical">Critical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Due Date */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              Due Date
+            </Label>
+            <Input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              style={drawerInputStyle}
+              className="focus:ring-[#cc5c37]/30 focus:border-[#cc5c37]"
+            />
+          </div>
+        </div>
+
+        <DrawerFooter
+          className="border-t pt-4"
+          style={{ borderColor: 'var(--ops-border)' }}
+        >
+          <div className="flex gap-2 w-full">
+            <Button
+              variant="ghost"
+              className="flex-1 rounded-xl"
+              style={{
+                color: 'var(--ops-text-secondary)',
+                backgroundColor: 'rgba(255,255,255,0.04)',
+              }}
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 rounded-xl"
+              style={{
+                backgroundColor: 'var(--ops-accent)',
+                color: '#fff',
+              }}
+              onClick={handleSubmit}
+            >
+              Create Task
+            </Button>
+          </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+// ── Main Page ────────────────────────────────────────────
+
+export default function TasksBoardPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [projectFilter, setProjectFilter] = useState<string>('all');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [localTasks, setLocalTasks] = useState(mockTasks);
+
+  // ── Filtered tasks ──
+  const filteredTasks = useMemo(() => {
+    let result = [...localTasks];
+
+    // Project filter
+    if (projectFilter !== 'all') {
+      result = result.filter((t) => t.projectId === projectFilter);
+    }
+
+    // Search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (t) =>
+          t.title.toLowerCase().includes(q) ||
+          t.assignee.toLowerCase().includes(q) ||
+          getProjectShortName(t.projectId).toLowerCase().includes(q)
+      );
+    }
+
+    return result;
+  }, [localTasks, projectFilter, searchQuery]);
+
+  // ── Build Kanban columns ──
+  const kanbanColumns: KanbanColumn[] = useMemo(() => {
+    return COLUMN_DEFS.map((col) => ({
+      id: col.key,
+      title: col.title,
+      items: filteredTasks
+        .filter((t) => t.stage === col.key)
+        .map(mapToKanbanTask),
+    }));
+  }, [filteredTasks]);
+
+  // ── Drag handler ──
+  const handleMoveTask = useCallback(
+    (taskId: string, _fromColumnId: string, toColumnId: string) => {
+      setLocalTasks((prev) =>
+        prev.map((t) => {
+          if (t.id === taskId) {
+            return { ...t, stage: toColumnId as TaskStage };
+          }
+          return t;
+        })
+      );
+    },
+    []
+  );
+
+  // ── Stats ──
+  const stats = useMemo(
+    () => ({
+      total: filteredTasks.length,
+      inProgress: filteredTasks.filter((t) => t.stage === 'in-progress').length,
+      blocked: filteredTasks.filter((t) => t.stage === 'blocked' || t.isBlocked).length,
+      completed: filteredTasks.filter((t) => t.stage === 'done').length,
+    }),
+    [filteredTasks]
+  );
+
+  return (
+    <div className="h-full flex flex-col overflow-hidden">
+      <div className="p-4 md:p-6 space-y-4 shrink-0">
+        {/* ── Header ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Tasks Board</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {totalTasks} tasks
+            <h1
+              className="text-xl md:text-2xl font-bold"
+              style={{ color: 'var(--ops-text)' }}
+            >
+              Tasks Board
+            </h1>
+            <Badge
+              variant="secondary"
+              className="text-xs font-medium"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.06)',
+                color: 'var(--ops-text-secondary)',
+              }}
+            >
+              {filteredTasks.length} tasks
             </Badge>
           </div>
           <div className="flex items-center gap-2">
-            <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input
-                type="text"
-                placeholder="Search tasks..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')}
-              />
-            </div>
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button size="icon" className={cn('h-9 w-9 rounded-xl shrink-0', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent><p>Create Task</p></TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Search tasks..."
+              className="w-full sm:w-52"
+            />
+            <Button
+              className="h-9 px-3 rounded-xl gap-1.5 text-xs font-medium"
+              style={{
+                backgroundColor: 'var(--ops-accent)',
+                color: '#fff',
+              }}
+              onClick={() => setDrawerOpen(true)}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = 'var(--ops-accent-hover)')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = 'var(--ops-accent)')
+              }
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Add Task</span>
+            </Button>
           </div>
         </div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+        {/* ── Project Filter ── */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium shrink-0" style={{ color: 'var(--ops-text-muted)' }}>
+            Filter by project:
+          </span>
+          <Select value={projectFilter} onValueChange={setProjectFilter}>
+            <SelectTrigger
+              className="w-auto min-w-[180px]"
+              size="sm"
+              style={{
+                backgroundColor: '#2a2b2e',
+                border: '1px solid var(--ops-border)',
+                color: 'var(--ops-text)',
+                borderRadius: '0.75rem',
+              }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
-                </div>
-              </div>
-              <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
-          ))}
+              <SelectValue placeholder="All Projects" />
+            </SelectTrigger>
+            <SelectContent
+              style={{
+                backgroundColor: 'var(--ops-card-bg)',
+                borderColor: 'var(--ops-border)',
+              }}
+            >
+              <SelectItem value="all">All Projects</SelectItem>
+              {mockProjects.map((p) => (
+                <SelectItem key={p.id} value={p.id}>
+                  {p.name.split(' ').slice(0, 2).join(' ')}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Kanban Board */}
-        <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6">
-          {columns.map((col, colIdx) => {
-            const tasks = tasksByStage[col.key];
-            const isBlockedColumn = col.key === 'blocked';
-            return (
-              <motion.div
-                key={col.key}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + colIdx * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="min-w-[280px] w-[280px] shrink-0 flex flex-col"
-              >
-                {/* Column Header */}
-                <div className="flex items-center gap-2 mb-3 px-1">
-                  <div className={cn('w-2.5 h-2.5 rounded-full', col.color)} />
-                  <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>{col.label}</span>
-                  <Badge variant="secondary" className={cn(
-                    'ml-auto text-[10px] font-bold min-w-[20px] justify-center',
-                    isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
-                  )}>
-                    {tasks.length}
-                  </Badge>
-                </div>
-
-                {/* Cards */}
-                <div className={cn(
-                  'rounded-2xl border flex-1 p-2 space-y-2 overflow-y-auto max-h-[calc(100vh-340px)]',
-                  isDark ? 'bg-white/[0.01] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]'
-                )}>
-                  {tasks.length === 0 && (
-                    <div className="flex items-center justify-center h-24">
-                      <p className={cn('text-[10px]', isDark ? 'text-white/15' : 'text-black/15')}>No tasks</p>
-                    </div>
-                  )}
-                  {tasks.map((task, taskIdx) => {
-                    const projectName = getProjectName(task.projectId);
-                    const isOverdue = new Date(task.dueDate) < new Date() && task.stage !== 'done';
-                    return (
-                      <motion.div
-                        key={task.id}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15 + taskIdx * 0.04 }}
-                        className={cn(
-                          'rounded-xl border p-3 space-y-2.5 cursor-pointer transition-all duration-200 group relative',
-                          isDark
-                            ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
-                            : 'bg-white border-black/[0.06] hover:bg-black/[0.02]',
-                          isBlockedColumn && task.isBlocked && 'border-red-500/30'
-                        )}
-                      >
-                        {/* Pulsing border for blocked */}
-                        {task.isBlocked && (
-                          <motion.div
-                            className="absolute inset-0 rounded-xl border-2 border-red-500/40 pointer-events-none"
-                            animate={{ opacity: [0.4, 0.8, 0.4] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                          />
-                        )}
-
-                        {/* Drag Handle */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5">
-                            <GripVertical className={cn('w-3.5 h-3.5 opacity-0 group-hover:opacity-50 transition-opacity', isDark ? 'text-white' : 'text-black')} />
-                            {task.isBlocked && (
-                              <Badge className={cn('text-[9px] font-bold border', isDark ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-red-50 text-red-600 border-red-200')}>
-                                <AlertTriangle className="w-2.5 h-2.5 mr-0.5" />Blocked
-                              </Badge>
-                            )}
-                          </div>
-                          <Badge className={cn('text-[9px] font-bold px-1.5', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
-                            {task.storyPoints} pts
-                          </Badge>
-                        </div>
-
-                        {/* Title */}
-                        <p className="text-sm font-medium leading-snug">{task.title}</p>
-
-                        {/* Project Tag */}
-                        {projectName && (
-                          <p className={cn('text-[10px] truncate', isDark ? 'text-white/25' : 'text-black/25')}>
-                            {projectName}
-                          </p>
-                        )}
-
-                        {/* Footer */}
-                        <div className="flex items-center justify-between pt-1">
-                          <div className="flex items-center gap-1.5">
-                            <Avatar className="h-5 w-5">
-                              <AvatarFallback className="text-[8px] font-semibold bg-sky-500/15 text-sky-400">
-                                {task.assignee.split(' ').map(n => n[0]).join('')}
-                              </AvatarFallback>
-                            </Avatar>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
-                              {task.assignee.split(' ')[0]}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {task.dependencies.length > 0 && (
-                              <TooltipProvider delayDuration={0}>
-                                <Tooltip>
-                                  <TooltipTrigger>
-                                    <div className="flex items-center gap-0.5">
-                                      <Link2 className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
-                                      <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{task.dependencies.length}</span>
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent><p>{task.dependencies.length} dependencies</p></TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            )}
-                            <div className={cn('flex items-center gap-0.5', isOverdue ? 'text-red-400' : (isDark ? 'text-white/25' : 'text-black/25'))}>
-                              <Calendar className="w-3 h-3" />
-                              <span className="text-[9px]">
-                                {new Date(task.dueDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
-                              </span>
-                            </div>
-                            {task.timeLogged > 0 && (
-                              <div className={cn('flex items-center gap-0.5', isDark ? 'text-white/20' : 'text-black/20')}>
-                                <Timer className="w-3 h-3" />
-                                <span className="text-[9px]">{task.timeLogged}h</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* ── Stats ── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0, duration: 0.3 }}
+          >
+            <StatCard label="Total Tasks" value={stats.total} icon={GitBranch} />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.3 }}
+          >
+            <StatCard label="In Progress" value={stats.inProgress} icon={Clock} accent="#fbbf24" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
+            <StatCard label="Blocked" value={stats.blocked} icon={AlertTriangle} accent="#f87171" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.3 }}
+          >
+            <StatCard label="Completed" value={stats.completed} icon={CheckCircle2} accent="#34d399" />
+          </motion.div>
         </div>
       </div>
+
+      {/* ── Kanban Board ── */}
+      <div className="flex-1 overflow-hidden px-4 md:px-6 pb-4">
+        <KanbanBoard
+          columns={kanbanColumns}
+          onMoveTask={handleMoveTask}
+          className="h-full"
+        />
+      </div>
+
+      {/* ── Add Task Drawer ── */}
+      <AddTaskDrawer open={drawerOpen} onOpenChange={setDrawerOpen} />
     </div>
   );
 }

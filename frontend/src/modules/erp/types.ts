@@ -4,34 +4,32 @@
 
 // ---- Navigation ----
 export type ErpPage =
-  | 'erp-dashboard'
+  // Dashboard
+  | 'ops-dashboard'
+  // Projects
   | 'projects'
   | 'project-detail'
+  // Tasks
   | 'tasks-board'
-  | 'approvals'
-  | 'invoices'
-  | 'finance-ops'
-  | 'vendor'
-  | 'payroll'
-  | 'resource-planning'
-  | 'asset-management'
-  | 'sop-templates'
-  | 'delivery-operations'
-  | 'internal-chat'
-  | 'profitability'
-  | 'ai-ops-intelligence'
+  // HRM - Employees
   | 'employees'
   | 'employee-detail'
+  // HRM - Organization
   | 'departments'
+  // HRM - Time & Attendance
   | 'attendance'
   | 'leaves'
+  // HRM - Compensation
+  | 'payroll'
+  | 'compensation'
+  // HRM - Performance
   | 'performance'
-  | 'incentives'
-  | 'onboarding'
+  // HRM - Documents
   | 'documents'
-  | 'shifts'
-  | 'workload'
-  | 'employee-analytics';
+  // Assets
+  | 'assets'
+  // Approvals
+  | 'approvals';
 
 // ---- Project ----
 export type ProjectStatus = 'active' | 'on-hold' | 'completed' | 'cancelled' | 'inception';

@@ -2,260 +2,165 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import {
-  Plus, Building2, Users, Target, DollarSign, FolderKanban, MoreHorizontal, ArrowRight
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { mockEmployees, mockProjects } from '@/modules/erp/data/mock-data';
+import { Building2, Users, Target, DollarSign, FolderKanban } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { KpiWidget } from './components/ops/kpi-widget';
+import { mockEmployees, mockResources } from './data/mock-data';
+
+function formatINR(num: number): string {
+  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
+}
 
 interface Department {
   name: string;
   hod: string;
-  teamCount: number;
+  employees: { name: string; role: string; avatar: string }[];
+  projectCount: number;
   kpiScore: number;
   budget: number;
-  activeProjects: number;
   color: string;
-  bgColor: string;
 }
 
 function useDepartments() {
   return useMemo(() => {
     const deptMap: Record<string, Department> = {};
-    const deptColors: Record<string, { color: string; bgColor: string }> = {
-      'Engineering': { color: 'bg-emerald-500', bgColor: 'bg-emerald-500/15' },
-      'Design': { color: 'bg-pink-500', bgColor: 'bg-pink-500/15' },
-      'QA': { color: 'bg-amber-500', bgColor: 'bg-amber-500/15' },
-      'Operations': { color: 'bg-teal-500', bgColor: 'bg-teal-500/15' },
-      'HR': { color: 'bg-purple-500', bgColor: 'bg-purple-500/15' },
-      'Sales': { color: 'bg-orange-500', bgColor: 'bg-orange-500/15' },
-      'Finance': { color: 'bg-cyan-500', bgColor: 'bg-cyan-500/15' },
+    const colors = ['var(--ops-accent)', '#34d399', '#60a5fa', '#fbbf24', '#a855f7', '#f87171', '#06b6d4'];
+    const budgets: Record<string, number> = {
+      Engineering: 3200000, Design: 1800000, QA: 950000, Operations: 1200000, HR: 800000, Sales: 2400000, Finance: 1100000,
+    };
+    const hods: Record<string, string> = {
+      Engineering: 'Nikhil Das', Design: 'Arjun Mehta', QA: 'Sneha Reddy',
+      Operations: 'Meera Patel', HR: 'Ritika Gupta', Sales: 'Saurabh Jain', Finance: 'Anita Kulkarni',
     };
 
-    const deptNames = ['Engineering', 'Design', 'QA', 'Operations', 'HR', 'Sales', 'Finance'];
-    const deptHods: Record<string, string> = {
-      'Engineering': 'Nikhil Das',
-      'Design': 'Arjun Mehta',
-      'QA': 'Sneha Reddy',
-      'Operations': 'Meera Patel',
-      'HR': 'Ritika Gupta',
-      'Sales': 'Saurabh Jain',
-      'Finance': 'Anita Kulkarni',
-    };
+    const deptNames = [...new Set(mockResources.map(r => r.department))];
 
-    deptNames.forEach(name => {
+    deptNames.forEach((name, idx) => {
       const emps = mockEmployees.filter(e => e.department === name);
-      const projs = mockProjects.filter(p => p.status === 'active');
       deptMap[name] = {
         name,
-        hod: deptHods[name],
-        teamCount: emps.length,
-        kpiScore: Math.round(emps.reduce((s, e) => s + e.productivityScore, 0) / (emps.length || 1)),
-        budget: [3200000, 1800000, 950000, 1200000, 800000, 2400000, 1100000][deptNames.indexOf(name)],
-        activeProjects: projs.filter(p => {
-          const am = deptNames.indexOf(name);
-          return am >= 0;
-        }).length,
-        color: deptColors[name]?.color || 'bg-zinc-500',
-        bgColor: deptColors[name]?.bgColor || 'bg-zinc-500/15',
+        hod: hods[name] || '—',
+        employees: emps.map(e => ({ name: e.name, role: e.designation, avatar: e.avatar })),
+        projectCount: mockResources.filter(r => r.department === name).reduce((s, r) => s + r.projects.length, 0),
+        kpiScore: emps.length ? Math.round(emps.reduce((s, e) => s + e.productivityScore, 0) / emps.length) : 0,
+        budget: budgets[name] || 500000,
+        color: colors[idx % colors.length],
       };
-    });
-
-    // Assign more accurate active projects per department
-    const deptProjectCounts: Record<string, number> = {
-      'Engineering': 6, 'Design': 2, 'QA': 2, 'Operations': 3, 'HR': 0, 'Sales': 0, 'Finance': 0,
-    };
-    Object.keys(deptMap).forEach(name => {
-      deptMap[name].activeProjects = deptProjectCounts[name] || 0;
     });
 
     return Object.values(deptMap);
   }, []);
 }
 
-function getKpiColor(score: number) {
-  if (score >= 85) return 'text-emerald-400';
-  if (score >= 70) return 'text-amber-400';
-  return 'text-red-400';
-}
-
-function getKpiBarColor(score: number) {
-  if (score >= 85) return 'bg-emerald-500';
-  if (score >= 70) return 'bg-amber-500';
-  return 'bg-red-500';
-}
-
 export default function DepartmentsPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const departments = useDepartments();
 
   const stats = useMemo(() => ({
     total: departments.length,
-    headcount: departments.reduce((s, d) => s + d.teamCount, 0),
-    avgKpi: Math.round(departments.reduce((s, d) => s + d.kpiScore, 0) / (departments.length || 1)),
-    monthlyBudget: departments.reduce((s, d) => s + d.budget, 0),
+    headcount: departments.reduce((s, d) => s + d.employees.length, 0),
+    avgKpi: departments.length ? Math.round(departments.reduce((s, d) => s + d.kpiScore, 0) / departments.length) : 0,
+    totalBudget: departments.reduce((s, d) => s + d.budget, 0),
   }), [departments]);
 
-  const formatCurrency = (val: number) => {
-    if (val >= 10000000) return `₹${(val / 10000000).toFixed(1)}Cr`;
-    if (val >= 100000) return `₹${(val / 100000).toFixed(1)}L`;
-    return `₹${val.toLocaleString('en-IN')}`;
-  };
+  const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
+  const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Departments</h1>
-            <Badge variant="secondary" className={cn(
-              'text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
-            )}>
-              {departments.length}
-            </Badge>
-          </div>
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  className={cn(
-                    'h-9 w-9 rounded-xl shrink-0',
-                    isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                  )}
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent><p>Add Department</p></TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <motion.div variants={fadeUp} className="flex items-center gap-3">
+          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Departments</h1>
+          <Badge variant="secondary" className="ops-badge">{departments.length}</Badge>
+        </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Total Departments', value: stats.total, icon: Building2 },
-            { label: 'Total Headcount', value: stats.headcount, icon: Users },
-            { label: 'Avg KPI Score', value: `${stats.avgKpi}%`, icon: Target },
-            { label: 'Monthly Budget', value: formatCurrency(stats.monthlyBudget), icon: DollarSign },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn(
-                'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-              )}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
-                </div>
-              </div>
-              <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <KpiWidget label="Departments" value={stats.total} icon={Building2} color="accent" />
+          <KpiWidget label="Headcount" value={stats.headcount} icon={Users} color="success" />
+          <KpiWidget label="Avg KPI" value={`${stats.avgKpi}%`} icon={Target} color="warning" />
+          <KpiWidget label="Monthly Budget" value={formatINR(stats.totalBudget)} icon={DollarSign} color="info" />
+        </motion.div>
 
         {/* Department Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {departments.map((dept, idx) => (
             <motion.div
               key={dept.name}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.06, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn(
-                'rounded-2xl border overflow-hidden cursor-pointer transition-all duration-200 group',
-                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:shadow-lg'
-              )}
+              transition={{ delay: idx * 0.06, duration: 0.35 }}
+              className="ops-card overflow-hidden"
+              style={{ borderRadius: '1rem' }}
             >
-              {/* Color Top Bar */}
-              <div className={cn('h-1', dept.color)} />
+              {/* Color top bar */}
+              <div className="h-1" style={{ backgroundColor: dept.color }} />
 
-              <div className="p-5">
-                {/* Department Name + Actions */}
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-base font-bold">{dept.name}</h3>
-                    <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
-                      Head: {dept.hod}
-                    </p>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        onClick={(e) => e.stopPropagation()}
-                        className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
-                      >
-                        <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem>Edit Department</DropdownMenuItem>
-                      <DropdownMenuItem>View Team</DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-500">Archive</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+              <div className="p-5 space-y-4">
+                {/* Name + HOD */}
+                <div>
+                  <h3 className="text-base font-bold" style={{ color: 'var(--ops-text)' }}>{dept.name}</h3>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>Head: {dept.hod}</p>
                 </div>
 
-                {/* Team Count + Projects */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={cn('flex items-center gap-1.5 px-2.5 py-1 rounded-lg', dept.bgColor)}>
-                    <Users className={cn('w-3.5 h-3.5', dept.color.replace('bg-', 'text-').replace('500', '400'))} />
-                    <span className={cn('text-xs font-semibold', dept.color.replace('bg-', 'text-').replace('500', '400'))}>{dept.teamCount}</span>
-                  </div>
-                  <div className={cn('flex items-center gap-1.5 px-2.5 py-1 rounded-lg', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
-                    <FolderKanban className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
-                    <span className={cn('text-xs font-medium', isDark ? 'text-white/50' : 'text-black/50')}>{dept.activeProjects} projects</span>
-                  </div>
+                {/* Badges row */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(52,211,153,0.1)', color: '#34d399' }}>
+                    <Users className="w-3 h-3" /> {dept.employees.length}
+                  </span>
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(96,165,250,0.1)', color: '#60a5fa' }}>
+                    <FolderKanban className="w-3 h-3" /> {dept.projectCount} projects
+                  </span>
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(251,191,36,0.1)', color: '#fbbf24' }}>
+                    KPI {dept.kpiScore}%
+                  </span>
                 </div>
 
-                {/* KPI Score */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>KPI Score</span>
-                    <span className={cn('text-sm font-bold', getKpiColor(dept.kpiScore))}>{dept.kpiScore}%</span>
-                  </div>
-                  <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                {/* KPI Bar */}
+                <div>
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.kpiScore}%` }}
                       transition={{ delay: idx * 0.06 + 0.2, duration: 0.6 }}
-                      className={cn('h-full rounded-full', getKpiBarColor(dept.kpiScore))}
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: dept.kpiScore >= 85 ? '#34d399' : dept.kpiScore >= 70 ? '#fbbf24' : '#f87171' }}
                     />
                   </div>
                 </div>
 
+                {/* Employee List */}
+                <div className="space-y-2 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                  {dept.employees.slice(0, 5).map((emp) => (
+                    <div key={emp.name} className="flex items-center gap-2.5">
+                      <Avatar className="h-6 w-6">
+                        <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+                          {emp.avatar}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-medium truncate" style={{ color: 'var(--ops-text-secondary)' }}>{emp.name}</p>
+                        <p className="text-[10px] truncate" style={{ color: 'var(--ops-text-muted)' }}>{emp.role}</p>
+                      </div>
+                    </div>
+                  ))}
+                  {dept.employees.length > 5 && (
+                    <p className="text-[10px] pt-1" style={{ color: 'var(--ops-text-muted)' }}>+{dept.employees.length - 5} more</p>
+                  )}
+                </div>
+
                 {/* Budget */}
-                <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
-                  <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Monthly Budget</span>
-                  <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
-                    {formatCurrency(dept.budget)}
-                  </span>
+                <div className="flex items-center justify-between text-xs pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                  <span style={{ color: 'var(--ops-text-muted)' }}>Monthly Budget</span>
+                  <span className="font-semibold" style={{ color: 'var(--ops-text-secondary)' }}>{formatINR(dept.budget)}</span>
                 </div>
               </div>
             </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

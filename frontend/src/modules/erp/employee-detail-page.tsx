@@ -2,484 +2,933 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   ArrowLeft, Mail, Phone, Calendar, Briefcase, DollarSign, UserCircle,
-  MessageSquare, FolderKanban, ClipboardCheck, FileText, Clock,
-  CheckCircle2, Circle, AlertTriangle, TrendingUp, Brain,
-  ChevronRight, BarChart3
+  Pencil, FolderKanban, Clock, FileText, Activity, CreditCard,
+  Laptop, Download, ChevronRight, Users, Package, CheckCircle2,
+  AlertTriangle, BarChart3,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { mockEmployees, mockAttendance, mockLeaveRequests, mockPerformanceReviews } from '@/modules/erp/data/mock-data';
+import {
+  mockEmployees, mockAttendance, mockLeaveRequests, mockPayroll, mockAssets,
+} from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
+import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
+import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 
-type TabKey = 'work-logs' | 'projects' | 'attendance' | 'leaves' | 'documents';
+// ---- Helpers ----
+type TabKey = 'overview' | 'attendance' | 'leaves' | 'payroll' | 'assets' | 'activity';
 
-const statusConfig: Record<string, { label: string; className: string; dotClass: string }> = {
-  active: { label: 'Active', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
-  'on-leave': { label: 'On Leave', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
-  probation: { label: 'Probation', className: 'bg-blue-500/15 text-blue-400 border-blue-500/20', dotClass: 'bg-blue-500' },
-  'notice-period': { label: 'Notice Period', className: 'bg-red-500/15 text-red-400 border-red-500/20', dotClass: 'bg-red-500' },
-  inactive: { label: 'Inactive', className: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20', dotClass: 'bg-zinc-500' },
-};
+function formatStatusLabel(status: string): string {
+  const map: Record<string, string> = {
+    active: 'Active',
+    'on-leave': 'On Leave',
+    'notice-period': 'Notice Period',
+    inactive: 'Inactive',
+    probation: 'Probation',
+  };
+  return map[status] || status;
+}
 
-const attendanceColors: Record<string, string> = {
-  present: 'bg-emerald-500',
-  absent: 'bg-red-500',
-  'half-day': 'bg-amber-500',
-  wfh: 'bg-blue-500',
-  'on-leave': 'bg-purple-500',
-};
+function formatCurrency(num: number): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(num);
+}
 
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('en-IN', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function formatMonth(monthStr: string): string {
+  const [year, month] = monthStr.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+  return date.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+}
+
+function getAttendanceStatusColor(status: string): string {
+  switch (status) {
+    case 'present': return 'var(--ops-success)';
+    case 'absent': return 'var(--ops-danger)';
+    case 'half-day': return 'var(--ops-warning)';
+    case 'wfh': return 'var(--ops-info)';
+    case 'on-leave': return '#a78bfa';
+    default: return 'var(--ops-text-muted)';
+  }
+}
+
+function getAssetStatusColor(status: string): string {
+  switch (status) {
+    case 'active': return 'var(--ops-success)';
+    case 'in-repair': return 'var(--ops-warning)';
+    case 'disposed': return 'var(--ops-danger)';
+    case 'retired': return 'var(--ops-text-muted)';
+    default: return 'var(--ops-text-muted)';
+  }
+}
+
+// ---- Main Component ----
 export default function EmployeeDetailPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const { selectedEmployeeId, goBack } = useErpStore();
-  const [activeTab, setActiveTab] = useState<TabKey>('work-logs');
+  const [activeTab, setActiveTab] = useState<TabKey>('overview');
 
   const employee = useMemo(() => {
     if (!selectedEmployeeId) return null;
-    return mockEmployees.find(e => e.id === selectedEmployeeId) || null;
+    return mockEmployees.find((e) => e.id === selectedEmployeeId) || null;
   }, [selectedEmployeeId]);
 
   const employeeAttendance = useMemo(() => {
     if (!employee) return [];
-    return mockAttendance.filter(a => a.employeeId === employee.id);
+    return mockAttendance.filter((a) => a.employeeId === employee.id);
   }, [employee]);
 
   const employeeLeaves = useMemo(() => {
     if (!employee) return [];
-    return mockLeaveRequests.filter(l => l.employeeId === employee.id);
+    return mockLeaveRequests.filter((l) => l.employeeId === employee.id);
   }, [employee]);
 
-  const employeePerformance = useMemo(() => {
-    if (!employee) return null;
-    return mockPerformanceReviews.find(p => p.employeeId === employee.id) || null;
+  const employeePayroll = useMemo(() => {
+    if (!employee) return [];
+    return mockPayroll.filter((p) => p.employeeId === employee.id);
   }, [employee]);
 
-  // Generate mock work logs
-  const workLogs = useMemo(() => {
+  const employeeAssets = useMemo(() => {
+    if (!employee) return [];
+    return mockAssets.filter((a) => a.assignedTo === employee.name);
+  }, [employee]);
+
+  // Mock activity data
+  const activities = useMemo(() => {
     if (!employee) return [];
     return [
-      { id: 'wl1', date: '2026-04-10', hours: 8.5, project: 'NexaBank Digital Transformation', description: 'Finalized dashboard wireframes and handed off to dev team' },
-      { id: 'wl2', date: '2026-04-09', hours: 9.0, project: 'TravelWise Booking Engine', description: 'Created initial UI concepts for booking flow' },
-      { id: 'wl3', date: '2026-04-08', hours: 7.5, project: 'NexaBank Digital Transformation', description: 'Stakeholder review meeting and feedback incorporation' },
-      { id: 'wl4', date: '2026-04-07', hours: 8.0, project: 'NexaBank Digital Transformation', description: 'Designed notification center components' },
-      { id: 'wl5', date: '2026-04-04', hours: 10.0, project: 'TravelWise Booking Engine', description: 'Competitive analysis and UX research documentation' },
-      { id: 'wl6', date: '2026-04-03', hours: 8.0, project: 'NexaBank Digital Transformation', description: 'Design system component library updates' },
+      { id: 'act1', date: '2026-04-10', text: 'Logged in at 09:05 AM', type: 'attendance' },
+      { id: 'act2', date: '2026-04-09', text: 'Completed task: Design banking dashboard wireframes', type: 'task' },
+      { id: 'act3', date: '2026-04-08', text: 'Submitted leave request (Apr 11–13)', type: 'leave' },
+      { id: 'act4', date: '2026-04-07', text: 'Updated profile information', type: 'profile' },
+      { id: 'act5', date: '2026-04-05', text: 'Received spot award from manager', type: 'reward' },
+      { id: 'act6', date: '2026-04-03', text: 'Completed code review for PR #847', type: 'task' },
     ];
   }, [employee]);
 
-  // Mock projects
-  const projects = useMemo(() => {
-    if (!employee) return [];
-    return [
-      { name: 'NexaBank Digital Transformation', role: 'UI/UX Lead', allocation: 55 },
-      { name: 'TravelWise Booking Engine', role: 'Design Consultant', allocation: 30 },
-    ];
-  }, [employee]);
-
-  // Generate attendance calendar data
-  const calendarDays = useMemo(() => {
-    const days: { date: number; status: string }[] = [];
-    const statuses = ['present', 'present', 'present', 'wfh', 'present', 'present', 'present', 'half-day', 'present', 'on-leave', 'present', 'present', 'present', 'present', 'wfh', 'present', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present', 'present', 'present', 'present', 'wfh', 'present', 'present'];
-    for (let i = 0; i < 30; i++) {
-      days.push({ date: i + 1, status: statuses[i] });
-    }
-    return days;
-  }, []);
-
-  // Productivity trend data
-  const productivityTrend = useMemo(() => {
-    return [
-      { day: 'W1', score: 82 }, { day: 'W2', score: 88 }, { day: 'W3', score: 85 },
-      { day: 'W4', score: 91 }, { day: 'W5', score: 87 }, { day: 'W6', score: 93 },
-    ];
-  }, []);
-
+  // ---- Not found state ----
   if (!employee) {
     return (
-      <div className="h-full flex items-center justify-center">
+      <div
+        className="h-full flex items-center justify-center"
+        style={{ backgroundColor: 'var(--ops-bg-dark)' }}
+      >
         <div className="text-center space-y-3">
-          <UserCircle className={cn('w-12 h-12 mx-auto', isDark ? 'text-white/15' : 'text-black/15')} />
-          <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>No employee selected</p>
-          <Button variant="ghost" onClick={goBack} className={cn('gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+          <UserCircle
+            className="w-12 h-12 mx-auto"
+            style={{ color: 'var(--ops-text-muted)' }}
+          />
+          <p style={{ color: 'var(--ops-text-secondary)' }}>
+            Employee not found
+          </p>
+          <button onClick={goBack} className="ops-btn-ghost gap-2">
             <ArrowLeft className="w-4 h-4" /> Go Back
-          </Button>
+          </button>
         </div>
       </div>
     );
   }
 
-  const status = statusConfig[employee.status];
-
+  // ---- Tabs config ----
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
-    { key: 'work-logs', label: 'Work Logs', icon: ClipboardCheck },
-    { key: 'projects', label: 'Projects', icon: FolderKanban },
+    { key: 'overview', label: 'Overview', icon: UserCircle },
     { key: 'attendance', label: 'Attendance', icon: Clock },
     { key: 'leaves', label: 'Leaves', icon: Calendar },
-    { key: 'documents', label: 'Documents', icon: FileText },
+    { key: 'payroll', label: 'Payroll', icon: CreditCard },
+    { key: 'assets', label: 'Assets', icon: Laptop },
+    { key: 'activity', label: 'Activity', icon: Activity },
   ];
 
+  // ---- Productivity color ----
+  const prodColor =
+    employee.productivityScore >= 85
+      ? 'var(--ops-success)'
+      : employee.productivityScore >= 70
+        ? 'var(--ops-warning)'
+        : 'var(--ops-danger)';
+
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6">
-        {/* Back Button */}
-        <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2 }}>
-          <Button
-            variant="ghost"
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="h-full overflow-y-auto"
+      style={{ backgroundColor: 'var(--ops-bg-dark)' }}
+    >
+      <div className="p-6 space-y-6">
+        {/* ---- Back Button ---- */}
+        <motion.div
+          initial={{ opacity: 0, x: -8 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <button
             onClick={goBack}
-            className={cn('gap-2 mb-4 -ml-2', isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]')}
+            className="ops-btn-ghost gap-2 -ml-2 mb-2"
           >
             <ArrowLeft className="w-4 h-4" /> Back
-          </Button>
+          </button>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left Panel - Profile Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05, duration: 0.3 }}
-            className="w-full lg:w-72 shrink-0"
-          >
-            <div className={cn(
-              'rounded-2xl border p-6 sticky top-6',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}>
-              <div className="flex flex-col items-center text-center mb-6">
-                <Avatar className="h-20 w-20 mb-4">
-                  <AvatarFallback className={cn(
-                    'text-xl font-bold',
-                    isDark ? 'bg-white/[0.08] text-white/80' : 'bg-black/[0.08] text-black/80'
-                  )}>
-                    {employee.avatar}
-                  </AvatarFallback>
-                </Avatar>
-                <h2 className="text-lg font-bold">{employee.name}</h2>
-                <p className={cn('text-sm mt-0.5', isDark ? 'text-white/50' : 'text-black/50')}>{employee.designation}</p>
-                <span className={cn(
-                  'inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium border mt-2',
-                  status.className
-                )}>
-                  <span className={cn('w-1.5 h-1.5 rounded-full', status.dotClass)} />
-                  {status.label}
-                </span>
-              </div>
+        {/* ---- Header Card ---- */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, duration: 0.3 }}
+        >
+          <div className="ops-card p-6">
+            <div className="flex flex-col sm:flex-row gap-5">
+              {/* Avatar */}
+              <Avatar className="h-20 w-20 shrink-0">
+                <AvatarFallback
+                  className="text-2xl font-bold"
+                  style={{
+                    backgroundColor: 'var(--ops-accent)',
+                    color: '#ffffff',
+                  }}
+                >
+                  {employee.avatar}
+                </AvatarFallback>
+              </Avatar>
 
-              <div className="space-y-3">
-                {[
-                  { icon: Briefcase, label: 'Department', value: employee.department },
-                  { icon: Mail, label: 'Email', value: employee.email },
-                  { icon: Phone, label: 'Phone', value: employee.phone },
-                  { icon: UserCircle, label: 'Manager', value: employee.manager },
-                  { icon: Calendar, label: 'Joined', value: new Date(employee.joinDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric', day: 'numeric' }) },
-                  { icon: DollarSign, label: 'Salary Band', value: employee.salaryBand },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-3">
-                    <item.icon className={cn('w-4 h-4 mt-0.5 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-                    <div className="min-w-0">
-                      <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</p>
-                      <p className={cn('text-sm truncate', isDark ? 'text-white/70' : 'text-black/70')}>{item.value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col gap-2 mt-6">
-                <Button className={cn(
-                  'w-full gap-2 rounded-xl',
-                  isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                )}>
-                  <MessageSquare className="w-4 h-4" /> Message
-                </Button>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" className="rounded-xl gap-2 text-xs">
-                    <FolderKanban className="w-3.5 h-3.5" /> Assign
-                  </Button>
-                  <Button variant="outline" className="rounded-xl gap-2 text-xs">
-                    <ClipboardCheck className="w-3.5 h-3.5" /> Review
-                  </Button>
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-1">
+                  <h1
+                    className="text-xl md:text-2xl font-bold truncate"
+                    style={{ color: 'var(--ops-text)' }}
+                  >
+                    {employee.name}
+                  </h1>
+                  <StatusBadge
+                    status={formatStatusLabel(employee.status)}
+                    variant="pill"
+                  />
+                </div>
+                <p
+                  className="text-sm mb-3"
+                  style={{ color: 'var(--ops-text-secondary)' }}
+                >
+                  {employee.designation} · {employee.department}
+                </p>
+                <div className="flex items-center gap-3">
+                  <button className="ops-btn-ghost gap-2 text-xs">
+                    <Pencil className="w-3.5 h-3.5" /> Edit Profile
+                  </button>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Center Panel - Tabs */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.3 }}
-            className="flex-1 min-w-0"
-          >
-            <div className={cn(
-              'rounded-2xl border overflow-hidden',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}>
-              {/* Tab Headers */}
-              <div className={cn('flex border-b overflow-x-auto', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                    className={cn(
-                      'flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2',
-                      activeTab === tab.key
-                        ? isDark
-                          ? 'text-white border-white'
-                          : 'text-black border-black'
-                        : isDark
-                          ? 'text-white/40 border-transparent hover:text-white/70'
-                          : 'text-black/40 border-transparent hover:text-black/70'
-                    )}
+        {/* ---- Quick Stats ---- */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            {
+              label: 'Active Projects',
+              value: employee.activeProjects,
+              icon: FolderKanban,
+              color: 'var(--ops-accent)',
+            },
+            {
+              label: 'Productivity Score',
+              value: `${employee.productivityScore}%`,
+              icon: BarChart3,
+              color: prodColor,
+            },
+            {
+              label: 'Salary Band',
+              value: employee.salaryBand,
+              icon: DollarSign,
+              color: 'var(--ops-text)',
+            },
+            {
+              label: 'Join Date',
+              value: formatDate(employee.joinDate),
+              icon: Calendar,
+              color: 'var(--ops-info)',
+            },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.08 + i * 0.04,
+                duration: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <OpsCard hoverable className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span
+                    className="text-xs font-medium"
+                    style={{ color: 'var(--ops-text-muted)' }}
                   >
-                    <tab.icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{tab.label}</span>
-                  </button>
-                ))}
-              </div>
-
-              {/* Tab Content */}
-              <div className="p-6">
-                {/* Work Logs Tab */}
-                {activeTab === 'work-logs' && (
-                  <div className="space-y-4">
-                    {workLogs.map((log) => (
-                      <div key={log.id} className={cn(
-                        'rounded-xl border p-4',
-                        isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
-                      )}>
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className={cn('text-xs font-medium px-2 py-0.5 rounded', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-                              {log.project}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{log.date}</span>
-                            <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{log.hours}h</span>
-                          </div>
-                        </div>
-                        <p className={cn('text-sm', isDark ? 'text-white/70' : 'text-black/70')}>{log.description}</p>
-                      </div>
-                    ))}
+                    {stat.label}
+                  </span>
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                  >
+                    <stat.icon
+                      className="w-3.5 h-3.5"
+                      style={{ color: stat.color }}
+                    />
                   </div>
-                )}
+                </div>
+                <p
+                  className="text-lg font-bold truncate"
+                  style={{ color: stat.color }}
+                >
+                  {stat.value}
+                </p>
+              </OpsCard>
+            </motion.div>
+          ))}
+        </div>
 
-                {/* Projects Tab */}
-                {activeTab === 'projects' && (
-                  <div className="space-y-4">
-                    {projects.map((proj, i) => (
-                      <div key={i} className={cn(
-                        'rounded-xl border p-4',
-                        isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
-                      )}>
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-sm font-semibold">{proj.name}</h3>
-                          <Badge variant="outline" className="text-[11px]">{proj.allocation}%</Badge>
-                        </div>
-                        <p className={cn('text-sm', isDark ? 'text-white/50' : 'text-black/50')}>
-                          Role: <span className="font-medium">{proj.role}</span>
-                        </p>
-                        <div className={cn('mt-3 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                          <div className="h-full rounded-full bg-emerald-500" style={{ width: `${proj.allocation}%` }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Attendance Tab */}
-                {activeTab === 'attendance' && (
-                  <div className="space-y-6">
-                    <h3 className="text-sm font-semibold">Last 30 Days</h3>
-                    <div className="grid grid-cols-7 md:grid-cols-10 gap-1.5">
-                      {calendarDays.map((day) => (
-                        <div key={day.date} className="flex flex-col items-center gap-1">
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{day.date}</span>
-                          <div className={cn(
-                            'w-6 h-6 md:w-7 md:h-7 rounded-lg',
-                            attendanceColors[day.status] || (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')
-                          )} />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                      {Object.entries(attendanceColors).map(([key, color]) => (
-                        <div key={key} className="flex items-center gap-1.5">
-                          <div className={cn('w-3 h-3 rounded', color)} />
-                          <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>{key.replace('-', ' ')}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Leaves Tab */}
-                {activeTab === 'leaves' && (
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-4 gap-3">
-                      {[
-                        { label: 'Casual', value: 3, total: 12 },
-                        { label: 'Sick', value: 2, total: 10 },
-                        { label: 'Earned', value: 5, total: 15 },
-                        { label: 'Comp-off', value: 1, total: 3 },
-                      ].map((b) => (
-                        <div key={b.label} className={cn('rounded-xl border p-3 text-center', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                          <p className={cn('text-[10px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>{b.label}</p>
-                          <p className="text-lg font-bold">{b.value}<span className={cn('text-xs font-normal', isDark ? 'text-white/30' : 'text-black/30')}>/{b.total}</span></p>
-                        </div>
-                      ))}
-                    </div>
-                    <h3 className="text-sm font-semibold">Recent Requests</h3>
-                    <div className="space-y-2">
-                      {employeeLeaves.map((leave) => {
-                        const leaveStatusColor = leave.status === 'approved' ? 'text-emerald-400' : leave.status === 'pending' ? 'text-amber-400' : leave.status === 'rejected' ? 'text-red-400' : 'text-zinc-400';
-                        return (
-                          <div key={leave.id} className={cn('rounded-xl border p-3 flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                            <div>
-                              <p className="text-sm font-medium">{leave.type.replace('-', ' ')}</p>
-                              <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
-                                {leave.startDate} — {leave.endDate} ({leave.days}d)
-                              </p>
-                            </div>
-                            <span className={cn('text-xs font-medium capitalize', leaveStatusColor)}>{leave.status}</span>
-                          </div>
-                        );
-                      })}
-                      {employeeLeaves.length === 0 && (
-                        <p className={cn('text-sm text-center py-6', isDark ? 'text-white/30' : 'text-black/30')}>No leave requests found</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Documents Tab */}
-                {activeTab === 'documents' && (
-                  <div className="space-y-2">
-                    {[
-                      { name: 'Offer Letter', type: 'offer-letter', date: '2023-03-01' },
-                      { name: 'NDA Agreement', type: 'nda', date: '2023-03-01' },
-                      { name: 'Aadhaar Card', type: 'id-proof', date: '2023-03-01' },
-                      { name: 'B.Tech Certificate', type: 'education', date: '2023-03-01' },
-                      { name: 'Annual Appraisal 2025', type: 'appraisal', date: '2026-01-15' },
-                    ].map((doc) => (
-                      <div key={doc.name} className={cn('rounded-xl border p-3 flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                        <div className="flex items-center gap-3">
-                          <FileText className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                          <div>
-                            <p className="text-sm font-medium">{doc.name}</p>
-                            <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>{doc.date}</p>
-                          </div>
-                        </div>
-                        <Badge variant="outline" className="text-[10px]">{doc.type.replace('-', ' ')}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Panel - AI Productivity Insight */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.3 }}
-            className="w-full lg:w-72 shrink-0"
+        {/* ---- Tabs ---- */}
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as TabKey)}
+          className="w-full"
+        >
+          <TabsList
+            className="w-full flex overflow-x-auto gap-1 p-1 rounded-xl h-auto"
+            style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
           >
-            <div className={cn(
-              'rounded-2xl border-2 border-purple-500/30 p-5 sticky top-6',
-              isDark ? 'bg-white/[0.02]' : 'bg-white'
-            )}>
-              <div className="flex items-center gap-2 mb-4">
-                <Brain className="w-4 h-4 text-purple-400" />
-                <h3 className="text-sm font-bold">AI Productivity Insight</h3>
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.key}
+                value={tab.key}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors data-[state=active]:text-white data-[state=active]:shadow-sm"
+                style={{
+                  backgroundColor:
+                    activeTab === tab.key
+                      ? 'rgba(255,255,255,0.08)'
+                      : 'transparent',
+                  color:
+                    activeTab === tab.key
+                      ? 'var(--ops-text)'
+                      : 'var(--ops-text-muted)',
+                }}
+              >
+                <tab.icon className="w-4 h-4" />
+                <span className="hidden sm:inline">{tab.label}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {/* ---- Overview Tab ---- */}
+          <TabsContent value="overview" className="mt-5 space-y-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {/* Personal Info */}
+              <div className="ops-card p-5 space-y-4">
+                <h3
+                  className="text-sm font-semibold flex items-center gap-2"
+                  style={{ color: 'var(--ops-text)' }}
+                >
+                  <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Personal Information
+                </h3>
+                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { label: 'Full Name', value: employee.name },
+                    { label: 'Employee ID', value: employee.id.toUpperCase() },
+                    { label: 'Department', value: employee.department },
+                    { label: 'Designation', value: employee.designation },
+                    { label: 'Manager', value: employee.manager },
+                    { label: 'Join Date', value: formatDate(employee.joinDate) },
+                    { label: 'Status', value: formatStatusLabel(employee.status) },
+                    { label: 'Salary Band', value: employee.salaryBand },
+                  ].map((item) => (
+                    <div key={item.label}>
+                      <p
+                        className="text-[11px] mb-0.5"
+                        style={{ color: 'var(--ops-text-muted)' }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="text-sm font-medium"
+                        style={{ color: 'var(--ops-text-secondary)' }}
+                      >
+                        {item.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Productivity Trend */}
-              <div className="mb-5">
-                <p className={cn('text-xs font-medium mb-3', isDark ? 'text-white/50' : 'text-black/50')}>Productivity Trend (30d)</p>
-                <div className="flex items-end gap-1.5 h-20">
-                  {productivityTrend.map((pt, i) => (
-                    <div key={pt.day} className="flex-1 flex flex-col items-center gap-1">
-                      <div className="w-full flex items-end" style={{ height: 60 }}>
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ height: `${pt.score}%` }}
-                          transition={{ delay: i * 0.1, duration: 0.5 }}
-                          className="w-full rounded-t bg-purple-500/60"
-                          style={{ height: `${pt.score}%` }}
+              {/* Contact Info */}
+              <div className="ops-card p-5 space-y-4">
+                <h3
+                  className="text-sm font-semibold flex items-center gap-2"
+                  style={{ color: 'var(--ops-text)' }}
+                >
+                  <Mail className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Contact Information
+                </h3>
+                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                <div className="space-y-4">
+                  {[
+                    { icon: Mail, label: 'Email', value: employee.email },
+                    { icon: Phone, label: 'Phone', value: employee.phone },
+                    { icon: Briefcase, label: 'Department', value: employee.department },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-start gap-3">
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                      >
+                        <item.icon
+                          className="w-4 h-4"
+                          style={{ color: 'var(--ops-text-muted)' }}
                         />
                       </div>
-                      <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>{pt.day}</span>
+                      <div>
+                        <p
+                          className="text-[11px]"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          {item.label}
+                        </p>
+                        <p
+                          className="text-sm font-medium"
+                          style={{ color: 'var(--ops-text-secondary)' }}
+                        >
+                          {item.value}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
 
-              {/* Burnout Risk */}
-              <div className={cn('rounded-xl border p-3 mb-4', isDark ? 'border-white/[0.04] bg-white/[0.02]' : 'border-black/[0.04] bg-black/[0.01]')}>
-                <div className="flex items-center gap-2 mb-1">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-xs font-medium">Burnout Risk</span>
-                </div>
-                <div className={cn('flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
-                  <div className={cn('flex-1 h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                    <div className="h-full rounded-full bg-amber-500" style={{ width: '25%' }} />
+                {/* Skills Section */}
+                <h3
+                  className="text-sm font-semibold flex items-center gap-2 pt-2"
+                  style={{ color: 'var(--ops-text)' }}
+                >
+                  <BarChart3 className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Performance
+                </h3>
+                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span
+                      className="text-xs"
+                      style={{ color: 'var(--ops-text-muted)' }}
+                    >
+                      Productivity Score
+                    </span>
+                    <span
+                      className="text-xs font-bold"
+                      style={{ color: prodColor }}
+                    >
+                      {employee.productivityScore}%
+                    </span>
                   </div>
-                  <span className="text-xs font-medium text-amber-400">Low</span>
-                </div>
-              </div>
-
-              {/* Suggested Actions */}
-              <div>
-                <p className={cn('text-xs font-medium mb-2', isDark ? 'text-white/50' : 'text-black/50')}>Suggested Actions</p>
-                <div className="space-y-2">
-                  {[
-                    { text: 'Consider for team lead role', icon: ChevronRight },
-                    { text: 'Assign stretch project', icon: ChevronRight },
-                    { text: 'Schedule 1-on-1 review', icon: ChevronRight },
-                  ].map((action, i) => (
-                    <button key={i} className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-left transition-colors',
-                      isDark ? 'hover:bg-white/[0.04] text-white/60' : 'hover:bg-black/[0.04] text-black/60'
-                    )}>
-                      <action.icon className="w-3 h-3" />
-                      {action.text}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* KPI Summary */}
-              {employeePerformance && (
-                <div className="mt-5 pt-4 border-t" style={{ borderColor: isDark ? 'rgba(168,85,247,0.15)' : 'rgba(168,85,247,0.2)' }}>
-                  <p className={cn('text-xs font-medium mb-3', isDark ? 'text-white/50' : 'text-black/50')}>Latest Review ({employeePerformance.period})</p>
-                  <div className="space-y-2">
-                    {[
-                      { label: 'KPI Score', value: employeePerformance.kpiScore },
-                      { label: 'SLA Score', value: employeePerformance.slaScore },
-                      { label: 'Task Completion', value: employeePerformance.taskCompletion },
-                      { label: 'Client Feedback', value: employeePerformance.clientFeedback || 'N/A' },
-                    ].map((metric) => (
-                      <div key={metric.label} className="flex items-center justify-between">
-                        <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{metric.label}</span>
-                        <span className={cn('text-xs font-semibold', typeof metric.value === 'number' && metric.value >= 85 ? 'text-emerald-400' : typeof metric.value === 'number' ? 'text-amber-400' : isDark ? 'text-white/40' : 'text-black/40')}>
-                          {typeof metric.value === 'number' ? `${metric.value}%` : metric.value}
-                        </span>
-                      </div>
-                    ))}
+                  <div
+                    className="h-2 rounded-full overflow-hidden"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                  >
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{
+                        width: `${employee.productivityScore}%`,
+                        backgroundColor: prodColor,
+                      }}
+                    />
                   </div>
                 </div>
-              )}
+              </div>
+
+              {/* Project Assignments */}
+              <div className="ops-card p-5 space-y-4 lg:col-span-2">
+                <h3
+                  className="text-sm font-semibold flex items-center gap-2"
+                  style={{ color: 'var(--ops-text)' }}
+                >
+                  <FolderKanban className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Project Assignments
+                </h3>
+                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                {employee.activeProjects > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[1, 2].slice(0, employee.activeProjects).map((i) => {
+                      const projectNames: Record<number, { name: string; progress: number }> = {
+                        1: { name: 'NexaBank Digital Transformation', progress: 82 },
+                        2: { name: 'ShopVerse E-Commerce Platform', progress: 68 },
+                        3: { name: 'MediCare Patient Portal', progress: 90 },
+                        4: { name: 'FinEdge Trading Platform', progress: 75 },
+                      };
+                      const proj = projectNames[i] || { name: `Project ${i}`, progress: 0 };
+                      return (
+                        <div
+                          key={i}
+                          className="rounded-xl p-3 space-y-2"
+                          style={{
+                            backgroundColor: 'rgba(255,255,255,0.02)',
+                            border: '1px solid var(--ops-border)',
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span
+                              className="text-sm font-medium truncate"
+                              style={{ color: 'var(--ops-text)' }}
+                            >
+                              {proj.name}
+                            </span>
+                            <span
+                              className="text-xs font-bold"
+                              style={{ color: 'var(--ops-info)' }}
+                            >
+                              {proj.progress}%
+                            </span>
+                          </div>
+                          <div
+                            className="h-1.5 rounded-full overflow-hidden"
+                            style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                          >
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: `${proj.progress}%`,
+                                backgroundColor: 'var(--ops-accent)',
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p
+                    className="text-sm text-center py-6"
+                    style={{ color: 'var(--ops-text-muted)' }}
+                  >
+                    No active project assignments
+                  </p>
+                )}
+              </div>
             </div>
-          </motion.div>
-        </div>
+          </TabsContent>
+
+          {/* ---- Attendance Tab ---- */}
+          <TabsContent value="attendance" className="mt-5">
+            <div className="ops-card overflow-hidden !p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                      {['Date', 'Check In', 'Check Out', 'Hours', 'Status'].map(
+                        (h) => (
+                          <th
+                            key={h}
+                            className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                            style={{ color: 'var(--ops-text-muted)' }}
+                          >
+                            {h}
+                          </th>
+                        ),
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employeeAttendance.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="h-32 text-center text-sm"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          No attendance records found
+                        </td>
+                      </tr>
+                    ) : (
+                      employeeAttendance.map((record) => (
+                        <tr
+                          key={record.id}
+                          style={{ borderBottom: '1px solid var(--ops-border)' }}
+                        >
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {formatDate(record.date)}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {record.checkIn || '—'}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {record.checkOut || '—'}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm font-medium"
+                            style={{ color: 'var(--ops-text)' }}
+                          >
+                            {record.hours > 0 ? `${record.hours}h` : '—'}
+                          </td>
+                          <td className="px-5 py-3">
+                            <div className="flex items-center gap-2">
+                              <span
+                                className="w-2 h-2 rounded-full shrink-0"
+                                style={{
+                                  backgroundColor: getAttendanceStatusColor(
+                                    record.status,
+                                  ),
+                                }}
+                              />
+                              <span
+                                className="text-sm capitalize"
+                                style={{
+                                  color: getAttendanceStatusColor(record.status),
+                                }}
+                              >
+                                {record.status.replace('-', ' ')}
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* ---- Leaves Tab ---- */}
+          <TabsContent value="leaves" className="mt-5">
+            <div className="ops-card overflow-hidden !p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                      {['Type', 'Period', 'Days', 'Reason', 'Status'].map(
+                        (h) => (
+                          <th
+                            key={h}
+                            className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                            style={{ color: 'var(--ops-text-muted)' }}
+                          >
+                            {h}
+                          </th>
+                        ),
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employeeLeaves.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="h-32 text-center text-sm"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          No leave requests found
+                        </td>
+                      </tr>
+                    ) : (
+                      employeeLeaves.map((leave) => (
+                        <tr
+                          key={leave.id}
+                          style={{ borderBottom: '1px solid var(--ops-border)' }}
+                        >
+                          <td
+                            className="px-5 py-3 text-sm font-medium capitalize"
+                            style={{ color: 'var(--ops-text)' }}
+                          >
+                            {leave.type.replace('-', ' ')}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {leave.startDate} — {leave.endDate}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm font-medium"
+                            style={{ color: 'var(--ops-text)' }}
+                          >
+                            {leave.days}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm max-w-[200px] truncate"
+                            style={{ color: 'var(--ops-text-muted)' }}
+                          >
+                            {leave.reason}
+                          </td>
+                          <td className="px-5 py-3">
+                            <StatusBadge
+                              status={leave.status}
+                              variant="pill"
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* ---- Payroll Tab ---- */}
+          <TabsContent value="payroll" className="mt-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3
+                className="text-sm font-semibold"
+                style={{ color: 'var(--ops-text)' }}
+              >
+                Recent Payslips
+              </h3>
+              <button className="ops-btn-primary gap-2 text-xs">
+                <Download className="w-3.5 h-3.5" /> Download Payslip
+              </button>
+            </div>
+            <div className="ops-card overflow-hidden !p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                      {[
+                        'Month',
+                        'Base Salary',
+                        'Incentives',
+                        'Deductions',
+                        'Net Pay',
+                        'Status',
+                      ].map((h) => (
+                        <th
+                          key={h}
+                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employeePayroll.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="h-32 text-center text-sm"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          No payroll records found
+                        </td>
+                      </tr>
+                    ) : (
+                      employeePayroll.map((record) => (
+                        <tr
+                          key={record.id}
+                          style={{ borderBottom: '1px solid var(--ops-border)' }}
+                        >
+                          <td
+                            className="px-5 py-3 text-sm font-medium"
+                            style={{ color: 'var(--ops-text)' }}
+                          >
+                            {formatMonth(record.month)}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {formatCurrency(record.baseSalary)}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-success)' }}
+                          >
+                            +{formatCurrency(record.incentives)}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm"
+                            style={{ color: 'var(--ops-danger)' }}
+                          >
+                            -{formatCurrency(record.deductions)}
+                          </td>
+                          <td
+                            className="px-5 py-3 text-sm font-bold"
+                            style={{ color: 'var(--ops-text)' }}
+                          >
+                            {formatCurrency(record.netPay)}
+                          </td>
+                          <td className="px-5 py-3">
+                            <StatusBadge
+                              status={record.status}
+                              variant="pill"
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* ---- Assets Tab ---- */}
+          <TabsContent value="assets" className="mt-5">
+            {employeeAssets.length === 0 ? (
+              <div className="ops-card p-12 text-center">
+                <Package
+                  className="w-10 h-10 mx-auto mb-3"
+                  style={{ color: 'var(--ops-text-muted)' }}
+                />
+                <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>
+                  No assets assigned to this employee
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {employeeAssets.map((asset) => (
+                  <OpsCard key={asset.id} hoverable className="p-5">
+                    <div className="flex items-start gap-3">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                        style={{
+                          backgroundColor: 'var(--ops-accent-light)',
+                        }}
+                      >
+                        <Laptop
+                          className="w-5 h-5"
+                          style={{ color: 'var(--ops-accent)' }}
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className="text-sm font-semibold truncate"
+                          style={{ color: 'var(--ops-text)' }}
+                        >
+                          {asset.name}
+                        </p>
+                        <p
+                          className="text-xs mt-0.5"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          {asset.type} · {asset.serialNo}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span
+                            className="w-2 h-2 rounded-full shrink-0"
+                            style={{
+                              backgroundColor: getAssetStatusColor(asset.status),
+                            }}
+                          />
+                          <span
+                            className="text-xs capitalize font-medium"
+                            style={{
+                              color: getAssetStatusColor(asset.status),
+                            }}
+                          >
+                            {asset.status.replace('-', ' ')}
+                          </span>
+                        </div>
+                        <div className="mt-3 pt-3 space-y-1" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                            Purchase: {formatDate(asset.purchaseDate)}
+                          </p>
+                          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                            Warranty: {formatDate(asset.warrantyEnd)}
+                          </p>
+                          <p className="text-[11px] font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                            Cost: {formatCurrency(asset.purchaseCost)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </OpsCard>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          {/* ---- Activity Tab ---- */}
+          <TabsContent value="activity" className="mt-5">
+            <div className="ops-card p-5">
+              <div className="space-y-0">
+                {activities.length === 0 ? (
+                  <p
+                    className="text-sm text-center py-6"
+                    style={{ color: 'var(--ops-text-muted)' }}
+                  >
+                    No activity recorded
+                  </p>
+                ) : (
+                  activities.map((item, idx) => (
+                    <div key={item.id}>
+                      <div className="flex items-start gap-3 py-3">
+                        <div
+                          className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                          style={{ backgroundColor: 'var(--ops-accent-light)' }}
+                        >
+                          <Activity
+                            className="w-4 h-4"
+                            style={{ color: 'var(--ops-accent)' }}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className="text-sm"
+                            style={{ color: 'var(--ops-text-secondary)' }}
+                          >
+                            {item.text}
+                          </p>
+                          <p
+                            className="text-xs mt-0.5"
+                            style={{ color: 'var(--ops-text-muted)' }}
+                          >
+                            {formatDate(item.date)}
+                          </p>
+                        </div>
+                      </div>
+                      {idx < activities.length - 1 && (
+                        <div
+                          className="ml-4 h-px"
+                          style={{
+                            backgroundColor: 'var(--ops-border)',
+                            width: 'calc(100% - 2rem)',
+                            marginLeft: '2rem',
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
-    </div>
+    </motion.div>
   );
 }

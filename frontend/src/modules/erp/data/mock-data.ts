@@ -371,6 +371,9 @@ export const mockEmployees: Employee[] = [
   { id: 'e10', name: 'Ritika Gupta', email: 'ritika.gupta@company.com', phone: '+91 99887 01234', department: 'HR', designation: 'HR Manager', manager: 'COO', salaryBand: 'E4', joinDate: '2022-08-20', status: 'active', activeProjects: 0, productivityScore: 86, avatar: 'RG' },
   { id: 'e11', name: 'Saurabh Jain', email: 'saurabh.jain@company.com', phone: '+91 88776 12345', department: 'Sales', designation: 'Account Executive', manager: 'Arjun Mehta', salaryBand: 'E3', joinDate: '2023-11-01', status: 'active', activeProjects: 0, productivityScore: 91, avatar: 'SJ' },
   { id: 'e12', name: 'Anita Kulkarni', email: 'anita.kulkarni@company.com', phone: '+91 77665 23456', department: 'Finance', designation: 'Finance Manager', manager: 'CFO', salaryBand: 'E4', joinDate: '2022-04-10', status: 'active', activeProjects: 0, productivityScore: 89, avatar: 'ANK' },
+  { id: 'e13', name: 'Sanjay Mishra', email: 'sanjay.mishra@company.com', phone: '+91 66554 34567', department: 'Engineering', designation: 'Data Engineer', manager: 'Nikhil Das', salaryBand: 'E3', joinDate: '2024-02-12', status: 'active', activeProjects: 1, productivityScore: 81, avatar: 'SM' },
+  { id: 'e14', name: 'Divya Krishnan', email: 'divya.krishnan@company.com', phone: '+91 55443 45678', department: 'Design', designation: 'UX Researcher', manager: 'Arjun Mehta', salaryBand: 'E2', joinDate: '2024-06-01', status: 'probation', activeProjects: 1, productivityScore: 77, avatar: 'DK' },
+  { id: 'e15', name: 'Amit Patel', email: 'amit.patel@company.com', phone: '+91 44332 56789', department: 'Sales', designation: 'Business Development Executive', manager: 'Saurabh Jain', salaryBand: 'E2', joinDate: '2025-01-15', status: 'active', activeProjects: 0, productivityScore: 84, avatar: 'AP' },
 ];
 
 // ---- Attendance ----
@@ -387,6 +390,9 @@ export const mockAttendance: AttendanceRecord[] = [
   { id: 'att10', employeeId: 'e10', date: '2026-04-10', checkIn: '09:15', checkOut: '17:45', hours: 8.5, overtime: 0, status: 'present', isAnomaly: false },
   { id: 'att11', employeeId: 'e11', date: '2026-04-10', checkIn: null, checkOut: null, hours: 0, overtime: 0, status: 'absent', isAnomaly: true },
   { id: 'att12', employeeId: 'e12', date: '2026-04-10', checkIn: '09:00', checkOut: '18:00', hours: 9, overtime: 0, status: 'present', isAnomaly: false },
+  { id: 'att13', employeeId: 'e13', date: '2026-04-10', checkIn: '09:20', checkOut: '13:30', hours: 4.17, overtime: 0, status: 'half-day', isAnomaly: false },
+  { id: 'att14', employeeId: 'e14', date: '2026-04-10', checkIn: '09:00', checkOut: '18:00', hours: 9, overtime: 0, status: 'wfh', isAnomaly: false },
+  { id: 'att15', employeeId: 'e15', date: '2026-04-10', checkIn: null, checkOut: null, hours: 0, overtime: 0, status: 'absent', isAnomaly: true },
 ];
 
 // ---- Leave Requests ----

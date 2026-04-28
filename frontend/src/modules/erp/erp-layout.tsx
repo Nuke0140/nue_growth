@@ -1,155 +1,162 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useErpStore } from './erp-store';
 import { useAuthStore } from '@/store/auth-store';
+
+// Existing pages that have been built
 import ErpDashboardPage from './erp-dashboard-page';
 import ProjectsPage from './projects-page';
 import ProjectDetailPage from './project-detail-page';
 import TasksBoardPage from './tasks-board-page';
-import ApprovalsPage from './approvals-page';
-import InvoicesPage from './invoices-page';
-import FinanceOpsPage from './finance-ops-page';
-import VendorPage from './vendor-page';
-import PayrollPage from './payroll-page';
-import ResourcePlanningPage from './resource-planning-page';
-import AssetManagementPage from './asset-management-page';
-import SopTemplatesPage from './sop-templates-page';
-import DeliveryOperationsPage from './delivery-operations-page';
-import InternalChatPage from './internal-chat-page';
-import ProfitabilityPage from './profitability-page';
-import AiOpsIntelligencePage from './ai-ops-intelligence-page';
 import EmployeesPage from './employees-page';
 import EmployeeDetailPage from './employee-detail-page';
 import DepartmentsPage from './departments-page';
 import AttendancePage from './attendance-page';
 import LeavesPage from './leaves-page';
+import PayrollPage from './payroll-page';
+import CompensationPage from './compensation-page';
 import PerformancePage from './performance-page';
-import IncentivesPage from './incentives-page';
-import OnboardingPage from './onboarding-page';
 import DocumentsPage from './documents-page';
-import ShiftsPage from './shifts-page';
-import WorkloadPage from './workload-page';
-import EmployeeAnalyticsPage from './employee-analytics-page';
+import AssetsPage from './assets-page';
+import ApprovalsPage from './approvals-page';
+
+// Icons
 import {
-  Search, Bell, Plus, Moon, Sun, X,
-  Menu, ChevronRight, Command, Sparkles, SlidersHorizontal,
-  LogOut, Calendar,
-  Home, ArrowLeft, ArrowRight,
-  // Operations
-  LayoutDashboard, FolderKanban, Columns3, Truck,
-  CheckCircle2, BookOpen, TrendingUp, MessageSquare, BrainCircuit,
-  // Finance
-  FileText, Landmark, Building2, Banknote, Monitor,
-  // Employees
-  Users, Network, Clock, CalendarOff, BarChart3,
-  Award, UserPlus, FolderOpen, Timer, Gauge, LineChart,
+  Search,
+  Bell,
+  Plus,
+  Moon,
+  Sun,
+  X,
+  Menu,
+  ChevronRight,
+  ChevronDown,
+  Command,
+  Home,
+  ArrowLeft,
+  ArrowRight,
+  LogOut,
+  Settings,
+  User,
+  // Navigation
+  LayoutDashboard,
+  FolderKanban,
+  Columns3,
+  Users,
+  User as UserIcon,
+  Network,
+  Clock,
+  CalendarOff,
+  Banknote,
+  Wallet,
+  BarChart3,
+  FolderOpen,
+  Monitor,
+  CheckCircle2,
 } from 'lucide-react';
+
+// shadcn/ui
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import type { ErpPage } from './types';
 
-// ---- Navigation Items ----
+// ---- Navigation definitions ----
+
 interface NavItem {
   id: ErpPage;
   label: string;
   icon: React.ElementType;
-  badge?: string;
-  badgeColor?: string;
+  parentSection?: 'hrm';
 }
 
-interface NavSection {
-  title: string;
-  items: NavItem[];
+interface NavSubItem {
+  id: ErpPage;
+  label: string;
+  icon: React.ElementType;
 }
 
-const navSections: NavSection[] = [
-  {
-    title: 'Operations',
-    items: [
-      { id: 'erp-dashboard', label: 'ERP Dashboard', icon: LayoutDashboard },
-      { id: 'projects', label: 'Projects', icon: FolderKanban },
-      { id: 'tasks-board', label: 'Tasks Board', icon: Columns3 },
-      { id: 'delivery-operations', label: 'Delivery Ops', icon: Truck },
-      { id: 'approvals', label: 'Approvals', icon: CheckCircle2 },
-      { id: 'sop-templates', label: 'SOP Templates', icon: BookOpen },
-      { id: 'profitability', label: 'Profitability', icon: TrendingUp },
-      { id: 'internal-chat', label: 'Internal Chat', icon: MessageSquare },
-      { id: 'ai-ops-intelligence', label: 'AI Ops Intelligence', icon: BrainCircuit, badge: 'AI', badgeColor: 'from-purple-500/20 to-blue-500/20' },
-    ],
-  },
-  {
-    title: 'Finance',
-    items: [
-      { id: 'invoices', label: 'Invoices', icon: FileText },
-      { id: 'finance-ops', label: 'Finance Ops', icon: Landmark },
-      { id: 'vendor', label: 'Vendors', icon: Building2 },
-      { id: 'payroll', label: 'Payroll', icon: Banknote },
-      { id: 'asset-management', label: 'Assets', icon: Monitor },
-    ],
-  },
-  {
-    title: 'Employees',
-    items: [
-      { id: 'employees', label: 'Employees', icon: Users },
-      { id: 'departments', label: 'Departments', icon: Network },
-      { id: 'attendance', label: 'Attendance', icon: Clock },
-      { id: 'leaves', label: 'Leaves', icon: CalendarOff },
-      { id: 'performance', label: 'Performance', icon: BarChart3 },
-      { id: 'incentives', label: 'Incentives', icon: Award },
-      { id: 'onboarding', label: 'Onboarding', icon: UserPlus },
-      { id: 'documents', label: 'Documents', icon: FolderOpen },
-      { id: 'shifts', label: 'Shifts', icon: Timer },
-      { id: 'workload', label: 'Workload', icon: Gauge },
-      { id: 'employee-analytics', label: 'Employee Analytics', icon: LineChart },
-    ],
-  },
+const topNavItems: NavItem[] = [
+  { id: 'ops-dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'projects', label: 'Projects', icon: FolderKanban },
+  { id: 'tasks-board', label: 'Tasks', icon: Columns3 },
 ];
 
-// Flatten all nav items for breadcrumb lookup
-const allNavItems: NavItem[] = navSections.flatMap(s => s.items);
+const hrmSubItems: NavSubItem[] = [
+  { id: 'employees', label: 'Employees', icon: UserIcon },
+  { id: 'departments', label: 'Departments', icon: Network },
+  { id: 'attendance', label: 'Attendance', icon: Clock },
+  { id: 'leaves', label: 'Leaves', icon: CalendarOff },
+  { id: 'payroll', label: 'Payroll', icon: Banknote },
+  { id: 'compensation', label: 'Compensation', icon: Wallet },
+  { id: 'performance', label: 'Performance', icon: BarChart3 },
+  { id: 'documents', label: 'Documents', icon: FolderOpen },
+];
 
+const bottomNavItems: NavItem[] = [
+  { id: 'assets', label: 'Assets', icon: Monitor },
+  { id: 'approvals', label: 'Approvals', icon: CheckCircle2 },
+];
+
+// Flatten all items for breadcrumb lookup
+const allNavMap: Record<ErpPage, string> = {
+  'ops-dashboard': 'Dashboard',
+  'projects': 'Projects',
+  'project-detail': 'Project Detail',
+  'tasks-board': 'Tasks',
+  'employees': 'Employees',
+  'employee-detail': 'Employee Detail',
+  'departments': 'Departments',
+  'attendance': 'Attendance',
+  'leaves': 'Leaves',
+  'payroll': 'Payroll',
+  'compensation': 'Compensation',
+  'performance': 'Performance',
+  'documents': 'Documents',
+  'assets': 'Assets',
+  'approvals': 'Approvals',
+};
+
+// ---- Page component map ----
+const pageComponents: Record<ErpPage, React.ComponentType> = {
+  'ops-dashboard': ErpDashboardPage,
+  'projects': ProjectsPage,
+  'project-detail': ProjectDetailPage,
+  'tasks-board': TasksBoardPage,
+  'employees': EmployeesPage,
+  'employee-detail': EmployeeDetailPage,
+  'departments': DepartmentsPage,
+  'attendance': AttendancePage,
+  'leaves': LeavesPage,
+  'payroll': PayrollPage,
+  'compensation': CompensationPage,
+  'performance': PerformancePage,
+  'documents': DocumentsPage,
+  'assets': AssetsPage,
+  'approvals': ApprovalsPage,
+};
+
+// ---- Page Content ----
 function PageContent() {
   const { currentPage } = useErpStore();
-
-  const pageComponents: Record<string, React.ComponentType> = {
-    'erp-dashboard': ErpDashboardPage,
-    'projects': ProjectsPage,
-    'project-detail': ProjectDetailPage,
-    'tasks-board': TasksBoardPage,
-    'approvals': ApprovalsPage,
-    'invoices': InvoicesPage,
-    'finance-ops': FinanceOpsPage,
-    'vendor': VendorPage,
-    'payroll': PayrollPage,
-    'resource-planning': ResourcePlanningPage,
-    'asset-management': AssetManagementPage,
-    'sop-templates': SopTemplatesPage,
-    'delivery-operations': DeliveryOperationsPage,
-    'internal-chat': InternalChatPage,
-    'profitability': ProfitabilityPage,
-    'ai-ops-intelligence': AiOpsIntelligencePage,
-    'employees': EmployeesPage,
-    'employee-detail': EmployeeDetailPage,
-    'departments': DepartmentsPage,
-    'attendance': AttendancePage,
-    'leaves': LeavesPage,
-    'performance': PerformancePage,
-    'incentives': IncentivesPage,
-    'onboarding': OnboardingPage,
-    'documents': DocumentsPage,
-    'shifts': ShiftsPage,
-    'workload': WorkloadPage,
-    'employee-analytics': EmployeeAnalyticsPage,
-  };
-
   const PageComponent = pageComponents[currentPage] || null;
 
   if (!PageComponent) return null;
@@ -158,10 +165,10 @@ function PageContent() {
     <AnimatePresence mode="wait">
       <motion.div
         key={currentPage}
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="h-full"
       >
         <PageComponent />
@@ -170,385 +177,576 @@ function PageContent() {
   );
 }
 
-export default function ErpLayout() {
-  const { theme, setTheme } = useTheme();
-  const { user, logout, closeModule } = useAuthStore();
-  const { currentPage, sidebarOpen, setSidebarOpen, goBack, goForward, canGoBack, canGoForward, navigateTo } = useErpStore();
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showQuickCreate, setShowQuickCreate] = useState(false);
-  const isDark = theme === 'dark';
+// ---- Sidebar Nav Item ----
+function SidebarNavItem({
+  item,
+  isActive,
+  onClick,
+}: {
+  item: NavItem | NavSubItem;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group relative',
+        isActive
+          ? 'bg-[rgba(204,92,55,0.08)] text-[#f5f5f5] font-medium'
+          : 'text-[rgba(245,245,245,0.5)] hover:text-[rgba(245,245,245,0.85)] hover:bg-[rgba(255,255,255,0.04)]'
+      )}
+    >
+      {/* Active left accent border */}
+      {isActive && (
+        <motion.div
+          layoutId="sidebar-active"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-[#cc5c37]"
+          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+        />
+      )}
+      <item.icon
+        className={cn(
+          'w-[18px] h-[18px] transition-colors shrink-0',
+          isActive
+            ? 'text-[#cc5c37]'
+            : 'text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.6)]'
+        )}
+      />
+      <span className="truncate">{item.label}</span>
+    </button>
+  );
+}
+
+// ---- Sidebar ----
+function Sidebar() {
+  const {
+    currentPage,
+    sidebarOpen,
+    setSidebarOpen,
+    hrmExpanded,
+    setHrmExpanded,
+    navigateTo,
+  } = useErpStore();
   const isMobile = useIsMobile();
 
-  const isDetailPage = currentPage.endsWith('-detail');
-  const canBack = canGoBack();
-  const canForward = canGoForward();
+  const isHrmActive = [
+    'employees',
+    'employee-detail',
+    'departments',
+    'attendance',
+    'leaves',
+    'payroll',
+    'compensation',
+    'performance',
+    'documents',
+  ].includes(currentPage);
 
-  const currentLabel = allNavItems.find(n => n.id === currentPage)?.label || 'ERP';
+  const handleNavClick = (page: ErpPage) => {
+    navigateTo(page);
+    if (isMobile) setSidebarOpen(false);
+  };
 
   return (
-    <TooltipProvider delayDuration={300}>
-      <div className={cn(
-        'h-screen flex flex-col overflow-hidden transition-colors duration-300',
-        isDark ? 'bg-[#0a0a0a] text-white' : 'bg-[#fafafa] text-black'
-      )}>
-        {/* ========== Top Bar ========== */}
-        <header className={cn(
-          'h-14 border-b flex items-center justify-between px-4 gap-4 shrink-0 transition-colors',
-          isDark ? 'bg-[#0a0a0a] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-        )}>
-          <div className="flex items-center gap-1.5">
-            {/* Home Button */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={closeModule}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg',
-                    isDark
-                      ? 'hover:bg-white/[0.06] text-white/50 hover:text-white'
-                      : 'hover:bg-black/[0.06] text-black/50 hover:text-black'
-                  )}
-                >
-                  <Home className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Home Dashboard</p>
-              </TooltipContent>
-            </Tooltip>
+    <>
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {isMobile && sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
-            {/* Navigation Divider */}
-            <div className={cn(
-              'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
-            )} />
-
-            {/* Back Button */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={goBack}
-                  disabled={!canBack}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
-                    !canBack && 'opacity-30 cursor-not-allowed',
-                    canBack && isDark && 'hover:bg-white/[0.06]',
-                    canBack && !isDark && 'hover:bg-black/[0.06]'
-                  )}
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Go Back</p>
-              </TooltipContent>
-            </Tooltip>
-
-            {/* Forward Button */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={goForward}
-                  disabled={!canForward}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
-                    !canForward && 'opacity-30 cursor-not-allowed',
-                    canForward && isDark && 'hover:bg-white/[0.06]',
-                    canForward && !isDark && 'hover:bg-black/[0.06]'
-                  )}
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Go Forward</p>
-              </TooltipContent>
-            </Tooltip>
-
-            {/* Navigation Divider */}
-            <div className={cn(
-              'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
-            )} />
-
-            {/* Mobile sidebar toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden shrink-0 h-8 w-8 rounded-lg"
-            >
-              <Menu className="w-4 h-4" />
-            </Button>
-
-            {/* Logo & Breadcrumb */}
-            <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-sm" />
-              <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', isDark ? 'text-white/60' : 'text-black/60')}>
-                ERP
-              </span>
-              <ChevronRight className={cn('w-3 h-3 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
-              <span className="text-sm font-medium">{currentLabel}</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* Search */}
-            <div className={cn(
-              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-            )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input
-                type="text"
-                placeholder="Search... (⌘K)"
-                className={cn(
-                  'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
-                )}
-              />
-              <kbd className={cn(
-                'hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono',
-                isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
-              )}>
-                <Command className="w-2.5 h-2.5" />K
-              </kbd>
-            </div>
-
-            {/* Filters */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
-                  <SlidersHorizontal className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Filters</TooltipContent>
-            </Tooltip>
-
-            {/* Date Range */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
-                  <Calendar className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Date Range</TooltipContent>
-            </Tooltip>
-
-            {/* Notifications */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
-                  <Bell className="w-4 h-4" />
-                  <span className={cn(
-                    'absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center',
-                    isDark ? 'bg-white text-black' : 'bg-black text-white'
-                  )}>7</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Notifications</TooltipContent>
-            </Tooltip>
-
-            {/* AI Ops Assistant */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative hidden md:flex h-8 w-8 rounded-lg">
-                  <Sparkles className="w-4 h-4" />
-                  <motion.div
-                    className="absolute inset-0 rounded-lg"
-                    animate={{ boxShadow: ['0 0 0 0 rgba(139,92,246,0)', '0 0 0 4px rgba(139,92,246,0.1)', '0 0 0 0 rgba(139,92,246,0)'] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>AI Ops Assistant</TooltipContent>
-            </Tooltip>
-
-            {/* Quick Create */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Quick Create</TooltipContent>
-            </Tooltip>
-
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              className="h-8 w-8 rounded-lg"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
-
-            {/* User Avatar */}
-            <div className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className={cn(
-                  'h-8 w-8 rounded-lg font-bold text-xs',
-                  isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                )}
-              >
-                {user?.name?.charAt(0).toUpperCase() || 'U'}
-              </Button>
-              {showUserMenu && (
-                <motion.div
-                  initial={{ opacity: 0, y: -5, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={cn(
-                    'absolute right-0 top-11 w-56 rounded-xl border shadow-xl p-2 z-50',
-                    isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]'
-                  )}
-                >
-                  <div className={cn('px-3 py-2 border-b mb-1', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    <p className="text-sm font-semibold">{user?.name || 'User'}</p>
-                    <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{user?.email || ''}</p>
-                  </div>
-                  <button
-                    onClick={() => { logout(); setShowUserMenu(false); }}
-                    className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
-                      isDark ? 'text-white/60 hover:text-white hover:bg-white/[0.06]' : 'text-black/60 hover:text-black hover:bg-black/[0.06]'
-                    )}
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Sign Out
-                  </button>
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </header>
-
-        {/* ========== Main Content ========== */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Mobile backdrop */}
-          <AnimatePresence>
-            {isMobile && sidebarOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-40 md:hidden"
-                onClick={() => setSidebarOpen(false)}
-              />
+      {/* Sidebar panel */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.aside
+            initial={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
+            animate={isMobile ? { x: 0 } : { width: 240, opacity: 1 }}
+            exit={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className={cn(
+              'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
+              'bg-[#1b1c1e] border-r border-[rgba(255,255,255,0.06)]',
+              isMobile && 'w-[260px]'
             )}
-          </AnimatePresence>
-
-          {/* Sidebar */}
-          <AnimatePresence>
-            {sidebarOpen && (
-              <motion.aside
-                initial={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
-                animate={isMobile ? { x: 0 } : { width: 256, opacity: 1 }}
-                exit={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className={cn(
-                  'border-r shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
-                  isMobile && 'w-[280px]',
-                  isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white'
+          >
+            <div className="h-full flex flex-col">
+              {/* Logo area */}
+              <div className="h-14 flex items-center gap-2.5 px-4 shrink-0 border-b border-[rgba(255,255,255,0.06)]">
+                <div className="w-8 h-8 rounded-lg bg-[#cc5c37] flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">O</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[13px] font-semibold text-[#f5f5f5] leading-tight">
+                    Operations
+                  </span>
+                  <span className="text-[10px] text-[rgba(245,245,245,0.3)] leading-tight">
+                    ERP Module
+                  </span>
+                </div>
+                {/* Mobile close button */}
+                {isMobile && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSidebarOpen(false)}
+                    className="ml-auto h-7 w-7 text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
                 )}
-              >
-                <nav className="flex-1 py-3 px-2 overflow-y-auto">
-                  {navSections.map((section, sectionIdx) => (
-                    <div key={section.title} className="mb-2">
-                      {/* Section Header */}
-                      <div className="px-3 pt-3 pb-1.5">
-                        <span className={cn(
-                          'text-[10px] font-semibold tracking-wider uppercase',
-                          isDark ? 'text-white/25' : 'text-black/25'
-                        )}>
-                          {section.title}
-                        </span>
-                      </div>
+              </div>
 
-                      {/* Section Items */}
-                      <div className="space-y-0.5">
-                        {section.items.map((item) => {
-                          const isActive = currentPage === item.id;
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => { navigateTo(item.id); if (isMobile) setSidebarOpen(false); }}
-                              className={cn(
-                                'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group',
-                                isActive
-                                  ? isDark
-                                    ? 'bg-white/[0.08] text-white font-medium'
-                                    : 'bg-black/[0.06] text-black font-medium'
-                                  : isDark
-                                    ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
-                                    : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
-                              )}
-                            >
-                              <item.icon className={cn(
-                                'w-4.5 h-4.5 transition-colors shrink-0',
-                                isActive
-                                  ? isDark ? 'text-white' : 'text-black'
-                                  : isDark ? 'text-white/30 group-hover:text-white/60' : 'text-black/30 group-hover:text-black/60'
-                              )} />
-                              <span className="truncate">{item.label}</span>
-                              {item.badge && (
-                                <Badge variant="secondary" className={cn(
-                                  'ml-auto text-[9px] px-1.5 py-0 border-0 bg-gradient-to-r',
-                                  item.badgeColor || '',
-                                  isDark ? 'text-purple-300' : 'text-purple-600'
-                                )}>
-                                  {item.badge}
-                                </Badge>
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Section Divider */}
-                      {sectionIdx < navSections.length - 1 && (
-                        <div className={cn(
-                          'mx-3 mt-3 mb-1 border-t',
-                          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
-                        )} />
-                      )}
-                    </div>
-                  ))}
-                </nav>
-
-                {/* Sidebar Footer */}
-                <div className={cn(
-                  'p-3 border-t space-y-3',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
-                )}>
-                  <div className={cn(
-                    'rounded-xl p-3 border',
-                    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-                  )}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Truck className="w-4 h-4 text-orange-400" />
-                      <span className="text-xs font-medium">Operations Alert</span>
-                    </div>
-                    <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
-                      3 projects at risk this week — MediCare, FinEdge, LegalEase need attention
-                    </p>
+              {/* Navigation */}
+              <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
+                {/* Section: Operations */}
+                <div className="mb-1">
+                  <div className="px-3 pt-2 pb-1.5">
+                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
+                      Operations
+                    </span>
+                  </div>
+                  <div className="space-y-0.5">
+                    {topNavItems.map((item) => (
+                      <SidebarNavItem
+                        key={item.id}
+                        item={item}
+                        isActive={currentPage === item.id}
+                        onClick={() => handleNavClick(item.id)}
+                      />
+                    ))}
                   </div>
                 </div>
-              </motion.aside>
-            )}
-          </AnimatePresence>
 
-          {/* Page Content */}
-          <main className="flex-1 overflow-hidden">
+                {/* Section: HRM (collapsible) */}
+                <div className="mb-1">
+                  <div className="px-3 pt-3 pb-1.5">
+                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
+                      Human Resources
+                    </span>
+                  </div>
+
+                  {/* HRM toggle header */}
+                  <button
+                    onClick={() => setHrmExpanded(!hrmExpanded)}
+                    className={cn(
+                      'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
+                      isHrmActive && !hrmExpanded
+                        ? 'text-[rgba(245,245,245,0.7)]'
+                        : 'text-[rgba(245,245,245,0.5)] hover:text-[rgba(245,245,245,0.85)] hover:bg-[rgba(255,255,255,0.04)]'
+                    )}
+                  >
+                    <Users
+                      className={cn(
+                        'w-[18px] h-[18px] transition-colors shrink-0',
+                        isHrmActive
+                          ? 'text-[#cc5c37]'
+                          : 'text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.6)]'
+                      )}
+                    />
+                    <span className="flex-1 text-left truncate">HRM</span>
+                    <motion.div
+                      animate={{ rotate: hrmExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className="w-3.5 h-3.5 text-[rgba(245,245,245,0.2)]" />
+                    </motion.div>
+                  </button>
+
+                  {/* HRM sub-items */}
+                  <AnimatePresence initial={false}>
+                    {hrmExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="ml-3 pl-3 border-l border-[rgba(255,255,255,0.06)] space-y-0.5 py-1">
+                          {hrmSubItems.map((item) => (
+                            <SidebarNavItem
+                              key={item.id}
+                              item={item}
+                              isActive={currentPage === item.id}
+                              onClick={() => handleNavClick(item.id)}
+                            />
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Section: Bottom items */}
+                <div className="mb-1">
+                  <div className="px-3 pt-3 pb-1.5">
+                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[rgba(245,245,245,0.2)]">
+                      Management
+                    </span>
+                  </div>
+                  <div className="space-y-0.5">
+                    {bottomNavItems.map((item) => (
+                      <SidebarNavItem
+                        key={item.id}
+                        item={item}
+                        isActive={currentPage === item.id}
+                        onClick={() => handleNavClick(item.id)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </nav>
+
+              {/* Sidebar footer — user profile */}
+              <div className="p-3 border-t border-[rgba(255,255,255,0.06)]">
+                <SidebarFooter />
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+// ---- Sidebar Footer ----
+function SidebarFooter() {
+  const { user } = useAuthStore();
+
+  const initials = user?.name
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
+    : 'U';
+
+  const role = user?.role || 'Team Member';
+
+  return (
+    <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer">
+      <Avatar className="h-8 w-8 rounded-lg">
+        <AvatarFallback className="bg-[#cc5c37] text-white text-xs font-semibold rounded-lg">
+          {initials}
+        </AvatarFallback>
+      </Avatar>
+      <div className="flex-1 min-w-0">
+        <p className="text-[13px] font-medium text-[#f5f5f5] truncate">
+          {user?.name || 'User'}
+        </p>
+        <p className="text-[11px] text-[rgba(245,245,245,0.35)] truncate">
+          {role}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ---- Topbar ----
+function Topbar() {
+  const { theme, setTheme } = useTheme();
+  const { user, logout, closeModule } = useAuthStore();
+  const {
+    currentPage,
+    sidebarOpen,
+    setSidebarOpen,
+    goBack,
+    goForward,
+    canGoBack: checkCanBack,
+    canGoForward: checkCanForward,
+  } = useErpStore();
+  const isMobile = useIsMobile();
+
+  const canBack = checkCanBack();
+  const canForward = checkCanForward();
+  const currentLabel = allNavMap[currentPage] || 'Operations';
+  const isDetailPage = currentPage.endsWith('-detail');
+
+  // CMD+K shortcut
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        // Focus search input if exists
+        const searchInput = document.getElementById('erp-search-input');
+        if (searchInput) {
+          (searchInput as HTMLInputElement).focus();
+        }
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  return (
+    <header className="sticky top-0 z-30 h-14 border-b border-[rgba(255,255,255,0.06)] bg-[#1b1c1e]/95 backdrop-blur-sm flex items-center justify-between px-4 gap-4 shrink-0">
+      {/* Left section */}
+      <div className="flex items-center gap-1.5 min-w-0">
+        {/* Home */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={closeModule}
+              className="shrink-0 h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+            >
+              <Home className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Home Dashboard</p>
+          </TooltipContent>
+        </Tooltip>
+
+        {/* Divider */}
+        <div className="w-px h-5 mx-1 hidden md:block bg-[rgba(255,255,255,0.06)]" />
+
+        {/* Back / Forward */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={goBack}
+              disabled={!canBack}
+              className={cn(
+                'shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                !canBack
+                  ? 'opacity-20 cursor-not-allowed'
+                  : 'text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+              )}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Go Back</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={goForward}
+              disabled={!canForward}
+              className={cn(
+                'shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                !canForward
+                  ? 'opacity-20 cursor-not-allowed'
+                  : 'text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+              )}
+            >
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Go Forward</p>
+          </TooltipContent>
+        </Tooltip>
+
+        {/* Divider */}
+        <div className="w-px h-5 mx-1 hidden md:block bg-[rgba(255,255,255,0.06)]" />
+
+        {/* Mobile menu toggle */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="md:hidden shrink-0 h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+        >
+          <Menu className="w-4 h-4" />
+        </Button>
+
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-[13px] text-[rgba(245,245,245,0.3)] hidden sm:block shrink-0">
+            Operations
+          </span>
+          <ChevronRight className="w-3 h-3 text-[rgba(245,245,245,0.15)] hidden sm:block shrink-0" />
+          <span className="text-[13px] font-medium text-[#f5f5f5] truncate">
+            {currentLabel}
+          </span>
+          {isDetailPage && (
+            <Badge
+              variant="secondary"
+              className="ml-2 text-[10px] px-1.5 py-0 h-5 bg-[rgba(204,92,55,0.12)] text-[#cc5c37] border-0 rounded-md"
+            >
+              Detail
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Right section */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {/* Search bar */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] w-56 lg:w-64 transition-colors focus-within:border-[rgba(204,92,55,0.3)] focus-within:bg-[rgba(255,255,255,0.05)]">
+          <Search className="w-4 h-4 shrink-0 text-[rgba(245,245,245,0.25)]" />
+          <input
+            id="erp-search-input"
+            type="text"
+            placeholder="Search..."
+            className="bg-transparent text-[13px] focus:outline-none w-full text-[rgba(245,245,245,0.7)] placeholder:text-[rgba(245,245,245,0.2)]"
+          />
+          <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,245,0.25)]">
+            <Command className="w-2.5 h-2.5" />K
+          </kbd>
+        </div>
+
+        {/* Mobile search */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+            >
+              <Search className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Search</TooltipContent>
+        </Tooltip>
+
+        {/* Notifications */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#cc5c37] text-[9px] font-bold flex items-center justify-center text-white">
+                3
+              </span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Notifications</TooltipContent>
+        </Tooltip>
+
+        {/* Quick Create */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden sm:flex h-8 w-8 rounded-lg bg-[#cc5c37] text-white hover:bg-[#cc5c37]/90 hover:text-white"
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Quick Create</TooltipContent>
+        </Tooltip>
+
+        {/* Theme Toggle */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="hidden sm:flex h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </TooltipContent>
+        </Tooltip>
+
+        {/* User Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-lg"
+            >
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarFallback className="bg-[#cc5c37] text-white text-xs font-semibold rounded-lg">
+                  {user?.name
+                    ? user.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')
+                        .toUpperCase()
+                        .slice(0, 2)
+                    : 'U'}
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl"
+          >
+            <div className="px-3 py-2.5 border-b border-[rgba(255,255,255,0.06)] mb-1">
+              <p className="text-sm font-semibold text-[#f5f5f5]">
+                {user?.name || 'User'}
+              </p>
+              <p className="text-xs text-[rgba(245,245,245,0.35)]">
+                {user?.email || ''}
+              </p>
+            </div>
+            <DropdownMenuItem className="text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg cursor-pointer focus:bg-[rgba(255,255,255,0.06)] focus:text-[#f5f5f5]">
+              <User className="w-4 h-4 mr-2" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg cursor-pointer focus:bg-[rgba(255,255,255,0.06)] focus:text-[#f5f5f5]">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+            <DropdownMenuItem
+              onClick={logout}
+              className="text-[rgba(245,245,245,0.4)] hover:text-red-400 hover:bg-red-500/10 rounded-lg cursor-pointer focus:bg-red-500/10 focus:text-red-400"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
+  );
+}
+
+// ---- Main ERP Layout ----
+export default function ErpLayout() {
+  return (
+    <TooltipProvider delayDuration={300}>
+      <div className="h-screen flex flex-col overflow-hidden bg-[#1b1c1e] text-[#f5f5f5]">
+        {/* Topbar */}
+        <Topbar />
+
+        {/* Main area: sidebar + content */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Sidebar */}
+          <Sidebar />
+
+          {/* Content area */}
+          <main className="flex-1 overflow-hidden bg-[#1b1c1e]">
             <PageContent />
           </main>
         </div>

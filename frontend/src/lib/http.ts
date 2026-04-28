@@ -16,10 +16,7 @@ apiClient.interceptors.request.use((config) => {
   const { useAuthStore } = require('@/store/auth-store');
   const state = useAuthStore.getState();
   if (state.accessToken) {
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${state.accessToken}`,
-    };
+    config.headers.set('Authorization', `Bearer ${state.accessToken}`);
   }
   return config;
 });

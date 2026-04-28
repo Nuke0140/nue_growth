@@ -112,6 +112,135 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ============================================
+   Operations (ERP) Module — Design System
+   ============================================ */
+:root,
+[data-theme="dark"] {
+  --ops-bg-dark: #1b1c1e;
+  --ops-accent: #cc5c37;
+  --ops-accent-hover: #d46a44;
+  --ops-accent-light: rgba(204, 92, 55, 0.1);
+  --ops-card-bg: #222325;
+  --ops-card-bg-light: #2a2b2e;
+  --ops-border: rgba(255, 255, 255, 0.06);
+  --ops-text: #f5f5f5;
+  --ops-text-secondary: rgba(245, 245, 245, 0.6);
+  --ops-text-muted: rgba(245, 245, 245, 0.35);
+  --ops-success: #34d399;
+  --ops-warning: #fbbf24;
+  --ops-danger: #f87171;
+  --ops-info: #60a5fa;
+}
+
+/* Ops utility classes */
+.ops-card {
+  border-radius: 1rem;
+  background-color: var(--ops-card-bg);
+  border: 1px solid var(--ops-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.ops-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ops-card-hover:hover {
+  transform: translateY(-0.125rem);
+}
+
+.ops-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.ops-glow:hover {
+  box-shadow: 0 0 20px rgba(204, 92, 55, 0.15);
+}
+
+.ops-input {
+  border-radius: 0.75rem;
+  background-color: #2a2b2e;
+  border: 1px solid var(--ops-border);
+  color: var(--ops-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ops-input:focus {
+  border-color: var(--ops-accent);
+  box-shadow: 0 0 0 2px rgba(204, 92, 55, 0.15);
+  outline: none;
+}
+
+.ops-input::placeholder {
+  color: var(--ops-text-muted);
+}
+
+.ops-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--ops-accent);
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.ops-btn-primary:hover {
+  background-color: var(--ops-accent-hover);
+}
+
+.ops-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.ops-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ops-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background-color: transparent;
+  color: var(--ops-text-secondary);
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.ops-btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.ops-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  border-radius: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

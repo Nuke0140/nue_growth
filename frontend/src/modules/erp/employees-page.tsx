@@ -2,461 +2,643 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
-  Search, Plus, Users, UserCheck, UserX, Clock, AlertTriangle,
-  MoreHorizontal, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
-  UserCircle, ArrowUpDown
+  Users, UserCheck, Clock, AlertTriangle, Plus, MoreHorizontal,
+  Mail, Phone, Briefcase, UserCircle, Calendar, DollarSign,
+  Eye, Pencil, UserX, Search,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from '@/components/ui/select';
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuTrigger, DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { mockEmployees } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
 import type { EmployeeStatus } from '@/modules/erp/types';
+import { DataTable } from '@/modules/erp/components/ops/data-table';
+import { FilterBar } from '@/modules/erp/components/ops/filter-bar';
+import { SearchInput } from '@/modules/erp/components/ops/search-input';
+import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
+import { DrawerForm } from '@/modules/erp/components/ops/drawer-form';
+import { OpsCard } from '@/modules/erp/components/ops/ops-card';
+import type { Column } from '@/modules/erp/components/ops/data-table';
 
+// ---- Helpers ----
 type FilterKey = 'all' | 'active' | 'on-leave' | 'probation' | 'notice-period';
 
-const statusConfig: Record<EmployeeStatus, { label: string; className: string; dotClass: string }> = {
-  active: {
-    label: 'Active',
-    className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
-    dotClass: 'bg-emerald-500',
-  },
-  'on-leave': {
-    label: 'On Leave',
-    className: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
-    dotClass: 'bg-amber-500',
-  },
-  'notice-period': {
-    label: 'Notice Period',
-    className: 'bg-red-500/15 text-red-400 border-red-500/20',
-    dotClass: 'bg-red-500',
-  },
-  inactive: {
-    label: 'Inactive',
-    className: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20',
-    dotClass: 'bg-zinc-500',
-  },
-  probation: {
-    label: 'Probation',
-    className: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-    dotClass: 'bg-blue-500',
-  },
-};
-
 function getBarColor(score: number) {
-  if (score >= 85) return 'bg-emerald-500';
-  if (score >= 70) return 'bg-amber-500';
-  return 'bg-red-500';
+  if (score >= 85) return '#34d399';
+  if (score >= 70) return '#fbbf24';
+  return '#f87171';
 }
 
 function getBarTextColor(score: number) {
-  if (score >= 85) return 'text-emerald-400';
-  if (score >= 70) return 'text-amber-400';
-  return 'text-red-400';
+  if (score >= 85) return 'var(--ops-success)';
+  if (score >= 70) return 'var(--ops-warning)';
+  return 'var(--ops-danger)';
 }
 
-const ITEMS_PER_PAGE = 8;
+function formatStatusLabel(status: EmployeeStatus): string {
+  const map: Record<string, string> = {
+    active: 'Active',
+    'on-leave': 'On Leave',
+    'notice-period': 'Notice Period',
+    inactive: 'Inactive',
+    probation: 'Probation',
+  };
+  return map[status] || status;
+}
 
+// ---- Main Component ----
 export default function EmployeesPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const selectEmployee = useErpStore((s) => s.selectEmployee);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    department: '',
+    designation: '',
+    joinDate: '',
+    salaryBand: '',
+  });
 
+  // Compute filtered data
   const filtered = useMemo(() => {
     let result = [...mockEmployees];
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      result = result.filter(e =>
-        e.name.toLowerCase().includes(q) ||
-        e.email.toLowerCase().includes(q) ||
-        e.department.toLowerCase().includes(q) ||
-        e.designation.toLowerCase().includes(q)
+      result = result.filter(
+        (e) =>
+          e.name.toLowerCase().includes(q) ||
+          e.email.toLowerCase().includes(q) ||
+          e.department.toLowerCase().includes(q) ||
+          e.designation.toLowerCase().includes(q),
       );
     }
     switch (activeFilter) {
-      case 'active': result = result.filter(e => e.status === 'active'); break;
-      case 'on-leave': result = result.filter(e => e.status === 'on-leave'); break;
-      case 'probation': result = result.filter(e => e.status === 'probation'); break;
-      case 'notice-period': result = result.filter(e => e.status === 'notice-period'); break;
+      case 'active':
+        result = result.filter((e) => e.status === 'active');
+        break;
+      case 'on-leave':
+        result = result.filter((e) => e.status === 'on-leave');
+        break;
+      case 'probation':
+        result = result.filter((e) => e.status === 'probation');
+        break;
+      case 'notice-period':
+        result = result.filter((e) => e.status === 'notice-period');
+        break;
     }
     return result;
   }, [searchQuery, activeFilter]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  // Stats
+  const stats = useMemo(
+    () => ({
+      total: mockEmployees.length,
+      active: mockEmployees.filter((e) => e.status === 'active').length,
+      onLeave: mockEmployees.filter((e) => e.status === 'on-leave').length,
+      avgProductivity: Math.round(
+        mockEmployees.reduce((s, e) => s + e.productivityScore, 0) /
+          mockEmployees.length,
+      ),
+    }),
+    [],
+  );
 
-  const stats = useMemo(() => ({
-    total: mockEmployees.length,
-    active: mockEmployees.filter(e => e.status === 'active').length,
-    onLeave: mockEmployees.filter(e => e.status === 'on-leave').length,
-    avgProductivity: Math.round(mockEmployees.reduce((s, e) => s + e.productivityScore, 0) / mockEmployees.length),
-  }), []);
+  // Filter bar items
+  const filterItems = useMemo(
+    () => [
+      { key: 'all', label: 'All', count: mockEmployees.length },
+      { key: 'active', label: 'Active', count: stats.active },
+      { key: 'on-leave', label: 'On Leave', count: stats.onLeave },
+      {
+        key: 'probation',
+        label: 'Probation',
+        count: mockEmployees.filter((e) => e.status === 'probation').length,
+      },
+      {
+        key: 'notice-period',
+        label: 'Notice Period',
+        count: mockEmployees.filter((e) => e.status === 'notice-period').length,
+      },
+    ],
+    [stats],
+  );
 
-  const filters: { key: FilterKey; label: string; icon: React.ElementType; count: number }[] = [
-    { key: 'all', label: 'All', icon: Users, count: stats.total },
-    { key: 'active', label: 'Active', icon: UserCheck, count: stats.active },
-    { key: 'on-leave', label: 'On Leave', icon: Clock, count: stats.onLeave },
-    { key: 'probation', label: 'Probation', icon: UserCircle, count: mockEmployees.filter(e => e.status === 'probation').length },
-    { key: 'notice-period', label: 'Notice Period', icon: AlertTriangle, count: mockEmployees.filter(e => e.status === 'notice-period').length },
-  ];
+  // DataTable columns
+  const columns: Column<Record<string, unknown>>[] = useMemo(
+    () => [
+      {
+        key: 'name',
+        label: 'Name',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <div className="flex items-center gap-3">
+              <Avatar className="h-8 w-8 shrink-0">
+                <AvatarFallback
+                  className="text-xs font-semibold"
+                  style={{
+                    backgroundColor: 'var(--ops-accent-light)',
+                    color: 'var(--ops-accent)',
+                  }}
+                >
+                  {emp.avatar}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0">
+                <p
+                  className="text-sm font-medium truncate"
+                  style={{ color: 'var(--ops-text)' }}
+                >
+                  {emp.name}
+                </p>
+                <p
+                  className="text-xs truncate"
+                  style={{ color: 'var(--ops-text-muted)' }}
+                >
+                  {emp.designation}
+                </p>
+              </div>
+            </div>
+          );
+        },
+      },
+      {
+        key: 'email',
+        label: 'Email',
+        sortable: true,
+        hiddenMobile: true,
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <span
+              className="text-sm truncate"
+              style={{ color: 'var(--ops-text-secondary)' }}
+            >
+              {emp.email}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'department',
+        label: 'Department',
+        sortable: true,
+        hiddenMobile: true,
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <span
+              className="text-sm"
+              style={{ color: 'var(--ops-text-secondary)' }}
+            >
+              {emp.department}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'designation',
+        label: 'Role',
+        sortable: true,
+        hiddenMobile: true,
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <span
+              className="text-sm"
+              style={{ color: 'var(--ops-text-secondary)' }}
+            >
+              {emp.designation}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'status',
+        label: 'Status',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />
+          );
+        },
+      },
+      {
+        key: 'actions',
+        label: '',
+        render: (row) => {
+          const emp = row as unknown as (typeof mockEmployees)[0];
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+                  style={{ color: 'var(--ops-text-muted)' }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor =
+                      'rgba(255,255,255,0.06)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor =
+                      'transparent';
+                  }}
+                >
+                  <MoreHorizontal className="w-4 h-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                style={{
+                  backgroundColor: 'var(--ops-card-bg)',
+                  borderColor: 'var(--ops-border)',
+                }}
+              >
+                <DropdownMenuItem onClick={() => selectEmployee(emp.id)}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Pencil className="w-4 h-4 mr-2" />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem style={{ color: '#f87171' }}>
+                  <UserX className="w-4 h-4 mr-2" />
+                  Deactivate
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          );
+        },
+      },
+    ],
+    [selectEmployee],
+  );
+
+  const handleDrawerSubmit = () => {
+    setDrawerOpen(false);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      department: '',
+      designation: '',
+      joinDate: '',
+      salaryBand: '',
+    });
+  };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="h-full overflow-y-auto"
+      style={{ backgroundColor: 'var(--ops-bg-dark)' }}
+    >
+      <div className="p-6 space-y-5">
+        {/* ---- Header ---- */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Employees</h1>
-            <Badge variant="secondary" className={cn(
-              'text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
-            )}>
+            <h1
+              className="text-xl md:text-2xl font-bold"
+              style={{ color: 'var(--ops-text)' }}
+            >
+              Employees
+            </h1>
+            <span
+              className="ops-badge text-xs font-medium"
+              style={{
+                backgroundColor: 'var(--ops-accent-light)',
+                color: 'var(--ops-accent)',
+              }}
+            >
               {filtered.length}
-            </Badge>
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input
-                type="text"
-                placeholder="Search employees..."
-                value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className={cn(
-                  'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
-                )}
-              />
-            </div>
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    className={cn(
-                      'h-9 w-9 rounded-xl shrink-0',
-                      isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                    )}
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent><p>Invite Employee</p></TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="ops-btn-primary gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add Employee
+          </button>
+        </div>
+
+        {/* ---- Filters & Search ---- */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <FilterBar
+            filters={filterItems}
+            activeFilter={activeFilter}
+            onFilterChange={(key) => setActiveFilter(key as FilterKey)}
+          />
+          <div className="sm:ml-auto w-full sm:w-64">
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Search employees..."
+            />
           </div>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit overflow-x-auto" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
-          {filters.map((filter) => {
-            const isActive = activeFilter === filter.key;
-            return (
-              <button
-                key={filter.key}
-                onClick={() => { setActiveFilter(filter.key); setCurrentPage(1); }}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap',
-                  isActive
-                    ? isDark
-                      ? 'bg-white/[0.08] text-white shadow-sm'
-                      : 'bg-black/[0.06] text-black shadow-sm'
-                    : isDark
-                      ? 'text-white/40 hover:text-white/70'
-                      : 'text-black/40 hover:text-black/70'
-                )}
-              >
-                <filter.icon className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{filter.label}</span>
-                <span className={cn(
-                  'px-1.5 py-0.5 rounded text-[10px] font-bold',
-                  isActive
-                    ? isDark ? 'bg-white/[0.15]' : 'bg-black/[0.1]'
-                    : isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
-                )}>
-                  {filter.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Stats Row */}
+        {/* ---- Stats Row ---- */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Employees', value: stats.total, icon: Users },
-            { label: 'Active', value: stats.active, icon: UserCheck },
-            { label: 'On Leave', value: stats.onLeave, icon: Clock },
-            { label: 'Avg Productivity', value: `${stats.avgProductivity}%`, icon: ArrowUpDown },
+            {
+              label: 'Total Employees',
+              value: stats.total,
+              icon: Users,
+              color: 'var(--ops-text)',
+            },
+            {
+              label: 'Active',
+              value: stats.active,
+              icon: UserCheck,
+              color: 'var(--ops-success)',
+            },
+            {
+              label: 'On Leave',
+              value: stats.onLeave,
+              icon: Clock,
+              color: 'var(--ops-warning)',
+            },
+            {
+              label: 'Avg Productivity',
+              value: `${stats.avgProductivity}%`,
+              icon: AlertTriangle,
+              color: 'var(--ops-info)',
+            },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn(
-                'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-              )}
+              transition={{
+                delay: i * 0.05,
+                duration: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
-                  {stat.label}
-                </span>
-                <div className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center',
-                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
-                )}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+              <OpsCard hoverable className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span
+                    className="text-xs font-medium"
+                    style={{ color: 'var(--ops-text-muted)' }}
+                  >
+                    {stat.label}
+                  </span>
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                  >
+                    <stat.icon
+                      className="w-3.5 h-3.5"
+                      style={{ color: stat.color }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <p className="text-xl font-bold">{stat.value}</p>
+                <p className="text-xl font-bold" style={{ color: stat.color }}>
+                  {stat.value}
+                </p>
+              </OpsCard>
             </motion.div>
           ))}
         </div>
 
-        {/* Table */}
-        <div className={cn(
-          'rounded-2xl border overflow-hidden',
-          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-        )}>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30">
-                    Employee
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30 hidden md:table-cell">
-                    Department
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30 hidden lg:table-cell">
-                    Manager
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30 hidden xl:table-cell">
-                    Salary Band
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30 hidden md:table-cell">
-                    Projects
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30">
-                    Productivity
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/30 hidden sm:table-cell">
-                    Status
-                  </th>
-                  <th className="w-[40px]" />
-                </tr>
-              </thead>
-              <tbody>
-                {paginated.length === 0 ? (
-                  <tr>
-                    <td colSpan={8} className="h-48 text-center">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className={cn(
-                          'w-14 h-14 rounded-2xl flex items-center justify-center',
-                          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
-                        )}>
-                          <Users className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
-                        </div>
-                        <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
-                          No employees found
-                        </p>
-                        <p className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>
-                          Try adjusting your search or filters
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  paginated.map((emp, idx) => {
-                    const status = statusConfig[emp.status];
-                    return (
-                      <motion.tr
-                        key={emp.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: idx * 0.03 }}
-                        onClick={() => selectEmployee(emp.id)}
-                        className={cn(
-                          'border-b cursor-pointer transition-colors duration-150 last:border-0',
-                          isDark
-                            ? 'border-white/[0.03] hover:bg-white/[0.04]'
-                            : 'border-black/[0.03] hover:bg-black/[0.02]'
-                        )}
-                      >
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-8 w-8 shrink-0">
-                              <AvatarFallback className={cn(
-                                'text-xs font-semibold',
-                                isDark ? 'bg-white/[0.08] text-white/70' : 'bg-black/[0.08] text-black/70'
-                              )}>
-                                {emp.avatar}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="min-w-0">
-                              <p className="text-sm font-medium truncate">{emp.name}</p>
-                              <p className={cn('text-xs truncate', isDark ? 'text-white/40' : 'text-black/40')}>
-                                {emp.designation}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="hidden md:table-cell px-4 py-3">
-                          <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
-                            {emp.department}
-                          </span>
-                        </td>
-                        <td className="hidden lg:table-cell px-4 py-3">
-                          <span className={cn('text-sm', isDark ? 'text-white/50' : 'text-black/50')}>
-                            {emp.manager}
-                          </span>
-                        </td>
-                        <td className="hidden xl:table-cell px-4 py-3">
-                          <span className={cn(
-                            'px-2 py-0.5 rounded text-[11px] font-medium border',
-                            isDark ? 'bg-white/[0.04] text-white/50 border-white/[0.06]' : 'bg-black/[0.04] text-black/50 border-black/[0.06]'
-                          )}>
-                            {emp.salaryBand}
-                          </span>
-                        </td>
-                        <td className="hidden md:table-cell px-4 py-3">
-                          <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
-                            {emp.activeProjects}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2 min-w-[100px]">
-                            <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                              <div
-                                className={cn('h-full rounded-full transition-all', getBarColor(emp.productivityScore))}
-                                style={{ width: `${emp.productivityScore}%` }}
-                              />
-                            </div>
-                            <span className={cn('text-[11px] font-medium w-7 text-right', getBarTextColor(emp.productivityScore))}>
-                              {emp.productivityScore}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="hidden sm:table-cell px-4 py-3">
-                          <span className={cn(
-                            'inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium border',
-                            status.className
-                          )}>
-                            <span className={cn('w-1.5 h-1.5 rounded-full', status.dotClass)} />
-                            {status.label}
-                          </span>
-                        </td>
-                        <td className="px-3">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <button
-                                onClick={(e) => e.stopPropagation()}
-                                className={cn(
-                                  'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
-                                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
-                                )}
-                              >
-                                <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                              </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>View Profile</DropdownMenuItem>
-                              <DropdownMenuItem>Edit Employee</DropdownMenuItem>
-                              <DropdownMenuItem>Send Message</DropdownMenuItem>
-                              <DropdownMenuItem>Assign Project</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-red-500">Deactivate</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </td>
-                      </motion.tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
+        {/* ---- Data Table ---- */}
+        <DataTable
+          columns={columns}
+          data={filtered as unknown as Record<string, unknown>[]}
+          onRowClick={(row) =>
+            selectEmployee(
+              (row as unknown as (typeof mockEmployees)[0]).id,
+            )
+          }
+          pageSize={10}
+          emptyMessage="No employees found. Try adjusting your search or filters."
+        />
 
-          {/* Pagination */}
-          {filtered.length > 0 && (
-            <div className={cn(
-              'flex items-center justify-between px-4 py-3 border-t',
-              isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
-            )}>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
-                Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
-              </p>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                  className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
-                >
-                  <ChevronsLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                  let pageNum: number;
-                  if (totalPages <= 5) pageNum = i + 1;
-                  else if (currentPage <= 3) pageNum = i + 1;
-                  else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
-                  else pageNum = currentPage - 2 + i;
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() => setCurrentPage(pageNum)}
-                      className={cn(
-                        'w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors',
-                        currentPage === pageNum
-                          ? isDark ? 'bg-white text-black' : 'bg-black text-white'
-                          : isDark ? 'text-white/50 hover:bg-white/[0.06]' : 'text-black/50 hover:bg-black/[0.06]'
-                      )}
-                    >
-                      {pageNum}
-                    </button>
-                  );
-                })}
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setCurrentPage(totalPages)}
-                  disabled={currentPage === totalPages}
-                  className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
-                >
-                  <ChevronsRight className="w-4 h-4" />
-                </button>
-              </div>
+        {/* ---- Add Employee Drawer ---- */}
+        <DrawerForm
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          title="Add Employee"
+          onSubmit={handleDrawerSubmit}
+          submitLabel="Add Employee"
+        >
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Full Name
+              </Label>
+              <Input
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData((f) => ({ ...f, name: e.target.value }))
+                }
+                placeholder="Enter full name"
+                className="ops-input"
+                style={{
+                  backgroundColor: '#2a2b2e',
+                  border: '1px solid var(--ops-border)',
+                  color: 'var(--ops-text)',
+                }}
+              />
             </div>
-          )}
-        </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Email
+              </Label>
+              <Input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData((f) => ({ ...f, email: e.target.value }))
+                }
+                placeholder="name@company.com"
+                className="ops-input"
+                style={{
+                  backgroundColor: '#2a2b2e',
+                  border: '1px solid var(--ops-border)',
+                  color: 'var(--ops-text)',
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Phone
+              </Label>
+              <Input
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData((f) => ({ ...f, phone: e.target.value }))
+                }
+                placeholder="+91 XXXXX XXXXX"
+                className="ops-input"
+                style={{
+                  backgroundColor: '#2a2b2e',
+                  border: '1px solid var(--ops-border)',
+                  color: 'var(--ops-text)',
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Department
+              </Label>
+              <Select
+                value={formData.department}
+                onValueChange={(v) =>
+                  setFormData((f) => ({ ...f, department: v }))
+                }
+              >
+                <SelectTrigger
+                  className="ops-input"
+                  style={{
+                    backgroundColor: '#2a2b2e',
+                    border: '1px solid var(--ops-border)',
+                    color: formData.department
+                      ? 'var(--ops-text)'
+                      : 'var(--ops-text-muted)',
+                  }}
+                >
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{
+                    backgroundColor: 'var(--ops-card-bg)',
+                    borderColor: 'var(--ops-border)',
+                  }}
+                >
+                  {['Engineering', 'Design', 'QA', 'Operations', 'HR', 'Sales', 'Finance'].map(
+                    (dept) => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Role / Designation
+              </Label>
+              <Input
+                value={formData.designation}
+                onChange={(e) =>
+                  setFormData((f) => ({ ...f, designation: e.target.value }))
+                }
+                placeholder="e.g. Senior Developer"
+                className="ops-input"
+                style={{
+                  backgroundColor: '#2a2b2e',
+                  border: '1px solid var(--ops-border)',
+                  color: 'var(--ops-text)',
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Joining Date
+              </Label>
+              <Input
+                type="date"
+                value={formData.joinDate}
+                onChange={(e) =>
+                  setFormData((f) => ({ ...f, joinDate: e.target.value }))
+                }
+                className="ops-input"
+                style={{
+                  backgroundColor: '#2a2b2e',
+                  border: '1px solid var(--ops-border)',
+                  color: 'var(--ops-text)',
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                className="text-xs font-medium"
+                style={{ color: 'var(--ops-text-secondary)' }}
+              >
+                Salary Band
+              </Label>
+              <Select
+                value={formData.salaryBand}
+                onValueChange={(v) =>
+                  setFormData((f) => ({ ...f, salaryBand: v }))
+                }
+              >
+                <SelectTrigger
+                  className="ops-input"
+                  style={{
+                    backgroundColor: '#2a2b2e',
+                    border: '1px solid var(--ops-border)',
+                    color: formData.salaryBand
+                      ? 'var(--ops-text)'
+                      : 'var(--ops-text-muted)',
+                  }}
+                >
+                  <SelectValue placeholder="Select salary band" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{
+                    backgroundColor: 'var(--ops-card-bg)',
+                    borderColor: 'var(--ops-border)',
+                  }}
+                >
+                  {['E1', 'E2', 'E3', 'E4', 'E5', 'E6'].map((band) => (
+                    <SelectItem key={band} value={band}>
+                      {band}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </DrawerForm>
       </div>
-    </div>
+    </motion.div>
   );
 }
