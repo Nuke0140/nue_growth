@@ -3,6 +3,9 @@
 import { create } from 'zustand';
 import type { ErpPage } from './types';
 
+// ---- Create Entity Types ----
+export type CreateEntityType = 'task' | 'employee' | 'project' | 'leave' | 'asset';
+
 // HRM-related pages for auto-expand detection
 const HRM_PAGES: ErpPage[] = [
   'hrm',
@@ -32,6 +35,13 @@ interface ErpState {
   recentPages: ErpPage[];
   bulkSelectedIds: string[];
 
+  // Create modal
+  createModalOpen: boolean;
+  createModalType: CreateEntityType | null;
+
+  // Density mode
+  densityMode: 'comfortable' | 'compact';
+
   navigateTo: (page: ErpPage) => void;
   selectProject: (id: string) => void;
   selectEmployee: (id: string) => void;
@@ -48,6 +58,9 @@ interface ErpState {
   toggleBulkSelection: (id: string) => void;
   clearBulkSelection: () => void;
   selectAllBulk: (ids: string[]) => void;
+  openCreateModal: (type: CreateEntityType) => void;
+  closeCreateModal: () => void;
+  setDensityMode: (mode: 'comfortable' | 'compact') => void;
 }
 
 export const useErpStore = create<ErpState>((set, get) => ({
@@ -64,6 +77,13 @@ export const useErpStore = create<ErpState>((set, get) => ({
   notificationsOpen: false,
   recentPages: [],
   bulkSelectedIds: [],
+
+  // Create modal
+  createModalOpen: false,
+  createModalType: null,
+
+  // Density mode
+  densityMode: 'comfortable' as const,
 
   navigateTo: (page: ErpPage) => {
     const { currentPage } = get();
@@ -157,4 +177,10 @@ export const useErpStore = create<ErpState>((set, get) => ({
   },
   clearBulkSelection: () => set({ bulkSelectedIds: [] }),
   selectAllBulk: (ids: string[]) => set({ bulkSelectedIds: ids }),
+  openCreateModal: (type: CreateEntityType) =>
+    set({ createModalOpen: true, createModalType: type }),
+  closeCreateModal: () =>
+    set({ createModalOpen: false, createModalType: null }),
+  setDensityMode: (mode: 'comfortable' | 'compact') =>
+    set({ densityMode: mode }),
 }));

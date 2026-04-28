@@ -476,17 +476,6 @@ export interface TimelineItem {
   accentColor?: string;
 }
 
-// ---- Notification ----
-export interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: 'info' | 'warning' | 'success' | 'error';
-  read: boolean;
-  timestamp: string;
-  actionUrl?: string;
-}
-
 // ---- Tag ----
 export interface Tag {
   id: string;
@@ -499,4 +488,38 @@ export interface Subtask {
   id: string;
   title: string;
   completed: boolean;
+}
+
+// ---- Activity Tracking ----
+export type ActivityEventType =
+  | 'task_created' | 'task_updated' | 'task_completed' | 'task_blocked'
+  | 'project_created' | 'project_updated' | 'project_completed'
+  | 'employee_created' | 'employee_updated' | 'employee_status_changed'
+  | 'leave_applied' | 'leave_approved' | 'leave_rejected'
+  | 'approval_requested' | 'approval_approved' | 'approval_rejected'
+  | 'payroll_processed' | 'payroll_paid'
+  | 'asset_assigned' | 'asset_reported'
+  | 'comment_added'
+  | 'ai_insight_generated';
+
+export interface ActivityEvent {
+  id: string;
+  type: ActivityEventType;
+  title: string;
+  description: string;
+  actor: string; // who did it
+  entityType: 'task' | 'project' | 'employee' | 'leave' | 'approval' | 'payroll' | 'asset' | 'ai';
+  entityId: string;
+  metadata?: Record<string, string | number | boolean>;
+  timestamp: string;
+}
+
+// ---- Permissions ----
+export type UserRole = 'admin' | 'manager' | 'employee' | 'viewer';
+
+export type PermissionAction = 'view' | 'create' | 'edit' | 'delete' | 'approve' | 'export';
+
+export interface Permission {
+  page: ErpPage;
+  actions: PermissionAction[];
 }

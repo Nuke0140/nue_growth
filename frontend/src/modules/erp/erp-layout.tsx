@@ -30,6 +30,9 @@ import HrmPage from './hrm-page';
 // Ops components
 import { CommandPalette } from './components/ops/command-palette';
 import { SkeletonDashboard } from './components/ops/skeleton-loader';
+import { CreateModal } from './components/ops/create-modal';
+import { DensityToggle } from './components/ops/density-toggle';
+import { ErpErrorBoundary } from './components/ops/error-boundary';
 
 // Mock data
 import { mockNotifications } from './data/mock-data';
@@ -100,6 +103,7 @@ import {
 
 import type { LucideIcon } from 'lucide-react';
 import type { ErpPage } from './types';
+import { usePermissions } from './hooks/use-permissions';
 
 // ---- Navigation definitions ----
 
@@ -354,6 +358,7 @@ function Sidebar() {
     navigateTo,
   } = useErpStore();
   const isMobile = useIsMobile();
+  const { accessiblePages } = usePermissions();
 
   const isHrmActive = [
     'hrm',
@@ -440,14 +445,16 @@ function Sidebar() {
                     </span>
                   </div>
                   <div className="space-y-0.5">
-                    {topNavItems.map((item) => (
-                      <SidebarNavItem
-                        key={item.id}
-                        item={item}
-                        isActive={currentPage === item.id}
-                        onClick={() => handleNavClick(item.id)}
-                      />
-                    ))}
+                    {topNavItems
+                      .filter((item) => accessiblePages.includes(item.id))
+                      .map((item) => (
+                        <SidebarNavItem
+                          key={item.id}
+                          item={item}
+                          isActive={currentPage === item.id}
+                          onClick={() => handleNavClick(item.id)}
+                        />
+                      ))}
                   </div>
                 </div>
 
@@ -501,14 +508,16 @@ function Sidebar() {
                         className="overflow-hidden"
                       >
                         <div className="ml-3 pl-3 border-l border-[rgba(255,255,255,0.06)] space-y-0.5 py-1">
-                          {hrmSubItems.map((item) => (
-                            <SidebarNavItem
-                              key={item.id}
-                              item={item}
-                              isActive={currentPage === item.id}
-                              onClick={() => handleNavClick(item.id)}
-                            />
-                          ))}
+                          {hrmSubItems
+                            .filter((item) => accessiblePages.includes(item.id))
+                            .map((item) => (
+                              <SidebarNavItem
+                                key={item.id}
+                                item={item}
+                                isActive={currentPage === item.id}
+                                onClick={() => handleNavClick(item.id)}
+                              />
+                            ))}
                         </div>
                       </motion.div>
                     )}
@@ -523,14 +532,16 @@ function Sidebar() {
                     </span>
                   </div>
                   <div className="space-y-0.5">
-                    {bottomNavItems.map((item) => (
-                      <SidebarNavItem
-                        key={item.id}
-                        item={item}
-                        isActive={currentPage === item.id}
-                        onClick={() => handleNavClick(item.id)}
-                      />
-                    ))}
+                    {bottomNavItems
+                      .filter((item) => accessiblePages.includes(item.id))
+                      .map((item) => (
+                        <SidebarNavItem
+                          key={item.id}
+                          item={item}
+                          isActive={currentPage === item.id}
+                          onClick={() => handleNavClick(item.id)}
+                        />
+                      ))}
                   </div>
                 </div>
               </nav>
@@ -596,8 +607,10 @@ function Topbar() {
     setCommandPaletteOpen,
     recentPages,
     navigateTo,
+    openCreateModal,
   } = useErpStore();
   const isMobile = useIsMobile();
+  const { canPerform, role } = usePermissions();
 
   // Notification local state (initialized from mock data)
   const [notifState, setNotifState] = useState(mockNotifications);
@@ -607,22 +620,6 @@ function Topbar() {
   const canForward = checkCanForward();
   const currentLabel = allNavMap[currentPage] || 'Operations';
   const isDetailPage = currentPage.endsWith('-detail');
-
-  // CMD+K opens command palette
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setCommandPaletteOpen(true);
-      }
-    },
-    [setCommandPaletteOpen]
-  );
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
 
   // Mark all notifications as read
   const markAllRead = useCallback(() => {
@@ -947,36 +944,56 @@ function Topbar() {
               Quick Create
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+            {canPerform('create', 'projects') && (
             <DropdownMenuItem
-              onClick={() => navigateTo('projects')}
+              onClick={() => openCreateModal('project')}
               className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
             >
               <FolderKanban className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
               New Project
             </DropdownMenuItem>
+            )}
+            {canPerform('create', 'employees') && (
             <DropdownMenuItem
-              onClick={() => navigateTo('employees')}
+              onClick={() => openCreateModal('employee')}
               className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
             >
               <UserPlus className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
               Add Employee
             </DropdownMenuItem>
+            )}
+            {canPerform('create', 'leaves') && (
             <DropdownMenuItem
-              onClick={() => navigateTo('leaves')}
+              onClick={() => openCreateModal('leave')}
               className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
             >
               <CalendarOff className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
               Apply Leave
             </DropdownMenuItem>
+            )}
+            {canPerform('create', 'tasks-board') && (
             <DropdownMenuItem
-              onClick={() => navigateTo('tasks-board')}
+              onClick={() => openCreateModal('task')}
               className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
             >
               <ListPlus className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
               Create Task
             </DropdownMenuItem>
+            )}
+            {canPerform('create', 'assets') && (
+            <DropdownMenuItem
+              onClick={() => openCreateModal('asset')}
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
+            >
+              <Monitor className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
+              Add Asset
+            </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Density Toggle */}
+        <DensityToggle />
 
         {/* Theme Toggle */}
         <Tooltip>
@@ -1026,9 +1043,16 @@ function Topbar() {
             className="w-56 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl"
           >
             <div className="px-3 py-2.5 border-b border-[rgba(255,255,255,0.06)] mb-1">
-              <p className="text-sm font-semibold text-[#f5f5f5]">
-                {user?.name || 'User'}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-semibold text-[#f5f5f5]">
+                  {user?.name || 'User'}
+                </p>
+                <Badge
+                  className="text-[10px] px-1.5 py-0 h-4 bg-[rgba(204,92,55,0.15)] text-[#cc5c37] border-0 rounded-md font-medium capitalize"
+                >
+                  {role}
+                </Badge>
+              </div>
               <p className="text-xs text-[rgba(245,245,245,0.35)]">
                 {user?.email || ''}
               </p>
@@ -1058,7 +1082,7 @@ function Topbar() {
 
 // ---- Main ERP Layout ----
 export default function ErpLayout() {
-  const { recentPages, navigateTo } = useErpStore();
+  const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal } = useErpStore();
 
   // Build command items for the command palette
   const commands = useMemo(() => {
@@ -1113,12 +1137,21 @@ export default function ErpLayout() {
 
           {/* Content area */}
           <main className="flex-1 overflow-hidden bg-[#1b1c1e]">
-            <PageContent />
+            <ErpErrorBoundary>
+              <PageContent />
+            </ErpErrorBoundary>
           </main>
         </div>
 
         {/* Command Palette (rendered here for global access) */}
-        <CommandPalette commands={commands} recentPages={recentCommands} />
+        <CommandPalette open={commandPaletteOpen} onClose={() => setCommandPaletteOpen(false)} navigateCommands={commands} recentPages={recentCommands} />
+
+        {/* Create Modal */}
+        <CreateModal
+          open={createModalOpen && createModalType !== null}
+          onClose={closeCreateModal}
+          type={createModalType || 'task'}
+        />
       </div>
     </TooltipProvider>
   );
