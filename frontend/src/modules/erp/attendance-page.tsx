@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, UserCheck, UserX, Clock, Home, AlertTriangle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,7 @@ import { StatusBadge } from './components/ops/status-badge';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockEmployees, mockAttendance } from './data/mock-data';
 import type { AttendanceRecord } from './types';
+import { PageShell } from './components/ops/page-shell';
 
 function getEmployeeName(id: string): string {
   return mockEmployees.find(e => e.id === id)?.name || id;
@@ -56,7 +57,7 @@ function formatStatusLabel(status: string): string {
   return map[status] || status;
 }
 
-export default function AttendancePage() {
+function AttendancePageInner() {
   const [dateIdx, setDateIdx] = useState(2); // default: 2026-04-10
   const selectedDate = AVAILABLE_DATES[dateIdx];
 
@@ -184,37 +185,28 @@ export default function AttendancePage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Attendance</h1>
-            <Badge variant="secondary" className="ops-badge">Real-time</Badge>
-          </div>
-
-          {/* Date Selector */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setDateIdx(i => Math.max(0, i - 1))}
-              disabled={dateIdx === 0}
-              className="ops-btn-ghost p-1.5 disabled:opacity-30"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--ops-text)' }}>
-              {formatDateLabel(selectedDate)}
-            </span>
-            <button
-              onClick={() => setDateIdx(i => Math.min(AVAILABLE_DATES.length - 1, i + 1))}
-              disabled={dateIdx === AVAILABLE_DATES.length - 1}
-              className="ops-btn-ghost p-1.5 disabled:opacity-30"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </motion.div>
-
+    <PageShell title="Attendance" icon={Clock} subtitle="Real-time" headerRight={
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setDateIdx(i => Math.max(0, i - 1))}
+            disabled={dateIdx === 0}
+            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--ops-text)' }}>
+            {formatDateLabel(selectedDate)}
+          </span>
+          <button
+            onClick={() => setDateIdx(i => Math.min(AVAILABLE_DATES.length - 1, i + 1))}
+            disabled={dateIdx === AVAILABLE_DATES.length - 1}
+            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      }>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* KPI Widgets */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Present" value={stats.present} icon={UserCheck} color="success" />
@@ -269,6 +261,8 @@ export default function AttendancePage() {
           </motion.div>
         )}
       </motion.div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(AttendancePageInner);

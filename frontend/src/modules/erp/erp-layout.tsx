@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -8,42 +8,45 @@ import { cn } from '@/lib/utils';
 import { useErpStore } from './erp-store';
 import { useAuthStore } from '@/store/auth-store';
 
-// Existing pages that have been built
-import ErpDashboardPage from './erp-dashboard-page';
-import ProjectsPage from './projects-page';
-import ProjectDetailPage from './project-detail-page';
-import TasksBoardPage from './tasks-board-page';
-import EmployeesPage from './employees-page';
-import EmployeeDetailPage from './employee-detail-page';
-import DepartmentsPage from './departments-page';
-import AttendancePage from './attendance-page';
-import LeavesPage from './leaves-page';
-import PayrollPage from './payroll-page';
-import CompensationPage from './compensation-page';
-import PerformancePage from './performance-page';
-import DocumentsPage from './documents-page';
-import AssetsPage from './assets-page';
-import ApprovalsPage from './approvals-page';
-import AiOpsPage from './ai-ops-page';
-import HrmPage from './hrm-page';
+// Lazy-loaded pages — code-split for faster initial load
+const ErpDashboardPage = lazy(() => import('./erp-dashboard-page').then(m => ({ default: m.default })));
+const ProjectsPage = lazy(() => import('./projects-page').then(m => ({ default: m.default })));
+const ProjectDetailPage = lazy(() => import('./project-detail-page').then(m => ({ default: m.default })));
+const TasksBoardPage = lazy(() => import('./tasks-board-page').then(m => ({ default: m.default })));
+const EmployeesPage = lazy(() => import('./employees-page').then(m => ({ default: m.default })));
+const EmployeeDetailPage = lazy(() => import('./employee-detail-page').then(m => ({ default: m.default })));
+const DepartmentsPage = lazy(() => import('./departments-page').then(m => ({ default: m.default })));
+const AttendancePage = lazy(() => import('./attendance-page').then(m => ({ default: m.default })));
+const LeavesPage = lazy(() => import('./leaves-page').then(m => ({ default: m.default })));
+const PayrollPage = lazy(() => import('./payroll-page').then(m => ({ default: m.default })));
+const CompensationPage = lazy(() => import('./compensation-page').then(m => ({ default: m.default })));
+const PerformancePage = lazy(() => import('./performance-page').then(m => ({ default: m.default })));
+const DocumentsPage = lazy(() => import('./documents-page').then(m => ({ default: m.default })));
+const AssetsPage = lazy(() => import('./assets-page').then(m => ({ default: m.default })));
+const ApprovalsPage = lazy(() => import('./approvals-page').then(m => ({ default: m.default })));
+const AiOpsPage = lazy(() => import('./ai-ops-page').then(m => ({ default: m.default })));
+const HrmPage = lazy(() => import('./hrm-page').then(m => ({ default: m.default })));
 
-// Orphaned pages — now wired into layout
-import InvoicesPage from './invoices-page';
-import VendorsPage from './vendor-page';
-import FinanceOpsPage from './finance-ops-page';
-import ProfitabilityPage from './profitability-page';
-import DeliveryOpsPage from './delivery-operations-page';
-import ResourcePlanningPage from './resource-planning-page';
-import WorkloadPage from './workload-page';
-import SopTemplatesPage from './sop-templates-page';
-import AiOpsIntelligencePage from './ai-ops-intelligence-page';
-import EmployeeAnalyticsPage from './employee-analytics-page';
-import IncentivesPage from './incentives-page';
-import OnboardingPage from './onboarding-page';
-import ShiftsPage from './shifts-page';
-import InternalChatPage from './internal-chat-page';
-import AssetManagementPage from './asset-management-page';
-import OpsDashboardPage from './ops-dashboard-page';
+// Lazy-loaded orphaned pages — now wired into layout
+const InvoicesPage = lazy(() => import('./invoices-page').then(m => ({ default: m.default })));
+const VendorsPage = lazy(() => import('./vendor-page').then(m => ({ default: m.default })));
+const FinanceOpsPage = lazy(() => import('./finance-ops-page').then(m => ({ default: m.default })));
+const ProfitabilityPage = lazy(() => import('./profitability-page').then(m => ({ default: m.default })));
+const DeliveryOpsPage = lazy(() => import('./delivery-operations-page').then(m => ({ default: m.default })));
+const ResourcePlanningPage = lazy(() => import('./resource-planning-page').then(m => ({ default: m.default })));
+const WorkloadPage = lazy(() => import('./workload-page').then(m => ({ default: m.default })));
+const SopTemplatesPage = lazy(() => import('./sop-templates-page').then(m => ({ default: m.default })));
+const AiOpsIntelligencePage = lazy(() => import('./ai-ops-intelligence-page').then(m => ({ default: m.default })));
+const EmployeeAnalyticsPage = lazy(() => import('./employee-analytics-page').then(m => ({ default: m.default })));
+const IncentivesPage = lazy(() => import('./incentives-page').then(m => ({ default: m.default })));
+const OnboardingPage = lazy(() => import('./onboarding-page').then(m => ({ default: m.default })));
+const ShiftsPage = lazy(() => import('./shifts-page').then(m => ({ default: m.default })));
+const InternalChatPage = lazy(() => import('./internal-chat-page').then(m => ({ default: m.default })));
+const AssetManagementPage = lazy(() => import('./asset-management-page').then(m => ({ default: m.default })));
+const OpsDashboardPage = lazy(() => import('./ops-dashboard-page').then(m => ({ default: m.default })));
+
+// Design tokens for consistent animation
+import { ANIMATION } from './design-tokens';
 
 // Ops components
 import { CommandPalette } from './components/ops/command-palette';
@@ -51,6 +54,7 @@ import { SkeletonDashboard } from './components/ops/skeleton-loader';
 import { CreateModal } from './components/ops/create-modal';
 import { DensityToggle } from './components/ops/density-toggle';
 import { ErpErrorBoundary } from './components/ops/error-boundary';
+import { ContextualSidebar } from './components/ops/contextual-sidebar';
 
 // Mock data
 import { mockNotifications } from './data/mock-data';
@@ -422,10 +426,14 @@ function PageContent() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease }}
           className="h-full"
         >
-          {loading ? <SkeletonDashboard /> : <PageComponent />}
+          {loading ? <SkeletonDashboard /> : (
+            <Suspense fallback={<SkeletonDashboard />}>
+              <PageComponent />
+            </Suspense>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -449,7 +457,7 @@ function ToastContainer() {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease }}
               className={cn(
                 'pointer-events-auto flex items-start gap-3 p-3 rounded-xl border backdrop-blur-sm shadow-lg',
                 'bg-[#222325]/95 border-[rgba(255,255,255,0.08)]',
@@ -507,7 +515,7 @@ function MobileFab() {
               initial={{ opacity: 0, y: 10, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: ANIMATION.duration.fast }}
               className="absolute bottom-16 right-0 bg-[#222325] border border-[rgba(255,255,255,0.08)] rounded-2xl p-1.5 min-w-[180px] shadow-xl"
             >
               {[
@@ -539,7 +547,7 @@ function MobileFab() {
       >
         <motion.div
           animate={{ rotate: fabOpen ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: ANIMATION.duration.normal }}
         >
           <Plus className="w-6 h-6" />
         </motion.div>
@@ -654,7 +662,7 @@ function SidebarSection({
         <span className="flex-1 text-left truncate">{section.label}</span>
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: ANIMATION.duration.normal }}
         >
           <ChevronDown className="w-3.5 h-3.5 text-[rgba(245,245,245,0.2)]" />
         </motion.div>
@@ -667,7 +675,7 @@ function SidebarSection({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
             className="overflow-hidden"
           >
             <div className="ml-3 pl-3 border-l border-[rgba(255,255,255,0.06)] space-y-0.5 py-1">
@@ -736,7 +744,7 @@ function Sidebar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: ANIMATION.duration.fast }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
             onClick={() => setSidebarOpen(false)}
           />
@@ -750,7 +758,7 @@ function Sidebar() {
             initial={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
             animate={isMobile ? { x: 0 } : { width: 240, opacity: 1 }}
             exit={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
             className={cn(
               'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
               'bg-[#1b1c1e] border-r border-[rgba(255,255,255,0.06)]',
@@ -1368,7 +1376,7 @@ function Topbar() {
 
 // ---- Main ERP Layout ----
 export default function ErpLayout() {
-  const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal } = useErpStore();
+  const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal, sidebarOpen, setSidebarOpen, contextualSidebar, closeContextualSidebar } = useErpStore();
 
   // Build command items for the command palette from all nav sections
   const commands = useMemo(() => {
@@ -1405,6 +1413,65 @@ export default function ErpLayout() {
       }));
   }, [recentPages, navigateTo]);
 
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isInputFocused = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+
+      // Escape: close any open panel
+      if (e.key === 'Escape') {
+        if (commandPaletteOpen) {
+          setCommandPaletteOpen(false);
+          e.preventDefault();
+          return;
+        }
+        if (createModalOpen) {
+          closeCreateModal();
+          e.preventDefault();
+          return;
+        }
+        if (contextualSidebar) {
+          closeContextualSidebar();
+          e.preventDefault();
+          return;
+        }
+        return;
+      }
+
+      // Don't fire shortcuts when typing in inputs
+      if (isInputFocused) return;
+
+      const isMod = e.metaKey || e.ctrlKey;
+
+      // ⌘K / Ctrl+K: Command palette
+      if (isMod && e.key === 'k') {
+        e.preventDefault();
+        setCommandPaletteOpen(!commandPaletteOpen);
+        return;
+      }
+
+      // ⌘B / Ctrl+B: Toggle sidebar
+      if (isMod && e.key === 'b') {
+        e.preventDefault();
+        setSidebarOpen(!sidebarOpen);
+        return;
+      }
+
+      // Digit 1-9: Navigate to recent pages
+      if (e.key >= '1' && e.key <= '9' && !isMod && !e.shiftKey && !e.altKey) {
+        const index = parseInt(e.key) - 1;
+        if (index < recentPages.length) {
+          e.preventDefault();
+          navigateTo(recentPages[index]);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [commandPaletteOpen, createModalOpen, contextualSidebar, sidebarOpen, recentPages, setCommandPaletteOpen, closeCreateModal, closeContextualSidebar, setSidebarOpen, navigateTo]);
+
   return (
     <TooltipProvider delayDuration={300}>
       <div className="h-screen flex flex-col overflow-hidden bg-[#1b1c1e] text-[#f5f5f5]">
@@ -1417,7 +1484,7 @@ export default function ErpLayout() {
           <Sidebar />
 
           {/* Content area */}
-          <main className="flex-1 overflow-hidden bg-[#1b1c1e]">
+          <main className="flex-1 overflow-auto bg-[#1b1c1e] scroll-smooth">
             <ErpErrorBoundary>
               <PageContent />
             </ErpErrorBoundary>
@@ -1439,6 +1506,12 @@ export default function ErpLayout() {
 
         {/* Mobile FAB */}
         <MobileFab />
+
+        {/* Contextual Sidebar (entity detail panel) */}
+        <ContextualSidebar
+          entity={contextualSidebar}
+          onClose={closeContextualSidebar}
+        />
       </div>
     </TooltipProvider>
   );

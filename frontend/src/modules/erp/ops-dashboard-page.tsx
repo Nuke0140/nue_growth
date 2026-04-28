@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { LayoutDashboard } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import {
   IndianRupee,
   FolderKanban,
@@ -269,65 +271,19 @@ const itemVariants = {
 // MAIN COMPONENT
 // ══════════════════════════════════════════════════════════════════════
 
-export default function OpsDashboardPage() {
+function OpsDashboardPageInner() {
   // We import the store to stay wired into the ERP ecosystem
   useErpStore((s) => s.currentPage);
 
   // ── Render ─────────────────────────────────────────────────────────
   return (
-    <motion.div
-      className="flex flex-col gap-6 overflow-y-auto h-full pr-1"
-      style={{ paddingBottom: '2rem' }}
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-    >
-      {/* ── Header ──────────────────────────────────────────── */}
+    <PageShell title="Operations Dashboard" icon={LayoutDashboard}>
       <motion.div
-        variants={itemVariants}
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+        className="flex flex-col gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
       >
-        <div className="flex items-center gap-3">
-          <div
-            className="flex items-center justify-center w-10 h-10 rounded-xl"
-            style={{ backgroundColor: 'rgba(204, 92, 55, 0.12)' }}
-          >
-            <Activity className="w-5 h-5" style={{ color: ACCENT }} />
-          </div>
-          <div>
-            <h1
-              className="text-2xl font-bold tracking-tight"
-              style={{ color: 'var(--ops-text)' }}
-            >
-              Executive View
-            </h1>
-            <p
-              className="text-xs mt-0.5"
-              style={{ color: 'var(--ops-text-muted)' }}
-            >
-              Organization-wide performance at a glance
-            </p>
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg self-start sm:self-auto"
-          style={{
-            backgroundColor: 'var(--ops-card-bg-light)',
-            border: '1px solid var(--ops-border)',
-          }}
-        >
-          <CalendarDays
-            className="w-3.5 h-3.5"
-            style={{ color: 'var(--ops-text-muted)' }}
-          />
-          <span
-            className="text-xs font-medium"
-            style={{ color: 'var(--ops-text-secondary)' }}
-          >
-            {formatToday()}
-          </span>
-        </div>
-      </motion.div>
 
       {/* ══════════════════════════════════════════════════════════
           ROW 1 — KPI CARDS (4 across full width)
@@ -762,5 +718,8 @@ export default function OpsDashboardPage() {
         </div>
       </motion.div>
     </motion.div>
+    </PageShell>
   );
 }
+
+export default memo(OpsDashboardPageInner);

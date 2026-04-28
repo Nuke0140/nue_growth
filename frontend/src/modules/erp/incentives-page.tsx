@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Plus, IndianRupee, Clock, CheckCircle2, TrendingUp, BarChart3,
-  ChevronDown, MoreHorizontal, Download
+  ChevronDown, MoreHorizontal, Download, Gift
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +15,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockIncentives, mockEmployees } from '@/modules/erp/data/mock-data';
 import type { IncentiveType, IncentiveStatus } from '@/modules/erp/types';
 
@@ -42,7 +43,7 @@ function formatCurrency(val: number) {
   return `₹${val.toLocaleString('en-IN')}`;
 }
 
-export default function IncentivesPage() {
+function IncentivesPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
@@ -85,27 +86,24 @@ export default function IncentivesPage() {
   const months = ['all', '2026-04', '2026-03', '2026-02'];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Incentives</h1>
-            <div className="relative">
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className={cn(
-                  'appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-lg border cursor-pointer focus:outline-none',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white/60' : 'bg-black/[0.03] border-black/[0.08] text-black/60'
-                )}
-              >
-                {months.map(m => (
-                  <option key={m} value={m}>{m === 'all' ? 'All Time' : new Date(m + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</option>
-                ))}
-              </select>
-              <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
-            </div>
+    <PageShell title="Incentives" icon={Gift}>
+      <div className="space-y-6">
+        {/* Actions */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="relative">
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className={cn(
+                'appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-lg border cursor-pointer focus:outline-none',
+                isDark ? 'bg-white/[0.04] border-white/[0.08] text-white/60' : 'bg-black/[0.03] border-black/[0.08] text-black/60'
+              )}
+            >
+              {months.map(m => (
+                <option key={m} value={m}>{m === 'all' ? 'All Time' : new Date(m + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</option>
+              ))}
+            </select>
+            <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
           </div>
           <TooltipProvider delayDuration={0}>
             <Tooltip>
@@ -294,6 +292,8 @@ export default function IncentivesPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(IncentivesPageInner);

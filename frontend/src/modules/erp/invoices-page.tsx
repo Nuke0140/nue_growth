@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
-  Search, Plus, FileText, DollarSign, AlertTriangle, Wallet,
+  Search, Plus, FileText, DollarSign, AlertTriangle, Wallet, Receipt,
   Clock, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
   ExternalLink, Repeat, Send, Bell, FileDown, ArrowUpDown,
   ArrowUp, ArrowDown, MoreHorizontal
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockInvoices } from '@/modules/erp/data/mock-data';
 import type { InvoiceStatus, SortDir } from '@/modules/erp/types';
 
@@ -39,7 +40,7 @@ function getStatusConfig(status: InvoiceStatus, isDark: boolean) {
   return configs[status];
 }
 
-export default function InvoicesPage() {
+function InvoicesPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -112,16 +113,10 @@ export default function InvoicesPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Invoices</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {filtered.length}
-            </Badge>
-          </div>
+    <PageShell title="Invoices" icon={Receipt}>
+      <div className="space-y-6">
+        {/* Search + Actions */}
+        <div className="flex items-center justify-end gap-2">
           <div className="flex items-center gap-2">
             <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
               <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -345,6 +340,8 @@ export default function InvoicesPage() {
           )}
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(InvoicesPageInner);

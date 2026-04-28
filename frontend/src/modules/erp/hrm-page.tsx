@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
@@ -15,6 +15,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { useErpStore } from './erp-store';
 import type { ErpPage } from './types';
 
@@ -119,33 +120,13 @@ function PageCard({ page, index }: { page: HrmSubPage; index: number }) {
 }
 
 // ---- Main Page ----
-export default function HrmPage() {
+function HrmPageInner() {
   const [activeTab, setActiveTab] = useState('core');
   const currentTab = hrmTabs.find((t) => t.key === activeTab) || hrmTabs[0];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6 max-w-[1200px] mx-auto">
-        {/* ---- Header ---- */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex items-center gap-3"
-        >
-          <div className="w-10 h-10 rounded-xl bg-[#cc5c37]/15 flex items-center justify-center">
-            <Users className="w-5 h-5 text-[#cc5c37]" />
-          </div>
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-[#f5f5f5]">
-              Human Resources Management
-            </h1>
-            <p className="text-[13px] text-[rgba(245,245,245,0.4)]">
-              Manage your team, attendance, payroll, and performance
-            </p>
-          </div>
-        </motion.div>
-
+    <PageShell title="Human Resources" icon={Users}>
+      <div className="space-y-6 max-w-[1200px] mx-auto">
         {/* ---- Tab Buttons ---- */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -194,6 +175,8 @@ export default function HrmPage() {
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(HrmPageInner);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, FolderKanban, Calendar, CheckCircle2, Circle, FileText,
@@ -14,6 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockProjects, mockTasks, mockResources } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
@@ -427,7 +428,7 @@ function TimelineTab({ project }: { project: ErpProject }) {
 
 // ── Main Page ────────────────────────────────────────────
 
-export default function ProjectDetailPage() {
+function ProjectDetailPageInner() {
   const selectedProjectId = useErpStore((s) => s.selectedProjectId);
   const goBack = useErpStore((s) => s.goBack);
   const [activeTab, setActiveTab] = useState('overview');
@@ -511,76 +512,30 @@ export default function ProjectDetailPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-4 md:p-6 space-y-5">
-        {/* ── Back Button ── */}
-        <motion.div
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
+    <PageShell title={project.name} icon={FolderKanban} padded={false} headerRight={
+      <div className="flex items-center gap-2 flex-wrap shrink-0">
+        <StatusBadge status={project.status} className="text-[10px] px-2" />
+        <span
+          className="ops-badge text-[10px] capitalize"
+          style={{
+            backgroundColor: `${priorityColorMap[project.priority]}18`,
+            color: priorityColorMap[project.priority],
+          }}
         >
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={goBack}
-            className="gap-1.5 -ml-2"
-            style={{ color: 'var(--ops-text-secondary)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Button>
-        </motion.div>
-
-        {/* ── Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, duration: 0.3 }}
-          className="space-y-3"
+          {project.priority}
+        </span>
+        <span
+          className="ops-badge text-[10px]"
+          style={{
+            backgroundColor: `${healthColorMap[project.health]}18`,
+            color: healthColorMap[project.health],
+          }}
         >
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div className="min-w-0">
-              <h1
-                className="text-lg md:text-xl font-bold leading-tight"
-                style={{ color: 'var(--ops-text)' }}
-              >
-                {project.name}
-              </h1>
-              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
-                  {project.client}
-                </span>
-                <span style={{ color: 'var(--ops-text-muted)' }}>·</span>
-                <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
-                  {project.accountManager}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 flex-wrap shrink-0">
-              <StatusBadge status={project.status} className="text-[10px] px-2" />
-              <span
-                className="ops-badge text-[10px] capitalize"
-                style={{
-                  backgroundColor: `${priorityColorMap[project.priority]}18`,
-                  color: priorityColorMap[project.priority],
-                }}
-              >
-                {project.priority}
-              </span>
-              <span
-                className="ops-badge text-[10px]"
-                style={{
-                  backgroundColor: `${healthColorMap[project.health]}18`,
-                  color: healthColorMap[project.health],
-                }}
-              >
-                {project.health}
-              </span>
-            </div>
-          </div>
-        </motion.div>
+          {project.health}
+        </span>
+      </div>
+    }>
+      <div className="space-y-5">
 
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -672,6 +627,8 @@ export default function ProjectDetailPage() {
           </Tabs>
         </motion.div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ProjectDetailPageInner);

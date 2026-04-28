@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Building2, Users, Target, DollarSign, FolderKanban } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { KpiWidget } from './components/ops/kpi-widget';
+import { PageShell } from './components/ops/page-shell';
 import { mockEmployees, mockResources } from './data/mock-data';
 
 function formatINR(num: number): string {
@@ -54,7 +55,7 @@ function useDepartments() {
   }, []);
 }
 
-export default function DepartmentsPage() {
+function DepartmentsPageInner() {
   const departments = useDepartments();
 
   const stats = useMemo(() => ({
@@ -68,14 +69,8 @@ export default function DepartmentsPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex items-center gap-3">
-          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Departments</h1>
-          <Badge variant="secondary" className="ops-badge">{departments.length}</Badge>
-        </motion.div>
-
+    <PageShell title="Departments" icon={Network}>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Departments" value={stats.total} icon={Building2} color="accent" />
@@ -161,6 +156,8 @@ export default function DepartmentsPage() {
           ))}
         </motion.div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(DepartmentsPageInner);

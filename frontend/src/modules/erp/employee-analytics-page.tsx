@@ -1,19 +1,20 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Brain, AlertTriangle, TrendingUp, TrendingDown, Users, Flame,
-  Target, BarChart3, Clock, GraduationCap, Heart, UserPlus,
+  Target, BarChart3, BarChart2, Clock, GraduationCap, Heart, UserPlus,
   Building2, ChevronRight, Zap, Shield
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockEmployees, mockPerformanceReviews, mockAttendance } from '@/modules/erp/data/mock-data';
 
-export default function EmployeeAnalyticsPage() {
+function EmployeeAnalyticsPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -96,18 +97,14 @@ export default function EmployeeAnalyticsPage() {
   const maxTrend = Math.max(...productivityTrend.map(p => p.score));
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl md:text-2xl font-bold">Employee Analytics</h1>
-          <Badge className={cn(
-            'gap-1 px-2 py-0.5 text-[11px] font-medium border',
-            isDark ? 'bg-purple-500/15 text-purple-400 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200'
-          )}>
-            <Brain className="w-3 h-3" /> AI-Powered
-          </Badge>
-        </div>
+    <PageShell title="Employee Analytics" icon={BarChart2} subtitle="AI-Powered" headerRight={
+      <Badge className={cn(
+        'gap-1 px-2 py-0.5 text-[11px] font-medium border',
+        isDark ? 'bg-purple-500/15 text-purple-400 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200'
+      )}>
+        <Brain className="w-3 h-3" /> AI-Powered
+      </Badge>
+    }>
 
         {/* 6 KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -376,7 +373,8 @@ export default function EmployeeAnalyticsPage() {
             </motion.div>
           </div>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(EmployeeAnalyticsPageInner);

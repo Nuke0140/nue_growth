@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { memo, useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { COLORS, ANIMATION } from '../../design-tokens';
 import {
   Table,
   TableBody,
@@ -54,7 +55,7 @@ interface SmartDataTableProps<T extends Record<string, unknown>> {
 
 type SortDir = 'asc' | 'desc' | null;
 
-export function SmartDataTable<T extends Record<string, unknown>>({
+function SmartDataTableInner<T extends Record<string, unknown>>({
   columns,
   data,
   onRowClick,
@@ -84,6 +85,8 @@ export function SmartDataTable<T extends Record<string, unknown>>({
   const [selectAll, setSelectAll] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
+  const [focusedRow, setFocusedRow] = useState(-1);
 
   // Unique row id key
   const idKey = 'id' in data[0] ? 'id' : null;
@@ -219,6 +222,32 @@ export function SmartDataTable<T extends Record<string, unknown>>({
     });
   };
 
+  // Keyboard navigation handler for the table
+  const handleTableKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (editingCell) return; // Don't navigate while editing
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setFocusedRow((prev) => Math.min(prev + 1, paged.length - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setFocusedRow((prev) => Math.max(prev - 1, 0));
+      } else if (e.key === 'Enter' && focusedRow >= 0 && onRowClick) {
+        e.preventDefault();
+        onRowClick(paged[focusedRow]);
+      } else if (e.key === 'Escape') {
+        setFocusedRow(-1);
+      }
+    },
+    [editingCell, focusedRow, onRowClick, paged]
+  );
+
+  // Reset focused row when data or page changes
+  useEffect(() => {
+    setFocusedRow(-1);
+  }, [data, page]);
+
   // CSV Export
   const handleExport = useCallback(() => {
     const headers = visibleColumns.map((c) => c.label).join(',');
@@ -236,7 +265,7 @@ export function SmartDataTable<T extends Record<string, unknown>>({
   }, [sorted, visibleColumns]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4" role="region" aria-label="Table with toolbar">
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -244,7 +273,8 @@ export function SmartDataTable<T extends Record<string, unknown>>({
             <div className="relative max-w-sm flex-1">
               <Search
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                style={{ color: 'rgba(245,245,245,0.25)' }}
+                style={{ color: COLORS.searchIcon }}
+                aria-hidden="true"
               />
               <input
                 type="text"
@@ -255,6 +285,7 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                 }}
                 placeholder={searchPlaceholder}
                 className="ops-input w-full pl-9 pr-4 py-2 text-sm"
+                aria-label="Search table"
               />
             </div>
           )}
@@ -363,8 +394,8 @@ export function SmartDataTable<T extends Record<string, unknown>>({
       </div>
 
       {/* Table */}
-      <div className="ops-card overflow-hidden !p-0">
-        <Table>
+      <div className="ops-card overflow-hidden !p-0" role="grid" aria-label="Data table" onKeyDown={handleTableKeyDown} tabIndex={0}>
+        <Table ref={tableRef}>
           <TableHeader>
             <TableRow
               className="border-b"
@@ -388,8 +419,11 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                 <TableHead
                   key={col.key}
                   className={col.sortable ? 'cursor-pointer select-none' : undefined}
-                  style={{ color: 'rgba(245,245,245,0.35)' }}
+                  style={{ color: COLORS.textMuted }}
                   onClick={col.sortable ? () => handleSort(col.key) : undefined}
+                  aria-label={col.sortable ? `Sort by ${col.label}` : undefined}
+                  role="columnheader"
+                  tabIndex={col.sortable ? 0 : undefined}
                 >
                   <div className="flex items-center gap-1.5">
                     {col.label}
@@ -401,7 +435,8 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                             ? 'opacity-100'
                             : 'opacity-30'
                         )}
-                        style={{ color: 'rgba(245,245,245,0.35)' }}
+                        style={{ color: COLORS.textMuted }}
+                        aria-hidden="true"
                       />
                     )}
                   </div>
@@ -426,12 +461,19 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                 return (
                   <TableRow
                     key={rowId}
-                    className="border-b transition-colors"
+                    tabIndex={0}
+                    className={cn(
+                      'border-b transition-colors',
+                      focusedRow === idx && 'ring-1 ring-inset ring-[rgba(204,92,55,0.25)]'
+                    )}
                     style={{
-                      borderColor: 'rgba(255,255,255,0.06)',
+                      borderColor: COLORS.borderLight,
                       cursor: onRowClick ? 'pointer' : undefined,
                     }}
+                    role="row"
+                    aria-selected={focusedRow === idx}
                     onClick={(e) => {
+                      setFocusedRow(idx);
                       if (
                         editingCell?.rowIdx === idx ||
                         (e.target as HTMLElement).tagName === 'INPUT'
@@ -441,7 +483,7 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                     }}
                     onMouseEnter={(e) => {
                       (e.currentTarget as HTMLElement).style.backgroundColor =
-                        'rgba(255,255,255,0.02)';
+                        COLORS.overlayHover;
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -451,14 +493,16 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                     {/* Bulk select */}
                     {(selectAll || selectedIds.size > 0) && (
                       <TableCell
-                        style={{ color: 'rgba(245,245,245,0.6)' }}
+                        style={{ color: COLORS.textSecondary }}
                         onClick={(e) => e.stopPropagation()}
+                        role="gridcell"
                       >
                         <input
                           type="checkbox"
                           checked={selectedIds.has(rowId)}
                           onChange={() => toggleRowSelect(rowId)}
                           className="rounded border-[rgba(255,255,255,0.15)] bg-transparent accent-[#cc5c37]"
+                          aria-label={`Select row ${idx + 1}`}
                         />
                       </TableCell>
                     )}
@@ -471,7 +515,8 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                       return (
                         <TableCell
                           key={col.key}
-                          style={{ color: 'rgba(245,245,245,0.6)' }}
+                          style={{ color: COLORS.textSecondary }}
+                          role="gridcell"
                           onDoubleClick={(e) => {
                             e.stopPropagation();
                             startEditing(idx, col.key);
@@ -487,15 +532,22 @@ export function SmartDataTable<T extends Record<string, unknown>>({
                                 onKeyDown={(e) => {
                                   if (e.key === 'Enter') commitEdit(idx);
                                   if (e.key === 'Escape') cancelEdit();
+                                  if (e.key === 'Tab') {
+                                    e.preventDefault();
+                                    commitEdit(idx);
+                                  }
                                 }}
                                 onBlur={() => commitEdit(idx)}
                                 className="ops-input text-sm px-2 py-1 w-full bg-[rgba(255,255,255,0.06)] border-[rgba(204,92,55,0.4)]"
                                 autoFocus
+                                aria-label={`Edit ${col.label}`}
                               />
                               <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
+                                transition={ANIMATION.springBounce}
                                 className="shrink-0"
+                                aria-hidden="true"
                               >
                                 <Check className="w-3.5 h-3.5 text-emerald-400" />
                               </motion.div>
@@ -578,3 +630,5 @@ export function SmartDataTable<T extends Record<string, unknown>>({
     </div>
   );
 }
+
+export const SmartDataTable = memo(SmartDataTableInner);

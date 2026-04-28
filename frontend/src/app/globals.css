@@ -331,3 +331,71 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ============================================
+   Global Enhancements
+   ============================================ */
+
+/* 1. Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent layout shift from scrollbar */
+html {
+  overflow-y: scroll;
+}
+
+/* 2. Focus visible — keyboard navigation indicator */
+*:focus-visible {
+  outline: 2px solid #cc5c37;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default focus for mouse clicks */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* 3. Consistent selection color */
+::selection {
+  background-color: rgba(204, 92, 55, 0.3);
+  color: #f5f5f5;
+}
+
+/* 4. Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 5. Print styles */
+@media print {
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  [data-motion] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 6. Better mobile touch targets */
+@media (pointer: coarse) {
+  button,
+  [role="button"],
+  a,
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

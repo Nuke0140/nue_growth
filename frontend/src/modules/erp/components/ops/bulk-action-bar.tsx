@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 import { X } from 'lucide-react';
+import { ANIMATION } from '../../design-tokens';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -24,7 +25,7 @@ interface BulkActionBarProps {
 
 // ── Bulk Action Bar ────────────────────────────────────
 
-export function BulkActionBar({
+export const BulkActionBar = React.memo(function BulkActionBar({
   selectedCount,
   actions,
   onClear,
@@ -37,7 +38,7 @@ export function BulkActionBar({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          transition={ANIMATION.springGentle}
           className={cn(
             'fixed bottom-4 inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-50',
             className
@@ -45,6 +46,8 @@ export function BulkActionBar({
         >
           <div
             className="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl"
+            role="toolbar"
+            aria-label="Bulk actions"
             style={{
               backgroundColor: 'rgba(34, 35, 37, 0.92)',
               border: '1px solid var(--ops-border)',
@@ -53,7 +56,7 @@ export function BulkActionBar({
             }}
           >
             {/* Selected count */}
-            <div className="flex items-center gap-2 mr-2">
+            <div className="flex items-center gap-2 mr-2" role="status" aria-label={`${selectedCount} items selected`} aria-live="polite">
               <span
                 className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-lg text-xs font-bold"
                 style={{
@@ -87,6 +90,12 @@ export function BulkActionBar({
                   <button
                     key={action.label}
                     onClick={action.onClick}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        action.onClick();
+                      }
+                    }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
                     style={{
                       color: isDanger
@@ -126,6 +135,12 @@ export function BulkActionBar({
             {/* Clear selection */}
             <button
               onClick={onClear}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onClear();
+                }
+              }}
               className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors cursor-pointer"
               style={{ color: 'var(--ops-text-muted)' }}
               onMouseEnter={(e) => {
@@ -144,4 +159,4 @@ export function BulkActionBar({
       )}
     </AnimatePresence>
   );
-}
+});

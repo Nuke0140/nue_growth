@@ -1,17 +1,18 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Search, Plus, Sparkles, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
   FileText, BookOpen, CheckCircle2, Clock, Archive, Hash, User, Calendar,
-  MoreHorizontal, Layers
+  MoreHorizontal, Layers, FileCode
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockSops } from '@/modules/erp/data/mock-data';
 import type { SopStatus } from '@/modules/erp/types';
 
@@ -51,7 +52,7 @@ function getDeptBadgeColor(dept: string, isDark: boolean) {
   return colors[dept] || (isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200');
 }
 
-export default function SopTemplatesPage() {
+function SopTemplatesPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -96,31 +97,24 @@ export default function SopTemplatesPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">SOP Templates</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>{filtered.length}</Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search SOPs..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
-            </div>
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className={cn('h-9 px-4 rounded-xl flex items-center gap-2 text-xs font-medium shrink-0', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
-                    <Plus className="w-3.5 h-3.5" /> Create SOP
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent><p>Create new SOP template</p></TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+    <PageShell title="SOP Templates" icon={FileCode} headerRight={
+      <div className="flex items-center gap-2">
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+          <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+          <input type="text" placeholder="Search SOPs..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
         </div>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className={cn('h-9 px-4 rounded-xl flex items-center gap-2 text-xs font-medium shrink-0', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                <Plus className="w-3.5 h-3.5" /> Create SOP
+              </button>
+            </TooltipTrigger>
+            <TooltipContent><p>Create new SOP template</p></TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    }>
 
         {/* Department Filter Badges */}
         <div className="flex flex-wrap items-center gap-2">
@@ -276,7 +270,8 @@ export default function SopTemplatesPage() {
             </button>
           </motion.div>
         )}
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(SopTemplatesPageInner);

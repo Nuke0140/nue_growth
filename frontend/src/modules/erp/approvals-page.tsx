@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import {
@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FilterBar } from './components/ops/filter-bar';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { BulkActionBar } from './components/ops/bulk-action-bar';
+import { PageShell } from './components/ops/page-shell';
 import { Timeline, type TimelineItem } from './components/ops/timeline';
 import { mockApprovals } from './data/mock-data';
 import type { Approval, ApprovalType, ApprovalStatus } from './types';
@@ -75,7 +76,7 @@ function timeAgo(dateStr: string): string {
   return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 }
 
-export default function ApprovalsPage() {
+function ApprovalsPageInner() {
   const [activeTab, setActiveTab] = useState<TabKey>('pending');
   const [activeType, setActiveType] = useState<TypeFilter>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -217,13 +218,8 @@ export default function ApprovalsPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex items-center gap-3">
-          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Approvals</h1>
-          <Badge variant="secondary" className="ops-badge">{filtered.length}</Badge>
-        </motion.div>
+    <PageShell title="Approvals" icon={CheckCircle2} badge={filtered.length}>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
 
         {/* Type filter pills */}
         <motion.div variants={fadeUp}>
@@ -411,6 +407,8 @@ export default function ApprovalsPage() {
           },
         ]}
       />
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ApprovalsPageInner);

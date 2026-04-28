@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Target, Clock, CheckCircle2, TrendingUp, Trophy, Star } from 'lucide-react';
@@ -11,6 +11,7 @@ import { StatusBadge } from './components/ops/status-badge';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockPerformanceReviews, mockEmployees } from './data/mock-data';
 import type { PerformanceReview, PromotionReadiness } from './types';
+import { PageShell } from './components/ops/page-shell';
 
 function getEmployee(id: string) {
   return mockEmployees.find(e => e.id === id);
@@ -29,7 +30,7 @@ const promoLabels: Record<PromotionReadiness, string> = {
   overdue: 'Overdue',
 };
 
-export default function PerformancePage() {
+function PerformancePageInner() {
   const reviews = useMemo(() => {
     return mockPerformanceReviews
       .map(r => ({ ...r, employee: getEmployee(r.employeeId)! }))
@@ -142,14 +143,8 @@ export default function PerformancePage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex items-center gap-3">
-          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Performance</h1>
-          <Badge variant="secondary" className="ops-badge">Q1 2026</Badge>
-        </motion.div>
-
+    <PageShell title="Performance" icon={Target} subtitle="Q1 2026">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg KPI Score" value={`${stats.avgKpi}%`} icon={Target} color="accent" />
@@ -169,6 +164,8 @@ export default function PerformancePage() {
           />
         </motion.div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(PerformancePageInner);

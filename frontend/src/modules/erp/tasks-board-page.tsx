@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, GitBranch, Clock, AlertTriangle, CheckCircle2,
   X, Paperclip, CheckSquare, Square,
+  Columns3,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockTasks, mockProjects, mockResources } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
 import { SearchInput } from '@/modules/erp/components/ops/search-input';
@@ -847,7 +849,7 @@ function AddTaskDrawer({
 
 // ── Main Page ────────────────────────────────────────────
 
-export default function TasksBoardPage() {
+function TasksBoardPageInner() {
   const [searchQuery, setSearchQuery] = useState('');
   const [projectFilter, setProjectFilter] = useState<string>('all');
   const [activeLabel, setActiveLabel] = useState<string | null>(null);
@@ -952,54 +954,34 @@ export default function TasksBoardPage() {
   const detailSubtasks = selectedTaskId ? (localSubtasks[selectedTaskId] || []) : [];
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
-      <div className="p-4 md:p-6 space-y-4 shrink-0">
-        {/* ── Header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <h1
-              className="text-xl md:text-2xl font-bold"
-              style={{ color: 'var(--ops-text)' }}
-            >
-              Tasks Board
-            </h1>
-            <Badge
-              variant="secondary"
-              className="text-xs font-medium"
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.06)',
-                color: 'var(--ops-text-secondary)',
-              }}
-            >
-              {filteredTasks.length} tasks
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Search tasks..."
-              className="w-full sm:w-52"
-            />
-            <Button
-              className="h-9 px-3 rounded-xl gap-1.5 text-xs font-medium"
-              style={{
-                backgroundColor: 'var(--ops-accent)',
-                color: '#fff',
-              }}
-              onClick={() => setDrawerOpen(true)}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = 'var(--ops-accent-hover)')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = 'var(--ops-accent)')
-              }
-            >
-              <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">Add Task</span>
-            </Button>
-          </div>
-        </div>
+    <PageShell title="Task Board" icon={Columns3} subtitle="Kanban view" padded={false} headerRight={
+      <div className="flex items-center gap-2">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search tasks..."
+          className="w-full sm:w-52"
+        />
+        <Button
+          className="h-9 px-3 rounded-xl gap-1.5 text-xs font-medium"
+          style={{
+            backgroundColor: 'var(--ops-accent)',
+            color: '#fff',
+          }}
+          onClick={() => setDrawerOpen(true)}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = 'var(--ops-accent-hover)')
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = 'var(--ops-accent)')
+          }
+        >
+          <Plus className="w-4 h-4" />
+          <span className="hidden sm:inline">Add Task</span>
+        </Button>
+      </div>
+    }>
+      <div className="space-y-4">
 
         {/* ── Project Filter ── */}
         <div className="flex items-center gap-2">
@@ -1106,6 +1088,8 @@ export default function TasksBoardPage() {
           onSubtaskToggle={handleSubtaskToggle}
         />
       )}
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(TasksBoardPageInner);

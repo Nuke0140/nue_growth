@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DataTable, type Column } from './components/ops/data-table';
 import { KpiWidget } from './components/ops/kpi-widget';
+import { PageShell } from './components/ops/page-shell';
 import { mockPayroll, mockEmployees } from './data/mock-data';
 import type { PayrollRecord } from './types';
 import { Wallet, TrendingUp, Building2 } from 'lucide-react';
@@ -59,7 +60,7 @@ const deptColors: Record<string, string> = {
   Finance: '#38bdf8',
 };
 
-export default function CompensationPage() {
+function CompensationPageInner() {
   // Merge payroll with employee salary band data
   const enriched = useMemo(() => {
     return mockPayroll.map(p => {
@@ -191,18 +192,8 @@ export default function CompensationPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>
-              Compensation
-            </h1>
-            <Badge variant="secondary" className="ops-badge">Overview</Badge>
-          </div>
-        </motion.div>
-
+    <PageShell title="Compensation" icon={Wallet}>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* KPI Widgets */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg Salary" value={formatINR(kpis.avgSalary)} icon={Wallet} color="accent" />
@@ -258,6 +249,8 @@ export default function CompensationPage() {
           />
         </motion.div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(CompensationPageInner);

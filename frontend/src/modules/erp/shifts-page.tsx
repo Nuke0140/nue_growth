@@ -1,15 +1,16 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
-  Plus, Clock, Moon, Zap, Users, Building2, AlertTriangle, ChevronRight
+  Plus, Clock, Moon, Zap, Users, Building2, AlertTriangle, ChevronRight, CalendarClock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockShifts } from '@/modules/erp/data/mock-data';
 import type { ShiftRotation } from '@/modules/erp/types';
 
@@ -35,7 +36,7 @@ function getDeptColor(dept: string): string {
   return colors[dept] || 'bg-zinc-500';
 }
 
-export default function ShiftsPage() {
+function ShiftsPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -68,16 +69,10 @@ export default function ShiftsPage() {
   const deptColor = (dept: string) => getDeptColor(dept);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Shifts</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {stats.total}
-            </Badge>
-          </div>
+    <PageShell title="Shifts" icon={CalendarClock}>
+      <div className="space-y-6">
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-2">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -269,6 +264,8 @@ export default function ShiftsPage() {
           })}
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ShiftsPageInner);

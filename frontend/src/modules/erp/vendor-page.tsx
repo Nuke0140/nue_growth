@@ -1,17 +1,18 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Search, Plus, Star, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
   FileCheck, Shield, TrendingUp, Users, AlertTriangle, MoreHorizontal,
-  Building2, FolderOpen
+  Building2, FolderOpen, Package
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockVendors } from '@/modules/erp/data/mock-data';
 import type { VendorStatus } from '@/modules/erp/types';
 
@@ -89,7 +90,7 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-export default function VendorPage() {
+function VendorPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -132,16 +133,10 @@ export default function VendorPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Vendors</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {filtered.length}
-            </Badge>
-          </div>
+    <PageShell title="Vendors" icon={Package}>
+      <div className="space-y-6">
+        {/* Search + Actions */}
+        <div className="flex items-center justify-end gap-2">
           <div className="flex items-center gap-2">
             <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
               <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -325,6 +320,8 @@ export default function VendorPage() {
           </div>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(VendorPageInner);

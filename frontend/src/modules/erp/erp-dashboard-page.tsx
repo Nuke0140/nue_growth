@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import {
   Calendar, AlertTriangle, Clock, DollarSign, Users, TrendingUp,
@@ -21,6 +21,8 @@ import {
 import { useErpStore } from '@/modules/erp/erp-store';
 import { KpiWidget } from '@/modules/erp/components/ops/kpi-widget';
 import { ActivityFeed } from '@/modules/erp/components/ops/activity-feed';
+import { LayoutDashboard } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import type { ErpPage, LucideIcon } from '@/modules/erp/types';
 
 // ── Stagger animation helper ──
@@ -119,7 +121,7 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
 }
 
 // ── Main Component ──
-export default function ErpDashboardPage() {
+function ErpDashboardPageInner() {
   const navigateTo = useErpStore((s) => s.navigateTo);
   const openCreateModal = useErpStore((s) => s.openCreateModal);
 
@@ -178,8 +180,8 @@ export default function ErpDashboardPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-4 md:p-6 space-y-6 max-w-[1600px] mx-auto">
+    <PageShell title="Dashboard" icon={LayoutDashboard} subtitle="Operations overview">
+      <div className="space-y-6 max-w-[1600px] mx-auto">
         {/* ── Row 1: Today Summary ── */}
         <motion.div
           variants={container}
@@ -446,6 +448,8 @@ export default function ErpDashboardPage() {
           })}
         </motion.div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ErpDashboardPageInner);

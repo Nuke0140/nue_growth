@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import {
   DndContext,
@@ -23,6 +23,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Calendar, GripVertical, Paperclip, CheckSquare } from 'lucide-react';
+import { ANIMATION } from '../../design-tokens';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -87,7 +88,7 @@ const priorityColors: Record<string, string> = {
 
 // ── Sortable Task Card ─────────────────────────────────
 
-function TaskCard({
+const TaskCard = React.memo(function TaskCard({
   task,
   overlay = false,
   onTaskClick,
@@ -127,6 +128,8 @@ function TaskCard({
       )}
       {...(!overlay ? { ...attributes, ...listeners } : {})}
       onClick={handleClick}
+      role="listitem"
+      aria-label={task.title}
     >
       {/* Project name */}
       {task.projectName && (
@@ -221,7 +224,7 @@ function TaskCard({
               }}
               initial={{ width: 0 }}
               animate={{ width: `${subtaskPct}%` }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: ANIMATION.durationVerySlow, ease: ANIMATION.easeDefault }}
             />
           </div>
         </div>
@@ -303,11 +306,11 @@ function TaskCard({
       )}
     </motion.div>
   );
-}
+});
 
 // ── Sortable Column ────────────────────────────────────
 
-function SortableColumn({
+const SortableColumn = React.memo(function SortableColumn({
   column,
   onMoveTask,
   onTaskClick,
@@ -331,9 +334,11 @@ function SortableColumn({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors',
+        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors snap-start',
         isOver && 'bg-[rgba(204,92,55,0.04)]'
       )}
+      role="region"
+      aria-label={`${column.title} column, ${column.items.length} tasks`}
     >
       {/* Column header */}
       <div className="flex items-center justify-between px-2 py-2 mb-2">
@@ -361,7 +366,7 @@ function SortableColumn({
         items={column.items.map((t) => t.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-2 max-h-[calc(100vh-280px)] overflow-y-auto pr-1 custom-scrollbar">
+        <div className="flex flex-col gap-2 max-h-[calc(100vh-280px)] overflow-y-auto pr-1 custom-scrollbar" role="list">
           {column.items.map((task) => (
             <TaskCard key={task.id} task={task} onTaskClick={onTaskClick} />
           ))}
@@ -380,11 +385,11 @@ function SortableColumn({
       </SortableContext>
     </div>
   );
-}
+});
 
 // ── Kanban Board ───────────────────────────────────────
 
-export function KanbanBoard({
+export const KanbanBoard = memo(function KanbanBoard({
   columns,
   onMoveTask,
   onTaskClick,
@@ -399,14 +404,14 @@ export function KanbanBoard({
     useSensor(KeyboardSensor)
   );
 
-  const handleDragStart = (event: DragStartEvent) => {
+  const handleDragStart = useCallback((event: DragStartEvent) => {
     const { active } = event;
     if (active.data.current?.type === 'task') {
       setActiveTask(active.data.current.task as KanbanTask);
     }
-  };
+  }, []);
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
     setActiveTask(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -434,18 +439,20 @@ export function KanbanBoard({
     if (fromColumn.id !== toColumnId && onMoveTask) {
       onMoveTask(taskId, fromColumn.id, toColumnId);
     }
-  };
+  }, [columns, onMoveTask]);
 
-  const handleDragOver = (_event: DragOverEvent) => {
+  const handleDragOver = useCallback((_event: DragOverEvent) => {
     // Visual feedback handled by isOver in SortableColumn
-  };
+  }, []);
 
   const columnIds = columns.map((c) => c.id);
 
   return (
     <div
-      className={cn('flex gap-4 overflow-x-auto pb-4', className)}
+      className={cn('flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory', className)}
       style={{ backgroundColor: 'var(--ops-bg-dark)' }}
+      role="region"
+      aria-label="Kanban board"
     >
       <DndContext
         sensors={sensors}
@@ -468,4 +475,4 @@ export function KanbanBoard({
       </DndContext>
     </div>
   );
-}
+});

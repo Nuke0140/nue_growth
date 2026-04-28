@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockChatChannels, mockChatMessages } from '@/modules/erp/data/mock-data';
 
 function getChannelIcon(type: string) {
@@ -52,7 +53,7 @@ const avatarColors = [
   'bg-rose-500/15 text-rose-400',
 ];
 
-export default function InternalChatPage() {
+function InternalChatPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -100,7 +101,7 @@ export default function InternalChatPage() {
   };
 
   return (
-    <div className="h-full flex">
+    <PageShell title="Internal Chat" icon={MessageSquare} padded={false}>
       {/* Channels Sidebar */}
       <div className={cn('w-64 shrink-0 flex flex-col border-r overflow-hidden', isDark ? 'bg-white/[0.01] border-white/[0.06]' : 'bg-gray-50 border-black/[0.06]')}>
         {/* Sidebar Header */}
@@ -332,6 +333,8 @@ export default function InternalChatPage() {
           </div>
         </motion.div>
       )}
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(InternalChatPageInner);

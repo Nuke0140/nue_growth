@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, FolderKanban, Wallet, AlertTriangle, TrendingUp, Calendar,
@@ -16,6 +16,7 @@ import { SearchInput } from '@/modules/erp/components/ops/search-input';
 import { FilterBar } from '@/modules/erp/components/ops/filter-bar';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import type { ProjectStatus, ProjectHealth, ProjectPriority, ErpProject } from '@/modules/erp/types';
+import { PageShell } from './components/ops/page-shell';
 
 // ── Helpers ──────────────────────────────────────────────
 
@@ -393,7 +394,7 @@ function StatCard({
 
 // ── Main Page ────────────────────────────────────────────
 
-export default function ProjectsPage() {
+function ProjectsPageInner() {
   const selectProject = useErpStore((s) => s.selectProject);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
@@ -476,48 +477,16 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-4 md:p-6 space-y-5">
-        {/* ── Header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--ops-text)' }}>
-              Projects
-            </h1>
-            <Badge
-              variant="secondary"
-              className="text-xs font-medium"
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.06)',
-                color: 'var(--ops-text-secondary)',
-              }}
-            >
-              {filtered.length}
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
+    <PageShell title="Projects" icon={FolderKanban} createType="project">
+      <div className="space-y-5">
+        {/* ── Search (moved from header) ── */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 max-w-sm">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
               placeholder="Search projects..."
-              className="w-full sm:w-64"
             />
-            <Button
-              size="icon"
-              className="h-9 w-9 rounded-xl shrink-0"
-              style={{
-                backgroundColor: 'var(--ops-accent)',
-                color: '#fff',
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = 'var(--ops-accent-hover)')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = 'var(--ops-accent)')
-              }
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
           </div>
         </div>
 
@@ -623,6 +592,8 @@ export default function ProjectsPage() {
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ProjectsPageInner);

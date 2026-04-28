@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
@@ -8,6 +8,7 @@ import {
   Flame, Wallet, Building2, CreditCard, BarChart3, PieChart, Target,
   Activity, AlertTriangle, CheckCircle2, Clock
 } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -30,7 +31,7 @@ const monthlyTrend = [
   { month: 'Apr', revenue: 5750000, expense: 3875000 },
 ];
 
-export default function FinanceOpsPage() {
+function FinanceOpsPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -49,20 +50,8 @@ export default function FinanceOpsPage() {
   ], [data, isDark]);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <BarChart3 className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Finance Operations</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Internal finance cockpit — April 2026</p>
-            </div>
-          </div>
-        </div>
+    <PageShell title="Finance Ops" icon={TrendingDown}>
+      <div className="space-y-6">
 
         {/* KPI Widgets Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -308,6 +297,8 @@ export default function FinanceOpsPage() {
           </motion.div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(FinanceOpsPageInner);

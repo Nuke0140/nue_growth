@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import {
-  Plus, Monitor, Shield, Wrench, Archive, IndianRupee, Package,
+import { Monitor, Shield, Wrench, Archive, IndianRupee, Package,
   Laptop, Smartphone, Printer, Server, Video, LayoutGrid, List,
-  AlertTriangle, CheckCircle2, XCircle, Calendar, Tag,
+  AlertTriangle, CheckCircle2, XCircle, Calendar, Tag, Plus,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -19,6 +18,7 @@ import { KpiWidget } from './components/ops/kpi-widget';
 import { Timeline, type TimelineItem } from './components/ops/timeline';
 import { mockAssets, mockEmployees } from './data/mock-data';
 import type { Asset, IssueLog } from './types';
+import { PageShell } from './components/ops/page-shell';
 
 function formatINR(num: number): string {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
@@ -297,7 +297,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
 
 type ViewMode = 'table' | 'card';
 
-export default function AssetsPage() {
+function AssetsPageInner() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [detailAsset, setDetailAsset] = useState<Asset | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -422,50 +422,37 @@ export default function AssetsPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Assets</h1>
-            <Badge variant="secondary" className="ops-badge">{filtered.length}</Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* View Toggle */}
-            <div className="flex items-center rounded-xl overflow-hidden" style={{ border: '1px solid var(--ops-border)' }}>
-              <button
-                className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
-                style={{
-                  backgroundColor: viewMode === 'table' ? 'rgba(204,92,55,0.12)' : 'transparent',
-                  color: viewMode === 'table' ? '#cc5c37' : 'var(--ops-text-muted)',
-                }}
-                onClick={() => setViewMode('table')}
-                aria-label="Table view"
-              >
-                <List className="w-4 h-4" />
-              </button>
-              <button
-                className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
-                style={{
-                  backgroundColor: viewMode === 'card' ? 'rgba(204,92,55,0.12)' : 'transparent',
-                  color: viewMode === 'card' ? '#cc5c37' : 'var(--ops-text-muted)',
-                }}
-                onClick={() => setViewMode('card')}
-                aria-label="Card view"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-            </div>
-            <button className="ops-btn-primary" onClick={() => setDrawerOpen(true)}>
-              <Plus className="w-4 h-4" /> Add Asset
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Search + Filter */}
+    <>
+    <PageShell title="Assets" icon={Monitor} createType="asset">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+        {/* Search + Filter + View Toggle */}
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search assets by name, type, serial..." className="max-w-sm" />
           <FilterBar filters={filterOptions} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <button
+              className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
+              style={{
+                backgroundColor: viewMode === 'table' ? 'rgba(204,92,55,0.12)' : 'transparent',
+                color: viewMode === 'table' ? '#cc5c37' : 'var(--ops-text-muted)',
+              }}
+              onClick={() => setViewMode('table')}
+              aria-label="Table view"
+            >
+              <List className="w-4 h-4" />
+            </button>
+            <button
+              className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
+              style={{
+                backgroundColor: viewMode === 'card' ? 'rgba(204,92,55,0.12)' : 'transparent',
+                color: viewMode === 'card' ? '#cc5c37' : 'var(--ops-text-muted)',
+              }}
+              onClick={() => setViewMode('card')}
+              aria-label="Card view"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+          </div>
         </motion.div>
 
         {/* Stats */}
@@ -523,62 +510,65 @@ export default function AssetsPage() {
           </AnimatePresence>
         </motion.div>
       </motion.div>
+    </PageShell>
 
-      {/* Add Asset Drawer */}
-      <DrawerForm
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        title="Add Asset"
-        onSubmit={handleSubmit}
-        submitLabel="Add Asset"
-      >
-        <div className="space-y-4">
+    {/* Add Asset Drawer */}
+    <DrawerForm
+      open={drawerOpen}
+      onClose={() => setDrawerOpen(false)}
+      title="Add Asset"
+      onSubmit={handleSubmit}
+      submitLabel="Add Asset"
+    >
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Asset Name</label>
+          <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder='e.g. MacBook Pro 16"' className="ops-input w-full px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Type</label>
+          <select value={formType} onChange={(e) => setFormType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+            {assetTypes.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Serial Number</label>
+          <input type="text" value={formSerial} onChange={(e) => setFormSerial(e.target.value)} placeholder="e.g. MBP-2024-001" className="ops-input w-full px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Assigned To</label>
+          <select value={formAssigned} onChange={(e) => setFormAssigned(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+            <option value="">Select employee</option>
+            {mockEmployees.map(e => <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>)}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Asset Name</label>
-            <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder='e.g. MacBook Pro 16"' className="ops-input w-full px-3 py-2 text-sm" />
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Date</label>
+            <input type="date" value={formPurchaseDate} onChange={(e) => setFormPurchaseDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Type</label>
-            <select value={formType} onChange={(e) => setFormType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
-              {assetTypes.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Serial Number</label>
-            <input type="text" value={formSerial} onChange={(e) => setFormSerial(e.target.value)} placeholder="e.g. MBP-2024-001" className="ops-input w-full px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Assigned To</label>
-            <select value={formAssigned} onChange={(e) => setFormAssigned(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
-              <option value="">Select employee</option>
-              {mockEmployees.map(e => <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>)}
-            </select>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Date</label>
-              <input type="date" value={formPurchaseDate} onChange={(e) => setFormPurchaseDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Cost (₹)</label>
-              <input type="number" value={formCost} onChange={(e) => setFormCost(e.target.value)} placeholder="0" className="ops-input w-full px-3 py-2 text-sm" />
-            </div>
-          </div>
-          <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Warranty End</label>
-            <input type="date" value={formWarranty} onChange={(e) => setFormWarranty(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Cost (₹)</label>
+            <input type="number" value={formCost} onChange={(e) => setFormCost(e.target.value)} placeholder="0" className="ops-input w-full px-3 py-2 text-sm" />
           </div>
         </div>
-      </DrawerForm>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Warranty End</label>
+          <input type="date" value={formWarranty} onChange={(e) => setFormWarranty(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
+        </div>
+      </div>
+    </DrawerForm>
 
-      {/* Asset Detail / Issue History Drawer */}
-      <DrawerForm
-        open={detailOpen}
-        onClose={() => { setDetailOpen(false); setDetailAsset(null); }}
-        title="Asset Details"
-      >
-        <AssetDetailContent asset={detailAsset} />
-      </DrawerForm>
-    </div>
+    {/* Asset Detail / Issue History Drawer */}
+    <DrawerForm
+      open={detailOpen}
+      onClose={() => { setDetailOpen(false); setDetailAsset(null); }}
+      title="Asset Details"
+    >
+      <AssetDetailContent asset={detailAsset} />
+    </DrawerForm>
+    </>
   );
 }
+
+export default memo(AssetsPageInner);

@@ -1,15 +1,16 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
-  AlertTriangle, Info, Users, BarChart3, TrendingUp, TrendingDown, Clock
+  AlertTriangle, Info, Users, BarChart3, BarChart2, TrendingUp, TrendingDown, Clock
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockWorkload, mockEmployees } from '@/modules/erp/data/mock-data';
 import type { WorkloadStatus } from '@/modules/erp/types';
 
@@ -24,7 +25,7 @@ function getEmployee(id: string) {
   return mockEmployees.find(e => e.id === id);
 }
 
-export default function WorkloadPage() {
+function WorkloadPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -72,17 +73,11 @@ export default function WorkloadPage() {
   const maxAllocation = Math.max(...data.map(d => d.allocation), 100);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Workload</h1>
-            <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
-            </Badge>
-          </div>
-        </div>
+    <PageShell title="Workload" icon={BarChart2} headerRight={
+      <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+        {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+      </Badge>
+    }>
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -299,7 +294,8 @@ export default function WorkloadPage() {
             )}
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(WorkloadPageInner);

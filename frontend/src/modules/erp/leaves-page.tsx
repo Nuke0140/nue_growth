@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Plus, CalendarDays, Clock, CheckCircle2, Wallet } from 'lucide-react';
+import { CalendarDays, Clock, CheckCircle2, Wallet } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { DataTable, type Column } from './components/ops/data-table';
@@ -13,6 +13,8 @@ import { FilterBar } from './components/ops/filter-bar';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockLeaveRequests, mockEmployees, mockResources } from './data/mock-data';
 import type { LeaveRequest } from './types';
+import { PageShell } from './components/ops/page-shell';
+import { CalendarOff } from 'lucide-react';
 
 type TabKey = 'my' | 'team' | 'all';
 
@@ -32,7 +34,7 @@ const leaveTypeLabels: Record<string, string> = {
 
 const deptFilterOptions = [...new Set(mockResources.map(r => r.department))];
 
-export default function LeavesPage() {
+function LeavesPageInner() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabKey>('my');
   const [deptFilter, setDeptFilter] = useState('all');
@@ -154,19 +156,9 @@ export default function LeavesPage() {
   };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Leaves</h1>
-            <Badge variant="secondary" className="ops-badge">{stats.total}</Badge>
-          </div>
-          <button className="ops-btn-primary" onClick={() => setDrawerOpen(true)}>
-            <Plus className="w-4 h-4" /> Apply Leave
-          </button>
-        </motion.div>
-
+    <>
+    <PageShell title="Leave Management" icon={CalendarOff} createType="leave">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Total Requests" value={stats.total} icon={CalendarDays} color="accent" />
@@ -206,49 +198,53 @@ export default function LeavesPage() {
           />
         </motion.div>
       </motion.div>
+    </PageShell>
 
-      {/* Apply Leave Drawer */}
-      <DrawerForm
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        title="Apply Leave"
-        onSubmit={handleSubmit}
-        submitLabel="Submit Request"
-      >
-        <div className="space-y-4">
+    {/* Apply Leave Drawer */}
+    <DrawerForm
+      open={drawerOpen}
+      onClose={() => setDrawerOpen(false)}
+      title="Apply Leave"
+      onSubmit={handleSubmit}
+      submitLabel="Submit Request"
+    >
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Leave Type</label>
+          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+            {['casual', 'sick', 'earned', 'maternity', 'paternity', 'comp-off', 'loss-of-pay'].map(t => (
+              <option key={t} value={t}>{leaveTypeLabels[t]}</option>
+            ))}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Leave Type</label>
-            <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
-              {['casual', 'sick', 'earned', 'maternity', 'paternity', 'comp-off', 'loss-of-pay'].map(t => (
-                <option key={t} value={t}>{leaveTypeLabels[t]}</option>
-              ))}
-            </select>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Start Date</label>
-              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>End Date</label>
-              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
-            </div>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Start Date</label>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Reason</label>
-            <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Enter reason..." rows={3} className="ops-input w-full px-3 py-2 text-sm resize-none" />
-          </div>
-          <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Approver</label>
-            <select value={approver} onChange={(e) => setApprover(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
-              <option value="">Select approver</option>
-              {mockEmployees.filter(e => ['E4', 'E5'].includes(e.salaryBand)).map(e => (
-                <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>
-              ))}
-            </select>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>End Date</label>
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
           </div>
         </div>
-      </DrawerForm>
-    </div>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Reason</label>
+          <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Enter reason..." rows={3} className="ops-input w-full px-3 py-2 text-sm resize-none" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Approver</label>
+          <select value={approver} onChange={(e) => setApprover(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+            <option value="">Select approver</option>
+            {mockEmployees.filter(e => ['E4', 'E5'].includes(e.salaryBand)).map(e => (
+              <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </DrawerForm>
+    </>
   );
 }
+
+export default memo(LeavesPageInner);
+

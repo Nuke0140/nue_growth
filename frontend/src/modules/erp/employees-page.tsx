@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, UserCheck, Clock, AlertTriangle, Plus, MoreHorizontal,
@@ -33,6 +33,7 @@ import { BulkActionBar } from '@/modules/erp/components/ops/bulk-action-bar';
 import {
   ArrowUpDown, ChevronLeft, ChevronRight,
 } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 
 // ---- Helpers ----
 type FilterKey = 'all' | 'active' | 'on-leave' | 'probation' | 'notice-period';
@@ -133,7 +134,7 @@ function SkillTag({ skill }: { skill: string }) {
 }
 
 // ---- Main Component ----
-export default function EmployeesPage() {
+function EmployeesPageInner() {
   const selectEmployee = useErpStore((s) => s.selectEmployee);
   const bulkSelectedIds = useErpStore((s) => s.bulkSelectedIds);
   const toggleBulkSelection = useErpStore((s) => s.toggleBulkSelection);
@@ -334,42 +335,9 @@ export default function EmployeesPage() {
 
   // ---- Render ----
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="h-full overflow-y-auto relative"
-      style={{ backgroundColor: 'var(--ops-bg-dark)' }}
-    >
-      <div className="p-6 space-y-5">
-        {/* ---- Header ---- */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1
-              className="text-xl md:text-2xl font-bold"
-              style={{ color: 'var(--ops-text)' }}
-            >
-              Employees
-            </h1>
-            <span
-              className="ops-badge text-xs font-medium"
-              style={{
-                backgroundColor: 'var(--ops-accent-light)',
-                color: 'var(--ops-accent)',
-              }}
-            >
-              {filtered.length}
-            </span>
-          </div>
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="ops-btn-primary gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add Employee
-          </button>
-        </div>
-
+    <>
+    <PageShell title="Employees" icon={Users} createType="employee">
+      <div className="space-y-5">
         {/* ---- Filters & Search ---- */}
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -1170,30 +1138,32 @@ export default function EmployeesPage() {
           </div>
         </DrawerForm>
       </div>
+    </PageShell>
 
-      {/* ---- Bulk Action Bar ---- */}
-      <BulkActionBar
-        selectedCount={bulkSelectedIds.length}
-        onClear={clearBulkSelection}
-        actions={[
-          {
-            label: 'Assign Department',
-            icon: Building2,
-            onClick: () => {},
-          },
-          {
-            label: 'Change Status',
-            icon: UserCheck,
-            onClick: () => {},
-          },
-          {
-            label: 'Delete',
-            icon: UserX,
-            onClick: () => {},
-            variant: 'danger',
-          },
-        ]}
-      />
-    </motion.div>
+    <BulkActionBar
+      selectedCount={bulkSelectedIds.length}
+      onClear={clearBulkSelection}
+      actions={[
+        {
+          label: 'Assign Department',
+          icon: Building2,
+          onClick: () => {},
+        },
+        {
+          label: 'Change Status',
+          icon: UserCheck,
+          onClick: () => {},
+        },
+        {
+          label: 'Delete',
+          icon: UserX,
+          onClick: () => {},
+          variant: 'danger',
+        },
+      ]}
+    />
+    </>
   );
 }
+
+export default memo(EmployeesPageInner);

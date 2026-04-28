@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
@@ -8,6 +8,7 @@ import {
   Truck, BarChart3, DollarSign, Target, ArrowRight, Brain,
   ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Sparkles
 } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -64,7 +65,7 @@ function getTypeConfig(type: AiOpsType) {
   }
 }
 
-export default function AiOpsIntelligencePage() {
+function AiOpsIntelligencePageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -106,31 +107,13 @@ export default function AiOpsIntelligencePage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">AI Ops Intelligence</h1>
-            <motion.div
-              animate={{ boxShadow: ['0 0 0 0 rgba(168,85,247,0)', '0 0 20px 4px rgba(168,85,247,0.15)', '0 0 0 0 rgba(168,85,247,0)'] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className={cn(
-                'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border',
-                isDark ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200'
-              )}
-            >
-              <Brain className="w-3.5 h-3.5" />
-              AI Powered
-            </motion.div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search insights..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
-            </div>
-          </div>
-        </div>
+    <PageShell title="AI Intelligence" icon={Sparkles} headerRight={
+      <div className={cn('flex items-center gap-2', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]', 'px-3 py-2 rounded-xl border w-full sm:w-64')}>
+        <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+        <input type="text" placeholder="Search insights..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+      </div>
+    }>
+      <div className="space-y-6">
 
         {/* Filter Tabs */}
         <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
@@ -302,6 +285,8 @@ export default function AiOpsIntelligencePage() {
           </div>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(AiOpsIntelligencePageInner);

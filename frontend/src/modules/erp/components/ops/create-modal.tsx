@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { memo, useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { ANIMATION } from '../../design-tokens';
 import type { LucideIcon } from 'lucide-react';
 import {
   CheckCircle2,
@@ -470,7 +471,7 @@ function AiSuggestionChip({
 
 // ---- CreateModal Component ----
 
-export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps) {
+function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
   const selectedProjectId = useErpStore((s) => s.selectedProjectId);
   const selectedEmployeeId = useErpStore((s) => s.selectedEmployeeId);
 
@@ -515,6 +516,48 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [submitting, setSubmitting] = useState(false);
   const [successFlash, setSuccessFlash] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap within modal
+  useEffect(() => {
+    if (!open) return;
+
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusableSelector = 'input, select, textarea, button, [tabindex]:not([tabindex="-1"])';
+    const focusableEls = modal.querySelectorAll<HTMLElement>(focusableSelector);
+    if (focusableEls.length > 0) {
+      // Focus first element after a brief delay to let animation start
+      setTimeout(() => focusableEls[0]?.focus(), 100);
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key === 'Tab' && focusableEls.length > 0) {
+        const first = focusableEls[0];
+        const last = focusableEls[focusableEls.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last?.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first?.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
 
   // Track open state for reset
   const prevOpenRef = useRef(false);
@@ -597,9 +640,10 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: ANIMATION.durationFast }}
             className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
+            aria-hidden="true"
           />
 
           {/* Modal */}
@@ -608,9 +652,13 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={ANIMATION.modalEnter}
               className="w-full max-w-lg bg-[#222325] border border-[rgba(255,255,255,0.08)] rounded-2xl shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="create-modal-title"
             >
               {/* Success flash overlay */}
               <AnimatePresence>
@@ -619,8 +667,9 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: ANIMATION.durationMedium }}
                     className="absolute inset-0 z-10 bg-emerald-500/15 rounded-2xl flex items-center justify-center pointer-events-none"
+                    aria-hidden="true"
                   >
                     <motion.div
                       initial={{ scale: 0 }}
@@ -637,10 +686,10 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
               <div className="flex items-center justify-between px-6 py-4 border-b border-[rgba(255,255,255,0.06)]">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[rgba(204,92,55,0.12)] flex items-center justify-center">
-                    <Icon className="w-[18px] h-[18px] text-[#cc5c37]" />
+                    <Icon className="w-[18px] h-[18px] text-[#cc5c37]" aria-hidden="true" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold text-[#f5f5f5]">Create {config.label}</h2>
+                    <h2 id="create-modal-title" className="text-sm font-semibold text-[#f5f5f5]">Create {config.label}</h2>
                     <p className="text-[11px] text-[rgba(245,245,245,0.35)]">
                       Fill in the details below
                     </p>
@@ -651,6 +700,7 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
                   size="icon"
                   onClick={onClose}
                   className="h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                  aria-label="Close dialog"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -758,5 +808,7 @@ export function CreateModal({ open, onClose, type, onSubmit }: CreateModalProps)
     </AnimatePresence>
   );
 }
+
+export const CreateModal = memo(CreateModalInner);
 
 export default CreateModal;

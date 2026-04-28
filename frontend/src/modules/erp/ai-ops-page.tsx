@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import {
   Sparkles,
@@ -17,6 +17,8 @@ import {
   Filter,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Brain } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import { mockAiInsights } from './data/mock-data';
 import type { AiOpsSeverity, AiOpsType, ErpPage } from './types';
 import { useErpStore } from './erp-store';
@@ -160,7 +162,7 @@ function StatMiniCard({ label, value, icon: Icon, accent }: { label: string; val
 }
 
 // ---- Main Page ----
-export default function AiOpsPage() {
+function AiOpsPageInner() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const navigateTo = useErpStore((s) => s.navigateTo);
 
@@ -188,55 +190,32 @@ export default function AiOpsPage() {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6 max-w-[1400px] mx-auto">
-        {/* ---- Header ---- */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4"
-        >
-          <div>
-            <div className="flex items-center gap-2.5 mb-1">
-              <div className="w-9 h-9 rounded-xl bg-[#cc5c37]/15 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-[#cc5c37]" />
-              </div>
-              <h1 className="text-xl md:text-2xl font-bold text-[#f5f5f5]">
-                AI Operations Intelligence
-              </h1>
-            </div>
-            <p className="text-[13px] text-[rgba(245,245,245,0.4)] ml-[46px]">
-              Real-time insights powered by AI analysis
-            </p>
-          </div>
-
-          {/* Filter pills */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)]">
-            <Filter className="w-3.5 h-3.5 text-[rgba(245,245,245,0.3)] ml-2 mr-1" />
-            {filterOptions.map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter(f.key)}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
-                  activeFilter === f.key
-                    ? 'bg-[rgba(255,255,255,0.08)] text-[#f5f5f5] shadow-sm'
-                    : 'text-[rgba(245,245,245,0.4)] hover:text-[rgba(245,245,245,0.7)]'
-                )}
-              >
-                {f.label}
-                <span className={cn(
-                  'px-1.5 py-0.5 rounded text-[10px] font-bold',
-                  activeFilter === f.key ? 'bg-[rgba(255,255,255,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
-                )}>
-                  {filterCounts[f.key]}
-                </span>
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
+    <PageShell title="AI Operations" icon={Brain} headerRight={
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)]">
+        <Filter className="w-3.5 h-3.5 text-[rgba(245,245,245,0.3)] ml-2 mr-1" />
+        {filterOptions.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setActiveFilter(f.key)}
+            className={cn(
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
+              activeFilter === f.key
+                ? 'bg-[rgba(255,255,255,0.08)] text-[#f5f5f5] shadow-sm'
+                : 'text-[rgba(245,245,245,0.4)] hover:text-[rgba(245,245,245,0.7)]'
+            )}
+          >
+            {f.label}
+            <span className={cn(
+              'px-1.5 py-0.5 rounded text-[10px] font-bold',
+              activeFilter === f.key ? 'bg-[rgba(255,255,255,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
+            )}>
+              {filterCounts[f.key]}
+            </span>
+          </button>
+        ))}
+      </div>
+    }>
+      <div className="space-y-6 max-w-[1400px] mx-auto">
         {/* ---- Stats Summary ---- */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
@@ -389,6 +368,8 @@ export default function AiOpsPage() {
           </motion.div>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(AiOpsPageInner);

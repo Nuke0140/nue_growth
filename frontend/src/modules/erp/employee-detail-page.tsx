@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Mail, Phone, Calendar, Briefcase, DollarSign, UserCircle,
@@ -22,6 +22,7 @@ import {
 } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
+import { PageShell } from './components/ops/page-shell';
 import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 import { Timeline } from '@/modules/erp/components/ops/timeline';
 import type { TimelineItem as TimelineItemType } from '@/modules/erp/components/ops/timeline';
@@ -92,7 +93,7 @@ function getAssetStatusColor(status: string): string {
 }
 
 // ---- Main Component ----
-export default function EmployeeDetailPage() {
+function EmployeeDetailPageInner() {
   const { selectedEmployeeId, goBack } = useErpStore();
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
 
@@ -300,13 +301,9 @@ export default function EmployeeDetailPage() {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="h-full overflow-y-auto"
-      style={{ backgroundColor: 'var(--ops-bg-dark)' }}
-    >
+    <PageShell title={employee.name} icon={Users} padded={false} headerRight={
+      <StatusBadge status={formatStatusLabel(employee.status)} variant="pill" />
+    }>
       <div className="p-6 space-y-6">
         {/* ---- Back Button ---- */}
         <motion.div
@@ -339,15 +336,6 @@ export default function EmployeeDetailPage() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-1">
-                  <h1
-                    className="text-xl md:text-2xl font-bold truncate"
-                    style={{ color: 'var(--ops-text)' }}
-                  >
-                    {employee.name}
-                  </h1>
-                  <StatusBadge status={formatStatusLabel(employee.status)} variant="pill" />
-                </div>
                 <p className="text-sm mb-3" style={{ color: 'var(--ops-text-secondary)' }}>
                   {employee.designation} · {employee.department}
                 </p>
@@ -1134,8 +1122,10 @@ export default function EmployeeDetailPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </motion.div>
+    </PageShell>
   );
 }
+
+export default memo(EmployeeDetailPageInner);
 
 

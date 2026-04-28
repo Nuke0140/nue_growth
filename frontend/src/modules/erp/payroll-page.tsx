@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import {
@@ -15,6 +15,7 @@ import { StatusBadge } from './components/ops/status-badge';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockPayroll } from './data/mock-data';
 import type { PayrollRecord } from './types';
+import { PageShell } from './components/ops/page-shell';
 
 const MONTHS = ['2026-01', '2026-02', '2026-03', '2026-04'];
 
@@ -237,7 +238,7 @@ function PieTooltipContent({ active, payload }: PieTooltipProps) {
 
 // ── Main Page ──────────────────────────────────────────
 
-export default function PayrollPage() {
+function PayrollPageInner() {
   const [selectedMonth, setSelectedMonth] = useState('2026-04');
   const [payrollData, setPayrollData] = useState<PayrollRecord[]>(mockPayroll);
   const [payslipRecord, setPayslipRecord] = useState<PayrollRecord | null>(null);
@@ -338,49 +339,44 @@ export default function PayrollPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Payroll</h1>
-            <Badge variant="secondary" className="ops-badge">{getMonthLabel(selectedMonth)}</Badge>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Month Selector */}
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => canPrev && setSelectedMonth(MONTHS[currentIdx - 1])}
-                disabled={!canPrev}
-                className="ops-btn-ghost p-1.5 disabled:opacity-30"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="text-sm font-medium px-3 min-w-[120px] text-center" style={{ color: 'var(--ops-text)' }}>
-                {getMonthLabel(selectedMonth)}
-              </span>
-              <button
-                onClick={() => canNext && setSelectedMonth(MONTHS[currentIdx + 1])}
-                disabled={!canNext}
-                className="ops-btn-ghost p-1.5 disabled:opacity-30"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+    <>
+    <PageShell title="Payroll" icon={Banknote} subtitle={getMonthLabel(selectedMonth)} headerRight={
+        <div className="flex items-center gap-3">
+          {/* Month Selector */}
+          <div className="flex items-center gap-1">
             <button
-              className="ops-btn-primary"
-              disabled={stats.pending === 0}
-              onClick={handleProcessAll}
-              style={{ opacity: stats.pending === 0 ? 0.4 : 1 }}
+              onClick={() => canPrev && setSelectedMonth(MONTHS[currentIdx - 1])}
+              disabled={!canPrev}
+              className="ops-btn-ghost p-1.5 disabled:opacity-30"
             >
-              {bulkProcessed ? (
-                <><Check className="w-4 h-4" /> All Processed!</>
-              ) : (
-                <><FileText className="w-4 h-4" /> Process All Pending</>
-              )}
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <span className="text-sm font-medium px-3 min-w-[120px] text-center" style={{ color: 'var(--ops-text)' }}>
+              {getMonthLabel(selectedMonth)}
+            </span>
+            <button
+              onClick={() => canNext && setSelectedMonth(MONTHS[currentIdx + 1])}
+              disabled={!canNext}
+              className="ops-btn-ghost p-1.5 disabled:opacity-30"
+            >
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-        </motion.div>
+          <button
+            className="ops-btn-primary"
+            disabled={stats.pending === 0}
+            onClick={handleProcessAll}
+            style={{ opacity: stats.pending === 0 ? 0.4 : 1 }}
+          >
+            {bulkProcessed ? (
+              <><Check className="w-4 h-4" /> All Processed!</>
+            ) : (
+              <><FileText className="w-4 h-4" /> Process All Pending</>
+            )}
+          </button>
+        </div>
+      }>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
 
         {/* Bulk success toast */}
         <AnimatePresence>
@@ -470,13 +466,16 @@ export default function PayrollPage() {
           </motion.div>
         </div>
       </motion.div>
+    </PageShell>
 
-      {/* Payslip Modal */}
-      <PayslipModal
-        record={payslipRecord}
-        open={payslipOpen}
-        onClose={() => { setPayslipOpen(false); setPayslipRecord(null); }}
-      />
-    </div>
+    {/* Payslip Modal */}
+    <PayslipModal
+      record={payslipRecord}
+      open={payslipOpen}
+      onClose={() => { setPayslipOpen(false); setPayslipRecord(null); }}
+    />
+    </>
   );
 }
+
+export default memo(PayrollPageInner);

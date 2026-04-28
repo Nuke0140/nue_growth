@@ -94,6 +94,24 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
     return () => clearTimeout(timer);
   }, [currentStep, tour, updatePosition]);
 
+  // Move handler definitions before keyboard useEffect to avoid reference issues
+  const handleNext = useCallback(() => {
+    if (isLastStep) {
+      if (dontShowAgain) {
+        try {
+          localStorage.setItem('erp-onboarding-done', 'true');
+        } catch {}
+      }
+      onComplete();
+    } else {
+      setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
+    }
+  }, [isLastStep, dontShowAgain, onComplete, totalSteps]);
+
+  const handlePrev = useCallback(() => {
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  }, []);
+
   // Keyboard navigation
   useEffect(() => {
     if (!tour) return;
@@ -118,24 +136,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
 
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [tour, currentStep, totalSteps]);
-
-  const handleNext = useCallback(() => {
-    if (isLastStep) {
-      if (dontShowAgain) {
-        try {
-          localStorage.setItem('erp-onboarding-done', 'true');
-        } catch {}
-      }
-      onComplete();
-    } else {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
-    }
-  }, [isLastStep, dontShowAgain, onComplete, totalSteps]);
-
-  const handlePrev = useCallback(() => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
-  }, []);
+  }, [tour, currentStep, totalSteps, handleNext, handlePrev, onSkip]);
 
   if (!tour || !step) return null;
 
@@ -175,6 +176,9 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
           ref={tooltipRef}
           className="fixed z-[100] w-[320px] max-w-[calc(100vw-48px)] pointer-events-auto"
           style={position}
+          role="dialog"
+          aria-modal="false"
+          aria-label={`Tour step ${currentStep + 1} of ${totalSteps}: ${step.title}`}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 5 }}
@@ -245,6 +249,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                   <button
                     onClick={handlePrev}
                     className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[rgba(245,245,245,0.5)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                    aria-label="Previous step"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                     Back
@@ -256,6 +261,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                 <button
                   onClick={onSkip}
                   className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[rgba(245,245,245,0.35)] hover:text-[rgba(245,245,245,0.6)] hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                  aria-label="Skip tour"
                 >
                   <SkipForward className="w-3 h-3" />
                   Skip
@@ -263,6 +269,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                 <button
                   onClick={handleNext}
                   className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#cc5c37] text-white hover:bg-[#d46a44] transition-colors"
+                  aria-label={isLastStep ? 'Get Started - complete tour' : 'Next step'}
                 >
                   {isLastStep ? 'Get Started' : 'Next'}
                   {!isLastStep && <ChevronRight className="w-3.5 h-3.5" />}

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ANIMATION, COLORS } from '../../design-tokens';
 
 interface KpiWidgetProps {
   label: string;
@@ -44,7 +45,7 @@ const colorMap = {
   },
 };
 
-export function KpiWidget({
+export const KpiWidget = React.memo(function KpiWidget({
   label,
   value,
   icon: Icon,
@@ -68,11 +69,13 @@ export function KpiWidget({
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: ANIMATION.durationMedium }}
       className={cn('ops-card ops-glow relative overflow-hidden p-6', className)}
+      role="status"
+      aria-label={`${label}: ${value}`}
     >
       {/* Background icon */}
-      <div className="absolute top-0 right-0 w-24 h-24 opacity-[0.04] pointer-events-none">
+      <div className="absolute top-0 right-0 w-24 h-24 opacity-[0.04] pointer-events-none" aria-hidden="true">
         <Icon className="w-full h-full" />
       </div>
 
@@ -114,4 +117,4 @@ export function KpiWidget({
       </div>
     </motion.div>
   );
-}
+});

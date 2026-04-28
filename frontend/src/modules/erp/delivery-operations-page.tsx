@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Search, Calendar, Clock, CheckCircle2, AlertTriangle, X, Check,
   RotateCcw, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
-  MoreHorizontal, Truck, BarChart3, ArrowRight, UserCheck, Timer
+  MoreHorizontal, Truck, BarChart3, ArrowRight, UserCheck, Timer,
+  Calendar as CalendarIcon
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -17,6 +18,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockDeliveryItems, mockProjects } from '@/modules/erp/data/mock-data';
 import type { DeliveryStatus } from '@/modules/erp/types';
 
@@ -47,7 +49,7 @@ function isOverdue(dueDate: string) {
   return new Date(dueDate) < new Date();
 }
 
-export default function DeliveryOperationsPage() {
+function DeliveryOperationsPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -87,24 +89,12 @@ export default function DeliveryOperationsPage() {
   }), [enriched]);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Delivery Operations</h1>
-            <Badge className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              <Calendar className="w-3 h-3 mr-1" />
-              {todayStr}
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search deliveries..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
-            </div>
-          </div>
-        </div>
+    <PageShell title="Delivery Operations" icon={Truck} subtitle={todayStr} headerRight={
+      <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+        <input type="text" placeholder="Search deliveries..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+      </div>
+    }>
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
@@ -260,7 +250,8 @@ export default function DeliveryOperationsPage() {
             </div>
           )}
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(DeliveryOperationsPageInner);

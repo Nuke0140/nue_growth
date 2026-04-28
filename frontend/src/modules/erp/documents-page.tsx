@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { FileText, Eye, Download, AlertTriangle, Clock, Shield } from 'lucide-react';
@@ -12,6 +12,7 @@ import { SearchInput } from './components/ops/search-input';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockDocuments, mockEmployees } from './data/mock-data';
 import type { Document, DocumentType } from './types';
+import { PageShell } from './components/ops/page-shell';
 
 type FilterKey = 'all' | DocumentType;
 
@@ -40,7 +41,7 @@ function getExpiryStatus(expiresAt: string | null): { label: string; color: stri
   return null;
 }
 
-export default function DocumentsPage() {
+function DocumentsPageInner() {
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
 
@@ -170,14 +171,8 @@ export default function DocumentsPage() {
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <motion.div className="p-6 space-y-6" variants={stagger} initial="hidden" animate="show">
-        {/* Header */}
-        <motion.div variants={fadeUp} className="flex items-center gap-3">
-          <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Documents</h1>
-          <Badge variant="secondary" className="ops-badge">{filtered.length}</Badge>
-        </motion.div>
-
+    <PageShell title="Documents" icon={FileText}>
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Search + Filter */}
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search documents..." className="max-w-sm" />
@@ -205,6 +200,8 @@ export default function DocumentsPage() {
           />
         </motion.div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(DocumentsPageInner);

@@ -1,18 +1,19 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Search, Calendar, LayoutGrid, Thermometer, Grid3X3, Users,
   AlertTriangle, CheckCircle2, ArrowRight, ChevronLeft, ChevronRight,
   ChevronsLeft, ChevronsRight, MoreHorizontal, Flame, UserCheck,
-  BarChart3, Briefcase
+  BarChart3, Briefcase, GitBranch
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockResources } from '@/modules/erp/data/mock-data';
 
 type ViewMode = 'calendar' | 'workload' | 'utilization' | 'availability';
@@ -42,7 +43,7 @@ const avatarColors = [
   'bg-lime-500/15 text-lime-400',
 ];
 
-export default function ResourcePlanningPage() {
+function ResourcePlanningPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -79,20 +80,12 @@ export default function ResourcePlanningPage() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Resource Planning</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search resources..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
-            </div>
-          </div>
-        </div>
+    <PageShell title="Resource Planning" icon={GitBranch} headerRight={
+      <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+        <input type="text" placeholder="Search resources..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+      </div>
+    }>
 
         {/* View Toggle */}
         <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
@@ -262,7 +255,8 @@ export default function ResourcePlanningPage() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ResourcePlanningPageInner);

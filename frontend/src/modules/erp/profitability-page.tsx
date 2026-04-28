@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
@@ -8,6 +8,7 @@ import {
   ChevronRight, ArrowUpRight, ArrowDownRight, IndianRupee, Target,
   BarChart3, Zap, Info, Bell
 } from 'lucide-react';
+import { PageShell } from './components/ops/page-shell';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -51,7 +52,7 @@ const burnRevenueData = [
   { month: 'Apr', burn: 1900000, revenue: 3500000 },
 ];
 
-export default function ProfitabilityPage() {
+function ProfitabilityPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -85,26 +86,19 @@ export default function ProfitabilityPage() {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Profitability</h1>
-            <Badge className={cn('text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border')}>
-              <Target className="w-3 h-3 mr-1" />
-              Founder View
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
-            </div>
-          </div>
+    <PageShell title="Profitability" icon={BarChart2} headerRight={
+      <div className="flex items-center gap-2">
+        <Badge className={cn('text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border')}>
+          <Target className="w-3 h-3 mr-1" />
+          Founder View
+        </Badge>
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+          <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+          <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
         </div>
-
-        {/* KPI Cards */}
+      </div>
+    }>
+      {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Total Revenue', value: formatCurrency(kpis.totalRevenue), icon: DollarSign, change: '+15%', up: true, color: 'text-emerald-400' },
@@ -278,7 +272,8 @@ export default function ProfitabilityPage() {
             })}
           </div>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(ProfitabilityPageInner);

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import {
   Table,
@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { COLORS } from '../../design-tokens';
 
 export interface Column<T> {
   key: string;
@@ -36,7 +37,7 @@ interface DataTableProps<T> {
 
 type SortDir = 'asc' | 'desc' | null;
 
-export function DataTable<T extends Record<string, unknown>>({
+export const DataTable = React.memo(function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
   onRowClick,
@@ -50,6 +51,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>(null);
   const [page, setPage] = useState(0);
+  const [focusedRow, setFocusedRow] = useState(-1);
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return data;
@@ -96,6 +99,29 @@ export function DataTable<T extends Record<string, unknown>>({
     setPage(0);
   };
 
+  // Reset focused row on data change
+  useEffect(() => {
+    setFocusedRow(-1);
+  }, [data, page]);
+
+  const handleTableKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setFocusedRow((prev) => Math.min(prev + 1, paged.length - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setFocusedRow((prev) => Math.max(prev - 1, 0));
+      } else if (e.key === 'Enter' && focusedRow >= 0 && onRowClick) {
+        e.preventDefault();
+        onRowClick(paged[focusedRow]);
+      } else if (e.key === 'Escape') {
+        setFocusedRow(-1);
+      }
+    },
+    [focusedRow, onRowClick, paged]
+  );
+
   const visibleColumns = columns.filter((c) => !c.hidden);
 
   return (
@@ -104,7 +130,8 @@ export function DataTable<T extends Record<string, unknown>>({
         <div className="relative max-w-sm">
           <Search
             className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: COLORS.searchIcon }}
+            aria-hidden="true"
           />
           <input
             type="text"
@@ -115,12 +142,13 @@ export function DataTable<T extends Record<string, unknown>>({
             }}
             placeholder={searchPlaceholder}
             className="ops-input w-full pl-9 pr-4 py-2 text-sm"
+            aria-label="Search table"
           />
         </div>
       )}
 
-      <div className="ops-card overflow-hidden !p-0">
-        <Table>
+      <div className="ops-card overflow-hidden !p-0" role="grid" aria-label="Data table">
+        <Table ref={tableRef} tabIndex={0} onKeyDown={handleTableKeyDown}>
           <TableHeader>
             <TableRow className="border-b" style={{ borderColor: 'var(--ops-border)' }}>
               {visibleColumns.map((col) => (
@@ -132,6 +160,9 @@ export function DataTable<T extends Record<string, unknown>>({
                   )}
                   style={{ color: 'var(--ops-text-muted)' }}
                   onClick={col.sortable ? () => handleSort(col.key) : undefined}
+                  aria-label={col.sortable ? `Sort by ${col.label}` : undefined}
+                  role="columnheader"
+                  tabIndex={col.sortable ? 0 : undefined}
                 >
                   <div className="flex items-center gap-1.5">
                     {col.label}
@@ -144,6 +175,7 @@ export function DataTable<T extends Record<string, unknown>>({
                             : 'opacity-30'
                         )}
                         style={{ color: 'var(--ops-text-muted)' }}
+                        aria-hidden="true"
                       />
                     )}
                   </div>
@@ -166,15 +198,20 @@ export function DataTable<T extends Record<string, unknown>>({
               paged.map((row, idx) => (
                 <TableRow
                   key={idx}
-                  className="border-b transition-colors"
+                  className={cn(
+                    'border-b transition-colors',
+                    focusedRow === idx && 'ring-1 ring-inset ring-[rgba(204,92,55,0.25)]'
+                  )}
                   style={{
                     borderColor: 'var(--ops-border)',
                     cursor: onRowClick ? 'pointer' : undefined,
                   }}
-                  onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  role="row"
+                  aria-selected={focusedRow === idx}
+                  onClick={onRowClick ? () => { setFocusedRow(idx); onRowClick(row); } : undefined}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.backgroundColor =
-                      'rgba(255,255,255,0.02)';
+                      COLORS.overlayHover;
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -186,6 +223,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       key={col.key}
                       className={cn(col.hiddenMobile && 'hidden md:table-cell')}
                       style={{ color: 'var(--ops-text-secondary)' }}
+                      role="gridcell"
                     >
                       {col.render
                         ? col.render(row)
@@ -253,4 +291,4 @@ export function DataTable<T extends Record<string, unknown>>({
       )}
     </div>
   );
-}
+});

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Eye,
 } from 'lucide-react';
+import { ANIMATION } from '../../design-tokens';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -229,7 +230,7 @@ function GettingStartedIllustration() {
         fill="rgba(204,92,55,0.06)"
         initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, type: 'spring' }}
+        transition={{ delay: 0.2, type: 'spring' as const }}
       />
       {/* Window */}
       <motion.circle
@@ -336,13 +337,13 @@ function GettingStartedChecklist() {
                   : '1.5px solid rgba(255,255,255,0.15)',
               }}
               animate={isChecked ? { scale: [1, 1.2, 1] } : {}}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, ...ANIMATION.springBounce }}
             >
               {isChecked && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 500 }}
+                  transition={{ type: 'spring' as const, stiffness: 500, damping: 25 }}
                 >
                   <Check className="w-3 h-3" style={{ color: '#fff' }} />
                 </motion.div>
@@ -384,7 +385,7 @@ function GettingStartedChecklist() {
 
 // ── Main Component ─────────────────────────────────────
 
-export function EmptyState({
+const EmptyStateInner = memo(function EmptyStateInner({
   icon: Icon,
   title,
   description,
@@ -403,11 +404,12 @@ export function EmptyState({
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
+      transition={{ duration: ANIMATION.durationSlow, ease: ANIMATION.easeOut }}
       className={cn(
         'flex flex-col items-center justify-center py-12 px-6 text-center',
         className
       )}
+      role="status"
     >
       {/* Icon or Illustration */}
       {IllustrationComponent ? (
@@ -415,7 +417,7 @@ export function EmptyState({
           className="mb-5"
           initial={{ y: 8, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.15 }}
+          transition={{ delay: 0.15, duration: ANIMATION.durationSlow, ease: ANIMATION.easeOut }}
         >
           <IllustrationComponent />
         </motion.div>
@@ -423,7 +425,7 @@ export function EmptyState({
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          transition={{ duration: ANIMATION.durationSlow, ease: ANIMATION.easeOut }}
         >
           <motion.div
             animate={{ y: [0, -6, 0] }}
@@ -447,7 +449,7 @@ export function EmptyState({
       <motion.p
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
+        transition={{ duration: ANIMATION.durationSlow, delay: 0.1 }}
         className="text-sm font-semibold"
         style={{ color: 'rgba(245,245,245,0.7)' }}
       >
@@ -458,7 +460,7 @@ export function EmptyState({
       <motion.p
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.15 }}
+        transition={{ duration: ANIMATION.durationSlow, delay: 0.15 }}
         className="text-xs mt-1.5 max-w-xs leading-relaxed"
         style={{ color: 'rgba(245,245,245,0.4)' }}
       >
@@ -473,7 +475,7 @@ export function EmptyState({
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.25 }}
+          transition={{ duration: ANIMATION.durationSlow, delay: 0.25 }}
           className="mt-6 w-full max-w-sm"
         >
           <div className="flex items-center justify-center gap-1.5 mb-3">
@@ -499,7 +501,7 @@ export function EmptyState({
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          transition={{ duration: ANIMATION.durationSlow, delay: 0.2 }}
           className="flex items-center gap-3 mt-6"
         >
           {primaryAction && (
@@ -507,6 +509,13 @@ export function EmptyState({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={primaryAction.onClick}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  primaryAction.onClick();
+                }
+              }}
+              type="button"
               className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
               style={{
                 backgroundColor: '#cc5c37',
@@ -522,6 +531,13 @@ export function EmptyState({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={secondaryAction.onClick}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  secondaryAction.onClick();
+                }
+              }}
+              type="button"
               className="px-4 py-2 rounded-lg text-xs font-medium transition-colors"
               style={{
                 backgroundColor: 'transparent',
@@ -536,4 +552,6 @@ export function EmptyState({
       )}
     </motion.div>
   );
-}
+});
+
+export const EmptyState = EmptyStateInner;

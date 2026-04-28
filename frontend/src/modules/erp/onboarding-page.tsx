@@ -1,17 +1,18 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Plus, CheckCircle2, Circle, Clock, AlertTriangle, Users,
-  ClipboardList, Laptop, GraduationCap, FileText, UserPlus
+  ClipboardList, Laptop, GraduationCap, FileText, UserPlus, UserCog
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { PageShell } from './components/ops/page-shell';
 import { mockOnboardingTasks, mockEmployees } from '@/modules/erp/data/mock-data';
 import type { OnboardingCategory } from '@/modules/erp/types';
 
@@ -23,7 +24,7 @@ const categoryConfig: Record<OnboardingCategory, { label: string; icon: React.El
   documentation: { label: 'Documentation', icon: FileText, color: 'bg-teal-500' },
 };
 
-export default function OnboardingPage() {
+function OnboardingPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -62,19 +63,10 @@ export default function OnboardingPage() {
   }, [employeeGroups]);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold">Onboarding</h1>
-            <Badge variant="secondary" className={cn(
-              'text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
-            )}>
-              {stats.activeOnboarding} active
-            </Badge>
-          </div>
+    <PageShell title="Onboarding" icon={UserCog}>
+      <div className="space-y-6">
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-2">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -231,6 +223,8 @@ export default function OnboardingPage() {
           })}
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
+
+export default memo(OnboardingPageInner);

@@ -151,7 +151,7 @@ const aiSuggestions = [
 
 // ── Command Palette ────────────────────────────────────
 
-export function CommandPalette({
+export const CommandPalette = React.memo(function CommandPalette({
   open,
   onClose,
   navigateCommands = [],
@@ -511,6 +511,9 @@ export function CommandPalette({
                 backgroundColor: 'var(--ops-card-bg, #222325)',
                 border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
               }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Command palette"
             >
               {/* Search bar */}
               <div
@@ -544,6 +547,8 @@ export function CommandPalette({
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  aria-label="Search commands"
+                  aria-activedescendant={rows.find(r => r.type === 'selectable' && r.globalIndex === activeIndex)?.key || undefined}
                   placeholder={
                     isCreateTrigger
                       ? 'What do you want to create?'
@@ -569,7 +574,7 @@ export function CommandPalette({
               </div>
 
               {/* Results */}
-              <div ref={listRef} className="max-h-[420px] overflow-y-auto py-2 custom-scrollbar">
+              <div ref={listRef} className="max-h-[420px] overflow-y-auto py-2 custom-scrollbar" role="listbox" aria-label="Search results">
                 {/* No results state */}
                 {selectableItems.length === 0 && hasQuery && (
                   <div className="flex flex-col items-center justify-center py-10">
@@ -647,13 +652,16 @@ export function CommandPalette({
                     return (
                       <button
                         key={`sr-${result.id}`}
+                        id={result.id}
                         data-active={isActive ? 'true' : undefined}
+                        role="option"
+                        aria-selected={isActive}
                         onClick={() => handleSelectSearchResult(result)}
                         onMouseEnter={() => setActiveIndex(row.globalIndex)}
                         className="flex items-start gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
                         style={{
                           backgroundColor: isActive
-                            ? 'var(--ops-accent-light, rgba(204,92,55,0.1))'
+                            ? 'rgba(204, 92, 55, 0.08)'
                             : 'transparent',
                         }}
                       >
@@ -731,13 +739,16 @@ export function CommandPalette({
                     return (
                       <button
                         key={`cmd-${item.id}`}
+                        id={item.id}
                         data-active={isActive ? 'true' : undefined}
+                        role="option"
+                        aria-selected={isActive}
                         onClick={() => handleSelectCommand(item)}
                         onMouseEnter={() => setActiveIndex(row.globalIndex)}
                         className="flex items-center gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
                         style={{
                           backgroundColor: isActive
-                            ? 'var(--ops-accent-light, rgba(204,92,55,0.1))'
+                            ? 'rgba(204, 92, 55, 0.08)'
                             : 'transparent',
                         }}
                       >
@@ -875,4 +886,4 @@ export function CommandPalette({
       )}
     </AnimatePresence>
   );
-}
+});
