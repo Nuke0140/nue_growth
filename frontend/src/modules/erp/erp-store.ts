@@ -5,6 +5,7 @@ import type { ErpPage } from './types';
 
 // HRM-related pages for auto-expand detection
 const HRM_PAGES: ErpPage[] = [
+  'hrm',
   'employees',
   'employee-detail',
   'departments',
@@ -26,6 +27,10 @@ interface ErpState {
   searchQuery: string;
   history: ErpPage[];
   forwardStack: ErpPage[];
+  commandPaletteOpen: boolean;
+  notificationsOpen: boolean;
+  recentPages: ErpPage[];
+  bulkSelectedIds: string[];
 
   navigateTo: (page: ErpPage) => void;
   selectProject: (id: string) => void;
@@ -38,6 +43,11 @@ interface ErpState {
   goForward: () => void;
   canGoBack: () => boolean;
   canGoForward: () => boolean;
+  setCommandPaletteOpen: (open: boolean) => void;
+  setNotificationsOpen: (open: boolean) => void;
+  toggleBulkSelection: (id: string) => void;
+  clearBulkSelection: () => void;
+  selectAllBulk: (ids: string[]) => void;
 }
 
 export const useErpStore = create<ErpState>((set, get) => ({
@@ -50,6 +60,10 @@ export const useErpStore = create<ErpState>((set, get) => ({
   searchQuery: '',
   history: [],
   forwardStack: [],
+  commandPaletteOpen: false,
+  notificationsOpen: false,
+  recentPages: [],
+  bulkSelectedIds: [],
 
   navigateTo: (page: ErpPage) => {
     const { currentPage } = get();
@@ -57,12 +71,17 @@ export const useErpStore = create<ErpState>((set, get) => ({
 
     const isHrmPage = HRM_PAGES.includes(page);
 
+    // Build recentPages: remove duplicates, add new page to front, keep max 10
+    const existing = get().recentPages.filter((p) => p !== page);
+    const updatedRecent = [page, ...existing].slice(0, 10);
+
     set({
       history: [...get().history, currentPage],
       forwardStack: [],
       currentPage: page,
       // Auto-expand HRM section if navigating to an HRM page
       hrmExpanded: isHrmPage || get().hrmExpanded,
+      recentPages: updatedRecent,
     });
   },
 
@@ -126,4 +145,16 @@ export const useErpStore = create<ErpState>((set, get) => ({
 
   canGoBack: () => get().history.length > 0,
   canGoForward: () => get().forwardStack.length > 0,
+  setCommandPaletteOpen: (open: boolean) => set({ commandPaletteOpen: open }),
+  setNotificationsOpen: (open: boolean) => set({ notificationsOpen: open }),
+  toggleBulkSelection: (id: string) => {
+    const { bulkSelectedIds } = get();
+    set({
+      bulkSelectedIds: bulkSelectedIds.includes(id)
+        ? bulkSelectedIds.filter((i) => i !== id)
+        : [...bulkSelectedIds, id],
+    });
+  },
+  clearBulkSelection: () => set({ bulkSelectedIds: [] }),
+  selectAllBulk: (ids: string[]) => set({ bulkSelectedIds: ids }),
 }));

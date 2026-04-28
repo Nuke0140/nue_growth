@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 import { useErpStore } from './erp-store';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -23,6 +24,15 @@ import PerformancePage from './performance-page';
 import DocumentsPage from './documents-page';
 import AssetsPage from './assets-page';
 import ApprovalsPage from './approvals-page';
+import AiOpsPage from './ai-ops-page';
+import HrmPage from './hrm-page';
+
+// Ops components
+import { CommandPalette } from './components/ops/command-palette';
+import { SkeletonDashboard } from './components/ops/skeleton-loader';
+
+// Mock data
+import { mockNotifications } from './data/mock-data';
 
 // Icons
 import {
@@ -57,6 +67,16 @@ import {
   FolderOpen,
   Monitor,
   CheckCircle2,
+  // New icons
+  History,
+  Sparkles,
+  UserPlus,
+  FileText,
+  ListPlus,
+  // Notification type icons
+  Info,
+  AlertTriangle,
+  AlertCircle,
 } from 'lucide-react';
 
 // shadcn/ui
@@ -73,10 +93,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import type { LucideIcon } from 'lucide-react';
 import type { ErpPage } from './types';
 
 // ---- Navigation definitions ----
@@ -84,27 +106,30 @@ import type { ErpPage } from './types';
 interface NavItem {
   id: ErpPage;
   label: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
+  badge?: number;
   parentSection?: 'hrm';
 }
 
 interface NavSubItem {
   id: ErpPage;
   label: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
+  badge?: number;
 }
 
 const topNavItems: NavItem[] = [
   { id: 'ops-dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
-  { id: 'tasks-board', label: 'Tasks', icon: Columns3 },
+  { id: 'tasks-board', label: 'Tasks', icon: Columns3, badge: 12 },
+  { id: 'ai-ops' as ErpPage, label: 'AI Intelligence', icon: Sparkles },
 ];
 
 const hrmSubItems: NavSubItem[] = [
   { id: 'employees', label: 'Employees', icon: UserIcon },
   { id: 'departments', label: 'Departments', icon: Network },
   { id: 'attendance', label: 'Attendance', icon: Clock },
-  { id: 'leaves', label: 'Leaves', icon: CalendarOff },
+  { id: 'leaves', label: 'Leaves', icon: CalendarOff, badge: 5 },
   { id: 'payroll', label: 'Payroll', icon: Banknote },
   { id: 'compensation', label: 'Compensation', icon: Wallet },
   { id: 'performance', label: 'Performance', icon: BarChart3 },
@@ -113,7 +138,7 @@ const hrmSubItems: NavSubItem[] = [
 
 const bottomNavItems: NavItem[] = [
   { id: 'assets', label: 'Assets', icon: Monitor },
-  { id: 'approvals', label: 'Approvals', icon: CheckCircle2 },
+  { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
 ];
 
 // Flatten all items for breadcrumb lookup
@@ -133,7 +158,44 @@ const allNavMap: Record<ErpPage, string> = {
   'documents': 'Documents',
   'assets': 'Assets',
   'approvals': 'Approvals',
+  'ai-ops': 'AI Intelligence',
+  'hrm': 'HRM',
 };
+
+// Icon lookup for recent pages dropdown
+const navIconMap: Record<string, LucideIcon> = {
+  'ops-dashboard': LayoutDashboard,
+  'projects': FolderKanban,
+  'project-detail': FolderKanban,
+  'tasks-board': Columns3,
+  'employees': UserIcon,
+  'employee-detail': UserIcon,
+  'departments': Network,
+  'attendance': Clock,
+  'leaves': CalendarOff,
+  'payroll': Banknote,
+  'compensation': Wallet,
+  'performance': BarChart3,
+  'documents': FolderOpen,
+  'assets': Monitor,
+  'approvals': CheckCircle2,
+  'ai-ops': Sparkles,
+  'hrm': Users,
+};
+
+// Notification type → icon + color config
+const notifTypeConfig: Record<string, { icon: LucideIcon; color: string; bg: string }> = {
+  info: { icon: Info, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-400/10' },
+  error: { icon: AlertCircle, color: 'text-red-400', bg: 'bg-red-400/10' },
+  success: { icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+};
+
+// Format notification timestamp to short time
+function formatNotifTime(ts: string): string {
+  const date = new Date(ts);
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
 
 // ---- Page component map ----
 const pageComponents: Record<ErpPage, React.ComponentType> = {
@@ -152,32 +214,88 @@ const pageComponents: Record<ErpPage, React.ComponentType> = {
   'documents': DocumentsPage,
   'assets': AssetsPage,
   'approvals': ApprovalsPage,
+  'ai-ops': AiOpsPage,
+  'hrm': HrmPage,
 };
 
-// ---- Page Content ----
+// ---- Page Content (with progress bar + skeleton loading) ----
 function PageContent() {
   const { currentPage } = useErpStore();
+  const [loading, setLoading] = useState(false);
+  const [progressWidth, setProgressWidth] = useState(0);
+  const prevPageRef = useRef(currentPage);
+  const progressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (currentPage !== prevPageRef.current) {
+      prevPageRef.current = currentPage;
+      setLoading(true);
+      setProgressWidth(0);
+
+      // Clear any existing timers
+      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+
+      // Start progress bar animation after a tick
+      progressTimerRef.current = setTimeout(() => setProgressWidth(100), 10);
+
+      // Hide progress bar after animation completes
+      clearTimerRef.current = setTimeout(() => setProgressWidth(0), 350);
+
+      // End skeleton loading after 200ms
+      const loadTimer = setTimeout(() => setLoading(false), 200);
+
+      return () => {
+        clearTimeout(loadTimer);
+        if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+        if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+      };
+    }
+  }, [currentPage]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+    };
+  }, []);
+
   const PageComponent = pageComponents[currentPage] || null;
 
   if (!PageComponent) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={currentPage}
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -6 }}
-        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="h-full"
-      >
-        <PageComponent />
-      </motion.div>
-    </AnimatePresence>
+    <div className="relative h-full">
+      {/* Page transition progress bar */}
+      {progressWidth > 0 && (
+        <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
+          <div
+            className="ops-progress-bar h-full bg-[#cc5c37] transition-all duration-300 ease-out rounded-full"
+            style={{ width: `${progressWidth}%` }}
+          />
+        </div>
+      )}
+
+      {/* Page content with skeleton loading */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="h-full"
+        >
+          {loading ? <SkeletonDashboard /> : <PageComponent />}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
-// ---- Sidebar Nav Item ----
+// ---- Sidebar Nav Item (with badge support) ----
 function SidebarNavItem({
   item,
   isActive,
@@ -187,6 +305,8 @@ function SidebarNavItem({
   isActive: boolean;
   onClick: () => void;
 }) {
+  const badge = 'badge' in item ? (item as NavItem | NavSubItem & { badge?: number }).badge : undefined;
+
   return (
     <button
       onClick={onClick}
@@ -213,7 +333,12 @@ function SidebarNavItem({
             : 'text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.6)]'
         )}
       />
-      <span className="truncate">{item.label}</span>
+      <span className="truncate flex-1 text-left">{item.label}</span>
+      {badge !== undefined && badge > 0 && (
+        <span className="ml-auto text-[10px] font-semibold min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#cc5c37] text-white px-1.5 leading-none">
+          {badge > 99 ? '99+' : badge}
+        </span>
+      )}
     </button>
   );
 }
@@ -231,6 +356,7 @@ function Sidebar() {
   const isMobile = useIsMobile();
 
   const isHrmActive = [
+    'hrm',
     'employees',
     'employee-detail',
     'departments',
@@ -335,7 +461,11 @@ function Sidebar() {
 
                   {/* HRM toggle header */}
                   <button
-                    onClick={() => setHrmExpanded(!hrmExpanded)}
+                    onClick={() => {
+                      navigateTo('hrm');
+                      if (!hrmExpanded) setHrmExpanded(true);
+                      if (isMobile) setSidebarOpen(false);
+                    }}
                     className={cn(
                       'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
                       isHrmActive && !hrmExpanded
@@ -430,7 +560,7 @@ function SidebarFooter() {
         .slice(0, 2)
     : 'U';
 
-  const role = user?.role || 'Team Member';
+  const role = (user as Record<string, unknown>)?.role as string || 'Team Member';
 
   return (
     <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer">
@@ -463,33 +593,41 @@ function Topbar() {
     goForward,
     canGoBack: checkCanBack,
     canGoForward: checkCanForward,
+    setCommandPaletteOpen,
+    recentPages,
+    navigateTo,
   } = useErpStore();
   const isMobile = useIsMobile();
+
+  // Notification local state (initialized from mock data)
+  const [notifState, setNotifState] = useState(mockNotifications);
+  const unreadCount = notifState.filter((n) => !n.read).length;
 
   const canBack = checkCanBack();
   const canForward = checkCanForward();
   const currentLabel = allNavMap[currentPage] || 'Operations';
   const isDetailPage = currentPage.endsWith('-detail');
 
-  // CMD+K shortcut
+  // CMD+K opens command palette
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        // Focus search input if exists
-        const searchInput = document.getElementById('erp-search-input');
-        if (searchInput) {
-          (searchInput as HTMLInputElement).focus();
-        }
+        setCommandPaletteOpen(true);
       }
     },
-    []
+    [setCommandPaletteOpen]
   );
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+
+  // Mark all notifications as read
+  const markAllRead = useCallback(() => {
+    setNotifState((prev) => prev.map((n) => ({ ...n, read: true })));
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 h-14 border-b border-[rgba(255,255,255,0.06)] bg-[#1b1c1e]/95 backdrop-blur-sm flex items-center justify-between px-4 gap-4 shrink-0">
@@ -595,26 +733,30 @@ function Topbar() {
 
       {/* Right section */}
       <div className="flex items-center gap-1.5 shrink-0">
-        {/* Search bar */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] w-56 lg:w-64 transition-colors focus-within:border-[rgba(204,92,55,0.3)] focus-within:bg-[rgba(255,255,255,0.05)]">
+        {/* Search bar — click opens command palette */}
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => setCommandPaletteOpen(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') setCommandPaletteOpen(true);
+          }}
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] w-56 lg:w-64 transition-colors hover:border-[rgba(204,92,55,0.2)] hover:bg-[rgba(255,255,255,0.05)] cursor-pointer"
+        >
           <Search className="w-4 h-4 shrink-0 text-[rgba(245,245,245,0.25)]" />
-          <input
-            id="erp-search-input"
-            type="text"
-            placeholder="Search..."
-            className="bg-transparent text-[13px] focus:outline-none w-full text-[rgba(245,245,245,0.7)] placeholder:text-[rgba(245,245,245,0.2)]"
-          />
-          <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,245,0.25)]">
+          <span className="text-[13px] text-[rgba(245,245,245,0.2)]">Search...</span>
+          <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,255,0.25)] ml-auto">
             <Command className="w-2.5 h-2.5" />K
           </kbd>
         </div>
 
-        {/* Mobile search */}
+        {/* Mobile search — opens command palette */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => setCommandPaletteOpen(true)}
               className="md:hidden h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
             >
               <Search className="w-4 h-4" />
@@ -623,36 +765,218 @@ function Topbar() {
           <TooltipContent side="bottom">Search</TooltipContent>
         </Tooltip>
 
-        {/* Notifications */}
-        <Tooltip>
-          <TooltipTrigger asChild>
+        {/* Recent Pages (History) Dropdown */}
+        <DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                >
+                  <History className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Recent Pages</TooltipContent>
+          </Tooltip>
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl ops-dropdown-enter"
+          >
+            <DropdownMenuLabel className="text-[rgba(245,245,245,0.4)] text-xs font-semibold tracking-wider uppercase">
+              Recent Pages
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+            {recentPages.length === 0 ? (
+              <div className="px-3 py-4 text-center text-[13px] text-[rgba(245,245,245,0.3)]">
+                No recent pages
+              </div>
+            ) : (
+              recentPages.slice(0, 8).map((page) => {
+                const Icon = navIconMap[page] || LayoutDashboard;
+                const label = allNavMap[page] || page;
+                return (
+                  <DropdownMenuItem
+                    key={page}
+                    onClick={() => navigateTo(page)}
+                    className={cn(
+                      'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
+                      page === currentPage
+                        ? 'text-[#f5f5f5] bg-[rgba(204,92,55,0.08)]'
+                        : 'text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+                    )}
+                  >
+                    <Icon className="w-4 h-4 shrink-0 text-[rgba(245,245,245,0.35)]" />
+                    <span className="truncate">{label}</span>
+                    {page === currentPage && (
+                      <span className="ml-auto text-[10px] text-[#cc5c37] font-medium">Current</span>
+                    )}
+                  </DropdownMenuItem>
+                );
+              })
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Notification Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
               className="relative h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
             >
               <Bell className="w-4 h-4" />
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#cc5c37] text-[9px] font-bold flex items-center justify-center text-white">
-                3
-              </span>
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full bg-[#cc5c37] text-[9px] font-bold flex items-center justify-center text-white px-1">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">Notifications</TooltipContent>
-        </Tooltip>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-80 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl p-0 ops-dropdown-enter"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.06)]">
+              <span className="text-sm font-semibold text-[#f5f5f5]">Notifications</span>
+              {unreadCount > 0 && (
+                <button
+                  onClick={markAllRead}
+                  className="text-[11px] font-medium text-[#cc5c37] hover:text-[#cc5c37]/80 transition-colors cursor-pointer"
+                >
+                  Mark all read
+                </button>
+              )}
+            </div>
 
-        {/* Quick Create */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hidden sm:flex h-8 w-8 rounded-lg bg-[#cc5c37] text-white hover:bg-[#cc5c37]/90 hover:text-white"
+            {/* Notification list */}
+            <div className="max-h-72 overflow-y-auto custom-scrollbar">
+              {notifState.slice(0, 6).map((notif) => {
+                const typeConfig = notifTypeConfig[notif.type] || notifTypeConfig.info;
+                const NotifIcon = typeConfig.icon;
+                return (
+                  <div
+                    key={notif.id}
+                    className={cn(
+                      'flex items-start gap-3 px-4 py-3 transition-colors cursor-pointer',
+                      !notif.read
+                        ? 'bg-[rgba(204,92,55,0.04)] hover:bg-[rgba(204,92,55,0.07)]'
+                        : 'hover:bg-[rgba(255,255,255,0.03)]'
+                    )}
+                    onClick={() => {
+                      if (!notif.read) {
+                        setNotifState((prev) =>
+                          prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
+                        );
+                      }
+                      if (notif.actionUrl) {
+                        navigateTo(notif.actionUrl as ErpPage);
+                      }
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5',
+                        typeConfig.bg
+                      )}
+                    >
+                      <NotifIcon className={cn('w-4 h-4', typeConfig.color)} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={cn(
+                            'text-[13px] truncate',
+                            notif.read
+                              ? 'text-[rgba(245,245,245,0.6)]'
+                              : 'text-[#f5f5f5] font-medium'
+                          )}
+                        >
+                          {notif.title}
+                        </span>
+                        {!notif.read && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#cc5c37] shrink-0" />
+                        )}
+                      </div>
+                      <p className="text-[12px] text-[rgba(245,245,245,0.35)] line-clamp-2 mt-0.5">
+                        {notif.message}
+                      </p>
+                      <span className="text-[11px] text-[rgba(245,245,245,0.2)] mt-1 block">
+                        {formatNotifTime(notif.timestamp)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-[rgba(255,255,255,0.06)] px-4 py-2">
+              <button className="w-full text-center text-[12px] font-medium text-[#cc5c37] hover:text-[#cc5c37]/80 transition-colors py-1 cursor-pointer">
+                View all notifications
+              </button>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Quick Create Dropdown */}
+        <DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden sm:flex h-8 w-8 rounded-lg bg-[#cc5c37] text-white hover:bg-[#cc5c37]/90 hover:text-white"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Quick Create</TooltipContent>
+          </Tooltip>
+          <DropdownMenuContent
+            align="end"
+            className="w-52 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl ops-dropdown-enter"
+          >
+            <DropdownMenuLabel className="text-[rgba(245,245,245,0.4)] text-xs font-semibold tracking-wider uppercase">
+              Quick Create
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+            <DropdownMenuItem
+              onClick={() => navigateTo('projects')}
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
             >
-              <Plus className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">Quick Create</TooltipContent>
-        </Tooltip>
+              <FolderKanban className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
+              New Project
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigateTo('employees')}
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
+            >
+              <UserPlus className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
+              Add Employee
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigateTo('leaves')}
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
+            >
+              <CalendarOff className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
+              Apply Leave
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigateTo('tasks-board')}
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] rounded-lg mx-1 cursor-pointer"
+            >
+              <ListPlus className="w-4 h-4 text-[rgba(245,245,245,0.35)]" />
+              Create Task
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         {/* Theme Toggle */}
         <Tooltip>
@@ -734,6 +1058,48 @@ function Topbar() {
 
 // ---- Main ERP Layout ----
 export default function ErpLayout() {
+  const { recentPages, navigateTo } = useErpStore();
+
+  // Build command items for the command palette
+  const commands = useMemo(() => {
+    const allItems = [
+      ...topNavItems.map((item) => ({
+        id: item.id,
+        icon: item.icon as LucideIcon,
+        label: item.label,
+        section: 'pages' as const,
+        action: () => navigateTo(item.id),
+      })),
+      ...hrmSubItems.map((item) => ({
+        id: item.id,
+        icon: item.icon as LucideIcon,
+        label: item.label,
+        section: 'pages' as const,
+        action: () => navigateTo(item.id),
+      })),
+      ...bottomNavItems.map((item) => ({
+        id: item.id,
+        icon: item.icon as LucideIcon,
+        label: item.label,
+        section: 'pages' as const,
+        action: () => navigateTo(item.id),
+      })),
+    ];
+    return allItems;
+  }, [navigateTo]);
+
+  // Build recent pages for command palette
+  const recentCommands = useMemo(() => {
+    return recentPages
+      .slice(0, 5)
+      .map((page) => ({
+        id: `recent-${page}`,
+        icon: (navIconMap[page] || LayoutDashboard) as LucideIcon,
+        label: allNavMap[page] || page,
+        action: () => navigateTo(page),
+      }));
+  }, [recentPages, navigateTo]);
+
   return (
     <TooltipProvider delayDuration={300}>
       <div className="h-screen flex flex-col overflow-hidden bg-[#1b1c1e] text-[#f5f5f5]">
@@ -750,6 +1116,9 @@ export default function ErpLayout() {
             <PageContent />
           </main>
         </div>
+
+        {/* Command Palette (rendered here for global access) */}
+        <CommandPalette commands={commands} recentPages={recentCommands} />
       </div>
     </TooltipProvider>
   );

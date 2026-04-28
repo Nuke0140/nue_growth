@@ -6,7 +6,7 @@ import type {
   PayrollRecord, Resource, Asset, SOP, ChatChannel, ChatMessage,
   DeliveryItem, ProfitabilityData, AiOpsInsight, Employee,
   AttendanceRecord, LeaveRequest, PerformanceReview, Incentive,
-  OnboardingTask, Document, Shift, WorkloadItem,
+  OnboardingTask, Document, Shift, WorkloadItem, Notification,
 } from '../types';
 
 // ---- Projects ----
@@ -519,3 +519,24 @@ export const erpDashboardStats = {
   pendingOnboardingTasks: 4,
   payrollPending: 2,
 };
+
+// ---- AI Ops Insights ----
+export const mockAiInsights: AiOpsInsight[] = [
+  { id: 'ai1', type: 'resource_alert', title: '3 Employees at Burnout Risk', severity: 'critical', description: 'Nikhil Das, Vikram Joshi, and Sneha Reddy have been working 95%+ allocation for 4+ weeks. Recommend immediate workload redistribution.', recommendation: 'Redistribute 15% workload from Nikhil to Pooja Iyer. Consider hiring a contract resource for FinEdge project.', affectedEntities: ['Nikhil Das', 'Vikram Joshi', 'Sneha Reddy'], confidence: 92 },
+  { id: 'ai2', type: 'delivery_risk', title: 'MediCare Project Likely Delayed', severity: 'high', description: 'Based on current velocity and remaining tasks, MediCare Patient Portal has 78% probability of missing the May 1 deadline. Budget is already 3.2% over.', recommendation: 'Escalate to client for timeline extension. Prioritize remaining compliance audit tasks.', affectedEntities: ['MediCare Patient Portal'], confidence: 78 },
+  { id: 'ai3', type: 'cost_anomaly', title: 'Payroll Spike Detected — April 2026', severity: 'medium', description: 'April payroll is projected to be 18% higher than March due to accumulated incentives and 2 new hires. Total projected: ₹22,48,000.', recommendation: 'Review incentive disbursements. Verify overtime calculations for engineering team.', affectedEntities: ['Payroll'], confidence: 85 },
+  { id: 'ai4', type: 'vendor_risk', title: 'CloudOps Infra SLA Degradation', severity: 'high', description: 'CloudOps Infra Management SLA score dropped to 78% (threshold: 85%). Two incidents in the last 30 days affecting ShopVerse and AutoFlow projects.', recommendation: 'Schedule urgent vendor review meeting. Consider activating backup DevOps vendor (QuickTest QA).', affectedEntities: ['CloudOps Infra Management', 'ShopVerse E-Commerce Platform', 'AutoFlow Fleet Management'], confidence: 88 },
+  { id: 'ai5', type: 'optimization', title: 'Resource Underutilization Detected', severity: 'low', description: 'Ritika Gupta (HR) and Meera Patel (PM) are at 60-70% utilization. Consider assigning them to AgroTech or RetailPro for admin support.', recommendation: 'Assign Ritika to RetailPro onboarding coordination. Meera can support AgroTech client communication.', affectedEntities: ['Ritika Gupta', 'Meera Patel'], confidence: 72 },
+  { id: 'ai6', type: 'revenue_forecast', title: 'Q2 Revenue Forecast: ₹52L', severity: 'low', description: 'Based on current project pipeline and invoice status, Q2 2026 revenue is projected at ₹52,00,000, which is 12% above Q1. Main contributors: NexaBank and FinEdge.', recommendation: 'Accelerate pending invoices (MediCare, LegalEase) to improve cash flow. Push TravelWise proposal for Q3 pipeline.', affectedEntities: ['Finance'], confidence: 81 },
+];
+
+// ---- Notifications ----
+export const mockNotifications: Notification[] = [
+  { id: 'n1', title: 'Approval Pending', message: 'NexaBank Q2 Milestone Invoice requires your approval', type: 'warning', read: false, timestamp: '2026-04-28T09:30:00', actionUrl: 'approvals' },
+  { id: 'n2', title: 'Task Blocked', message: 'Risk management algorithm blocked due to dependency on payment gateway', type: 'error', read: false, timestamp: '2026-04-28T08:15:00', actionUrl: 'tasks-board' },
+  { id: 'n3', title: 'Leave Approved', message: "Sneha Reddy's casual leave (Apr 28-30) has been approved", type: 'success', read: false, timestamp: '2026-04-27T17:00:00', actionUrl: 'leaves' },
+  { id: 'n4', title: 'AI Insight', message: '3 employees identified at burnout risk — review recommended', type: 'info', read: true, timestamp: '2026-04-27T14:00:00', actionUrl: 'ops-dashboard' },
+  { id: 'n5', title: 'Invoice Overdue', message: 'MediCare Global invoice INV-2026-007 (₹5,52,000) is 28 days overdue', type: 'error', read: true, timestamp: '2026-04-27T10:00:00' },
+  { id: 'n6', title: 'Project Milestone', message: 'AutoFlow GPS Tracking Module completed successfully', type: 'success', read: true, timestamp: '2026-04-26T16:00:00', actionUrl: 'projects' },
+  { id: 'n7', title: 'Payroll Processed', message: 'April 2026 payroll batch processed for 12 employees', type: 'info', read: true, timestamp: '2026-04-25T12:00:00', actionUrl: 'payroll' },
+];

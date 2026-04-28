@@ -4,10 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import {
-  Users,
+  IndianRupee,
   FolderKanban,
-  Shield,
-  Banknote,
+  Users,
+  ShieldCheck,
   UserPlus,
   FileText,
   CheckCircle2,
@@ -18,21 +18,48 @@ import {
   DollarSign,
   CalendarDays,
   Activity,
+  Sparkles,
+  X,
+  Check,
+  ArrowRight,
+  CircleAlert,
+  ExternalLink,
 } from 'lucide-react';
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  Area,
+  AreaChart,
+  Tooltip,
+  Cell,
+} from 'recharts';
 
 import { KpiWidget } from '@/modules/erp/components/ops/kpi-widget';
 import { ActivityFeed } from '@/modules/erp/components/ops/activity-feed';
-import { MiniCalendar } from '@/modules/erp/components/ops/mini-calendar';
 import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 
-import {
-  mockEmployees,
-  mockProjects,
-  mockApprovals,
-  mockPayroll,
-} from '@/modules/erp/data/mock-data';
+import { mockProjects, mockAiInsights } from '@/modules/erp/data/mock-data';
+import { useErpStore } from '@/modules/erp/erp-store';
+
+import type { LucideIcon } from 'lucide-react';
+import type { AiOpsSeverity } from '@/modules/erp/types';
 
 // ── Helpers ──────────────────────────────────────────────────────────
+
+function formatToday(): string {
+  return new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
 
 function formatINR(amount: number): string {
   const abs = Math.abs(amount);
@@ -48,46 +75,99 @@ function formatINR(amount: number): string {
   return `₹${amount.toLocaleString('en-IN')}`;
 }
 
-function formatToday(): string {
-  return new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
+const ACCENT = '#cc5c37';
 
-const healthColorMap: Record<string, string> = {
-  excellent: '#34d399',
-  good: '#60a5fa',
-  'at-risk': '#fbbf24',
-  critical: '#f87171',
+const severityIconMap: Record<AiOpsSeverity, LucideIcon> = {
+  critical: CircleAlert,
+  high: AlertTriangle,
+  medium: TrendingUp,
+  low: Activity,
 };
 
-const severityColorMap: Record<string, string> = {
+const severityColorMap: Record<AiOpsSeverity, string> = {
   critical: '#f87171',
-  warning: '#fbbf24',
-  info: '#60a5fa',
+  high: '#fbbf24',
+  medium: '#60a5fa',
+  low: '#94a3b8',
 };
 
-// ── Computed KPI Data ────────────────────────────────────────────────
+// ── Mock Data ────────────────────────────────────────────────────────
 
-const totalEmployees = mockEmployees.length;
+// Monthly Revenue Trend (last 6 months)
+const revenueTrendData = [
+  { month: 'Nov', revenue: 28 },
+  { month: 'Dec', revenue: 32 },
+  { month: 'Jan', revenue: 35 },
+  { month: 'Feb', revenue: 31 },
+  { month: 'Mar', revenue: 38 },
+  { month: 'Apr', revenue: 39 },
+];
 
-const activeProjects = mockProjects.filter(
-  (p) => p.status === 'active'
-).length;
+// Project Progress Bar Chart (top 6 active projects)
+const projectProgressData = mockProjects
+  .filter((p) => p.status === 'active')
+  .sort((a, b) => b.progress - a.progress)
+  .slice(0, 6)
+  .map((p) => ({
+    name: p.name
+      .replace(/\s+(Digital Transformation|E-Commerce Platform|Patient Portal|Fleet Management|IoT Dashboard|Trading Platform|POS System|SaaS Monthly Retainer|Farm Analytics)$/i, '')
+      .trim()
+      .split(' ')
+      .slice(0, 2)
+      .join(' '),
+    progress: p.progress,
+    remaining: 100 - p.progress,
+    health: p.health,
+  }));
 
-const pendingApprovals = mockApprovals.filter(
-  (a) => a.status === 'pending' || a.status === 'escalated'
-).length;
+// Today Summary items
+const todaySummaryItems = [
+  {
+    label: 'Absent Today',
+    value: '2 employees',
+    detail: 'Sneha Reddy, Meera Patel — on leave',
+    ok: false,
+  },
+  {
+    label: 'Overdue Tasks',
+    value: '3 tasks',
+    detail: 'Tasks past due date',
+    ok: false,
+  },
+  {
+    label: 'Pending Approvals',
+    value: '3 awaiting',
+    detail: 'Requires action',
+    ok: false,
+  },
+  {
+    label: 'Upcoming Deadlines',
+    value: '2 milestones',
+    detail: 'Due this week',
+    ok: true,
+  },
+];
 
-const currentMonthPayroll = mockPayroll
-  .filter((r) => r.month === '2026-04')
-  .reduce((sum, r) => sum + r.netPay, 0);
+// Risk Alerts
+const riskAlerts = [
+  {
+    title: 'MediCare Project',
+    detail: 'Budget over by 3.2%',
+    severity: 'amber' as const,
+  },
+  {
+    title: 'FinEdge Platform',
+    detail: 'SLA dropped to 82%',
+    severity: 'red' as const,
+  },
+  {
+    title: 'CloudOps Vendor',
+    detail: 'SLA degradation to 78%',
+    severity: 'red' as const,
+  },
+];
 
-// ── Activity Data ────────────────────────────────────────────────────
-
+// Activity Feed data
 const activities = [
   {
     id: '1',
@@ -117,8 +197,7 @@ const activities = [
     id: '4',
     icon: AlertTriangle,
     title: 'Task blocked',
-    description:
-      'Risk management algorithm blocked on dependency',
+    description: 'Risk management algorithm blocked on dependency',
     time: '6 hours ago',
     color: '#f87171',
   },
@@ -128,7 +207,7 @@ const activities = [
     title: 'Asset assigned',
     description: 'MacBook Pro M3 assigned to Nikhil Das',
     time: '1 day ago',
-    color: '#cc5c37',
+    color: ACCENT,
   },
   {
     id: '6',
@@ -148,95 +227,24 @@ const activities = [
   },
 ];
 
-// ── Calendar Events ──────────────────────────────────────────────────
+// ── Custom Recharts Tooltip ──────────────────────────────────────────
 
-const calendarEvents = [
-  { date: '2026-04-25', title: 'Payroll Processing', color: '#cc5c37' },
-  { date: '2026-04-28', title: 'Sprint Review', color: '#60a5fa' },
-  { date: '2026-04-30', title: 'CloudSync Delivery', color: '#34d399' },
-  { date: '2026-05-01', title: 'MediCare Deadline', color: '#f87171' },
-  {
-    date: '2026-05-05',
-    title: 'FinEdge Compliance Due',
-    color: '#fbbf24',
-  },
-  {
-    date: '2026-05-15',
-    title: 'POS Hardware Integration',
-    color: '#60a5fa',
-  },
-  {
-    date: '2026-06-15',
-    title: 'ShopVerse Multi-vendor',
-    color: '#34d399',
-  },
-  { date: '2026-06-30', title: 'FinEdge Go-Live', color: '#cc5c37' },
-];
-
-// ── Chart Data ───────────────────────────────────────────────────────
-
-const activeProjectsList = mockProjects
-  .filter((p) => p.status === 'active')
-  .map((p) => ({
-    name: p.name.replace(/\s+(Digital Transformation|E-Commerce Platform|Patient Portal|Fleet Management|IoT Dashboard|Trading Platform|POS System|SaaS Monthly Retainer|Farm Analytics)$/i, '').trim(),
-    progress: p.progress,
-    health: p.health,
-  }));
-
-const departmentMap: Record<string, number> = {};
-mockEmployees.forEach((e) => {
-  departmentMap[e.department] = (departmentMap[e.department] || 0) + 1;
-});
-const departmentData = Object.entries(departmentMap)
-  .map(([dept, count]) => ({ dept, count }))
-  .sort((a, b) => b.count - a.count);
-
-const maxDeptCount = Math.max(...departmentData.map((d) => d.count), 1);
-
-const deptColorPalette = [
-  '#60a5fa',
-  '#34d399',
-  '#fbbf24',
-  '#cc5c37',
-  '#a78bfa',
-  '#f472b6',
-  '#38bdf8',
-];
-
-// ── Alerts Data ──────────────────────────────────────────────────────
-
-const alerts = [
-  {
-    severity: 'critical' as const,
-    title: 'MediCare Portal — 18 days overdue',
-    desc: 'Due date was Apr 1. Client escalation risk high.',
-    icon: AlertTriangle,
-  },
-  {
-    severity: 'critical' as const,
-    title: '₹6.60L unpaid invoices',
-    desc: 'MediCare + LegalEase invoices overdue by 10+ days.',
-    icon: DollarSign,
-  },
-  {
-    severity: 'warning' as const,
-    title: 'FinEdge — 2 tasks blocked',
-    desc: 'Risk module blocked on payment gateway dependency.',
-    icon: Clock,
-  },
-  {
-    severity: 'warning' as const,
-    title: 'April payroll pending',
-    desc: '2 employees in pending state. Deadline Apr 25.',
-    icon: Banknote,
-  },
-  {
-    severity: 'info' as const,
-    title: 'Vikram Joshi overbooked at 95%',
-    desc: 'Only 5% capacity available. Consider redistribution.',
-    icon: Users,
-  },
-];
+function RevenueTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div
+      className="px-3 py-2 rounded-lg text-xs"
+      style={{
+        backgroundColor: '#222325',
+        border: '1px solid rgba(255,255,255,0.08)',
+        color: '#e5e5e5',
+      }}
+    >
+      <p className="font-semibold" style={{ color: '#e5e5e5' }}>{label}</p>
+      <p style={{ color: ACCENT }}>₹{payload[0].value}L</p>
+    </div>
+  );
+}
 
 // ── Animation Variants ───────────────────────────────────────────────
 
@@ -244,13 +252,17 @@ const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.05 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' as const },
+  },
 };
 
 // ══════════════════════════════════════════════════════════════════════
@@ -258,8 +270,10 @@ const itemVariants = {
 // ══════════════════════════════════════════════════════════════════════
 
 export default function OpsDashboardPage() {
-  const [selectedDate, setSelectedDate] = React.useState<string | undefined>(undefined);
+  // We import the store to stay wired into the ERP ecosystem
+  useErpStore((s) => s.currentPage);
 
+  // ── Render ─────────────────────────────────────────────────────────
   return (
     <motion.div
       className="flex flex-col gap-6 overflow-y-auto h-full pr-1"
@@ -269,20 +283,31 @@ export default function OpsDashboardPage() {
       animate="show"
     >
       {/* ── Header ──────────────────────────────────────────── */}
-      <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+      >
         <div className="flex items-center gap-3">
           <div
             className="flex items-center justify-center w-10 h-10 rounded-xl"
             style={{ backgroundColor: 'rgba(204, 92, 55, 0.12)' }}
           >
-            <Activity className="w-5 h-5" style={{ color: '#cc5c37' }} />
+            <Activity className="w-5 h-5" style={{ color: ACCENT }} />
           </div>
-          <h1
-            className="text-2xl font-bold tracking-tight"
-            style={{ color: 'var(--ops-text)' }}
-          >
-            Operations Dashboard
-          </h1>
+          <div>
+            <h1
+              className="text-2xl font-bold tracking-tight"
+              style={{ color: 'var(--ops-text)' }}
+            >
+              Executive View
+            </h1>
+            <p
+              className="text-xs mt-0.5"
+              style={{ color: 'var(--ops-text-muted)' }}
+            >
+              Organization-wide performance at a glance
+            </p>
+          </div>
         </div>
         <div
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg self-start sm:self-auto"
@@ -291,7 +316,10 @@ export default function OpsDashboardPage() {
             border: '1px solid var(--ops-border)',
           }}
         >
-          <CalendarDays className="w-3.5 h-3.5" style={{ color: 'var(--ops-text-muted)' }} />
+          <CalendarDays
+            className="w-3.5 h-3.5"
+            style={{ color: 'var(--ops-text-muted)' }}
+          />
           <span
             className="text-xs font-medium"
             style={{ color: 'var(--ops-text-secondary)' }}
@@ -301,238 +329,437 @@ export default function OpsDashboardPage() {
         </div>
       </motion.div>
 
-      {/* ── KPI Cards Row ───────────────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════════
+          ROW 1 — KPI CARDS (4 across full width)
+          ══════════════════════════════════════════════════════════ */}
       <motion.div variants={itemVariants}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <KpiWidget
-            label="Total Employees"
-            value={totalEmployees}
-            icon={Users}
+            label="Total Revenue"
+            value="₹38,57,500"
+            icon={IndianRupee}
+            color="success"
+            trend="up"
+            trendValue="+12% vs last quarter"
+          />
+          <KpiWidget
+            label="Active Projects"
+            value={8}
+            icon={FolderKanban}
             color="info"
             trend="up"
             trendValue="+2 this month"
           />
           <KpiWidget
-            label="Active Projects"
-            value={activeProjects}
-            icon={FolderKanban}
-            color="accent"
-            trend="neutral"
-            trendValue="No change"
+            label="Team Utilization"
+            value="84%"
+            icon={Users}
+            color="warning"
+            trend="down"
+            trendValue="-3% from last month"
           />
           <KpiWidget
             label="Pending Approvals"
-            value={pendingApprovals}
-            icon={Shield}
-            color="warning"
+            value={3}
+            icon={ShieldCheck}
+            color="accent"
             trend="up"
-            trendValue="+3 since last week"
-          />
-          <KpiWidget
-            label="Monthly Payroll"
-            value={formatINR(currentMonthPayroll)}
-            icon={Banknote}
-            color="success"
-            trend="up"
-            trendValue="Apr 2026"
+            trendValue="urgent"
           />
         </div>
       </motion.div>
 
-      {/* ── Activity Feed + Calendar ────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════════
+          ROW 2 — LEFT: Charts (2/3) | RIGHT: Today Summary + Risk Alerts (1/3)
+          ══════════════════════════════════════════════════════════ */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-5 gap-4"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-4"
       >
-        {/* Left: Activity Feed (~60%) */}
-        <div className="lg:col-span-3">
+        {/* ── Left: Charts Section (2/3) ──────────────────────── */}
+        <div className="lg:col-span-2 flex flex-col gap-4">
+          {/* Project Progress Bar Chart */}
           <OpsCard
-            title="Recent Activity"
-            badge="7 new"
-            className="h-full"
+            title="Project Progress"
+            subtitle="Active projects by completion %"
           >
-            <ActivityFeed activities={activities} maxItems={7} />
+            <div style={{ width: '100%', height: 220 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={projectProgressData}
+                  layout="vertical"
+                  margin={{ top: 0, right: 16, bottom: 0, left: 0 }}
+                  barCategoryGap="25%"
+                >
+                  <XAxis
+                    type="number"
+                    domain={[0, 100]}
+                    tickFormatter={(v: number) => `${v}%`}
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                    axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={90}
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const d = payload[0].payload as { name: string; progress: number };
+                      return (
+                        <div
+                          className="px-3 py-2 rounded-lg text-xs"
+                          style={{
+                            backgroundColor: '#222325',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            color: '#e5e5e5',
+                          }}
+                        >
+                          <p className="font-semibold">{d.name}</p>
+                          <p style={{ color: ACCENT }}>{d.progress}% complete</p>
+                        </div>
+                      );
+                    }}
+                    cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+                  />
+                  <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={18}>
+                    {projectProgressData.map((entry, idx) => {
+                      const colorMap: Record<string, string> = {
+                        excellent: '#34d399',
+                        good: '#60a5fa',
+                        'at-risk': '#fbbf24',
+                        critical: '#f87171',
+                      };
+                      return (
+                        <Cell
+                          key={idx}
+                          fill={colorMap[entry.health] || ACCENT}
+                          fillOpacity={0.9}
+                        />
+                      );
+                    })}
+                  </Bar>
+                  <Bar
+                    dataKey="remaining"
+                    stackId="stack"
+                    fill="rgba(255,255,255,0.06)"
+                    radius={[0, 4, 4, 0]}
+                    barSize={18}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </OpsCard>
+
+          {/* Monthly Revenue Trend */}
+          <OpsCard
+            title="Monthly Revenue Trend"
+            subtitle="Last 6 months (in Lakhs)"
+          >
+            <div style={{ width: '100%', height: 200 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  data={revenueTrendData}
+                  margin={{ top: 4, right: 16, bottom: 0, left: -12 }}
+                >
+                  <defs>
+                    <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={ACCENT} stopOpacity={0.35} />
+                      <stop offset="95%" stopColor={ACCENT} stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                    axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v: number) => `₹${v}L`}
+                  />
+                  <Tooltip content={<RevenueTooltip />} />
+                  <Area
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke={ACCENT}
+                    strokeWidth={2.5}
+                    fill="url(#revenueGradient)"
+                    dot={{ r: 4, fill: ACCENT, strokeWidth: 0 }}
+                    activeDot={{ r: 6, fill: ACCENT, stroke: '#1b1c1e', strokeWidth: 2 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </OpsCard>
         </div>
 
-        {/* Right: Calendar (~40%) */}
-        <div className="lg:col-span-2">
-          <OpsCard title="Calendar" className="h-full">
-            <MiniCalendar
-              events={calendarEvents}
-              selectedDate={selectedDate}
-              onDateClick={setSelectedDate}
-            />
+        {/* ── Right: Today Summary + Risk Alerts (1/3) ───────── */}
+        <div className="lg:col-span-1 flex flex-col gap-4">
+          {/* Today Summary */}
+          <OpsCard title="Today Summary" badge="Live">
+            <div className="flex flex-col gap-3">
+              {todaySummaryItems.map((item, idx) => {
+                const Icon = item.ok ? Check : X;
+                const iconColor = item.ok ? '#34d399' : '#f87171';
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.25, delay: idx * 0.06 }}
+                    className="flex items-start gap-3 p-2.5 rounded-lg"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.02)',
+                      border: '1px solid var(--ops-border)',
+                    }}
+                  >
+                    <div
+                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
+                      style={{ backgroundColor: `${iconColor}14` }}
+                    >
+                      <Icon className="w-3.5 h-3.5" style={{ color: iconColor }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="text-xs font-semibold"
+                        style={{ color: 'var(--ops-text)' }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="text-[11px] font-medium mt-0.5"
+                        style={{ color: iconColor }}
+                      >
+                        {item.value}
+                      </p>
+                      <p
+                        className="text-[11px] mt-0.5"
+                        style={{ color: 'var(--ops-text-muted)' }}
+                      >
+                        {item.detail}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </OpsCard>
+
+          {/* Risk Alerts */}
+          <OpsCard
+            title="Risk Alerts"
+            badge="3 active"
+          >
+            <div className="flex flex-col gap-3">
+              {riskAlerts.map((alert, idx) => {
+                const dotColor =
+                  alert.severity === 'red' ? '#f87171' : '#fbbf24';
+                const bgColor =
+                  alert.severity === 'red'
+                    ? 'rgba(248, 113, 113, 0.06)'
+                    : 'rgba(251, 191, 36, 0.06)';
+                const borderColor =
+                  alert.severity === 'red'
+                    ? 'rgba(248, 113, 113, 0.15)'
+                    : 'rgba(251, 191, 36, 0.15)';
+
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.25, delay: idx * 0.07 }}
+                    className="flex items-center gap-3 p-2.5 rounded-lg transition-colors cursor-pointer"
+                    style={{
+                      backgroundColor: bgColor,
+                      border: `1px solid ${borderColor}`,
+                    }}
+                  >
+                    {/* Severity dot */}
+                    <div
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: dotColor }}
+                    />
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="text-xs font-semibold truncate"
+                        style={{ color: 'var(--ops-text)' }}
+                      >
+                        {alert.title}
+                      </p>
+                      <p
+                        className="text-[11px] mt-0.5"
+                        style={{ color: dotColor }}
+                      >
+                        {alert.detail}
+                      </p>
+                    </div>
+                    {/* View link */}
+                    <span
+                      className="text-[11px] font-medium shrink-0 hover:underline"
+                      style={{ color: ACCENT }}
+                    >
+                      View
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
           </OpsCard>
         </div>
       </motion.div>
 
-      {/* ── Charts Row ──────────────────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════════
+          ROW 3 — LEFT: Activity Feed (1/2) | RIGHT: AI Intelligence Panel (1/2)
+          ══════════════════════════════════════════════════════════ */}
       <motion.div
         variants={itemVariants}
         className="grid grid-cols-1 lg:grid-cols-2 gap-4"
       >
-        {/* Left: Project Progress */}
-        <OpsCard title="Project Progress" subtitle="Active projects by completion %">
-          <div className="flex flex-col gap-3">
-            {activeProjectsList.map((proj, idx) => {
-              const barColor = healthColorMap[proj.health] || '#60a5fa';
-              return (
-                <div key={idx} className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-xs font-medium truncate mr-3"
-                      style={{ color: 'var(--ops-text-secondary)' }}
-                    >
-                      {proj.name}
-                    </span>
-                    <span
-                      className="text-xs font-semibold shrink-0"
-                      style={{ color: barColor }}
-                    >
-                      {proj.progress}%
-                    </span>
-                  </div>
-                  <div
-                    className="h-2 rounded-full overflow-hidden"
-                    style={{ backgroundColor: 'var(--ops-card-bg-light)' }}
-                  >
-                    <motion.div
-                      className="h-full rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${proj.progress}%` }}
-                      transition={{
-                        duration: 0.8,
-                        delay: idx * 0.08,
-                        ease: 'easeOut',
-                      }}
-                      style={{ backgroundColor: barColor }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </OpsCard>
-
-        {/* Right: Employee Growth / Department Distribution */}
-        <OpsCard title="Employee Growth" subtitle="Team distribution by department">
-          <div className="flex flex-col gap-3">
-            {departmentData.map((dept, idx) => {
-              const barColor = deptColorPalette[idx % deptColorPalette.length];
-              const pct = (dept.count / maxDeptCount) * 100;
-              return (
-                <div key={dept.dept} className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-xs font-medium"
-                      style={{ color: 'var(--ops-text-secondary)' }}
-                    >
-                      {dept.dept}
-                    </span>
-                    <span
-                      className="text-xs font-semibold"
-                      style={{ color: barColor }}
-                    >
-                      {dept.count}
-                    </span>
-                  </div>
-                  <div
-                    className="h-2 rounded-full overflow-hidden"
-                    style={{ backgroundColor: 'var(--ops-card-bg-light)' }}
-                  >
-                    <motion.div
-                      className="h-full rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${pct}%` }}
-                      transition={{
-                        duration: 0.8,
-                        delay: idx * 0.08,
-                        ease: 'easeOut',
-                      }}
-                      style={{ backgroundColor: barColor }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </OpsCard>
-      </motion.div>
-
-      {/* ── Alerts Section ──────────────────────────────────── */}
-      <motion.div variants={itemVariants}>
+        {/* ── Left: Activity Feed ─────────────────────────────── */}
         <OpsCard
-          title="Active Alerts"
-          badge={`${alerts.filter((a) => a.severity === 'critical').length} critical`}
+          title="Recent Activity"
+          badge="7 new"
+          className="h-full"
         >
-          <div className="flex flex-col gap-3">
-            {alerts.map((alert, idx) => {
-              const Icon = alert.icon;
-              const barColor = severityColorMap[alert.severity] || '#60a5fa';
+          <ActivityFeed activities={activities} maxItems={7} />
+        </OpsCard>
+
+        {/* ── Right: AI Intelligence Panel ───────────────────── */}
+        <div className="ops-card ops-glow p-6 h-full flex flex-col">
+          {/* Section header with Sparkles */}
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+              style={{ backgroundColor: 'rgba(204, 92, 55, 0.12)' }}
+            >
+              <Sparkles className="w-5 h-5" style={{ color: ACCENT }} />
+            </div>
+            <div className="min-w-0">
+              <h3
+                className="text-sm font-semibold truncate"
+                style={{ color: 'var(--ops-text)' }}
+              >
+                AI Intelligence
+              </h3>
+              <p
+                className="text-xs mt-0.5 truncate"
+                style={{ color: 'var(--ops-text-muted)' }}
+              >
+                Automated insights &amp; recommendations
+              </p>
+            </div>
+          </div>
+
+          {/* Insight Cards */}
+          <div className="flex flex-col gap-3 flex-1 overflow-y-auto">
+            {mockAiInsights.slice(0, 3).map((insight, idx) => {
+              const SeverityIcon = severityIconMap[insight.severity];
+              const sevColor = severityColorMap[insight.severity];
 
               return (
                 <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  key={insight.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.3,
-                    delay: idx * 0.07,
+                    delay: idx * 0.08,
                     ease: 'easeOut',
                   }}
-                  className={cn(
-                    'flex items-stretch gap-3 p-3 rounded-xl transition-colors',
-                  )}
+                  className="ops-card-hover rounded-xl p-3.5 cursor-pointer transition-colors"
                   style={{
                     backgroundColor: 'rgba(255,255,255,0.02)',
                     border: '1px solid var(--ops-border)',
                   }}
                 >
-                  {/* Left color bar */}
-                  <div
-                    className="w-1 rounded-full shrink-0"
-                    style={{ backgroundColor: barColor }}
-                  />
-
-                  {/* Icon */}
-                  <div
-                    className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0 mt-0.5"
-                    style={{ backgroundColor: `${barColor}18` }}
-                  >
-                    <Icon className="w-4 h-4" style={{ color: barColor }} />
+                  {/* Top row: severity icon + title + confidence badge */}
+                  <div className="flex items-start gap-2.5">
+                    <div
+                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
+                      style={{ backgroundColor: `${sevColor}14` }}
+                    >
+                      <SeverityIcon
+                        className="w-3.5 h-3.5"
+                        style={{ color: sevColor }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p
+                          className="text-xs font-bold leading-snug"
+                          style={{ color: 'var(--ops-text)' }}
+                        >
+                          {insight.title}
+                        </p>
+                      </div>
+                      {/* Confidence badge */}
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <div
+                          className="flex items-center gap-1 px-1.5 py-0.5 rounded-md"
+                          style={{
+                            backgroundColor: `${sevColor}14`,
+                            border: `1px solid ${sevColor}30`,
+                          }}
+                        >
+                          <span
+                            className="text-[10px] font-semibold uppercase tracking-wide"
+                            style={{ color: sevColor }}
+                          >
+                            {insight.severity}
+                          </span>
+                        </div>
+                        <span
+                          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
+                          style={{
+                            backgroundColor: 'rgba(255,255,255,0.05)',
+                            color: 'var(--ops-text-secondary)',
+                          }}
+                        >
+                          {insight.confidence}% confidence
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={cn(
-                          'text-xs font-semibold uppercase tracking-wider'
-                        )}
-                        style={{ color: barColor }}
-                      >
-                        {alert.severity}
-                      </span>
-                    </div>
-                    <p
-                      className="text-sm font-medium mt-0.5 truncate"
-                      style={{ color: 'var(--ops-text)' }}
+                  {/* Description */}
+                  <p
+                    className="text-xs mt-2 leading-relaxed line-clamp-2"
+                    style={{
+                      color: 'var(--ops-text-muted)',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {insight.description}
+                  </p>
+
+                  {/* View Details link */}
+                  <div className="flex items-center gap-1 mt-2.5">
+                    <ExternalLink className="w-3 h-3" style={{ color: ACCENT }} />
+                    <span
+                      className="text-[11px] font-medium"
+                      style={{ color: ACCENT }}
                     >
-                      {alert.title}
-                    </p>
-                    <p
-                      className="text-xs mt-0.5"
-                      style={{ color: 'var(--ops-text-muted)' }}
-                    >
-                      {alert.desc}
-                    </p>
+                      View Details
+                    </span>
                   </div>
                 </motion.div>
               );
             })}
           </div>
-        </OpsCard>
+        </div>
       </motion.div>
     </motion.div>
   );

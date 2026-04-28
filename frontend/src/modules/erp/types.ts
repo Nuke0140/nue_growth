@@ -29,7 +29,11 @@ export type ErpPage =
   // Assets
   | 'assets'
   // Approvals
-  | 'approvals';
+  | 'approvals'
+  // AI Ops Intelligence
+  | 'ai-ops'
+  // HRM Landing Page
+  | 'hrm';
 
 // ---- Project ----
 export type ProjectStatus = 'active' | 'on-hold' | 'completed' | 'cancelled' | 'inception';
@@ -447,4 +451,52 @@ export interface WorkloadItem {
   projects: string[];
   overtime: number;
   status: WorkloadStatus;
+}
+
+// ---- Notifications ----
+export type NotificationType = 'info' | 'warning' | 'error' | 'success';
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: NotificationType;
+  read: boolean;
+  timestamp: string;
+  actionUrl?: string;
+}
+
+// ---- Timeline ----
+export interface TimelineItem {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  timestamp: string;
+  accentColor?: string;
+}
+
+// ---- Notification ----
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'success' | 'error';
+  read: boolean;
+  timestamp: string;
+  actionUrl?: string;
+}
+
+// ---- Tag ----
+export interface Tag {
+  id: string;
+  label: string;
+  color: string;
+}
+
+// ---- Subtask ----
+export interface Subtask {
+  id: string;
+  title: string;
+  completed: boolean;
 }

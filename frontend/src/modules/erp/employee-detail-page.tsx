@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Mail, Phone, Calendar, Briefcase, DollarSign, UserCircle,
   Pencil, FolderKanban, Clock, FileText, Activity, CreditCard,
   Laptop, Download, ChevronRight, Users, Package, CheckCircle2,
-  AlertTriangle, BarChart3,
+  AlertTriangle, BarChart3, Send, Award, CalendarPlus, MessageSquare,
+  StickyNote, Plus, FolderPlus, DollarSign as DollarIcon, CalendarClock,
+  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,9 +23,19 @@ import {
 import { useErpStore } from '@/modules/erp/erp-store';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import { OpsCard } from '@/modules/erp/components/ops/ops-card';
+import { Timeline } from '@/modules/erp/components/ops/timeline';
+import type { TimelineItem as TimelineItemType } from '@/modules/erp/components/ops/timeline';
 
 // ---- Helpers ----
-type TabKey = 'overview' | 'attendance' | 'leaves' | 'payroll' | 'assets' | 'activity';
+type TabKey = 'overview' | 'attendance' | 'leaves' | 'payroll' | 'assets' | 'activity' | 'timeline' | 'notes';
+
+interface Note {
+  id: string;
+  author: string;
+  content: string;
+  timestamp: string;
+  type: 'quick' | 'manager';
+}
 
 function formatStatusLabel(status: string): string {
   const map: Record<string, string> = {
@@ -84,6 +96,33 @@ export default function EmployeeDetailPage() {
   const { selectedEmployeeId, goBack } = useErpStore();
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
 
+  // Notes state
+  const [quickNote, setQuickNote] = useState('');
+  const [managerNotes, setManagerNotes] = useState('');
+  const [notes, setNotes] = useState<Note[]>([
+    {
+      id: 'n1',
+      author: 'Arjun Mehta',
+      content: 'Excellent performance on the NexaBank project. Client specifically mentioned Deepika\'s wireframe quality in the last feedback session. Recommended for Q1 spot award.',
+      timestamp: '2026-04-08 14:30',
+      type: 'manager',
+    },
+    {
+      id: 'n2',
+      author: 'Ritika Gupta',
+      content: 'Probation review completed — all onboarding tasks cleared. Strong communication skills noted by team members. Ready for full-time confirmation.',
+      timestamp: '2026-04-05 11:15',
+      type: 'quick',
+    },
+    {
+      id: 'n3',
+      author: 'Nikhil Das',
+      content: 'Technical assessment score: 88/100. Solid understanding of design systems and component architecture. Suggested for design system ownership role.',
+      timestamp: '2026-04-02 16:45',
+      type: 'manager',
+    },
+  ]);
+
   const employee = useMemo(() => {
     if (!selectedEmployeeId) return null;
     return mockEmployees.find((e) => e.id === selectedEmployeeId) || null;
@@ -122,6 +161,93 @@ export default function EmployeeDetailPage() {
     ];
   }, [employee]);
 
+  // Timeline mock data
+  const timelineItems = useMemo((): TimelineItemType[] => {
+    if (!employee) return [];
+    return [
+      {
+        id: 'tl1',
+        icon: FolderPlus,
+        title: 'Assigned to NexaBank Digital Transformation',
+        description: 'Joined as lead UI/UX designer for the banking dashboard module',
+        timestamp: '2025-11-20',
+        accentColor: '#60a5fa',
+      },
+      {
+        id: 'tl2',
+        icon: Award,
+        title: 'Q1 Performance Review — Rating: 4.2/5',
+        description: 'Exceeded KPI targets. Promoted to Senior UI/UX Designer.',
+        timestamp: '2026-01-15',
+        accentColor: '#34d399',
+      },
+      {
+        id: 'tl3',
+        icon: UserCircle,
+        title: 'Status changed: Probation → Active',
+        description: 'Successfully completed 6-month probation period with excellent ratings',
+        timestamp: '2025-12-01',
+        accentColor: '#a78bfa',
+      },
+      {
+        id: 'tl4',
+        icon: FolderPlus,
+        title: 'Assigned to TravelWise Booking Engine',
+        description: 'Onboarded as design lead for the new travel platform project',
+        timestamp: '2026-04-01',
+        accentColor: '#60a5fa',
+      },
+      {
+        id: 'tl5',
+        icon: CalendarClock,
+        title: 'Leave Approved: Apr 11–13 (Casual Leave)',
+        description: '3-day casual leave approved by manager for personal work',
+        timestamp: '2026-04-08',
+        accentColor: '#fbbf24',
+      },
+      {
+        id: 'tl6',
+        icon: Award,
+        title: 'Q4 2025 Performance Review — Rating: 3.8/5',
+        description: 'Consistent delivery, good client feedback. Area for improvement: estimation accuracy.',
+        timestamp: '2025-10-15',
+        accentColor: '#34d399',
+      },
+      {
+        id: 'tl7',
+        icon: UserCircle,
+        title: 'Status changed: On Leave → Active',
+        description: 'Returned from 5-day earned leave',
+        timestamp: '2025-09-10',
+        accentColor: '#a78bfa',
+      },
+      {
+        id: 'tl8',
+        icon: FolderPlus,
+        title: 'Assigned to EduSpark LMS Platform',
+        description: 'Contributed to course builder and assessment engine UI design',
+        timestamp: '2025-08-15',
+        accentColor: '#60a5fa',
+      },
+    ];
+  }, [employee]);
+
+  const handleAddNote = () => {
+    if (!quickNote.trim()) return;
+    const newNote: Note = {
+      id: `n-${Date.now()}`,
+      author: 'Current User',
+      content: quickNote.trim(),
+      timestamp: new Date().toLocaleString('en-IN', {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      }),
+      type: 'quick',
+    };
+    setNotes((prev) => [newNote, ...prev]);
+    setQuickNote('');
+  };
+
   // ---- Not found state ----
   if (!employee) {
     return (
@@ -153,6 +279,8 @@ export default function EmployeeDetailPage() {
     { key: 'payroll', label: 'Payroll', icon: CreditCard },
     { key: 'assets', label: 'Assets', icon: Laptop },
     { key: 'activity', label: 'Activity', icon: Activity },
+    { key: 'timeline', label: 'Timeline', icon: FileText },
+    { key: 'notes', label: 'Notes', icon: StickyNote },
   ];
 
   // ---- Productivity color ----
@@ -162,6 +290,14 @@ export default function EmployeeDetailPage() {
       : employee.productivityScore >= 70
         ? 'var(--ops-warning)'
         : 'var(--ops-danger)';
+
+  // ---- Quick actions config ----
+  const quickActions = [
+    { label: 'Assign to Project', icon: FolderPlus, color: '#60a5fa', bg: 'rgba(96,165,250,0.1)' },
+    { label: 'Give Bonus', icon: DollarIcon, color: '#34d399', bg: 'rgba(52,211,153,0.1)' },
+    { label: 'Send Message', icon: MessageSquare, color: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+    { label: 'Schedule Review', icon: CalendarPlus, color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
+  ];
 
   return (
     <motion.div
@@ -178,10 +314,7 @@ export default function EmployeeDetailPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <button
-            onClick={goBack}
-            className="ops-btn-ghost gap-2 -ml-2 mb-2"
-          >
+          <button onClick={goBack} className="ops-btn-ghost gap-2 -ml-2 mb-2">
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
         </motion.div>
@@ -194,7 +327,6 @@ export default function EmployeeDetailPage() {
         >
           <div className="ops-card p-6">
             <div className="flex flex-col sm:flex-row gap-5">
-              {/* Avatar */}
               <Avatar className="h-20 w-20 shrink-0">
                 <AvatarFallback
                   className="text-2xl font-bold"
@@ -206,8 +338,6 @@ export default function EmployeeDetailPage() {
                   {employee.avatar}
                 </AvatarFallback>
               </Avatar>
-
-              {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-1">
                   <h1
@@ -216,15 +346,9 @@ export default function EmployeeDetailPage() {
                   >
                     {employee.name}
                   </h1>
-                  <StatusBadge
-                    status={formatStatusLabel(employee.status)}
-                    variant="pill"
-                  />
+                  <StatusBadge status={formatStatusLabel(employee.status)} variant="pill" />
                 </div>
-                <p
-                  className="text-sm mb-3"
-                  style={{ color: 'var(--ops-text-secondary)' }}
-                >
+                <p className="text-sm mb-3" style={{ color: 'var(--ops-text-secondary)' }}>
                   {employee.designation} · {employee.department}
                 </p>
                 <div className="flex items-center gap-3">
@@ -240,30 +364,10 @@ export default function EmployeeDetailPage() {
         {/* ---- Quick Stats ---- */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            {
-              label: 'Active Projects',
-              value: employee.activeProjects,
-              icon: FolderKanban,
-              color: 'var(--ops-accent)',
-            },
-            {
-              label: 'Productivity Score',
-              value: `${employee.productivityScore}%`,
-              icon: BarChart3,
-              color: prodColor,
-            },
-            {
-              label: 'Salary Band',
-              value: employee.salaryBand,
-              icon: DollarSign,
-              color: 'var(--ops-text)',
-            },
-            {
-              label: 'Join Date',
-              value: formatDate(employee.joinDate),
-              icon: Calendar,
-              color: 'var(--ops-info)',
-            },
+            { label: 'Active Projects', value: employee.activeProjects, icon: FolderKanban, color: 'var(--ops-accent)' },
+            { label: 'Productivity Score', value: `${employee.productivityScore}%`, icon: BarChart3, color: prodColor },
+            { label: 'Salary Band', value: employee.salaryBand, icon: DollarSign, color: 'var(--ops-text)' },
+            { label: 'Join Date', value: formatDate(employee.joinDate), icon: Calendar, color: 'var(--ops-info)' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -277,26 +381,14 @@ export default function EmployeeDetailPage() {
             >
               <OpsCard hoverable className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span
-                    className="text-xs font-medium"
-                    style={{ color: 'var(--ops-text-muted)' }}
-                  >
+                  <span className="text-xs font-medium" style={{ color: 'var(--ops-text-muted)' }}>
                     {stat.label}
                   </span>
-                  <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
-                  >
-                    <stat.icon
-                      className="w-3.5 h-3.5"
-                      style={{ color: stat.color }}
-                    />
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                    <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
                   </div>
                 </div>
-                <p
-                  className="text-lg font-bold truncate"
-                  style={{ color: stat.color }}
-                >
+                <p className="text-lg font-bold truncate" style={{ color: stat.color }}>
                   {stat.value}
                 </p>
               </OpsCard>
@@ -321,13 +413,9 @@ export default function EmployeeDetailPage() {
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors data-[state=active]:text-white data-[state=active]:shadow-sm"
                 style={{
                   backgroundColor:
-                    activeTab === tab.key
-                      ? 'rgba(255,255,255,0.08)'
-                      : 'transparent',
+                    activeTab === tab.key ? 'rgba(255,255,255,0.08)' : 'transparent',
                   color:
-                    activeTab === tab.key
-                      ? 'var(--ops-text)'
-                      : 'var(--ops-text-muted)',
+                    activeTab === tab.key ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                 }}
               >
                 <tab.icon className="w-4 h-4" />
@@ -338,196 +426,230 @@ export default function EmployeeDetailPage() {
 
           {/* ---- Overview Tab ---- */}
           <TabsContent value="overview" className="mt-5 space-y-5">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              {/* Personal Info */}
-              <div className="ops-card p-5 space-y-4">
-                <h3
-                  className="text-sm font-semibold flex items-center gap-2"
-                  style={{ color: 'var(--ops-text)' }}
-                >
-                  <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
-                  Personal Information
-                </h3>
-                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { label: 'Full Name', value: employee.name },
-                    { label: 'Employee ID', value: employee.id.toUpperCase() },
-                    { label: 'Department', value: employee.department },
-                    { label: 'Designation', value: employee.designation },
-                    { label: 'Manager', value: employee.manager },
-                    { label: 'Join Date', value: formatDate(employee.joinDate) },
-                    { label: 'Status', value: formatStatusLabel(employee.status) },
-                    { label: 'Salary Band', value: employee.salaryBand },
-                  ].map((item) => (
-                    <div key={item.label}>
-                      <p
-                        className="text-[11px] mb-0.5"
-                        style={{ color: 'var(--ops-text-muted)' }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="text-sm font-medium"
-                        style={{ color: 'var(--ops-text-secondary)' }}
-                      >
-                        {item.value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Contact Info */}
-              <div className="ops-card p-5 space-y-4">
-                <h3
-                  className="text-sm font-semibold flex items-center gap-2"
-                  style={{ color: 'var(--ops-text)' }}
-                >
-                  <Mail className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
-                  Contact Information
-                </h3>
-                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
-                <div className="space-y-4">
-                  {[
-                    { icon: Mail, label: 'Email', value: employee.email },
-                    { icon: Phone, label: 'Phone', value: employee.phone },
-                    { icon: Briefcase, label: 'Department', value: employee.department },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-start gap-3">
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
-                      >
-                        <item.icon
-                          className="w-4 h-4"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        />
-                      </div>
-                      <div>
-                        <p
-                          className="text-[11px]"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              {/* Left column — Personal Info + Contact + Performance */}
+              <div className="lg:col-span-2 space-y-5">
+                {/* Personal Info */}
+                <div className="ops-card p-5 space-y-4">
+                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                    <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    Personal Information
+                  </h3>
+                  <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { label: 'Full Name', value: employee.name },
+                      { label: 'Employee ID', value: employee.id.toUpperCase() },
+                      { label: 'Department', value: employee.department },
+                      { label: 'Designation', value: employee.designation },
+                      { label: 'Manager', value: employee.manager },
+                      { label: 'Join Date', value: formatDate(employee.joinDate) },
+                      { label: 'Status', value: formatStatusLabel(employee.status) },
+                      { label: 'Salary Band', value: employee.salaryBand },
+                    ].map((item) => (
+                      <div key={item.label}>
+                        <p className="text-[11px] mb-0.5" style={{ color: 'var(--ops-text-muted)' }}>
                           {item.label}
                         </p>
-                        <p
-                          className="text-sm font-medium"
-                          style={{ color: 'var(--ops-text-secondary)' }}
-                        >
+                        <p className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
                           {item.value}
                         </p>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
-                {/* Skills Section */}
-                <h3
-                  className="text-sm font-semibold flex items-center gap-2 pt-2"
-                  style={{ color: 'var(--ops-text)' }}
-                >
-                  <BarChart3 className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
-                  Performance
-                </h3>
-                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span
-                      className="text-xs"
-                      style={{ color: 'var(--ops-text-muted)' }}
-                    >
-                      Productivity Score
-                    </span>
-                    <span
-                      className="text-xs font-bold"
-                      style={{ color: prodColor }}
-                    >
-                      {employee.productivityScore}%
-                    </span>
+                {/* Contact Info + Performance */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {/* Contact Info */}
+                  <div className="ops-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                      <Mail className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                      Contact Information
+                    </h3>
+                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <div className="space-y-4">
+                      {[
+                        { icon: Mail, label: 'Email', value: employee.email },
+                        { icon: Phone, label: 'Phone', value: employee.phone },
+                        { icon: Briefcase, label: 'Department', value: employee.department },
+                      ].map((item) => (
+                        <div key={item.label} className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                            <item.icon className="w-4 h-4" style={{ color: 'var(--ops-text-muted)' }} />
+                          </div>
+                          <div>
+                            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{item.label}</p>
+                            <p className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>{item.value}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div
-                    className="h-2 rounded-full overflow-hidden"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
-                  >
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{
-                        width: `${employee.productivityScore}%`,
-                        backgroundColor: prodColor,
-                      }}
-                    />
+
+                  {/* Performance */}
+                  <div className="ops-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                      <BarChart3 className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                      Performance
+                    </h3>
+                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>Productivity Score</span>
+                        <span className="text-xs font-bold" style={{ color: prodColor }}>{employee.productivityScore}%</span>
+                      </div>
+                      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                        <div
+                          className="h-full rounded-full transition-all"
+                          style={{ width: `${employee.productivityScore}%`, backgroundColor: prodColor }}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 pt-2">
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+                        <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>SLA Score</p>
+                        <p className="text-sm font-bold" style={{ color: 'var(--ops-info)' }}>96%</p>
+                      </div>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+                        <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>Task Completion</p>
+                        <p className="text-sm font-bold" style={{ color: 'var(--ops-success)' }}>95%</p>
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                {/* Project Assignments */}
+                <div className="ops-card p-5 space-y-4">
+                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                    <FolderKanban className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    Project Assignments
+                  </h3>
+                  <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                  {employee.activeProjects > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[1, 2].slice(0, employee.activeProjects).map((i) => {
+                        const projectNames: Record<number, { name: string; progress: number }> = {
+                          1: { name: 'NexaBank Digital Transformation', progress: 82 },
+                          2: { name: 'ShopVerse E-Commerce Platform', progress: 68 },
+                          3: { name: 'MediCare Patient Portal', progress: 90 },
+                          4: { name: 'FinEdge Trading Platform', progress: 75 },
+                        };
+                        const proj = projectNames[i] || { name: `Project ${i}`, progress: 0 };
+                        return (
+                          <div
+                            key={i}
+                            className="rounded-xl p-3 space-y-2"
+                            style={{
+                              backgroundColor: 'rgba(255,255,255,0.02)',
+                              border: '1px solid var(--ops-border)',
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium truncate" style={{ color: 'var(--ops-text)' }}>
+                                {proj.name}
+                              </span>
+                              <span className="text-xs font-bold" style={{ color: 'var(--ops-info)' }}>
+                                {proj.progress}%
+                              </span>
+                            </div>
+                            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                              <div
+                                className="h-full rounded-full"
+                                style={{ width: `${proj.progress}%`, backgroundColor: 'var(--ops-accent)' }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-center py-6" style={{ color: 'var(--ops-text-muted)' }}>
+                      No active project assignments
+                    </p>
+                  )}
                 </div>
               </div>
 
-              {/* Project Assignments */}
-              <div className="ops-card p-5 space-y-4 lg:col-span-2">
-                <h3
-                  className="text-sm font-semibold flex items-center gap-2"
-                  style={{ color: 'var(--ops-text)' }}
+              {/* Right column — Quick Actions Panel */}
+              <div className="lg:col-span-1">
+                <motion.div
+                  initial={{ opacity: 0, x: 12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15, duration: 0.3 }}
+                  className="lg:sticky lg:top-6 space-y-5"
                 >
-                  <FolderKanban className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
-                  Project Assignments
-                </h3>
-                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
-                {employee.activeProjects > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {[1, 2].slice(0, employee.activeProjects).map((i) => {
-                      const projectNames: Record<number, { name: string; progress: number }> = {
-                        1: { name: 'NexaBank Digital Transformation', progress: 82 },
-                        2: { name: 'ShopVerse E-Commerce Platform', progress: 68 },
-                        3: { name: 'MediCare Patient Portal', progress: 90 },
-                        4: { name: 'FinEdge Trading Platform', progress: 75 },
-                      };
-                      const proj = projectNames[i] || { name: `Project ${i}`, progress: 0 };
-                      return (
-                        <div
-                          key={i}
-                          className="rounded-xl p-3 space-y-2"
-                          style={{
-                            backgroundColor: 'rgba(255,255,255,0.02)',
-                            border: '1px solid var(--ops-border)',
-                          }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span
-                              className="text-sm font-medium truncate"
-                              style={{ color: 'var(--ops-text)' }}
-                            >
-                              {proj.name}
-                            </span>
-                            <span
-                              className="text-xs font-bold"
-                              style={{ color: 'var(--ops-info)' }}
-                            >
-                              {proj.progress}%
-                            </span>
-                          </div>
-                          <div
-                            className="h-1.5 rounded-full overflow-hidden"
-                            style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                  {/* Quick Actions */}
+                  <div className="ops-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                      <Zap className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                      Quick Actions
+                    </h3>
+                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <div className="space-y-2">
+                      {quickActions.map((action) => {
+                        const Icon = action.icon;
+                        return (
+                          <motion.button
+                            key={action.label}
+                            whileHover={{ x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center gap-3 w-full p-3 rounded-xl text-left transition-colors cursor-pointer"
+                            style={{
+                              backgroundColor: 'transparent',
+                              border: '1px solid var(--ops-border)',
+                            }}
+                            onMouseEnter={(e) => {
+                              (e.currentTarget as HTMLElement).style.backgroundColor = action.bg;
+                              (e.currentTarget as HTMLElement).style.borderColor = `${action.color}30`;
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+                              (e.currentTarget as HTMLElement).style.borderColor = 'var(--ops-border)';
+                            }}
                           >
                             <div
-                              className="h-full rounded-full"
-                              style={{
-                                width: `${proj.progress}%`,
-                                backgroundColor: 'var(--ops-accent)',
-                              }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+                              className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                              style={{ backgroundColor: action.bg }}
+                            >
+                              <Icon className="w-4 h-4" style={{ color: action.color }} />
+                            </div>
+                            <span className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                              {action.label}
+                            </span>
+                          </motion.button>
+                        );
+                      })}
+                    </div>
                   </div>
-                ) : (
-                  <p
-                    className="text-sm text-center py-6"
-                    style={{ color: 'var(--ops-text-muted)' }}
-                  >
-                    No active project assignments
-                  </p>
-                )}
+
+                  {/* Manager Info */}
+                  <div className="ops-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                      <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                      Reporting To
+                    </h3>
+                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarFallback
+                          className="text-xs font-semibold"
+                          style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+                        >
+                          {employee.manager.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+                          {employee.manager}
+                        </p>
+                        <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
+                          Direct Manager
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </TabsContent>
@@ -539,75 +661,48 @@ export default function EmployeeDetailPage() {
                 <table className="w-full">
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {['Date', 'Check In', 'Check Out', 'Hours', 'Status'].map(
-                        (h) => (
-                          <th
-                            key={h}
-                            className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
-                            style={{ color: 'var(--ops-text-muted)' }}
-                          >
-                            {h}
-                          </th>
-                        ),
-                      )}
+                      {['Date', 'Check In', 'Check Out', 'Hours', 'Status'].map((h) => (
+                        <th
+                          key={h}
+                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {employeeAttendance.length === 0 ? (
                       <tr>
-                        <td
-                          colSpan={5}
-                          className="h-32 text-center text-sm"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
+                        <td colSpan={5} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
                           No attendance records found
                         </td>
                       </tr>
                     ) : (
                       employeeAttendance.map((record) => (
-                        <tr
-                          key={record.id}
-                          style={{ borderBottom: '1px solid var(--ops-border)' }}
-                        >
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                        <tr key={record.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {formatDate(record.date)}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {record.checkIn || '—'}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {record.checkOut || '—'}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm font-medium"
-                            style={{ color: 'var(--ops-text)' }}
-                          >
+                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
                             {record.hours > 0 ? `${record.hours}h` : '—'}
                           </td>
                           <td className="px-5 py-3">
                             <div className="flex items-center gap-2">
                               <span
                                 className="w-2 h-2 rounded-full shrink-0"
-                                style={{
-                                  backgroundColor: getAttendanceStatusColor(
-                                    record.status,
-                                  ),
-                                }}
+                                style={{ backgroundColor: getAttendanceStatusColor(record.status) }}
                               />
                               <span
                                 className="text-sm capitalize"
-                                style={{
-                                  color: getAttendanceStatusColor(record.status),
-                                }}
+                                style={{ color: getAttendanceStatusColor(record.status) }}
                               >
                                 {record.status.replace('-', ' ')}
                               </span>
@@ -629,65 +724,41 @@ export default function EmployeeDetailPage() {
                 <table className="w-full">
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {['Type', 'Period', 'Days', 'Reason', 'Status'].map(
-                        (h) => (
-                          <th
-                            key={h}
-                            className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
-                            style={{ color: 'var(--ops-text-muted)' }}
-                          >
-                            {h}
-                          </th>
-                        ),
-                      )}
+                      {['Type', 'Period', 'Days', 'Reason', 'Status'].map((h) => (
+                        <th
+                          key={h}
+                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                          style={{ color: 'var(--ops-text-muted)' }}
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {employeeLeaves.length === 0 ? (
                       <tr>
-                        <td
-                          colSpan={5}
-                          className="h-32 text-center text-sm"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
+                        <td colSpan={5} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
                           No leave requests found
                         </td>
                       </tr>
                     ) : (
                       employeeLeaves.map((leave) => (
-                        <tr
-                          key={leave.id}
-                          style={{ borderBottom: '1px solid var(--ops-border)' }}
-                        >
-                          <td
-                            className="px-5 py-3 text-sm font-medium capitalize"
-                            style={{ color: 'var(--ops-text)' }}
-                          >
+                        <tr key={leave.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                          <td className="px-5 py-3 text-sm font-medium capitalize" style={{ color: 'var(--ops-text)' }}>
                             {leave.type.replace('-', ' ')}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {leave.startDate} — {leave.endDate}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm font-medium"
-                            style={{ color: 'var(--ops-text)' }}
-                          >
+                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
                             {leave.days}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm max-w-[200px] truncate"
-                            style={{ color: 'var(--ops-text-muted)' }}
-                          >
+                          <td className="px-5 py-3 text-sm max-w-[200px] truncate" style={{ color: 'var(--ops-text-muted)' }}>
                             {leave.reason}
                           </td>
                           <td className="px-5 py-3">
-                            <StatusBadge
-                              status={leave.status}
-                              variant="pill"
-                            />
+                            <StatusBadge status={leave.status} variant="pill" />
                           </td>
                         </tr>
                       ))
@@ -701,10 +772,7 @@ export default function EmployeeDetailPage() {
           {/* ---- Payroll Tab ---- */}
           <TabsContent value="payroll" className="mt-5">
             <div className="flex items-center justify-between mb-4">
-              <h3
-                className="text-sm font-semibold"
-                style={{ color: 'var(--ops-text)' }}
-              >
+              <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
                 Recent Payslips
               </h3>
               <button className="ops-btn-primary gap-2 text-xs">
@@ -716,14 +784,7 @@ export default function EmployeeDetailPage() {
                 <table className="w-full">
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {[
-                        'Month',
-                        'Base Salary',
-                        'Incentives',
-                        'Deductions',
-                        'Net Pay',
-                        'Status',
-                      ].map((h) => (
+                      {['Month', 'Base Salary', 'Incentives', 'Deductions', 'Net Pay', 'Status'].map((h) => (
                         <th
                           key={h}
                           className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
@@ -737,55 +798,30 @@ export default function EmployeeDetailPage() {
                   <tbody>
                     {employeePayroll.length === 0 ? (
                       <tr>
-                        <td
-                          colSpan={6}
-                          className="h-32 text-center text-sm"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
+                        <td colSpan={6} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
                           No payroll records found
                         </td>
                       </tr>
                     ) : (
                       employeePayroll.map((record) => (
-                        <tr
-                          key={record.id}
-                          style={{ borderBottom: '1px solid var(--ops-border)' }}
-                        >
-                          <td
-                            className="px-5 py-3 text-sm font-medium"
-                            style={{ color: 'var(--ops-text)' }}
-                          >
+                        <tr key={record.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
                             {formatMonth(record.month)}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {formatCurrency(record.baseSalary)}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-success)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-success)' }}>
                             +{formatCurrency(record.incentives)}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm"
-                            style={{ color: 'var(--ops-danger)' }}
-                          >
+                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-danger)' }}>
                             -{formatCurrency(record.deductions)}
                           </td>
-                          <td
-                            className="px-5 py-3 text-sm font-bold"
-                            style={{ color: 'var(--ops-text)' }}
-                          >
+                          <td className="px-5 py-3 text-sm font-bold" style={{ color: 'var(--ops-text)' }}>
                             {formatCurrency(record.netPay)}
                           </td>
                           <td className="px-5 py-3">
-                            <StatusBadge
-                              status={record.status}
-                              variant="pill"
-                            />
+                            <StatusBadge status={record.status} variant="pill" />
                           </td>
                         </tr>
                       ))
@@ -800,10 +836,7 @@ export default function EmployeeDetailPage() {
           <TabsContent value="assets" className="mt-5">
             {employeeAssets.length === 0 ? (
               <div className="ops-card p-12 text-center">
-                <Package
-                  className="w-10 h-10 mx-auto mb-3"
-                  style={{ color: 'var(--ops-text-muted)' }}
-                />
+                <Package className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)' }} />
                 <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>
                   No assets assigned to this employee
                 </p>
@@ -815,41 +848,23 @@ export default function EmployeeDetailPage() {
                     <div className="flex items-start gap-3">
                       <div
                         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                        style={{
-                          backgroundColor: 'var(--ops-accent-light)',
-                        }}
+                        style={{ backgroundColor: 'var(--ops-accent-light)' }}
                       >
-                        <Laptop
-                          className="w-5 h-5"
-                          style={{ color: 'var(--ops-accent)' }}
-                        />
+                        <Laptop className="w-5 h-5" style={{ color: 'var(--ops-accent)' }} />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p
-                          className="text-sm font-semibold truncate"
-                          style={{ color: 'var(--ops-text)' }}
-                        >
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--ops-text)' }}>
                           {asset.name}
                         </p>
-                        <p
-                          className="text-xs mt-0.5"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
+                        <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>
                           {asset.type} · {asset.serialNo}
                         </p>
                         <div className="flex items-center gap-2 mt-2">
                           <span
                             className="w-2 h-2 rounded-full shrink-0"
-                            style={{
-                              backgroundColor: getAssetStatusColor(asset.status),
-                            }}
+                            style={{ backgroundColor: getAssetStatusColor(asset.status) }}
                           />
-                          <span
-                            className="text-xs capitalize font-medium"
-                            style={{
-                              color: getAssetStatusColor(asset.status),
-                            }}
-                          >
+                          <span className="text-xs capitalize font-medium" style={{ color: getAssetStatusColor(asset.status) }}>
                             {asset.status.replace('-', ' ')}
                           </span>
                         </div>
@@ -877,10 +892,7 @@ export default function EmployeeDetailPage() {
             <div className="ops-card p-5">
               <div className="space-y-0">
                 {activities.length === 0 ? (
-                  <p
-                    className="text-sm text-center py-6"
-                    style={{ color: 'var(--ops-text-muted)' }}
-                  >
+                  <p className="text-sm text-center py-6" style={{ color: 'var(--ops-text-muted)' }}>
                     No activity recorded
                   </p>
                 ) : (
@@ -891,22 +903,13 @@ export default function EmployeeDetailPage() {
                           className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                           style={{ backgroundColor: 'var(--ops-accent-light)' }}
                         >
-                          <Activity
-                            className="w-4 h-4"
-                            style={{ color: 'var(--ops-accent)' }}
-                          />
+                          <Activity className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p
-                            className="text-sm"
-                            style={{ color: 'var(--ops-text-secondary)' }}
-                          >
+                          <p className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
                             {item.text}
                           </p>
-                          <p
-                            className="text-xs mt-0.5"
-                            style={{ color: 'var(--ops-text-muted)' }}
-                          >
+                          <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>
                             {formatDate(item.date)}
                           </p>
                         </div>
@@ -927,8 +930,212 @@ export default function EmployeeDetailPage() {
               </div>
             </div>
           </TabsContent>
+
+          {/* ---- Timeline Tab ---- */}
+          <TabsContent value="timeline" className="mt-5">
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+              className="ops-card p-5"
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <FileText className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+                  Employee Timeline
+                </h3>
+                <div className="ml-auto flex items-center gap-3">
+                  {[
+                    { label: 'Project', color: '#60a5fa' },
+                    { label: 'Review', color: '#34d399' },
+                    { label: 'Status', color: '#a78bfa' },
+                    { label: 'Leave', color: '#fbbf24' },
+                  ].map((legend) => (
+                    <div key={legend.label} className="flex items-center gap-1.5">
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: legend.color }}
+                      />
+                      <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                        {legend.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Timeline items={timelineItems} />
+            </motion.div>
+          </TabsContent>
+
+          {/* ---- Notes Tab ---- */}
+          <TabsContent value="notes" className="mt-5">
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-5"
+            >
+              {/* Quick Note Input */}
+              <div className="ops-card p-5 space-y-3">
+                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                  <Plus className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Add a Note
+                </h3>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={quickNote}
+                    onChange={(e) => setQuickNote(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleAddNote();
+                    }}
+                    placeholder="Type a quick note about this employee..."
+                    className="ops-input flex-1 px-3 py-2 text-sm"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      border: '1px solid var(--ops-border)',
+                      color: 'var(--ops-text)',
+                      outline: 'none',
+                    }}
+                    onFocus={(e) => {
+                      (e.target as HTMLElement).style.borderColor = 'var(--ops-accent)';
+                    }}
+                    onBlur={(e) => {
+                      (e.target as HTMLElement).style.borderColor = 'var(--ops-border)';
+                    }}
+                  />
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleAddNote}
+                    className="ops-btn-primary gap-2 text-xs px-4 shrink-0"
+                    disabled={!quickNote.trim()}
+                    style={{
+                      opacity: quickNote.trim() ? 1 : 0.5,
+                    }}
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Note
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Manager Notes */}
+              <div className="ops-card p-5 space-y-4">
+                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
+                  <Pencil className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  Manager Notes
+                </h3>
+                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                <textarea
+                  value={managerNotes}
+                  onChange={(e) => setManagerNotes(e.target.value)}
+                  placeholder="Add private manager notes about this employee..."
+                  rows={4}
+                  className="ops-input w-full px-3 py-2 text-sm resize-none"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    border: '1px solid var(--ops-border)',
+                    color: 'var(--ops-text)',
+                    outline: 'none',
+                  }}
+                  onFocus={(e) => {
+                    (e.target as HTMLElement).style.borderColor = 'var(--ops-accent)';
+                  }}
+                  onBlur={(e) => {
+                    (e.target as HTMLElement).style.borderColor = 'var(--ops-border)';
+                  }}
+                />
+                <div className="flex justify-end">
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    className="ops-btn-ghost gap-2 text-xs px-3"
+                    style={{ border: '1px solid var(--ops-border)' }}
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Save Notes
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Notes List */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold flex items-center gap-2 px-1" style={{ color: 'var(--ops-text)' }}>
+                  <StickyNote className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  All Notes
+                  <span
+                    className="ops-badge text-[10px]"
+                    style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+                  >
+                    {notes.length}
+                  </span>
+                </h3>
+                <AnimatePresence>
+                  {notes.map((note, idx) => (
+                    <motion.div
+                      key={note.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ delay: idx * 0.04, duration: 0.2 }}
+                    >
+                      <div
+                        className="ops-card p-4 space-y-2"
+                        style={{
+                          borderLeft: `3px solid ${
+                            note.type === 'manager' ? 'var(--ops-accent)' : 'rgba(255,255,255,0.1)'
+                          }`,
+                        }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Avatar className="h-6 w-6">
+                              <AvatarFallback
+                                className="text-[9px] font-semibold"
+                                style={{
+                                  backgroundColor: note.type === 'manager'
+                                    ? 'var(--ops-accent-light)'
+                                    : 'rgba(255,255,255,0.06)',
+                                  color: note.type === 'manager'
+                                    ? 'var(--ops-accent)'
+                                    : 'var(--ops-text-muted)',
+                                }}
+                              >
+                                {note.author.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                              </AvatarFallback>
+                            </Avatar>
+                            <span className="text-xs font-semibold" style={{ color: 'var(--ops-text)' }}>
+                              {note.author}
+                            </span>
+                            {note.type === 'manager' && (
+                              <span
+                                className="text-[9px] font-medium px-1.5 py-0.5 rounded-full"
+                                style={{
+                                  backgroundColor: 'var(--ops-accent-light)',
+                                  color: 'var(--ops-accent)',
+                                }}
+                              >
+                                Manager
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                            {note.timestamp}
+                          </span>
+                        </div>
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--ops-text-secondary)' }}>
+                          {note.content}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </TabsContent>
         </Tabs>
       </div>
     </motion.div>
   );
 }
+
+

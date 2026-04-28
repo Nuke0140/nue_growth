@@ -22,9 +22,20 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Calendar, GripVertical } from 'lucide-react';
+import { Calendar, GripVertical, Paperclip, CheckSquare } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────
+
+export interface KanbanLabel {
+  name: string;
+  color: string;
+  bg: string;
+}
+
+export interface KanbanSubtaskProgress {
+  total: number;
+  completed: number;
+}
 
 export interface KanbanTask {
   id: string;
@@ -34,6 +45,22 @@ export interface KanbanTask {
   priority?: 'low' | 'medium' | 'high' | 'critical';
   dueDate?: string;
   tags?: string[];
+  /** Project short name shown on the card */
+  projectName?: string;
+  /** Colored label pills */
+  labels?: KanbanLabel[];
+  /** Subtask progress indicator */
+  subtasks?: KanbanSubtaskProgress;
+  /** Number of attachments */
+  attachments?: number;
+  /** Story points */
+  storyPoints?: number;
+  /** Whether the task is blocked */
+  isBlocked?: boolean;
+  /** Assignee initials for avatar */
+  assigneeInitials?: string;
+  /** Assignee avatar background color */
+  assigneeColor?: string;
 }
 
 export interface KanbanColumn {
@@ -45,6 +72,7 @@ export interface KanbanColumn {
 interface KanbanBoardProps {
   columns: KanbanColumn[];
   onMoveTask?: (taskId: string, fromColumnId: string, toColumnId: string) => void;
+  onTaskClick?: (taskId: string) => void;
   className?: string;
 }
 
@@ -59,7 +87,15 @@ const priorityColors: Record<string, string> = {
 
 // ── Sortable Task Card ─────────────────────────────────
 
-function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boolean }) {
+function TaskCard({
+  task,
+  overlay = false,
+  onTaskClick,
+}: {
+  task: KanbanTask;
+  overlay?: boolean;
+  onTaskClick?: (taskId: string) => void;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: task.id, data: { type: 'task', task } });
 
@@ -70,6 +106,15 @@ function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boole
   };
 
   const priorityColor = task.priority ? priorityColors[task.priority] : undefined;
+  const hasSubtasks = task.subtasks && task.subtasks.total > 0;
+  const subtaskPct = hasSubtasks && task.subtasks
+    ? Math.round((task.subtasks.completed / task.subtasks.total) * 100)
+    : 0;
+  const hasLabels = task.labels && task.labels.length > 0;
+
+  const handleClick = () => {
+    if (onTaskClick && !overlay) onTaskClick(task.id);
+  };
 
   return (
     <motion.div
@@ -77,15 +122,27 @@ function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boole
       style={overlay ? undefined : style}
       className={cn(
         'ops-card p-3 cursor-grab active:cursor-grabbing',
-        overlay && 'shadow-2xl rotate-2 scale-[1.02]'
+        overlay && 'ops-drag-ghost rotate-1 scale-[1.03]',
+        onTaskClick && !overlay && 'cursor-grab hover:ring-1 hover:ring-[var(--ops-accent)]/20',
       )}
       {...(!overlay ? { ...attributes, ...listeners } : {})}
+      onClick={handleClick}
     >
-      {/* Title row */}
+      {/* Project name */}
+      {task.projectName && (
+        <p
+          className="text-[10px] font-medium uppercase tracking-wider truncate mb-1"
+          style={{ color: 'var(--ops-text-muted)' }}
+        >
+          {task.projectName}
+        </p>
+      )}
+
+      {/* Title row with priority */}
       <div className="flex items-start gap-2">
         {!overlay && (
           <GripVertical
-            className="w-4 h-4 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
+            className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
             style={{ color: 'var(--ops-text-muted)' }}
           />
         )}
@@ -99,33 +156,126 @@ function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boole
           <span
             className="w-2 h-2 rounded-full shrink-0 mt-1.5"
             style={{ backgroundColor: priorityColor }}
+            title={task.priority}
           />
         )}
       </div>
 
-      {/* Subtitle / assignee */}
-      {task.subtitle && (
-        <p
-          className="text-xs mt-1.5 truncate"
-          style={{ color: 'var(--ops-text-muted)' }}
-        >
-          {task.subtitle}
-        </p>
+      {/* Labels row */}
+      {hasLabels && (
+        <div className="flex flex-wrap gap-1 mt-2">
+          {task.labels!.map((label) => (
+            <span
+              key={label.name}
+              className="ops-badge text-[10px] px-1.5 py-0 leading-none"
+              style={{
+                backgroundColor: label.bg,
+                color: label.color,
+                border: `1px solid ${label.color}20`,
+              }}
+            >
+              {label.name}
+            </span>
+          ))}
+          {task.isBlocked && (
+            <span
+              className="ops-badge text-[10px] px-1.5 py-0 leading-none font-semibold"
+              style={{
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                color: '#f87171',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+              }}
+            >
+              BLOCKED
+            </span>
+          )}
+        </div>
       )}
 
-      {/* Bottom row: avatar + due date */}
-      <div className="flex items-center justify-between mt-3">
-        {task.avatar ? (
-          <Avatar className="w-6 h-6">
-            <AvatarImage src={task.avatar} alt="" />
-            <AvatarFallback className="text-[10px]">?</AvatarFallback>
-          </Avatar>
-        ) : (
-          <span />
-        )}
+      {/* Subtask progress bar */}
+      {hasSubtasks && (
+        <div className="mt-2.5 space-y-1">
+          <div className="flex items-center gap-1.5">
+            <CheckSquare className="w-3 h-3" style={{ color: 'var(--ops-text-muted)' }} />
+            <span
+              className="text-[10px] font-medium"
+              style={{ color: 'var(--ops-text-muted)' }}
+            >
+              {task.subtasks!.completed}/{task.subtasks!.total} subtasks
+            </span>
+            <span
+              className="text-[10px] font-semibold ml-auto"
+              style={{ color: subtaskPct === 100 ? '#34d399' : 'var(--ops-text-secondary)' }}
+            >
+              {subtaskPct}%
+            </span>
+          </div>
+          <div
+            className="h-1 rounded-full overflow-hidden"
+            style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+          >
+            <motion.div
+              className="h-full rounded-full"
+              style={{
+                backgroundColor: subtaskPct === 100 ? '#34d399' : 'var(--ops-accent)',
+              }}
+              initial={{ width: 0 }}
+              animate={{ width: `${subtaskPct}%` }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Bottom row: assignee, story points, attachments, due date */}
+      <div className="flex items-center justify-between mt-2.5 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+        {/* Left side: assignee + story points */}
+        <div className="flex items-center gap-2">
+          {task.assigneeInitials ? (
+            <Avatar className="w-5 h-5">
+              <AvatarFallback
+                className="text-[8px] font-semibold"
+                style={{
+                  backgroundColor: task.assigneeColor || 'rgba(204,92,55,0.2)',
+                  color: task.assigneeColor ? '#fff' : '#cc5c37',
+                }}
+              >
+                {task.assigneeInitials}
+              </AvatarFallback>
+            </Avatar>
+          ) : task.avatar ? (
+            <Avatar className="w-5 h-5">
+              <AvatarImage src={task.avatar} alt="" />
+              <AvatarFallback className="text-[8px]">?</AvatarFallback>
+            </Avatar>
+          ) : (
+            <span className="w-5" />
+          )}
+
+          {task.storyPoints !== undefined && task.storyPoints > 0 && (
+            <span
+              className="text-[10px] font-semibold px-1.5 py-0 rounded"
+              style={{
+                backgroundColor: 'rgba(204,92,55,0.12)',
+                color: '#cc5c37',
+              }}
+            >
+              {task.storyPoints} SP
+            </span>
+          )}
+
+          {task.attachments !== undefined && task.attachments > 0 && (
+            <div className="flex items-center gap-0.5" style={{ color: 'var(--ops-text-muted)' }}>
+              <Paperclip className="w-3 h-3" />
+              <span className="text-[10px]">{task.attachments}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right side: due date */}
         {task.dueDate && (
           <div
-            className="flex items-center gap-1 text-[11px]"
+            className="flex items-center gap-1 text-[10px]"
             style={{ color: 'var(--ops-text-muted)' }}
           >
             <Calendar className="w-3 h-3" />
@@ -134,8 +284,8 @@ function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boole
         )}
       </div>
 
-      {/* Tags */}
-      {task.tags && task.tags.length > 0 && (
+      {/* Tags row (legacy — rendered only if no labels) */}
+      {!hasLabels && task.tags && task.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mt-2">
           {task.tags.map((tag) => (
             <span
@@ -160,9 +310,11 @@ function TaskCard({ task, overlay = false }: { task: KanbanTask; overlay?: boole
 function SortableColumn({
   column,
   onMoveTask,
+  onTaskClick,
 }: {
   column: KanbanColumn;
   onMoveTask?: (taskId: string, fromColumnId: string, toColumnId: string) => void;
+  onTaskClick?: (taskId: string) => void;
 }) {
   const { setNodeRef, transform, transition, isOver } = useSortable({
     id: column.id,
@@ -179,14 +331,12 @@ function SortableColumn({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'flex flex-col min-w-[280px] w-[280px] shrink-0 rounded-xl p-2 transition-colors',
+        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors',
         isOver && 'bg-[rgba(204,92,55,0.04)]'
       )}
     >
       {/* Column header */}
-      <div
-        className="flex items-center justify-between px-2 py-2 mb-2"
-      >
+      <div className="flex items-center justify-between px-2 py-2 mb-2">
         <div className="flex items-center gap-2">
           <span
             className="text-sm font-semibold"
@@ -211,9 +361,9 @@ function SortableColumn({
         items={column.items.map((t) => t.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-2 max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+        <div className="flex flex-col gap-2 max-h-[calc(100vh-280px)] overflow-y-auto pr-1 custom-scrollbar">
           {column.items.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard key={task.id} task={task} onTaskClick={onTaskClick} />
           ))}
           {column.items.length === 0 && (
             <div
@@ -237,6 +387,7 @@ function SortableColumn({
 export function KanbanBoard({
   columns,
   onMoveTask,
+  onTaskClick,
   className,
 }: KanbanBoardProps) {
   const [activeTask, setActiveTask] = useState<KanbanTask | null>(null);
@@ -285,7 +436,7 @@ export function KanbanBoard({
     }
   };
 
-  const handleDragOver = (event: DragOverEvent) => {
+  const handleDragOver = (_event: DragOverEvent) => {
     // Visual feedback handled by isOver in SortableColumn
   };
 
@@ -308,6 +459,7 @@ export function KanbanBoard({
             key={column.id}
             column={column}
             onMoveTask={onMoveTask}
+            onTaskClick={onTaskClick}
           />
         ))}
         <DragOverlay>

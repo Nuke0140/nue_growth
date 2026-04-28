@@ -1,18 +1,24 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Plus, Monitor, Shield, Wrench, Archive, IndianRupee, Package } from 'lucide-react';
+import {
+  Plus, Monitor, Shield, Wrench, Archive, IndianRupee, Package,
+  Laptop, Smartphone, Printer, Server, Video, LayoutGrid, List,
+  AlertTriangle, CheckCircle2, XCircle, Calendar, Tag,
+} from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DataTable, type Column } from './components/ops/data-table';
 import { DrawerForm } from './components/ops/drawer-form';
 import { StatusBadge } from './components/ops/status-badge';
 import { FilterBar } from './components/ops/filter-bar';
 import { SearchInput } from './components/ops/search-input';
 import { KpiWidget } from './components/ops/kpi-widget';
+import { Timeline, type TimelineItem } from './components/ops/timeline';
 import { mockAssets, mockEmployees } from './data/mock-data';
-import type { Asset } from './types';
+import type { Asset, IssueLog } from './types';
 
 function formatINR(num: number): string {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
@@ -22,12 +28,282 @@ const statusLabels: Record<string, string> = {
   active: 'Active', 'in-repair': 'In Repair', disposed: 'Disposed', retired: 'Retired',
 };
 
+const statusBadgeMap: Record<string, { bg: string; text: string; dot: string }> = {
+  active: { bg: 'rgba(52,211,153,0.12)', text: '#34d399', dot: '#34d399' },
+  'in-repair': { bg: 'rgba(251,191,36,0.12)', text: '#fbbf24', dot: '#fbbf24' },
+  retired: { bg: 'rgba(245,245,245,0.08)', text: 'rgba(245,245,245,0.5)', dot: 'rgba(245,245,245,0.4)' },
+  disposed: { bg: 'rgba(248,113,113,0.12)', text: '#f87171', dot: '#f87171' },
+};
+
 const assetTypes = ['Laptop', 'Monitor', 'Mobile', 'Tablet', 'Printer', 'Server', 'AV Equipment'];
+
+const assetIconMap: Record<string, typeof Laptop> = {
+  Laptop,
+  Monitor,
+  Mobile: Smartphone,
+  Tablet: Monitor,
+  Printer,
+  Server,
+  'AV Equipment': Video,
+};
+
+const assetIconColorMap: Record<string, string> = {
+  Laptop: 'rgba(204, 92, 55, 0.12)',
+  Monitor: 'rgba(96, 165, 250, 0.12)',
+  Mobile: 'rgba(168, 85, 247, 0.12)',
+  Tablet: 'rgba(52, 211, 153, 0.12)',
+  Printer: 'rgba(251, 191, 36, 0.12)',
+  Server: 'rgba(248, 113, 113, 0.12)',
+  'AV Equipment': 'rgba(244, 114, 182, 0.12)',
+};
+
+const assetIconTextColorMap: Record<string, string> = {
+  Laptop: '#cc5c37',
+  Monitor: '#60a5fa',
+  Mobile: '#a855f7',
+  Tablet: '#34d399',
+  Printer: '#fbbf24',
+  Server: '#f87171',
+  'AV Equipment': '#f472b6',
+};
+
+// ── Asset Card Component ───────────────────────────────
+
+interface AssetCardProps {
+  asset: Asset;
+  onClick: () => void;
+  idx: number;
+}
+
+function AssetCard({ asset, onClick, idx }: AssetCardProps) {
+  const Icon = assetIconMap[asset.type] || Package;
+  const badge = statusBadgeMap[asset.status] || statusBadgeMap.active;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: idx * 0.04, duration: 0.3 }}
+      className="ops-card p-5 cursor-pointer transition-colors"
+      style={{ borderRadius: '1rem' }}
+      onClick={onClick}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(204,92,55,0.3)'; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--ops-border)'; }}
+    >
+      {/* Icon + Status */}
+      <div className="flex items-start justify-between mb-4">
+        <div
+          className="flex items-center justify-center w-12 h-12 rounded-xl"
+          style={{ backgroundColor: assetIconColorMap[asset.type] || 'rgba(204,92,55,0.12)' }}
+        >
+          <Icon className="w-6 h-6" style={{ color: assetIconTextColorMap[asset.type] || '#cc5c37' }} />
+        </div>
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: badge.bg, color: badge.text }}>
+          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: badge.dot }} />
+          {statusLabels[asset.status] || asset.status}
+        </span>
+      </div>
+
+      {/* Name + Type */}
+      <div className="mb-3">
+        <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--ops-text)' }}>{asset.name}</p>
+        <p className="text-[11px] mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>{asset.type}</p>
+      </div>
+
+      {/* Details */}
+      <div className="space-y-1.5">
+        <div className="flex items-center gap-2">
+          <Avatar className="h-5 w-5">
+            <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}>
+              {asset.assignedTo.split(' ').map(n => n[0]).join('').slice(0, 2)}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-xs truncate" style={{ color: 'var(--ops-text-secondary)' }}>{asset.assignedTo}</span>
+        </div>
+        <code className="block text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>{asset.serialNo}</code>
+      </div>
+
+      {/* Cost */}
+      <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--ops-border)' }}>
+        <p className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>{formatINR(asset.purchaseCost)}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Issue History Panel Content ────────────────────────
+
+interface AssetDetailPanelProps {
+  asset: Asset | null;
+  onClose: () => void;
+}
+
+function AssetDetailContent({ asset }: { asset: Asset }) {
+  if (!asset) return null;
+
+  // Build lifecycle timeline
+  const lifecycleItems: TimelineItem[] = [
+    {
+      id: `purchase-${asset.id}`,
+      icon: Package,
+      title: 'Purchased',
+      description: `${asset.name} acquired`,
+      timestamp: new Date(asset.purchaseDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+      accentColor: '#34d399',
+    },
+    {
+      id: `active-${asset.id}`,
+      icon: CheckCircle2,
+      title: 'Active',
+      description: `Assigned to ${asset.assignedTo}`,
+      timestamp: new Date(asset.purchaseDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+      accentColor: '#60a5fa',
+    },
+  ];
+
+  // Add repair events from issue logs
+  asset.issueLogs.forEach(log => {
+    lifecycleItems.push({
+      id: `issue-${log.id}`,
+      icon: log.resolved ? CheckCircle2 : AlertTriangle,
+      title: log.resolved ? 'Issue Resolved' : 'Issue Reported',
+      description: log.description,
+      timestamp: new Date(log.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+      accentColor: log.resolved ? '#34d399' : '#fbbf24',
+    });
+  });
+
+  // Current status as final timeline item
+  const statusColor = statusBadgeMap[asset.status]?.text || '#fbbf24';
+  lifecycleItems.push({
+    id: `current-${asset.id}`,
+    icon: Tag,
+    title: `Current: ${statusLabels[asset.status] || asset.status}`,
+    timestamp: '—',
+    accentColor: statusColor,
+  });
+
+  return (
+    <div className="space-y-6">
+      {/* Asset header */}
+      <div className="flex items-center gap-3">
+        <div
+          className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0"
+          style={{ backgroundColor: assetIconColorMap[asset.type] || 'rgba(204,92,55,0.12)' }}
+        >
+          {(() => {
+            const Icon = assetIconMap[asset.type] || Package;
+            return <Icon className="w-6 h-6" style={{ color: assetIconTextColorMap[asset.type] || '#cc5c37' }} />;
+          })()}
+        </div>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold truncate" style={{ color: 'var(--ops-text)' }}>{asset.name}</p>
+          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{asset.type} &middot; {asset.serialNo}</p>
+        </div>
+      </div>
+
+      {/* Details grid */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Assigned To</p>
+          <p className="text-sm font-medium mt-1 truncate" style={{ color: 'var(--ops-text)' }}>{asset.assignedTo}</p>
+        </div>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Status</p>
+          <p className="mt-1">
+            <StatusBadge status={statusLabels[asset.status] || asset.status} />
+          </p>
+        </div>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Purchase Cost</p>
+          <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{formatINR(asset.purchaseCost)}</p>
+        </div>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Warranty Until</p>
+          <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{asset.warrantyEnd}</p>
+        </div>
+      </div>
+
+      {/* Lifecycle Timeline */}
+      <div>
+        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--ops-text-muted)' }}>
+          Lifecycle Timeline
+        </h4>
+        <Timeline items={lifecycleItems} />
+      </div>
+
+      {/* Issue History */}
+      <div>
+        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--ops-text-muted)' }}>
+          Issue History
+        </h4>
+        {asset.issueLogs.length === 0 ? (
+          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+            <CheckCircle2 className="w-8 h-8 mx-auto mb-2" style={{ color: '#34d399', opacity: 0.4 }} />
+            <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>No issues reported</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {asset.issueLogs.map(log => (
+              <div
+                key={log.id}
+                className="rounded-xl p-3 flex items-start gap-3"
+                style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}
+              >
+                <div className="mt-0.5">
+                  {log.resolved ? (
+                    <CheckCircle2 className="w-4 h-4" style={{ color: '#34d399' }} />
+                  ) : (
+                    <AlertTriangle className="w-4 h-4" style={{ color: '#fbbf24' }} />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs leading-snug" style={{ color: 'var(--ops-text)' }}>{log.description}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                      {new Date(log.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                    <span
+                      className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+                      style={{
+                        backgroundColor: log.resolved ? 'rgba(52,211,153,0.12)' : 'rgba(251,191,36,0.12)',
+                        color: log.resolved ? '#34d399' : '#fbbf24',
+                      }}
+                    >
+                      {log.resolved ? 'Resolved' : 'Unresolved'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Report Issue button */}
+      <button
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
+        style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.2)'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.12)'; }}
+      >
+        <AlertTriangle className="w-3.5 h-3.5" /> Report Issue
+      </button>
+    </div>
+  );
+}
+
+// ── Main Page ──────────────────────────────────────────
+
+type ViewMode = 'table' | 'card';
 
 export default function AssetsPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [detailAsset, setDetailAsset] = useState<Asset | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('table');
 
   // Form state
   const [formName, setFormName] = useState('');
@@ -65,6 +341,7 @@ export default function AssetsPage() {
     { key: 'active', label: 'Active', count: stats.active },
     { key: 'in-repair', label: 'In Repair', count: stats.inRepair },
     { key: 'retired', label: 'Retired', count: mockAssets.filter(a => a.status === 'retired').length },
+    { key: 'disposed', label: 'Disposed', count: mockAssets.filter(a => a.status === 'disposed').length },
   ];
 
   const columns: Column<Asset & Record<string, unknown>>[] = [
@@ -73,9 +350,20 @@ export default function AssetsPage() {
       label: 'Name',
       sortable: true,
       render: (row) => (
-        <div>
-          <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{row.name}</p>
-          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{row.type}</p>
+        <div className="flex items-center gap-3">
+          <div
+            className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
+            style={{ backgroundColor: assetIconColorMap[row.type as string] || 'rgba(204,92,55,0.12)' }}
+          >
+            {(() => {
+              const Icon = assetIconMap[row.type as string] || Package;
+              return <Icon className="w-4 h-4" style={{ color: assetIconTextColorMap[row.type as string] || '#cc5c37' }} />;
+            })()}
+          </div>
+          <div>
+            <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{row.name}</p>
+            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{row.type}</p>
+          </div>
         </div>
       ),
     },
@@ -114,6 +402,16 @@ export default function AssetsPage() {
     },
   ];
 
+  const handleRowClick = (row: Asset & Record<string, unknown>) => {
+    setDetailAsset(row as Asset);
+    setDetailOpen(true);
+  };
+
+  const handleCardClick = (asset: Asset) => {
+    setDetailAsset(asset);
+    setDetailOpen(true);
+  };
+
   const handleSubmit = () => {
     setDrawerOpen(false);
     setFormName(''); setFormType('Laptop'); setFormSerial('');
@@ -132,9 +430,36 @@ export default function AssetsPage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>Assets</h1>
             <Badge variant="secondary" className="ops-badge">{filtered.length}</Badge>
           </div>
-          <button className="ops-btn-primary" onClick={() => setDrawerOpen(true)}>
-            <Plus className="w-4 h-4" /> Add Asset
-          </button>
+          <div className="flex items-center gap-2">
+            {/* View Toggle */}
+            <div className="flex items-center rounded-xl overflow-hidden" style={{ border: '1px solid var(--ops-border)' }}>
+              <button
+                className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
+                style={{
+                  backgroundColor: viewMode === 'table' ? 'rgba(204,92,55,0.12)' : 'transparent',
+                  color: viewMode === 'table' ? '#cc5c37' : 'var(--ops-text-muted)',
+                }}
+                onClick={() => setViewMode('table')}
+                aria-label="Table view"
+              >
+                <List className="w-4 h-4" />
+              </button>
+              <button
+                className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
+                style={{
+                  backgroundColor: viewMode === 'card' ? 'rgba(204,92,55,0.12)' : 'transparent',
+                  color: viewMode === 'card' ? '#cc5c37' : 'var(--ops-text-muted)',
+                }}
+                onClick={() => setViewMode('card')}
+                aria-label="Card view"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+            </div>
+            <button className="ops-btn-primary" onClick={() => setDrawerOpen(true)}>
+              <Plus className="w-4 h-4" /> Add Asset
+            </button>
+          </div>
         </motion.div>
 
         {/* Search + Filter */}
@@ -151,13 +476,51 @@ export default function AssetsPage() {
           <KpiWidget label="Total Value" value={formatINR(stats.totalValue)} icon={IndianRupee} color="info" />
         </motion.div>
 
-        {/* Table */}
+        {/* Content: Table or Card view */}
         <motion.div variants={fadeUp}>
-          <DataTable
-            columns={columns}
-            data={filtered as (Asset & Record<string, unknown>)[]}
-            emptyMessage="No assets found."
-          />
+          <AnimatePresence mode="wait">
+            {viewMode === 'table' ? (
+              <motion.div
+                key="table-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DataTable
+                  columns={columns}
+                  data={filtered as (Asset & Record<string, unknown>)[]}
+                  onRowClick={handleRowClick}
+                  emptyMessage="No assets found."
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="card-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+              >
+                {filtered.length === 0 ? (
+                  <div className="col-span-full ops-card p-12 text-center">
+                    <Package className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)', opacity: 0.3 }} />
+                    <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>No assets found.</p>
+                  </div>
+                ) : (
+                  filtered.map((asset, idx) => (
+                    <AssetCard
+                      key={asset.id}
+                      asset={asset}
+                      idx={idx}
+                      onClick={() => handleCardClick(asset)}
+                    />
+                  ))
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </motion.div>
 
@@ -172,7 +535,7 @@ export default function AssetsPage() {
         <div className="space-y-4">
           <div>
             <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Asset Name</label>
-            <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="e.g. MacBook Pro 16&quot;" className="ops-input w-full px-3 py-2 text-sm" />
+            <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder='e.g. MacBook Pro 16"' className="ops-input w-full px-3 py-2 text-sm" />
           </div>
           <div>
             <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Type</label>
@@ -206,6 +569,15 @@ export default function AssetsPage() {
             <input type="date" value={formWarranty} onChange={(e) => setFormWarranty(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
           </div>
         </div>
+      </DrawerForm>
+
+      {/* Asset Detail / Issue History Drawer */}
+      <DrawerForm
+        open={detailOpen}
+        onClose={() => { setDetailOpen(false); setDetailAsset(null); }}
+        title="Asset Details"
+      >
+        <AssetDetailContent asset={detailAsset} />
       </DrawerForm>
     </div>
   );

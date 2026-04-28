@@ -4,12 +4,11 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, FolderKanban, Wallet, AlertTriangle, TrendingUp, Calendar,
-  Users,
+  Users, Shield,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { mockProjects, mockResources } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
@@ -21,6 +20,7 @@ import type { ProjectStatus, ProjectHealth, ProjectPriority, ErpProject } from '
 // ── Helpers ──────────────────────────────────────────────
 
 type FilterKey = 'all' | 'active' | 'completed' | 'on-hold' | 'critical' | 'inception';
+type HealthFilterKey = 'all' | 'excellent' | 'good' | 'at-risk' | 'critical';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -34,6 +34,13 @@ const healthColorMap: Record<ProjectHealth, string> = {
   good: '#60a5fa',
   'at-risk': '#fbbf24',
   critical: '#f87171',
+};
+
+const healthLabelMap: Record<ProjectHealth, string> = {
+  excellent: 'On Track',
+  good: 'Good',
+  'at-risk': 'At Risk',
+  critical: 'Critical',
 };
 
 const priorityDotColor: Record<ProjectPriority, string> = {
@@ -64,6 +71,93 @@ function getDaysRemaining(dueDate: string): number {
   return Math.max(0, Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
 }
 
+// ── Health Indicator Pill ──────────────────────────────
+
+function HealthPill({ health }: { health: ProjectHealth }) {
+  const color = healthColorMap[health];
+  const label = healthLabelMap[health];
+
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0"
+      style={{
+        backgroundColor: `${color}15`,
+        color: color,
+        border: `1px solid ${color}25`,
+      }}
+    >
+      <span
+        className="w-1.5 h-1.5 rounded-full"
+        style={{ backgroundColor: color }}
+      />
+      {label}
+    </motion.span>
+  );
+}
+
+// ── Budget Bar ─────────────────────────────────────────
+
+function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: number }) {
+  const spentPct = budget > 0 ? (actualSpend / budget) * 100 : 0;
+  const overBudget = spentPct > 100;
+  const greenWidth = Math.min(spentPct, 100);
+  const isWarning = spentPct > 80 && spentPct <= 100;
+
+  return (
+    <div className="space-y-1.5">
+      <div
+        className="relative h-2 rounded-full overflow-hidden"
+        style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+      >
+        {/* Green (or amber warning) fill */}
+        <motion.div
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{
+            backgroundColor: overBudget ? '#34d399' : isWarning ? '#fbbf24' : '#34d399',
+          }}
+          initial={{ width: 0 }}
+          animate={{ width: `${greenWidth}%` }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+        {/* Red overflow */}
+        {overBudget && (
+          <motion.div
+            className="absolute inset-y-0 rounded-r-full"
+            style={{
+              left: `${greenWidth}%`,
+              backgroundColor: '#f87171',
+              width: `${Math.min(spentPct - 100, 40)}%`,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
+          />
+        )}
+      </div>
+      <div className="flex items-center justify-between">
+        <span
+          className="text-[10px]"
+          style={{
+            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--ops-text-muted)',
+          }}
+        >
+          {formatINR(actualSpend)} / {formatINR(budget)}
+        </span>
+        <span
+          className="text-[10px] font-semibold"
+          style={{
+            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--ops-text-secondary)',
+          }}
+        >
+          {Math.round(spentPct)}%
+        </span>
+      </div>
+    </div>
+  );
+}
+
 // ── Project Card ─────────────────────────────────────────
 
 function ProjectCard({
@@ -78,8 +172,7 @@ function ProjectCard({
   const healthColor = healthColorMap[project.health];
   const priorityColor = priorityDotColor[project.priority];
   const daysLeft = getDaysRemaining(project.dueDate);
-  const spentPct = project.budget > 0 ? Math.round((project.actualSpend / project.budget) * 100) : 0;
-  const maxShow = 4;
+  const maxShow = 3;
   const shown = teamMembers.slice(0, maxShow);
   const overflow = teamMembers.length - maxShow;
 
@@ -89,14 +182,14 @@ function ProjectCard({
       transition={{ type: 'tween', duration: 0.2 }}
       onClick={onClick}
       className={cn(
-        'ops-card ops-glow ops-card-hover cursor-pointer p-5 flex flex-col gap-4',
-        'rounded-2xl'
+        'ops-card ops-glow ops-card-hover cursor-pointer p-5 flex flex-col gap-3.5',
+        'rounded-2xl relative'
       )}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
     >
-      {/* Top row: name + priority dot */}
+      {/* Top row: name + health pill */}
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
           <h3
@@ -112,12 +205,11 @@ function ProjectCard({
             {project.client}
           </p>
         </div>
-        <span
-          className="w-2.5 h-2.5 rounded-full shrink-0 mt-1"
-          style={{ backgroundColor: priorityColor }}
-          title={project.priority}
-        />
+        <HealthPill health={project.health} />
       </div>
+
+      {/* Budget bar */}
+      <BudgetBar actualSpend={project.actualSpend} budget={project.budget} />
 
       {/* Progress bar */}
       <div className="space-y-1.5">
@@ -149,53 +241,93 @@ function ProjectCard({
         </div>
       </div>
 
-      {/* Team avatars */}
-      <div className="flex items-center gap-1.5">
-        <Users
-          className="w-3.5 h-3.5 shrink-0"
-          style={{ color: 'var(--ops-text-muted)' }}
-        />
-        <div className="flex -space-x-2">
-          {shown.map((member, i) => (
-            <Avatar key={member} className="w-6 h-6 border-2" style={{ borderColor: 'var(--ops-card-bg)' }}>
-              <AvatarFallback
-                className="text-[8px] font-semibold"
+      {/* Team avatars + Account manager + SLA */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <Users
+            className="w-3.5 h-3.5 shrink-0"
+            style={{ color: 'var(--ops-text-muted)' }}
+          />
+          <div className="flex -space-x-2">
+            {shown.map((member, i) => (
+              <Avatar key={member} className="w-6 h-6 border-2" style={{ borderColor: 'var(--ops-card-bg)' }}>
+                <AvatarFallback
+                  className="text-[8px] font-semibold"
+                  style={{
+                    backgroundColor: `hsla(${(i * 67 + 20) % 360}, 55%, 45%, 0.7)`,
+                    color: '#fff',
+                  }}
+                >
+                  {getInitials(member)}
+                </AvatarFallback>
+              </Avatar>
+            ))}
+            {overflow > 0 && (
+              <span
+                className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold border-2"
                 style={{
-                  backgroundColor: `hsla(${(i * 67 + 20) % 360}, 55%, 45%, 0.7)`,
-                  color: '#fff',
+                  borderColor: 'var(--ops-card-bg)',
+                  backgroundColor: 'rgba(255,255,255,0.06)',
+                  color: 'var(--ops-text-secondary)',
                 }}
               >
-                {getInitials(member)}
-              </AvatarFallback>
-            </Avatar>
-          ))}
-          {overflow > 0 && (
-            <span
-              className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold border-2"
-              style={{
-                borderColor: 'var(--ops-card-bg)',
-                backgroundColor: 'rgba(255,255,255,0.06)',
-                color: 'var(--ops-text-secondary)',
-              }}
-            >
-              +{overflow}
-            </span>
-          )}
+                +{overflow}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* SLA badge */}
+        <div
+          className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
+          style={{
+            backgroundColor: project.sla >= 90
+              ? 'rgba(52,211,153,0.1)'
+              : project.sla >= 80
+                ? 'rgba(251,191,36,0.1)'
+                : 'rgba(248,113,113,0.1)',
+            color: project.sla >= 90
+              ? '#34d399'
+              : project.sla >= 80
+                ? '#fbbf24'
+                : '#f87171',
+            border: `1px solid ${
+              project.sla >= 90
+                ? 'rgba(52,211,153,0.2)'
+                : project.sla >= 80
+                  ? 'rgba(251,191,36,0.2)'
+                  : 'rgba(248,113,113,0.2)'
+            }`,
+          }}
+        >
+          <Shield className="w-3 h-3" />
+          SLA: {project.sla}%
         </div>
       </div>
 
-      {/* Bottom row: budget mini text + due date + status */}
-      <div className="flex items-center justify-between gap-2 mt-auto">
+      {/* Account manager */}
+      <div className="flex items-center gap-2">
+        <Avatar className="w-5 h-5">
+          <AvatarFallback
+            className="text-[7px] font-semibold"
+            style={{
+              backgroundColor: 'rgba(204,92,55,0.15)',
+              color: '#cc5c37',
+            }}
+          >
+            {getInitials(project.accountManager)}
+          </AvatarFallback>
+        </Avatar>
         <span
-          className="text-[10px]"
+          className="text-[11px]"
           style={{ color: 'var(--ops-text-muted)' }}
         >
-          {formatINR(project.actualSpend)} / {formatINR(project.budget)}
+          {project.accountManager}
         </span>
-        <StatusBadge status={project.status} className="text-[9px] px-1.5 py-0" />
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* Bottom row: due date + status + priority */}
+      <div className="flex items-center justify-between mt-auto pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
         <div
           className="flex items-center gap-1 text-[11px]"
           style={{ color: daysLeft <= 14 && project.status === 'active' ? '#f87171' : 'var(--ops-text-muted)' }}
@@ -207,16 +339,13 @@ function ProjectCard({
               ? 'Completed'
               : 'Overdue'}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
+          <StatusBadge status={project.status} className="text-[9px] px-1.5 py-0" />
           <span
-            className="text-[9px] font-medium px-1.5 py-0.5 rounded"
-            style={{
-              backgroundColor: `${healthColor}18`,
-              color: healthColor,
-            }}
-          >
-            {project.health}
-          </span>
+            className="w-2 h-2 rounded-full"
+            style={{ backgroundColor: priorityColor }}
+            title={project.priority}
+          />
         </div>
       </div>
     </motion.div>
@@ -268,6 +397,7 @@ export default function ProjectsPage() {
   const selectProject = useErpStore((s) => s.selectProject);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [activeHealthFilter, setActiveHealthFilter] = useState<HealthFilterKey>('all');
 
   // ── Filtering ──
   const filtered = useMemo(() => {
@@ -281,6 +411,8 @@ export default function ProjectsPage() {
           p.accountManager.toLowerCase().includes(q)
       );
     }
+
+    // Status filter
     switch (activeFilter) {
       case 'active':
         result = result.filter((p) => p.status === 'active');
@@ -298,8 +430,14 @@ export default function ProjectsPage() {
         result = result.filter((p) => p.status === 'inception');
         break;
     }
+
+    // Health filter
+    if (activeHealthFilter !== 'all') {
+      result = result.filter((p) => p.health === activeHealthFilter);
+    }
+
     return result;
-  }, [searchQuery, activeFilter]);
+  }, [searchQuery, activeFilter, activeHealthFilter]);
 
   // ── Stats ──
   const stats = useMemo(() => {
@@ -312,7 +450,7 @@ export default function ProjectsPage() {
     return { total, active, atRisk, totalBudget };
   }, []);
 
-  // ── Filters ──
+  // ── Status Filters ──
   const filterItems = useMemo(
     () => [
       { key: 'all', label: 'All', count: mockProjects.length },
@@ -321,6 +459,18 @@ export default function ProjectsPage() {
       { key: 'on-hold', label: 'On Hold', count: mockProjects.filter((p) => p.status === 'on-hold').length },
       { key: 'critical', label: 'Critical', count: mockProjects.filter((p) => p.priority === 'critical').length },
       { key: 'inception', label: 'Inception', count: mockProjects.filter((p) => p.status === 'inception').length },
+    ],
+    []
+  );
+
+  // ── Health Filters ──
+  const healthFilterItems = useMemo(
+    () => [
+      { key: 'all', label: 'All Health', count: mockProjects.length },
+      { key: 'excellent', label: 'On Track', count: mockProjects.filter((p) => p.health === 'excellent').length },
+      { key: 'good', label: 'Good', count: mockProjects.filter((p) => p.health === 'good').length },
+      { key: 'at-risk', label: 'At Risk', count: mockProjects.filter((p) => p.health === 'at-risk').length },
+      { key: 'critical', label: 'Critical', count: mockProjects.filter((p) => p.health === 'critical').length },
     ],
     []
   );
@@ -371,12 +521,27 @@ export default function ProjectsPage() {
           </div>
         </div>
 
-        {/* ── Filter Bar ── */}
+        {/* ── Status Filter Bar ── */}
         <FilterBar
           filters={filterItems}
           activeFilter={activeFilter}
           onFilterChange={(key) => setActiveFilter(key as FilterKey)}
         />
+
+        {/* ── Health Filter Bar ── */}
+        <div className="space-y-1.5">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wider"
+            style={{ color: 'var(--ops-text-muted)' }}
+          >
+            Health
+          </span>
+          <FilterBar
+            filters={healthFilterItems}
+            activeFilter={activeHealthFilter}
+            onFilterChange={(key) => setActiveHealthFilter(key as HealthFilterKey)}
+          />
+        </div>
 
         {/* ── Stats ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -413,7 +578,7 @@ export default function ProjectsPage() {
         {/* ── Project Cards Grid ── */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeFilter + searchQuery}
+            key={activeFilter + activeHealthFilter + searchQuery}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

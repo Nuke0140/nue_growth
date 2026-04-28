@@ -241,6 +241,88 @@
   border: 1px solid transparent;
 }
 
+/* Skeleton animations */
+.ops-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: ops-skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes ops-skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Progress bar */
+.ops-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #cc5c37, #d46a44, #cc5c37);
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+/* Gradient accent */
+.ops-gradient-accent {
+  background: linear-gradient(135deg, rgba(204,92,55,0.15) 0%, rgba(204,92,55,0.05) 100%);
+}
+
+.ops-gradient-text {
+  background: linear-gradient(135deg, #cc5c37 0%, #e8825e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Notification dropdown animation */
+.ops-dropdown-enter {
+  animation: ops-dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes ops-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Button press animation */
+.ops-btn-press:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* Drag ghost shadow */
+.ops-drag-ghost {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
+  opacity: 0.9;
+}
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
