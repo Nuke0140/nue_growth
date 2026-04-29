@@ -29,6 +29,7 @@ import {
   ShieldX,
   UserCog,
   Lightbulb,
+  AlertTriangle,
   Zap,
 } from 'lucide-react';
 import { useErpSearch } from '../../hooks/use-erp-search';

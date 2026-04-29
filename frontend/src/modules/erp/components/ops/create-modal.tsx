@@ -563,7 +563,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
   const prevOpenRef = useRef(false);
   useEffect(() => {
     if (open && !prevOpenRef.current) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: reset form on modal open
+       
       setFormData(initialDefaults);
       setErrors({});
       setSubmitting(false);
