@@ -83,8 +83,8 @@ function OnboardingPageInner() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Active Onboarding', value: stats.activeOnboarding, icon: Users, color: 'text-purple-400' },
-            { label: 'Completed Today', value: stats.completedToday, icon: CheckCircle2, color: 'text-emerald-400' },
-            { label: 'Pending Tasks', value: stats.pendingTasks, icon: ClipboardList, color: 'text-amber-400' },
+            { label: 'Completed Today', value: stats.completedToday, icon: CheckCircle2, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Pending Tasks', value: stats.pendingTasks, icon: ClipboardList, color: 'text-amber-500 dark:text-amber-400' },
             { label: 'Avg Completion', value: `${stats.avgCompletion}%`, icon: Clock, color: 'text-blue-400' },
           ].map((stat, i) => (
             <motion.div
@@ -146,7 +146,7 @@ function OnboardingPageInner() {
                             className={cn('h-full rounded-full', group.percent >= 80 ? 'bg-emerald-500' : group.percent >= 50 ? 'bg-amber-500' : 'bg-red-500')}
                           />
                         </div>
-                        <span className={cn('text-sm font-bold min-w-[42px] text-right', group.percent >= 80 ? 'text-emerald-400' : group.percent >= 50 ? 'text-amber-400' : 'text-red-400')}>
+                        <span className={cn('text-sm font-bold min-w-[42px] text-right', group.percent >= 80 ? 'text-emerald-500 dark:text-emerald-400' : group.percent >= 50 ? 'text-amber-500 dark:text-amber-400' : 'text-red-500 dark:text-red-400')}>
                           {group.percent}%
                         </span>
                       </div>
@@ -187,7 +187,7 @@ function OnboardingPageInner() {
                                 )}
                               >
                                 {task.completed ? (
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                                 ) : (
                                   <Circle className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/15' : 'text-black/15')} />
                                 )}
@@ -208,7 +208,7 @@ function OnboardingPageInner() {
                                   {task.assignedBy}
                                 </span>
                                 {!task.completed && new Date(task.dueDate) < new Date('2026-04-12') && (
-                                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                                  <AlertTriangle className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 shrink-0" />
                                 )}
                               </div>
                             ))}

@@ -85,3 +85,30 @@ Stage Summary:
 - ERP layout upgraded with lazy loading, full keyboard support, consistent animations
 - 6 accessibility/responsiveness CSS rules added to globals.css
 - Build compiles clean with zero errors
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Whole Product Design System Audit — Dark/Light Mode + ERP System Design Alignment
+
+Work Log:
+- Audited full codebase design system: globals.css, tailwind.config.ts, components.json, all 7 module layouts
+- Discovered Tailwind v4 CSS-first config (tailwind.config.ts is unused leftover)
+- Found 7 module layouts: ERP (dark-only), CRM/Finance/Marketing/Analytics/Automation/Retention/Settings (all use manual isDark ternaries)
+- Found ZERO modules using shadcn system tokens (bg-background, text-foreground, etc.)
+- Found ERP module has completely separate design system with hardcoded dark-only colors (#1b1c1e, #222325, terracotta #cc5c37)
+- Updated globals.css: Added --ops-* CSS custom properties for both :root (light) and .dark (dark), made all .ops-* utility classes theme-aware
+- Updated design-tokens.ts: Replaced all hardcoded hex values with CSS custom property references (var(--ops-*))
+- Updated erp-layout.tsx: Added dark/light mode support, replaced all ~200 hardcoded dark colors with CSS vars
+- Updated 47 ops components across 3 batches: page-shell, kpi-widget, smart-data-table, data-table, create-modal, command-palette, bulk-action-bar, animated-section, empty-state, error-state, skeleton-loader, status-badge, filter-bar, search-input, ops-card, ai-insight-panel, activity-feed, enhanced-activity-feed, toast-container, smart-notification-panel, mobile-fab, contextual-sidebar, drawer-form, density-toggle, kanban-board, connection-indicator, onboarding-tour, gantt-timeline, mini-calendar, automation-builder, timeline, file-upload-zone, error-boundary, employee-intelligence-panel, project-intelligence-panel
+- Updated 32 ERP page files across 2 batches: all dashboard, project, employee, task, HR, finance, ops pages
+- Updated 14 non-ops ERP components: profitability-widget, performance-widget, invoice-status-chip, ai-ops-insight, project-card, payroll-summary-card, forecast-widget, leave-status-chip, employee-card, workload-heatmap, attendance-calendar, task-board, approval-card, resource-utilization
+- Added backward-compatible COLORS export to design-tokens.ts for data-table and smart-data-table
+- Fixed build error (missing COLORS export) and verified production build passes clean
+
+Stage Summary:
+- ERP module now fully supports dark/light mode (was dark-only before)
+- All colors auto-switch via CSS custom properties — no JS ternaries needed in ERP
+- 90+ files updated with theme-aware CSS custom properties
+- Production build: PASSED (15.1s compile, zero errors)
+- Remaining optimization: Migrate 6 other module layouts from isDark ternaries to shadcn system tokens

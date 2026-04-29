@@ -110,10 +110,10 @@ function DeliveryOperationsPageInner() {
               <div className="flex items-center justify-between mb-1.5">
                 <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{stat.label}</span>
                 <div className={cn('w-6 h-6 rounded-lg flex items-center justify-center', stat.warn ? (isDark ? 'bg-red-500/15' : 'bg-red-50') : (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'))}>
-                  <stat.icon className={cn('w-3 h-3', stat.warn ? 'text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
+                  <stat.icon className={cn('w-3 h-3', stat.warn ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
                 </div>
               </div>
-              <p className={cn('text-lg font-bold', stat.warn && 'text-red-400')}>{stat.value}</p>
+              <p className={cn('text-lg font-bold', stat.warn && 'text-red-500 dark:text-red-400')}>{stat.value}</p>
             </motion.div>
           ))}
         </div>
@@ -165,10 +165,10 @@ function DeliveryOperationsPageInner() {
                           <div className="flex items-center gap-2">
                             {isBlocked && (
                               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>
-                                <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                                <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />
                               </motion.div>
                             )}
-                            <span className={cn('text-sm font-medium truncate', isBlocked && 'text-red-400')}>{item.deliverable}</span>
+                            <span className={cn('text-sm font-medium truncate', isBlocked && 'text-red-500 dark:text-red-400')}>{item.deliverable}</span>
                           </div>
                         </TableCell>
                         <TableCell className="hidden md:table-cell px-3">
@@ -183,7 +183,7 @@ function DeliveryOperationsPageInner() {
                           </span>
                         </TableCell>
                         <TableCell className="px-3">
-                          <span className={cn('text-xs font-medium', overdue ? 'text-amber-400' : (isDark ? 'text-white/50' : 'text-black/50'))}>
+                          <span className={cn('text-xs font-medium', overdue ? 'text-amber-500 dark:text-amber-400' : (isDark ? 'text-white/50' : 'text-black/50'))}>
                             {new Date(item.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                           </span>
                           {overdue && <span className="text-[9px] text-amber-500 block">OVERDUE</span>}
@@ -191,8 +191,8 @@ function DeliveryOperationsPageInner() {
                         <TableCell className="px-3">
                           {item.clientApproval ? (
                             <div className="flex items-center gap-1">
-                              <Check className="w-3.5 h-3.5 text-emerald-400" />
-                              <span className="text-[10px] text-emerald-400 font-medium">Yes</span>
+                              <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                              <span className="text-[10px] text-emerald-500 dark:text-emerald-400 font-medium">Yes</span>
                             </div>
                           ) : (
                             <div className="flex items-center gap-1">

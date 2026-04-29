@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   Briefcase,
   User,
@@ -12,46 +11,36 @@ import { cn } from '@/lib/utils';
 import type { Employee, EmployeeStatus } from '../types';
 
 // ─── Status Configuration ─────────────────────────────────
-const statusConfig: Record<EmployeeStatus, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string }> = {
+const statusConfig: Record<EmployeeStatus, { label: string; color: string; bg: string; border: string }> = {
   active: {
     label: 'Active',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
   },
   'on-leave': {
     label: 'On Leave',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
   },
   'notice-period': {
     label: 'Notice Period',
     color: 'text-red-500',
-    bgDark: 'bg-red-500/15',
-    bgLight: 'bg-red-50',
-    borderDark: 'border-red-500/20',
-    borderLight: 'border-red-200',
+    bg: 'bg-red-50 dark:bg-red-500/15',
+    border: 'border-red-200 dark:border-red-500/20',
   },
   inactive: {
     label: 'Inactive',
     color: 'text-zinc-500',
-    bgDark: 'bg-zinc-500/15',
-    bgLight: 'bg-zinc-100',
-    borderDark: 'border-zinc-500/20',
-    borderLight: 'border-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-500/15',
+    border: 'border-zinc-300 dark:border-zinc-500/20',
   },
   probation: {
     label: 'Probation',
     color: 'text-blue-500',
-    bgDark: 'bg-blue-500/15',
-    bgLight: 'bg-blue-50',
-    borderDark: 'border-blue-500/20',
-    borderLight: 'border-blue-200',
+    bg: 'bg-blue-50 dark:bg-blue-500/15',
+    border: 'border-blue-200 dark:border-blue-500/20',
   },
 };
 
@@ -79,10 +68,10 @@ function getAvatarColor(name: string) {
   return colors[hash % colors.length];
 }
 
-function getScoreColor(score: number, isDark: boolean) {
-  if (score >= 80) return isDark ? 'text-emerald-400' : 'text-emerald-600';
-  if (score >= 60) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+function getScoreColor(score: number) {
+  if (score >= 80) return 'text-emerald-500 dark:text-emerald-400';
+  if (score >= 60) return 'text-amber-500 dark:text-amber-400';
+  return 'text-red-500 dark:text-red-400';
 }
 
 function getScoreBarColor(score: number) {
@@ -98,8 +87,6 @@ interface EmployeeCardProps {
 }
 
 export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const status = statusConfig[employee.status];
 
   return (
@@ -110,9 +97,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
       onClick={() => onClick?.(employee.id)}
       className={cn(
         'rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.02] hover:border-black/[0.1]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)]'
       )}
     >
       {/* Top: Avatar + Name + Designation */}
@@ -125,13 +110,13 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold truncate">{employee.name}</h3>
-          <p className={cn('text-xs truncate mb-1', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className="text-xs truncate mb-1 text-[var(--ops-text-secondary)]">
             {employee.designation}
           </p>
           <span
             className={cn(
               'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border',
-              isDark ? `${status.bgDark} ${status.color} ${status.borderDark}` : `${status.bgLight} ${status.color} ${status.borderLight}`
+              `${status.bg} ${status.color} ${status.border}`
             )}
           >
             {status.label}
@@ -141,10 +126,10 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Department Badge */}
       <div className="flex items-center gap-1.5 mb-3">
-        <Briefcase className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
+        <Briefcase className="w-3 h-3 text-[var(--ops-text-muted)]" />
         <span className={cn(
           'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium',
-          isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+          'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)]'
         )}>
           {employee.department}
         </span>
@@ -152,8 +137,8 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Manager */}
       <div className="flex items-center gap-1.5 mb-3">
-        <User className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-        <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+        <User className="w-3 h-3 text-[var(--ops-text-muted)]" />
+        <span className="text-[11px] text-[var(--ops-text-muted)]">
           Reports to: <span className="font-medium">{employee.manager}</span>
         </span>
       </div>
@@ -162,16 +147,16 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-1.5">
-            <BarChart3 className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-            <span className={cn('text-[11px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+            <BarChart3 className="w-3 h-3 text-[var(--ops-text-muted)]" />
+            <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
               Productivity
             </span>
           </div>
-          <span className={cn('text-[11px] font-bold', getScoreColor(employee.productivityScore, isDark))}>
+          <span className={cn('text-[11px] font-bold', getScoreColor(employee.productivityScore))}>
             {employee.productivityScore}%
           </span>
         </div>
-        <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+        <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
           <motion.div
             className={cn('h-full rounded-full transition-all duration-500', getScoreBarColor(employee.productivityScore))}
             initial={{ width: 0 }}
@@ -183,8 +168,8 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Active Projects */}
       <div className="flex items-center gap-1.5 mb-3">
-        <FolderOpen className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-        <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+        <FolderOpen className="w-3 h-3 text-[var(--ops-text-muted)]" />
+        <span className="text-[11px] text-[var(--ops-text-muted)]">
           <span className="font-semibold">{employee.activeProjects}</span> active project{employee.activeProjects !== 1 ? 's' : ''}
         </span>
       </div>
@@ -193,18 +178,18 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
       <div
         className={cn(
           'pt-2 border-t space-y-1',
-          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+          'border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Joined</span>
-          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/35' : 'text-black/35')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">Joined</span>
+          <span className="text-[10px] font-medium text-[var(--ops-text-muted)]">
             {new Date(employee.joinDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Band</span>
-          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/35' : 'text-black/35')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">Band</span>
+          <span className="text-[10px] font-medium text-[var(--ops-text-muted)]">
             {employee.salaryBand}
           </span>
         </div>

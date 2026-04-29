@@ -64,7 +64,7 @@ const TYPE_ICON_MAP: Partial<Record<ActivityEventType, { icon: typeof CheckSquar
   payroll_paid: { icon: DollarSign, color: '#06b6d4' },
   asset_assigned: { icon: CheckSquare, color: '#6366f1' },
   asset_reported: { icon: AlertTriangle, color: '#f59e0b' },
-  comment_added: { icon: User, color: 'rgba(245,245,245,0.5)' },
+  comment_added: { icon: User, color: 'var(--ops-text-secondary)' },
   ai_insight_generated: { icon: Sparkles, color: '#f59e0b' },
 };
 
@@ -161,9 +161,9 @@ export function EnhancedActivityFeed({
     <div
       className="flex items-center gap-1.5 p-1.5 overflow-x-auto"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.02)',
+        backgroundColor: 'var(--ops-hover-bg)',
         borderRadius: 10,
-        border: '1px solid rgba(255,255,255,0.04)',
+        border: '1px solid var(--ops-border)',
       }}
     >
       {(Object.keys(CATEGORY_MAP) as FilterCategory[]).map((cat) => {
@@ -178,11 +178,11 @@ export function EnhancedActivityFeed({
             )}
             style={{
               backgroundColor: isActive
-                ? 'rgba(204,92,55,0.12)'
+                ? 'var(--ops-accent-light)'
                 : 'transparent',
               color: isActive
-                ? '#cc5c37'
-                : 'rgba(245,245,245,0.5)',
+                ? 'var(--ops-accent)'
+                : 'var(--ops-text-secondary)',
             }}
           >
             <CatIcon className="w-3.5 h-3.5" />
@@ -194,10 +194,10 @@ export function EnhancedActivityFeed({
               style={{
                 backgroundColor: isActive
                   ? 'rgba(204,92,55,0.2)'
-                  : 'rgba(255,255,255,0.06)',
+                  : 'var(--ops-hover-bg)',
                 color: isActive
-                  ? '#cc5c37'
-                  : 'rgba(245,245,245,0.3)',
+                  ? 'var(--ops-accent)'
+                  : 'var(--ops-text-muted)',
               }}
             >
               {categoryCounts[cat]}
@@ -226,17 +226,17 @@ export function EnhancedActivityFeed({
             >
               <Inbox
                 className="w-8 h-8 mb-3"
-                style={{ color: 'rgba(245,245,245,0.15)' }}
+                style={{ color: 'var(--ops-text-disabled)' }}
               />
               <p
                 className="text-sm font-medium"
-                style={{ color: 'rgba(245,245,245,0.4)' }}
+                style={{ color: 'var(--ops-text-muted)' }}
               >
                 No activities found
               </p>
               <p
                 className="text-xs mt-1"
-                style={{ color: 'rgba(245,245,245,0.25)' }}
+                style={{ color: 'var(--ops-text-disabled)' }}
               >
                 Try adjusting your filters
               </p>
@@ -245,7 +245,7 @@ export function EnhancedActivityFeed({
             visibleItems.map((event, idx) => {
               const typeInfo = TYPE_ICON_MAP[event.type] || {
                 icon: Zap,
-                color: 'rgba(245,245,245,0.4)',
+                color: 'var(--ops-text-secondary)',
               };
               const Icon = typeInfo.icon;
               const isCritical = CRITICAL_TYPES.has(event.type);
@@ -266,7 +266,7 @@ export function EnhancedActivityFeed({
                   {idx < visibleItems.length - 1 && (
                     <div
                       className="absolute left-[15px] top-[32px] bottom-0 w-px"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                      style={{ backgroundColor: 'var(--ops-border)' }}
                     />
                   )}
 
@@ -328,11 +328,11 @@ export function EnhancedActivityFeed({
                           {/* Actor + action */}
                           <p
                             className="text-[13px] leading-snug"
-                            style={{ color: '#f5f5f5' }}
+                            style={{ color: 'var(--ops-text)' }}
                           >
                             <span
                               className="font-semibold"
-                              style={{ color: '#f5f5f5' }}
+                              style={{ color: 'var(--ops-text)' }}
                             >
                               {event.actor}
                             </span>{' '}
@@ -348,7 +348,7 @@ export function EnhancedActivityFeed({
                                   <span
                                     key={pi}
                                     className="font-semibold"
-                                    style={{ color: '#cc5c37' }}
+                                    style={{ color: 'var(--ops-accent)' }}
                                   >
                                     {part}
                                   </span>
@@ -361,7 +361,7 @@ export function EnhancedActivityFeed({
                           {/* Entity link */}
                           <button
                             className="text-[11px] mt-0.5 hover:underline inline-flex items-center gap-1"
-                            style={{ color: 'rgba(245,245,245,0.4)' }}
+                            style={{ color: 'var(--ops-text-muted)' }}
                             onClick={(e) => {
                               e.stopPropagation();
                             }}
@@ -373,11 +373,11 @@ export function EnhancedActivityFeed({
                           <div className="flex items-center gap-1 mt-1">
                             <Clock
                               className="w-3 h-3"
-                              style={{ color: 'rgba(245,245,245,0.25)' }}
+                              style={{ color: 'var(--ops-text-disabled)' }}
                             />
                             <span
                               className="text-[10px]"
-                              style={{ color: 'rgba(245,245,245,0.3)' }}
+                              style={{ color: 'var(--ops-text-disabled)' }}
                             >
                               {relativeTime(event.timestamp)}
                             </span>
@@ -401,7 +401,7 @@ export function EnhancedActivityFeed({
                           transition={{ duration: 0.2 }}
                           className="mt-1 shrink-0"
                           style={{
-                            color: 'rgba(245,245,245,0.25)',
+                            color: 'var(--ops-text-disabled)',
                           }}
                         >
                           <ChevronDown className="w-3.5 h-3.5" />
@@ -421,24 +421,24 @@ export function EnhancedActivityFeed({
                             <div
                               className="mt-2 p-3 rounded-lg"
                               style={{
-                                backgroundColor: 'rgba(255,255,255,0.02)',
-                                border: '1px solid rgba(255,255,255,0.06)',
+                                backgroundColor: 'var(--ops-hover-bg)',
+                                border: '1px solid var(--ops-border)',
                               }}
                             >
                               {/* Full description */}
                               <p
                                 className="text-xs leading-relaxed"
-                                style={{ color: 'rgba(245,245,245,0.6)' }}
+                                style={{ color: 'var(--ops-text-secondary)' }}
                               >
                                 {event.description}
                               </p>
 
                               {/* Metadata */}
                               {event.metadata && Object.keys(event.metadata).length > 0 && (
-                                <div className="mt-2 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                                <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--ops-border-light)' }}>
                                   <p
                                     className="text-[10px] font-medium mb-1.5"
-                                    style={{ color: 'rgba(245,245,245,0.4)' }}
+                                    style={{ color: 'var(--ops-text-muted)' }}
                                   >
                                     Changes
                                   </p>
@@ -452,14 +452,14 @@ export function EnhancedActivityFeed({
                                           <span
                                             className="font-medium"
                                             style={{
-                                              color: 'rgba(245,245,245,0.5)',
+                                              color: 'var(--ops-text-secondary)',
                                             }}
                                           >
                                             {key}:
                                           </span>
                                           <span
                                             style={{
-                                              color: 'rgba(245,245,245,0.7)',
+                                              color: 'var(--ops-text-secondary)',
                                             }}
                                           >
                                             {String(value)}
@@ -488,9 +488,9 @@ export function EnhancedActivityFeed({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => setVisibleCount((c) => c + 10)}
-            className="mt-2 py-2.5 text-center text-xs font-medium rounded-lg transition-colors hover:bg-[rgba(255,255,255,0.04)]"
+            className="mt-2 py-2.5 text-center text-xs font-medium rounded-lg transition-colors hover:bg-[var(--ops-hover-bg)]"
             style={{
-              color: '#cc5c37',
+              color: 'var(--ops-accent)',
               border: '1px solid rgba(204,92,55,0.15)',
             }}
           >

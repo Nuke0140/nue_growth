@@ -99,21 +99,21 @@ function PageShellInner({
     >
       <div className="flex items-center gap-3 min-w-0">
         {Icon && (
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[rgba(204,92,55,0.1)] shrink-0">
-            <Icon className="w-[18px] h-[18px] text-[#cc5c37]" />
+          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--ops-accent-light)] shrink-0">
+            <Icon className="w-[18px] h-[18px] text-[var(--ops-accent)]" />
           </div>
         )}
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-[15px] font-semibold text-[#f5f5f5] truncate">{title}</h1>
+            <h1 className="text-[15px] font-semibold text-[var(--ops-text)] truncate">{title}</h1>
             {badge !== undefined && badge > 0 && (
-              <span className="text-[10px] font-semibold min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#cc5c37] text-white px-1.5 leading-none">
+              <span className="text-[10px] font-semibold min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[var(--ops-accent)] text-white px-1.5 leading-none">
                 {badge > 99 ? '99+' : badge}
               </span>
             )}
           </div>
           {subtitle && (
-            <p className="text-[12px] text-[rgba(245,245,245,0.4)] mt-0.5 truncate">{subtitle}</p>
+            <p className="text-[12px] text-[var(--ops-text-muted)] mt-0.5 truncate">{subtitle}</p>
           )}
         </div>
       </div>
@@ -122,7 +122,7 @@ function PageShellInner({
         {createType && (
           <button
             onClick={handleCreate}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#cc5c37] text-white text-[13px] font-medium hover:bg-[#cc5c37]/90 transition-colors ops-btn-press"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--ops-accent)] text-white text-[13px] font-medium hover:bg-[var(--ops-accent)]/90 transition-colors ops-btn-press"
             aria-label={`Create ${createType}`}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -23,7 +23,7 @@ const ITEMS_PER_PAGE = 8;
 function getStatusConfig(status: VendorStatus, isDark: boolean) {
   switch (status) {
     case 'active':
-      return isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      return isDark ? 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
     case 'on-notice':
       return isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
     case 'suspended':
@@ -64,9 +64,9 @@ function getScoreColor(score: number) {
 }
 
 function getScoreTextColor(score: number) {
-  if (score >= 90) return 'text-emerald-400';
-  if (score >= 75) return 'text-yellow-400';
-  return 'text-red-400';
+  if (score >= 90) return 'text-emerald-500 dark:text-emerald-400';
+  if (score >= 75) return 'text-yellow-500 dark:text-yellow-400';
+  return 'text-red-500 dark:text-red-400';
 }
 
 function formatCurrency(val: number) {
@@ -74,6 +74,9 @@ function formatCurrency(val: number) {
 }
 
 function StarRating({ rating }: { rating: number }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -81,7 +84,7 @@ function StarRating({ rating }: { rating: number }) {
           key={star}
           className={cn(
             'w-3.5 h-3.5',
-            star <= Math.round(rating) ? 'text-amber-400 fill-amber-400' : 'text-white/20'
+            star <= Math.round(rating) ? 'text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400' : (isDark ? 'text-white/20' : 'text-black/20')
           )}
         />
       ))}
@@ -236,7 +239,7 @@ function VendorPageInner() {
                 </div>
                 <div>
                   <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Payout Due</span>
-                  <p className={cn('text-sm font-semibold mt-0.5', vendor.payoutDue > 0 ? 'text-amber-400' : '')}>
+                  <p className={cn('text-sm font-semibold mt-0.5', vendor.payoutDue > 0 ? 'text-amber-500 dark:text-amber-400' : '')}>
                     {formatCurrency(vendor.payoutDue)}
                   </p>
                 </div>

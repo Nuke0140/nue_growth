@@ -49,7 +49,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
             role="toolbar"
             aria-label="Bulk actions"
             style={{
-              backgroundColor: 'rgba(34, 35, 37, 0.92)',
+              backgroundColor: 'var(--ops-card-bg)',
               border: '1px solid var(--ops-border)',
               boxShadow:
                 '0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)',
@@ -109,7 +109,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
                       (e.currentTarget as HTMLElement).style.backgroundColor =
                         isDanger
                           ? 'rgba(248, 113, 113, 0.15)'
-                          : 'rgba(255,255,255,0.06)';
+                          : 'var(--ops-hover-bg)';
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -145,7 +145,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
               style={{ color: 'var(--ops-text-muted)' }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =
-                  'rgba(255,255,255,0.06)';
+                  'var(--ops-hover-bg)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';

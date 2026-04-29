@@ -385,7 +385,7 @@ function EmployeesPageInner() {
                 <SelectTrigger
                   className="ops-input w-[180px] h-8 text-xs"
                   style={{
-                    backgroundColor: '#2a2b2e',
+                    backgroundColor: 'var(--ops-elevated)',
                     border: '1px solid var(--ops-border)',
                     color: departmentFilter !== 'all' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                   }}
@@ -406,12 +406,12 @@ function EmployeesPageInner() {
               </Select>
             </div>
             {/* View mode toggle */}
-            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
               <button
                 onClick={() => setViewMode('table')}
                 className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                 style={{
-                  backgroundColor: viewMode === 'table' ? 'rgba(255,255,255,0.08)' : 'transparent',
+                  backgroundColor: viewMode === 'table' ? 'var(--ops-hover-bg)' : 'transparent',
                   color: viewMode === 'table' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                 }}
                 title="Table view"
@@ -422,7 +422,7 @@ function EmployeesPageInner() {
                 onClick={() => setViewMode('grid')}
                 className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                 style={{
-                  backgroundColor: viewMode === 'grid' ? 'rgba(255,255,255,0.08)' : 'transparent',
+                  backgroundColor: viewMode === 'grid' ? 'var(--ops-hover-bg)' : 'transparent',
                   color: viewMode === 'grid' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                 }}
                 title="Grid view"
@@ -481,7 +481,7 @@ function EmployeesPageInner() {
                   </span>
                   <div
                     className="w-7 h-7 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                    style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                   >
                     <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
                   </div>
@@ -625,7 +625,7 @@ function EmployeesPageInner() {
                               onMouseEnter={(e) => {
                                 if (!isSelected) {
                                   (e.currentTarget as HTMLElement).style.backgroundColor =
-                                    'rgba(255,255,255,0.02)';
+                                    'var(--ops-hover-bg)';
                                 }
                               }}
                               onMouseLeave={(e) => {
@@ -656,7 +656,7 @@ function EmployeesPageInner() {
                                       onKeyDown={handleInlineKeyDown}
                                       className="text-sm font-medium px-2 py-1 rounded-md w-full max-w-[200px]"
                                       style={{
-                                        backgroundColor: 'rgba(255,255,255,0.08)',
+                                        backgroundColor: 'var(--ops-hover-bg)',
                                         border: '1px solid var(--ops-accent)',
                                         color: 'var(--ops-text)',
                                         outline: 'none',
@@ -714,7 +714,7 @@ function EmployeesPageInner() {
                                     <span
                                       className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
                                       style={{
-                                        backgroundColor: 'rgba(255,255,255,0.06)',
+                                        backgroundColor: 'var(--ops-hover-bg)',
                                         color: 'var(--ops-text-muted)',
                                       }}
                                     >
@@ -753,7 +753,7 @@ function EmployeesPageInner() {
                                       className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
                                       style={{ color: 'var(--ops-text-muted)' }}
                                       onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.06)';
+                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)';
                                       }}
                                       onMouseLeave={(e) => {
                                         (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
@@ -951,7 +951,7 @@ function EmployeesPageInner() {
                             <div className="flex items-center gap-2">
                               <div
                                 className="h-1.5 rounded-full overflow-hidden"
-                                style={{ backgroundColor: 'rgba(255,255,255,0.06)', width: '60px' }}
+                                style={{ backgroundColor: 'var(--ops-hover-bg)', width: '60px' }}
                               >
                                 <div
                                   className="h-full rounded-full transition-all"
@@ -1031,7 +1031,7 @@ function EmployeesPageInner() {
                 onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
                 placeholder="Enter full name"
                 className="ops-input"
-                style={{ backgroundColor: '#2a2b2e', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
               />
             </div>
             <div className="space-y-2">
@@ -1044,7 +1044,7 @@ function EmployeesPageInner() {
                 onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
                 placeholder="name@company.com"
                 className="ops-input"
-                style={{ backgroundColor: '#2a2b2e', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
               />
             </div>
             <div className="space-y-2">
@@ -1056,7 +1056,7 @@ function EmployeesPageInner() {
                 onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
                 placeholder="+91 XXXXX XXXXX"
                 className="ops-input"
-                style={{ backgroundColor: '#2a2b2e', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
               />
             </div>
             <div className="space-y-2">
@@ -1070,7 +1070,7 @@ function EmployeesPageInner() {
                 <SelectTrigger
                   className="ops-input"
                   style={{
-                    backgroundColor: '#2a2b2e',
+                    backgroundColor: 'var(--ops-elevated)',
                     border: '1px solid var(--ops-border)',
                     color: formData.department ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                   }}
@@ -1095,7 +1095,7 @@ function EmployeesPageInner() {
                 onChange={(e) => setFormData((f) => ({ ...f, designation: e.target.value }))}
                 placeholder="e.g. Senior Developer"
                 className="ops-input"
-                style={{ backgroundColor: '#2a2b2e', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
               />
             </div>
             <div className="space-y-2">
@@ -1107,7 +1107,7 @@ function EmployeesPageInner() {
                 value={formData.joinDate}
                 onChange={(e) => setFormData((f) => ({ ...f, joinDate: e.target.value }))}
                 className="ops-input"
-                style={{ backgroundColor: '#2a2b2e', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
               />
             </div>
             <div className="space-y-2">
@@ -1121,7 +1121,7 @@ function EmployeesPageInner() {
                 <SelectTrigger
                   className="ops-input"
                   style={{
-                    backgroundColor: '#2a2b2e',
+                    backgroundColor: 'var(--ops-elevated)',
                     border: '1px solid var(--ops-border)',
                     color: formData.salaryBand ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                   }}

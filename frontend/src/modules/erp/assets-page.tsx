@@ -31,7 +31,7 @@ const statusLabels: Record<string, string> = {
 const statusBadgeMap: Record<string, { bg: string; text: string; dot: string }> = {
   active: { bg: 'rgba(52,211,153,0.12)', text: '#34d399', dot: '#34d399' },
   'in-repair': { bg: 'rgba(251,191,36,0.12)', text: '#fbbf24', dot: '#fbbf24' },
-  retired: { bg: 'rgba(245,245,245,0.08)', text: 'rgba(245,245,245,0.5)', dot: 'rgba(245,245,245,0.4)' },
+  retired: { bg: 'var(--ops-hover-bg)', text: 'var(--ops-text-secondary)', dot: 'var(--ops-text-muted)' },
   disposed: { bg: 'rgba(248,113,113,0.12)', text: '#f87171', dot: '#f87171' },
 };
 
@@ -114,7 +114,7 @@ function AssetCard({ asset, onClick, idx }: AssetCardProps) {
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
           <Avatar className="h-5 w-5">
-            <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}>
+            <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
               {asset.assignedTo.split(' ').map(n => n[0]).join('').slice(0, 2)}
             </AvatarFallback>
           </Avatar>
@@ -204,21 +204,21 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
 
       {/* Details grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Assigned To</p>
           <p className="text-sm font-medium mt-1 truncate" style={{ color: 'var(--ops-text)' }}>{asset.assignedTo}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Status</p>
           <p className="mt-1">
             <StatusBadge status={statusLabels[asset.status] || asset.status} />
           </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Purchase Cost</p>
           <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{formatINR(asset.purchaseCost)}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}>
+        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Warranty Until</p>
           <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{asset.warrantyEnd}</p>
         </div>
@@ -238,7 +238,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
           Issue History
         </h4>
         {asset.issueLogs.length === 0 ? (
-          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
             <CheckCircle2 className="w-8 h-8 mx-auto mb-2" style={{ color: '#34d399', opacity: 0.4 }} />
             <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>No issues reported</p>
           </div>
@@ -248,7 +248,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
               <div
                 key={log.id}
                 className="rounded-xl p-3 flex items-start gap-3"
-                style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--ops-border)' }}
+                style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}
               >
                 <div className="mt-0.5">
                   {log.resolved ? (
@@ -283,7 +283,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
       {/* Report Issue button */}
       <button
         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
-        style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}
+        style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.2)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.12)'; }}
       >
@@ -429,12 +429,12 @@ function AssetsPageInner() {
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search assets by name, type, serial..." className="max-w-sm" />
           <FilterBar filters={filterOptions} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
-          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
+          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
             <button
               className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
               style={{
-                backgroundColor: viewMode === 'table' ? 'rgba(204,92,55,0.12)' : 'transparent',
-                color: viewMode === 'table' ? '#cc5c37' : 'var(--ops-text-muted)',
+                backgroundColor: viewMode === 'table' ? 'var(--ops-accent-light)' : 'transparent',
+                color: viewMode === 'table' ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
               }}
               onClick={() => setViewMode('table')}
               aria-label="Table view"
@@ -444,8 +444,8 @@ function AssetsPageInner() {
             <button
               className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
               style={{
-                backgroundColor: viewMode === 'card' ? 'rgba(204,92,55,0.12)' : 'transparent',
-                color: viewMode === 'card' ? '#cc5c37' : 'var(--ops-text-muted)',
+                backgroundColor: viewMode === 'card' ? 'var(--ops-accent-light)' : 'transparent',
+                color: viewMode === 'card' ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
               }}
               onClick={() => setViewMode('card')}
               aria-label="Card view"

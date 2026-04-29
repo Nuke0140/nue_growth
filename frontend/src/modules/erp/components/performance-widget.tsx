@@ -2,9 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
-  User,
   Star,
   Target,
   CheckCircle2,
@@ -16,46 +14,38 @@ import { cn } from '@/lib/utils';
 import type { PerformanceReview, PromotionReadiness } from '../types';
 
 // ─── Promotion Readiness Configuration ────────────────────
-const promotionConfig: Record<PromotionReadiness, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string; pulse?: boolean }> = {
+const promotionConfig: Record<PromotionReadiness, { label: string; color: string; bg: string; border: string; pulse?: boolean }> = {
   'not-ready': {
     label: 'Not Ready',
     color: 'text-zinc-500',
-    bgDark: 'bg-zinc-500/15',
-    bgLight: 'bg-zinc-100',
-    borderDark: 'border-zinc-500/20',
-    borderLight: 'border-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-500/15',
+    border: 'border-zinc-300 dark:border-zinc-500/20',
   },
   developing: {
     label: 'Developing',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
   },
   ready: {
     label: 'Ready',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
   },
   overdue: {
     label: 'Overdue',
     color: 'text-red-500',
-    bgDark: 'bg-red-500/15',
-    bgLight: 'bg-red-50',
-    borderDark: 'border-red-500/20',
-    borderLight: 'border-red-200',
+    bg: 'bg-red-50 dark:bg-red-500/15',
+    border: 'border-red-200 dark:border-red-500/20',
     pulse: true,
   },
 };
 
-function getScoreColor(score: number, isDark: boolean) {
-  if (score >= 80) return isDark ? 'text-emerald-400' : 'text-emerald-600';
-  if (score >= 60) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+function getScoreColor(score: number) {
+  if (score >= 80) return 'text-emerald-500 dark:text-emerald-400';
+  if (score >= 60) return 'text-amber-500 dark:text-amber-400';
+  return 'text-red-500 dark:text-red-400';
 }
 
 function getScoreBarColor(score: number) {
@@ -64,13 +54,8 @@ function getScoreBarColor(score: number) {
   return 'stroke-red-500';
 }
 
-function getScoreBgColor(score: number, isDark: boolean) {
-  if (score >= 80) return isDark ? 'stroke-white/[0.06]' : 'stroke-black/[0.06]';
-  return isDark ? 'stroke-white/[0.06]' : 'stroke-black/[0.06]';
-}
-
 // ─── Circular Progress Component ──────────────────────────
-function CircularProgress({ value, size = 56, strokeWidth = 4, isDark }: { value: number; size?: number; strokeWidth?: number; isDark: boolean }) {
+function CircularProgress({ value, size = 56, strokeWidth = 4 }: { value: number; size?: number; strokeWidth?: number }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (value / 100) * circumference;
@@ -83,7 +68,7 @@ function CircularProgress({ value, size = 56, strokeWidth = 4, isDark }: { value
           cy={size / 2}
           r={radius}
           fill="none"
-          className={getScoreBgColor(value, isDark)}
+          className="stroke-[var(--ops-hover-bg)]"
           strokeWidth={strokeWidth}
         />
         <motion.circle
@@ -101,7 +86,7 @@ function CircularProgress({ value, size = 56, strokeWidth = 4, isDark }: { value
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className={cn('text-xs font-bold', getScoreColor(value, isDark))}>
+        <span className={cn('text-xs font-bold', getScoreColor(value))}>
           {value}
         </span>
       </div>
@@ -116,8 +101,6 @@ interface PerformanceWidgetProps {
 }
 
 export default function PerformanceWidget({ review, employeeName }: PerformanceWidgetProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const promotion = promotionConfig[review.promotionReadiness];
   const isOverdue = review.promotionReadiness === 'overdue';
 
@@ -144,9 +127,7 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5 shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06]'
-          : 'bg-white border-black/[0.06]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
       )}
     >
       {/* Header: Employee + Period */}
@@ -154,13 +135,13 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
         <div className="flex items-center gap-2.5">
           <div className={cn(
             'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold',
-            isDark ? 'bg-white/[0.08] text-white/70' : 'bg-black/[0.08] text-black/70'
+            'bg-[var(--ops-elevated)] text-[var(--ops-text)]'
           )}>
             {employeeName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
           </div>
           <div>
             <h3 className="text-sm font-semibold">{employeeName}</h3>
-            <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className="text-[10px] text-[var(--ops-text-muted)]">
               {review.period}
             </p>
           </div>
@@ -170,7 +151,7 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
           transition={isOverdue ? { duration: 1.5, repeat: Infinity } : {}}
           className={cn(
             'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-medium border',
-            isDark ? `${promotion.bgDark} ${promotion.color} ${promotion.borderDark}` : `${promotion.bgLight} ${promotion.color} ${promotion.borderLight}`
+            `${promotion.bg} ${promotion.color} ${promotion.border}`
           )}
         >
           <Award className="w-3 h-3" />
@@ -180,7 +161,7 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
 
       {/* Main Score Circle */}
       <div className="flex items-center justify-center mb-4">
-        <CircularProgress value={overallScore} size={72} strokeWidth={5} isDark={isDark} />
+        <CircularProgress value={overallScore} size={72} strokeWidth={5} />
       </div>
 
       {/* Metric Bars */}
@@ -196,16 +177,16 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1.5">
-                  <Icon className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-                  <span className={cn('text-[11px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <Icon className="w-3 h-3 text-[var(--ops-text-muted)]" />
+                  <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
                     {metric.label}
                   </span>
                 </div>
-                <span className={cn('text-[11px] font-bold', getScoreColor(metric.value, isDark))}>
+                <span className={cn('text-[11px] font-bold', getScoreColor(metric.value))}>
                   {metric.value}%
                 </span>
               </div>
-              <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
                 <motion.div
                   className={cn(
                     'h-full rounded-full transition-all duration-500',
@@ -227,16 +208,16 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       <div
         className={cn(
           'mt-4 pt-3 border-t flex items-center justify-between',
-          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+          'border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center gap-1.5">
-          <Star className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)' }} />
-          <span className={cn('text-[10px] font-medium', getScoreColor(overallScore, isDark))}>
+          <Star className="w-3 h-3 text-[var(--ops-text-disabled)]" />
+          <span className={cn('text-[10px] font-medium', getScoreColor(overallScore))}>
             Overall: {overallScore}%
           </span>
         </div>
-        <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+        <span className="text-[9px] text-[var(--ops-text-disabled)]">
           ID: {review.employeeId}
         </span>
       </div>

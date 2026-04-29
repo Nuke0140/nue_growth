@@ -218,7 +218,7 @@ function CompensationPageInner() {
                   >
                     {dept.department}
                   </span>
-                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.04)' }}>
+                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}

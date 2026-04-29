@@ -21,9 +21,9 @@ type ViewMode = 'calendar' | 'workload' | 'utilization' | 'availability';
 const ITEMS_PER_PAGE = 9;
 
 function getUtilColor(util: number) {
-  if (util > 70) return { bar: 'bg-emerald-500', text: 'text-emerald-400', label: 'Optimal' };
-  if (util >= 40) return { bar: 'bg-amber-500', text: 'text-amber-400', label: 'Moderate' };
-  return { bar: 'bg-red-500', text: 'text-red-400', label: 'Low' };
+  if (util > 70) return { bar: 'bg-emerald-500', text: 'text-emerald-500 dark:text-emerald-400', label: 'Optimal' };
+  if (util >= 40) return { bar: 'bg-amber-500', text: 'text-amber-500 dark:text-amber-400', label: 'Moderate' };
+  return { bar: 'bg-red-500', text: 'text-red-500 dark:text-red-400', label: 'Low' };
 }
 
 function getInitials(name: string) {
@@ -31,11 +31,11 @@ function getInitials(name: string) {
 }
 
 const avatarColors = [
-  'bg-emerald-500/15 text-emerald-400',
+  'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400',
   'bg-sky-500/15 text-sky-400',
   'bg-violet-500/15 text-violet-400',
   'bg-pink-500/15 text-pink-400',
-  'bg-amber-500/15 text-amber-400',
+  'bg-amber-500/15 text-amber-500 dark:text-amber-400',
   'bg-teal-500/15 text-teal-400',
   'bg-orange-500/15 text-orange-400',
   'bg-rose-500/15 text-rose-400',
@@ -112,10 +112,10 @@ function ResourcePlanningPageInner() {
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.warn ? (isDark ? 'bg-red-500/15' : 'bg-red-50') : (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'))}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
+                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
                 </div>
               </div>
-              <p className={cn('text-xl font-bold', stat.warn && 'text-red-400')}>{stat.value}</p>
+              <p className={cn('text-xl font-bold', stat.warn && 'text-red-500 dark:text-red-400')}>{stat.value}</p>
             </motion.div>
           ))}
         </div>
@@ -149,7 +149,7 @@ function ResourcePlanningPageInner() {
                         <h3 className="text-sm font-semibold">{resource.name}</h3>
                         {isOverbooked && (
                           <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                            <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
+                            <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400" />
                           </motion.div>
                         )}
                         {isIdle && (
@@ -198,7 +198,7 @@ function ResourcePlanningPageInner() {
                 {/* Allocation */}
                 <div className="flex items-center justify-between">
                   <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Allocation</span>
-                  <span className={cn('text-xs font-medium', resource.allocation >= 95 ? 'text-red-400' : (isDark ? 'text-white/60' : 'text-black/60'))}>
+                  <span className={cn('text-xs font-medium', resource.allocation >= 95 ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/60' : 'text-black/60'))}>
                     {resource.allocation}% · {resource.availability} free
                   </span>
                 </div>

@@ -1,8 +1,9 @@
 // ============================================
-// ERP Module — Design Tokens (LOCKED)
+// ERP Module — Design Tokens (THEME-AWARE)
 // ============================================
-// DO NOT use hardcoded colors, spacing, or typography.
-// Import from this file instead.
+// All colors reference CSS custom properties that auto-switch
+// between light and dark mode via :root / .dark selectors.
+// Import from this file instead of hardcoding colors.
 
 // ---- Spacing Scale (px) ----
 export const SPACING = {
@@ -35,98 +36,56 @@ export const TYPOGRAPHY = {
   'heading-2xl': 'text-[24px] font-bold',
 } as const;
 
-// ---- Colors ----
-export const COLORS = {
-  // Backgrounds
-  bg: {
-    primary: '#1b1c1e',
-    card: '#222325',
-    'card-hover': '#2a2b2e',
-    elevated: '#2a2b2e',
-    input: '#2a2b2e',
-  },
-  // Accent
-  accent: {
-    DEFAULT: '#cc5c37',
-    hover: '#d46a44',
-    light: 'rgba(204, 92, 55, 0.1)',
-    medium: 'rgba(204, 92, 55, 0.15)',
-    border: 'rgba(204, 92, 55, 0.3)',
-  },
-  // Text
-  text: {
-    primary: '#f5f5f5',
-    secondary: 'rgba(245, 245, 245, 0.6)',
-    muted: 'rgba(245, 245, 245, 0.35)',
-    disabled: 'rgba(245, 245, 245, 0.2)',
-    accent: '#cc5c37',
-  },
-  // Border
-  border: {
-    DEFAULT: 'rgba(255, 255, 255, 0.06)',
-    light: 'rgba(255, 255, 255, 0.04)',
-    medium: 'rgba(255, 255, 255, 0.08)',
-    strong: 'rgba(255, 255, 255, 0.12)',
-    accent: 'rgba(204, 92, 55, 0.3)',
-  },
-  // Semantic
-  semantic: {
-    success: { DEFAULT: '#34d399', bg: 'rgba(52, 211, 153, 0.1)', border: 'rgba(52, 211, 153, 0.3)' },
-    warning: { DEFAULT: '#fbbf24', bg: 'rgba(251, 191, 36, 0.1)', border: 'rgba(251, 191, 36, 0.3)' },
-    danger: { DEFAULT: '#f87171', bg: 'rgba(248, 113, 113, 0.1)', border: 'rgba(248, 113, 113, 0.3)' },
-    info: { DEFAULT: '#60a5fa', bg: 'rgba(96, 165, 250, 0.1)', border: 'rgba(96, 165, 250, 0.3)' },
-    critical: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.3)' },
-  },
-  // Status colors (consistent across all pages)
-  status: {
-    active: { DEFAULT: '#34d399', bg: 'rgba(52, 211, 153, 0.1)' },
-    pending: { DEFAULT: '#fbbf24', bg: 'rgba(251, 191, 36, 0.1)' },
-    completed: { DEFAULT: '#60a5fa', bg: 'rgba(96, 165, 250, 0.1)' },
-    cancelled: { DEFAULT: '#f87171', bg: 'rgba(248, 113, 113, 0.1)' },
-    'on-hold': { DEFAULT: '#a78bfa', bg: 'rgba(167, 139, 250, 0.1)' },
-    draft: { DEFAULT: 'rgba(245, 245, 245, 0.4)', bg: 'rgba(245, 245, 245, 0.04)' },
-    sent: { DEFAULT: '#60a5fa', bg: 'rgba(96, 165, 250, 0.1)' },
-    paid: { DEFAULT: '#34d399', bg: 'rgba(52, 211, 153, 0.1)' },
-    overdue: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)' },
-    partial: { DEFAULT: '#fbbf24', bg: 'rgba(251, 191, 36, 0.1)' },
-    approved: { DEFAULT: '#34d399', bg: 'rgba(52, 211, 153, 0.1)' },
-    rejected: { DEFAULT: '#f87171', bg: 'rgba(248, 113, 113, 0.1)' },
-    escalated: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)' },
-    'in-progress': { DEFAULT: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
-    review: { DEFAULT: '#cc5c37', bg: 'rgba(204, 92, 55, 0.1)' },
-    blocked: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)' },
-    'at-risk': { DEFAULT: '#f87171', bg: 'rgba(248, 113, 113, 0.1)' },
-    critical: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.12)' },
-    good: { DEFAULT: '#34d399', bg: 'rgba(52, 211, 153, 0.1)' },
-    excellent: { DEFAULT: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' },
-  },
-  // Priority colors
-  priority: {
-    low: { DEFAULT: '#10b981', bg: 'rgba(16, 185, 129, 0.12)' },
-    medium: { DEFAULT: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)' },
-    high: { DEFAULT: '#f59e0b', bg: 'rgba(245, 158, 11, 0.12)' },
-    critical: { DEFAULT: '#ef4444', bg: 'rgba(239, 68, 68, 0.12)' },
-  },
-  // Severity colors
-  severity: {
-    low: '#10b981',
-    medium: '#fbbf24',
-    high: '#f59e0b',
-    critical: '#ef4444',
-  },
+// ---- CSS Custom Property References ----
+// These automatically resolve to light or dark values based on the .dark class
+export const CSS = {
+  bg: 'var(--ops-bg)',
+  cardBg: 'var(--ops-card-bg)',
+  cardBgHover: 'var(--ops-card-bg-hover)',
+  elevated: 'var(--ops-elevated)',
+  inputBg: 'var(--ops-input-bg)',
+  accent: 'var(--ops-accent)',
+  accentHover: 'var(--ops-accent-hover)',
+  accentLight: 'var(--ops-accent-light)',
+  text: 'var(--ops-text)',
+  textSecondary: 'var(--ops-text-secondary)',
+  textMuted: 'var(--ops-text-muted)',
+  textDisabled: 'var(--ops-text-disabled)',
+  border: 'var(--ops-border)',
+  borderLight: 'var(--ops-border-light)',
+  borderStrong: 'var(--ops-border-strong)',
+  hoverBg: 'var(--ops-hover-bg)',
+  activeBg: 'var(--ops-active-bg)',
+  success: 'var(--ops-success)',
+  warning: 'var(--ops-warning)',
+  danger: 'var(--ops-danger)',
+  info: 'var(--ops-info)',
+  shadowCard: 'var(--ops-shadow-card)',
+  shadowCardHover: 'var(--ops-shadow-card-hover)',
+  overlay: 'var(--ops-overlay)',
+} as const;
+
+// ---- Inline style helpers ----
+// Use these for style={{ }} props where Tailwind classes can't reach
+export const inlineStyles = {
+  bg: { backgroundColor: CSS.bg },
+  card: { backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard },
+  elevated: { backgroundColor: CSS.elevated, border: `1px solid ${CSS.border}` },
+  input: { backgroundColor: CSS.inputBg, border: `1px solid ${CSS.border}`, color: CSS.text },
+  text: { color: CSS.text },
+  textSecondary: { color: CSS.textSecondary },
+  textMuted: { color: CSS.textMuted },
+  border: { borderColor: CSS.border },
+  accent: { color: CSS.accent },
+  accentBg: { backgroundColor: CSS.accent },
 } as const;
 
 // ---- Animation ----
 export const ANIMATION = {
-  // Standard spring for most interactions
   spring: { type: 'spring' as const, stiffness: 350, damping: 30 },
-  // Gentle spring for sidebar/panels
   springGentle: { type: 'spring' as const, stiffness: 300, damping: 25 },
-  // Stiff spring for quick feedback
   springStiff: { type: 'spring' as const, stiffness: 500, damping: 35 },
-  // Standard easing curve (matches layout.tsx)
   ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-  // Duration presets
   duration: {
     instant: 0.1,
     fast: 0.15,
@@ -134,18 +93,15 @@ export const ANIMATION = {
     slow: 0.3,
     pageTransition: 0.35,
   },
-  // Page variants (for AnimatePresence)
   pageVariants: {
     initial: { opacity: 0, y: 6 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -6 },
   },
-  // Fade up for content sections
   fadeUp: {
     initial: { opacity: 0, y: 8 },
     animate: { opacity: 1, y: 0 },
   },
-  // Stagger container
   stagger: {
     animate: { transition: { staggerChildren: 0.04 } },
   },
@@ -153,18 +109,18 @@ export const ANIMATION = {
 
 // ---- Border Radius ----
 export const RADIUS = {
-  sm: '0.5rem',    // 8px
-  md: '0.75rem',   // 12px
-  lg: '1rem',      // 16px
-  xl: '1.25rem',   // 20px
-  '2xl': '1.5rem', // 24px
+  sm: '0.5rem',
+  md: '0.75rem',
+  lg: '1rem',
+  xl: '1.25rem',
+  '2xl': '1.5rem',
   full: '9999px',
 } as const;
 
 // ---- Shadows ----
 export const SHADOWS = {
-  card: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06)',
-  'card-hover': '0 4px 12px rgba(0, 0, 0, 0.15)',
+  card: 'var(--ops-shadow-card)',
+  'card-hover': 'var(--ops-shadow-card-hover)',
   dropdown: '0 8px 24px rgba(0, 0, 0, 0.2)',
   modal: '0 20px 60px rgba(0, 0, 0, 0.3)',
   accent: '0 2px 8px rgba(204, 92, 55, 0.3)',
@@ -182,27 +138,71 @@ export const Z_INDEX = {
   tooltip: 110,
 } as const;
 
-// ---- Helper: Get status color config ----
+// ---- Status colors (theme-aware via CSS vars) ----
+// These use the CSS vars for semantic colors that auto-switch
+export const STATUS_COLORS = {
+  active: { color: 'var(--ops-success)', bg: 'color-mix(in srgb, var(--ops-success) 10%, transparent)' },
+  pending: { color: 'var(--ops-warning)', bg: 'color-mix(in srgb, var(--ops-warning) 10%, transparent)' },
+  completed: { color: 'var(--ops-info)', bg: 'color-mix(in srgb, var(--ops-info) 10%, transparent)' },
+  cancelled: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  'on-hold': { color: '#a78bfa', bg: 'rgba(167, 139, 250, 0.1)' },
+  draft: { color: 'var(--ops-text-muted)', bg: 'var(--ops-hover-bg)' },
+  sent: { color: 'var(--ops-info)', bg: 'color-mix(in srgb, var(--ops-info) 10%, transparent)' },
+  paid: { color: 'var(--ops-success)', bg: 'color-mix(in srgb, var(--ops-success) 10%, transparent)' },
+  overdue: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  partial: { color: 'var(--ops-warning)', bg: 'color-mix(in srgb, var(--ops-warning) 10%, transparent)' },
+  approved: { color: 'var(--ops-success)', bg: 'color-mix(in srgb, var(--ops-success) 10%, transparent)' },
+  rejected: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  escalated: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  'in-progress': { color: 'var(--ops-warning)', bg: 'color-mix(in srgb, var(--ops-warning) 10%, transparent)' },
+  review: { color: 'var(--ops-accent)', bg: 'var(--ops-accent-light)' },
+  blocked: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  'at-risk': { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+  critical: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 12%, transparent)' },
+  good: { color: 'var(--ops-success)', bg: 'color-mix(in srgb, var(--ops-success) 10%, transparent)' },
+  excellent: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' },
+} as const;
+
+// ---- Priority colors ----
+export const PRIORITY_COLORS = {
+  low: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.12)' },
+  medium: { color: 'var(--ops-info)', bg: 'color-mix(in srgb, var(--ops-info) 12%, transparent)' },
+  high: { color: 'var(--ops-warning)', bg: 'color-mix(in srgb, var(--ops-warning) 12%, transparent)' },
+  critical: { color: 'var(--ops-danger)', bg: 'color-mix(in srgb, var(--ops-danger) 12%, transparent)' },
+} as const;
+
+// ---- Legacy COLORS export (backward compat) ----
+// Maps to CSS custom properties. Components using COLORS.searchIcon etc.
+// will automatically get theme-aware colors.
+export const COLORS = {
+  bg: { primary: CSS.bg, card: CSS.cardBg, 'card-hover': CSS.cardBgHover, elevated: CSS.elevated, input: CSS.inputBg },
+  accent: { DEFAULT: CSS.accent, hover: CSS.accentHover, light: CSS.accentLight },
+  text: { primary: CSS.text, secondary: CSS.textSecondary, muted: CSS.textMuted, disabled: CSS.textDisabled },
+  border: { DEFAULT: CSS.border, light: CSS.borderLight, medium: CSS.border, strong: CSS.borderStrong },
+  semantic: {
+    success: { DEFAULT: CSS.success, bg: 'color-mix(in srgb, var(--ops-success) 10%, transparent)' },
+    warning: { DEFAULT: CSS.warning, bg: 'color-mix(in srgb, var(--ops-warning) 10%, transparent)' },
+    danger: { DEFAULT: CSS.danger, bg: 'color-mix(in srgb, var(--ops-danger) 10%, transparent)' },
+    info: { DEFAULT: CSS.info, bg: 'color-mix(in srgb, var(--ops-info) 10%, transparent)' },
+  },
+  // Convenience aliases used by data-table and smart-data-table
+  searchIcon: CSS.textDisabled,
+  overlayHover: CSS.hoverBg,
+} as const;
+
+// ---- Helpers ----
 export function getStatusColor(status: string): { color: string; bg: string } {
-  const key = status as keyof typeof COLORS.status;
-  if (COLORS.status[key]) {
-    return { color: COLORS.status[key].DEFAULT, bg: COLORS.status[key].bg };
+  const key = status as keyof typeof STATUS_COLORS;
+  if (STATUS_COLORS[key]) {
+    return STATUS_COLORS[key];
   }
-  // Fallback
-  return { color: COLORS.text.muted, bg: 'rgba(245, 245, 245, 0.04)' };
+  return { color: CSS.textMuted, bg: CSS.hoverBg };
 }
 
-// ---- Helper: Get priority color config ----
 export function getPriorityColor(priority: string): { color: string; bg: string } {
-  const key = priority as keyof typeof COLORS.priority;
-  if (COLORS.priority[key]) {
-    return { color: COLORS.priority[key].DEFAULT, bg: COLORS.priority[key].bg };
+  const key = priority as keyof typeof PRIORITY_COLORS;
+  if (PRIORITY_COLORS[key]) {
+    return PRIORITY_COLORS[key];
   }
-  return { color: COLORS.text.muted, bg: 'rgba(245, 245, 245, 0.04)' };
-}
-
-// ---- Helper: Get severity color ----
-export function getSeverityColor(severity: string): string {
-  const key = severity as keyof typeof COLORS.severity;
-  return COLORS.severity[key] || COLORS.text.muted;
+  return { color: CSS.textMuted, bg: CSS.hoverBg };
 }

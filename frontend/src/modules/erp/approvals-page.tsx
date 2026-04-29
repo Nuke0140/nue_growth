@@ -294,7 +294,7 @@ function ApprovalsPageInner() {
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
                         <Avatar className="h-5 w-5">
-                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}>
+                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
                             {approval.requestedBy.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
@@ -303,7 +303,7 @@ function ApprovalsPageInner() {
                       <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
                         <span>{timeAgo(approval.createdAt)}</span>
                         {approval.version > 1 && (
-                          <span className="ops-badge" style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--ops-text-muted)' }}>v{approval.version}</span>
+                          <span className="ops-badge" style={{ backgroundColor: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' }}>v{approval.version}</span>
                         )}
                         {approval.comments.length > 0 && (
                           <span className="inline-flex items-center gap-1">
@@ -317,7 +317,7 @@ function ApprovalsPageInner() {
                     <button
                       className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-lg"
                       style={{ color: 'var(--ops-text-muted)' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.04)'; }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
                       onClick={() => toggleExpand(approval.id)}
                     >

@@ -85,7 +85,7 @@ function PerformancePageInner() {
       sortable: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.kpiScore}%`, backgroundColor: getBarColor(row.kpiScore as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.kpiScore as number) }}>{row.kpiScore}</span>
@@ -99,7 +99,7 @@ function PerformancePageInner() {
       hiddenMobile: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.slaScore}%`, backgroundColor: getBarColor(row.slaScore as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.slaScore as number) }}>{row.slaScore}</span>
@@ -113,7 +113,7 @@ function PerformancePageInner() {
       hiddenMobile: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.taskCompletion}%`, backgroundColor: getBarColor(row.taskCompletion as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.taskCompletion as number) }}>{row.taskCompletion}</span>

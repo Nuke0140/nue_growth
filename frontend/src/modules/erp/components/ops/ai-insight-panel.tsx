@@ -28,10 +28,10 @@ const priorityColors: Record<AiInsightPriority, string> = {
 };
 
 const priorityLabelColors: Record<AiInsightPriority, string> = {
-  critical: 'text-red-400',
-  high: 'text-amber-400',
-  medium: 'text-blue-400',
-  low: 'text-gray-400',
+  critical: 'text-red-500 dark:text-red-400',
+  high: 'text-amber-500 dark:text-amber-400',
+  medium: 'text-blue-500 dark:text-blue-400',
+  low: 'text-gray-500 dark:text-gray-400',
 };
 
 const confidenceBarColor: Record<AiInsightPriority, string> = {
@@ -82,7 +82,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -95,38 +95,38 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed top-0 right-0 z-50 h-full w-[420px] max-w-[90vw] flex flex-col shadow-2xl"
             style={{
-              backgroundColor: 'var(--ops-bg-dark, #1b1c1e)',
-              borderLeft: '1px solid var(--ops-border, rgba(255,255,255,0.06))',
+              backgroundColor: 'var(--ops-bg)',
+              borderLeft: '1px solid var(--ops-border)',
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-5 py-4 shrink-0"
-              style={{ borderBottom: '1px solid var(--ops-border, rgba(255,255,255,0.06))' }}
+              style={{ borderBottom: '1px solid var(--ops-border)' }}
             >
               <div className="flex items-center gap-3">
                 <div
                   className="flex items-center justify-center w-9 h-9 rounded-xl"
-                  style={{ backgroundColor: 'rgba(204,92,55,0.1)' }}
+                  style={{ backgroundColor: 'var(--ops-accent-light)' }}
                 >
-                  <Sparkles className="w-[18px] h-[18px]" style={{ color: '#cc5c37' }} />
+                  <Sparkles className="w-[18px] h-[18px]" style={{ color: 'var(--ops-accent)' }} />
                 </div>
                 <div>
-                  <h2 className="text-sm font-semibold text-[#f5f5f5]">AI Insights</h2>
-                  <p className="text-[11px] text-[rgba(245,245,245,0.35)]">
+                  <h2 className="text-sm font-semibold text-[var(--ops-text)]">AI Insights</h2>
+                  <p className="text-[11px] text-[var(--ops-text-muted)]">
                     Contextual recommendations
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 {insights.length > 0 && (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#cc5c37] text-white">
+                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[var(--ops-accent)] text-white">
                     {insights.length}
                   </span>
                 )}
                 <button
                   onClick={onClose}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[rgba(245,245,245,0.35)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[var(--ops-text-muted)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
@@ -140,18 +140,18 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                 <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-4">
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+                    style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                   >
                     <Sparkles
                       className="w-6 h-6"
-                      style={{ color: 'rgba(245,245,245,0.2)' }}
+                      style={{ color: 'var(--ops-text-disabled)' }}
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[rgba(245,245,245,0.5)]">
+                    <p className="text-sm font-medium text-[var(--ops-text-secondary)]">
                       No insights available
                     </p>
-                    <p className="text-xs text-[rgba(245,245,245,0.25)] mt-1 max-w-[220px]">
+                    <p className="text-xs text-[var(--ops-text-disabled)] mt-1 max-w-[220px]">
                       AI insights will appear based on your current page context and data.
                     </p>
                   </div>
@@ -189,16 +189,16 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                               {insight.priority}
                             </span>
                           </div>
-                          <h4 className="text-[13px] font-semibold text-[#f5f5f5] leading-snug">
+                          <h4 className="text-[13px] font-semibold text-[var(--ops-text)] leading-snug">
                             {insight.title}
                           </h4>
-                          <p className="text-xs text-[rgba(245,245,245,0.45)] mt-1 leading-relaxed">
+                          <p className="text-xs text-[var(--ops-text-secondary)] mt-1 leading-relaxed">
                             {insight.description}
                           </p>
 
                           {/* Confidence bar */}
                           <div className="mt-3 flex items-center gap-2.5">
-                            <div className="flex-1 h-1.5 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
+                            <div className="flex-1 h-1.5 rounded-full bg-[var(--ops-hover-bg)] overflow-hidden">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${insight.confidence}%` }}
@@ -209,7 +209,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                                 )}
                               />
                             </div>
-                            <span className="text-[10px] text-[rgba(245,245,245,0.35)] shrink-0">
+                            <span className="text-[10px] text-[var(--ops-text-muted)] shrink-0">
                               {insight.confidence}% confident
                             </span>
                           </div>
@@ -218,7 +218,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                           {insight.actionText && (
                             <button
                               onClick={() => handleAction(insight)}
-                              className="mt-3 flex items-center gap-1.5 text-xs font-medium text-[#cc5c37] hover:text-[#d46a44] transition-colors"
+                              className="mt-3 flex items-center gap-1.5 text-xs font-medium text-[var(--ops-accent)] hover:text-[var(--ops-accent-hover)] transition-colors"
                             >
                               {insight.actionText}
                               <ChevronRight className="w-3 h-3" />

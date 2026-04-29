@@ -215,7 +215,7 @@ const TaskCard = React.memo(function TaskCard({
           </div>
           <div
             className="h-1 rounded-full overflow-hidden"
-            style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+            style={{ backgroundColor: 'var(--ops-border)' }}
           >
             <motion.div
               className="h-full rounded-full"
@@ -259,8 +259,8 @@ const TaskCard = React.memo(function TaskCard({
             <span
               className="text-[10px] font-semibold px-1.5 py-0 rounded"
               style={{
-                backgroundColor: 'rgba(204,92,55,0.12)',
-                color: '#cc5c37',
+                backgroundColor: 'var(--ops-accent-light)',
+                color: 'var(--ops-accent)',
               }}
             >
               {task.storyPoints} SP
@@ -295,7 +295,7 @@ const TaskCard = React.memo(function TaskCard({
               key={tag}
               className="ops-badge text-[10px]"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                backgroundColor: 'var(--ops-hover-bg)',
                 color: 'var(--ops-text-muted)',
               }}
             >
@@ -335,7 +335,7 @@ const SortableColumn = React.memo(function SortableColumn({
       style={style}
       className={cn(
         'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors snap-start',
-        isOver && 'bg-[rgba(204,92,55,0.04)]'
+        isOver && 'bg-[var(--ops-accent-light)]'
       )}
       role="region"
       aria-label={`${column.title} column, ${column.items.length} tasks`}
@@ -352,7 +352,7 @@ const SortableColumn = React.memo(function SortableColumn({
           <span
             className="ops-badge text-[10px]"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--ops-hover-bg)',
               color: 'var(--ops-text-muted)',
             }}
           >

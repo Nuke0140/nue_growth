@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   Zap,
   AlertTriangle,
@@ -60,8 +59,6 @@ interface AiOpsInsightProps {
 }
 
 export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const severity = severityConfig[insight.severity];
   const isCritical = insight.severity === 'critical';
 
@@ -72,9 +69,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'relative rounded-2xl border overflow-hidden shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06]'
-          : 'bg-white border-black/[0.06]',
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]',
         isCritical && severity.glowColor
       )}
     >
@@ -94,14 +89,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
       )}
 
       {/* Left gradient border */}
-      <div
-        className={cn(
-          'absolute left-0 top-0 bottom-0 w-1',
-          isDark
-            ? 'bg-gradient-to-b from-purple-500/80 via-blue-500/60 to-purple-500/40'
-            : 'bg-gradient-to-b from-purple-500 via-blue-500 to-purple-600'
-        )}
-      />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 via-blue-500 to-purple-600" />
 
       <div className="pl-4 pr-5 py-4">
         {/* Header: Severity + Type */}
@@ -109,19 +97,19 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               <span className={cn('w-2 h-2 rounded-full shrink-0', severity.dotColor)} />
-              <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+              <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
                 {severity.label}
               </span>
             </div>
             <span className={cn(
               'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium',
-              isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+              'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
             )}>
               <Brain className="w-2.5 h-2.5" />
               {typeLabels[insight.type] || insight.type}
             </span>
           </div>
-          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">
             {insight.id.toUpperCase()}
           </span>
         </div>
@@ -132,7 +120,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
         </h3>
 
         {/* Description */}
-        <p className={cn('text-xs leading-relaxed mb-3 line-clamp-2', isDark ? 'text-white/50' : 'text-black/50')}>
+        <p className="text-xs leading-relaxed mb-3 line-clamp-2 text-[var(--ops-text-secondary)]">
           {insight.description}
         </p>
 
@@ -141,14 +129,14 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
           <div
             className={cn(
               'p-2.5 rounded-xl mb-3',
-              isDark ? 'bg-purple-500/[0.06] border border-purple-500/[0.1]' : 'bg-purple-50 border border-purple-100'
+              'bg-purple-50 dark:bg-purple-500/[0.06] border border-purple-100 dark:border-purple-500/[0.1]'
             )}
           >
             <div className="flex items-start gap-2">
               <Zap className="w-3.5 h-3.5 text-purple-500 shrink-0 mt-0.5" />
               <div>
-                <p className={cn('text-[10px] font-semibold mb-0.5 text-purple-500')}>Recommendation</p>
-                <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
+                <p className="text-[10px] font-semibold mb-0.5 text-purple-500">Recommendation</p>
+                <p className="text-[11px] leading-relaxed text-[var(--ops-text-secondary)]">
                   {insight.recommendation}
                 </p>
               </div>
@@ -164,9 +152,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
                 key={entity}
                 className={cn(
                   'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border',
-                  isDark
-                    ? 'bg-white/[0.04] text-white/50 border-white/[0.06]'
-                    : 'bg-black/[0.03] text-black/50 border-black/[0.06]'
+                  'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)] border-[var(--ops-border)]'
                 )}
               >
                 {entity}
@@ -177,11 +163,11 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
 
         {/* Confidence Bar */}
         <div className="flex items-center gap-3 mb-3">
-          <span className={cn('text-[10px] font-medium shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>
+          <span className="text-[10px] font-medium shrink-0 text-[var(--ops-text-muted)]">
             Confidence
           </span>
           <div className="flex-1">
-            <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+            <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
               <motion.div
                 className={cn(
                   'h-full rounded-full',
@@ -195,7 +181,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
               />
             </div>
           </div>
-          <span className={cn('text-[11px] font-bold shrink-0', isDark ? 'text-white/60' : 'text-black/60')}>
+          <span className="text-[11px] font-bold shrink-0 text-[var(--ops-text-secondary)]">
             {insight.confidence}%
           </span>
         </div>
@@ -209,9 +195,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
               'w-full h-8 text-[11px] font-medium rounded-lg gap-1.5 transition-all',
               isCritical
                 ? 'bg-red-500 hover:bg-red-600 text-white'
-                : isDark
-                  ? 'bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 border border-purple-500/20'
-                  : 'bg-purple-100 hover:bg-purple-200 text-purple-700 border border-purple-200'
+                : 'bg-purple-100 dark:bg-purple-500/20 hover:bg-purple-200 dark:hover:bg-purple-500/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20'
             )}
           >
             {isCritical ? (

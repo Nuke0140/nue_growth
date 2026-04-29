@@ -237,12 +237,12 @@ function RevenueTooltip({ active, payload, label }: { active?: boolean; payload?
     <div
       className="px-3 py-2 rounded-lg text-xs"
       style={{
-        backgroundColor: '#222325',
-        border: '1px solid rgba(255,255,255,0.08)',
-        color: '#e5e5e5',
+        backgroundColor: 'var(--ops-card-bg)',
+        border: '1px solid var(--ops-border-strong)',
+        color: 'var(--ops-text)',
       }}
     >
-      <p className="font-semibold" style={{ color: '#e5e5e5' }}>{label}</p>
+      <p className="font-semibold" style={{ color: 'var(--ops-text)' }}>{label}</p>
       <p style={{ color: ACCENT }}>₹{payload[0].value}L</p>
     </div>
   );
@@ -352,7 +352,7 @@ function OpsDashboardPageInner() {
                     domain={[0, 100]}
                     tickFormatter={(v: number) => `${v}%`}
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+                    axisLine={{ stroke: 'var(--ops-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -371,9 +371,9 @@ function OpsDashboardPageInner() {
                         <div
                           className="px-3 py-2 rounded-lg text-xs"
                           style={{
-                            backgroundColor: '#222325',
-                            border: '1px solid rgba(255,255,255,0.08)',
-                            color: '#e5e5e5',
+                            backgroundColor: 'var(--ops-card-bg)',
+                            border: '1px solid var(--ops-border-strong)',
+                            color: 'var(--ops-text)',
                           }}
                         >
                           <p className="font-semibold">{d.name}</p>
@@ -381,7 +381,7 @@ function OpsDashboardPageInner() {
                         </div>
                       );
                     }}
-                    cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+                    cursor={{ fill: 'var(--ops-hover-bg)' }}
                   />
                   <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={18}>
                     {projectProgressData.map((entry, idx) => {
@@ -403,7 +403,7 @@ function OpsDashboardPageInner() {
                   <Bar
                     dataKey="remaining"
                     stackId="stack"
-                    fill="rgba(255,255,255,0.06)"
+                    fill="var(--ops-border)"
                     radius={[0, 4, 4, 0]}
                     barSize={18}
                   />
@@ -432,7 +432,7 @@ function OpsDashboardPageInner() {
                   <XAxis
                     dataKey="month"
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+                    axisLine={{ stroke: 'var(--ops-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -449,7 +449,7 @@ function OpsDashboardPageInner() {
                     strokeWidth={2.5}
                     fill="url(#revenueGradient)"
                     dot={{ r: 4, fill: ACCENT, strokeWidth: 0 }}
-                    activeDot={{ r: 6, fill: ACCENT, stroke: '#1b1c1e', strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: ACCENT, stroke: 'var(--ops-bg)', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -473,7 +473,7 @@ function OpsDashboardPageInner() {
                     transition={{ duration: 0.25, delay: idx * 0.06 }}
                     className="flex items-start gap-3 p-2.5 rounded-lg"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.02)',
+                      backgroundColor: 'var(--ops-hover-bg)',
                       border: '1px solid var(--ops-border)',
                     }}
                   >
@@ -596,7 +596,7 @@ function OpsDashboardPageInner() {
           <div className="flex items-center gap-3 mb-4">
             <div
               className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
-              style={{ backgroundColor: 'rgba(204, 92, 55, 0.12)' }}
+              style={{ backgroundColor: 'var(--ops-accent-light)' }}
             >
               <Sparkles className="w-5 h-5" style={{ color: ACCENT }} />
             </div>
@@ -634,7 +634,7 @@ function OpsDashboardPageInner() {
                   }}
                   className="ops-card-hover rounded-xl p-3.5 cursor-pointer transition-colors"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    backgroundColor: 'var(--ops-hover-bg)',
                     border: '1px solid var(--ops-border)',
                   }}
                 >
@@ -677,7 +677,7 @@ function OpsDashboardPageInner() {
                         <span
                           className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.05)',
+                            backgroundColor: 'var(--ops-hover-bg)',
                             color: 'var(--ops-text-secondary)',
                           }}
                         >

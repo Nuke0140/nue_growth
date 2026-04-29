@@ -103,7 +103,7 @@ const aiRecommendations = [
 const recentActivities = [
   { id: 'a1', icon: CheckCircle2, title: 'Task completed', description: 'GPS tracking WebSocket setup — AutoFlow', time: '12 min ago', color: '#10b981' },
   { id: 'a2', icon: Shield, title: 'Approval approved', description: 'Sneha Reddy — 3 Days Casual Leave', time: '34 min ago', color: '#3b82f6' },
-  { id: 'a3', icon: GitBranch, title: 'Project updated', description: 'NexaBank — API rate limiting task added', time: '1 hr ago', color: '#cc5c37' },
+  { id: 'a3', icon: GitBranch, title: 'Project updated', description: 'NexaBank — API rate limiting task added', time: '1 hr ago', color: 'var(--ops-accent)' },
   { id: 'a4', icon: Calendar, title: 'Leave applied', description: 'Vikram Joshi — 5 days earned leave (May)', time: '2 hrs ago', color: '#f59e0b' },
   { id: 'a5', icon: AlertTriangle, title: 'Overdue invoice', description: 'MediCare Global — ₹4.8L (10+ days)', time: '3 hrs ago', color: '#ef4444' },
   { id: 'a6', icon: Banknote, title: 'Payroll processed', description: 'March 2026 — 10 employees processed', time: '5 hrs ago', color: '#8b5cf6' },
@@ -113,9 +113,9 @@ const recentActivities = [
 function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; fill: string }>; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#1b1c1e] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-xs font-medium text-[#f5f5f5]">{label}</p>
-      <p className="text-xs text-[rgba(245,245,245,0.5)]">{payload[0].value} projects</p>
+    <div className="bg-[var(--ops-bg)] border border-[var(--ops-border-strong)] rounded-lg px-3 py-2 shadow-xl">
+      <p className="text-xs font-medium text-[var(--ops-text)]">{label}</p>
+      <p className="text-xs text-[var(--ops-text-secondary)]">{payload[0].value} projects</p>
     </div>
   );
 }
@@ -187,27 +187,27 @@ function ErpDashboardPageInner() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-5 md:p-6 relative overflow-hidden"
+          className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5 md:p-6 relative overflow-hidden"
         >
           {/* Gradient accent bar */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#cc5c37] via-[#f59e0b] to-[#cc5c37]" />
 
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[rgba(204,92,55,0.12)] flex items-center justify-center">
-                <Brain className="w-[18px] h-[18px] text-[#cc5c37]" />
+              <div className="w-9 h-9 rounded-xl bg-[var(--ops-accent-light)] flex items-center justify-center">
+                <Brain className="w-[18px] h-[18px] text-[var(--ops-accent)]" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-[#f5f5f5]">Today&apos;s Summary</h2>
-                <p className="text-[11px] text-[rgba(245,245,245,0.3)]">{today}</p>
+                <h2 className="text-sm font-semibold text-[var(--ops-text)]">Today&apos;s Summary</h2>
+                <p className="text-[11px] text-[var(--ops-text-muted)]">{today}</p>
               </div>
             </div>
-            <Badge className="bg-[rgba(204,92,55,0.12)] text-[#cc5c37] border-0 text-[11px] font-medium gap-1 self-start">
+            <Badge className="bg-[var(--ops-accent-light)] text-[var(--ops-accent)] border-0 text-[11px] font-medium gap-1 self-start">
               <Sparkles className="w-3 h-3" /> AI Generated
             </Badge>
           </div>
 
-          <p className="text-[13px] leading-relaxed text-[rgba(245,245,245,0.65)] mb-5 max-w-3xl">
+          <p className="text-[13px] leading-relaxed text-[var(--ops-text-secondary)] mb-5 max-w-3xl">
             You have 3 overdue tasks, 2 pending approvals, and 1 project at risk. Revenue pipeline is at $2.76M with 35% win rate.
             Team utilization is strong at 87%, but Nikhil Das is at 100% allocation — consider rebalancing.
           </p>
@@ -248,31 +248,31 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="lg:col-span-3 rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-5"
+            className="lg:col-span-3 rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-[rgba(245,245,245,0.4)]" />
-                <span className="text-sm font-semibold text-[#f5f5f5]">Project Pipeline</span>
+                <BarChart3 className="w-4 h-4 text-[var(--ops-text-muted)]" />
+                <span className="text-sm font-semibold text-[var(--ops-text)]">Project Pipeline</span>
               </div>
-              <span className="text-[10px] text-[rgba(245,245,245,0.3)]">By status</span>
+              <span className="text-[10px] text-[var(--ops-text-muted)]">By status</span>
             </div>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={pipelineData} barSize={48} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--ops-hover-bg)" vertical={false} />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 11, fill: 'rgba(245,245,245,0.4)' }}
-                  axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+                  tick={{ fontSize: 11, fill: 'var(--ops-text-muted)' }}
+                  axisLine={{ stroke: 'var(--ops-border)' }}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fontSize: 11, fill: 'rgba(245,245,245,0.4)' }}
+                  tick={{ fontSize: 11, fill: 'var(--ops-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
                 />
-                <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(255,255,255,0.02)' }} />
+                <Tooltip content={<ChartTooltip />} cursor={{ fill: 'var(--ops-hover-bg)' }} />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {pipelineData.map((entry, i) => (
                     <rect key={i} fill={entry.fill} />
@@ -287,12 +287,12 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="lg:col-span-2 rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-5 flex flex-col"
+            className="lg:col-span-2 rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5 flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-[#f59e0b]" />
-                <span className="text-sm font-semibold text-[#f5f5f5]">Risk Alerts</span>
+                <span className="text-sm font-semibold text-[var(--ops-text)]">Risk Alerts</span>
               </div>
               <Badge className="bg-[#ef4444]/15 text-[#ef4444] border-0 text-[10px]">
                 {riskAlerts.filter(a => a.severity === 'critical').length} critical
@@ -307,8 +307,8 @@ function ErpDashboardPageInner() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.35 + i * 0.06 }}
                   className={cn(
-                    'rounded-xl border p-3 cursor-pointer transition-colors hover:bg-[rgba(255,255,255,0.03)]',
-                    'border-[rgba(255,255,255,0.06)]',
+                    'rounded-xl border p-3 cursor-pointer transition-colors hover:bg-[var(--ops-hover-bg)]',
+                    'border-[var(--ops-border)]',
                     alert.severity === 'critical' ? 'border-l-[3px] border-l-[#ef4444]' : 'border-l-[3px] border-l-[#f59e0b]'
                   )}
                 >
@@ -323,12 +323,12 @@ function ErpDashboardPageInner() {
                     >
                       {alert.severity}
                     </Badge>
-                    <span className="text-[12px] font-medium text-[#f5f5f5] truncate">{alert.title}</span>
+                    <span className="text-[12px] font-medium text-[var(--ops-text)] truncate">{alert.title}</span>
                   </div>
-                  <p className="text-[11px] text-[rgba(245,245,245,0.4)] leading-relaxed mb-2">{alert.description}</p>
+                  <p className="text-[11px] text-[var(--ops-text-muted)] leading-relaxed mb-2">{alert.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-[rgba(245,245,245,0.3)]">{alert.affected}</span>
-                    <button className="text-[11px] text-[#cc5c37] font-medium hover:text-[#cc5c37]/80 flex items-center gap-1">
+                    <span className="text-[10px] text-[var(--ops-text-muted)]">{alert.affected}</span>
+                    <button className="text-[11px] text-[var(--ops-accent)] font-medium hover:text-[var(--ops-accent)]/80 flex items-center gap-1">
                       {alert.action} <ArrowRight className="w-3 h-3" />
                     </button>
                   </div>
@@ -338,7 +338,7 @@ function ErpDashboardPageInner() {
 
             <button
               onClick={() => navigateTo('ai-ops')}
-              className="mt-3 text-[12px] text-[rgba(245,245,245,0.4)] hover:text-[#cc5c37] transition-colors text-center py-2 border-t border-[rgba(255,255,255,0.04)]"
+              className="mt-3 text-[12px] text-[var(--ops-text-muted)] hover:text-[var(--ops-accent)] transition-colors text-center py-2 border-t border-[var(--ops-border)]"
             >
               View All Alerts →
             </button>
@@ -352,14 +352,14 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-5"
+            className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#cc5c37]" />
-                <span className="text-sm font-semibold text-[#f5f5f5]">AI Recommendations</span>
+                <Sparkles className="w-4 h-4 text-[var(--ops-accent)]" />
+                <span className="text-sm font-semibold text-[var(--ops-text)]">AI Recommendations</span>
               </div>
-              <Badge className="bg-[rgba(204,92,55,0.1)] text-[#cc5c37] border-0 text-[10px]">
+              <Badge className="bg-[var(--ops-accent-light)] text-[var(--ops-accent)] border-0 text-[10px]">
                 3 insights
               </Badge>
             </div>
@@ -373,19 +373,19 @@ function ErpDashboardPageInner() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.45 + i * 0.06 }}
-                    className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-4 flex gap-3"
+                    className="rounded-xl border border-[var(--ops-border)] bg-[var(--ops-hover-bg)] p-4 flex gap-3"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-[rgba(204,92,55,0.1)] flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#cc5c37]" />
+                    <div className="w-9 h-9 rounded-lg bg-[var(--ops-accent-light)] flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-[var(--ops-accent)]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[12px] font-medium text-[#f5f5f5] mb-0.5">{rec.title}</p>
-                      <p className="text-[11px] text-[rgba(245,245,245,0.4)] leading-relaxed mb-2">{rec.description}</p>
+                      <p className="text-[12px] font-medium text-[var(--ops-text)] mb-0.5">{rec.title}</p>
+                      <p className="text-[11px] text-[var(--ops-text-muted)] leading-relaxed mb-2">{rec.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[rgba(245,245,245,0.3)]">
+                        <span className="text-[10px] text-[var(--ops-text-muted)]">
                           Confidence: <span className="text-[#10b981]">{rec.confidence}%</span>
                         </span>
-                        <button className="text-[11px] text-[#cc5c37] font-medium hover:text-[#cc5c37]/80 flex items-center gap-1">
+                        <button className="text-[11px] text-[var(--ops-accent)] font-medium hover:text-[var(--ops-accent)]/80 flex items-center gap-1">
                           {rec.action} <ArrowRight className="w-3 h-3" />
                         </button>
                       </div>
@@ -401,14 +401,14 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.5 }}
-            className="rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-5"
+            className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-[rgba(245,245,245,0.4)]" />
-                <span className="text-sm font-semibold text-[#f5f5f5]">Recent Activity</span>
+                <Activity className="w-4 h-4 text-[var(--ops-text-muted)]" />
+                <span className="text-sm font-semibold text-[var(--ops-text)]">Recent Activity</span>
               </div>
-              <Badge className="bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,245,0.4)] border-0 text-[10px]">
+              <Badge className="bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)] border-0 text-[10px]">
                 Last 6 hours
               </Badge>
             </div>
@@ -430,7 +430,7 @@ function ErpDashboardPageInner() {
                 key={qa.label}
                 variants={item}
                 onClick={qa.action}
-                className="rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#222325] p-4 text-left transition-all duration-200 hover:bg-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.1)] group"
+                className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-4 text-left transition-all duration-200 hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)] group"
               >
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
@@ -438,8 +438,8 @@ function ErpDashboardPageInner() {
                 >
                   <Icon className="w-5 h-5" style={{ color: qa.accent }} />
                 </div>
-                <p className="text-[13px] font-medium text-[#f5f5f5] group-hover:text-white">{qa.label}</p>
-                <div className="flex items-center gap-1 mt-1 text-[11px] text-[rgba(245,245,245,0.3)] group-hover:text-[rgba(245,245,245,0.5)] transition-colors">
+                <p className="text-[13px] font-medium text-[var(--ops-text)] group-hover:text-white">{qa.label}</p>
+                <div className="flex items-center gap-1 mt-1 text-[11px] text-[var(--ops-text-muted)] group-hover:text-[var(--ops-text-secondary)] transition-colors">
                   <span>Get started</span>
                   <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
                 </div>

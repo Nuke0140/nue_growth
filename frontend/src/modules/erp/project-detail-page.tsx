@@ -50,7 +50,7 @@ const priorityColorMap: Record<string, string> = {
   critical: '#f87171',
   high: '#fbbf24',
   medium: '#60a5fa',
-  low: 'rgba(245,245,245,0.35)',
+  low: 'var(--ops-text-muted)',
 };
 
 function getProjectTeam(projectId: string) {
@@ -62,7 +62,7 @@ function getProjectTasks(projectId: string) {
 }
 
 const stageColorMap: Record<string, string> = {
-  backlog: 'rgba(245,245,245,0.15)',
+  backlog: 'var(--ops-text-disabled)',
   todo: '#60a5fa',
   'in-progress': '#fbbf24',
   review: '#a78bfa',
@@ -87,7 +87,7 @@ function OverviewTab({ project }: { project: ErpProject }) {
             variant="secondary"
             className="text-[10px]"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--ops-hover-bg)',
               color: 'var(--ops-text-secondary)',
             }}
           >
@@ -111,11 +111,11 @@ function OverviewTab({ project }: { project: ErpProject }) {
                 className="relative z-10"
               >
                 {ms.completed ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 ) : (
                   <Circle
                     className="w-5 h-5 shrink-0"
-                    style={{ color: 'rgba(245,245,245,0.2)' }}
+                    style={{ color: 'var(--ops-text-disabled)' }}
                   />
                 )}
               </motion.div>
@@ -157,7 +157,7 @@ function OverviewTab({ project }: { project: ErpProject }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
               className="flex items-center gap-2.5 p-2.5 rounded-xl"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+              style={{ backgroundColor: 'var(--ops-hover-bg)' }}
             >
               <Package className="w-4 h-4 shrink-0" style={{ color: 'var(--ops-text-muted)' }} />
               <span className="text-xs" style={{ color: 'var(--ops-text)' }}>
@@ -185,7 +185,7 @@ function OverviewTab({ project }: { project: ErpProject }) {
               <div
                 key={inv}
                 className="flex items-center gap-2 p-2.5 rounded-xl"
-                style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+                style={{ backgroundColor: 'var(--ops-hover-bg)' }}
               >
                 <FileText className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--ops-text-muted)' }} />
                 <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
@@ -215,7 +215,7 @@ function TasksTab({ projectId }: { projectId: string }) {
           variant="secondary"
           className="text-[10px]"
           style={{
-            backgroundColor: 'rgba(255,255,255,0.06)',
+            backgroundColor: 'var(--ops-hover-bg)',
             color: 'var(--ops-text-secondary)',
           }}
         >
@@ -237,13 +237,13 @@ function TasksTab({ projectId }: { projectId: string }) {
               transition={{ delay: i * 0.04 }}
               className="flex items-center gap-3 p-3 rounded-xl"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--ops-hover-bg)',
                 border: task.isBlocked ? '1px solid rgba(248,113,113,0.2)' : '1px solid var(--ops-border)',
               }}
             >
               <div
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: stageColorMap[task.stage] || 'rgba(245,245,245,0.2)' }}
+                style={{ backgroundColor: stageColorMap[task.stage] || 'var(--ops-text-disabled)' }}
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium truncate" style={{ color: 'var(--ops-text)' }}>
@@ -264,7 +264,7 @@ function TasksTab({ projectId }: { projectId: string }) {
               <span
                 className="ops-badge text-[9px] capitalize shrink-0"
                 style={{
-                  backgroundColor: 'rgba(255,255,255,0.06)',
+                  backgroundColor: 'var(--ops-hover-bg)',
                   color: 'var(--ops-text-muted)',
                 }}
               >
@@ -301,7 +301,7 @@ function TeamTab({ projectId }: { projectId: string }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
               className="flex items-center gap-3 p-3 rounded-xl"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+              style={{ backgroundColor: 'var(--ops-hover-bg)' }}
             >
               <Avatar className="h-8 w-8">
                 <AvatarFallback
@@ -559,7 +559,7 @@ function ProjectDetailPageInner() {
               {'bar' in stat && (
                 <div
                   className="mt-1.5 h-1 rounded-full overflow-hidden"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                  style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                 >
                   <motion.div
                     className="h-full rounded-full"
@@ -599,8 +599,8 @@ function ProjectDetailPageInner() {
                     className={cn(
                       'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap data-[state=active]:shadow-none',
                       isActive
-                        ? 'bg-[rgba(204,92,55,0.12)] text-[#cc5c37]'
-                        : 'text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)] hover:bg-[rgba(255,255,255,0.04)]'
+                        ? 'bg-[var(--ops-accent-light)] text-[var(--ops-accent)]'
+                        : 'text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)] hover:bg-[var(--ops-hover-bg)]'
                     )}
                   >
                     <tab.icon className="w-3.5 h-3.5" />

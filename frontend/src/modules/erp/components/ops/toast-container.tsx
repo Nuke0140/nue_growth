@@ -16,31 +16,31 @@ import type { ToastType } from '../../types';
 const typeConfig: Record<ToastType, { icon: typeof CheckCircle2; color: string; bg: string; border: string; progressColor: string }> = {
   success: {
     icon: CheckCircle2,
-    color: 'text-emerald-400',
+    color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/20',
-    progressColor: 'bg-emerald-400',
+    progressColor: 'bg-emerald-500 dark:bg-emerald-400',
   },
   error: {
     icon: XCircle,
-    color: 'text-red-400',
+    color: 'text-red-500 dark:text-red-400',
     bg: 'bg-red-500/10',
     border: 'border-red-500/20',
-    progressColor: 'bg-red-400',
+    progressColor: 'bg-red-500 dark:bg-red-400',
   },
   warning: {
     icon: AlertTriangle,
-    color: 'text-amber-400',
+    color: 'text-amber-500 dark:text-amber-400',
     bg: 'bg-amber-500/10',
     border: 'border-amber-500/20',
-    progressColor: 'bg-amber-400',
+    progressColor: 'bg-amber-500 dark:bg-amber-400',
   },
   info: {
     icon: Info,
-    color: 'text-blue-400',
+    color: 'text-blue-500 dark:text-blue-400',
     bg: 'bg-blue-500/10',
     border: 'border-blue-500/20',
-    progressColor: 'bg-blue-400',
+    progressColor: 'bg-blue-500 dark:bg-blue-400',
   },
 };
 
@@ -109,7 +109,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className={cn(
         'pointer-events-auto relative overflow-hidden rounded-xl border p-4 shadow-xl',
-        'bg-[#222325]',
+        'bg-[var(--ops-card-bg)]',
         config.border
       )}
     >
@@ -132,18 +132,18 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h4 className="text-[13px] font-semibold text-[#f5f5f5] leading-snug">
+          <h4 className="text-[13px] font-semibold text-[var(--ops-text)] leading-snug">
             {toast.title}
           </h4>
           {toast.message && (
-            <p className="text-xs text-[rgba(245,245,245,0.45)] mt-1 leading-relaxed">
+            <p className="text-xs text-[var(--ops-text-secondary)] mt-1 leading-relaxed">
               {toast.message}
             </p>
           )}
           {toast.actionText && (
             <button
               onClick={handleAction}
-              className="text-[11px] font-semibold text-[#cc5c37] hover:text-[#d46a44] mt-2 transition-colors"
+              className="text-[11px] font-semibold text-[var(--ops-accent)] hover:text-[var(--ops-accent-hover)] mt-2 transition-colors"
             >
               {toast.actionText}
             </button>
@@ -153,7 +153,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
         {/* Close */}
         <button
           onClick={onDismiss}
-          className="flex items-center justify-center w-6 h-6 rounded-lg text-[rgba(245,245,245,0.25)] hover:text-[rgba(245,245,245,0.5)] hover:bg-[rgba(255,255,255,0.06)] transition-all shrink-0"
+          className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--ops-text-disabled)] hover:text-[var(--ops-text-muted)] hover:bg-[var(--ops-hover-bg)] transition-all shrink-0"
           aria-label="Dismiss"
         >
           <X className="w-3.5 h-3.5" />

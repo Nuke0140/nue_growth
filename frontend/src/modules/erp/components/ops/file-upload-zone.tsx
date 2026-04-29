@@ -67,7 +67,7 @@ function getFileIconColor(type: string): string {
   if (type.includes('spreadsheet') || type.includes('excel') || type.includes('csv'))
     return '#22c55e';
   if (type.startsWith('video/')) return '#f59e0b';
-  return 'rgba(245,245,245,0.5)';
+  return 'var(--ops-text-secondary)';
 }
 
 function generateId(): string {
@@ -231,9 +231,9 @@ export function FileUploadZone({
         )}
         style={{
           backgroundColor: isDragOver
-            ? 'rgba(204,92,55,0.06)'
+            ? 'var(--ops-accent-light)'
             : 'transparent',
-          border: `2px dashed ${isDragOver ? '#cc5c37' : 'rgba(255,255,255,0.1)'}`,
+          border: `2px dashed ${isDragOver ? 'var(--ops-accent)' : 'var(--ops-border-strong)'}`, 
           borderRadius: 12,
         }}
       >
@@ -253,14 +253,14 @@ export function FileUploadZone({
             className="flex items-center justify-center w-12 h-12 rounded-xl"
             style={{
               backgroundColor: isDragOver
-                ? 'rgba(204,92,55,0.15)'
-                : 'rgba(255,255,255,0.04)',
+                ? 'var(--ops-accent-light)'
+                : 'var(--ops-hover-bg)',
             }}
           >
             <Upload
               className="w-5 h-5"
               style={{
-                color: isDragOver ? '#cc5c37' : 'rgba(245,245,245,0.4)',
+                color: isDragOver ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
               }}
             />
           </motion.div>
@@ -268,13 +268,13 @@ export function FileUploadZone({
           <div>
             <p
               className="text-sm font-medium"
-              style={{ color: '#f5f5f5' }}
+              style={{ color: 'var(--ops-text)' }}
             >
               {isDragOver ? 'Drop files here' : 'Drag & drop files here'}
             </p>
             <p
               className="text-xs mt-1"
-              style={{ color: 'rgba(245,245,245,0.4)' }}
+              style={{ color: 'var(--ops-text-muted)' }}
             >
               or click to browse
               {acceptedTypes && (
@@ -287,7 +287,7 @@ export function FileUploadZone({
           </div>
 
           {!compact && maxFiles && (
-            <p className="text-[10px]" style={{ color: 'rgba(245,245,245,0.3)' }}>
+            <p className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
               {files.length} of {maxFiles} files
             </p>
           )}
@@ -307,7 +307,7 @@ export function FileUploadZone({
               <div
                 className="flex flex-col"
                 style={{
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
+                  borderTop: '1px solid var(--ops-border)',
                 }}
               >
                 {files.map((file, idx) => {
@@ -324,7 +324,7 @@ export function FileUploadZone({
                       layout
                       className="flex items-center gap-3 px-5 py-3"
                       style={{
-                        borderBottom: '1px solid rgba(255,255,255,0.04)',
+                        borderBottom: '1px solid var(--ops-border)',
                       }}
                     >
                       {/* File icon */}
@@ -340,7 +340,7 @@ export function FileUploadZone({
                         <div className="flex items-center gap-2">
                           <p
                             className="text-xs font-medium truncate"
-                            style={{ color: '#f5f5f5' }}
+                            style={{ color: 'var(--ops-text)' }}
                           >
                             {file.name}
                           </p>
@@ -348,8 +348,8 @@ export function FileUploadZone({
                             <span
                               className="text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0"
                               style={{
-                                backgroundColor: 'rgba(204,92,55,0.12)',
-                                color: '#cc5c37',
+                                backgroundColor: 'var(--ops-accent-light)',
+                                color: 'var(--ops-accent)',
                               }}
                             >
                               v{file.version}
@@ -360,7 +360,7 @@ export function FileUploadZone({
                         <div className="flex items-center gap-3 mt-1">
                           <span
                             className="text-[10px]"
-                            style={{ color: 'rgba(245,245,245,0.4)' }}
+                            style={{ color: 'var(--ops-text-muted)' }}
                           >
                             {formatFileSize(file.size)}
                           </span>
@@ -369,18 +369,18 @@ export function FileUploadZone({
                             <div className="flex-1 flex items-center gap-2">
                               <div
                                 className="flex-1 h-1 rounded-full overflow-hidden"
-                                style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                                style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                               >
                                 <motion.div
                                   className="h-full rounded-full"
-                                  style={{ backgroundColor: '#cc5c37' }}
+                                  style={{ backgroundColor: 'var(--ops-accent)' }}
                                   animate={{ width: `${file.progress}%` }}
                                   transition={{ duration: 0.3 }}
                                 />
                               </div>
                               <span
                                 className="text-[10px] shrink-0"
-                                style={{ color: 'rgba(245,245,245,0.4)' }}
+                                style={{ color: 'var(--ops-text-muted)' }}
                               >
                                 {Math.round(file.progress)}%
                               </span>
@@ -390,7 +390,7 @@ export function FileUploadZone({
                           {file.uploadedAt && (
                             <span
                               className="text-[10px]"
-                              style={{ color: 'rgba(245,245,245,0.3)' }}
+                              style={{ color: 'var(--ops-text-muted)' }}
                             >
                               {new Date(file.uploadedAt).toLocaleTimeString()}
                             </span>
@@ -403,7 +403,7 @@ export function FileUploadZone({
                         {file.status === 'uploading' && (
                           <Loader2
                             className="w-4 h-4 animate-spin"
-                            style={{ color: '#cc5c37' }}
+                            style={{ color: 'var(--ops-accent)' }}
                           />
                         )}
                         {file.status === 'complete' && (
@@ -438,8 +438,8 @@ export function FileUploadZone({
                           e.stopPropagation();
                           removeFile(file.id);
                         }}
-                        className="p-1 rounded-md hover:bg-[rgba(255,255,255,0.06)] transition-colors"
-                        style={{ color: 'rgba(245,245,245,0.3)' }}
+                        className="p-1 rounded-md hover:bg-[var(--ops-hover-bg)] transition-colors"
+                        style={{ color: 'var(--ops-text-muted)' }}
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -455,10 +455,10 @@ export function FileUploadZone({
                         e.stopPropagation();
                         handleClick();
                       }}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-[rgba(255,255,255,0.04)]"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-[var(--ops-hover-bg)]"
                       style={{
-                        color: '#cc5c37',
-                        border: '1px solid rgba(204,92,55,0.2)',
+                        color: 'var(--ops-accent)',
+                        border: '1px solid var(--ops-accent-light)',
                       }}
                     >
                       <Plus className="w-3.5 h-3.5" />

@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   CheckCircle2,
   XCircle,
@@ -22,108 +21,86 @@ import { Badge } from '@/components/ui/badge';
 import type { Approval, ApprovalStatus, ApprovalType } from '../types';
 
 // ─── Status Configuration ─────────────────────────────────
-const statusConfig: Record<ApprovalStatus, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string; icon: typeof CheckCircle2 }> = {
+const statusConfig: Record<ApprovalStatus, { label: string; color: string; bg: string; border: string; icon: typeof CheckCircle2 }> = {
   pending: {
     label: 'Pending',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
     icon: Clock,
   },
   approved: {
     label: 'Approved',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
     icon: CheckCircle2,
   },
   rejected: {
     label: 'Rejected',
     color: 'text-red-500',
-    bgDark: 'bg-red-500/15',
-    bgLight: 'bg-red-50',
-    borderDark: 'border-red-500/20',
-    borderLight: 'border-red-200',
+    bg: 'bg-red-50 dark:bg-red-500/15',
+    border: 'border-red-200 dark:border-red-500/20',
     icon: XCircle,
   },
   escalated: {
     label: 'Escalated',
     color: 'text-orange-500',
-    bgDark: 'bg-orange-500/15',
-    bgLight: 'bg-orange-50',
-    borderDark: 'border-orange-500/20',
-    borderLight: 'border-orange-200',
+    bg: 'bg-orange-50 dark:bg-orange-500/15',
+    border: 'border-orange-200 dark:border-orange-500/20',
     icon: ArrowUpRight,
   },
 };
 
 // ─── Type Configuration ───────────────────────────────────
-const typeConfig: Record<ApprovalType, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string; icon: typeof FileText }> = {
+const typeConfig: Record<ApprovalType, { label: string; color: string; bg: string; border: string; icon: typeof FileText }> = {
   content: {
     label: 'Content',
     color: 'text-purple-500',
-    bgDark: 'bg-purple-500/15',
-    bgLight: 'bg-purple-50',
-    borderDark: 'border-purple-500/20',
-    borderLight: 'border-purple-200',
+    bg: 'bg-purple-50 dark:bg-purple-500/15',
+    border: 'border-purple-200 dark:border-purple-500/20',
     icon: FileText,
   },
   design: {
     label: 'Design',
     color: 'text-pink-500',
-    bgDark: 'bg-pink-500/15',
-    bgLight: 'bg-pink-50',
-    borderDark: 'border-pink-500/20',
-    borderLight: 'border-pink-200',
+    bg: 'bg-pink-50 dark:bg-pink-500/15',
+    border: 'border-pink-200 dark:border-pink-500/20',
     icon: Palette,
   },
   invoice: {
     label: 'Invoice',
     color: 'text-blue-500',
-    bgDark: 'bg-blue-500/15',
-    bgLight: 'bg-blue-50',
-    borderDark: 'border-blue-500/20',
-    borderLight: 'border-blue-200',
+    bg: 'bg-blue-50 dark:bg-blue-500/15',
+    border: 'border-blue-200 dark:border-blue-500/20',
     icon: Receipt,
   },
   budget: {
     label: 'Budget',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
     icon: Wallet,
   },
   payroll: {
     label: 'Payroll',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
     icon: Banknote,
   },
   leave: {
     label: 'Leave',
     color: 'text-teal-500',
-    bgDark: 'bg-teal-500/15',
-    bgLight: 'bg-teal-50',
-    borderDark: 'border-teal-500/20',
-    borderLight: 'border-teal-200',
+    bg: 'bg-teal-50 dark:bg-teal-500/15',
+    border: 'border-teal-200 dark:border-teal-500/20',
     icon: CalendarOff,
   },
   proposal: {
     label: 'Proposal',
     color: 'text-indigo-500',
-    bgDark: 'bg-indigo-500/15',
-    bgLight: 'bg-indigo-50',
-    borderDark: 'border-indigo-500/20',
-    borderLight: 'border-indigo-200',
+    bg: 'bg-indigo-50 dark:bg-indigo-500/15',
+    border: 'border-indigo-200 dark:border-indigo-500/20',
     icon: FilePen,
   },
 };
@@ -165,8 +142,6 @@ interface ApprovalCardProps {
 }
 
 export default function ApprovalCard({ approval, onApprove, onReject }: ApprovalCardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const status = statusConfig[approval.status];
   const type = typeConfig[approval.type];
   const StatusIcon = status.icon;
@@ -181,9 +156,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5 transition-colors duration-200 shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.01]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
       )}
     >
       {/* Top row: Type badge + Status chip + Version */}
@@ -192,7 +165,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
           <span
             className={cn(
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium border',
-              isDark ? `${type.bgDark} ${type.color} ${type.borderDark}` : `${type.bgLight} ${type.color} ${type.borderLight}`
+              `${type.bg} ${type.color} ${type.border}`
             )}
           >
             <TypeIcon className="w-3 h-3" />
@@ -201,14 +174,14 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
           <span
             className={cn(
               'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium border',
-              isDark ? `${status.bgDark} ${status.color} ${status.borderDark}` : `${status.bgLight} ${status.color} ${status.borderLight}`
+              `${status.bg} ${status.color} ${status.border}`
             )}
           >
             <StatusIcon className="w-3 h-3" />
             {status.label}
           </span>
         </div>
-        <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+        <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', 'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]')}>
           v{approval.version}
         </span>
       </div>
@@ -224,10 +197,10 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
           {getInitials(approval.requestedBy)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+          <p className="text-xs font-medium truncate text-[var(--ops-text)]">
             {approval.requestedBy}
           </p>
-          <p className={cn('text-[10px]', isDark ? 'text-white/35' : 'text-black/35')}>
+          <p className="text-[10px] text-[var(--ops-text-muted)]">
             {formatDate(approval.createdAt)}
           </p>
         </div>
@@ -236,8 +209,8 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
       {/* Project (if linked) */}
       {approval.project && (
         <div className="flex items-center gap-1.5 mb-3">
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Project:</span>
-          <span className={cn('text-[11px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">Project:</span>
+          <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
             {approval.project}
           </span>
         </div>
@@ -245,8 +218,8 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
 
       {/* Comments count */}
       <div className="flex items-center gap-1.5 mb-4">
-        <MessageSquare className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-        <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+        <MessageSquare className="w-3 h-3 text-[var(--ops-text-muted)]" />
+        <span className="text-[11px] text-[var(--ops-text-muted)]">
           {approval.comments.length} comment{approval.comments.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -256,7 +229,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
         <div
           className={cn(
             'flex items-center gap-2 pt-3 border-t',
-            isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+            'border-[var(--ops-border)]'
           )}
         >
           <Button
@@ -292,9 +265,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
               variant="outline"
               className={cn(
                 'h-8 text-[11px] font-medium rounded-lg gap-1 ml-auto',
-                isDark
-                  ? 'border-amber-500/20 text-amber-400 hover:bg-amber-500/10'
-                  : 'border-amber-200 text-amber-600 hover:bg-amber-50'
+                'border-amber-200 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10'
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -312,7 +283,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
         <div
           className={cn(
             'mt-3 p-2.5 rounded-lg text-[11px] leading-relaxed line-clamp-2',
-            isDark ? 'bg-white/[0.02] text-white/40' : 'bg-black/[0.02] text-black/40'
+            'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
           )}
         >
           <span className="font-medium">{approval.comments[0].author}:</span>{' '}

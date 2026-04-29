@@ -51,7 +51,7 @@ export function DrawerForm({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -88,7 +88,7 @@ export function DrawerForm({
                 style={{ color: 'var(--ops-text-muted)' }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor =
-                    'rgba(255,255,255,0.06)';
+                    'var(--ops-hover-bg)';
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor =

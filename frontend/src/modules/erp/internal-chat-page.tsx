@@ -26,8 +26,8 @@ function getChannelIcon(type: string) {
 function getChannelIconColor(type: string, isDark: boolean) {
   switch (type) {
     case 'department': return isDark ? 'text-sky-400' : 'text-sky-600';
-    case 'project': return isDark ? 'text-emerald-400' : 'text-emerald-600';
-    case 'announcement': return isDark ? 'text-amber-400' : 'text-amber-600';
+    case 'project': return isDark ? 'text-emerald-500 dark:text-emerald-400' : 'text-emerald-600';
+    case 'announcement': return isDark ? 'text-amber-500 dark:text-amber-400' : 'text-amber-600';
     case 'direct': return isDark ? 'text-violet-400' : 'text-violet-600';
     default: return isDark ? 'text-white/40' : 'text-black/40';
   }
@@ -43,11 +43,11 @@ function getInitials(name: string) {
 }
 
 const avatarColors = [
-  'bg-emerald-500/15 text-emerald-400',
+  'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400',
   'bg-sky-500/15 text-sky-400',
   'bg-violet-500/15 text-violet-400',
   'bg-pink-500/15 text-pink-400',
-  'bg-amber-500/15 text-amber-400',
+  'bg-amber-500/15 text-amber-500 dark:text-amber-400',
   'bg-teal-500/15 text-teal-400',
   'bg-orange-500/15 text-orange-400',
   'bg-rose-500/15 text-rose-400',
@@ -192,7 +192,7 @@ function InternalChatPageInner() {
         {/* Pinned Messages */}
         {pinnedMessages.length > 0 && (
           <div className={cn('px-4 py-2 border-b flex items-center gap-2', isDark ? 'bg-amber-500/[0.03] border-amber-500/10' : 'bg-amber-50 border-amber-200')}>
-            <Pin className="w-3 h-3 text-amber-400" />
+            <Pin className="w-3 h-3 text-amber-500 dark:text-amber-400" />
             <span className={cn('text-[10px] font-medium', isDark ? 'text-amber-300/60' : 'text-amber-700/60')}>Pinned:</span>
             <p className="text-[11px] truncate flex-1">{pinnedMessages[0].content}</p>
             {pinnedMessages.length > 1 && (
@@ -250,8 +250,8 @@ function InternalChatPageInner() {
                     )}
                     {msg.isPinned && (
                       <div className="flex items-center gap-1 justify-end">
-                        <Pin className="w-2.5 h-2.5 text-amber-400" />
-                        <span className="text-[9px] text-amber-400">Pinned</span>
+                        <Pin className="w-2.5 h-2.5 text-amber-500 dark:text-amber-400" />
+                        <span className="text-[9px] text-amber-500 dark:text-amber-400">Pinned</span>
                       </div>
                     )}
                   </div>

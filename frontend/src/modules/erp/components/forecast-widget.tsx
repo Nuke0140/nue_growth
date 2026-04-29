@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   TrendingUp,
   TrendingDown,
@@ -17,38 +16,29 @@ const typeConfig = {
   revenue: {
     primaryColor: 'text-emerald-500',
     barColor: 'bg-emerald-500',
-    barBgColorDark: 'bg-emerald-500/10',
-    barBgColorLight: 'bg-emerald-100',
+    barBgColor: 'bg-emerald-100 dark:bg-emerald-500/10',
     changePositive: 'text-emerald-500',
     changeNegative: 'text-red-500',
-    iconBgDark: 'bg-emerald-500/15',
-    iconBgLight: 'bg-emerald-50',
-    headerGradientDark: 'from-emerald-500/10 to-transparent',
-    headerGradientLight: 'from-emerald-50 to-transparent',
+    iconBg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    headerGradient: 'from-emerald-50 dark:from-emerald-500/10 to-transparent',
   },
   expense: {
     primaryColor: 'text-red-500',
     barColor: 'bg-red-500',
-    barBgColorDark: 'bg-red-500/10',
-    barBgColorLight: 'bg-red-100',
+    barBgColor: 'bg-red-100 dark:bg-red-500/10',
     changePositive: 'text-emerald-500',
     changeNegative: 'text-red-500',
-    iconBgDark: 'bg-red-500/15',
-    iconBgLight: 'bg-red-50',
-    headerGradientDark: 'from-red-500/10 to-transparent',
-    headerGradientLight: 'from-red-50 to-transparent',
+    iconBg: 'bg-red-50 dark:bg-red-500/15',
+    headerGradient: 'from-red-50 dark:from-red-500/10 to-transparent',
   },
   profit: {
     primaryColor: 'text-blue-500',
     barColor: 'bg-blue-500',
-    barBgColorDark: 'bg-blue-500/10',
-    barBgColorLight: 'bg-blue-100',
+    barBgColor: 'bg-blue-100 dark:bg-blue-500/10',
     changePositive: 'text-emerald-500',
     changeNegative: 'text-red-500',
-    iconBgDark: 'bg-blue-500/15',
-    iconBgLight: 'bg-blue-50',
-    headerGradientDark: 'from-blue-500/10 to-transparent',
-    headerGradientLight: 'from-blue-50 to-transparent',
+    iconBg: 'bg-blue-50 dark:bg-blue-500/15',
+    headerGradient: 'from-blue-50 dark:from-blue-500/10 to-transparent',
   },
 };
 
@@ -76,8 +66,6 @@ interface ForecastWidgetProps {
 }
 
 export default function ForecastWidget({ title, data, type = 'revenue' }: ForecastWidgetProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const config = typeConfig[type];
 
   const maxValue = Math.max(...data.map((d) => Math.abs(d.value)), 1);
@@ -91,21 +79,19 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border shadow-sm overflow-hidden',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06]'
-          : 'bg-white border-black/[0.06]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
       )}
     >
       {/* Header with gradient */}
       <div className={cn(
         'p-5 pb-4 bg-gradient-to-r',
-        isDark ? config.headerGradientDark : config.headerGradientLight
+        config.headerGradient
       )}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className={cn(
               'w-8 h-8 rounded-xl flex items-center justify-center',
-              isDark ? config.iconBgDark : config.iconBgLight
+              config.iconBg
             )}>
               {type === 'revenue' ? (
                 <TrendingUp className={cn('w-4 h-4', config.primaryColor)} />
@@ -117,7 +103,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             </div>
             <div>
               <h3 className="text-sm font-semibold">{title}</h3>
-              <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className="text-[10px] text-[var(--ops-text-disabled)]">
                 Forecast Overview
               </p>
             </div>
@@ -154,7 +140,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: index * 0.05 }}
               >
-                <div className={cn('h-6 rounded-lg overflow-hidden relative', isDark ? config.barBgColorDark : config.barBgColorLight)}>
+                <div className={cn('h-6 rounded-lg overflow-hidden relative', config.barBgColor)}>
                   <motion.div
                     className={cn('h-full rounded-lg', config.barColor)}
                     initial={{ width: 0 }}
@@ -180,12 +166,12 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             >
               <div className="flex items-center gap-2">
                 <div className={cn('w-2 h-2 rounded-sm', config.barColor)} />
-                <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+                <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
                   {item.label}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className={cn('text-[11px] font-semibold', isDark ? 'text-white/80' : 'text-black/80')}>
+                <span className="text-[11px] font-semibold text-[var(--ops-text)]">
                   {formatCurrency(item.value)}
                 </span>
                 <div className={cn(

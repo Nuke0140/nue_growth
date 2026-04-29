@@ -48,7 +48,7 @@ const priorityDotColor: Record<ProjectPriority, string> = {
   critical: '#f87171',
   high: '#fbbf24',
   medium: '#60a5fa',
-  low: 'rgba(245,245,245,0.25)',
+  low: 'var(--ops-text-disabled)',
 };
 
 function getInitials(name: string): string {
@@ -110,7 +110,7 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
     <div className="space-y-1.5">
       <div
         className="relative h-2 rounded-full overflow-hidden"
-        style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+        style={{ backgroundColor: 'var(--ops-hover-bg)' }}
       >
         {/* Green (or amber warning) fill */}
         <motion.div
@@ -230,7 +230,7 @@ function ProjectCard({
         </div>
         <div
           className="h-1.5 rounded-full overflow-hidden"
-          style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
         >
           <motion.div
             className="h-full rounded-full"
@@ -268,7 +268,7 @@ function ProjectCard({
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold border-2"
                 style={{
                   borderColor: 'var(--ops-card-bg)',
-                  backgroundColor: 'rgba(255,255,255,0.06)',
+                  backgroundColor: 'var(--ops-hover-bg)',
                   color: 'var(--ops-text-secondary)',
                 }}
               >
@@ -313,7 +313,7 @@ function ProjectCard({
             className="text-[7px] font-semibold"
             style={{
               backgroundColor: 'rgba(204,92,55,0.15)',
-              color: '#cc5c37',
+              color: 'var(--ops-accent)',
             }}
           >
             {getInitials(project.accountManager)}
@@ -377,7 +377,7 @@ function StatCard({
         </span>
         <div
           className="w-7 h-7 rounded-lg flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
         >
           <Icon
             className="w-3.5 h-3.5"
@@ -558,7 +558,7 @@ function ProjectsPageInner() {
               <div className="col-span-full flex flex-col items-center justify-center py-20 gap-3">
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+                  style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                 >
                   <FolderKanban
                     className="w-6 h-6"

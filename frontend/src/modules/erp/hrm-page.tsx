@@ -94,24 +94,24 @@ function PageCard({ page, index }: { page: HrmSubPage; index: number }) {
       transition={{ delay: index * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => navigateTo(page.id)}
       className={cn(
-        'ops-card group rounded-2xl border border-[rgba(255,255,255,0.06)] p-5 text-left',
+        'ops-card group rounded-2xl border border-[var(--ops-border)] p-5 text-left',
         'transition-all duration-200 hover:border-[rgba(204,92,55,0.25)] hover:scale-[1.01]',
         'hover:shadow-lg hover:shadow-[rgba(204,92,55,0.06)]'
       )}
     >
       <div className="flex items-start justify-between mb-3">
-        <div className="w-11 h-11 rounded-xl bg-[rgba(255,255,255,0.04)] flex items-center justify-center group-hover:bg-[rgba(204,92,55,0.1)] transition-colors">
-          <PageIcon className="w-5 h-5 text-[rgba(245,245,245,0.4)] group-hover:text-[#cc5c37] transition-colors" />
+        <div className="w-11 h-11 rounded-xl bg-[var(--ops-hover-bg)] flex items-center justify-center group-hover:bg-[var(--ops-accent-light)] transition-colors">
+          <PageIcon className="w-5 h-5 text-[var(--ops-text-muted)] group-hover:text-[var(--ops-accent)] transition-colors" />
         </div>
         {page.badge && (
-          <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-[rgba(204,92,55,0.12)] text-[#cc5c37]">
+          <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-[var(--ops-accent-light)] text-[var(--ops-accent)]">
             {page.badge}
           </span>
         )}
       </div>
-      <h3 className="text-sm font-semibold text-[#f5f5f5] mb-1">{page.label}</h3>
-      <p className="text-[12px] text-[rgba(245,245,245,0.4)]">{page.description}</p>
-      <div className="flex items-center gap-1 mt-3 text-[11px] font-medium text-[rgba(245,245,245,0.3)] group-hover:text-[#cc5c37] transition-colors">
+      <h3 className="text-sm font-semibold text-[var(--ops-text)] mb-1">{page.label}</h3>
+      <p className="text-[12px] text-[var(--ops-text-muted)]">{page.description}</p>
+      <div className="flex items-center gap-1 mt-3 text-[11px] font-medium text-[var(--ops-text-muted)] group-hover:text-[var(--ops-accent)] transition-colors">
         <span>Open</span>
         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
       </div>
@@ -132,7 +132,7 @@ function HrmPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.05 }}
-          className="flex items-center gap-1 p-1 rounded-xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] w-fit"
+          className="flex items-center gap-1 p-1 rounded-xl bg-[var(--ops-hover-bg)] border border-[var(--ops-border)] w-fit"
         >
           {hrmTabs.map((tab) => {
             const isActive = activeTab === tab.key;
@@ -143,14 +143,14 @@ function HrmPageInner() {
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-[rgba(255,255,255,0.08)] text-[#f5f5f5] shadow-sm'
-                    : 'text-[rgba(245,245,245,0.4)] hover:text-[rgba(245,245,245,0.7)]'
+                    ? 'bg-[var(--ops-hover-bg)] text-[var(--ops-text)] shadow-sm'
+                    : 'text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)]'
                 )}
               >
                 {tab.icons.map((Icon, i) => (
                   <Icon key={i} className={cn(
                     'w-3.5 h-3.5',
-                    isActive ? 'text-[#cc5c37]' : ''
+                    isActive ? 'text-[var(--ops-accent)]' : ''
                   )} />
                 ))}
                 <span>{tab.label}</span>

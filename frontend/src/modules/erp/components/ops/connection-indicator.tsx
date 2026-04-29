@@ -36,13 +36,13 @@ export function ConnectionIndicator() {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-default select-none">
+        <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg hover:bg-[var(--ops-hover-bg)] transition-colors cursor-default select-none">
           {/* Status dot */}
           <span className="relative flex items-center justify-center">
             <motion.span
               className={cn(
                 'inline-block w-2 h-2 rounded-full',
-                isOnline ? 'bg-emerald-400' : 'bg-red-400'
+                isOnline ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-red-500 dark:bg-red-400'
               )}
               animate={
                 isOnline
@@ -60,7 +60,7 @@ export function ConnectionIndicator() {
               {pendingUpdates > 0 && (
                 <motion.span
                   key="pulse"
-                  className="absolute inset-0 w-2 h-2 rounded-full bg-emerald-400"
+                  className="absolute inset-0 w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"
                   initial={{ scale: 1, opacity: 0.6 }}
                   animate={{ scale: 2.5, opacity: 0 }}
                   exit={{ opacity: 0 }}
@@ -75,8 +75,8 @@ export function ConnectionIndicator() {
             className={cn(
               'text-[11px] font-medium leading-none hidden sm:inline',
               isOnline
-                ? 'text-emerald-400'
-                : 'text-red-400'
+                ? 'text-emerald-500 dark:text-emerald-400'
+                : 'text-red-500 dark:text-red-400'
             )}
           >
             {isOnline ? 'Connected' : 'Offline'}
@@ -90,7 +90,7 @@ export function ConnectionIndicator() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.8, x: 4 }}
                 transition={{ duration: 0.2 }}
-                className="hidden md:inline-flex items-center gap-1 ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400"
+                className="hidden md:inline-flex items-center gap-1 ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-500 dark:text-emerald-400"
               >
                 <motion.span
                   animate={{ scale: [1, 1.2, 1] }}
@@ -106,13 +106,13 @@ export function ConnectionIndicator() {
       </TooltipTrigger>
       <TooltipContent
         side="bottom"
-        className="bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-2 text-[12px] text-[rgba(245,245,245,0.8)]"
+        className="bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-lg px-3 py-2 text-[12px] text-[var(--ops-text)]"
       >
         <div className="flex flex-col gap-1">
           <span>
             {isOnline ? '🟢 Connected' : '🔴 Offline'}
           </span>
-          <span className="text-[rgba(245,245,245,0.45)]">
+          <span className="text-[var(--ops-text-muted)]">
             {syncLabel}
           </span>
         </div>

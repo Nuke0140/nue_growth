@@ -15,10 +15,10 @@ import { mockWorkload, mockEmployees } from '@/modules/erp/data/mock-data';
 import type { WorkloadStatus } from '@/modules/erp/types';
 
 const statusConfig: Record<WorkloadStatus, { label: string; className: string; dotClass: string; barColor: string }> = {
-  optimal: { label: 'Optimal', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500', barColor: 'bg-emerald-500' },
+  optimal: { label: 'Optimal', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500', barColor: 'bg-emerald-500' },
   'under-utilized': { label: 'Under-utilized', className: 'bg-blue-500/15 text-blue-400 border-blue-500/20', dotClass: 'bg-blue-500', barColor: 'bg-blue-500' },
-  overloaded: { label: 'Overloaded', className: 'bg-red-500/15 text-red-400 border-red-500/20', dotClass: 'bg-red-500', barColor: 'bg-red-500' },
-  'at-capacity': { label: 'At Capacity', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500', barColor: 'bg-amber-500' },
+  overloaded: { label: 'Overloaded', className: 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20', dotClass: 'bg-red-500', barColor: 'bg-red-500' },
+  'at-capacity': { label: 'At Capacity', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500', barColor: 'bg-amber-500' },
 };
 
 function getEmployee(id: string) {
@@ -83,8 +83,8 @@ function WorkloadPageInner() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Total Resources', value: stats.total, icon: Users, color: 'text-blue-400' },
-            { label: 'Optimal', value: stats.optimal, icon: TrendingUp, color: 'text-emerald-400' },
-            { label: 'Overloaded', value: stats.overloaded, icon: AlertTriangle, color: 'text-red-400' },
+            { label: 'Optimal', value: stats.optimal, icon: TrendingUp, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Overloaded', value: stats.overloaded, icon: AlertTriangle, color: 'text-red-500 dark:text-red-400' },
             { label: 'Under-utilized', value: stats.underUtilized, icon: Info, color: 'text-blue-400' },
           ].map((stat, i) => (
             <motion.div
@@ -132,7 +132,7 @@ function WorkloadPageInner() {
                       {w.employee!.name.split(' ')[0]}
                     </span>
                     {isOverloaded && (
-                      <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />
                     )}
                     {isIdle && (
                       <Info className="w-3.5 h-3.5 text-blue-400 shrink-0" />
@@ -151,7 +151,7 @@ function WorkloadPageInner() {
                     </div>
                   </div>
                   <div className="w-[70px] shrink-0 text-right">
-                    <span className={cn('text-xs font-bold', isOverloaded ? 'text-red-400' : isIdle ? 'text-blue-400' : isDark ? 'text-white/60' : 'text-black/60')}>
+                    <span className={cn('text-xs font-bold', isOverloaded ? 'text-red-500 dark:text-red-400' : isIdle ? 'text-blue-400' : isDark ? 'text-white/60' : 'text-black/60')}>
                       {w.allocation}%
                     </span>
                   </div>
@@ -282,7 +282,7 @@ function WorkloadPageInner() {
                   <span className="text-sm font-medium">{w.employee!.name}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={cn('text-sm font-bold', w.overtime >= 8 ? 'text-red-400' : 'text-amber-400')}>
+                  <span className={cn('text-sm font-bold', w.overtime >= 8 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>
                     +{w.overtime}h
                   </span>
                   <Badge variant="outline" className="text-[10px]">{w.projects.length} projects</Badge>

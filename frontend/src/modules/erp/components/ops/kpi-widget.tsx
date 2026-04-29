@@ -19,9 +19,9 @@ interface KpiWidgetProps {
 
 const colorMap = {
   accent: {
-    bg: 'rgba(204, 92, 55, 0.1)',
-    text: '#cc5c37',
-    iconBg: 'rgba(204, 92, 55, 0.12)',
+    bg: 'var(--ops-accent-light)',
+    text: 'var(--ops-accent)',
+    iconBg: 'var(--ops-accent-light)',
   },
   success: {
     bg: 'rgba(52, 211, 153, 0.1)',

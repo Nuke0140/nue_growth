@@ -372,7 +372,7 @@ function EmployeeDetailPageInner() {
                   <span className="text-xs font-medium" style={{ color: 'var(--ops-text-muted)' }}>
                     {stat.label}
                   </span>
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                     <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
                   </div>
                 </div>
@@ -392,7 +392,7 @@ function EmployeeDetailPageInner() {
         >
           <TabsList
             className="w-full flex overflow-x-auto gap-1 p-1 rounded-xl h-auto"
-            style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+            style={{ backgroundColor: 'var(--ops-hover-bg)' }}
           >
             {tabs.map((tab) => (
               <TabsTrigger
@@ -401,7 +401,7 @@ function EmployeeDetailPageInner() {
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors data-[state=active]:text-white data-[state=active]:shadow-sm"
                 style={{
                   backgroundColor:
-                    activeTab === tab.key ? 'rgba(255,255,255,0.08)' : 'transparent',
+                    activeTab === tab.key ? 'var(--ops-hover-bg)' : 'transparent',
                   color:
                     activeTab === tab.key ? 'var(--ops-text)' : 'var(--ops-text-muted)',
                 }}
@@ -463,7 +463,7 @@ function EmployeeDetailPageInner() {
                         { icon: Briefcase, label: 'Department', value: employee.department },
                       ].map((item) => (
                         <div key={item.label} className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                             <item.icon className="w-4 h-4" style={{ color: 'var(--ops-text-muted)' }} />
                           </div>
                           <div>
@@ -487,7 +487,7 @@ function EmployeeDetailPageInner() {
                         <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>Productivity Score</span>
                         <span className="text-xs font-bold" style={{ color: prodColor }}>{employee.productivityScore}%</span>
                       </div>
-                      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                         <div
                           className="h-full rounded-full transition-all"
                           style={{ width: `${employee.productivityScore}%`, backgroundColor: prodColor }}
@@ -495,11 +495,11 @@ function EmployeeDetailPageInner() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 pt-2">
-                      <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
                         <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>SLA Score</p>
                         <p className="text-sm font-bold" style={{ color: 'var(--ops-info)' }}>96%</p>
                       </div>
-                      <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--ops-border)' }}>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
                         <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>Task Completion</p>
                         <p className="text-sm font-bold" style={{ color: 'var(--ops-success)' }}>95%</p>
                       </div>
@@ -529,7 +529,7 @@ function EmployeeDetailPageInner() {
                             key={i}
                             className="rounded-xl p-3 space-y-2"
                             style={{
-                              backgroundColor: 'rgba(255,255,255,0.02)',
+                              backgroundColor: 'var(--ops-hover-bg)',
                               border: '1px solid var(--ops-border)',
                             }}
                           >
@@ -541,7 +541,7 @@ function EmployeeDetailPageInner() {
                                 {proj.progress}%
                               </span>
                             </div>
-                            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                               <div
                                 className="h-full rounded-full"
                                 style={{ width: `${proj.progress}%`, backgroundColor: 'var(--ops-accent)' }}
@@ -980,7 +980,7 @@ function EmployeeDetailPageInner() {
                     placeholder="Type a quick note about this employee..."
                     className="ops-input flex-1 px-3 py-2 text-sm"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      backgroundColor: 'var(--ops-hover-bg)',
                       border: '1px solid var(--ops-border)',
                       color: 'var(--ops-text)',
                       outline: 'none',
@@ -1021,7 +1021,7 @@ function EmployeeDetailPageInner() {
                   rows={4}
                   className="ops-input w-full px-3 py-2 text-sm resize-none"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--ops-hover-bg)',
                     border: '1px solid var(--ops-border)',
                     color: 'var(--ops-text)',
                     outline: 'none',
@@ -1070,7 +1070,7 @@ function EmployeeDetailPageInner() {
                         className="ops-card p-4 space-y-2"
                         style={{
                           borderLeft: `3px solid ${
-                            note.type === 'manager' ? 'var(--ops-accent)' : 'rgba(255,255,255,0.1)'
+                            note.type === 'manager' ? 'var(--ops-accent)' : 'var(--ops-hover-bg)'
                           }`,
                         }}
                       >
@@ -1082,7 +1082,7 @@ function EmployeeDetailPageInner() {
                                 style={{
                                   backgroundColor: note.type === 'manager'
                                     ? 'var(--ops-accent-light)'
-                                    : 'rgba(255,255,255,0.06)',
+                                    : 'var(--ops-hover-bg)',
                                   color: note.type === 'manager'
                                     ? 'var(--ops-accent)'
                                     : 'var(--ops-text-muted)',

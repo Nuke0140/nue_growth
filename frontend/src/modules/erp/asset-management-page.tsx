@@ -64,9 +64,9 @@ function getWarrantyStatus(endDate: string) {
   const now = new Date();
   const end = new Date(endDate);
   const daysLeft = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  if (daysLeft < 0) return { label: 'Expired', color: 'text-red-400' };
-  if (daysLeft <= 30) return { label: `${daysLeft}d left`, color: 'text-amber-400' };
-  return { label: `${daysLeft}d left`, color: 'text-emerald-400' };
+  if (daysLeft < 0) return { label: 'Expired', color: 'text-red-500 dark:text-red-400' };
+  if (daysLeft <= 30) return { label: `${daysLeft}d left`, color: 'text-amber-500 dark:text-amber-400' };
+  return { label: `${daysLeft}d left`, color: 'text-emerald-500 dark:text-emerald-400' };
 }
 
 function formatCurrency(val: number) {
@@ -232,8 +232,8 @@ function AssetManagementPageInner() {
                         <TableCell className="hidden lg:table-cell px-3">
                           {asset.issueLogs.length > 0 ? (
                             <div className="flex items-center gap-1">
-                              <FileWarning className={cn('w-3.5 h-3.5', unresolvedIssues > 0 ? 'text-red-400' : (isDark ? 'text-white/30' : 'text-black/30'))} />
-                              <span className={cn('text-xs', unresolvedIssues > 0 ? 'text-red-400 font-medium' : (isDark ? 'text-white/50' : 'text-black/50'))}>{asset.issueLogs.length}</span>
+                              <FileWarning className={cn('w-3.5 h-3.5', unresolvedIssues > 0 ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/30' : 'text-black/30'))} />
+                              <span className={cn('text-xs', unresolvedIssues > 0 ? 'text-red-500 dark:text-red-400 font-medium' : (isDark ? 'text-white/50' : 'text-black/50'))}>{asset.issueLogs.length}</span>
                             </div>
                           ) : (
                             <span className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>—</span>

@@ -152,7 +152,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
         {/* Spotlight overlay */}
         <div
           className="fixed inset-0 z-[90] pointer-events-none"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
+          style={{ backgroundColor: 'var(--ops-overlay)' }}
         />
 
         {/* Target highlight ring */}
@@ -164,7 +164,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
               left: targetRef.current.getBoundingClientRect().left - 6,
               width: targetRef.current.getBoundingClientRect().width + 12,
               height: targetRef.current.getBoundingClientRect().height + 12,
-              borderColor: '#cc5c37',
+              borderColor: 'var(--ops-accent)',
               boxShadow: '0 0 0 4px rgba(204, 92, 55, 0.2), 0 0 30px rgba(204, 92, 55, 0.15)',
               transition: 'all 0.3s ease',
             }}
@@ -185,16 +185,16 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -5 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="bg-[#222325] border border-[rgba(255,255,255,0.08)] rounded-xl shadow-2xl overflow-hidden"
+            className="bg-[var(--ops-card-bg)] border border-[var(--ops-border-strong)] rounded-xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 pt-4 pb-2">
-              <span className="text-[11px] font-semibold text-[rgba(245,245,245,0.35)]">
+              <span className="text-[11px] font-semibold text-[var(--ops-text-muted)]">
                 Step {currentStep + 1} of {totalSteps}
               </span>
               <button
                 onClick={onSkip}
-                className="flex items-center justify-center w-6 h-6 rounded-lg text-[rgba(245,245,245,0.25)] hover:text-[rgba(245,245,245,0.5)] hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)] hover:bg-[var(--ops-hover-bg)] transition-colors"
                 aria-label="Skip tour"
               >
                 <X className="w-3.5 h-3.5" />
@@ -203,24 +203,24 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
 
             {/* Title */}
             <div className="px-4 pb-2">
-              <h3 className="text-sm font-semibold text-[#f5f5f5] leading-snug">
+              <h3 className="text-sm font-semibold text-[var(--ops-text)] leading-snug">
                 {step.title}
               </h3>
-              <p className="text-xs text-[rgba(245,245,245,0.5)] mt-1 leading-relaxed">
+              <p className="text-xs text-[var(--ops-text-secondary)] mt-1 leading-relaxed">
                 {step.description}
               </p>
             </div>
 
             {/* Progress bar */}
             <div className="px-4 pb-3">
-              <div className="h-1 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
+              <div className="h-1 rounded-full bg-[var(--ops-hover-bg)] overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{
                     width: `${((currentStep + 1) / totalSteps) * 100}%`,
                   }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="h-full rounded-full bg-[#cc5c37]"
+                  className="h-full rounded-full bg-[var(--ops-accent)]"
                 />
               </div>
             </div>
@@ -233,9 +233,9 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                     type="checkbox"
                     checked={dontShowAgain}
                     onChange={(e) => setDontShowAgain(e.target.checked)}
-                    className="rounded border-[rgba(255,255,255,0.15)] bg-transparent accent-[#cc5c37]"
+                    className="rounded border-[rgba(255,255,255,0.15)] bg-transparent accent-[var(--ops-accent)]"
                   />
-                  <span className="text-[11px] text-[rgba(245,245,245,0.4)]">
+                  <span className="text-[11px] text-[var(--ops-text-muted)]">
                     Don&apos;t show this tour again
                   </span>
                 </label>
@@ -243,12 +243,12 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
             )}
 
             {/* Actions */}
-            <div className="flex items-center justify-between px-4 py-3 border-t border-[rgba(255,255,255,0.06)]">
+            <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--ops-border)]">
               <div className="flex items-center gap-2">
                 {!isFirstStep && (
                   <button
                     onClick={handlePrev}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[rgba(245,245,245,0.5)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] transition-colors"
                     aria-label="Previous step"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
@@ -260,7 +260,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
               <div className="flex items-center gap-2">
                 <button
                   onClick={onSkip}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[rgba(245,245,245,0.35)] hover:text-[rgba(245,245,245,0.6)] hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)] hover:bg-[var(--ops-hover-bg)] transition-colors"
                   aria-label="Skip tour"
                 >
                   <SkipForward className="w-3 h-3" />
@@ -268,7 +268,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                 </button>
                 <button
                   onClick={handleNext}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#cc5c37] text-white hover:bg-[#d46a44] transition-colors"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--ops-accent)] text-white hover:bg-[var(--ops-accent)]/90 transition-colors"
                   aria-label={isLastStep ? 'Get Started - complete tour' : 'Next step'}
                 >
                   {isLastStep ? 'Get Started' : 'Next'}

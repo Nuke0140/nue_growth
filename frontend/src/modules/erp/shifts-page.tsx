@@ -15,9 +15,9 @@ import { mockShifts } from '@/modules/erp/data/mock-data';
 import type { ShiftRotation } from '@/modules/erp/types';
 
 const rotationConfig: Record<ShiftRotation, { label: string; className: string; dotClass: string }> = {
-  fixed: { label: 'Fixed', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
+  fixed: { label: 'Fixed', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
   rotating: { label: 'Rotating', className: 'bg-blue-500/15 text-blue-400 border-blue-500/20', dotClass: 'bg-blue-500' },
-  flexible: { label: 'Flexible', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
+  flexible: { label: 'Flexible', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
 };
 
 function timeToMinutes(time: string): number {
@@ -90,8 +90,8 @@ function ShiftsPageInner() {
           {[
             { label: 'Total Shifts', value: stats.total, icon: Clock, color: 'text-blue-400' },
             { label: 'Night Shifts', value: stats.nightShifts, icon: Moon, color: 'text-purple-400' },
-            { label: 'Flexible Shifts', value: stats.flexible, icon: Zap, color: 'text-amber-400' },
-            { label: 'Support Coverage', value: stats.supportCoverage, icon: Users, color: 'text-emerald-400' },
+            { label: 'Flexible Shifts', value: stats.flexible, icon: Zap, color: 'text-amber-500 dark:text-amber-400' },
+            { label: 'Support Coverage', value: stats.supportCoverage, icon: Users, color: 'text-emerald-500 dark:text-emerald-400' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}

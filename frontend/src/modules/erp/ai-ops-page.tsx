@@ -75,14 +75,14 @@ const typeLabelMap: Record<AiOpsType, string> = {
 };
 
 const typeColorMap: Record<AiOpsType, string> = {
-  cost_anomaly: 'text-red-400',
-  risk_prediction: 'text-amber-400',
-  optimization: 'text-emerald-400',
-  compliance: 'text-amber-400',
-  resource_alert: 'text-sky-400',
-  delivery_risk: 'text-red-400',
-  revenue_forecast: 'text-emerald-400',
-  vendor_risk: 'text-orange-400',
+  cost_anomaly: 'text-red-500 dark:text-red-400',
+  risk_prediction: 'text-amber-500 dark:text-amber-400',
+  optimization: 'text-emerald-500 dark:text-emerald-400',
+  compliance: 'text-amber-500 dark:text-amber-400',
+  resource_alert: 'text-sky-500 dark:text-sky-400',
+  delivery_risk: 'text-red-500 dark:text-red-400',
+  revenue_forecast: 'text-emerald-500 dark:text-emerald-400',
+  vendor_risk: 'text-orange-500 dark:text-orange-400',
 };
 
 // ---- Filter type ----
@@ -110,7 +110,7 @@ function ConfidenceRing({ value, size = 44 }: { value: number; size?: number }) 
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="rgba(255,255,255,0.06)"
+          stroke="var(--ops-border)"
           strokeWidth="3"
         />
         <motion.circle
@@ -128,7 +128,7 @@ function ConfidenceRing({ value, size = 44 }: { value: number; size?: number }) 
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-[10px] font-bold text-[#f5f5f5]">{value}%</span>
+        <span className="text-[10px] font-bold text-[var(--ops-text)]">{value}%</span>
       </div>
     </div>
   );
@@ -142,21 +142,21 @@ function StatMiniCard({ label, value, icon: Icon, accent }: { label: string; val
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'ops-card rounded-2xl p-4 border',
-        accent ? 'border-red-500/20' : 'border-[rgba(255,255,255,0.06)]'
+        accent ? 'border-red-500/20' : 'border-[var(--ops-border)]'
       )}
     >
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-medium text-[rgba(245,245,245,0.4)] uppercase tracking-wider">
+        <span className="text-[11px] font-medium text-[var(--ops-text-muted)] uppercase tracking-wider">
           {label}
         </span>
         <div className={cn(
           'w-8 h-8 rounded-xl flex items-center justify-center',
-          accent ? 'bg-red-500/15' : 'bg-[rgba(255,255,255,0.04)]'
+          accent ? 'bg-red-500/15' : 'bg-[var(--ops-hover-bg)]'
         )}>
-          <Icon className={cn('w-4 h-4', accent ? 'text-red-400' : 'text-[rgba(245,245,245,0.4)]')} />
+          <Icon className={cn('w-4 h-4', accent ? 'text-red-500 dark:text-red-400' : 'text-[var(--ops-text-muted)]')} />
         </div>
       </div>
-      <p className={cn('text-2xl font-bold', accent && 'text-red-400')}>{value}</p>
+      <p className={cn('text-2xl font-bold', accent && 'text-red-500 dark:text-red-400')}>{value}</p>
     </motion.div>
   );
 }
@@ -191,8 +191,8 @@ function AiOpsPageInner() {
 
   return (
     <PageShell title="AI Operations" icon={Brain} headerRight={
-      <div className="flex items-center gap-1 p-1 rounded-xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)]">
-        <Filter className="w-3.5 h-3.5 text-[rgba(245,245,245,0.3)] ml-2 mr-1" />
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--ops-hover-bg)] border border-[var(--ops-border)]">
+        <Filter className="w-3.5 h-3.5 text-[var(--ops-text-muted)] ml-2 mr-1" />
         {filterOptions.map((f) => (
           <button
             key={f.key}
@@ -200,14 +200,14 @@ function AiOpsPageInner() {
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
               activeFilter === f.key
-                ? 'bg-[rgba(255,255,255,0.08)] text-[#f5f5f5] shadow-sm'
-                : 'text-[rgba(245,245,245,0.4)] hover:text-[rgba(245,245,245,0.7)]'
+                ? 'bg-[var(--ops-hover-bg)] text-[var(--ops-text)] shadow-sm'
+                : 'text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)]'
             )}
           >
             {f.label}
             <span className={cn(
               'px-1.5 py-0.5 rounded text-[10px] font-bold',
-              activeFilter === f.key ? 'bg-[rgba(255,255,255,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
+              activeFilter === f.key ? 'bg-[var(--ops-hover-bg)]' : 'bg-[var(--ops-hover-bg)]'
             )}>
               {filterCounts[f.key]}
             </span>
@@ -257,7 +257,7 @@ function AiOpsPageInner() {
                   {/* Card header row */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[rgba(255,255,255,0.04)] flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--ops-hover-bg)] flex items-center justify-center shrink-0">
                         <TypeIcon className={cn('w-5 h-5', typeColorMap[insight.type])} />
                       </div>
                       <div className="min-w-0">
@@ -280,7 +280,7 @@ function AiOpsPageInner() {
                           </span>
                         </div>
                         <h3 className={cn(
-                          'text-[15px] font-semibold leading-snug text-[#f5f5f5]',
+                          'text-[15px] font-semibold leading-snug text-[var(--ops-text)]',
                           insight.severity === 'critical' && 'text-red-300'
                         )}>
                           {insight.title}
@@ -292,7 +292,7 @@ function AiOpsPageInner() {
                   </div>
 
                   {/* Description */}
-                  <p className="text-[13px] leading-relaxed text-[rgba(245,245,245,0.55)]">
+                  <p className="text-[13px] leading-relaxed text-[var(--ops-text-secondary)]">
                     {insight.description}
                   </p>
 
@@ -301,7 +301,7 @@ function AiOpsPageInner() {
                     {insight.affectedEntities.map((entity) => (
                       <span
                         key={entity}
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[rgba(255,255,255,0.04)] text-[rgba(245,245,245,0.5)] border border-[rgba(255,255,255,0.06)]"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)] border border-[var(--ops-border)]"
                       >
                         {entity}
                       </span>
@@ -309,21 +309,21 @@ function AiOpsPageInner() {
                   </div>
 
                   {/* Recommendation */}
-                  <div className="rounded-xl bg-[rgba(204,92,55,0.05)] border border-[rgba(204,92,55,0.12)] p-3 space-y-1">
+                  <div className="rounded-xl bg-[var(--ops-accent-light)] border border-[rgba(204,92,55,0.12)] p-3 space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <Lightbulb className="w-3.5 h-3.5 text-[#cc5c37]" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#cc5c37]">
+                      <Lightbulb className="w-3.5 h-3.5 text-[var(--ops-accent)]" />
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--ops-accent)]">
                         Recommendation
                       </span>
                     </div>
-                    <p className="text-[12px] leading-relaxed text-[rgba(245,245,245,0.6)]">
+                    <p className="text-[12px] leading-relaxed text-[var(--ops-text-secondary)]">
                       {insight.recommendation}
                     </p>
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between pt-3 border-t border-[rgba(255,255,255,0.04)]">
-                    <span className="text-[11px] text-[rgba(245,245,245,0.25)]">
+                  <div className="flex items-center justify-between pt-3 border-t border-[var(--ops-border)]">
+                    <span className="text-[11px] text-[var(--ops-text-disabled)]">
                       Generated just now
                     </span>
                     <button
@@ -340,7 +340,7 @@ function AiOpsPageInner() {
                       }}
                       className={cn(
                         'h-8 px-4 rounded-lg flex items-center gap-1.5 text-[12px] font-medium transition-all duration-200',
-                        'bg-[#cc5c37] text-white hover:bg-[#cc5c37]/90 shadow-sm shadow-[#cc5c37]/20'
+                        'bg-[var(--ops-accent)] text-white hover:bg-[var(--ops-accent)]/90 shadow-sm shadow-[var(--ops-accent)]/20'
                       )}
                     >
                       Take Action
@@ -358,13 +358,13 @@ function AiOpsPageInner() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="ops-card rounded-2xl border border-[rgba(255,255,255,0.06)] py-20 flex flex-col items-center justify-center"
+            className="ops-card rounded-2xl border border-[var(--ops-border)] py-20 flex flex-col items-center justify-center"
           >
-            <div className="w-14 h-14 rounded-2xl bg-[rgba(255,255,255,0.03)] flex items-center justify-center mb-4">
-              <Sparkles className="w-6 h-6 text-[rgba(245,245,245,0.15)]" />
+            <div className="w-14 h-14 rounded-2xl bg-[var(--ops-hover-bg)] flex items-center justify-center mb-4">
+              <Sparkles className="w-6 h-6 text-[var(--ops-text-disabled)]" />
             </div>
-            <p className="text-sm font-medium text-[rgba(245,245,245,0.4)]">No insights for this filter</p>
-            <p className="text-xs text-[rgba(245,245,245,0.25)] mt-1">Try selecting a different severity level</p>
+            <p className="text-sm font-medium text-[var(--ops-text-muted)]">No insights for this filter</p>
+            <p className="text-xs text-[var(--ops-text-disabled)] mt-1">Try selecting a different severity level</p>
           </motion.div>
         )}
       </div>

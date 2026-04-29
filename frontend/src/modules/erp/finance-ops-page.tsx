@@ -39,13 +39,13 @@ function FinanceOpsPageInner() {
   const maxTrendRevenue = Math.max(...monthlyTrend.map(m => m.revenue));
 
   const kpiStats = useMemo(() => [
-    { label: 'Receivables', value: formatINR(data.receivables), icon: ArrowDownRight, color: 'text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: '+12% vs last month', trendUp: false },
-    { label: 'Payables', value: formatINR(data.payables), icon: ArrowUpRight, color: 'text-red-400', bgColor: isDark ? 'bg-red-500/10' : 'bg-red-50', trend: '-5% vs last month', trendUp: true },
-    { label: 'Cash Flow', value: formatINR(data.cashFlow), icon: TrendingUp, color: 'text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+18% growth', trendUp: true },
-    { label: 'Budget Variance', value: `${((data.budgetVariance / (data.receivables + data.monthlyProfit)) * 100).toFixed(1)}%`, icon: Activity, color: data.budgetVariance < 0 ? 'text-red-400' : 'text-emerald-400', bgColor: data.budgetVariance < 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'), trend: data.budgetVariance < 0 ? 'Over budget' : 'Under budget', trendUp: data.budgetVariance >= 0 },
+    { label: 'Receivables', value: formatINR(data.receivables), icon: ArrowDownRight, color: 'text-amber-500 dark:text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: '+12% vs last month', trendUp: false },
+    { label: 'Payables', value: formatINR(data.payables), icon: ArrowUpRight, color: 'text-red-500 dark:text-red-400', bgColor: isDark ? 'bg-red-500/10' : 'bg-red-50', trend: '-5% vs last month', trendUp: true },
+    { label: 'Cash Flow', value: formatINR(data.cashFlow), icon: TrendingUp, color: 'text-emerald-500 dark:text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+18% growth', trendUp: true },
+    { label: 'Budget Variance', value: `${((data.budgetVariance / (data.receivables + data.monthlyProfit)) * 100).toFixed(1)}%`, icon: Activity, color: data.budgetVariance < 0 ? 'text-red-500 dark:text-red-400' : 'text-emerald-500 dark:text-emerald-400', bgColor: data.budgetVariance < 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'), trend: data.budgetVariance < 0 ? 'Over budget' : 'Under budget', trendUp: data.budgetVariance >= 0 },
     { label: 'Burn Rate', value: `${formatINR(data.burnRate)}/mo`, icon: Flame, color: 'text-orange-400', bgColor: isDark ? 'bg-orange-500/10' : 'bg-orange-50', trend: 'Across all projects', trendUp: null },
-    { label: 'Vendor Payouts Due', value: formatINR(data.vendorPayouts), icon: Wallet, color: 'text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: 'Due in next 15 days', trendUp: null },
-    { label: 'Monthly Profit', value: formatINR(data.monthlyProfit), icon: TrendingUp, color: 'text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+22% vs March', trendUp: true },
+    { label: 'Vendor Payouts Due', value: formatINR(data.vendorPayouts), icon: Wallet, color: 'text-amber-500 dark:text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: 'Due in next 15 days', trendUp: null },
+    { label: 'Monthly Profit', value: formatINR(data.monthlyProfit), icon: TrendingUp, color: 'text-emerald-500 dark:text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+22% vs March', trendUp: true },
     { label: 'Cost Centers', value: `${data.projectCostCenters.length}`, icon: Building2, color: 'text-sky-400', bgColor: isDark ? 'bg-sky-500/10' : 'bg-sky-50', trend: '6 active projects', trendUp: null },
   ], [data, isDark]);
 
@@ -71,7 +71,7 @@ function FinanceOpsPageInner() {
               </div>
               <p className="text-xl font-bold tracking-tight">{stat.value}</p>
               {stat.trend && (
-                <p className={cn('text-[10px] mt-1 flex items-center gap-1', stat.trendUp === true ? 'text-emerald-400' : stat.trendUp === false ? 'text-red-400' : (isDark ? 'text-white/25' : 'text-black/25'))}>
+                <p className={cn('text-[10px] mt-1 flex items-center gap-1', stat.trendUp === true ? 'text-emerald-500 dark:text-emerald-400' : stat.trendUp === false ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/25' : 'text-black/25'))}>
                   {stat.trendUp === true && <TrendingUp className="w-3 h-3" />}
                   {stat.trendUp === false && <TrendingDown className="w-3 h-3" />}
                   {stat.trend}
@@ -132,8 +132,8 @@ function FinanceOpsPageInner() {
                       <TooltipContent>
                         <div className="text-xs space-y-1">
                           <p className="font-semibold">{m.month} 2026</p>
-                          <p className="text-emerald-400">Revenue: {formatINR(m.revenue)}</p>
-                          <p className="text-red-400">Expense: {formatINR(m.expense)}</p>
+                          <p className="text-emerald-500 dark:text-emerald-400">Revenue: {formatINR(m.revenue)}</p>
+                          <p className="text-red-500 dark:text-red-400">Expense: {formatINR(m.expense)}</p>
                           <p className="font-semibold">Profit: {formatINR(profit)}</p>
                         </div>
                       </TooltipContent>
@@ -179,7 +179,7 @@ function FinanceOpsPageInner() {
                   const spentPct = cc.budget > 0 ? Math.round((cc.spent / cc.budget) * 100) : 0;
                   const variancePct = cc.budget > 0 ? Math.round((cc.variance / cc.budget) * 100) : 0;
                   const isOverBudget = cc.variance < 0;
-                  const varianceColor = variancePct > 10 ? 'text-red-400' : variancePct < -10 ? 'text-red-400' : variancePct < 5 && variancePct > 0 ? 'text-emerald-400' : isOverBudget ? 'text-red-400' : 'text-amber-400';
+                  const varianceColor = variancePct > 10 ? 'text-red-500 dark:text-red-400' : variancePct < -10 ? 'text-red-500 dark:text-red-400' : variancePct < 5 && variancePct > 0 ? 'text-emerald-500 dark:text-emerald-400' : isOverBudget ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400';
                   const status = isOverBudget ? 'over-budget' : spentPct > 80 ? 'caution' : 'healthy';
                   return (
                     <motion.tr
@@ -228,17 +228,17 @@ function FinanceOpsPageInner() {
                       <td className="px-3 py-3">
                         <div className="flex items-center gap-1.5">
                           {status === 'healthy' ? (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200')}>
+                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200')}>
                               <CheckCircle2 className="w-3 h-3 mr-0.5" />
                               Healthy
                             </Badge>
                           ) : status === 'caution' ? (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200')}>
+                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200')}>
                               <AlertTriangle className="w-3 h-3 mr-0.5" />
                               Caution
                             </Badge>
                           ) : (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200')}>
+                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200')}>
                               <Clock className="w-3 h-3 mr-0.5" />
                               Over Budget
                             </Badge>
@@ -280,7 +280,7 @@ function FinanceOpsPageInner() {
             className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Net Variance</p>
-            <p className={cn('text-lg font-bold', data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? 'text-emerald-400' : 'text-red-400')}>
+            <p className={cn('text-lg font-bold', data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? 'text-emerald-500 dark:text-emerald-400' : 'text-red-500 dark:text-red-400')}>
               {data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? '+' : ''}{formatINR(data.projectCostCenters.reduce((s, c) => s + c.variance, 0))}
             </p>
           </motion.div>
@@ -291,7 +291,7 @@ function FinanceOpsPageInner() {
             className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Projects at Risk</p>
-            <p className="text-lg font-bold text-red-400">
+            <p className="text-lg font-bold text-red-500 dark:text-red-400">
               {data.projectCostCenters.filter(c => c.variance < 0).length}
             </p>
           </motion.div>

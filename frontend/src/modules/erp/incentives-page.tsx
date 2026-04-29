@@ -22,17 +22,17 @@ import type { IncentiveType, IncentiveStatus } from '@/modules/erp/types';
 type FilterKey = 'all' | IncentiveStatus;
 
 const typeConfig: Record<IncentiveType, { label: string; className: string }> = {
-  performance: { label: 'Performance', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' },
+  performance: { label: 'Performance', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20' },
   referral: { label: 'Referral', className: 'bg-blue-500/15 text-blue-400 border-blue-500/20' },
   'project-bonus': { label: 'Project Bonus', className: 'bg-purple-500/15 text-purple-400 border-purple-500/20' },
-  'spot-award': { label: 'Spot Award', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20' },
+  'spot-award': { label: 'Spot Award', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20' },
   retention: { label: 'Retention', className: 'bg-teal-500/15 text-teal-400 border-teal-500/20' },
 };
 
 const statusConfig: Record<IncentiveStatus, { label: string; className: string; dotClass: string }> = {
-  pending: { label: 'Pending', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
+  pending: { label: 'Pending', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
   approved: { label: 'Approved', className: 'bg-blue-500/15 text-blue-400 border-blue-500/20', dotClass: 'bg-blue-500' },
-  disbursed: { label: 'Disbursed', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
+  disbursed: { label: 'Disbursed', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
 };
 
 function getEmployee(id: string) {
@@ -142,8 +142,8 @@ function IncentivesPageInner() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total This Month', value: formatCurrency(stats.total), icon: IndianRupee, color: 'text-emerald-400' },
-            { label: 'Pending', value: formatCurrency(stats.pending), icon: Clock, color: 'text-amber-400' },
+            { label: 'Total This Month', value: formatCurrency(stats.total), icon: IndianRupee, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Pending', value: formatCurrency(stats.pending), icon: Clock, color: 'text-amber-500 dark:text-amber-400' },
             { label: 'Disbursed', value: formatCurrency(stats.disbursed), icon: CheckCircle2, color: 'text-blue-400' },
             { label: 'Avg Per Employee', value: formatCurrency(stats.avgPerEmployee), icon: TrendingUp, color: 'text-purple-400' },
           ].map((stat, i) => (
@@ -178,12 +178,12 @@ function IncentivesPageInner() {
                 <table className="w-full">
                   <thead>
                     <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                      <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30">Employee</th>
-                      <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30">Type</th>
-                      <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30">Amount</th>
-                      <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30 hidden md:table-cell">Month</th>
-                      <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30 hidden lg:table-cell">Description</th>
-                      <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider text-white/30">Status</th>
+                      <th className={cn('text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Employee</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Type</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Amount</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden md:table-cell', isDark ? 'text-white/30' : 'text-black/30')}>Month</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell', isDark ? 'text-white/30' : 'text-black/30')}>Description</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Status</th>
                       <th className="w-[40px]" />
                     </tr>
                   </thead>

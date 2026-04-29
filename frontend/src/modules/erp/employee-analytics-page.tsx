@@ -82,16 +82,16 @@ function EmployeeAnalyticsPageInner() {
   }, []);
 
   const riskConfig: Record<string, { label: string; className: string; dotClass: string }> = {
-    low: { label: 'Low', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
-    medium: { label: 'Medium', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
-    high: { label: 'High', className: 'bg-red-500/15 text-red-400 border-red-500/20', dotClass: 'bg-red-500' },
+    low: { label: 'Low', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500' },
+    medium: { label: 'Medium', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500' },
+    high: { label: 'High', className: 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20', dotClass: 'bg-red-500' },
     critical: { label: 'Critical', className: 'bg-red-600/15 text-red-500 border-red-600/20', dotClass: 'bg-red-600' },
   };
 
   const priorityConfig: Record<string, { label: string; className: string }> = {
     low: { label: 'Low', className: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20' },
-    medium: { label: 'Medium', className: 'bg-amber-500/15 text-amber-400 border-amber-500/20' },
-    high: { label: 'High', className: 'bg-red-500/15 text-red-400 border-red-500/20' },
+    medium: { label: 'Medium', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20' },
+    high: { label: 'High', className: 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20' },
   };
 
   const maxTrend = Math.max(...productivityTrend.map(p => p.score));
@@ -109,9 +109,9 @@ function EmployeeAnalyticsPageInner() {
         {/* 6 KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
           {[
-            { label: 'Attrition Risk', value: kpis.attritionRisk, icon: AlertTriangle, color: 'text-red-400', sub: 'employees flagged' },
-            { label: 'Avg Productivity', value: `${kpis.avgProductivity}%`, icon: Target, color: 'text-emerald-400', sub: 'across company' },
-            { label: 'Burnout Risk', value: kpis.burnoutRisk, icon: Flame, color: 'text-amber-400', sub: 'need attention' },
+            { label: 'Attrition Risk', value: kpis.attritionRisk, icon: AlertTriangle, color: 'text-red-500 dark:text-red-400', sub: 'employees flagged' },
+            { label: 'Avg Productivity', value: `${kpis.avgProductivity}%`, icon: Target, color: 'text-emerald-500 dark:text-emerald-400', sub: 'across company' },
+            { label: 'Burnout Risk', value: kpis.burnoutRisk, icon: Flame, color: 'text-amber-500 dark:text-amber-400', sub: 'need attention' },
             { label: 'Hiring Forecast', value: kpis.hiringForecast, icon: UserPlus, color: 'text-blue-400', sub: 'open positions' },
             { label: 'Engagement Score', value: `${kpis.engagementScore}%`, icon: Heart, color: 'text-pink-400', sub: 'employee survey' },
             { label: 'Training Done', value: `${kpis.trainingCompletion}%`, icon: GraduationCap, color: 'text-teal-400', sub: 'completion rate' },
@@ -148,7 +148,7 @@ function EmployeeAnalyticsPageInner() {
             >
               <div className={cn('px-5 py-3 border-b flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <h3 className="text-sm font-bold flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-red-400" /> Attrition Risk Analysis
+                  <Shield className="w-4 h-4 text-red-500 dark:text-red-400" /> Attrition Risk Analysis
                 </h3>
                 <Badge variant="outline" className="text-[10px]">{attritionData.length} flagged</Badge>
               </div>
@@ -176,7 +176,7 @@ function EmployeeAnalyticsPageInner() {
                       </div>
                       <div className="flex items-center gap-4 mb-2">
                         <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
-                          Last Rating: <span className={cn('font-medium', d.lastRating >= 85 ? 'text-emerald-400' : 'text-amber-400')}>{d.lastRating}%</span>
+                          Last Rating: <span className={cn('font-medium', d.lastRating >= 85 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400')}>{d.lastRating}%</span>
                         </span>
                       </div>
                       <div className={cn('rounded-lg p-2.5', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
@@ -200,7 +200,7 @@ function EmployeeAnalyticsPageInner() {
             >
               <div className={cn('px-5 py-3 border-b flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <h3 className="text-sm font-bold flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-amber-400" /> Burnout Risk Assessment
+                  <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Burnout Risk Assessment
                 </h3>
                 <Badge variant="outline" className="text-[10px]">{burnoutData.length} at risk</Badge>
               </div>
@@ -222,11 +222,11 @@ function EmployeeAnalyticsPageInner() {
                       <div className="flex items-center gap-3">
                         <div className="text-center">
                           <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>OT Hours</p>
-                          <p className={cn('text-sm font-bold', d.overtimeHours >= 10 ? 'text-red-400' : 'text-amber-400')}>{d.overtimeHours}h</p>
+                          <p className={cn('text-sm font-bold', d.overtimeHours >= 10 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>{d.overtimeHours}h</p>
                         </div>
                         <div className="text-center">
                           <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Consec. Days</p>
-                          <p className={cn('text-sm font-bold', d.consecutiveDays >= 10 ? 'text-red-400' : 'text-amber-400')}>{d.consecutiveDays}</p>
+                          <p className={cn('text-sm font-bold', d.consecutiveDays >= 10 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>{d.consecutiveDays}</p>
                         </div>
                       </div>
                     </div>
@@ -254,7 +254,7 @@ function EmployeeAnalyticsPageInner() {
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-emerald-400" /> Productivity Trend
+                <TrendingUp className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Productivity Trend
               </h3>
               <div className="flex items-end gap-3 h-36">
                 {productivityTrend.map((pt, i) => (
@@ -269,13 +269,13 @@ function EmployeeAnalyticsPageInner() {
                       />
                     </div>
                     <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{pt.month}</span>
-                    <span className={cn('text-[10px] font-bold', pt.score >= 85 ? 'text-emerald-400' : 'text-amber-400')}>{pt.score}%</span>
+                    <span className={cn('text-[10px] font-bold', pt.score >= 85 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400')}>{pt.score}%</span>
                   </div>
                 ))}
               </div>
               <div className={cn('flex items-center justify-between mt-4 pt-3 border-t', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <TrendingUp className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                   <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
                     +{kpis.avgProductivity - productivityTrend[0].score}% from Oct
                   </span>
@@ -334,7 +334,7 @@ function EmployeeAnalyticsPageInner() {
                         </div>
                         <div className="text-center min-w-[60px]">
                           <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Gap</p>
-                          <p className={cn('text-lg font-bold', gap >= 3 ? 'text-red-400' : 'text-amber-400')}>+{gap}</p>
+                          <p className={cn('text-lg font-bold', gap >= 3 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>+{gap}</p>
                         </div>
                         <div className="text-center min-w-[60px]">
                           <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Timeline</p>
@@ -359,8 +359,8 @@ function EmployeeAnalyticsPageInner() {
               </h3>
               <div className="space-y-2">
                 {[
-                  { icon: TrendingUp, text: 'Productivity improved by 9% over the last 7 months', color: 'text-emerald-400' },
-                  { icon: AlertTriangle, text: `${kpis.burnoutRisk} employees show signs of burnout — proactive intervention recommended`, color: 'text-amber-400' },
+                  { icon: TrendingUp, text: 'Productivity improved by 9% over the last 7 months', color: 'text-emerald-500 dark:text-emerald-400' },
+                  { icon: AlertTriangle, text: `${kpis.burnoutRisk} employees show signs of burnout — proactive intervention recommended`, color: 'text-amber-500 dark:text-amber-400' },
                   { icon: UserPlus, text: `${kpis.hiringForecast} new hires needed in Q2-Q3 to meet project demands`, color: 'text-blue-400' },
                   { icon: Heart, text: 'Employee engagement stable at 82% — focus on recognition programs', color: 'text-pink-400' },
                 ].map((insight, i) => (

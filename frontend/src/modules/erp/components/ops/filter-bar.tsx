@@ -62,8 +62,8 @@ export const FilterBar = React.memo(function FilterBar({
                 className="ops-badge text-[10px] leading-none"
                 style={{
                   backgroundColor: isActive
-                    ? 'rgba(255,255,255,0.2)'
-                    : 'rgba(255,255,255,0.06)',
+                    ? 'var(--ops-text-disabled)'
+                    : 'var(--ops-hover-bg)',
                   color: isActive
                     ? '#ffffff'
                     : 'var(--ops-text-muted)',

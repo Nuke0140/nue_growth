@@ -126,7 +126,7 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
   return (
     <>
       {text.slice(0, idx)}
-      <span className="text-[#cc5c37] font-semibold">{text.slice(idx, idx + q.length)}</span>
+      <span className="text-[var(--ops-accent)] font-semibold">{text.slice(idx, idx + q.length)}</span>
       {text.slice(idx + q.length)}
     </>
   );
@@ -493,7 +493,7 @@ export const CommandPalette = React.memo(function CommandPalette({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -509,8 +509,8 @@ export const CommandPalette = React.memo(function CommandPalette({
             <div
               className="rounded-2xl overflow-hidden shadow-2xl"
               style={{
-                backgroundColor: 'var(--ops-card-bg, #222325)',
-                border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                backgroundColor: 'var(--ops-card-bg)',
+                border: '1px solid var(--ops-border-strong)',
               }}
               role="dialog"
               aria-modal="true"
@@ -519,18 +519,18 @@ export const CommandPalette = React.memo(function CommandPalette({
               {/* Search bar */}
               <div
                 className="flex items-center gap-3 px-4 py-3"
-                style={{ borderBottom: '1px solid var(--ops-border, rgba(255,255,255,0.08))' }}
+                style={{ borderBottom: '1px solid var(--ops-border-strong)' }}
               >
                 {hasQuery ? (
                   <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
                     <Search
                       className="w-5 h-5 absolute"
-                      style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.4))' }}
+                      style={{ color: 'var(--ops-text-muted)' }}
                     />
                     {debouncedQuery !== query && (
                       <motion.div
                         className="absolute inset-0 rounded-full border-2 border-t-transparent"
-                        style={{ borderColor: 'var(--ops-accent, #cc5c37)', borderTopColor: 'transparent' }}
+                        style={{ borderColor: 'var(--ops-accent)', borderTopColor: 'transparent' }}
                         animate={{ rotate: 360 }}
                         transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                       />
@@ -539,7 +539,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                 ) : (
                   <Search
                     className="w-5 h-5 shrink-0"
-                    style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.4))' }}
+                    style={{ color: 'var(--ops-text-muted)' }}
                   />
                 )}
                 <input
@@ -560,14 +560,14 @@ export const CommandPalette = React.memo(function CommandPalette({
                           : 'Type a command or search... (try "create", "approve")'
                   }
                   className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
-                  style={{ color: 'var(--ops-text, #f5f5f5)' }}
+                  style={{ color: 'var(--ops-text)' }}
                 />
                 <kbd
                   className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.06)',
-                    color: 'var(--ops-text-muted, rgba(245,245,245,0.4))',
-                    border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                    backgroundColor: 'var(--ops-hover-bg)',
+                    color: 'var(--ops-text-muted)',
+                    border: '1px solid var(--ops-border-strong)',
                   }}
                 >
                   ESC
@@ -581,17 +581,17 @@ export const CommandPalette = React.memo(function CommandPalette({
                   <div className="flex flex-col items-center justify-center py-10">
                     <Search
                       className="w-8 h-8 mb-3"
-                      style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.2))' }}
+                      style={{ color: 'var(--ops-text-disabled)' }}
                     />
                     <p
                       className="text-sm font-medium"
-                      style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.5))' }}
+                      style={{ color: 'var(--ops-text-secondary)' }}
                     >
                       No results for &ldquo;{debouncedQuery}&rdquo;
                     </p>
                     <p
                       className="text-xs mt-1"
-                      style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
+                      style={{ color: 'var(--ops-text-muted)' }}
                     >
                       Try searching for employees, projects, tasks, or pages
                     </p>
@@ -603,7 +603,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                   <div className="flex flex-col items-center justify-center py-10">
                     <p
                       className="text-sm"
-                      style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.4))' }}
+                      style={{ color: 'var(--ops-text-muted)' }}
                     >
                       No commands available
                     </p>
@@ -620,20 +620,20 @@ export const CommandPalette = React.memo(function CommandPalette({
                         className="px-4 py-1.5 flex items-center justify-between"
                       >
                         <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
-                          style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
+                          style={{ color: 'var(--ops-text-muted)' }}
                         >
                           {HeaderIcon && <HeaderIcon className="w-3 h-3" />}
                           {row.label}
                           {row.label === 'AI Suggests' && (
-                            <Sparkles className="w-3 h-3 text-[#cc5c37]" />
+                            <Sparkles className="w-3 h-3 text-[var(--ops-accent)]" />
                           )}
                         </span>
                         {hasQuery && (
                           <span
                             className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
                             style={{
-                              backgroundColor: 'rgba(255,255,255,0.06)',
-                              color: 'var(--ops-text-muted, rgba(245,245,245,0.35))',
+                              backgroundColor: 'var(--ops-hover-bg)',
+                              color: 'var(--ops-text-muted)',
                             }}
                           >
                             {row.count}
@@ -662,7 +662,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         className="flex items-start gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
                         style={{
                           backgroundColor: isActive
-                            ? 'rgba(204, 92, 55, 0.08)'
+                            ? 'var(--ops-accent-light)'
                             : 'transparent',
                         }}
                       >
@@ -670,16 +670,16 @@ export const CommandPalette = React.memo(function CommandPalette({
                           className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 mt-0.5"
                           style={{
                             backgroundColor: isActive
-                              ? 'rgba(204, 92, 55, 0.15)'
-                              : 'rgba(255,255,255,0.04)',
+                              ? 'var(--ops-accent-light)'
+                              : 'var(--ops-hover-bg)',
                           }}
                         >
                           <Icon
                             className="w-4 h-4"
                             style={{
                               color: isActive
-                                ? 'var(--ops-accent, #cc5c37)'
-                                : 'var(--ops-text-muted, rgba(245,245,245,0.35))',
+                                ? 'var(--ops-accent)'
+                                : 'var(--ops-text-muted)',
                             }}
                           />
                         </div>
@@ -688,8 +688,8 @@ export const CommandPalette = React.memo(function CommandPalette({
                             className="text-sm font-medium truncate"
                             style={{
                               color: isActive
-                                ? 'var(--ops-text, #f5f5f5)'
-                                : 'var(--ops-text-secondary, rgba(245,245,245,0.7))',
+                                ? 'var(--ops-text)'
+                                : 'var(--ops-text-secondary)',
                             }}
                           >
                             <HighlightedText text={result.title} query={debouncedQuery} />
@@ -697,7 +697,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                           <div
                             className="text-[11px] truncate mt-0.5"
                             style={{
-                              color: 'var(--ops-text-muted, rgba(245,245,245,0.35))',
+                              color: 'var(--ops-text-muted)',
                             }}
                           >
                             {result.subtitle}
@@ -714,7 +714,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                                     close();
                                     sa.action();
                                   }}
-                                  className="text-[10px] px-2 py-0.5 rounded-md bg-[rgba(255,255,255,0.06)] text-[rgba(245,245,245,0.5)] hover:text-[#cc5c37] hover:bg-[rgba(204,92,55,0.1)] transition-colors"
+                                  className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)] hover:text-[var(--ops-accent)] hover:bg-[var(--ops-accent-light)] transition-colors"
                                 >
                                   {sa.label}
                                 </button>
@@ -725,7 +725,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         {isActive && (
                           <ArrowRight
                             className="w-3.5 h-3.5 shrink-0 mt-1"
-                            style={{ color: 'var(--ops-accent, #cc5c37)' }}
+                            style={{ color: 'var(--ops-accent)' }}
                           />
                         )}
                       </button>
@@ -749,7 +749,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         className="flex items-center gap-3 w-full py-2.5 px-4 text-left transition-colors cursor-pointer"
                         style={{
                           backgroundColor: isActive
-                            ? 'rgba(204, 92, 55, 0.08)'
+                            ? 'var(--ops-accent-light)'
                             : 'transparent',
                         }}
                       >
@@ -757,20 +757,20 @@ export const CommandPalette = React.memo(function CommandPalette({
                           className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
                           style={{
                             backgroundColor: isActive
-                              ? 'rgba(204, 92, 55, 0.15)'
+                              ? 'var(--ops-accent-light)'
                               : isAiSection
-                                ? 'rgba(204,92,55,0.08)'
-                                : 'rgba(255,255,255,0.04)',
+                                ? 'var(--ops-accent-light)'
+                                : 'var(--ops-hover-bg)',
                           }}
                         >
                           <Icon
                             className="w-4 h-4"
                             style={{
                               color: isActive
-                                ? 'var(--ops-accent, #cc5c37)'
+                                ? 'var(--ops-accent)'
                                 : isAiSection
-                                  ? 'var(--ops-accent, #cc5c37)'
-                                  : 'var(--ops-text-muted, rgba(245,245,245,0.35))',
+                                  ? 'var(--ops-accent)'
+                                  : 'var(--ops-text-muted)',
                             }}
                           />
                         </div>
@@ -778,10 +778,10 @@ export const CommandPalette = React.memo(function CommandPalette({
                           className="flex-1 text-sm font-medium truncate"
                           style={{
                             color: isActive
-                              ? 'var(--ops-text, #f5f5f5)'
+                              ? 'var(--ops-text)'
                               : isAiSection
-                                ? 'var(--ops-text, #f5f5f5)'
-                                : 'var(--ops-text-secondary, rgba(245,245,245,0.7))',
+                                ? 'var(--ops-text)'
+                                : 'var(--ops-text-secondary)',
                           }}
                         >
                           {item.label}
@@ -790,8 +790,8 @@ export const CommandPalette = React.memo(function CommandPalette({
                           <span
                             className="text-[10px] px-1.5 py-0.5 rounded-full"
                             style={{
-                              backgroundColor: 'rgba(204,92,55,0.1)',
-                              color: '#cc5c37',
+                              backgroundColor: 'var(--ops-accent-light)',
+                              color: 'var(--ops-accent)',
                             }}
                           >
                             AI
@@ -801,9 +801,9 @@ export const CommandPalette = React.memo(function CommandPalette({
                           <kbd
                             className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono"
                             style={{
-                              backgroundColor: 'rgba(255,255,255,0.06)',
-                              color: 'var(--ops-text-muted, rgba(245,245,245,0.35))',
-                              border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                              backgroundColor: 'var(--ops-hover-bg)',
+                              color: 'var(--ops-text-muted)',
+                              border: '1px solid var(--ops-border-strong)',
                             }}
                           >
                             {item.shortcut}
@@ -812,7 +812,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         {isActive && !isAiSection && (
                           <ArrowRight
                             className="w-3.5 h-3.5 shrink-0"
-                            style={{ color: 'var(--ops-accent, #cc5c37)' }}
+                            style={{ color: 'var(--ops-accent)' }}
                           />
                         )}
                       </button>
@@ -826,18 +826,18 @@ export const CommandPalette = React.memo(function CommandPalette({
               {/* Footer hints */}
               <div
                 className="flex items-center justify-between px-4 py-2.5"
-                style={{ borderTop: '1px solid var(--ops-border, rgba(255,255,255,0.08))' }}
+                style={{ borderTop: '1px solid var(--ops-border-strong)' }}
               >
                 <div
                   className="flex items-center gap-3 text-[11px]"
-                  style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                 >
                   <span className="flex items-center gap-1">
                     <kbd
                       className="px-1 py-0.5 rounded font-mono"
                       style={{
-                        backgroundColor: 'rgba(255,255,255,0.06)',
-                        border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                        backgroundColor: 'var(--ops-hover-bg)',
+                        border: '1px solid var(--ops-border-strong)',
                       }}
                     >
                       ↑↓
@@ -848,8 +848,8 @@ export const CommandPalette = React.memo(function CommandPalette({
                     <kbd
                       className="px-1 py-0.5 rounded font-mono"
                       style={{
-                        backgroundColor: 'rgba(255,255,255,0.06)',
-                        border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                        backgroundColor: 'var(--ops-hover-bg)',
+                        border: '1px solid var(--ops-border-strong)',
                       }}
                     >
                       ↵
@@ -860,20 +860,20 @@ export const CommandPalette = React.memo(function CommandPalette({
                 {hasQuery && total > 0 && (
                   <span
                     className="text-[11px]"
-                    style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
+                    style={{ color: 'var(--ops-text-muted)' }}
                   >
                     {total} result{total !== 1 ? 's' : ''}
                   </span>
                 )}
                 <span
                   className="flex items-center gap-1 text-[11px]"
-                  style={{ color: 'var(--ops-text-muted, rgba(245,245,245,0.3))' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                 >
                   <kbd
                     className="px-1 py-0.5 rounded font-mono"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.06)',
-                      border: '1px solid var(--ops-border, rgba(255,255,255,0.08))',
+                      backgroundColor: 'var(--ops-hover-bg)',
+                      border: '1px solid var(--ops-border-strong)',
                     }}
                   >
                     esc

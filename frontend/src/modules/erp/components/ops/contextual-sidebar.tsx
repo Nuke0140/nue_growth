@@ -80,7 +80,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -93,34 +93,34 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed top-0 right-0 z-50 h-full w-[360px] max-w-[90vw] flex flex-col shadow-2xl"
             style={{
-              backgroundColor: '#1b1c1e',
-              borderLeft: '1px solid rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--ops-bg)',
+              borderLeft: '1px solid var(--ops-border)',
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-5 py-4 shrink-0"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ borderBottom: '1px solid var(--ops-border)' }}
             >
               <div className="flex items-center gap-3">
                 <div
                   className="flex items-center justify-center w-9 h-9 rounded-xl"
-                  style={{ backgroundColor: 'rgba(204,92,55,0.1)' }}
+                  style={{ backgroundColor: 'var(--ops-accent-light)' }}
                 >
-                  <Icon className="w-[18px] h-[18px]" style={{ color: '#cc5c37' }} />
+                  <Icon className="w-[18px] h-[18px]" style={{ color: 'var(--ops-accent)' }} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] text-[rgba(245,245,245,0.35)] capitalize">
+                  <p className="text-[11px] text-[var(--ops-text-muted)] capitalize">
                     {entity.entityType}
                   </p>
-                  <h2 className="text-sm font-semibold text-[#f5f5f5] truncate">
+                  <h2 className="text-sm font-semibold text-[var(--ops-text)] truncate">
                     ID: {entity.entityId.slice(0, 12)}…
                   </h2>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[rgba(245,245,245,0.35)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[var(--ops-text-muted)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
@@ -136,15 +136,15 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                 className="space-y-5"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg capitalize bg-[rgba(204,92,55,0.1)] text-[#cc5c37]">
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg capitalize bg-[var(--ops-accent-light)] text-[var(--ops-accent)]">
                     {entity.entityType}
                   </span>
-                  <span className="text-[11px] font-mono text-[rgba(245,245,245,0.3)]">
+                  <span className="text-[11px] font-mono text-[var(--ops-text-muted)]">
                     {entity.entityId}
                   </span>
                 </div>
 
-                <p className="text-xs text-[rgba(245,245,245,0.45)] leading-relaxed">
+                <p className="text-xs text-[var(--ops-text-secondary)] leading-relaxed">
                   View full details for this {entity.entityType} in the dedicated page.
                   All related information, actions, and history will be available there.
                 </p>
@@ -153,13 +153,13 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                 {entity.entityType === 'approval' && (
                   <div className="flex gap-2 pt-2">
                     <button
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/25 transition-colors"
                     >
                       <CheckCircle2 className="w-4 h-4" />
                       Approve
                     </button>
                     <button
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-red-500/15 text-red-400 hover:bg-red-500/25 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-red-500/15 text-red-500 dark:text-red-400 hover:bg-red-500/25 transition-colors"
                     >
                       <XCircle className="w-4 h-4" />
                       Reject
@@ -169,12 +169,12 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
 
                 {entity.entityType === 'task' && (
                   <div className="ops-card p-3">
-                    <p className="text-xs font-semibold text-[rgba(245,245,245,0.5)] mb-2">Quick Actions</p>
+                    <p className="text-xs font-semibold text-[var(--ops-text-secondary)] mb-2">Quick Actions</p>
                     <div className="space-y-2">
                       {['Update Status', 'Reassign', 'Add Comment', 'Log Time'].map((action) => (
                         <button
                           key={action}
-                          className="w-full text-left text-xs text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.04)] px-2 py-1.5 rounded-lg transition-colors"
+                          className="w-full text-left text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] px-2 py-1.5 rounded-lg transition-colors"
                         >
                           {action}
                         </button>
@@ -185,7 +185,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
 
                 {entity.entityType === 'project' && (
                   <div className="ops-card p-3">
-                    <p className="text-xs font-semibold text-[rgba(245,245,245,0.5)] mb-2">Quick Info</p>
+                    <p className="text-xs font-semibold text-[var(--ops-text-secondary)] mb-2">Quick Info</p>
                     <div className="space-y-3">
                       {[
                         { label: 'Budget', value: 'View in details' },
@@ -193,8 +193,8 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                         { label: 'Team', value: 'View allocation' },
                       ].map((item) => (
                         <div key={item.label} className="flex items-center justify-between">
-                          <span className="text-xs text-[rgba(245,245,245,0.35)]">{item.label}</span>
-                          <span className="text-xs text-[#cc5c37]">{item.value}</span>
+                          <span className="text-xs text-[var(--ops-text-muted)]">{item.label}</span>
+                          <span className="text-xs text-[var(--ops-accent)]">{item.value}</span>
                         </div>
                       ))}
                     </div>
@@ -203,12 +203,12 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
 
                 {entity.entityType === 'employee' && (
                   <div className="ops-card p-3">
-                    <p className="text-xs font-semibold text-[rgba(245,245,245,0.5)] mb-2">Quick Actions</p>
+                    <p className="text-xs font-semibold text-[var(--ops-text-secondary)] mb-2">Quick Actions</p>
                     <div className="space-y-2">
                       {['View Profile', 'View Attendance', 'View Tasks', 'Send Message'].map((action) => (
                         <button
                           key={action}
-                          className="w-full text-left text-xs text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.04)] px-2 py-1.5 rounded-lg transition-colors"
+                          className="w-full text-left text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] px-2 py-1.5 rounded-lg transition-colors"
                         >
                           {action}
                         </button>
@@ -222,11 +222,11 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
             {/* Footer */}
             <div
               className="shrink-0 px-5 py-4"
-              style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ borderTop: '1px solid var(--ops-border)' }}
             >
               <button
                 onClick={handleViewFull}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-[#cc5c37] bg-[rgba(204,92,55,0.1)] hover:bg-[rgba(204,92,55,0.18)] transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-[var(--ops-accent)] bg-[var(--ops-accent-light)] hover:bg-[var(--ops-accent-light)] transition-colors"
               >
                 View Full Details
                 <ArrowRight className="w-3.5 h-3.5" />

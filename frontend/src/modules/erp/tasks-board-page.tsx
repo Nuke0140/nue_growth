@@ -195,7 +195,7 @@ function getAllLabels(taskIds: string[]): string[] {
 function mapToKanbanTask(task: typeof mockTasks[0]): KanbanTask {
   const taskLabels = MOCK_LABELS[task.id] || [];
   const labels: KanbanLabel[] = taskLabels.map((name) => {
-    const config = LABEL_CONFIG[name] || { bg: 'rgba(255,255,255,0.06)', color: 'var(--ops-text-muted)' };
+    const config = LABEL_CONFIG[name] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
     return { name, ...config };
   });
 
@@ -244,7 +244,7 @@ function StatCard({
         </span>
         <div
           className="w-7 h-7 rounded-lg flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
         >
           <Icon className="w-3.5 h-3.5" style={{ color: accent || 'var(--ops-text-muted)' }} />
         </div>
@@ -287,7 +287,7 @@ function LabelFilterBar({
         All Labels
       </motion.button>
       {labels.map((label) => {
-        const config = LABEL_CONFIG[label] || { bg: 'rgba(255,255,255,0.06)', color: 'var(--ops-text-muted)' };
+        const config = LABEL_CONFIG[label] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
         const isActive = activeLabel === label;
         return (
           <motion.button
@@ -341,7 +341,7 @@ function TaskDetailDrawer({
   const projectName = getProjectShortName(task.projectId);
   const attachmentCount = MOCK_ATTACHMENTS[task.id] || 0;
   const taskLabels = (MOCK_LABELS[task.id] || []).map((name) => {
-    const config = LABEL_CONFIG[name] || { bg: 'rgba(255,255,255,0.06)', color: 'var(--ops-text-muted)' };
+    const config = LABEL_CONFIG[name] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
     return { name, ...config };
   });
 
@@ -463,8 +463,8 @@ function TaskDetailDrawer({
                 border: '1px solid rgba(239, 68, 68, 0.2)',
               }}
             >
-              <AlertTriangle className="w-4 h-4 text-red-400" />
-              <span className="text-sm font-medium text-red-400">This task is blocked</span>
+              <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400" />
+              <span className="text-sm font-medium text-red-500 dark:text-red-400">This task is blocked</span>
             </div>
           )}
 
@@ -485,7 +485,7 @@ function TaskDetailDrawer({
             <div
               className="flex items-center gap-3 p-3 rounded-xl"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--ops-hover-bg)',
                 border: '1px solid var(--ops-border)',
               }}
             >
@@ -516,7 +516,7 @@ function TaskDetailDrawer({
               {/* Subtask progress bar */}
               <div
                 className="h-2 rounded-full overflow-hidden"
-                style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                style={{ backgroundColor: 'var(--ops-hover-bg)' }}
               >
                 <motion.div
                   className="h-full rounded-full"
@@ -542,7 +542,7 @@ function TaskDetailDrawer({
                         'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors',
                       )}
                       style={{
-                        backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'rgba(255,255,255,0.02)',
+                        backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'var(--ops-hover-bg)',
                       }}
                       whileTap={{ scale: 0.99 }}
                     >
@@ -623,7 +623,7 @@ function AddTaskDrawer({
   }, [handleReset, onOpenChange]);
 
   const drawerInputStyle: React.CSSProperties = {
-    backgroundColor: '#2a2b2e',
+    backgroundColor: 'var(--ops-elevated)',
     border: '1px solid var(--ops-border)',
     color: 'var(--ops-text)',
     borderRadius: '0.75rem',
@@ -740,8 +740,8 @@ function AddTaskDrawer({
                         <AvatarFallback
                           className="text-[8px] font-semibold"
                           style={{
-                            backgroundColor: 'rgba(204,92,55,0.2)',
-                            color: '#cc5c37',
+                            backgroundColor: 'var(--ops-accent-light-hover)',
+                            color: 'var(--ops-accent)',
                           }}
                         >
                           {getInitials(r.name)}
@@ -824,7 +824,7 @@ function AddTaskDrawer({
               className="flex-1 rounded-xl"
               style={{
                 color: 'var(--ops-text-secondary)',
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                backgroundColor: 'var(--ops-hover-bg)',
               }}
               onClick={() => onOpenChange(false)}
             >
@@ -993,7 +993,7 @@ function TasksBoardPageInner() {
               className="w-auto min-w-[180px]"
               size="sm"
               style={{
-                backgroundColor: '#2a2b2e',
+                backgroundColor: 'var(--ops-elevated)',
                 border: '1px solid var(--ops-border)',
                 color: 'var(--ops-text)',
                 borderRadius: '0.75rem',

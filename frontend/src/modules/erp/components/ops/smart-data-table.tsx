@@ -299,7 +299,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 px-2.5 text-xs text-[rgba(245,245,245,0.5)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                  className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                 >
                   <Eye className="w-3.5 h-3.5 mr-1.5" />
                   Views
@@ -308,12 +308,12 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl"
+                className="w-52 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl"
               >
-                <DropdownMenuLabel className="text-[rgba(245,245,245,0.4)] text-xs">
+                <DropdownMenuLabel className="text-[var(--ops-text-muted)] text-xs">
                   Saved Views
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+                <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
                 {savedViews.map((view) => (
                   <DropdownMenuItem
                     key={view.id}
@@ -321,8 +321,8 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                     className={cn(
                       'text-[13px] cursor-pointer',
                       view.id === activeViewId
-                        ? 'text-[#cc5c37] bg-[rgba(204,92,55,0.08)]'
-                        : 'text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+                        ? 'text-[var(--ops-accent)] bg-[var(--ops-active-bg)]'
+                        : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
                     )}
                   >
                     {view.name}
@@ -338,7 +338,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 px-2.5 text-xs text-[rgba(245,245,245,0.5)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+                className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
               >
                 <Settings2 className="w-3.5 h-3.5 mr-1.5" />
                 Columns
@@ -347,30 +347,30 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-48 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl"
+              className="w-48 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl"
             >
-              <DropdownMenuLabel className="text-[rgba(245,245,245,0.4)] text-xs">
+              <DropdownMenuLabel className="text-[var(--ops-text-muted)] text-xs">
                 Toggle Columns
               </DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+              <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
               {columns.map((col) => (
                 <DropdownMenuItem
                   key={col.key}
                   onClick={() => toggleColumn(col.key)}
-                  className="flex items-center gap-2 text-[13px] text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)] cursor-pointer"
+                  className="flex items-center gap-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] cursor-pointer"
                 >
                   {hiddenCols.has(col.key) ? (
-                    <EyeOff className="w-3.5 h-3.5 text-[rgba(245,245,245,0.25)]" />
+                    <EyeOff className="w-3.5 h-3.5 text-[var(--ops-text-disabled)]" />
                   ) : (
-                    <Eye className="w-3.5 h-3.5 text-[#cc5c37]" />
+                    <Eye className="w-3.5 h-3.5 text-[var(--ops-accent)]" />
                   )}
                   {col.label}
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.06)]" />
+              <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
               <DropdownMenuItem
                 onClick={handleSaveView}
-                className="text-[13px] text-[#cc5c37] hover:bg-[rgba(204,92,55,0.08)] cursor-pointer"
+                className="text-[13px] text-[var(--ops-accent)] hover:bg-[var(--ops-active-bg)] cursor-pointer"
               >
                 <Save className="w-3.5 h-3.5 mr-2" />
                 Save Current View
@@ -384,7 +384,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               variant="ghost"
               size="sm"
               onClick={handleExport}
-              className="h-8 px-2.5 text-xs text-[rgba(245,245,245,0.5)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+              className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               <Download className="w-3.5 h-3.5 mr-1.5" />
               Export
@@ -399,19 +399,19 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
           <TableHeader>
             <TableRow
               className="border-b"
-              style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+              style={{ borderColor: 'var(--ops-border)' }}
             >
               {/* Bulk select checkbox */}
               {(selectAll || selectedIds.size > 0) && (
                 <TableHead
                   className="w-10"
-                  style={{ color: 'rgba(245,245,245,0.35)' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                 >
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={toggleSelectAll}
-                    className="rounded border-[rgba(255,255,255,0.15)] bg-transparent accent-[#cc5c37]"
+                    className="rounded border-[var(--ops-border-strong)] bg-transparent accent-[var(--ops-accent)]"
                   />
                 </TableHead>
               )}
@@ -450,7 +450,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 <TableCell
                   colSpan={visibleColumns.length + (selectAll || selectedIds.size > 0 ? 1 : 0)}
                   className="h-32 text-center"
-                  style={{ color: 'rgba(245,245,245,0.35)' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                 >
                   {emptyMessage}
                 </TableCell>
@@ -501,7 +501,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                           type="checkbox"
                           checked={selectedIds.has(rowId)}
                           onChange={() => toggleRowSelect(rowId)}
-                          className="rounded border-[rgba(255,255,255,0.15)] bg-transparent accent-[#cc5c37]"
+                          className="rounded border-[var(--ops-border-strong)] bg-transparent accent-[var(--ops-accent)]"
                           aria-label={`Select row ${idx + 1}`}
                         />
                       </TableCell>
@@ -538,7 +538,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                   }
                                 }}
                                 onBlur={() => commitEdit(idx)}
-                                className="ops-input text-sm px-2 py-1 w-full bg-[rgba(255,255,255,0.06)] border-[rgba(204,92,55,0.4)]"
+                                className="ops-input text-sm px-2 py-1 w-full bg-[var(--ops-hover-bg)] border-[rgba(204,92,55,0.4)]"
                                 autoFocus
                                 aria-label={`Edit ${col.label}`}
                               />
@@ -549,14 +549,14 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                 className="shrink-0"
                                 aria-hidden="true"
                               >
-                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                               </motion.div>
                             </div>
                           ) : (
                             <div
                               className={cn(
                                 isEditable &&
-                                  'cursor-text hover:bg-[rgba(255,255,255,0.04)] rounded px-1 -mx-1 py-0.5 transition-colors'
+                                  'cursor-text hover:bg-[var(--ops-hover-bg)] rounded px-1 -mx-1 py-0.5 transition-colors'
                               )}
                             >
                               {(row[col.key] as React.ReactNode) ?? '—'}
@@ -576,7 +576,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-1">
-          <p className="text-xs text-[rgba(245,245,245,0.35)]">
+          <p className="text-xs text-[var(--ops-text-muted)]">
             Showing {safePage * pageSize + 1}–
             {Math.min((safePage + 1) * pageSize, sorted.length)} of{' '}
             {sorted.length}
@@ -590,11 +590,11 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 style={{
                   color:
                     size === pageSize
-                      ? '#cc5c37'
-                      : 'rgba(245,245,245,0.35)',
+                      ? 'var(--ops-accent)'
+                      : 'var(--ops-text-muted)',
                   backgroundColor:
                     size === pageSize
-                      ? 'rgba(204,92,55,0.1)'
+                      ? 'var(--ops-accent-light)'
                       : 'transparent',
                 }}
               >
@@ -606,19 +606,19 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-[rgba(245,245,245,0.6)]"
+              className="h-8 w-8 text-[var(--ops-text-secondary)]"
               onClick={() => setPage(Math.max(0, safePage - 1))}
               disabled={safePage === 0}
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-xs px-2 text-[rgba(245,245,245,0.6)]">
+            <span className="text-xs px-2 text-[var(--ops-text-secondary)]">
               {safePage + 1} / {totalPages}
             </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-[rgba(245,245,245,0.6)]"
+              className="h-8 w-8 text-[var(--ops-text-secondary)]"
               onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
               disabled={safePage >= totalPages - 1}
             >

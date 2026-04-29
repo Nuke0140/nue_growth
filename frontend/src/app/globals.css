@@ -43,6 +43,9 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ============================================
+   System Design Tokens (Light)
+   ============================================ */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -76,8 +79,41 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Ops / ERP — light mode */
+  --ops-bg: #fafafa;
+  --ops-accent: #cc5c37;
+  --ops-accent-hover: #b8512f;
+  --ops-accent-light: rgba(204, 92, 55, 0.08);
+  --ops-card-bg: #ffffff;
+  --ops-card-bg-hover: #f5f5f5;
+  --ops-elevated: #f5f5f5;
+  --ops-input-bg: #f5f5f5;
+  --ops-border: rgba(0, 0, 0, 0.08);
+  --ops-border-light: rgba(0, 0, 0, 0.05);
+  --ops-border-strong: rgba(0, 0, 0, 0.12);
+  --ops-text: #0a0a0a;
+  --ops-text-secondary: rgba(0, 0, 0, 0.6);
+  --ops-text-muted: rgba(0, 0, 0, 0.35);
+  --ops-text-disabled: rgba(0, 0, 0, 0.2);
+  --ops-hover-bg: rgba(0, 0, 0, 0.04);
+  --ops-active-bg: rgba(204, 92, 55, 0.06);
+  --ops-success: #059669;
+  --ops-warning: #d97706;
+  --ops-danger: #dc2626;
+  --ops-info: #2563eb;
+  --ops-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ops-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --ops-scrollbar-thumb: rgba(0, 0, 0, 0.15);
+  --ops-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
+  --ops-overlay: rgba(0, 0, 0, 0.4);
+  --ops-skeleton-from: rgba(0, 0, 0, 0.04);
+  --ops-skeleton-to: rgba(0, 0, 0, 0.08);
 }
 
+/* ============================================
+   System Design Tokens (Dark)
+   ============================================ */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -110,35 +146,46 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
 
-/* ============================================
-   Operations (ERP) Module — Design System
-   ============================================ */
-:root,
-[data-theme="dark"] {
-  --ops-bg-dark: #1b1c1e;
+  /* Ops / ERP — dark mode */
+  --ops-bg: #1b1c1e;
   --ops-accent: #cc5c37;
   --ops-accent-hover: #d46a44;
   --ops-accent-light: rgba(204, 92, 55, 0.1);
   --ops-card-bg: #222325;
-  --ops-card-bg-light: #2a2b2e;
+  --ops-card-bg-hover: #2a2b2e;
+  --ops-elevated: #2a2b2e;
+  --ops-input-bg: #2a2b2e;
   --ops-border: rgba(255, 255, 255, 0.06);
+  --ops-border-light: rgba(255, 255, 255, 0.04);
+  --ops-border-strong: rgba(255, 255, 255, 0.12);
   --ops-text: #f5f5f5;
   --ops-text-secondary: rgba(245, 245, 245, 0.6);
   --ops-text-muted: rgba(245, 245, 245, 0.35);
+  --ops-text-disabled: rgba(245, 245, 245, 0.2);
+  --ops-hover-bg: rgba(255, 255, 255, 0.04);
+  --ops-active-bg: rgba(204, 92, 55, 0.08);
   --ops-success: #34d399;
   --ops-warning: #fbbf24;
   --ops-danger: #f87171;
   --ops-info: #60a5fa;
+  --ops-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --ops-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --ops-scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --ops-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --ops-overlay: rgba(0, 0, 0, 0.6);
+  --ops-skeleton-from: rgba(255, 255, 255, 0.04);
+  --ops-skeleton-to: rgba(255, 255, 255, 0.08);
 }
 
-/* Ops utility classes */
+/* ============================================
+   Ops Utility Classes (theme-aware)
+   ============================================ */
 .ops-card {
   border-radius: 1rem;
   background-color: var(--ops-card-bg);
   border: 1px solid var(--ops-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--ops-shadow-card);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
@@ -148,6 +195,7 @@
 
 .ops-card-hover:hover {
   transform: translateY(-0.125rem);
+  box-shadow: var(--ops-shadow-card-hover);
 }
 
 .ops-glow {
@@ -160,7 +208,7 @@
 
 .ops-input {
   border-radius: 0.75rem;
-  background-color: #2a2b2e;
+  background-color: var(--ops-input-bg);
   border: 1px solid var(--ops-border);
   color: var(--ops-text);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -168,7 +216,7 @@
 
 .ops-input:focus {
   border-color: var(--ops-accent);
-  box-shadow: 0 0 0 2px rgba(204, 92, 55, 0.15);
+  box-shadow: 0 0 0 2px var(--ops-accent-light);
   outline: none;
 }
 
@@ -224,7 +272,7 @@
 }
 
 .ops-btn-ghost:hover {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: var(--ops-hover-bg);
 }
 
 .ops-badge {
@@ -243,7 +291,7 @@
 
 /* Skeleton animations */
 .ops-skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background: linear-gradient(90deg, var(--ops-skeleton-from) 25%, var(--ops-skeleton-to) 50%, var(--ops-skeleton-from) 75%);
   background-size: 200% 100%;
   animation: ops-skeleton-pulse 1.5s ease-in-out infinite;
   border-radius: 0.5rem;
@@ -260,14 +308,14 @@
   top: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, #cc5c37, #d46a44, #cc5c37);
+  background: linear-gradient(90deg, var(--ops-accent), var(--ops-accent-hover), var(--ops-accent));
   z-index: 100;
   transition: width 0.3s ease;
 }
 
 /* Gradient accent */
 .ops-gradient-accent {
-  background: linear-gradient(135deg, rgba(204,92,55,0.15) 0%, rgba(204,92,55,0.05) 100%);
+  background: linear-gradient(135deg, var(--ops-accent-light) 0%, rgba(204,92,55,0.03) 100%);
 }
 
 .ops-gradient-text {
@@ -305,7 +353,7 @@
   opacity: 0.9;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling (theme-aware) */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
@@ -315,12 +363,12 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
+  background: var(--ops-scrollbar-thumb);
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.2);
+  background: var(--ops-scrollbar-thumb-hover);
 }
 
 @layer base {
@@ -339,16 +387,12 @@
 /* 1. Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
-}
-
-/* Prevent layout shift from scrollbar */
-html {
   overflow-y: scroll;
 }
 
 /* 2. Focus visible — keyboard navigation indicator */
 *:focus-visible {
-  outline: 2px solid #cc5c37;
+  outline: 2px solid var(--ops-accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -360,8 +404,8 @@ html {
 
 /* 3. Consistent selection color */
 ::selection {
-  background-color: rgba(204, 92, 55, 0.3);
-  color: #f5f5f5;
+  background-color: rgba(204, 92, 55, 0.2);
+  color: inherit;
 }
 
 /* 4. Reduced motion support */

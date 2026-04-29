@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -26,8 +25,6 @@ interface AttendanceCalendarProps {
 }
 
 export default function AttendanceCalendar({ records, employeeId }: AttendanceCalendarProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [viewDate, setViewDate] = useState(new Date());
 
   const filteredRecords = useMemo(() => {
@@ -113,9 +110,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
       transition={{ duration: 0.3 }}
       className={cn(
         'rounded-2xl border p-5 shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06]'
-          : 'bg-white border-black/[0.06]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
       )}
     >
       {/* Header */}
@@ -126,7 +121,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={prevMonth}
-            className={cn('w-7 h-7', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
+            className="w-7 h-7 hover:bg-[var(--ops-hover-bg)]"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -134,7 +129,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={nextMonth}
-            className={cn('w-7 h-7', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}
+            className="w-7 h-7 hover:bg-[var(--ops-hover-bg)]"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -146,10 +141,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
         {dayLabels.map((label) => (
           <div
             key={label}
-            className={cn(
-              'text-center text-[10px] font-medium py-1',
-              isDark ? 'text-white/30' : 'text-black/30'
-            )}
+            className="text-center text-[10px] font-medium py-1 text-[var(--ops-text-disabled)]"
           >
             {label}
           </div>
@@ -177,7 +169,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
               className={cn(
                 'aspect-square rounded-xl flex flex-col items-center justify-center relative cursor-default transition-colors',
                 isTodayCell && 'ring-2 ring-purple-500/50',
-                isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-black/[0.04]'
+                'hover:bg-[var(--ops-hover-bg)]'
               )}
               title={
                 status
@@ -187,7 +179,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             >
               <span className={cn(
                 'text-[11px] font-medium leading-none',
-                isTodayCell ? 'text-purple-500' : isDark ? 'text-white/60' : 'text-black/60'
+                isTodayCell ? 'text-purple-500' : 'text-[var(--ops-text-secondary)]'
               )}>
                 {day}
               </span>
@@ -195,10 +187,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
                 <span className={cn('w-1.5 h-1.5 rounded-full mt-1', statusColors[status].dot)} />
               )}
               {isTodayCell && (
-                <span className={cn(
-                  'absolute -top-0.5 -right-0.5 w-1 h-1 rounded-full',
-                  isDark ? 'bg-purple-400' : 'bg-purple-600'
-                )} />
+                <span className="absolute -top-0.5 -right-0.5 w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400" />
               )}
             </motion.div>
           );
@@ -210,11 +199,11 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
         {(Object.entries(statusColors) as [AttendanceStatus, { dot: string; label: string }][]).map(([key, config]) => (
           <div key={key} className="flex items-center gap-1.5">
             <span className={cn('w-2 h-2 rounded-full', config.dot)} />
-            <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+            <span className="text-[10px] text-[var(--ops-text-muted)]">
               {config.label}
             </span>
             {summaryStats[key] > 0 && (
-              <span className={cn('text-[10px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+              <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
                 {summaryStats[key]}
               </span>
             )}

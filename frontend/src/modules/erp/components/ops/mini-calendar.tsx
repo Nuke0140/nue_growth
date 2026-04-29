@@ -99,7 +99,7 @@ export function MiniCalendar({
             style={{ color: 'var(--ops-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
-                'rgba(255,255,255,0.06)';
+                'var(--ops-hover-bg)';
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -115,7 +115,7 @@ export function MiniCalendar({
             style={{ color: 'var(--ops-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
-                'rgba(255,255,255,0.06)';
+                'var(--ops-hover-bg)';
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -218,7 +218,7 @@ export function MiniCalendar({
                   <div
                     key={idx}
                     className="flex items-center gap-2 px-2 py-1.5 rounded-lg"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}
+                    style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                   >
                     <span
                       className="w-2 h-2 rounded-full shrink-0"

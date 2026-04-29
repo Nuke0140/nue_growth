@@ -19,16 +19,16 @@ function formatCurrency(val: number) {
 }
 
 function getMarginColor(margin: number) {
-  if (margin >= 20) return { bar: 'bg-emerald-500', text: 'text-emerald-400' };
+  if (margin >= 20) return { bar: 'bg-emerald-500', text: 'text-emerald-500 dark:text-emerald-400' };
   if (margin >= 10) return { bar: 'bg-sky-500', text: 'text-sky-400' };
-  if (margin >= 0) return { bar: 'bg-amber-500', text: 'text-amber-400' };
-  return { bar: 'bg-red-500', text: 'text-red-400' };
+  if (margin >= 0) return { bar: 'bg-amber-500', text: 'text-amber-500 dark:text-amber-400' };
+  return { bar: 'bg-red-500', text: 'text-red-500 dark:text-red-400' };
 }
 
 function getAlertSeverity(severity: string) {
   switch (severity) {
-    case 'critical': return { icon: AlertTriangle, color: 'text-red-400', bg: isDark => isDark ? 'bg-red-500/15 border-red-500/20' : 'bg-red-50 border-red-200' };
-    case 'warning': return { icon: Flame, color: 'text-amber-400', bg: isDark => isDark ? 'bg-amber-500/15 border-amber-500/20' : 'bg-amber-50 border-amber-200' };
+    case 'critical': return { icon: AlertTriangle, color: 'text-red-500 dark:text-red-400', bg: isDark => isDark ? 'bg-red-500/15 border-red-500/20' : 'bg-red-50 border-red-200' };
+    case 'warning': return { icon: Flame, color: 'text-amber-500 dark:text-amber-400', bg: isDark => isDark ? 'bg-amber-500/15 border-amber-500/20' : 'bg-amber-50 border-amber-200' };
     default: return { icon: Info, color: 'text-sky-400', bg: isDark => isDark ? 'bg-sky-500/15 border-sky-500/20' : 'bg-sky-50 border-sky-200' };
   }
 }
@@ -101,9 +101,9 @@ function ProfitabilityPageInner() {
       {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Revenue', value: formatCurrency(kpis.totalRevenue), icon: DollarSign, change: '+15%', up: true, color: 'text-emerald-400' },
-            { label: 'Total Cost', value: formatCurrency(kpis.totalCost), icon: TrendingDown, change: '-8%', up: false, color: 'text-red-400' },
-            { label: 'Net Margin', value: `${kpis.netMargin}%`, icon: Target, change: kpis.netMargin, up: Number(kpis.netMargin) > 0, color: Number(kpis.netMargin) >= 10 ? 'text-emerald-400' : 'text-amber-400' },
+            { label: 'Total Revenue', value: formatCurrency(kpis.totalRevenue), icon: DollarSign, change: '+15%', up: true, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Total Cost', value: formatCurrency(kpis.totalCost), icon: TrendingDown, change: '-8%', up: false, color: 'text-red-500 dark:text-red-400' },
+            { label: 'Net Margin', value: `${kpis.netMargin}%`, icon: Target, change: kpis.netMargin, up: Number(kpis.netMargin) > 0, color: Number(kpis.netMargin) >= 10 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400' },
             { label: 'Burn Rate', value: `${formatCurrency(kpis.burnRate)}/mo`, icon: Flame, change: 'per month', up: false, color: 'text-orange-400' },
           ].map((kpi, i) => (
             <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
@@ -113,7 +113,7 @@ function ProfitabilityPageInner() {
               </div>
               <p className="text-xl font-bold">{kpi.value}</p>
               <div className="flex items-center gap-1 mt-1">
-                {kpi.up ? <ArrowUpRight className="w-3 h-3 text-emerald-400" /> : <ArrowDownRight className="w-3 h-3 text-red-400" />}
+                {kpi.up ? <ArrowUpRight className="w-3 h-3 text-emerald-500 dark:text-emerald-400" /> : <ArrowDownRight className="w-3 h-3 text-red-500 dark:text-red-400" />}
                 <span className={cn('text-[10px] font-medium', kpi.color)}>{kpi.change}</span>
               </div>
             </motion.div>
@@ -146,8 +146,8 @@ function ProfitabilityPageInner() {
                         <motion.tr key={client.clientId} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.03 }} className={cn('border-b last:border-0 transition-colors', isDark ? 'border-white/[0.03] hover:bg-white/[0.03]' : 'border-black/[0.03] hover:bg-black/[0.02]')}>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
-                              {isNegMargin && <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />}
-                              <span className={cn('text-sm font-medium', isNegMargin && 'text-red-400')}>{client.clientName}</span>
+                              {isNegMargin && <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />}
+                              <span className={cn('text-sm font-medium', isNegMargin && 'text-red-500 dark:text-red-400')}>{client.clientName}</span>
                             </div>
                           </td>
                           <td className="text-right px-4 py-3">

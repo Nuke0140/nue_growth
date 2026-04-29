@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   CircleDot,
   Circle,
@@ -20,13 +19,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ErpTask, TaskStage } from '../types';
 
 // ─── Stage Configuration ──────────────────────────────────
-const stages: { key: TaskStage; label: string; icon: typeof CircleDot; color: string; headerBgDark: string; headerBgLight: string }[] = [
-  { key: 'backlog', label: 'Backlog', icon: Circle, color: 'text-zinc-500', headerBgDark: 'bg-zinc-500/10', headerBgLight: 'bg-zinc-50' },
-  { key: 'todo', label: 'To Do', icon: CircleDot, color: 'text-sky-500', headerBgDark: 'bg-sky-500/10', headerBgLight: 'bg-sky-50' },
-  { key: 'in-progress', label: 'In Progress', icon: Loader2, color: 'text-blue-500', headerBgDark: 'bg-blue-500/10', headerBgLight: 'bg-blue-50' },
-  { key: 'review', label: 'Review', icon: Eye, color: 'text-amber-500', headerBgDark: 'bg-amber-500/10', headerBgLight: 'bg-amber-50' },
-  { key: 'done', label: 'Done', icon: CheckCircle2, color: 'text-emerald-500', headerBgDark: 'bg-emerald-500/10', headerBgLight: 'bg-emerald-50' },
-  { key: 'blocked', label: 'Blocked', icon: Ban, color: 'text-red-500', headerBgDark: 'bg-red-500/10', headerBgLight: 'bg-red-50' },
+const stages: { key: TaskStage; label: string; icon: typeof CircleDot; color: string; headerBg: string }[] = [
+  { key: 'backlog', label: 'Backlog', icon: Circle, color: 'text-zinc-500', headerBg: 'bg-zinc-50 dark:bg-zinc-500/10' },
+  { key: 'todo', label: 'To Do', icon: CircleDot, color: 'text-sky-500', headerBg: 'bg-sky-50 dark:bg-sky-500/10' },
+  { key: 'in-progress', label: 'In Progress', icon: Loader2, color: 'text-blue-500', headerBg: 'bg-blue-50 dark:bg-blue-500/10' },
+  { key: 'review', label: 'Review', icon: Eye, color: 'text-amber-500', headerBg: 'bg-amber-50 dark:bg-amber-500/10' },
+  { key: 'done', label: 'Done', icon: CheckCircle2, color: 'text-emerald-500', headerBg: 'bg-emerald-50 dark:bg-emerald-500/10' },
+  { key: 'blocked', label: 'Blocked', icon: Ban, color: 'text-red-500', headerBg: 'bg-red-50 dark:bg-red-500/10' },
 ];
 
 function getInitials(name: string) {
@@ -43,13 +42,13 @@ function formatDate(dateStr: string) {
   return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 }
 
-function getDueDateColor(dateStr: string, isDark: boolean) {
+function getDueDateColor(dateStr: string) {
   const due = new Date(dateStr);
   const now = new Date();
   const daysLeft = Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  if (daysLeft < 0) return isDark ? 'text-red-400' : 'text-red-600';
-  if (daysLeft <= 3) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-white/40' : 'text-black/40';
+  if (daysLeft < 0) return 'text-red-500 dark:text-red-400';
+  if (daysLeft <= 3) return 'text-amber-500 dark:text-amber-400';
+  return 'text-[var(--ops-text-muted)]';
 }
 
 // ─── Component ────────────────────────────────────────────
@@ -59,9 +58,6 @@ interface TaskBoardProps {
 }
 
 export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   const groupedTasks = useMemo(() => {
     const map: Record<TaskStage, ErpTask[]> = {
       backlog: [],
@@ -94,12 +90,8 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               className={cn(
                 'w-[280px] flex-shrink-0 rounded-2xl border flex flex-col',
                 isBlockedColumn
-                  ? isDark
-                    ? 'bg-red-500/[0.03] border-red-500/[0.1]'
-                    : 'bg-red-50/50 border-red-200/50'
-                  : isDark
-                    ? 'bg-white/[0.02] border-white/[0.06]'
-                    : 'bg-white border-black/[0.06]'
+                  ? 'bg-red-50/50 dark:bg-red-500/[0.03] border-red-200/50 dark:border-red-500/[0.1]'
+                  : 'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
               )}
               style={{ maxHeight: '600px' }}
             >
@@ -107,9 +99,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               <div
                 className={cn(
                   'flex items-center justify-between px-4 py-3 rounded-t-2xl border-b',
-                  isDark
-                    ? `${stage.headerBgDark} border-white/[0.04]`
-                    : `${stage.headerBgLight} border-black/[0.04]`
+                  `${stage.headerBg} border-[var(--ops-border)]`
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -120,9 +110,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                   variant="secondary"
                   className={cn(
                     'h-5 min-w-[20px] px-1.5 text-[10px] font-bold rounded-full',
-                    isDark
-                      ? 'bg-white/[0.08] text-white/60'
-                      : 'bg-black/[0.06] text-black/60'
+                    'bg-[var(--ops-elevated)] text-[var(--ops-text-secondary)]'
                   )}
                 >
                   {stageTasks.length}
@@ -133,13 +121,8 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               <ScrollArea className="flex-1 px-2 py-2">
                 <div className="flex flex-col gap-2">
                   {stageTasks.length === 0 && (
-                    <div className={cn(
-                      'flex flex-col items-center justify-center py-8 px-4 rounded-xl text-center',
-                      isDark ? 'text-white/20' : 'text-black/20'
-                    )}>
-                      <div className="w-8 h-8 rounded-full mb-2 flex items-center justify-center" style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'
-                      }}>
+                    <div className="flex flex-col items-center justify-center py-8 px-4 rounded-xl text-center text-[var(--ops-text-disabled)]">
+                      <div className="w-8 h-8 rounded-full mb-2 flex items-center justify-center bg-[var(--ops-hover-bg)]">
                         <StageIcon className="w-4 h-4" />
                       </div>
                       <p className="text-[11px]">No tasks</p>
@@ -156,9 +139,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                       onClick={() => onTaskClick?.(task.id)}
                       className={cn(
                         'p-3 rounded-xl border cursor-pointer transition-colors duration-150 shadow-sm',
-                        isDark
-                          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
-                          : 'bg-white border-black/[0.06] hover:bg-black/[0.02] hover:border-black/[0.1]'
+                        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)]'
                       )}
                     >
                       {/* Task Title */}
@@ -173,12 +154,12 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                           <div
                             className={cn(
                               'w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold',
-                              isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60'
+                              'bg-[var(--ops-elevated)] text-[var(--ops-text-secondary)]'
                             )}
                           >
                             {getInitials(task.assignee)}
                           </div>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <span className="text-[10px] text-[var(--ops-text-muted)]">
                             {task.assignee.split(' ')[0]}
                           </span>
                         </div>
@@ -188,7 +169,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                           {task.storyPoints > 0 && (
                             <span className={cn(
                               'inline-flex items-center px-1 py-0.5 rounded text-[9px] font-medium',
-                              isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                              'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
                             )}>
                               SP {task.storyPoints}
                             </span>
@@ -201,8 +182,8 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
 
                           {/* Due Date */}
                           <div className="flex items-center gap-0.5">
-                            <Calendar className={cn('w-2.5 h-2.5', getDueDateColor(task.dueDate, isDark))} />
-                            <span className={cn('text-[10px]', getDueDateColor(task.dueDate, isDark))}>
+                            <Calendar className={cn('w-2.5 h-2.5', getDueDateColor(task.dueDate))} />
+                            <span className={cn('text-[10px]', getDueDateColor(task.dueDate))}>
                               {formatDate(task.dueDate)}
                             </span>
                           </div>
@@ -211,11 +192,9 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
 
                       {/* SLA Deadline */}
                       {task.slaDeadline && task.stage !== 'done' && (
-                        <div className="flex items-center gap-1 mt-1.5 pt-1.5 border-t" style={{
-                          borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'
-                        }}>
-                          <Timer className={cn('w-2.5 h-2.5', isDark ? 'text-amber-400/60' : 'text-amber-600/60')} />
-                          <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <div className="flex items-center gap-1 mt-1.5 pt-1.5 border-t border-[var(--ops-border)]">
+                          <Timer className="w-2.5 h-2.5 text-amber-600/60 dark:text-amber-400/60" />
+                          <span className="text-[9px] text-[var(--ops-text-disabled)]">
                             SLA: {formatDate(task.slaDeadline)}
                           </span>
                         </div>
@@ -224,7 +203,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                       {/* Dependencies */}
                       {task.dependencies.length > 0 && (
                         <div className="flex items-center gap-1 mt-1">
-                          <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                          <span className="text-[9px] text-[var(--ops-text-disabled)]">
                             {task.dependencies.length} dep{task.dependencies.length > 1 ? 's' : ''}
                           </span>
                         </div>
@@ -235,7 +214,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                         <div className="mt-1.5">
                           <span className={cn(
                             'inline-flex items-center px-1 py-0.5 rounded text-[9px] font-medium',
-                            isDark ? 'bg-purple-500/10 text-purple-400' : 'bg-purple-50 text-purple-600'
+                            'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400'
                           )}>
                             🔄 {task.recurringTemplate}
                           </span>

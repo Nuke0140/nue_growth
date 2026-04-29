@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -12,30 +11,24 @@ import { cn } from '@/lib/utils';
 import type { PayrollRecord, PayrollStatus } from '../types';
 
 // ─── Status Configuration ─────────────────────────────────
-const statusConfig: Record<PayrollStatus, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string }> = {
+const statusConfig: Record<PayrollStatus, { label: string; color: string; bg: string; border: string }> = {
   pending: {
     label: 'Pending',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
   },
   processed: {
     label: 'Processed',
     color: 'text-blue-500',
-    bgDark: 'bg-blue-500/15',
-    bgLight: 'bg-blue-50',
-    borderDark: 'border-blue-500/20',
-    borderLight: 'border-blue-200',
+    bg: 'bg-blue-50 dark:bg-blue-500/15',
+    border: 'border-blue-200 dark:border-blue-500/20',
   },
   paid: {
     label: 'Paid',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
   },
 };
 
@@ -74,8 +67,6 @@ interface PayrollSummaryCardProps {
 }
 
 export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const status = statusConfig[record.status];
 
   return (
@@ -85,9 +76,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-4 shadow-sm transition-colors duration-200',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.01]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
       )}
     >
       {/* Top: Avatar + Name + Department + Status */}
@@ -101,7 +90,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
           </div>
           <div className="min-w-0">
             <h4 className="text-xs font-semibold truncate">{record.employeeName}</h4>
-            <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className="text-[10px] text-[var(--ops-text-muted)]">
               {record.department}
             </p>
           </div>
@@ -109,7 +98,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         <span
           className={cn(
             'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border shrink-0',
-            isDark ? `${status.bgDark} ${status.color} ${status.borderDark}` : `${status.bgLight} ${status.color} ${status.borderLight}`
+            `${status.bg} ${status.color} ${status.border}`
           )}
         >
           {status.label}
@@ -121,10 +110,10 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         {/* Base Salary */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Wallet className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-            <span className={cn('text-[11px]', isDark ? 'text-white/50' : 'text-black/50')}>Base Salary</span>
+            <Wallet className="w-3 h-3 text-[var(--ops-text-muted)]" />
+            <span className="text-[11px] text-[var(--ops-text-secondary)]">Base Salary</span>
           </div>
-          <span className={cn('text-[11px] font-medium', isDark ? 'text-white/70' : 'text-black/70')}>
+          <span className="text-[11px] font-medium text-[var(--ops-text)]">
             {formatCurrency(record.baseSalary)}
           </span>
         </div>
@@ -133,7 +122,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <ArrowUpRight className="w-3 h-3 text-emerald-500" />
-            <span className={cn('text-[11px]', isDark ? 'text-white/50' : 'text-black/50')}>Incentives</span>
+            <span className="text-[11px] text-[var(--ops-text-secondary)]">Incentives</span>
           </div>
           <span className="text-[11px] font-medium text-emerald-500">
             +{formatCurrency(record.incentives)}
@@ -144,7 +133,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <ArrowDownRight className="w-3 h-3 text-red-500" />
-            <span className={cn('text-[11px]', isDark ? 'text-white/50' : 'text-black/50')}>Deductions</span>
+            <span className="text-[11px] text-[var(--ops-text-secondary)]">Deductions</span>
           </div>
           <span className="text-[11px] font-medium text-red-500">
             -{formatCurrency(record.deductions)}
@@ -156,13 +145,13 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       <div
         className={cn(
           'pt-3 border-t',
-          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+          'border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Banknote className="w-3.5 h-3.5" style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }} />
-            <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+            <Banknote className="w-3.5 h-3.5 text-[var(--ops-text-secondary)]" />
+            <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
               Net Pay
             </span>
           </div>
@@ -174,10 +163,10 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
 
       {/* Month footer */}
       <div className="mt-2 flex items-center justify-between">
-        <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+        <span className="text-[9px] text-[var(--ops-text-disabled)]">
           {record.month}
         </span>
-        <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+        <span className="text-[9px] text-[var(--ops-text-disabled)]">
           ID: {record.employeeId}
         </span>
       </div>

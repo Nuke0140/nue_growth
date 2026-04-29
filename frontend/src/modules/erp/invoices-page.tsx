@@ -33,9 +33,9 @@ function getStatusConfig(status: InvoiceStatus, isDark: boolean) {
   const configs: Record<InvoiceStatus, { label: string; className: string; animate: boolean }> = {
     draft: { label: 'Draft', className: isDark ? 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20' : 'bg-zinc-50 text-zinc-600 border-zinc-200', animate: false },
     sent: { label: 'Sent', className: isDark ? 'bg-blue-500/15 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200', animate: false },
-    paid: { label: 'Paid', className: isDark ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200', animate: false },
-    overdue: { label: 'Overdue', className: isDark ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200', animate: true },
-    partial: { label: 'Partial', className: isDark ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200', animate: false },
+    paid: { label: 'Paid', className: isDark ? 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200', animate: false },
+    overdue: { label: 'Overdue', className: isDark ? 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200', animate: true },
+    partial: { label: 'Partial', className: isDark ? 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200', animate: false },
   };
   return configs[status];
 }
@@ -297,7 +297,7 @@ function InvoicesPageInner() {
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                      <Bell className="w-3.5 h-3.5 text-amber-400" />
+                                      <Bell className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                                     </button>
                                   </TooltipTrigger>
                                   <TooltipContent><p>Send Reminder</p></TooltipContent>

@@ -54,13 +54,13 @@ function getSeverityConfig(severity: AiOpsSeverity, isDark: boolean) {
 
 function getTypeConfig(type: AiOpsType) {
   switch (type) {
-    case 'cost_anomaly': return { icon: DollarSign, label: 'Cost Anomaly', color: 'text-red-400' };
+    case 'cost_anomaly': return { icon: DollarSign, label: 'Cost Anomaly', color: 'text-red-500 dark:text-red-400' };
     case 'risk_prediction': return { icon: AlertTriangle, label: 'Risk Prediction', color: 'text-orange-400' };
-    case 'optimization': return { icon: Zap, label: 'Optimization', color: 'text-emerald-400' };
-    case 'compliance': return { icon: Shield, label: 'Compliance', color: 'text-amber-400' };
+    case 'optimization': return { icon: Zap, label: 'Optimization', color: 'text-emerald-500 dark:text-emerald-400' };
+    case 'compliance': return { icon: Shield, label: 'Compliance', color: 'text-amber-500 dark:text-amber-400' };
     case 'resource_alert': return { icon: Users, label: 'Resource Alert', color: 'text-sky-400' };
-    case 'delivery_risk': return { icon: Truck, label: 'Delivery Risk', color: 'text-red-400' };
-    case 'revenue_forecast': return { icon: TrendingUp, label: 'Revenue Forecast', color: 'text-emerald-400' };
+    case 'delivery_risk': return { icon: Truck, label: 'Delivery Risk', color: 'text-red-500 dark:text-red-400' };
+    case 'revenue_forecast': return { icon: TrendingUp, label: 'Revenue Forecast', color: 'text-emerald-500 dark:text-emerald-400' };
     case 'vendor_risk': return { icon: BarChart3, label: 'Vendor Risk', color: 'text-orange-400' };
   }
 }
@@ -140,10 +140,10 @@ function AiOpsIntelligencePageInner() {
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.warn ? (isDark ? 'bg-red-500/15' : 'bg-red-50') : (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'))}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
+                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
                 </div>
               </div>
-              <p className={cn('text-xl font-bold', stat.warn && 'text-red-400')}>{stat.value}</p>
+              <p className={cn('text-xl font-bold', stat.warn && 'text-red-500 dark:text-red-400')}>{stat.value}</p>
             </motion.div>
           ))}
         </div>
@@ -195,7 +195,7 @@ function AiOpsIntelligencePageInner() {
                 </div>
 
                 {/* Title */}
-                <h3 className={cn('text-sm font-semibold leading-tight', severity.glow && 'text-red-400')}>
+                <h3 className={cn('text-sm font-semibold leading-tight', severity.glow && 'text-red-500 dark:text-red-400')}>
                   {insight.title}
                 </h3>
 
@@ -232,7 +232,7 @@ function AiOpsIntelligencePageInner() {
                         className={cn('h-full rounded-full', insight.confidence >= 90 ? 'bg-emerald-500' : insight.confidence >= 75 ? 'bg-amber-500' : 'bg-red-500')}
                       />
                     </div>
-                    <span className={cn('text-[11px] font-bold', insight.confidence >= 90 ? 'text-emerald-400' : insight.confidence >= 75 ? 'text-amber-400' : 'text-red-400')}>
+                    <span className={cn('text-[11px] font-bold', insight.confidence >= 90 ? 'text-emerald-500 dark:text-emerald-400' : insight.confidence >= 75 ? 'text-amber-500 dark:text-amber-400' : 'text-red-500 dark:text-red-400')}>
                       {insight.confidence}%
                     </span>
                   </div>

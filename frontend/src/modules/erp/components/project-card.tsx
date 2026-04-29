@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   Calendar,
   User,
@@ -18,81 +17,65 @@ import { Progress } from '@/components/ui/progress';
 import type { ErpProject, ProjectHealth, ProjectPriority } from '../types';
 
 // ─── Health Configuration ─────────────────────────────────
-const healthConfig: Record<ProjectHealth, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string }> = {
+const healthConfig: Record<ProjectHealth, { label: string; color: string; bg: string; border: string }> = {
   excellent: {
     label: 'Excellent',
     color: 'text-emerald-500',
-    bgDark: 'bg-emerald-500/15',
-    bgLight: 'bg-emerald-50',
-    borderDark: 'border-emerald-500/20',
-    borderLight: 'border-emerald-200',
+    bg: 'bg-emerald-50 dark:bg-emerald-500/15',
+    border: 'border-emerald-200 dark:border-emerald-500/20',
   },
   good: {
     label: 'Good',
     color: 'text-blue-500',
-    bgDark: 'bg-blue-500/15',
-    bgLight: 'bg-blue-50',
-    borderDark: 'border-blue-500/20',
-    borderLight: 'border-blue-200',
+    bg: 'bg-blue-50 dark:bg-blue-500/15',
+    border: 'border-blue-200 dark:border-blue-500/20',
   },
   'at-risk': {
     label: 'At Risk',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
   },
   critical: {
     label: 'Critical',
     color: 'text-red-500',
-    bgDark: 'bg-red-500/15',
-    bgLight: 'bg-red-50',
-    borderDark: 'border-red-500/20',
-    borderLight: 'border-red-200',
+    bg: 'bg-red-50 dark:bg-red-500/15',
+    border: 'border-red-200 dark:border-red-500/20',
   },
 };
 
 // ─── Priority Configuration ───────────────────────────────
-const priorityConfig: Record<ProjectPriority, { label: string; color: string; bgDark: string; bgLight: string; borderDark: string; borderLight: string }> = {
+const priorityConfig: Record<ProjectPriority, { label: string; color: string; bg: string; border: string }> = {
   low: {
     label: 'Low',
     color: 'text-zinc-500',
-    bgDark: 'bg-zinc-500/15',
-    bgLight: 'bg-zinc-100',
-    borderDark: 'border-zinc-500/20',
-    borderLight: 'border-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-500/15',
+    border: 'border-zinc-300 dark:border-zinc-500/20',
   },
   medium: {
     label: 'Medium',
     color: 'text-sky-500',
-    bgDark: 'bg-sky-500/15',
-    bgLight: 'bg-sky-50',
-    borderDark: 'border-sky-500/20',
-    borderLight: 'border-sky-200',
+    bg: 'bg-sky-50 dark:bg-sky-500/15',
+    border: 'border-sky-200 dark:border-sky-500/20',
   },
   high: {
     label: 'High',
     color: 'text-amber-500',
-    bgDark: 'bg-amber-500/15',
-    bgLight: 'bg-amber-50',
-    borderDark: 'border-amber-500/20',
-    borderLight: 'border-amber-200',
+    bg: 'bg-amber-50 dark:bg-amber-500/15',
+    border: 'border-amber-200 dark:border-amber-500/20',
   },
   critical: {
     label: 'Critical',
     color: 'text-red-500',
-    bgDark: 'bg-red-500/15',
-    bgLight: 'bg-red-50',
-    borderDark: 'border-red-500/20',
-    borderLight: 'border-red-200',
+    bg: 'bg-red-50 dark:bg-red-500/15',
+    border: 'border-red-200 dark:border-red-500/20',
   },
 };
 
-function getProfitabilityColor(value: number, isDark: boolean) {
-  if (value > 30) return isDark ? 'text-emerald-400' : 'text-emerald-600';
-  if (value >= 15) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+function getProfitabilityColor(value: number) {
+  if (value > 30) return 'text-emerald-500 dark:text-emerald-400';
+  if (value >= 15) return 'text-amber-500 dark:text-amber-400';
+  return 'text-red-500 dark:text-red-400';
 }
 
 function getProfitabilityBarColor(value: number) {
@@ -127,8 +110,6 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const health = healthConfig[project.health];
   const priority = priorityConfig[project.priority];
   const budgetUsed = Math.round((project.actualSpend / project.budget) * 100);
@@ -141,16 +122,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       onClick={() => onClick?.(project.id)}
       className={cn(
         'relative rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
-        isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.02] hover:border-black/[0.1]'
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)]'
       )}
     >
       {/* Header: Name + Priority + Health */}
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold truncate mb-1">{project.name}</h3>
-          <p className={cn('text-xs truncate', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className="text-xs truncate text-[var(--ops-text-secondary)]">
             {project.client}
           </p>
         </div>
@@ -158,7 +137,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           <span
             className={cn(
               'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-medium border',
-              isDark ? `${priority.bgDark} ${priority.color} ${priority.borderDark}` : `${priority.bgLight} ${priority.color} ${priority.borderLight}`
+              `${priority.bg} ${priority.color} ${priority.border}`
             )}
           >
             {priority.label}
@@ -166,7 +145,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           <span
             className={cn(
               'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-medium border',
-              isDark ? `${health.bgDark} ${health.color} ${health.borderDark}` : `${health.bgLight} ${health.color} ${health.borderLight}`
+              `${health.bg} ${health.color} ${health.border}`
             )}
           >
             <Activity className="w-2.5 h-2.5 mr-0.5" />
@@ -177,8 +156,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Account Manager */}
       <div className="flex items-center gap-1.5 mb-3">
-        <User className="w-3 h-3 shrink-0" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-        <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+        <User className="w-3 h-3 shrink-0 text-[var(--ops-text-muted)]" />
+        <span className="text-xs text-[var(--ops-text-muted)]">
           {project.accountManager}
         </span>
       </div>
@@ -186,27 +165,27 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       {/* Budget / Spend */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-1.5">
-          <DollarSign className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-          <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+          <DollarSign className="w-3 h-3 text-[var(--ops-text-muted)]" />
+          <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
             Budget
           </span>
         </div>
-        <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
           {formatCurrency(project.actualSpend)} / {formatCurrency(project.budget)}
         </span>
       </div>
       <div className="mb-3">
-        <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+        <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
           <div
             className={cn('h-full rounded-full transition-all duration-500', budgetUsed > 90 ? 'bg-red-500' : budgetUsed > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
             style={{ width: `${Math.min(budgetUsed, 100)}%` }}
           />
         </div>
         <div className="flex justify-between mt-0.5">
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">
             {budgetUsed}% used
           </span>
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className="text-[10px] text-[var(--ops-text-disabled)]">
             {project.isRecurring && '🔄 Recurring'}
           </span>
         </div>
@@ -214,14 +193,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Progress */}
       <div className="flex items-center justify-between mb-1">
-        <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
           Progress
         </span>
-        <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
           {project.progress}%
         </span>
       </div>
-      <div className={cn('h-1.5 rounded-full overflow-hidden mb-3', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+      <div className="h-1.5 rounded-full overflow-hidden mb-3 bg-[var(--ops-hover-bg)]">
         <div
           className={cn('h-full rounded-full transition-all duration-500', getProgressColor(project.progress))}
           style={{ width: `${project.progress}%` }}
@@ -232,7 +211,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div
         className={cn(
           'flex items-center justify-between pt-3 border-t',
-          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+          'border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center gap-1.5">
@@ -241,13 +220,13 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           ) : (
             <TrendingDown className="w-3.5 h-3.5" />
           )}
-          <span className={cn('text-xs font-semibold', getProfitabilityColor(project.profitability, isDark))}>
+          <span className={cn('text-xs font-semibold', getProfitabilityColor(project.profitability))}>
             {project.profitability > 0 ? '+' : ''}{project.profitability}% margin
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Clock className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-          <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+          <Clock className="w-3 h-3 text-[var(--ops-text-muted)]" />
+          <span className="text-[11px] text-[var(--ops-text-muted)]">
             {formatDate(project.dueDate)}
           </span>
         </div>
@@ -255,14 +234,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* SLA */}
       <div className="mt-2 flex items-center justify-between">
-        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+        <span className="text-[10px] text-[var(--ops-text-disabled)]">
           SLA Compliance
         </span>
         <span className={cn(
           'text-[10px] font-medium',
-          project.sla >= 95 ? (isDark ? 'text-emerald-400' : 'text-emerald-600')
-            : project.sla >= 85 ? (isDark ? 'text-amber-400' : 'text-amber-600')
-            : (isDark ? 'text-red-400' : 'text-red-600')
+          project.sla >= 95 ? 'text-emerald-500 dark:text-emerald-400'
+            : project.sla >= 85 ? 'text-amber-500 dark:text-amber-400'
+            : 'text-red-500 dark:text-red-400'
         )}>
           {project.sla}%
         </span>

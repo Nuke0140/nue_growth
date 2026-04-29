@@ -115,7 +115,7 @@ function DepartmentsPageInner() {
 
                 {/* KPI Bar */}
                 <div>
-                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.kpiScore}%` }}

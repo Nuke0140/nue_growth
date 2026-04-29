@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   Users,
   Gauge,
@@ -35,9 +34,6 @@ interface ResourceUtilizationProps {
 }
 
 export default function ResourceUtilization({ resources }: ResourceUtilizationProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   const summaryStats = useMemo(() => {
     const total = resources.length;
     const overloaded = resources.filter((r) => r.utilization > 80).length;
@@ -56,30 +52,28 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
         transition={{ duration: 0.3 }}
         className={cn(
           'rounded-2xl border p-4 shadow-sm',
-          isDark
-            ? 'bg-white/[0.03] border-white/[0.06]'
-            : 'bg-white border-black/[0.06]'
+          'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center gap-2 mb-3">
-          <Gauge className={cn('w-4 h-4', isDark ? 'text-white/60' : 'text-black/60')} />
+          <Gauge className="w-4 h-4 text-[var(--ops-text-secondary)]" />
           <h3 className="text-sm font-semibold">Resource Utilization Summary</h3>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className={cn('p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-            <p className={cn('text-[10px] font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>Total Resources</p>
+          <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
+            <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">Total Resources</p>
             <p className="text-lg font-bold">{summaryStats.total}</p>
           </div>
-          <div className={cn('p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-            <p className={cn('text-[10px] font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>Avg. Utilization</p>
+          <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
+            <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">Avg. Utilization</p>
             <p className="text-lg font-bold">{summaryStats.avgUtilization}%</p>
           </div>
-          <div className={cn('p-3 rounded-xl', isDark ? 'bg-red-500/[0.04]' : 'bg-red-50')}>
-            <p className={cn('text-[10px] font-medium mb-1 text-red-500')}>Overloaded</p>
+          <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/[0.04]">
+            <p className="text-[10px] font-medium mb-1 text-red-500">Overloaded</p>
             <p className="text-lg font-bold text-red-500">{summaryStats.overloaded}</p>
           </div>
-          <div className={cn('p-3 rounded-xl', isDark ? 'bg-emerald-500/[0.04]' : 'bg-emerald-50')}>
-            <p className={cn('text-[10px] font-medium mb-1 text-emerald-500')}>Optimal</p>
+          <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/[0.04]">
+            <p className="text-[10px] font-medium mb-1 text-emerald-500">Optimal</p>
             <p className="text-lg font-bold text-emerald-500">{summaryStats.optimal}</p>
           </div>
         </div>
@@ -100,9 +94,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               transition={{ duration: 0.25, delay: index * 0.04 }}
               className={cn(
                 'rounded-2xl border p-4 shadow-sm transition-colors duration-200',
-                isDark
-                  ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
-                  : 'bg-white border-black/[0.06] hover:bg-black/[0.01]'
+                'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
               )}
             >
               {/* Name + Role */}
@@ -110,13 +102,13 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                 <div className="flex items-center gap-2.5">
                   <div className={cn(
                     'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold',
-                    isDark ? 'bg-white/[0.08] text-white/70' : 'bg-black/[0.08] text-black/70'
+                    'bg-[var(--ops-elevated)] text-[var(--ops-text)]'
                   )}>
                     {resource.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                   </div>
                   <div>
                     <h4 className="text-xs font-semibold">{resource.name}</h4>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className="text-[10px] text-[var(--ops-text-muted)]">
                       {resource.role}
                     </p>
                   </div>
@@ -132,14 +124,14 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Utilization Bar */}
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
                     Utilization
                   </span>
                   <span className={cn('text-[11px] font-bold', utilColor.text)}>
                     {resource.utilization}%
                   </span>
                 </div>
-                <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
                   <motion.div
                     className={cn('h-full rounded-full', utilColor.bar)}
                     initial={{ width: 0 }}
@@ -152,10 +144,10 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Allocation */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-1">
-                  <UserCheck className="w-3 h-3" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Allocation</span>
+                  <UserCheck className="w-3 h-3 text-[var(--ops-text-muted)]" />
+                  <span className="text-[10px] text-[var(--ops-text-muted)]">Allocation</span>
                 </div>
-                <span className={cn('text-[11px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+                <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
                   {resource.allocation}% · {resource.availability} free
                 </span>
               </div>
@@ -168,7 +160,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                       key={skill}
                       className={cn(
                         'px-1.5 py-0.5 rounded text-[9px] font-medium',
-                        isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+                        'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)]'
                       )}
                     >
                       {skill}
@@ -177,7 +169,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                   {extraSkills > 0 && (
                     <span className={cn(
                       'px-1.5 py-0.5 rounded text-[9px] font-medium',
-                      isDark ? 'bg-white/[0.04] text-white/30' : 'bg-black/[0.04] text-black/30'
+                      'bg-[var(--ops-hover-bg)] text-[var(--ops-text-disabled)]'
                     )}>
                       +{extraSkills}
                     </span>
@@ -188,16 +180,16 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Projects */}
               {resource.projects.length > 0 && (
                 <div>
-                  <p className={cn('text-[10px] font-medium mb-1', isDark ? 'text-white/35' : 'text-black/35')}>
+                  <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">
                     Active Projects ({resource.projects.length})
                   </p>
                   <div className="space-y-1">
                     {resource.projects.map((project) => (
                       <div key={project.projectId} className="flex items-center justify-between">
-                        <span className={cn('text-[10px] truncate max-w-[140px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <span className="text-[10px] truncate max-w-[140px] text-[var(--ops-text-muted)]">
                           {project.projectName}
                         </span>
-                        <span className={cn('text-[9px] shrink-0', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className="text-[9px] shrink-0 text-[var(--ops-text-disabled)]">
                           {project.allocation}%
                         </span>
                       </div>
@@ -207,9 +199,9 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               )}
 
               {/* Department */}
-              <div className={cn('mt-3 pt-2 border-t flex items-center gap-1', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                <Clock className="w-2.5 h-2.5" style={{ color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)' }} />
-                <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+              <div className="mt-3 pt-2 border-t flex items-center gap-1 border-[var(--ops-border)]">
+                <Clock className="w-2.5 h-2.5 text-[var(--ops-text-disabled)]" />
+                <span className="text-[9px] text-[var(--ops-text-disabled)]">
                   {resource.department}
                 </span>
               </div>
@@ -222,7 +214,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
       {resources.length === 0 && (
         <div className={cn(
           'flex flex-col items-center justify-center py-12 rounded-2xl border',
-          isDark ? 'bg-white/[0.02] border-white/[0.06] text-white/20' : 'bg-white border-black/[0.06] text-black/20'
+          'bg-[var(--ops-card-bg)] border-[var(--ops-border)] text-[var(--ops-text-disabled)]'
         )}>
           <Users className="w-8 h-8 mb-2" />
           <p className="text-xs">No resource data available</p>

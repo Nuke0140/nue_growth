@@ -29,7 +29,7 @@ export function DensityToggle() {
             <Button
               variant="ghost"
               size="icon"
-              className="hidden sm:flex h-8 w-8 rounded-lg text-[rgba(245,245,245,0.4)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]"
+              className="hidden sm:flex h-8 w-8 rounded-lg text-[var(--ops-text-muted)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               {isCompact ? (
                 <Rows4 className="w-4 h-4" />
@@ -45,9 +45,9 @@ export function DensityToggle() {
       </Tooltip>
       <DropdownMenuContent
         align="end"
-        className="w-44 bg-[#222325] border-[rgba(255,255,255,0.08)] rounded-xl ops-dropdown-enter"
+        className="w-44 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl ops-dropdown-enter"
       >
-        <DropdownMenuLabel className="text-[rgba(245,245,245,0.4)] text-xs font-semibold tracking-wider uppercase">
+        <DropdownMenuLabel className="text-[var(--ops-text-muted)] text-xs font-semibold tracking-wider uppercase">
           Display Density
         </DropdownMenuLabel>
         <DropdownMenuItem
@@ -55,14 +55,14 @@ export function DensityToggle() {
           className={cn(
             'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
             !isCompact
-              ? 'text-[#f5f5f5] bg-[rgba(204,92,55,0.08)]'
-              : 'text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+              ? 'text-[var(--ops-text)] bg-[var(--ops-accent-light)]'
+              : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
           )}
         >
-          <Rows3 className="w-4 h-4 shrink-0 text-[rgba(245,245,245,0.35)]" />
+          <Rows3 className="w-4 h-4 shrink-0 text-[var(--ops-text-muted)]" />
           <span>Comfortable</span>
           {!isCompact && (
-            <span className="ml-auto text-[10px] text-[#cc5c37] font-medium">Active</span>
+            <span className="ml-auto text-[10px] text-[var(--ops-accent)] font-medium">Active</span>
           )}
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -70,14 +70,14 @@ export function DensityToggle() {
           className={cn(
             'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
             isCompact
-              ? 'text-[#f5f5f5] bg-[rgba(204,92,55,0.08)]'
-              : 'text-[rgba(245,245,245,0.6)] hover:text-[#f5f5f5] hover:bg-[rgba(255,255,255,0.06)]'
+              ? 'text-[var(--ops-text)] bg-[var(--ops-accent-light)]'
+              : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
           )}
         >
-          <Rows4 className="w-4 h-4 shrink-0 text-[rgba(245,245,255,0.35)]" />
+          <Rows4 className="w-4 h-4 shrink-0 text-[var(--ops-text-muted)]" />
           <span>Compact</span>
           {isCompact && (
-            <span className="ml-auto text-[10px] text-[#cc5c37] font-medium">Active</span>
+            <span className="ml-auto text-[10px] text-[var(--ops-accent)] font-medium">Active</span>
           )}
         </DropdownMenuItem>
       </DropdownMenuContent>
