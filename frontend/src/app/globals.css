@@ -46,40 +46,41 @@
 
 /* ============================================
    System Design Tokens (Light)
+   Primary shifted from black to brand blue.
    ============================================ */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.985 0.002 250);
+  --foreground: oklch(0.16 0.02 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.16 0.02 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.16 0.02 260);
+  --primary: oklch(0.546 0.245 262.881);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.968 0.007 250);
+  --secondary-foreground: oklch(0.205 0.02 260);
+  --muted: oklch(0.968 0.007 250);
+  --muted-foreground: oklch(0.556 0.015 260);
+  --accent: oklch(0.968 0.007 250);
+  --accent-foreground: oklch(0.205 0.02 260);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --border: oklch(0.93 0.005 250);
+  --input: oklch(0.93 0.005 250);
+  --ring: oklch(0.546 0.245 262.881);
+  --chart-1: oklch(0.546 0.245 262.881);
+  --chart-2: oklch(0.488 0.243 264.376);
+  --chart-3: oklch(0.627 0.265 303.9);
+  --chart-4: oklch(0.696 0.17 162.48);
+  --chart-5: oklch(0.705 0.213 47.604);
+  --sidebar: oklch(0.985 0.004 250);
+  --sidebar-foreground: oklch(0.16 0.02 260);
+  --sidebar-primary: oklch(0.546 0.245 262.881);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.955 0.015 250);
+  --sidebar-accent-foreground: oklch(0.205 0.02 260);
+  --sidebar-border: oklch(0.93 0.005 250);
+  --sidebar-ring: oklch(0.546 0.245 262.881);
 
   /* ============================================
      Ops / ERP — backward compatibility aliases
@@ -90,6 +91,9 @@
   --ops-accent: var(--app-accent);
   --ops-accent-hover: var(--app-accent-hover);
   --ops-accent-light: var(--app-accent-light);
+  --ops-highlight: var(--app-highlight);
+  --ops-highlight-hover: var(--app-highlight-hover);
+  --ops-highlight-light: var(--app-highlight-light);
   --ops-card-bg: var(--app-card-bg);
   --ops-card-bg-hover: var(--app-card-bg-hover);
   --ops-elevated: var(--app-elevated);
@@ -120,37 +124,37 @@
    System Design Tokens (Dark)
    ============================================ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.16 0.02 260);
+  --foreground: oklch(0.965 0.005 250);
+  --card: oklch(0.21 0.02 260);
+  --card-foreground: oklch(0.965 0.005 250);
+  --popover: oklch(0.21 0.02 260);
+  --popover-foreground: oklch(0.965 0.005 250);
+  --primary: oklch(0.623 0.214 259.815);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.27 0.02 260);
+  --secondary-foreground: oklch(0.965 0.005 250);
+  --muted: oklch(0.27 0.02 260);
+  --muted-foreground: oklch(0.65 0.015 260);
+  --accent: oklch(0.27 0.02 260);
+  --accent-foreground: oklch(0.965 0.005 250);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.623 0.214 259.815);
+  --chart-1: oklch(0.623 0.214 259.815);
+  --chart-2: oklch(0.488 0.243 264.376);
+  --chart-3: oklch(0.627 0.265 303.9);
+  --chart-4: oklch(0.696 0.17 162.48);
+  --chart-5: oklch(0.705 0.213 47.604);
+  --sidebar: oklch(0.18 0.02 260);
+  --sidebar-foreground: oklch(0.965 0.005 250);
+  --sidebar-primary: oklch(0.623 0.214 259.815);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-accent: oklch(0.27 0.02 260);
+  --sidebar-accent-foreground: oklch(0.965 0.005 250);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.623 0.214 259.815);
 
   /* ============================================
      Ops / ERP — dark mode aliases
@@ -167,11 +171,11 @@
   background-color: var(--ops-card-bg);
   border: 1px solid var(--ops-border);
   box-shadow: var(--ops-shadow-card);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ops-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ops-card-hover:hover {
@@ -180,11 +184,11 @@
 }
 
 .ops-glow {
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ops-glow:hover {
-  box-shadow: 0 0 20px rgba(204, 92, 55, 0.15);
+  box-shadow: var(--app-glow-blue);
 }
 
 .ops-input {
@@ -192,12 +196,12 @@
   background-color: var(--ops-input-bg);
   border: 1px solid var(--ops-border);
   color: var(--ops-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ops-input:focus {
   border-color: var(--ops-accent);
-  box-shadow: 0 0 0 2px var(--ops-accent-light);
+  box-shadow: 0 0 0 3px var(--ops-accent-light);
   outline: none;
 }
 
@@ -214,7 +218,7 @@
   background-color: var(--ops-accent);
   color: #ffffff;
   font-weight: 500;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.1s ease;
   cursor: pointer;
   border: none;
   padding: 0.5rem 1rem;
@@ -283,24 +287,25 @@
   100% { background-position: -200% 0; }
 }
 
-/* Progress bar */
+/* Progress bar — uses brand blue */
 .ops-progress-bar {
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--ops-accent), var(--ops-accent-hover), var(--ops-accent));
+  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover), var(--app-accent));
   z-index: 100;
   transition: width 0.3s ease;
 }
 
-/* Gradient accent */
+/* Gradient accent — uses brand blue */
 .ops-gradient-accent {
-  background: linear-gradient(135deg, var(--ops-accent-light) 0%, rgba(204,92,55,0.03) 100%);
+  background: linear-gradient(135deg, var(--ops-accent-light) 0%, rgba(37, 99, 235, 0.03) 100%);
 }
 
+/* Gradient text — blue → orange */
 .ops-gradient-text {
-  background: linear-gradient(135deg, #cc5c37 0%, #e8825e 100%);
+  background: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -360,11 +365,11 @@
   background-color: var(--app-card-bg);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow-card);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .app-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .app-card-hover:hover {
@@ -377,12 +382,12 @@
   background-color: var(--app-input-bg);
   border: 1px solid var(--app-border);
   color: var(--app-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .app-input:focus {
   border-color: var(--app-accent);
-  box-shadow: 0 0 0 2px var(--app-accent-light);
+  box-shadow: 0 0 0 3px var(--app-accent-light);
   outline: none;
 }
 
@@ -399,7 +404,7 @@
   background-color: var(--app-accent);
   color: #ffffff;
   font-weight: 500;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.1s ease;
   cursor: pointer;
   border: none;
   padding: 0.5rem 1rem;
@@ -467,6 +472,7 @@
   100% { background-position: -200% 0; }
 }
 
+/* Progress bar — uses brand blue */
 .app-progress-bar {
   position: fixed;
   top: 0;
@@ -477,8 +483,9 @@
   transition: width 0.3s ease;
 }
 
+/* Gradient text — blue → orange */
 .app-gradient-text {
-  background: linear-gradient(135deg, var(--app-accent) 0%, var(--app-accent-hover) 100%);
+  background: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -526,6 +533,240 @@
   background: var(--app-scrollbar-thumb-hover);
 }
 
+/* ============================================
+   Premium Glass Effects
+   ============================================ */
+.app-glass {
+  background: var(--app-glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--app-glass-border);
+}
+
+.app-glass-strong {
+  background: var(--app-glass-bg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--app-glass-border);
+}
+
+/* ============================================
+   Premium Card
+   ============================================ */
+.app-card-premium {
+  border-radius: 16px;
+  background-color: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-card);
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-card-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--app-shadow-card-hover);
+  border-color: var(--app-border-strong);
+}
+
+/* ============================================
+   Premium Gradient CTA Button
+   ============================================ */
+.app-btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 12px;
+  background: var(--app-gradient-primary);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.app-btn-premium:hover {
+  background: var(--app-gradient-primary-hover);
+  box-shadow: var(--app-glow-blue);
+  transform: translateY(-1px);
+}
+
+.app-btn-premium:active {
+  transform: scale(0.98) translateY(0);
+}
+
+/* ============================================
+   AI Insight Panel
+   ============================================ */
+.app-ai-panel {
+  border-radius: 16px;
+  background: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-ai-panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--app-accent), var(--app-highlight));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.5;
+}
+
+/* ============================================
+   Premium Input
+   ============================================ */
+.app-input-premium {
+  border-radius: 10px;
+  background-color: var(--app-input-bg);
+  border: 1px solid var(--app-border);
+  color: var(--app-text);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-input-premium:focus {
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 3px var(--app-accent-light);
+  outline: none;
+}
+
+.app-input-premium::placeholder {
+  color: var(--app-text-muted);
+}
+
+/* ============================================
+   KPI Card
+   ============================================ */
+.app-kpi-card {
+  border-radius: 16px;
+  background-color: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-card);
+  padding: 1.5rem;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--app-shadow-card-hover);
+}
+
+/* ============================================
+   Premium Data Table Row
+   ============================================ */
+.app-table-row {
+  transition: background-color 0.15s ease;
+}
+
+.app-table-row:hover {
+  background-color: var(--app-hover-bg);
+}
+
+.app-table-row-selected {
+  background-color: var(--app-active-bg);
+  box-shadow: inset 3px 0 0 var(--app-accent);
+}
+
+/* ============================================
+   Status Badges
+   ============================================ */
+.app-badge-success {
+  background-color: rgba(5, 150, 105, 0.1);
+  color: #059669;
+}
+.dark .app-badge-success {
+  background-color: rgba(52, 211, 153, 0.1);
+  color: #34D399;
+}
+
+.app-badge-warning {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: #F97316;
+}
+.dark .app-badge-warning {
+  background-color: rgba(251, 146, 60, 0.1);
+  color: #FB923C;
+}
+
+.app-badge-danger {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
+}
+.dark .app-badge-danger {
+  background-color: rgba(248, 113, 113, 0.1);
+  color: #F87171;
+}
+
+.app-badge-info {
+  background-color: rgba(37, 99, 235, 0.1);
+  color: #2563EB;
+}
+.dark .app-badge-info {
+  background-color: rgba(96, 165, 250, 0.1);
+  color: #60A5FA;
+}
+
+/* ============================================
+   Premium Scrollbar
+   ============================================ */
+.app-scrollbar-premium::-webkit-scrollbar {
+  width: 6px;
+}
+.app-scrollbar-premium::-webkit-scrollbar-track {
+  background: transparent;
+}
+.app-scrollbar-premium::-webkit-scrollbar-thumb {
+  background: var(--app-scrollbar-thumb);
+  border-radius: 6px;
+}
+.app-scrollbar-premium::-webkit-scrollbar-thumb:hover {
+  background: var(--app-scrollbar-thumb-hover);
+}
+
+/* ============================================
+   Micro-interaction Utilities
+   ============================================ */
+.app-lift {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.app-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--app-shadow-card-hover);
+}
+.app-scale-press {
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.app-scale-press:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   Smooth Page Transitions
+   ============================================ */
+.app-page-enter {
+  animation: app-page-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes app-page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   Base Layer & Global Enhancements
+   ============================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -535,19 +776,15 @@
   }
 }
 
-/* ============================================
-   Global Enhancements
-   ============================================ */
-
 /* 1. Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
 
-/* 2. Focus visible — keyboard navigation indicator */
+/* 2. Focus visible — uses brand blue */
 *:focus-visible {
-  outline: 2px solid var(--ops-accent);
+  outline: 2px solid var(--app-accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -557,9 +794,9 @@ html {
   outline: none;
 }
 
-/* 3. Consistent selection color */
+/* 3. Consistent selection color — uses brand blue */
 ::selection {
-  background-color: rgba(204, 92, 55, 0.2);
+  background-color: rgba(37, 99, 235, 0.2);
   color: inherit;
 }
 

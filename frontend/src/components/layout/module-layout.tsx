@@ -144,21 +144,21 @@ function buildSectionPageMap(sections: NavSection[]): Record<string, string[]> {
 // ---- Skeleton loader for lazy-loading mode ----
 function ModuleSkeleton() {
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 animate-in fade-in duration-300">
       <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-48 rounded-lg" />
+        <Skeleton className="h-8 w-48 rounded-lg animate-pulse" />
         <div className="flex gap-2">
-          <Skeleton className="h-9 w-28 rounded-lg" />
-          <Skeleton className="h-9 w-9 rounded-lg" />
+          <Skeleton className="h-9 w-28 rounded-lg animate-pulse" style={{ animationDelay: '0.05s' }} />
+          <Skeleton className="h-9 w-9 rounded-lg animate-pulse" style={{ animationDelay: '0.1s' }} />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-32 rounded-xl" />
+          <Skeleton key={i} className="h-32 rounded-xl animate-pulse" style={{ animationDelay: `${0.15 + i * 0.05}s` }} />
         ))}
       </div>
-      <Skeleton className="h-64 rounded-xl" />
-      <Skeleton className="h-48 rounded-xl" />
+      <Skeleton className="h-64 rounded-xl animate-pulse" style={{ animationDelay: '0.3s' }} />
+      <Skeleton className="h-48 rounded-xl animate-pulse" style={{ animationDelay: '0.35s' }} />
     </div>
   );
 }
@@ -220,7 +220,7 @@ function FlatNavItem({
         'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group relative',
         isActive
           ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] font-medium'
-          : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+          : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] hover:scale-[1.01] active:scale-[0.99]'
       )}
     >
       {isActive && (
@@ -558,11 +558,13 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
 
   return (
     <header
-      className="sticky top-0 backdrop-blur-sm flex items-center justify-between px-4 gap-4 shrink-0"
+      className="sticky top-0 flex items-center justify-between px-4 gap-4 shrink-0 app-glass-strong"
       style={{
         height: LAYOUT.topbarHeightPx,
-        borderBottom: `1px solid var(--app-topbar-border)`,
-        backgroundColor: CSS.topbarBg,
+        borderBottom: '1px solid var(--app-topbar-border)',
+        backgroundColor: 'var(--app-glass-bg)',
+        backdropFilter: 'blur(16px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
         zIndex: Z_INDEX.topbar,
       }}
     >
@@ -678,7 +680,8 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
           role="button"
           tabIndex={0}
           className={cn(
-            'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-56 lg:w-64 transition-colors cursor-pointer',
+            'hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full border w-56 lg:w-64 transition-all duration-200 cursor-pointer',
+            'hover:border-[var(--app-border-strong)] hover:shadow-sm'
           )}
           style={{
             backgroundColor: CSS.hoverBg,
@@ -690,8 +693,8 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
             Search...
           </span>
           <kbd
-            className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono ml-auto"
-            style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}
+            className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-mono ml-auto border"
+            style={{ backgroundColor: CSS.cardBg, color: CSS.textMuted, borderColor: CSS.border }}
           >
             <Command className="w-2.5 h-2.5" />K
           </kbd>
@@ -746,9 +749,9 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
                   className="absolute inset-0 rounded-lg"
                   animate={{
                     boxShadow: [
-                      '0 0 0 0 rgba(139,92,246,0)',
-                      '0 0 0 4px rgba(139,92,246,0.1)',
-                      '0 0 0 0 rgba(139,92,246,0)',
+                      '0 0 0 0 rgba(37, 99, 235, 0)',
+                      '0 0 0 4px rgba(37, 99, 235, 0.1)',
+                      '0 0 0 0 rgba(37, 99, 235, 0)',
                     ],
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -901,7 +904,7 @@ function ModulePageContent({ config, accent }: { config: ModuleConfig; accent: {
         <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${progressWidth}%`, backgroundColor: accent.primary }}
+            style={{ width: `${progressWidth}%`, background: 'linear-gradient(90deg, #2563EB, #3B82F6, #2563EB)', backgroundSize: '200% 100%' }}
           />
         </div>
       )}
@@ -1007,8 +1010,8 @@ function MobileFab({ accent }: { accent: { primary: string } }) {
         onClick={() => setFabOpen(!fabOpen)}
         className="relative w-14 h-14 rounded-full text-white flex items-center justify-center"
         style={{
-          backgroundColor: accent.primary,
-          boxShadow: `0 4px 14px ${accent.primary}40`,
+          background: 'linear-gradient(135deg, #2563EB, #F97316)',
+          boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)',
         }}
       >
         <motion.div

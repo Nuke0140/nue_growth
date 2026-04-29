@@ -88,6 +88,17 @@ export const CSS = {
   sidebarBg: 'var(--app-sidebar-bg)',
   topbarBg: 'var(--app-topbar-bg)',
   topbarBorder: 'var(--app-topbar-border)',
+  highlight: 'var(--app-highlight)',
+  highlightHover: 'var(--app-highlight-hover)',
+  highlightLight: 'var(--app-highlight-light)',
+  glassBg: 'var(--app-glass-bg)',
+  glassBorder: 'var(--app-glass-border)',
+  gradientPrimary: 'var(--app-gradient-primary)',
+  gradientPrimaryHover: 'var(--app-gradient-primary-hover)',
+  glowBlue: 'var(--app-glow-blue)',
+  glowOrange: 'var(--app-glow-orange)',
+  glowMixed: 'var(--app-glow-mixed)',
+  shadowElevated: 'var(--app-shadow-elevated)',
 } as const;
 
 // ---- Backward-compat alias: --ops-* maps to same --app-* vars ----
@@ -145,6 +156,16 @@ export const inlineStyles = {
   activeBg: { backgroundColor: CSS.activeBg },
   sidebar: { backgroundColor: CSS.sidebarBg },
   topbar: { backgroundColor: CSS.topbarBg, borderBottom: `1px solid ${CSS.topbarBorder}` },
+  highlight: { color: CSS.highlight },
+  highlightBg: { backgroundColor: CSS.highlight },
+  highlightLight: { backgroundColor: CSS.highlightLight },
+  glass: { backgroundColor: CSS.glassBg, border: `1px solid ${CSS.glassBorder}` },
+  gradientPrimary: { background: CSS.gradientPrimary },
+  gradientPrimaryHover: { background: CSS.gradientPrimaryHover },
+  glowBlue: { boxShadow: CSS.glowBlue },
+  glowOrange: { boxShadow: CSS.glowOrange },
+  glowMixed: { boxShadow: CSS.glowMixed },
+  shadowElevated: { boxShadow: CSS.shadowElevated },
 } as const;
 
 // ---- Animation (Framer Motion) ----
@@ -156,7 +177,7 @@ export const ANIMATION = {
   duration: {
     instant: 0.1,
     fast: 0.15,
-    normal: 0.2,
+    normal: 0.25,
     slow: 0.3,
     pageTransition: 0.35,
   },
@@ -188,9 +209,11 @@ export const RADIUS = {
 export const SHADOWS = {
   card: 'var(--app-shadow-card)',
   'card-hover': 'var(--app-shadow-card-hover)',
+  elevated: 'var(--app-shadow-elevated)',
   dropdown: '0 8px 24px rgba(0, 0, 0, 0.2)',
   modal: '0 20px 60px rgba(0, 0, 0, 0.3)',
-  accent: '0 2px 8px rgba(204, 92, 55, 0.3)',
+  accent: '0 4px 14px rgba(37, 99, 235, 0.25)',
+  highlight: '0 4px 14px rgba(249, 115, 22, 0.25)',
 } as const;
 
 // ---- Z-index layers ----
@@ -277,14 +300,14 @@ export function getPriorityColor(priority: string): { color: string; bg: string 
 // Each module can use its own primary/hover/light for module-specific UI.
 // Falls back to the global accent if no override is needed.
 export const MODULE_ACCENTS = {
-  erp: { primary: '#cc5c37', hover: '#b8512f', light: 'rgba(204, 92, 55, 0.08)' },
-  crm: { primary: '#6366f1', hover: '#5558e6', light: 'rgba(99, 102, 241, 0.08)' },
+  erp: { primary: '#2563EB', hover: '#1D4ED8', light: 'rgba(37, 99, 235, 0.08)' },
+  crm: { primary: '#7C3AED', hover: '#6D28D9', light: 'rgba(124, 58, 237, 0.08)' },
   finance: { primary: '#059669', hover: '#047857', light: 'rgba(5, 150, 105, 0.08)' },
-  marketing: { primary: '#d946ef', hover: '#c026d3', light: 'rgba(217, 70, 239, 0.08)' },
-  analytics: { primary: '#0ea5e9', hover: '#0284c7', light: 'rgba(14, 165, 233, 0.08)' },
-  automation: { primary: '#f59e0b', hover: '#d97706', light: 'rgba(245, 158, 11, 0.08)' },
-  retention: { primary: '#10b981', hover: '#059669', light: 'rgba(16, 185, 129, 0.08)' },
-  settings: { primary: '#64748b', hover: '#475569', light: 'rgba(100, 116, 139, 0.08)' },
+  marketing: { primary: '#EC4899', hover: '#DB2777', light: 'rgba(236, 72, 153, 0.08)' },
+  analytics: { primary: '#0EA5E9', hover: '#0284C7', light: 'rgba(14, 165, 233, 0.08)' },
+  automation: { primary: '#F97316', hover: '#EA580C', light: 'rgba(249, 115, 22, 0.08)' },
+  retention: { primary: '#10B981', hover: '#059669', light: 'rgba(16, 185, 129, 0.08)' },
+  settings: { primary: '#64748B', hover: '#475569', light: 'rgba(100, 116, 139, 0.08)' },
 } as const;
 
 export type ModuleName = keyof typeof MODULE_ACCENTS;

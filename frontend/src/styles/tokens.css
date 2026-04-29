@@ -2,116 +2,154 @@
    NueEra Growth OS — Global Design Tokens
    ============================================
    CSS custom properties (--app-*) for both light and dark mode.
-   Imported separately from globals.css.
-   The --ops-* variables in globals.css remain as aliases
-   pointing to these same values during migration.
+   Brand: Blue (#2563EB) + Orange (#F97316)
+   Aesthetic: Linear (speed), Notion (clarity),
+              Stripe (depth), Apple (elegance)
+
+   Color ratio: 80% neutral, 15% blue, 5% orange
+   Gradients (blue→orange) ONLY for: CTA buttons, auth screens,
+   AI panels, key highlights.
    ============================================ */
 
 :root {
-  /* ---- Core surfaces ---- */
-  --app-bg: #fafafa;
-  --app-accent: #cc5c37;
-  --app-accent-hover: #b8512f;
-  --app-accent-light: rgba(204, 92, 55, 0.08);
-  --app-card-bg: #ffffff;
-  --app-card-bg-hover: #f5f5f5;
-  --app-elevated: #f5f5f5;
-  --app-input-bg: #f5f5f5;
+  /* ---- Core Surfaces ---- */
+  --app-bg: #F8FAFC;
+  --app-accent: #2563EB;
+  --app-accent-hover: #1D4ED8;
+  --app-accent-light: rgba(37, 99, 235, 0.08);
+  --app-highlight: #F97316;
+  --app-highlight-hover: #EA580C;
+  --app-highlight-light: rgba(249, 115, 22, 0.08);
+  --app-card-bg: #FFFFFF;
+  --app-card-bg-hover: #F8FAFC;
+  --app-elevated: #F1F5F9;
+  --app-input-bg: #FFFFFF;
 
   /* ---- Text ---- */
-  --app-text: #0a0a0a;
-  --app-text-secondary: rgba(0, 0, 0, 0.6);
-  --app-text-muted: rgba(0, 0, 0, 0.35);
-  --app-text-disabled: rgba(0, 0, 0, 0.2);
+  --app-text: #0F172A;
+  --app-text-secondary: rgba(15, 23, 42, 0.65);
+  --app-text-muted: rgba(15, 23, 42, 0.4);
+  --app-text-disabled: rgba(15, 23, 42, 0.25);
 
   /* ---- Borders ---- */
-  --app-border: rgba(0, 0, 0, 0.08);
-  --app-border-light: rgba(0, 0, 0, 0.05);
-  --app-border-strong: rgba(0, 0, 0, 0.12);
+  --app-border: rgba(15, 23, 42, 0.08);
+  --app-border-light: rgba(15, 23, 42, 0.05);
+  --app-border-strong: rgba(15, 23, 42, 0.15);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(0, 0, 0, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.06);
+  --app-hover-bg: rgba(15, 23, 42, 0.04);
+  --app-active-bg: rgba(37, 99, 235, 0.06);
 
   /* ---- Semantic ---- */
   --app-success: #059669;
-  --app-warning: #d97706;
-  --app-danger: #dc2626;
-  --app-info: #2563eb;
+  --app-warning: #F97316;
+  --app-danger: #DC2626;
+  --app-info: #2563EB;
 
   /* ---- Shadows ---- */
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --app-shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --app-shadow-card-hover: 0 8px 25px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(15, 23, 42, 0.04);
+  --app-shadow-elevated: 0 10px 40px rgba(15, 23, 42, 0.1), 0 4px 12px rgba(15, 23, 42, 0.05);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(0, 0, 0, 0.15);
-  --app-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
+  --app-scrollbar-thumb: rgba(15, 23, 42, 0.12);
+  --app-scrollbar-thumb-hover: rgba(15, 23, 42, 0.2);
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(0, 0, 0, 0.4);
+  --app-overlay: rgba(15, 23, 42, 0.4);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(0, 0, 0, 0.04);
-  --app-skeleton-to: rgba(0, 0, 0, 0.08);
+  --app-skeleton-from: rgba(15, 23, 42, 0.04);
+  --app-skeleton-to: rgba(15, 23, 42, 0.08);
 
   /* ---- Layout ---- */
-  --app-sidebar-bg: #ffffff;
-  --app-topbar-bg: #ffffff;
-  --app-topbar-border: rgba(0, 0, 0, 0.08);
+  --app-sidebar-bg: #FFFFFF;
+  --app-topbar-bg: rgba(248, 250, 252, 0.8);
+  --app-topbar-border: rgba(15, 23, 42, 0.06);
+
+  /* ---- Glass / Morphism ---- */
+  --app-glass-bg: rgba(255, 255, 255, 0.7);
+  --app-glass-border: rgba(255, 255, 255, 0.5);
+
+  /* ---- Gradients ---- */
+  --app-gradient-primary: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
+  --app-gradient-primary-hover: linear-gradient(135deg, #1D4ED8 0%, #EA580C 100%);
+
+  /* ---- Glow Effects ---- */
+  --app-glow-blue: 0 0 20px rgba(37, 99, 235, 0.15);
+  --app-glow-orange: 0 0 20px rgba(249, 115, 22, 0.15);
+  --app-glow-mixed: 0 0 30px rgba(37, 99, 235, 0.1), 0 0 60px rgba(249, 115, 22, 0.05);
 }
 
 /* ============================================
    Dark Mode
    ============================================ */
 .dark {
-  /* ---- Core surfaces ---- */
-  --app-bg: #1b1c1e;
-  --app-accent: #cc5c37;
-  --app-accent-hover: #d46a44;
-  --app-accent-light: rgba(204, 92, 55, 0.1);
-  --app-card-bg: #222325;
-  --app-card-bg-hover: #2a2b2e;
-  --app-elevated: #2a2b2e;
-  --app-input-bg: #2a2b2e;
+  /* ---- Core Surfaces ---- */
+  --app-bg: #0B1120;
+  --app-accent: #3B82F6;
+  --app-accent-hover: #2563EB;
+  --app-accent-light: rgba(59, 130, 246, 0.12);
+  --app-highlight: #FB923C;
+  --app-highlight-hover: #F97316;
+  --app-highlight-light: rgba(251, 146, 60, 0.1);
+  --app-card-bg: #111827;
+  --app-card-bg-hover: #1E293B;
+  --app-elevated: #1E293B;
+  --app-input-bg: #111827;
 
   /* ---- Text ---- */
-  --app-text: #f5f5f5;
-  --app-text-secondary: rgba(245, 245, 245, 0.6);
-  --app-text-muted: rgba(245, 245, 245, 0.35);
-  --app-text-disabled: rgba(245, 245, 245, 0.2);
+  --app-text: #F1F5F9;
+  --app-text-secondary: rgba(241, 245, 249, 0.6);
+  --app-text-muted: rgba(241, 245, 249, 0.4);
+  --app-text-disabled: rgba(241, 245, 249, 0.2);
 
   /* ---- Borders ---- */
-  --app-border: rgba(255, 255, 255, 0.06);
-  --app-border-light: rgba(255, 255, 255, 0.04);
-  --app-border-strong: rgba(255, 255, 255, 0.12);
+  --app-border: rgba(241, 245, 249, 0.06);
+  --app-border-light: rgba(241, 245, 249, 0.04);
+  --app-border-strong: rgba(241, 245, 249, 0.12);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(255, 255, 255, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.08);
+  --app-hover-bg: rgba(241, 245, 249, 0.05);
+  --app-active-bg: rgba(59, 130, 246, 0.1);
 
   /* ---- Semantic ---- */
-  --app-success: #34d399;
-  --app-warning: #fbbf24;
-  --app-danger: #f87171;
-  --app-info: #60a5fa;
+  --app-success: #34D399;
+  --app-warning: #FBBF24;
+  --app-danger: #F87171;
+  --app-info: #60A5FA;
 
   /* ---- Shadows ---- */
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
+  --app-shadow-card-hover: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.15);
+  --app-shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(255, 255, 255, 0.1);
-  --app-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --app-scrollbar-thumb: rgba(241, 245, 249, 0.1);
+  --app-scrollbar-thumb-hover: rgba(241, 245, 249, 0.2);
 
   /* ---- Overlay ---- */
   --app-overlay: rgba(0, 0, 0, 0.6);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(255, 255, 255, 0.04);
-  --app-skeleton-to: rgba(255, 255, 255, 0.08);
+  --app-skeleton-from: rgba(241, 245, 249, 0.04);
+  --app-skeleton-to: rgba(241, 245, 249, 0.08);
 
   /* ---- Layout ---- */
-  --app-sidebar-bg: #1b1c1e;
-  --app-topbar-bg: #1b1c1e;
-  --app-topbar-border: rgba(255, 255, 255, 0.06);
+  --app-sidebar-bg: #0F172A;
+  --app-topbar-bg: rgba(11, 17, 32, 0.8);
+  --app-topbar-border: rgba(241, 245, 249, 0.06);
+
+  /* ---- Glass / Morphism ---- */
+  --app-glass-bg: rgba(17, 24, 39, 0.8);
+  --app-glass-border: rgba(241, 245, 249, 0.06);
+
+  /* ---- Gradients ---- */
+  --app-gradient-primary: linear-gradient(135deg, #3B82F6 0%, #FB923C 100%);
+  --app-gradient-primary-hover: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
+
+  /* ---- Glow Effects ---- */
+  --app-glow-blue: 0 0 25px rgba(59, 130, 246, 0.2);
+  --app-glow-orange: 0 0 25px rgba(251, 146, 60, 0.15);
+  --app-glow-mixed: 0 0 30px rgba(59, 130, 246, 0.15), 0 0 60px rgba(251, 146, 60, 0.08);
 }
