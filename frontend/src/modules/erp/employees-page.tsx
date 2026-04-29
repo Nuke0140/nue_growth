@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, UserCheck, Clock, AlertTriangle, MoreHorizontal,
   Mail, Phone, Briefcase, UserCircle, Calendar, DollarSign,
   Eye, Pencil, UserX, LayoutGrid, LayoutList,
   FolderKanban, Building2, FilterX, ChevronLeft, ChevronRight,
+  Bug,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -30,6 +31,9 @@ import { SearchInput } from '@/components/shared/search-input';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
+
+// ── Action Feedback ────────────────────────────────────
+import { useActionFeedback } from '@/hooks/use-action-feedback.tsx';
 
 // ── ERP-specific dependencies ───────────────────────────
 import { mockEmployees, mockResources } from '@/modules/erp/data/mock-data';
@@ -169,6 +173,25 @@ function EmployeesPageInner() {
   const toggleBulkSelection = useErpStore((s) => s.toggleBulkSelection);
   const clearBulkSelection = useErpStore((s) => s.clearBulkSelection);
 
+  // Action feedback hook
+  const { success, error: showError, info, warning, loading: showLoadingToast } = useActionFeedback();
+
+  // UX State: Loading
+  const [isLoading, setIsLoading] = useState(true);
+
+  // UX State: Error
+  const [error, setError] = useState<string | null>(null);
+
+  // UX State: Interaction (submitting for create modal)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = useRef(false);
+
+  // Simulate initial data load
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(t);
+  }, []);
+
   // Local state
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
@@ -275,6 +298,94 @@ function EmployeesPageInner() {
   }, []);
 
   const hasActiveFilters = searchQuery !== '' || activeFilter !== 'all' || departmentFilter !== 'all';
+
+  // UX State: Empty — filtered results are empty while filters are active
+  const isFilteredEmpty = filtered.length === 0 && hasActiveFilters;
+
+  // ── Handlers with toast feedback ─────────────────────────────
+  const handleCreate = useCallback(
+    (data: Record<string, unknown>) => {
+      if (submittingRef.current) return;
+      submittingRef.current = true;
+      setIsSubmitting(true);
+      showLoadingToast({ title: 'Creating Employee…' });
+
+      setTimeout(() => {
+        setIsSubmitting(false);
+        submittingRef.current = false;
+        success({
+          title: 'Employee Created',
+          message: `${data.name || 'New employee'} has been added successfully.`,
+        });
+        setCreateOpen(false);
+      }, 700);
+    },
+    [showLoadingToast, success],
+  );
+
+  const handleRetry = useCallback(() => {
+    setError(null);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 600);
+  }, []);
+
+  const handleSimulateError = useCallback(() => {
+    showError({
+      title: 'Connection Error',
+      message: 'Failed to load employee data. Check your connection and try again.',
+    });
+    setError('Failed to load employee data. Please check your connection and try again.');
+  }, [showError]);
+
+  const handleEditFromSidebar = useCallback(() => {
+    if (!selectedEmployee) return;
+    info({
+      title: 'Edit Mode',
+      message: `Editing ${selectedEmployee.name}'s profile.`,
+    });
+  }, [selectedEmployee, info]);
+
+  const handleDeactivateFromSidebar = useCallback(() => {
+    if (!selectedEmployee) return;
+    warning({
+      title: 'Employee Deactivated',
+      message: `${selectedEmployee.name} has been deactivated.`,
+    });
+    setSelectedEmployee(null);
+  }, [selectedEmployee, warning]);
+
+  const handleEditFromDropdown = useCallback(
+    (emp: Employee) => {
+      info({
+        title: 'Edit Mode',
+        message: `Editing ${emp.name}'s profile.`,
+      });
+      setSelectedEmployee(emp);
+    },
+    [info],
+  );
+
+  const handleDeactivateFromDropdown = useCallback(
+    (emp: Employee) => {
+      warning({
+        title: 'Employee Deactivated',
+        message: `${emp.name} has been deactivated.`,
+      });
+    },
+    [warning],
+  );
+
+  const handleBulkAction = useCallback(
+    (action: string) => {
+      const count = bulkSelectedIds.length;
+      success({
+        title: 'Action Completed',
+        message: `${action} applied to ${count} employee${count !== 1 ? 's' : ''}.`,
+      });
+      clearBulkSelection();
+    },
+    [bulkSelectedIds.length, success, clearBulkSelection],
+  );
 
   // Cast filtered data for SmartDataTable
   const tableData = useMemo(
@@ -414,7 +525,7 @@ function EmployeesPageInner() {
     [bulkSelectedIds, toggleBulkSelection],
   );
 
-  // Actions dropdown renderer for SmartDataTable
+  // Actions dropdown renderer for SmartDataTable (with toast feedback)
   const renderActions = useCallback(
     (row: Record<string, unknown>) => {
       const emp = row as unknown as Employee;
@@ -445,12 +556,15 @@ function EmployeesPageInner() {
               <Eye className="w-4 h-4 mr-2" />
               View Profile
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleEditFromDropdown(emp)}>
               <Pencil className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem style={{ color: '#f87171' }}>
+            <DropdownMenuItem
+              style={{ color: '#f87171' }}
+              onClick={() => handleDeactivateFromDropdown(emp)}
+            >
               <UserX className="w-4 h-4 mr-2" />
               Deactivate
             </DropdownMenuItem>
@@ -458,13 +572,38 @@ function EmployeesPageInner() {
         </DropdownMenu>
       );
     },
-    [],
+    [handleEditFromDropdown, handleDeactivateFromDropdown],
   );
 
   // ── Render ─────────────────────────────────────────────
   return (
     <>
-      <PageShell title="Employees" icon={Users} onCreate={() => setCreateOpen(true)}>
+      <PageShell
+        title="Employees"
+        icon={Users}
+        onCreate={() => setCreateOpen(true)}
+        isLoading={isLoading}
+        error={error}
+        onRetry={handleRetry}
+        isEmpty={isFilteredEmpty}
+        emptyTitle="No results found"
+        emptyDescription="Try adjusting your search or filter criteria to find what you're looking for."
+        headerRight={
+          <button
+            onClick={handleSimulateError}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+            style={{
+              color: CSS.textMuted,
+              backgroundColor: CSS.hoverBg,
+              border: `1px solid ${CSS.border}`,
+            }}
+            title="Simulate error state for demo"
+          >
+            <Bug className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Simulate Error</span>
+          </button>
+        }
+      >
         <div className="space-y-5">
           {/* ── Filters & Search ─────────────────────────── */}
           <div className="space-y-3">
@@ -612,6 +751,7 @@ function EmployeesPageInner() {
                   selectable={false}
                   actions={renderActions}
                   pageSize={10}
+                  loading={isLoading}
                   emptyMessage="No employees found. Try adjusting your search or filters."
                 />
               </motion.div>
@@ -821,7 +961,8 @@ function EmployeesPageInner() {
         fields={createFields}
         icon={Users}
         submitLabel="Add Employee"
-        onSubmit={() => setCreateOpen(false)}
+        onSubmit={handleCreate}
+        submitting={isSubmitting}
       />
 
       {/* ── Contextual Sidebar ───────────────────────────── */}
@@ -840,6 +981,7 @@ function EmployeesPageInner() {
                 borderColor: CSS.border,
                 color: CSS.text,
               }}
+              onClick={handleEditFromSidebar}
             >
               <Pencil className="w-4 h-4 mr-2" />
               Edit
@@ -851,6 +993,7 @@ function EmployeesPageInner() {
                 borderColor: 'rgba(248, 113, 113, 0.3)',
                 color: '#f87171',
               }}
+              onClick={handleDeactivateFromSidebar}
             >
               <UserX className="w-4 h-4 mr-2" />
               Deactivate
@@ -1078,17 +1221,17 @@ function EmployeesPageInner() {
           {
             label: 'Assign Department',
             icon: Building2,
-            onClick: () => {},
+            onClick: () => handleBulkAction('Assign Department'),
           },
           {
             label: 'Change Status',
             icon: UserCheck,
-            onClick: () => {},
+            onClick: () => handleBulkAction('Change Status'),
           },
           {
             label: 'Delete',
             icon: UserX,
-            onClick: () => {},
+            onClick: () => handleBulkAction('Delete'),
             variant: 'danger',
           },
         ]}

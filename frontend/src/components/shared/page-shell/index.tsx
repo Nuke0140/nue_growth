@@ -5,10 +5,14 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ANIMATION, CSS } from '@/styles/design-tokens';
 import { EmptyState } from '@/components/shared/empty-state';
+import { ErrorState } from '@/components/shared/error-state';
+import { SkeletonDashboard } from '@/components/shared/skeleton';
 import type { LucideIcon } from 'lucide-react';
 import { Plus } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────
+
+export type SkeletonType = 'table' | 'cards' | 'dashboard';
 
 export interface PageShellProps {
   /** Page title shown in header */
@@ -41,6 +45,14 @@ export interface PageShellProps {
   className?: string;
   /** Whether this page should have padding (default: true) */
   padded?: boolean;
+  /** Loading state — shows skeleton while true */
+  isLoading?: boolean;
+  /** Skeleton variant: 'table' | 'cards' | 'dashboard' */
+  skeletonType?: SkeletonType;
+  /** Error state — shows error UI when set */
+  error?: string | null;
+  /** Retry callback for error state */
+  onRetry?: () => void;
 }
 
 // ── Component ──────────────────────────────────────────
@@ -61,6 +73,10 @@ const PageShellInner = memo(function PageShellInner({
   emptyActionOnClick,
   className,
   padded = true,
+  isLoading = false,
+  skeletonType = 'dashboard',
+  error = null,
+  onRetry,
 }: PageShellProps) {
   // Derive the empty state primary action:
   // 1. Explicit action label + callback takes priority
@@ -170,7 +186,14 @@ const PageShellInner = memo(function PageShellInner({
           className,
         )}
       >
-        {isEmpty ? (
+        {isLoading ? (
+          <SkeletonDashboard />
+        ) : error ? (
+          <ErrorState
+            message={error}
+            onRetry={onRetry}
+          />
+        ) : isEmpty ? (
           <EmptyState
             title={emptyTitle || `No ${title.toLowerCase()} yet`}
             description={
