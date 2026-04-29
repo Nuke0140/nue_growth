@@ -16,7 +16,7 @@ import { useRetentionStore } from '@/modules/retention/retention-store';
 import type { ChurnRisk } from '@/modules/retention/types';
 import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { StatusBadge } from '@/components/shared/status-badge';
+import StatusBadge from '@/components/shared/status-badge';
 import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
@@ -53,7 +53,7 @@ export default function ChurnRiskPage() {
   const getRiskBarColor = (score: number) => riskBarColors[score >= 70 ? 2 : score >= 40 ? 1 : 0];
 
   // ── Churn Risk columns ──
-  const churnColumns: DataTableColumnDef[] = useMemo(() => [
+  const churnColumns = useMemo(() => [
     { key: 'client', label: 'Client', sortable: true },
     { key: 'industry', label: 'Industry' },
     {
@@ -67,7 +67,7 @@ export default function ChurnRiskPage() {
             <div className="w-16 h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
               <div
                 className={cn('h-full rounded-full', riskBarColors[score >= 70 ? 2 : score >= 40 ? 1 : 0])}
-                style={{ width: `${score}%` }}
+                style={{ width: score + '%' }}
               />
             </div>
             <span className="text-[10px] font-medium">{score}</span>
@@ -107,7 +107,7 @@ export default function ChurnRiskPage() {
     { key: 'predictedChurnDate', label: 'Churn Date' },
     { key: 'accountManager', label: 'Manager' },
     { key: 'recommendedAction', label: 'Action' },
-  }, []);
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto">
