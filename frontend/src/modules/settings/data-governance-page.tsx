@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,10 @@ import {
   consentLogs,
 } from './data/mock-data';
 import type { RetentionPolicy, DataExportRequest, ConsentLog } from './types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -41,10 +45,113 @@ function formatRetentionDays(days: number): string {
   return `${days}d`;
 }
 
+function getStatusBadge(status: string) {
+  const sConf = statusConfig[status];
+  if (!sConf) return <StatusBadge status={status} />;
+  return <StatusBadge status={sConf.label} />;
+}
+
 export default function DataGovernancePage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  // ── Data Export columns ──
+  const exportColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'id',
+      label: 'Request ID',
+      render: (row) => <span className="font-mono text-xs">{row.id as string}</span>,
+    },
+    { key: 'requestedBy', label: 'Requested By' },
+    { key: 'module', label: 'Module' },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => getStatusBadge(row.status as string),
+    },
+    {
+      key: 'requestedAt',
+      label: 'Requested',
+      sortable: true,
+      render: (row) => (
+        <span className="text-xs">
+          {new Date(row.requestedAt as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </span>
+      ),
+    },
+    {
+      key: 'completedAt',
+      label: 'Completed',
+      render: (row) => (
+        <span className="text-xs">
+          {row.completedAt ? new Date(row.completedAt as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}
+        </span>
+      ),
+    },
+    {
+      key: 'format',
+      label: 'Format',
+      render: (row) => <StatusBadge status={row.format as string} />,
+    },
+    { key: 'size', label: 'Size' },
+    {
+      key: 'status',
+      label: 'Action',
+      render: (row) => {
+        const status = row.status as string;
+        if (status === 'completed') {
+          return (
+            <button className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500 hover:text-emerald-400 transition-colors">
+              <Download className="w-3 h-3" /> Download
+            </button>
+          );
+        }
+        if (status === 'pending' || status === 'processing') {
+          return (
+            <button className="inline-flex items-center gap-1 text-[10px] font-medium text-red-400 hover:text-red-300 transition-colors">
+              <XCircle className="w-3 h-3" /> Cancel
+            </button>
+          );
+        }
+        return <span className="text-[10px]" style={{ color: CSS.textMuted }}>—</span>;
+      },
+    },
+  ], []);
+
+  // ── Consent Logs columns ──
+  const consentColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'user', label: 'User' },
+    { key: 'consentType', label: 'Consent Type' },
+    {
+      key: 'granted',
+      label: 'Granted',
+      render: (row) => row.granted ? (
+        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 border-0 bg-emerald-500/15 text-emerald-400">
+          <CheckCircle2 className="w-2.5 h-2.5 mr-0.5" /> Yes
+        </Badge>
+      ) : (
+        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 border-0 bg-red-500/15 text-red-400">
+          <XCircle className="w-2.5 h-2.5 mr-0.5" /> No
+        </Badge>
+      ),
+    },
+    {
+      key: 'timestamp',
+      label: 'Timestamp',
+      sortable: true,
+      render: (row) => (
+        <span className="text-xs">
+          {new Date(row.timestamp as string).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+        </span>
+      ),
+    },
+    {
+      key: 'ip',
+      label: 'IP',
+      render: (row) => <span className="font-mono text-xs">{row.ip as string}</span>,
+    },
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
@@ -164,67 +271,14 @@ export default function DataGovernancePage() {
             <Download className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
             <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Data Export Requests</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Request ID', 'Requested By', 'Module', 'Status', 'Requested', 'Completed', 'Format', 'Size', 'Action'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', isDark ? 'text-white/40' : 'text-black/40')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataExportRequests.map((req, i) => {
-                    const sConf = statusConfig[req.status];
-                    return (
-                      <motion.tr
-                        key={req.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.35 + i * 0.04 }}
-                        className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                      >
-                        <td className="px-4 py-3 font-mono text-xs">{req.id}</td>
-                        <td className="px-4 py-3 text-xs">{req.requestedBy}</td>
-                        <td className="px-4 py-3 text-xs">{req.module}</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? sConf.bgDark : sConf.bgLight)}>
-                            {sConf.label}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-xs">
-                          {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className="px-4 py-3 text-xs">{req.completedAt ? new Date(req.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600')}>
-                            {req.format}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-xs">{req.size || '—'}</td>
-                        <td className="px-4 py-3">
-                          {req.status === 'completed' ? (
-                            <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500 hover:text-emerald-400 transition-colors')}>
-                              <Download className="w-3 h-3" /> Download
-                            </button>
-                          ) : req.status === 'pending' || req.status === 'processing' ? (
-                            <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-red-400 hover:text-red-300 transition-colors')}>
-                              <XCircle className="w-3 h-3" /> Cancel
-                            </button>
-                          ) : (
-                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>—</span>
-                          )}
-                        </td>
-                      </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={dataExportRequests as unknown as Record<string, unknown>[]}
+            columns={exportColumns}
+            searchable
+            searchPlaceholder="Search exports..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* ── Consent Logs ── */}
@@ -237,50 +291,14 @@ export default function DataGovernancePage() {
             <Shield className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
             <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Consent Logs</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['User', 'Consent Type', 'Granted', 'Timestamp', 'IP'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', isDark ? 'text-white/40' : 'text-black/40')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {consentLogs.map((log, i) => (
-                    <motion.tr
-                      key={log.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.55 + i * 0.04 }}
-                      className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                    >
-                      <td className="px-4 py-3 text-xs font-medium">{log.user}</td>
-                      <td className="px-4 py-3 text-xs">{log.consentType}</td>
-                      <td className="px-4 py-3">
-                        {log.granted ? (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
-                            <CheckCircle2 className="w-2.5 h-2.5 mr-0.5" /> Yes
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>
-                            <XCircle className="w-2.5 h-2.5 mr-0.5" /> No
-                          </Badge>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-xs">
-                        {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                      </td>
-                      <td className="px-4 py-3 font-mono text-xs">{log.ip}</td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={consentLogs as unknown as Record<string, unknown>[]}
+            columns={consentColumns}
+            searchable
+            searchPlaceholder="Search consent logs..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* ── GDPR / Delete Workflow ── */}

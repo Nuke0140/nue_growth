@@ -14,6 +14,9 @@ import {
 import { npsResponses, feedbackData } from '@/modules/retention/data/mock-data';
 import { useRetentionStore } from '@/modules/retention/retention-store';
 import type { NPSResponse, FeedbackEntry } from '@/modules/retention/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -95,6 +98,119 @@ export default function FeedbackNpsPage() {
     { key: 'sentiment', value: sentimentFilter, setter: setSentimentFilter, options: ['all', 'positive', 'neutral', 'negative'] },
     { key: 'status', value: statusFilter, setter: setStatusFilter, options: ['all', 'new', 'acknowledged', 'resolved', 'closed'] },
   ];
+
+  // ── Feedback Inbox columns ──
+  const feedbackColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'type',
+      label: 'Type',
+      render: (row) => {
+        const tConf = typeConfig[(row.type as string)] || typeConfig['nps'];
+        return <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', tConf.bg, tConf.color)}>{row.type as string}</Badge>;
+      },
+    },
+    {
+      key: 'rating',
+      label: 'Rating',
+      render: (row) => (
+        <div className="flex items-center gap-0.5">
+          {Array.from({ length: 5 }).map((_, j) => (
+            <Star key={j} className={cn('w-3 h-3', j < (row.rating as number) ? 'text-amber-400 fill-amber-400' : 'opacity-10')} />
+          ))}
+        </div>
+      ),
+    },
+    {
+      key: 'subject',
+      label: 'Subject',
+      render: (row) => <p className="text-xs font-medium truncate max-w-[140px]">{row.subject as string}</p>,
+    },
+    { key: 'client', label: 'Client' },
+    {
+      key: 'message',
+      label: 'Message',
+      render: (row) => <p className="text-[10px] truncate max-w-[160px]" style={{ color: CSS.textMuted }}>{row.message as string}</p>,
+    },
+    {
+      key: 'date',
+      label: 'Date',
+      render: (row) => <span className="text-[10px]" style={{ color: CSS.textMuted }}>{row.date as string}</span>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => {
+        const sConf = statusConfig[(row.status as string)] || statusConfig['new'];
+        return <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', sConf.bg, sConf.color)}>{sConf.label}</Badge>;
+      },
+    },
+    {
+      key: 'sentiment',
+      label: 'Sentiment',
+      render: (row) => {
+        const sentConf = sentimentConfig[(row.sentiment as string)] || sentimentConfig.neutral;
+        const SentIcon = sentConf.icon;
+        return (
+          <div className={cn('flex items-center gap-1', sentConf.color)}>
+            <SentIcon className="w-3 h-3" />
+            <span className="text-[10px] capitalize">{row.sentiment as string}</span>
+          </div>
+        );
+      },
+    },
+  ], []);
+
+  // ── NPS Responses columns ──
+  const npsColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'client', label: 'Client' },
+    {
+      key: 'score',
+      label: 'Score',
+      render: (row) => {
+        const score = row.score as number;
+        const scoreColor = score >= 9 ? 'text-emerald-500' : score >= 7 ? 'text-amber-500' : 'text-red-500';
+        return <span className={cn('text-base font-black', scoreColor)}>{score}</span>;
+      },
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      render: (row) => {
+        const cat = row.category as string;
+        return (
+          <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize',
+            cat === 'promoter' ? 'bg-emerald-500/15 text-emerald-400'
+            : cat === 'passive' ? 'bg-amber-500/15 text-amber-400'
+            : 'bg-red-500/15 text-red-400'
+          )}>{cat}</Badge>
+        );
+      },
+    },
+    {
+      key: 'feedback',
+      label: 'Feedback',
+      render: (row) => <p className="text-xs truncate max-w-[250px]" style={{ color: CSS.textSecondary }}>{row.feedback as string}</p>,
+    },
+    {
+      key: 'date',
+      label: 'Date',
+      render: (row) => <span className="text-[10px]" style={{ color: CSS.textMuted }}>{row.date as string}</span>,
+    },
+    {
+      key: 'sentiment',
+      label: 'Sentiment',
+      render: (row) => {
+        const sentConf = sentimentConfig[(row.sentiment as string)] || sentimentConfig.neutral;
+        const SentIcon = sentConf.icon;
+        return (
+          <div className={cn('flex items-center gap-1', sentConf.color)}>
+            <SentIcon className="w-3 h-3" />
+            <span className="text-[10px] capitalize">{row.sentiment as string}</span>
+          </div>
+        );
+      },
+    },
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -244,64 +360,14 @@ export default function FeedbackNpsPage() {
               {filteredFeedback.length} items
             </Badge>
           </div>
-          <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-            <table className="w-full">
-              <thead className="sticky top-0 z-10">
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white')}>
-                  {['Type', 'Rating', 'Subject', 'Client', 'Message', 'Date', 'Status', 'Sentiment'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredFeedback.map((fb: FeedbackEntry, i) => {
-                  const sConf = statusConfig[fb.status] || statusConfig['new'];
-                  const tConf = typeConfig[fb.type] || typeConfig['nps'];
-                  const sentConf = sentimentConfig[fb.sentiment] || sentimentConfig.neutral;
-                  const SentIcon = sentConf.icon;
-                  return (
-                    <motion.tr
-                      key={fb.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 + i * 0.04 }}
-                      className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                    >
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', tConf.bg, tConf.color)}>{fb.type}</Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-0.5">
-                          {Array.from({ length: 5 }).map((_, j) => (
-                            <Star key={j} className={cn('w-3 h-3', j < fb.rating ? 'text-amber-400 fill-amber-400' : (isDark ? 'text-white/10' : 'text-black/10'))} />
-                          ))}
-                        </div>
-                      </td>
-                      <td className="py-3 px-3">
-                        <p className="text-xs font-medium truncate max-w-[140px]">{fb.subject}</p>
-                      </td>
-                      <td className="py-3 px-3 text-sm">{fb.client}</td>
-                      <td className="py-3 px-3">
-                        <p className={cn('text-[10px] truncate max-w-[160px]', isDark ? 'text-white/40' : 'text-black/40')}>{fb.message}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{fb.date}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', sConf.bg, sConf.color)}>{sConf.label}</Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className={cn('flex items-center gap-1', sentConf.color)}>
-                          <SentIcon className="w-3 h-3" />
-                          <span className="text-[10px] capitalize">{fb.sentiment}</span>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={filteredFeedback as unknown as Record<string, unknown>[]}
+            columns={feedbackColumns}
+            searchable
+            searchPlaceholder="Search feedback..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* Promoter Highlight + Detractor Alert */}
@@ -387,56 +453,14 @@ export default function FeedbackNpsPage() {
               <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>NPS Responses</span>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Client', 'Score', 'Category', 'Feedback', 'Date', 'Sentiment'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {npsResponses.map((r: NPSResponse, i) => {
-                  const scoreColor = r.score >= 9 ? 'text-emerald-500' : r.score >= 7 ? 'text-amber-500' : 'text-red-500';
-                  const sentConf = sentimentConfig[r.sentiment] || sentimentConfig.neutral;
-                  return (
-                    <motion.tr
-                      key={r.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 + i * 0.04 }}
-                      className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                    >
-                      <td className="py-3 px-3 text-sm font-medium">{r.client}</td>
-                      <td className="py-3 px-3">
-                        <span className={cn('text-base font-black', scoreColor)}>{r.score}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize',
-                          r.category === 'promoter' ? 'bg-emerald-500/15 text-emerald-400'
-                          : r.category === 'passive' ? 'bg-amber-500/15 text-amber-400'
-                          : 'bg-red-500/15 text-red-400'
-                        )}>{r.category}</Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        <p className={cn('text-xs truncate max-w-[250px]', isDark ? 'text-white/50' : 'text-black/50')}>{r.feedback}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{r.date}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className={cn('flex items-center gap-1', sentConf.color)}>
-                          <sentConf.icon className="w-3 h-3" />
-                          <span className="text-[10px] capitalize">{r.sentiment}</span>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={npsResponses as unknown as Record<string, unknown>[]}
+            columns={npsColumns}
+            searchable
+            searchPlaceholder="Search NPS responses..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
       </div>
     </div>

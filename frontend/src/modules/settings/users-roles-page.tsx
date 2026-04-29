@@ -11,6 +11,10 @@ import {
 import RoleChip from './components/role-chip';
 import { users } from './data/mock-data';
 import type { UserRole } from './types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 const roleTabs: (UserRole | 'All')[] = ['All', 'super-admin', 'admin', 'sales', 'marketing', 'finance', 'hr', 'client', 'viewer'];
 const roleLabels: Record<string, string> = {
@@ -84,6 +88,86 @@ export default function UsersRolesPage() {
     { label: 'Inactive', value: summaryStats.inactive, icon: ShieldOff, color: 'text-zinc-400' },
     { label: 'Roles', value: summaryStats.roles, icon: Shield, color: 'text-violet-400' },
   ];
+
+  // ── Users columns ──
+  const userColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'name',
+      label: 'Name',
+      sortable: true,
+      render: (row) => (
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+            {(row.name as string).charAt(0)}
+          </div>
+          <span className="text-sm font-medium">{row.name as string}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      render: (row) => <span className="text-xs" style={{ color: CSS.textSecondary }}>{row.email as string}</span>,
+    },
+    {
+      key: 'role',
+      label: 'Role',
+      render: (row) => <RoleChip role={row.role as UserRole} />,
+    },
+    {
+      key: 'department',
+      label: 'Department',
+      render: (row) => <span className="text-xs" style={{ color: CSS.textSecondary }}>{row.department as string || '—'}</span>,
+    },
+    {
+      key: 'mfaEnabled',
+      label: 'MFA',
+      render: (row) => row.mfaEnabled ? (
+        <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/15 text-emerald-400">
+          <ShieldCheck className="w-3 h-3" />
+          On
+        </span>
+      ) : (
+        <span className="inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium bg-zinc-500/15 text-zinc-400">
+          Off
+        </span>
+      ),
+    },
+    {
+      key: 'lastLogin',
+      label: 'Last Login',
+      sortable: true,
+      render: (row) => (
+        <span className="text-xs" style={{ color: CSS.textMuted }}>
+          {new Date(row.lastLogin as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => <StatusBadge status={row.status as string} />,
+    },
+    {
+      key: 'activeSessions',
+      label: 'Sessions',
+      render: (row) => <span className="text-xs" style={{ color: CSS.textSecondary }}>{row.activeSessions as number}</span>,
+    },
+    {
+      key: 'id',
+      label: 'Actions',
+      render: (row) => (
+        <div className="flex items-center justify-end gap-1">
+          <button className="h-7 w-7 rounded-lg flex items-center justify-center transition-colors hover:bg-[var(--app-hover-bg)]" style={{ color: CSS.textSecondary }}>
+            <Edit className="w-3.5 h-3.5" />
+          </button>
+          <button className="h-7 w-7 rounded-lg flex items-center justify-center transition-colors hover:bg-red-500/10" style={{ color: CSS.textSecondary }}>
+            <Power className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ),
+    },
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
@@ -199,145 +283,17 @@ export default function UsersRolesPage() {
         </div>
 
         {/* ── Users Table (Desktop) ── */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-          className={cn(
-            'rounded-2xl border overflow-hidden hidden lg:block',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
-          )}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px]">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  <th className="px-4 py-3 text-left">
-                    <button onClick={toggleSelectAll}>
-                      {selectedUsers.size === filteredUsers.length && filteredUsers.length > 0 ? (
-                        <CheckSquare className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
-                      ) : (
-                        <Square className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
-                      )}
-                    </button>
-                  </th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Name</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Email</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Role</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Department</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>MFA</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Last Login</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Status</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Sessions</th>
-                  <th className={cn('px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user, i) => (
-                  <motion.tr
-                    key={user.id}
-                    variants={fadeUp}
-                    className={cn(
-                      'border-b last:border-b-0 transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
-                      selectedUsers.has(user.id) && (isDark ? 'bg-blue-500/5' : 'bg-blue-50/50'),
-                    )}
-                  >
-                    <td className="px-4 py-3">
-                      <button onClick={() => toggleUser(user.id)}>
-                        {selectedUsers.has(user.id) ? (
-                          <CheckSquare className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
-                        ) : (
-                          <Square className={cn('w-4 h-4', isDark ? 'text-white/15' : 'text-black/15')} />
-                        )}
-                      </button>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className={cn(
-                          'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0',
-                          isDark ? 'bg-white/[0.08] text-white/70' : 'bg-black/[0.06] text-black/70',
-                        )}>
-                          {user.name.charAt(0)}
-                        </div>
-                        <span className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
-                          {user.name}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>
-                        {user.email}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <RoleChip role={user.role} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
-                        {user.department || '—'}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {user.mfaEnabled ? (
-                        <span className={cn(
-                          'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold',
-                          isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
-                        )}>
-                          <ShieldCheck className="w-3 h-3" />
-                          On
-                        </span>
-                      ) : (
-                        <span className={cn(
-                          'inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium',
-                          isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-500',
-                        )}>
-                          Off
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
-                        {new Date(user.lastLogin).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={cn(
-                        'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold',
-                        user.status === 'active'
-                          ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
-                          : (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-500'),
-                      )}>
-                        {user.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
-                        {user.activeSessions}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <button className={cn(
-                          'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
-                          isDark ? 'hover:bg-white/[0.06] text-white/40 hover:text-white' : 'hover:bg-black/[0.06] text-black/40 hover:text-black',
-                        )}>
-                          <Edit className="w-3.5 h-3.5" />
-                        </button>
-                        <button className={cn(
-                          'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
-                          isDark ? 'hover:bg-red-500/10 text-white/40 hover:text-red-400' : 'hover:bg-red-50 text-black/40 hover:text-red-500',
-                        )}>
-                          <Power className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+        <SmartDataTable
+          data={filteredUsers as unknown as Record<string, unknown>[]}
+          columns={userColumns}
+          searchable
+          searchPlaceholder="Search users..."
+          enableExport
+          pageSize={10}
+          selectable
+          onSelectionChange={(ids) => setSelectedUsers(ids)}
+          className="hidden lg:block"
+        />
 
         {/* ── Users Card Layout (Mobile) ── */}
         <div className="lg:hidden space-y-3">
@@ -370,7 +326,7 @@ export default function UsersRolesPage() {
                 </div>
                 <RoleChip role={user.role} />
               </div>
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+              <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: CSS.border }}>
                 <div className="flex items-center gap-1.5">
                   {user.mfaEnabled ? (
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -379,14 +335,7 @@ export default function UsersRolesPage() {
                   )}
                   <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>MFA</span>
                 </div>
-                <span className={cn(
-                  'rounded-full px-2 py-0.5 text-[10px] font-semibold',
-                  user.status === 'active'
-                    ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
-                    : (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-500'),
-                )}>
-                  {user.status}
-                </span>
+                <StatusBadge status={user.status} />
                 <span className={cn('text-[10px] ml-auto', isDark ? 'text-white/30' : 'text-black/30')}>
                   {user.activeSessions} sessions
                 </span>

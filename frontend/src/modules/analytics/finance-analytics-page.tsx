@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,10 @@ import DashboardWidget from './components/dashboard-widget';
 import FilterChip from './components/filter-chip';
 import ExportMenu from './components/export-menu';
 import { financeAnalyticsData } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -58,21 +62,62 @@ export default function FinanceAnalyticsPage() {
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
   });
 
+  // ── Budget Variance column definitions ──
+  const budgetColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'category', label: 'Category', sortable: true },
+    { key: 'budget', label: 'Budget', sortable: true, render: (row) => (
+      <span>{formatINR(Number(row.budget))}</span>
+    )},
+    { key: 'actual', label: 'Actual', sortable: true, render: (row) => (
+      <span className="font-medium">{formatINR(Number(row.actual))}</span>
+    )},
+    {
+      key: 'variance',
+      label: 'Variance',
+      sortable: true,
+      render: (row) => {
+        const variance = Number(row.variance);
+        const isOver = variance < 0;
+        return (
+          <span className={cn('flex items-center gap-0.5 text-sm font-semibold', isOver ? 'text-red-500' : 'text-emerald-500')}>
+            {isOver ? <ArrowDownRight className="w-3.5 h-3.5" /> : <ArrowUpRight className="w-3.5 h-3.5" />}
+            {formatINR(Math.abs(variance))}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => {
+        const isOver = Number(row.variance) < 0;
+        return isOver ? (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-500/15 text-red-400">
+            <XCircle className="w-3 h-3" />
+            Over budget
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/15 text-emerald-400">
+            <CheckCircle2 className="w-3 h-3" />
+            Under budget
+          </span>
+        );
+      },
+    },
+  ], []);
+
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
-            )}>
-              <Wallet className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
+              <Wallet className="w-5 h-5" style={{ color: CSS.textSecondary }} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Finance Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className="text-xs" style={{ color: CSS.textMuted }}>
                 P&amp;L, cash flow, receivables &amp; budget tracking
               </p>
             </div>
@@ -89,10 +134,7 @@ export default function FinanceAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-            <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
-            )}>
+            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
             </span>
@@ -151,7 +193,7 @@ export default function FinanceAnalyticsPage() {
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-1.5">
                 <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                <span className="text-[10px]" style={{ color: CSS.textMuted }}>{l.label}</span>
               </div>
             ))}
           </div>
@@ -181,7 +223,7 @@ export default function FinanceAnalyticsPage() {
                     title={`Profit: ${formatINR(entry.profit)}`}
                   />
                 </div>
-                <span className={cn('text-[8px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                <span className="text-[8px] mt-1" style={{ color: CSS.textMuted }}>
                   {entry.month.slice(0, 3)}
                 </span>
               </div>
@@ -197,11 +239,11 @@ export default function FinanceAnalyticsPage() {
               {[
                 { color: isDark ? 'bg-emerald-500/50' : 'bg-emerald-400', label: 'Inflow' },
                 { color: isDark ? 'bg-red-500/50' : 'bg-red-400', label: 'Outflow' },
-                { color: isDark ? 'bg-blue-500' : 'bg-blue-500', label: 'Net' },
+                { color: 'bg-blue-500', label: 'Net' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                  <span className="text-[10px]" style={{ color: CSS.textMuted }}>{l.label}</span>
                 </div>
               ))}
             </div>
@@ -233,7 +275,7 @@ export default function FinanceAnalyticsPage() {
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                       />
                     </div>
-                    <span className={cn('text-[8px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                    <span className="text-[8px] mt-1" style={{ color: CSS.textMuted }}>
                       {entry.month.slice(0, 3)}
                     </span>
                   </div>
@@ -255,13 +297,13 @@ export default function FinanceAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{bucket.bucket}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className="text-xs" style={{ color: CSS.textMuted }}>
                         {bucket.count} invoices
                       </span>
                       <span className="text-sm font-semibold">{formatINR(bucket.amount)}</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-3 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="w-full h-3 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(bucket.amount / maxReceivable) * 100}%` }}
@@ -283,76 +325,14 @@ export default function FinanceAnalyticsPage() {
 
         {/* Budget Variance Table */}
         <ChartCard title="Budget Variance" subtitle="Actual vs budget by category">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Category', 'Budget', 'Actual', 'Variance', 'Status'].map((h) => (
-                    <th
-                      key={h}
-                      className={cn(
-                        'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                        isDark ? 'text-white/40' : 'text-black/40',
-                      )}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.budgetVariance.map((item, i) => {
-                  const isOver = item.variance < 0;
-                  return (
-                    <motion.tr
-                      key={item.category}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 + i * 0.06 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
-                      )}
-                    >
-                      <td className="py-3 px-3">
-                        <span className="text-sm font-medium">{item.category}</span>
-                      </td>
-                      <td className="py-3 px-3 text-sm">{formatINR(item.budget)}</td>
-                      <td className="py-3 px-3 text-sm font-medium">{formatINR(item.actual)}</td>
-                      <td className="py-3 px-3">
-                        <span className={cn(
-                          'flex items-center gap-0.5 text-sm font-semibold',
-                          isOver ? 'text-red-500' : 'text-emerald-500',
-                        )}>
-                          {isOver ? <ArrowDownRight className="w-3.5 h-3.5" /> : <ArrowUpRight className="w-3.5 h-3.5" />}
-                          {formatINR(Math.abs(item.variance))}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3">
-                        {isOver ? (
-                          <span className={cn(
-                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium',
-                            isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
-                          )}>
-                            <XCircle className="w-3 h-3" />
-                            Over budget
-                          </span>
-                        ) : (
-                          <span className={cn(
-                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium',
-                            isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
-                          )}>
-                            <CheckCircle2 className="w-3 h-3" />
-                            Under budget
-                          </span>
-                        )}
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={data.budgetVariance as unknown as Record<string, unknown>[]}
+            columns={budgetColumns}
+            searchable
+            enableExport
+            pageSize={10}
+            searchPlaceholder="Search categories…"
+          />
         </ChartCard>
 
         {/* Row: Burn by Department + Profitability by Client */}
@@ -366,7 +346,7 @@ export default function FinanceAnalyticsPage() {
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                  <span className="text-[10px]" style={{ color: CSS.textMuted }}>{l.label}</span>
                 </div>
               ))}
             </div>
@@ -383,17 +363,12 @@ export default function FinanceAnalyticsPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold">{formatINR(dept.burn)}</span>
                       {dept.burn > dept.budget && (
-                        <span className={cn(
-                          'text-[10px] font-medium',
-                          isDark ? 'text-red-400' : 'text-red-500',
-                        )}>
-                          over
-                        </span>
+                        <span className="text-[10px] font-medium text-red-500">over</span>
                       )}
                     </div>
                   </div>
                   <div className="relative">
-                    <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(dept.budget / maxBurnDept) * 100}%` }}
@@ -431,7 +406,7 @@ export default function FinanceAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium">{client.client}</span>
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className="text-xs" style={{ color: CSS.textMuted }}>
                         {formatINR(client.revenue)}
                       </span>
                       <span className={cn(
@@ -445,7 +420,7 @@ export default function FinanceAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${client.margin}%` }}

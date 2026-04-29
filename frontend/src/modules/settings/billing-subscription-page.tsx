@@ -12,12 +12,10 @@ import {
 } from 'lucide-react';
 import { billingPlan, availablePlans } from './data/mock-data';
 import BillingPlanCard from './components/billing-plan-card';
-
-const invoiceStatusConfig: Record<string, { label: string; bgDark: string; bgLight: string }> = {
-  paid: { label: 'Paid', bgDark: 'bg-emerald-500/15 text-emerald-400', bgLight: 'bg-emerald-50 text-emerald-600' },
-  pending: { label: 'Pending', bgDark: 'bg-amber-500/15 text-amber-400', bgLight: 'bg-amber-50 text-amber-600' },
-  overdue: { label: 'Overdue', bgDark: 'bg-red-500/15 text-red-400', bgLight: 'bg-red-50 text-red-600' },
-};
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 export default function BillingSubscriptionPage() {
   const { theme } = useTheme();
@@ -39,6 +37,49 @@ export default function BillingSubscriptionPage() {
     { label: 'Storage', current: billingPlan.currentUsage.storage, limit: billingPlan.limits.storage, percent: usagePercent.storage, unit: ' GB', color: 'bg-sky-500' },
     { label: 'API Calls', current: billingPlan.currentUsage.apiCalls, limit: billingPlan.limits.apiCalls, percent: usagePercent.apiCalls, unit: '', color: 'bg-emerald-500', format: true },
   ];
+
+  // ── Invoice columns ──
+  const invoiceColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'invoiceNo',
+      label: 'Invoice No',
+      render: (row) => <span className="font-mono font-medium" style={{ color: CSS.text }}>{row.invoiceNo as string}</span>,
+    },
+    {
+      key: 'date',
+      label: 'Date',
+      sortable: true,
+      render: (row) => (
+        <span style={{ color: CSS.textSecondary }}>
+          {new Date(row.date as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </span>
+      ),
+    },
+    {
+      key: 'amount',
+      label: 'Amount',
+      sortable: true,
+      render: (row) => (
+        <span className="text-right font-semibold block" style={{ color: CSS.text }}>
+          ₹{(row.amount as number).toLocaleString('en-IN')}
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => <StatusBadge status={row.status as string} />,
+    },
+    {
+      key: 'id',
+      label: 'Action',
+      render: () => (
+        <button className="p-1.5 rounded-lg transition-colors" style={{ color: CSS.textDisabled }}>
+          <Download className="w-3.5 h-3.5" />
+        </button>
+      ),
+    },
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -191,47 +232,14 @@ export default function BillingSubscriptionPage() {
               {billingPlan.invoiceHistory.length} invoices
             </Badge>
           </div>
-          <div className={cn('rounded-xl border overflow-hidden', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className={cn(isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                    <th className={cn('text-left px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Invoice No</th>
-                    <th className={cn('text-left px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Date</th>
-                    <th className={cn('text-right px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Amount</th>
-                    <th className={cn('text-center px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status</th>
-                    <th className={cn('text-right px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {billingPlan.invoiceHistory.map((inv, i) => {
-                    const sConf = invoiceStatusConfig[inv.status] || invoiceStatusConfig.pending;
-                    return (
-                      <tr key={i} className={cn('border-t transition-colors', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                        <td className={cn('px-4 py-3 font-mono font-medium', isDark ? 'text-white/70' : 'text-black/70')}>{inv.invoiceNo}</td>
-                        <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-black/50')}>
-                          {new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className={cn('px-4 py-3 text-right font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
-                          ₹{inv.amount.toLocaleString('en-IN')}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 border-0', isDark ? sConf.bgDark : sConf.bgLight)}>
-                            {sConf.label}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <button className={cn('p-1.5 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}>
-                            <Download className="w-3.5 h-3.5" />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={billingPlan.invoiceHistory as unknown as Record<string, unknown>[]}
+            columns={invoiceColumns}
+            searchable
+            searchPlaceholder="Search invoices..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* Payment Methods */}

@@ -1,23 +1,25 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from 'next-themes';
+import { motion } from 'framer-motion';
 import {
-  Plus, Search, Flame, Star, Snowflake, ChevronDown, Mail, Phone,
-  ArrowRightLeft, Users, DollarSign, Zap, X, Filter, ChevronLeft, ChevronRight,
+  Plus, Flame, Star, Snowflake, ArrowRightLeft, Users, DollarSign, Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
 import { mockLeads } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CreateModal } from '@/components/shared/create-modal';
+import type { FormField } from '@/components/shared/create-modal';
+import { ContextualSidebar } from '@/components/shared/contextual-sidebar';
+import { CSS } from '@/styles/design-tokens';
 import type { Lead, LeadIntent, LeadStatus, ContactSource } from '@/modules/crm-sales/types';
 
 function formatCurrency(value: number): string {
@@ -52,19 +54,47 @@ const STATUS_VARIANT: Record<LeadStatus, 'default' | 'secondary' | 'destructive'
   lost: 'destructive',
 };
 
-const ITEMS_PER_PAGE = 8;
+const createLeadFields: FormField[] = [
+  { key: 'firstName', label: 'First Name', type: 'text', placeholder: 'John', required: true },
+  { key: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Doe', required: true },
+  { key: 'email', label: 'Email', type: 'text', placeholder: 'john@company.com', required: true },
+  { key: 'company', label: 'Company', type: 'text', placeholder: 'Acme Inc', required: true },
+  { key: 'expectedRevenue', label: 'Expected Revenue ($)', type: 'number', placeholder: '50000' },
+  {
+    key: 'source',
+    label: 'Source',
+    type: 'select',
+    options: [
+      { label: 'LinkedIn', value: 'linkedin' },
+      { label: 'Website', value: 'website' },
+      { label: 'Event', value: 'event' },
+      { label: 'Referral', value: 'referral' },
+      { label: 'Ad Campaign', value: 'ad_campaign' },
+      { label: 'Cold Call', value: 'cold_call' },
+      { label: 'Organic', value: 'organic' },
+    ],
+  },
+  {
+    key: 'intent',
+    label: 'Intent',
+    type: 'select',
+    options: [
+      { label: '🔥 Hot', value: 'hot' },
+      { label: '⭐ Warm', value: 'warm' },
+      { label: '❄️ Cold', value: 'cold' },
+    ],
+  },
+];
 
 export default function LeadsPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const { selectLead } = useCrmSalesStore();
 
   const [search, setSearch] = useState('');
   const [intentFilter, setIntentFilter] = useState<LeadIntent | 'all'>('all');
   const [sourceFilter, setSourceFilter] = useState<ContactSource | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'all'>('all');
-  const [page, setPage] = useState(1);
-  const [selectedLeadModal, setSelectedLeadModal] = useState<Lead | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   const filtered = useMemo(() => {
     return mockLeads.filter(l => {
@@ -85,8 +115,118 @@ export default function LeadsPage() {
     return { total, hot, warm, cold, totalRevenue };
   }, []);
 
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const paginatedLeads = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+  // Table data
+  const tableData = useMemo(
+    () => filtered.map(l => ({
+      id: l.id,
+      name: `${l.firstName} ${l.lastName}`,
+      company: l.company,
+      ...l,
+    })) as unknown as Record<string, unknown>[],
+    [filtered]
+  );
+
+  // Column definitions
+  const columns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'name',
+      label: 'Name',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return (
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
+              {l.firstName[0]}{l.lastName[0]}
+            </div>
+            <div>
+              <p className="text-sm font-medium">{l.firstName} {l.lastName}</p>
+              <p className="text-[11px] text-[var(--app-text-muted)]">{l.email}</p>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'company',
+      label: 'Company',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return <span className="text-xs text-[var(--app-text-secondary)]">{l.company}</span>;
+      },
+    },
+    {
+      key: 'source',
+      label: 'Source',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return (
+          <span className={cn('inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border capitalize', SOURCE_COLORS[l.source])}>
+            {l.source.replace('_', ' ')}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'score',
+      label: 'Score',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return (
+          <div className="flex items-center gap-2 min-w-[100px]">
+            <Progress value={l.score} className="h-1.5 w-16 bg-[var(--app-hover-bg)]" />
+            <span className="text-xs font-medium">{l.score}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'intent',
+      label: 'Intent',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        const intentCfg = INTENT_CONFIG[l.intent];
+        const IntentIcon = intentCfg.icon;
+        return (
+          <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold', intentCfg.bg, intentCfg.text)}>
+            <IntentIcon className="w-3 h-3" />
+            {intentCfg.label}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return <Badge variant={STATUS_VARIANT[l.status]} className="text-[10px] capitalize">{l.status}</Badge>;
+      },
+    },
+    {
+      key: 'expectedRevenue',
+      label: 'Revenue',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return <span className="text-xs font-medium">{formatCurrency(l.expectedRevenue)}</span>;
+      },
+    },
+    {
+      key: 'nextAction',
+      label: 'Next Action',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return <p className="text-xs max-w-[140px] truncate text-[var(--app-text-muted)]">{l.nextAction || '—'}</p>;
+      },
+    },
+    {
+      key: 'assignedRep',
+      label: 'Assigned',
+      render: (row) => {
+        const l = row as unknown as Lead;
+        return <p className="text-xs text-[var(--app-text-muted)]">{l.assignedRep}</p>;
+      },
+    },
+  ], []);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -95,34 +235,17 @@ export default function LeadsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
-                Leads
-              </h1>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <h1 className="text-2xl font-bold tracking-tight">Leads</h1>
+              <p className="text-sm mt-1 text-[var(--app-text-muted)]">
                 {stats.total} leads · {formatCurrency(stats.totalRevenue)} pipeline
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-              )}>
-                <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-                <input
-                  type="text"
-                  placeholder="Search leads..."
-                  value={search}
-                  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                  className={cn(
-                    'bg-transparent text-sm focus:outline-none w-full',
-                    isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
-                  )}
-                />
-              </div>
-              <Button className={cn(
-                'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-              )}>
+              <Button
+                className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold"
+                style={{ backgroundColor: CSS.accent, color: '#fff' }}
+                onClick={() => setShowCreateModal(true)}
+              >
                 <Plus className="w-3.5 h-3.5 mr-1.5" />
                 Add Lead
               </Button>
@@ -137,43 +260,40 @@ export default function LeadsPage() {
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
           >
             {[
-              { label: 'Total Leads', value: stats.total.toString(), icon: Users, color: '' },
-              { label: 'Hot Leads', value: stats.hot.toString(), icon: Flame, color: 'text-red-500' },
-              { label: 'Warm Leads', value: stats.warm.toString(), icon: Star, color: 'text-amber-500' },
-              { label: 'Cold Leads', value: stats.cold.toString(), icon: Snowflake, color: 'text-sky-500' },
-              { label: 'Expected Revenue', value: formatCurrency(stats.totalRevenue), icon: DollarSign, color: 'text-emerald-500' },
+              { label: 'Total Leads', value: stats.total.toString(), icon: Users },
+              { label: 'Hot Leads', value: stats.hot.toString(), icon: Flame },
+              { label: 'Warm Leads', value: stats.warm.toString(), icon: Star },
+              { label: 'Cold Leads', value: stats.cold.toString(), icon: Snowflake },
+              { label: 'Expected Revenue', value: formatCurrency(stats.totalRevenue), icon: DollarSign },
             ].map((stat) => (
               <div
                 key={stat.label}
-                className={cn(
-                  'rounded-2xl border p-4 transition-colors',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-                )}
+                className="rounded-2xl border p-4"
+                style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <stat.icon className={cn('w-4 h-4', stat.color || (isDark ? 'text-white/30' : 'text-black/30'))} />
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                  <stat.icon className="w-4 h-4 text-[var(--app-text-muted)]" />
+                  <span className="text-xs font-medium text-[var(--app-text-muted)]">{stat.label}</span>
                 </div>
-                <p className={cn('text-xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
+                <p className="text-xl font-bold tracking-tight">{stat.value}</p>
               </div>
             ))}
           </motion.div>
 
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-2">
-            {/* Intent Chips */}
             <div className="flex items-center gap-1">
               {(['all', 'hot', 'warm', 'cold'] as const).map((intent) => {
                 const active = intentFilter === intent;
                 return (
                   <button
                     key={intent}
-                    onClick={() => { setIntentFilter(intent); setPage(1); }}
+                    onClick={() => setIntentFilter(intent)}
                     className={cn(
                       'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border',
                       active
-                        ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
-                        : isDark ? 'text-white/50 border-white/[0.06] hover:bg-white/[0.04]' : 'text-black/50 border-black/[0.06] hover:bg-black/[0.04]'
+                        ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] border-[var(--app-active-bg)]'
+                        : 'text-[var(--app-text-muted)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     {intent === 'all' ? 'All' : intent === 'hot' ? '🔥 Hot' : intent === 'warm' ? '⭐ Warm' : '❄️ Cold'}
@@ -184,32 +304,20 @@ export default function LeadsPage() {
 
             <Separator orientation="vertical" className="h-6 mx-1 hidden sm:block" />
 
-            {/* Source */}
-            <Select value={sourceFilter} onValueChange={(v) => { setSourceFilter(v as ContactSource | 'all'); setPage(1); }}>
-              <SelectTrigger className={cn(
-                'w-[130px] h-8 text-xs rounded-lg',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-              )}>
+            <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v as ContactSource | 'all')}>
+              <SelectTrigger className="w-[130px] h-8 text-xs rounded-lg bg-[var(--app-hover-bg)] border-[var(--app-border)]">
                 <SelectValue placeholder="Source" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sources</SelectItem>
-                <SelectItem value="linkedin">LinkedIn</SelectItem>
-                <SelectItem value="website">Website</SelectItem>
-                <SelectItem value="event">Event</SelectItem>
-                <SelectItem value="referral">Referral</SelectItem>
-                <SelectItem value="ad_campaign">Ad Campaign</SelectItem>
-                <SelectItem value="cold_call">Cold Call</SelectItem>
-                <SelectItem value="organic">Organic</SelectItem>
+                {Object.entries(SOURCE_COLORS).map(([key]) => (
+                  <SelectItem key={key} value={key}>{key.replace('_', ' ')}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
-            {/* Status */}
-            <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v as LeadStatus | 'all'); setPage(1); }}>
-              <SelectTrigger className={cn(
-                'w-[130px] h-8 text-xs rounded-lg',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-              )}>
+            <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as LeadStatus | 'all')}>
+              <SelectTrigger className="w-[130px] h-8 text-xs rounded-lg bg-[var(--app-hover-bg)] border-[var(--app-border)]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -224,356 +332,152 @@ export default function LeadsPage() {
             </Select>
           </div>
 
-          {/* Table */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={cn(
-              'rounded-2xl border overflow-hidden',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-            )}
-          >
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Name', 'Company', 'Source', 'Score', 'Intent', 'Status', 'Revenue', 'Next Action', 'Assigned', 'Actions'].map(col => (
-                      <th
-                        key={col}
-                        className={cn(
-                          'px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap',
-                          isDark ? 'text-white/30' : 'text-black/30'
-                        )}
-                      >
-                        {col}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedLeads.map((lead, i) => {
-                    const intentCfg = INTENT_CONFIG[lead.intent];
-                    const IntentIcon = intentCfg.icon;
-                    return (
-                      <motion.tr
-                        key={lead.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: i * 0.03 }}
-                        onClick={() => selectLead(lead.id)}
-                        className={cn(
-                          'border-b cursor-pointer transition-colors group',
-                          isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]'
-                        )}
-                      >
-                        {/* Name */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center gap-2.5">
-                            <div className={cn(
-                              'w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0',
-                              isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
-                            )}>
-                              {lead.firstName[0]}{lead.lastName[0]}
-                            </div>
-                            <div>
-                              <p className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>
-                                {lead.firstName} {lead.lastName}
-                              </p>
-                              <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{lead.email}</p>
-                            </div>
-                          </div>
-                        </td>
-
-                        {/* Company */}
-                        <td className={cn('px-4 py-3 text-xs whitespace-nowrap', isDark ? 'text-white/50' : 'text-black/50')}>
-                          {lead.company}
-                        </td>
-
-                        {/* Source */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span className={cn(
-                            'inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border capitalize',
-                            SOURCE_COLORS[lead.source]
-                          )}>
-                            {lead.source.replace('_', ' ')}
-                          </span>
-                        </td>
-
-                        {/* Score */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center gap-2 min-w-[100px]">
-                            <Progress
-                              value={lead.score}
-                              className={cn('h-1.5 w-16', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}
-                            />
-                            <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
-                              {lead.score}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Intent */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span className={cn(
-                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold',
-                            intentCfg.bg, intentCfg.text
-                          )}>
-                            <IntentIcon className="w-3 h-3" />
-                            {intentCfg.label}
-                          </span>
-                        </td>
-
-                        {/* Status */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <Badge variant={STATUS_VARIANT[lead.status]} className="text-[10px] capitalize">
-                            {lead.status}
-                          </Badge>
-                        </td>
-
-                        {/* Revenue */}
-                        <td className={cn('px-4 py-3 text-xs font-medium whitespace-nowrap', isDark ? 'text-white/70' : 'text-black/70')}>
-                          {formatCurrency(lead.expectedRevenue)}
-                        </td>
-
-                        {/* Next Action */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <p className={cn('text-xs max-w-[140px] truncate', isDark ? 'text-white/40' : 'text-black/40')}>
-                            {lead.nextAction || '—'}
-                          </p>
-                        </td>
-
-                        {/* Assigned */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{lead.assignedRep}</p>
-                        </td>
-
-                        {/* Quick Actions */}
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              onClick={(e) => { e.stopPropagation(); }}
-                              className={cn(
-                                'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
-                              )}
-                            >
-                              <ArrowRightLeft className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); }}
-                              className={cn(
-                                'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
-                              )}
-                            >
-                              <Mail className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); }}
-                              className={cn(
-                                'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
-                              )}
-                            >
-                              <Phone className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-
-            {filtered.length === 0 && (
-              <div className={cn('flex flex-col items-center justify-center py-16', isDark ? 'text-white/20' : 'text-black/20')}>
-                <Search className="w-8 h-8 mb-3" />
-                <p className="text-sm">No leads match your filters</p>
-              </div>
-            )}
-          </motion.div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
-                Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
-              </p>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className={cn(
-                    'p-1.5 rounded-lg border transition-colors disabled:opacity-30',
-                    isDark ? 'border-white/[0.06] hover:bg-white/[0.04]' : 'border-black/[0.06] hover:bg-black/[0.04]'
-                  )}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                  <button
-                    key={p}
-                    onClick={() => setPage(p)}
-                    className={cn(
-                      'w-8 h-8 rounded-lg text-xs font-medium transition-colors',
-                      p === page
-                        ? isDark ? 'bg-white text-black' : 'bg-black text-white'
-                        : isDark ? 'text-white/40 hover:bg-white/[0.04]' : 'text-black/40 hover:bg-black/[0.04]'
-                    )}
-                  >
-                    {p}
+          {/* SmartDataTable */}
+          <SmartDataTable
+            data={tableData}
+            columns={columns}
+            onRowClick={(row) => setSelectedLead(row as unknown as Lead)}
+            searchable
+            searchPlaceholder="Search leads..."
+            searchKeys={['name', 'company', 'email']}
+            emptyMessage="No leads match your filters"
+            pageSize={8}
+            enableExport
+            actions={(row) => {
+              const l = row as unknown as Lead;
+              return (
+                <div className="flex items-center gap-1">
+                  <button onClick={(e) => { e.stopPropagation(); }} className="p-1.5 rounded-lg transition-colors hover:bg-[var(--app-hover-bg)]">
+                    <ArrowRightLeft className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
                   </button>
-                ))}
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
-                  className={cn(
-                    'p-1.5 rounded-lg border transition-colors disabled:opacity-30',
-                    isDark ? 'border-white/[0.06] hover:bg-white/[0.04]' : 'border-black/[0.06] hover:bg-black/[0.04]'
-                  )}
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
+                </div>
+              );
+            }}
+          />
         </div>
       </ScrollArea>
 
-      {/* Lead Qualification Modal */}
-      <Dialog open={!!selectedLeadModal} onOpenChange={(open) => !open && setSelectedLeadModal(null)}>
-        <DialogContent className={cn(
-          'sm:max-w-lg rounded-2xl',
-          isDark ? 'bg-[#111] border-white/[0.08]' : 'bg-white border-black/[0.08]'
-        )}>
-          {selectedLeadModal && (
-            <LeadQualificationModal lead={selectedLeadModal} isDark={isDark} onClose={() => setSelectedLeadModal(null)} />
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
+      {/* Create Lead Modal */}
+      <CreateModal
+        open={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        title="Add Lead"
+        description="Create a new lead in your pipeline"
+        fields={createLeadFields}
+        icon={Flame}
+        submitLabel="Create Lead"
+        onSubmit={(data) => {
+          console.log('Creating lead:', data);
+        }}
+      />
 
-function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark: boolean; onClose: () => void }) {
-  const intentCfg = INTENT_CONFIG[lead.intent];
-  const IntentIcon = intentCfg.icon;
+      {/* Lead Detail Sidebar */}
+      <ContextualSidebar
+        open={!!selectedLead}
+        onClose={() => setSelectedLead(null)}
+        title={selectedLead ? `${selectedLead.firstName} ${selectedLead.lastName}` : ''}
+        subtitle="Lead"
+        icon={Flame}
+        width={420}
+        footer={
+          selectedLead ? (
+            <div className="flex items-center gap-2">
+              <Button size="sm" className="flex-1 rounded-xl text-xs" variant="outline" onClick={() => setSelectedLead(null)}>
+                Close
+              </Button>
+              <Button
+                size="sm"
+                className="flex-1 rounded-xl text-xs text-white"
+                style={{ backgroundColor: CSS.accent }}
+                onClick={() => {
+                  console.log('Convert to deal:', selectedLead.id);
+                  setSelectedLead(null);
+                }}
+              >
+                <Zap className="w-3.5 h-3.5 mr-1.5" />
+                Convert to Deal
+              </Button>
+            </div>
+          ) : undefined
+        }
+      >
+        {selectedLead && (
+          <div className="space-y-5">
+            {/* Header info */}
+            <div className="rounded-xl p-4" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-[var(--app-hover-bg)] text-[var(--app-text)]">
+                  {selectedLead.firstName[0]}{selectedLead.lastName[0]}
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-sm">{selectedLead.company}</p>
+                  <p className="text-xs text-[var(--app-text-muted)]">{selectedLead.email}</p>
+                </div>
+                {(() => {
+                  const intentCfg = INTENT_CONFIG[selectedLead.intent];
+                  const IntentIcon = intentCfg.icon;
+                  return (
+                    <span className={cn('inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold', intentCfg.bg, intentCfg.text)}>
+                      <IntentIcon className="w-3.5 h-3.5" />
+                      {intentCfg.label}
+                    </span>
+                  );
+                })()}
+              </div>
 
-  const scoreBreakdown = [
-    { label: 'Engagement', value: Math.round(lead.score * 0.35), weight: '35%' },
-    { label: 'Fit Score', value: Math.round(lead.score * 0.30), weight: '30%' },
-    { label: 'Behavior', value: Math.round(lead.score * 0.20), weight: '20%' },
-    { label: 'Demographics', value: Math.round(lead.score * 0.15), weight: '15%' },
-  ];
-
-  return (
-    <div className="space-y-5">
-      <DialogHeader>
-        <DialogTitle className={cn('text-lg', isDark ? 'text-white' : 'text-black')}>
-          Lead Qualification
-        </DialogTitle>
-      </DialogHeader>
-
-      <div className={cn('rounded-xl p-4 border', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
-        <div className="flex items-center gap-3 mb-4">
-          <div className={cn(
-            'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold',
-            isDark ? 'bg-white/[0.06] text-white' : 'bg-black/[0.06] text-black'
-          )}>
-            {lead.firstName[0]}{lead.lastName[0]}
-          </div>
-          <div>
-            <p className={cn('font-semibold', isDark ? 'text-white' : 'text-black')}>{lead.firstName} {lead.lastName}</p>
-            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{lead.company} · {lead.email}</p>
-          </div>
-          <span className={cn(
-            'ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold',
-            intentCfg.bg, intentCfg.text
-          )}>
-            <IntentIcon className="w-3.5 h-3.5" />
-            {intentCfg.label}
-          </span>
-        </div>
-
-        {/* Score */}
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className={cn('text-xs font-medium', isDark ? 'text-white/50' : 'text-black/50')}>Lead Score</span>
-            <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>{lead.score}/100</span>
-          </div>
-          <div className="space-y-2">
-            {scoreBreakdown.map(item => (
-              <div key={item.label} className="flex items-center gap-3">
-                <span className={cn('text-[11px] w-24', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
-                <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-black/[0.06]">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.value}%` }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+              {/* Score */}
+              <div className="mb-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-medium text-[var(--app-text-muted)]">Lead Score</span>
+                  <span className="text-sm font-bold">{selectedLead.score}/100</span>
+                </div>
+                <div className="h-2 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
+                  <div
                     className={cn(
-                      'h-full rounded-full',
-                      item.value >= 70 ? 'bg-emerald-500' : item.value >= 40 ? 'bg-amber-500' : 'bg-red-500'
+                      'h-full rounded-full transition-all',
+                      selectedLead.score >= 70 ? 'bg-emerald-500' : selectedLead.score >= 40 ? 'bg-amber-500' : 'bg-red-500'
                     )}
+                    style={{ width: `${selectedLead.score}%` }}
                   />
                 </div>
-                <span className={cn('text-[10px] font-medium w-8 text-right', isDark ? 'text-white/40' : 'text-black/40')}>
-                  {item.value}
-                </span>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className={cn('grid grid-cols-2 gap-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
-          <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Source</span>
-            <span className="capitalize">{lead.source.replace('_', ' ')}</span>
-          </div>
-          <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Status</span>
-            <span className="capitalize">{lead.status}</span>
-          </div>
-          <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Expected Revenue</span>
-            <span className={cn('font-semibold', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
-              {formatCurrency(lead.expectedRevenue)}
-            </span>
-          </div>
-          <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Campaign</span>
-            <span>{lead.campaign || '—'}</span>
-          </div>
-        </div>
-      </div>
+              <div className="grid grid-cols-2 gap-2 text-xs text-[var(--app-text-secondary)]">
+                <div>
+                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Source</span>
+                  <span className="capitalize">{selectedLead.source.replace('_', ' ')}</span>
+                </div>
+                <div>
+                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Status</span>
+                  <Badge variant={STATUS_VARIANT[selectedLead.status]} className="text-[10px] h-5 capitalize">{selectedLead.status}</Badge>
+                </div>
+                <div>
+                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Expected Revenue</span>
+                  <span className="font-semibold text-emerald-500">{formatCurrency(selectedLead.expectedRevenue)}</span>
+                </div>
+                <div>
+                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Campaign</span>
+                  <span>{selectedLead.campaign || '—'}</span>
+                </div>
+              </div>
+            </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-2">
-        <Button
-          className={cn(
-            'flex-1 h-9 rounded-xl text-xs font-semibold',
-            isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-          )}
-          onClick={onClose}
-        >
-          <Zap className="w-3.5 h-3.5 mr-1.5" />
-          Convert to Deal
-        </Button>
-        <Select>
-          <SelectTrigger className={cn(
-            'h-9 w-36 text-xs rounded-xl',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-          )}>
-            <SelectValue placeholder="Assign Rep" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="u1">Priya Sharma</SelectItem>
-            <SelectItem value="u2">Rahul Verma</SelectItem>
-            <SelectItem value="u3">Ananya Das</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+            {/* Next Action */}
+            {selectedLead.nextAction && (
+              <div>
+                <span className="text-xs font-medium text-[var(--app-text-secondary)]">Next Action</span>
+                <p className="text-sm mt-1">{selectedLead.nextAction}</p>
+              </div>
+            )}
+
+            {/* Assigned */}
+            <div>
+              <span className="text-xs font-medium text-[var(--app-text-secondary)]">Assigned Rep</span>
+              <p className="text-sm mt-1">{selectedLead.assignedRep}</p>
+            </div>
+          </div>
+        )}
+      </ContextualSidebar>
     </div>
   );
 }

@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Share2, Users, TrendingUp, Trophy, Copy, Check, Settings, Clock, ArrowUpRight } from 'lucide-react';
 import { mockReferrals } from '@/modules/marketing/data/mock-data';
 import type { ReferralEntry } from '@/modules/marketing/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const MONTHLY_REFERRAL_DATA = [
   { month: 'Nov', count: 42 },
@@ -56,11 +59,72 @@ export default function ReferralPage() {
   };
 
   const rankBadge = (rank: number) => {
-    if (rank === 1) return { bg: isDark ? 'bg-amber-500/20' : 'bg-amber-50', text: 'text-amber-500', icon: '🥇' };
-    if (rank === 2) return { bg: isDark ? 'bg-gray-400/20' : 'bg-gray-100', text: 'text-gray-400', icon: '🥈' };
-    if (rank === 3) return { bg: isDark ? 'bg-orange-500/20' : 'bg-orange-50', text: 'text-orange-500', icon: '🥉' };
+    if (rank === 1) return { bg: 'bg-amber-500/20', text: 'text-amber-500', icon: '🥇' };
+    if (rank === 2) return { bg: 'bg-gray-400/20', text: 'text-gray-400', icon: '🥈' };
+    if (rank === 3) return { bg: 'bg-orange-500/20', text: 'text-orange-500', icon: '🥉' };
     return { bg: '', text: '', icon: '' };
   };
+
+  const leaderboardColumns: DataTableColumnDef[] = [
+    {
+      key: 'rank',
+      label: 'Rank',
+      sortable: true,
+      render: (row) => {
+        const r = row as unknown as ReferralEntry;
+        const badge = rankBadge(r.rank);
+        return (
+          <div
+            className={cn('w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold',
+              r.rank <= 3 ? badge.bg : '')
+            }
+            style={r.rank > 3 ? { backgroundColor: CSS.hoverBg, color: CSS.textSecondary } : undefined}
+          >
+            {r.rank <= 3 ? badge.icon : r.rank}
+          </div>
+        );
+      },
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      sortable: true,
+      render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{(row as unknown as ReferralEntry).name}</span>,
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textSecondary }}>{(row as unknown as ReferralEntry).email}</span>,
+    },
+    {
+      key: 'referralCode',
+      label: 'Referral Code',
+      render: (row) => (
+        <code className="text-xs font-mono px-2 py-1 rounded-md" style={{ backgroundColor: CSS.hoverBg, color: '#10b981' }}>
+          {(row as unknown as ReferralEntry).referralCode}
+        </code>
+      ),
+    },
+    {
+      key: 'totalReferrals',
+      label: 'Referrals',
+      sortable: true,
+      render: (row) => <span className="font-semibold" style={{ color: CSS.text }}>{(row as unknown as ReferralEntry).totalReferrals}</span>,
+    },
+    {
+      key: 'conversions',
+      label: 'Conversions',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textSecondary }}>{(row as unknown as ReferralEntry).conversions}</span>,
+    },
+    {
+      key: 'earnings',
+      label: 'Earnings',
+      sortable: true,
+      render: (row) => <span className="font-medium text-emerald-500">₹{(row as unknown as ReferralEntry).earnings.toLocaleString()}</span>,
+    },
+  ];
 
   return (
     <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -110,49 +174,12 @@ export default function ReferralPage() {
         {/* Leaderboard */}
         <div className="lg:col-span-2">
           <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Leaderboard</h2>
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Rank', 'Name', 'Email', 'Referral Code', 'Referrals', 'Conversions', 'Earnings'].map(h => (
-                      <th key={h} className={cn('text-left px-4 py-3 text-xs font-medium', isDark ? 'text-white/40' : 'text-gray-500')}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockReferrals.map((ref, i) => {
-                    const badge = rankBadge(ref.rank);
-                    return (
-                      <motion.tr
-                        key={ref.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: i * 0.03, duration: 0.2 }}
-                        className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-gray-50/50')}
-                      >
-                        <td className="px-4 py-3">
-                          <div className={cn('w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold', ref.rank <= 3 ? badge.bg : (isDark ? 'bg-white/[0.06] text-white/50' : 'bg-gray-100 text-gray-500'))}>
-                            {ref.rank <= 3 ? badge.icon : ref.rank}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 font-medium" style={{ color: isDark ? 'white' : '#111827' }}>{ref.name}</td>
-                        <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-gray-500')}>{ref.email}</td>
-                        <td className="px-4 py-3">
-                          <code className={cn('text-xs font-mono px-2 py-1 rounded-md', isDark ? 'bg-white/[0.06] text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
-                            {ref.referralCode}
-                          </code>
-                        </td>
-                        <td className="px-4 py-3 font-semibold" style={{ color: isDark ? 'white' : '#111827' }}>{ref.totalReferrals}</td>
-                        <td className="px-4 py-3" style={{ color: isDark ? 'white/70' : '#374151' }}>{ref.conversions}</td>
-                        <td className="px-4 py-3 font-medium text-emerald-500">₹{ref.earnings.toLocaleString()}</td>
-                      </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={mockReferrals as unknown as Record<string, unknown>[]}
+            columns={leaderboardColumns}
+            searchable enableExport pageSize={10}
+            searchPlaceholder="Search referrals..."
+          />
         </div>
 
         {/* Right column */}

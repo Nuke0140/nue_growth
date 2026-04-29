@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,10 @@ import {
   Send, RefreshCw, Eye, EyeOff, ChevronDown, Zap,
 } from 'lucide-react';
 import { apiKeys, webhookConfigs } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 const scopeDescriptions: Record<string, string> = {
   read: 'Read access to all resources',
@@ -78,6 +82,39 @@ export default function ApiKeysWebhooksPage() {
     { label: 'Total Requests', value: formatNumber(totalRequests), color: 'text-sky-400' },
   ];
 
+  // ── Delivery Logs columns ──
+  const deliveryColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'timestamp',
+      label: 'Time',
+      sortable: true,
+      render: (row) => (
+        <span className="font-mono" style={{ color: CSS.textSecondary }}>
+          {new Date(row.timestamp as string).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+        </span>
+      ),
+    },
+    {
+      key: 'statusCode',
+      label: 'Status',
+      render: (row) => <span className="font-mono text-center block">{row.statusCode as number}</span>,
+    },
+    {
+      key: 'duration',
+      label: 'Duration',
+      render: (row) => <span className="text-center block">{row.duration as number}ms</span>,
+    },
+    {
+      key: 'success',
+      label: 'Result',
+      render: (row) => (row.success as boolean) ? (
+        <span className="text-emerald-500 flex items-center justify-end gap-1"><Check className="w-3 h-3" /> Success</span>
+      ) : (
+        <span className="text-red-500 flex items-center justify-end gap-1"><X className="w-3 h-3" /> Failed</span>
+      ),
+    },
+  ], []);
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-6">
@@ -119,7 +156,7 @@ export default function ApiKeysWebhooksPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: CSS.hoverBg }}>
           {(['keys', 'webhooks'] as const).map((tab) => (
             <button
               key={tab}
@@ -127,8 +164,8 @@ export default function ApiKeysWebhooksPage() {
               className={cn(
                 'px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize',
                 activeTab === tab
-                  ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
-                  : isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+                  ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
+                  : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
               )}
             >
               {tab === 'keys' ? 'API Keys' : 'Webhooks'}
@@ -155,9 +192,7 @@ export default function ApiKeysWebhooksPage() {
                     <div className="flex-1 min-w-0 space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-sm font-semibold">{apiKey.name}</h3>
-                        <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? sConf.bgDark : sConf.bgLight)}>
-                          {sConf.label}
-                        </Badge>
+                        <StatusBadge status={sConf.label} />
                       </div>
 
                       {/* Key Value */}
@@ -311,36 +346,11 @@ export default function ApiKeysWebhooksPage() {
                       <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-white/30' : 'text-black/30')}>
                         Recent Deliveries
                       </span>
-                      <div className={cn('rounded-lg border overflow-hidden', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                        <table className="w-full text-[11px]">
-                          <thead>
-                            <tr className={cn(isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                              <th className={cn('text-left px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Time</th>
-                              <th className={cn('text-center px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status</th>
-                              <th className={cn('text-center px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Duration</th>
-                              <th className={cn('text-right px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Result</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {wh.deliveryLogs.map((log, j) => (
-                              <tr key={j} className={cn('border-t', isDark ? 'border-white/[0.03]' : 'border-black/[0.03]')}>
-                                <td className={cn('px-3 py-2 font-mono', isDark ? 'text-white/50' : 'text-black/50')}>
-                                  {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                                </td>
-                                <td className="px-3 py-2 text-center font-mono">{log.statusCode}</td>
-                                <td className="px-3 py-2 text-center">{log.duration}ms</td>
-                                <td className="px-3 py-2 text-right">
-                                  {log.success ? (
-                                    <span className="text-emerald-500 flex items-center justify-end gap-1"><Check className="w-3 h-3" /> Success</span>
-                                  ) : (
-                                    <span className="text-red-500 flex items-center justify-end gap-1"><X className="w-3 h-3" /> Failed</span>
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                      <SmartDataTable
+                        data={wh.deliveryLogs as unknown as Record<string, unknown>[]}
+                        columns={deliveryColumns}
+                        pageSize={10}
+                      />
                     </div>
                   </div>
                 </motion.div>

@@ -17,11 +17,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { CSS } from '@/styles/design-tokens';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
 import {
   mockEmployees, mockAttendance, mockLeaveRequests, mockPayroll, mockAssets,
 } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
-import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import { PageShell } from './components/ops/page-shell';
 import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 import { Timeline } from '@/modules/erp/components/ops/timeline';
@@ -73,22 +76,22 @@ function formatMonth(monthStr: string): string {
 
 function getAttendanceStatusColor(status: string): string {
   switch (status) {
-    case 'present': return 'var(--ops-success)';
-    case 'absent': return 'var(--ops-danger)';
-    case 'half-day': return 'var(--ops-warning)';
-    case 'wfh': return 'var(--ops-info)';
+    case 'present': return CSS.success;
+    case 'absent': return CSS.danger;
+    case 'half-day': return CSS.warning;
+    case 'wfh': return CSS.info;
     case 'on-leave': return '#a78bfa';
-    default: return 'var(--ops-text-muted)';
+    default: return CSS.textMuted;
   }
 }
 
 function getAssetStatusColor(status: string): string {
   switch (status) {
-    case 'active': return 'var(--ops-success)';
-    case 'in-repair': return 'var(--ops-warning)';
-    case 'disposed': return 'var(--ops-danger)';
-    case 'retired': return 'var(--ops-text-muted)';
-    default: return 'var(--ops-text-muted)';
+    case 'active': return CSS.success;
+    case 'in-repair': return CSS.warning;
+    case 'disposed': return CSS.danger;
+    case 'retired': return CSS.textMuted;
+    default: return CSS.textMuted;
   }
 }
 
@@ -644,180 +647,82 @@ function EmployeeDetailPageInner() {
 
           {/* ---- Attendance Tab ---- */}
           <TabsContent value="attendance" className="mt-5">
-            <div className="ops-card overflow-hidden !p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {['Date', 'Check In', 'Check Out', 'Hours', 'Status'].map((h) => (
-                        <th
-                          key={h}
-                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {employeeAttendance.length === 0 ? (
-                      <tr>
-                        <td colSpan={5} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
-                          No attendance records found
-                        </td>
-                      </tr>
-                    ) : (
-                      employeeAttendance.map((record) => (
-                        <tr key={record.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-                            {formatDate(record.date)}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-                            {record.checkIn || '—'}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-                            {record.checkOut || '—'}
-                          </td>
-                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
-                            {record.hours > 0 ? `${record.hours}h` : '—'}
-                          </td>
-                          <td className="px-5 py-3">
-                            <div className="flex items-center gap-2">
-                              <span
-                                className="w-2 h-2 rounded-full shrink-0"
-                                style={{ backgroundColor: getAttendanceStatusColor(record.status) }}
-                              />
-                              <span
-                                className="text-sm capitalize"
-                                style={{ color: getAttendanceStatusColor(record.status) }}
-                              >
-                                {record.status.replace('-', ' ')}
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <SmartDataTable
+              data={employeeAttendance as unknown as Record<string, unknown>[]}
+              columns={[
+                { key: 'date', label: 'Date', sortable: true, render: (row) => formatDate(String(row.date)) },
+                { key: 'checkIn', label: 'Check In', sortable: true, render: (row) => row.checkIn || '—' },
+                { key: 'checkOut', label: 'Check Out', sortable: true, render: (row) => row.checkOut || '—' },
+                { key: 'hours', label: 'Hours', sortable: true, render: (row) => Number(row.hours) > 0 ? `${row.hours}h` : '—' },
+                {
+                  key: 'status', label: 'Status', sortable: true,
+                  render: (row) => (
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-2 h-2 rounded-full shrink-0"
+                        style={{ backgroundColor: getAttendanceStatusColor(String(row.status)) }}
+                      />
+                      <span
+                        className="text-sm capitalize"
+                        style={{ color: getAttendanceStatusColor(String(row.status)) }}
+                      >
+                        {String(row.status).replace('-', ' ')}
+                      </span>
+                    </div>
+                  ),
+                },
+              ] as DataTableColumnDef[]}
+              searchable
+              searchPlaceholder="Search attendance..."
+              emptyMessage="No attendance records found"
+              pageSize={10}
+            />
           </TabsContent>
 
           {/* ---- Leaves Tab ---- */}
           <TabsContent value="leaves" className="mt-5">
-            <div className="ops-card overflow-hidden !p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {['Type', 'Period', 'Days', 'Reason', 'Status'].map((h) => (
-                        <th
-                          key={h}
-                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {employeeLeaves.length === 0 ? (
-                      <tr>
-                        <td colSpan={5} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
-                          No leave requests found
-                        </td>
-                      </tr>
-                    ) : (
-                      employeeLeaves.map((leave) => (
-                        <tr key={leave.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                          <td className="px-5 py-3 text-sm font-medium capitalize" style={{ color: 'var(--ops-text)' }}>
-                            {leave.type.replace('-', ' ')}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-                            {leave.startDate} — {leave.endDate}
-                          </td>
-                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
-                            {leave.days}
-                          </td>
-                          <td className="px-5 py-3 text-sm max-w-[200px] truncate" style={{ color: 'var(--ops-text-muted)' }}>
-                            {leave.reason}
-                          </td>
-                          <td className="px-5 py-3">
-                            <StatusBadge status={leave.status} variant="pill" />
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <SmartDataTable
+              data={employeeLeaves as unknown as Record<string, unknown>[]}
+              columns={[
+                { key: 'type', label: 'Type', sortable: true, render: (row) => <span className="capitalize font-medium" style={{ color: CSS.text }}>{String(row.type).replace('-', ' ')}</span> },
+                { key: 'period', label: 'Period', sortable: true, render: (row) => <span style={{ color: CSS.textSecondary }}>{row.startDate} — {row.endDate}</span> },
+                { key: 'days', label: 'Days', sortable: true, render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{row.days}</span> },
+                { key: 'reason', label: 'Reason', render: (row) => <span className="max-w-[200px] truncate block" style={{ color: CSS.textMuted }}>{row.reason}</span> },
+                { key: 'status', label: 'Status', sortable: true, render: (row) => <StatusBadge status={String(row.status)} variant="pill" /> },
+              ] as DataTableColumnDef[]}
+              searchable
+              searchPlaceholder="Search leaves..."
+              emptyMessage="No leave requests found"
+              pageSize={10}
+            />
           </TabsContent>
 
           {/* ---- Payroll Tab ---- */}
           <TabsContent value="payroll" className="mt-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>
                 Recent Payslips
               </h3>
               <button className="ops-btn-primary gap-2 text-xs">
                 <Download className="w-3.5 h-3.5" /> Download Payslip
               </button>
             </div>
-            <div className="ops-card overflow-hidden !p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                      {['Month', 'Base Salary', 'Incentives', 'Deductions', 'Net Pay', 'Status'].map((h) => (
-                        <th
-                          key={h}
-                          className="text-left px-5 py-3 text-[11px] font-semibold uppercase tracking-wider"
-                          style={{ color: 'var(--ops-text-muted)' }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {employeePayroll.length === 0 ? (
-                      <tr>
-                        <td colSpan={6} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
-                          No payroll records found
-                        </td>
-                      </tr>
-                    ) : (
-                      employeePayroll.map((record) => (
-                        <tr key={record.id} style={{ borderBottom: '1px solid var(--ops-border)' }}>
-                          <td className="px-5 py-3 text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
-                            {formatMonth(record.month)}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-                            {formatCurrency(record.baseSalary)}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-success)' }}>
-                            +{formatCurrency(record.incentives)}
-                          </td>
-                          <td className="px-5 py-3 text-sm" style={{ color: 'var(--ops-danger)' }}>
-                            -{formatCurrency(record.deductions)}
-                          </td>
-                          <td className="px-5 py-3 text-sm font-bold" style={{ color: 'var(--ops-text)' }}>
-                            {formatCurrency(record.netPay)}
-                          </td>
-                          <td className="px-5 py-3">
-                            <StatusBadge status={record.status} variant="pill" />
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <SmartDataTable
+              data={employeePayroll as unknown as Record<string, unknown>[]}
+              columns={[
+                { key: 'month', label: 'Month', sortable: true, render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{formatMonth(String(row.month))}</span> },
+                { key: 'baseSalary', label: 'Base Salary', sortable: true, render: (row) => <span>{formatCurrency(Number(row.baseSalary))}</span> },
+                { key: 'incentives', label: 'Incentives', sortable: true, render: (row) => <span style={{ color: CSS.success }}>+{formatCurrency(Number(row.incentives))}</span> },
+                { key: 'deductions', label: 'Deductions', sortable: true, render: (row) => <span style={{ color: CSS.danger }}>-{formatCurrency(Number(row.deductions))}</span> },
+                { key: 'netPay', label: 'Net Pay', sortable: true, render: (row) => <span className="font-bold" style={{ color: CSS.text }}>{formatCurrency(Number(row.netPay))}</span> },
+                { key: 'status', label: 'Status', sortable: true, render: (row) => <StatusBadge status={String(row.status)} variant="pill" /> },
+              ] as DataTableColumnDef[]}
+              searchable
+              searchPlaceholder="Search payroll..."
+              enableExport
+              emptyMessage="No payroll records found"
+              pageSize={10}
+            />
           </TabsContent>
 
           {/* ---- Assets Tab ---- */}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,9 @@ import DashboardWidget from './components/dashboard-widget';
 import FilterChip from './components/filter-chip';
 import ExportMenu from './components/export-menu';
 import { crmAnalyticsData } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -43,13 +46,6 @@ const engagementIcons: Record<string, React.ElementType> = {
   'Demo Conversion': Eye,
 };
 
-const engagementColors = [
-  { bar: 'bg-blue-500', bg: 'bg-blue-500/10' },
-  { bar: 'bg-emerald-500', bg: 'bg-emerald-500/10' },
-  { bar: 'bg-violet-500', bg: 'bg-violet-500/10' },
-  { bar: 'bg-amber-500', bg: 'bg-amber-500/10' },
-];
-
 export default function CRMAnalyticsPage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -74,21 +70,85 @@ export default function CRMAnalyticsPage() {
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
   });
 
+  // ── Rep Response Performance column definitions ──
+  const repColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'rep',
+      label: 'Rep',
+      sortable: true,
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          <div
+            className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold"
+            style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}
+          >
+            {String(row.rep).split(' ').map((n: string) => n[0]).join('')}
+          </div>
+          <span className="text-sm font-medium" style={{ color: CSS.text }}>{String(row.rep)}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'avgResponse',
+      label: 'Avg Response',
+      sortable: true,
+      render: (row) => {
+        const fastestRep = data.repResponsePerformance[0]?.rep;
+        const isFastest = fastestRep === row.rep;
+        return (
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">{Number(row.avgResponse)}h</span>
+            {isFastest && (
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium bg-emerald-500/15 text-emerald-400">
+                Fastest
+              </span>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      key: 'meetings',
+      label: 'Meetings',
+      sortable: true,
+      render: (row) => <span className="text-sm">{String(row.meetings)}</span>,
+    },
+    {
+      key: 'conversion',
+      label: 'Conversion',
+      sortable: true,
+      render: (row) => {
+        const conv = Number(row.conversion);
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-14 h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+              <div
+                className="h-full rounded-full"
+                style={{
+                  width: `${conv}%`,
+                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.5)' : '#60a5fa',
+                }}
+              />
+            </div>
+            <span className="text-sm font-medium">{conv}%</span>
+          </div>
+        );
+      },
+    },
+  ], [isDark]);
+
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
-            )}>
-              <Users className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
+              <Users className="w-5 h-5" style={{ color: CSS.textSecondary }} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">CRM Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className="text-xs" style={{ color: CSS.textMuted }}>
                 Lead sources, lifecycle stages &amp; contact engagement
               </p>
             </div>
@@ -105,10 +165,7 @@ export default function CRMAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-            <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
-            )}>
+            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
             </span>
@@ -168,13 +225,13 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className="text-xs" style={{ color: CSS.textMuted }}>
                         {src.conversion}% conv
                       </span>
                       <span className="text-sm font-semibold">{formatNum(src.leads)}</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.leads / maxLeadSource) * 100}%` }}
@@ -196,10 +253,7 @@ export default function CRMAnalyticsPage() {
                   <div key={stage.stage} className="w-full flex flex-col items-center">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-sm font-medium">{stage.stage}</span>
-                      <span className={cn(
-                        'text-xs px-2 py-0.5 rounded-full font-medium',
-                        isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
-                      )}>
+                      <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-emerald-500/15 text-emerald-400">
                         {stage.rate}%
                       </span>
                     </div>
@@ -207,26 +261,20 @@ export default function CRMAnalyticsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn(
-                        'h-10 rounded-xl flex items-center justify-center',
-                        isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
-                      )}
-                      style={{ maxWidth: '100%' }}
+                      className="h-10 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                     >
                       <div className="text-center">
-                        <p className={cn('text-base font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
+                        <p className="text-base font-bold" style={{ color: CSS.text }}>
                           {formatNum(stage.converted)}
                         </p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className="text-[10px]" style={{ color: CSS.textMuted }}>
                           of {formatNum(stage.total)}
                         </p>
                       </div>
                     </motion.div>
                     {i < data.lifecycleConversion.length - 1 && (
-                      <ChevronRight className={cn(
-                        'w-4 h-4 my-0.5 rotate-90',
-                        isDark ? 'text-white/20' : 'text-black/20',
-                      )} />
+                      <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
                     )}
                   </div>
                 );
@@ -253,20 +301,16 @@ export default function CRMAnalyticsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.06, duration: 0.3 }}
-                  className={cn(
-                    'rounded-xl border p-4 transition-colors',
-                    isDark
-                      ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
-                      : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.03]',
-                  )}
+                  className="rounded-xl border p-4 transition-colors"
+                  style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.border }}
                 >
-                  <div className={cn(
-                    'w-8 h-8 rounded-lg flex items-center justify-center mb-3',
-                    isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
-                  )}>
-                    <item.icon className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"
+                    style={{ backgroundColor: CSS.hoverBg }}
+                  >
+                    <item.icon className="w-4 h-4" style={{ color: CSS.textSecondary }} />
                   </div>
-                  <p className={cn('text-[10px] uppercase tracking-wider mb-1', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: CSS.textMuted }}>
                     {item.metric}
                   </p>
                   <div className="flex items-baseline gap-1.5">
@@ -302,13 +346,13 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{stage.stage}</span>
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className="text-xs" style={{ color: CSS.textMuted }}>
                         {stage.deals} deals
                       </span>
                       <span className="text-sm font-semibold">{stage.avgDays}d</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(stage.avgDays / maxPipelineDays) * 100}%` }}
@@ -323,76 +367,14 @@ export default function CRMAnalyticsPage() {
 
           {/* Rep Response Performance */}
           <ChartCard title="Rep Response Performance" subtitle="Response time, meetings &amp; conversion by rep">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Rep', 'Avg Response', 'Meetings', 'Conversion'].map((h) => (
-                      <th
-                        key={h}
-                        className={cn(
-                          'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                          isDark ? 'text-white/40' : 'text-black/40',
-                        )}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.repResponsePerformance.map((rep, i) => (
-                    <motion.tr
-                      key={rep.rep}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 + i * 0.06 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
-                      )}
-                    >
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2">
-                          <div className={cn(
-                            'w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold',
-                            isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60',
-                          )}>
-                            {rep.rep.split(' ').map((n) => n[0]).join('')}
-                          </div>
-                          <span className="text-sm font-medium">{rep.rep}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium">{rep.avgResponse}h</span>
-                          {i === 0 && (
-                            <span className={cn(
-                              'text-[9px] px-1.5 py-0.5 rounded-full font-medium',
-                              isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
-                            )}>
-                              Fastest
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-3 px-3 text-sm">{rep.meetings}</td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-14 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                            <div
-                              className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
-                              style={{ width: `${rep.conversion}%` }}
-                            />
-                          </div>
-                          <span className="text-sm font-medium">{rep.conversion}%</span>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <SmartDataTable
+              data={data.repResponsePerformance as unknown as Record<string, unknown>[]}
+              columns={repColumns}
+              searchable
+              enableExport
+              pageSize={10}
+              searchPlaceholder="Search reps…"
+            />
           </ChartCard>
         </div>
       </div>

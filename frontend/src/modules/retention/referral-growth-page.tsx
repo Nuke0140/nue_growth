@@ -13,6 +13,9 @@ import {
 import { referralData } from '@/modules/retention/data/mock-data';
 import { useRetentionStore } from '@/modules/retention/retention-store';
 import type { ReferralEntry } from '@/modules/retention/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -62,6 +65,80 @@ export default function ReferralGrowthPage() {
     referralData.filter(r => r.fraudFlag),
     []
   );
+
+  // ── Referral columns ──
+  const referralColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'rank',
+      label: 'Rank',
+      sortable: true,
+      render: (row) => {
+        const rank = row.rank as number;
+        return (
+          <span className={cn('text-xs font-bold', rank <= 3 ? podiumColors[rank - 1] : '')} style={rank > 3 ? { color: CSS.textMuted } : undefined}>
+            #{rank}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'advocate',
+      label: 'Advocate',
+      sortable: true,
+      render: (row) => (
+        <div>
+          <p className="text-sm font-medium">{row.advocate as string}</p>
+          <p className="text-[10px]" style={{ color: CSS.textMuted }}>{row.topReferral as string}</p>
+        </div>
+      ),
+    },
+    {
+      key: 'referralCode',
+      label: 'Code',
+      render: (row) => (
+        <code className="text-[10px] px-1.5 py-0.5 rounded" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>{row.referralCode as string}</code>
+      ),
+    },
+    { key: 'totalReferrals', label: 'Total', sortable: true },
+    { key: 'converted', label: 'Converted', sortable: true },
+    {
+      key: 'conversionRate',
+      label: 'Conv %',
+      sortable: true,
+      render: (row) => {
+        const rate = row.conversionRate as number;
+        return (
+          <span className={cn('text-xs font-bold', rate >= 60 ? 'text-emerald-500' : rate > 0 ? 'text-amber-500' : 'text-red-400')}>
+            {rate}%
+          </span>
+        );
+      },
+    },
+    {
+      key: 'commissionEarned',
+      label: 'Commission',
+      sortable: true,
+      render: (row) => <span className="text-sm font-medium">{formatINR(row.commissionEarned as number)}</span>,
+    },
+    {
+      key: 'rewardType',
+      label: 'Reward',
+      render: (row) => (
+        <Badge variant="secondary" className="text-[10px] px-2 py-0.5" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+          {row.rewardType as string}
+        </Badge>
+      ),
+    },
+    {
+      key: 'fraudFlag',
+      label: 'Fraud',
+      render: (row) => row.fraudFlag ? (
+        <Badge variant="secondary" className="text-[10px] px-2 py-0.5 bg-red-500/15 text-red-400">
+          <Shield className="w-3 h-3 mr-1" />Flag
+        </Badge>
+      ) : null,
+    },
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -177,59 +254,14 @@ export default function ReferralGrowthPage() {
               <Users className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
               <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>All Referrals</span>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Rank', 'Advocate', 'Code', 'Total', 'Converted', 'Conv %', 'Commission', 'Reward', 'Fraud'].map(h => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {referralData.map((r: ReferralEntry, i) => (
-                    <motion.tr
-                      key={r.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 + i * 0.04 }}
-                      className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                    >
-                      <td className="py-3 px-3">
-                        <span className={cn('text-xs font-bold', r.rank <= 3 ? podiumColors[r.rank - 1] : (isDark ? 'text-white/40' : 'text-black/40'))}>#{r.rank}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <p className="text-sm font-medium">{r.advocate}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{r.topReferral}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        <code className={cn('text-[10px] px-1.5 py-0.5 rounded', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>{r.referralCode}</code>
-                      </td>
-                      <td className="py-3 px-3 text-sm font-semibold">{r.totalReferrals}</td>
-                      <td className="py-3 px-3 text-sm">{r.converted}</td>
-                      <td className="py-3 px-3">
-                        <span className={cn('text-xs font-bold', r.conversionRate >= 60 ? 'text-emerald-500' : r.conversionRate > 0 ? 'text-amber-500' : 'text-red-400')}>
-                          {r.conversionRate}%
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 text-sm font-medium">{formatINR(r.commissionEarned)}</td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-                          {r.rewardType}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        {r.fraudFlag && (
-                          <Badge variant="secondary" className="text-[10px] px-2 py-0.5 bg-red-500/15 text-red-400">
-                            <Shield className="w-3 h-3 mr-1" />Flag
-                          </Badge>
-                        )}
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <SmartDataTable
+              data={referralData as unknown as Record<string, unknown>[]}
+              columns={referralColumns}
+              searchable
+              searchPlaceholder="Search referrals..."
+              enableExport
+              pageSize={10}
+            />
           </motion.div>
 
           {/* Referral ROI Chart + Fraud Section */}

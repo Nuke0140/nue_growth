@@ -3,14 +3,14 @@
 import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, UserCheck, UserX, Clock, Home, AlertTriangle } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { DataTable, type Column } from './components/ops/data-table';
-import { StatusBadge } from './components/ops/status-badge';
-import { KpiWidget } from './components/ops/kpi-widget';
-import { mockEmployees, mockAttendance } from './data/mock-data';
-import type { AttendanceRecord } from './types';
-import { PageShell } from './components/ops/page-shell';
+import { PageShell } from '@/components/shared/page-shell';
+import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { CSS } from '@/styles/design-tokens';
+import { mockEmployees, mockAttendance } from '@/modules/erp/data/mock-data';
+import type { AttendanceRecord } from '@/modules/erp/types';
 
 function getEmployeeName(id: string): string {
   return mockEmployees.find(e => e.id === id)?.name || id;
@@ -75,13 +75,13 @@ function AttendancePageInner() {
     wfh: dayData.filter(a => a.status === 'wfh').length,
   }), [dayData]);
 
-  const columns: Column<AttendanceRecord & Record<string, unknown>>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'employeeId',
       label: 'Employee',
       sortable: true,
       render: (row) => {
-        const empId = row.employeeId as string;
+        const empId = String(row.employeeId);
         const name = getEmployeeName(empId);
         const initials = getEmployeeInitials(empId);
         return (
@@ -91,13 +91,13 @@ function AttendancePageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--ops-accent)',
+                  color: CSS.accent,
                 }}
               >
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>
               {name}
             </span>
           </div>
@@ -108,10 +108,9 @@ function AttendancePageInner() {
       key: 'checkIn',
       label: 'Check In',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-          {row.checkIn || '—'}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.checkIn || '—')}
         </span>
       ),
     },
@@ -119,10 +118,9 @@ function AttendancePageInner() {
       key: 'checkOut',
       label: 'Check Out',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-          {row.checkOut || '—'}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.checkOut || '—')}
         </span>
       ),
     },
@@ -131,28 +129,19 @@ function AttendancePageInner() {
       label: 'Hours',
       sortable: true,
       render: (row) => {
-        const hours = row.hours as number;
-        const style: React.CSSProperties =
-          hours >= 9
-            ? { color: 'var(--ops-success)' }
-            : hours === 0
-              ? { color: 'var(--ops-text-muted)' }
-              : { color: 'var(--ops-warning)' };
-        return <span className="text-sm font-medium" style={style}>{hours > 0 ? `${hours}h` : '—'}</span>;
+        const hours = Number(row.hours);
+        const color = hours >= 9 ? CSS.success : hours === 0 ? CSS.textMuted : CSS.warning;
+        return <span className="text-sm font-medium" style={{ color }}>{hours > 0 ? `${hours}h` : '—'}</span>;
       },
     },
     {
       key: 'overtime',
       label: 'OT',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => {
-        const ot = row.overtime as number;
+        const ot = Number(row.overtime);
         return (
-          <span
-            className="text-sm"
-            style={{ color: ot > 0 ? 'var(--ops-warning)' : 'var(--ops-text-muted)' }}
-          >
+          <span className="text-sm" style={{ color: ot > 0 ? CSS.warning : CSS.textMuted }}>
             {ot > 0 ? `+${ot}h` : '—'}
           </span>
         );
@@ -162,13 +151,12 @@ function AttendancePageInner() {
       key: 'status',
       label: 'Status',
       sortable: true,
-      render: (row) => <StatusBadge status={formatStatusLabel(row.status as string)} />,
+      render: (row) => <StatusBadge status={formatStatusLabel(String(row.status))} />,
     },
     {
       key: 'isAnomaly',
       label: 'Anomaly',
       sortable: true,
-      hiddenMobile: true,
       render: (row) =>
         row.isAnomaly ? (
           <span className="inline-flex items-center gap-1.5">
@@ -176,7 +164,7 @@ function AttendancePageInner() {
             <span className="text-xs font-medium text-red-500 dark:text-red-400">Flag</span>
           </span>
         ) : (
-          <span style={{ color: 'var(--ops-text-muted)' }}>—</span>
+          <span style={{ color: CSS.textMuted }}>—</span>
         ),
     },
   ];
@@ -190,17 +178,23 @@ function AttendancePageInner() {
           <button
             onClick={() => setDateIdx(i => Math.max(0, i - 1))}
             disabled={dateIdx === 0}
-            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+            className="p-1.5 rounded-lg transition-colors disabled:opacity-30"
+            style={{ color: CSS.textSecondary }}
+            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg}
+            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--ops-text)' }}>
+          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: CSS.text }}>
             {formatDateLabel(selectedDate)}
           </span>
           <button
             onClick={() => setDateIdx(i => Math.min(AVAILABLE_DATES.length - 1, i + 1))}
             disabled={dateIdx === AVAILABLE_DATES.length - 1}
-            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+            className="p-1.5 rounded-lg transition-colors disabled:opacity-30"
+            style={{ color: CSS.textSecondary }}
+            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg}
+            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -217,9 +211,9 @@ function AttendancePageInner() {
 
         {/* Data Table */}
         <motion.div variants={fadeUp}>
-          <DataTable
+          <SmartDataTable
+            data={dayData as unknown as Record<string, unknown>[]}
             columns={columns}
-            data={dayData as (AttendanceRecord & Record<string, unknown>)[]}
             searchable
             searchPlaceholder="Search employees..."
             searchKeys={['employeeId']}
@@ -231,12 +225,12 @@ function AttendancePageInner() {
         {dayData.some(a => a.isAnomaly) && (
           <motion.div
             variants={fadeUp}
-            className="ops-card p-4"
+            className="rounded-2xl p-4"
             style={{ border: '1px solid rgba(248, 113, 113, 0.2)', backgroundColor: 'rgba(248, 113, 113, 0.04)' }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="w-4 h-4" style={{ color: 'var(--ops-warning)' }} />
-              <span className="text-sm font-semibold" style={{ color: 'var(--ops-warning)' }}>
+              <AlertTriangle className="w-4 h-4" style={{ color: CSS.warning }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.warning }}>
                 Anomaly Summary
               </span>
             </div>
@@ -246,8 +240,8 @@ function AttendancePageInner() {
                 .map(a => {
                   const name = getEmployeeName(a.employeeId);
                   return (
-                    <p key={a.id} className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>
-                      <span className="font-medium" style={{ color: 'var(--ops-text)' }}>{name}</span>
+                    <p key={a.id} className="text-xs" style={{ color: CSS.textSecondary }}>
+                      <span className="font-medium" style={{ color: CSS.text }}>{name}</span>
                       {' — '}
                       {a.status === 'absent'
                         ? 'No check-in recorded today'

@@ -9,12 +9,15 @@ import { Button } from '@/components/ui/button';
 import {
   Megaphone, Plus, Search, Filter, LayoutGrid, List, Mail,
   MessageCircle, Smartphone, Share2, DollarSign, TrendingUp,
-  ChevronRight, ArrowUpDown, Pause, Play, Copy, Eye,
+  ChevronRight, Pause, Play, Copy, Eye,
   MoreHorizontal, Zap
 } from 'lucide-react';
 import { mockCampaigns } from '@/modules/marketing/data/mock-data';
 import { useMarketingStore } from '@/modules/marketing/marketing-store';
 import type { Campaign, CampaignType, CampaignStatus, MarketingChannel } from '@/modules/marketing/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -112,6 +115,102 @@ export default function CampaignsPage() {
       </div>
     );
   };
+
+  const campaignsColumns: DataTableColumnDef[] = [
+    {
+      key: 'name',
+      label: 'Campaign',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return (
+          <div>
+            <p className="text-sm font-medium" style={{ color: CSS.text }}>{c.name}</p>
+            <p className="text-[10px] truncate max-w-[160px]" style={{ color: CSS.textMuted }}>{c.description}</p>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return (
+          <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 capitalize', typeColors[c.type])}>
+            {c.type.replace('-', ' ')}
+          </Badge>
+        );
+      },
+    },
+    {
+      key: 'channels',
+      label: 'Channels',
+      render: (row) => renderChannelBadges((row as unknown as Campaign).channels),
+    },
+    {
+      key: 'budget',
+      label: 'Budget',
+      sortable: true,
+      render: (row) => <span className="text-sm font-medium" style={{ color: CSS.text }}>{formatINR((row as unknown as Campaign).budget)}</span>,
+    },
+    {
+      key: 'spend',
+      label: 'Spend',
+      sortable: true,
+      render: (row) => renderSpendProgress((row as unknown as Campaign).spend, (row as unknown as Campaign).budget),
+    },
+    {
+      key: 'metrics',
+      label: 'Metrics',
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return (
+          <div className="flex items-center gap-2 text-xs">
+            <span title="Clicks">{c.clicks.toLocaleString()}<span style={{ color: CSS.textDisabled, marginLeft: '2px' }}>clk</span></span>
+            <span style={{ color: CSS.border }}>|</span>
+            <span title="Leads">{c.leads.toLocaleString()}<span style={{ color: CSS.textDisabled, marginLeft: '2px' }}>ld</span></span>
+            <span style={{ color: CSS.border }}>|</span>
+            <span title="Conversions">{c.conversions}<span style={{ color: CSS.textDisabled, marginLeft: '2px' }}>cv</span></span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'roi',
+      label: 'ROI',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        const roiColor = c.roi >= 300 ? '#10b981' : c.roi >= 150 ? '#f59e0b' : c.roi > 0 ? '#ef4444' : CSS.textMuted;
+        return (
+          <span className="text-sm font-semibold" style={{ color: roiColor }}>
+            {c.roi > 0 ? `${c.roi}%` : '—'}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return (
+          <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', statusColors[c.status])}>
+            {c.status}
+          </Badge>
+        );
+      },
+    },
+    {
+      key: 'owner',
+      label: 'Owner',
+      sortable: true,
+      render: (row) => <span className="text-xs" style={{ color: CSS.textSecondary }}>{(row as unknown as Campaign).owner}</span>,
+    },
+  ];
 
   const renderCampaignCard = (campaign: Campaign, index: number) => (
     <motion.div
@@ -364,89 +463,25 @@ export default function CampaignsPage() {
 
         {/* Table View */}
         {viewMode === 'table' && (
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Campaign', 'Type', 'Channels', 'Budget', 'Spend', 'Metrics', 'ROI', 'Status', 'Owner', 'Actions'].map(h => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider py-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCampaigns.map((campaign: Campaign, i) => (
-                    <motion.tr
-                      key={campaign.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.1 + i * 0.03, duration: 0.3 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
-                      )}
-                    >
-                      <td className="py-3 px-3">
-                        <p className="text-sm font-medium">{campaign.name}</p>
-                        <p className={cn('text-[10px] truncate max-w-[160px]', isDark ? 'text-white/30' : 'text-black/30')}>{campaign.description}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 capitalize', typeColors[campaign.type])}>
-                          {campaign.type.replace('-', ' ')}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-3">{renderChannelBadges(campaign.channels)}</td>
-                      <td className="py-3 px-3 text-sm font-medium">{formatINR(campaign.budget)}</td>
-                      <td className="py-3 px-3">{renderSpendProgress(campaign.spend, campaign.budget)}</td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2 text-xs">
-                          <span title="Clicks">{campaign.clicks.toLocaleString()}<span className={cn(' ml-0.5', isDark ? 'text-white/20' : 'text-black/20')}>clk</span></span>
-                          <span className={cn(isDark ? 'text-white/10' : 'text-black/10')}>|</span>
-                          <span title="Leads">{campaign.leads.toLocaleString()}<span className={cn(' ml-0.5', isDark ? 'text-white/20' : 'text-black/20')}>ld</span></span>
-                          <span className={cn(isDark ? 'text-white/10' : 'text-black/10')}>|</span>
-                          <span title="Conversions">{campaign.conversions}<span className={cn(' ml-0.5', isDark ? 'text-white/20' : 'text-black/20')}>cv</span></span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className={cn(
-                          'text-sm font-semibold',
-                          campaign.roi >= 300 ? 'text-emerald-500' : campaign.roi >= 150 ? 'text-amber-500' : campaign.roi > 0 ? 'text-red-500' : (isDark ? 'text-white/30' : 'text-black/30')
-                        )}>
-                          {campaign.roi > 0 ? `${campaign.roi}%` : '—'}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', statusColors[campaign.status])}>
-                          {campaign.status}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{campaign.owner}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-1">
-                          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                            {campaign.status === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                          </Button>
-                          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                            <Copy className="w-3.5 h-3.5" />
-                          </Button>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {filteredCampaigns.length === 0 && (
-              <div className="py-12 text-center">
-                <Megaphone className={cn('w-8 h-8 mx-auto mb-2', isDark ? 'text-white/15' : 'text-black/15')} />
-                <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No campaigns match your filters</p>
-              </div>
-            )}
-          </div>
+          <SmartDataTable
+            data={filteredCampaigns as unknown as Record<string, unknown>[]}
+            columns={campaignsColumns}
+            searchable enableExport pageSize={10}
+            emptyMessage="No campaigns match your filters"
+            actions={(row) => {
+              const c = row as unknown as Campaign;
+              return (
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-[var(--app-hover-bg)]">
+                    {c.status === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-[var(--app-hover-bg)]">
+                    <Copy className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              );
+            }}
+          />
         )}
 
         {/* Cards View */}

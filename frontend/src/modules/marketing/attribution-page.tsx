@@ -12,6 +12,9 @@ import {
   PieChart, ArrowRight, TrendingUp, DollarSign, Target,
   GitBranch, BarChart3, RefreshCw, Zap, Eye, Layers,
 } from 'lucide-react';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const ATTRIBUTION_MODELS = [
   { id: 'first-touch', label: 'First Touch' },
@@ -82,6 +85,51 @@ export default function AttributionPage() {
 
   const totalRevenue = useMemo(() => adjustedChannels.reduce((s, c) => s + c.revenue, 0), [adjustedChannels]);
   const maxRevenue = useMemo(() => Math.max(...adjustedChannels.map(c => c.revenue)), [adjustedChannels]);
+
+  const channelColumns: DataTableColumnDef[] = [
+    {
+      key: 'channel',
+      label: 'Channel',
+      sortable: true,
+      render: (row) => {
+        const ch = row as { channel: string; color: string };
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
+            <span className="font-medium" style={{ color: CSS.text }}>{ch.channel}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'revenue',
+      label: 'Revenue',
+      sortable: true,
+      render: (row) => <span className="font-semibold tabular-nums" style={{ color: CSS.text }}>{formatCurrency(row.revenue as number)}</span>,
+    },
+    {
+      key: 'contribution',
+      label: 'Contribution',
+      sortable: true,
+      render: (row) => {
+        const ch = row as { contribution: number; color: string };
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-12 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${ch.contribution}%`, backgroundColor: ch.color }} />
+            </div>
+            <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{ch.contribution}%</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'conversions',
+      label: 'Conversions',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.conversions as number)}</span>,
+    },
+  ];
 
   const card = cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
   const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
@@ -216,49 +264,12 @@ export default function AttributionPage() {
               <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Channel Contribution</h3>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-y', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                  {['Channel', 'Revenue', 'Contribution', 'Conversions'].map(h => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-white/50' : 'text-black/50')}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {adjustedChannels.map((ch, i) => (
-                  <motion.tr
-                    key={ch.channel}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.04, duration: 0.2 }}
-                    className={cn('border-b', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
-                        <span className={cn('font-medium', isDark ? 'text-white' : 'text-gray-900')}>{ch.channel}</span>
-                      </div>
-                    </td>
-                    <td className={cn('px-4 py-3 font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
-                      {formatCurrency(ch.revenue)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className={cn('w-12 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                          <div className="h-full rounded-full" style={{ width: `${ch.contribution}%`, backgroundColor: ch.color }} />
-                        </div>
-                        <span className={cn('tabular-nums', isDark ? 'text-white/60' : 'text-gray-600')}>{ch.contribution}%</span>
-                      </div>
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {formatNumber(ch.conversions)}
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={adjustedChannels as unknown as Record<string, unknown>[]}
+            columns={channelColumns}
+            pageSize={10}
+            searchPlaceholder="Search channels..."
+          />
         </motion.div>
 
         {/* Model Comparison Grid */}

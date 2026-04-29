@@ -14,6 +14,9 @@ import {
   ArrowUpRight, Shield, Clock, Activity, Mail, MessageSquare,
   BarChart3, Target, UserCheck,
 } from 'lucide-react';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const CHURN_RISK_CUSTOMERS = [
   { name: 'Rajesh Kumar', lastActivity: '2026-03-15', daysInactive: 28, ltv: 245000, riskLevel: 'critical' },
@@ -78,6 +81,59 @@ export default function RetentionPage() {
   const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
   const subtle = isDark ? 'text-white/30' : 'text-black/30';
   const medium = isDark ? 'text-white/50' : 'text-black/50';
+
+  const churnRiskColumns: DataTableColumnDef[] = [
+    {
+      key: 'name',
+      label: 'Customer',
+      sortable: true,
+      render: (row) => {
+        const customer = row as { name: string; riskLevel: string };
+        const avatarColor = customer.riskLevel === 'critical' ? '#ef4444' : customer.riskLevel === 'high' ? '#f97316' : '#f59e0b';
+        return (
+          <div className="flex items-center gap-2">
+            <div
+              className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white"
+              style={{ backgroundColor: avatarColor }}
+            >
+              {customer.name.split(' ').map((n: string) => n[0]).join('')}
+            </div>
+            <span className="font-medium" style={{ color: CSS.text }}>{customer.name}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'lastActivity',
+      label: 'Last Activity',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{row.lastActivity as string}</span>,
+    },
+    {
+      key: 'daysInactive',
+      label: 'Days Inactive',
+      sortable: true,
+      render: (row) => {
+        const days = row.daysInactive as number;
+        const color = days > 20 ? '#ef4444' : days > 14 ? '#f59e0b' : CSS.textSecondary;
+        return <span className="tabular-nums font-semibold" style={{ color }}>{days}d</span>;
+      },
+    },
+    {
+      key: 'ltv',
+      label: 'LTV',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(row.ltv as number)}</span>,
+    },
+    {
+      key: 'riskLevel',
+      label: 'Risk',
+      render: (row) => {
+        const risk = RISK_STYLES[row.riskLevel as string];
+        return <Badge className={cn('text-[10px]', risk.className)}>{risk.label}</Badge>;
+      },
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -203,7 +259,7 @@ export default function RetentionPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={card}
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -214,69 +270,24 @@ export default function RetentionPage() {
               {CHURN_RISK_CUSTOMERS.length} at-risk
             </Badge>
           </div>
-          <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-y', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                  {['Customer', 'Last Activity', 'Days Inactive', 'LTV', 'Risk', ''].map(h => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', medium)}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {CHURN_RISK_CUSTOMERS.map((customer, i) => {
-                  const risk = RISK_STYLES[customer.riskLevel];
-                  const isReEngaged = reEngaged.includes(customer.name);
-                  return (
-                    <motion.tr
-                      key={customer.name}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: i * 0.04, duration: 0.2 }}
-                      className={cn('border-b', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                    >
-                      <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-gray-900')}>
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white',
-                            customer.riskLevel === 'critical' ? 'bg-red-500' :
-                            customer.riskLevel === 'high' ? 'bg-orange-500' : 'bg-amber-500')}>
-                            {customer.name.split(' ').map(n => n[0]).join('')}
-                          </div>
-                          {customer.name}
-                        </div>
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', medium)}>{customer.lastActivity}</td>
-                      <td className={cn('px-4 py-3 tabular-nums font-semibold',
-                        customer.daysInactive > 20 ? 'text-red-500' : customer.daysInactive > 14 ? 'text-amber-500' : (isDark ? 'text-white/70' : 'text-gray-700'))}>
-                        {customer.daysInactive}d
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                        {formatCurrency(customer.ltv)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <Badge className={cn('text-[10px]', risk.className)}>{risk.label}</Badge>
-                      </td>
-                      <td className="px-4 py-3">
-                        {isReEngaged ? (
-                          <Badge className="text-[10px] bg-green-500/15 text-green-600">Sent ✓</Badge>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-[10px] h-6 px-2"
-                            onClick={() => handleReEngage(customer.name)}
-                          >
-                            <Send className="w-3 h-3 mr-1" />
-                            Re-engage
-                          </Button>
-                        )}
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={CHURN_RISK_CUSTOMERS as unknown as Record<string, unknown>[]}
+            columns={churnRiskColumns}
+            pageSize={10}
+            actions={(row) => {
+              const name = row.name as string;
+              const isReEngaged = reEngaged.includes(name);
+              if (isReEngaged) {
+                return <Badge className="text-[10px] bg-green-500/15 text-green-600">Sent ✓</Badge>;
+              }
+              return (
+                <Button variant="outline" size="sm" className="text-[10px] h-6 px-2" onClick={() => handleReEngage(name)}>
+                  <Send className="w-3 h-3 mr-1" />
+                  Re-engage
+                </Button>
+              );
+            }}
+          />
         </motion.div>
 
         {/* Renewal Alerts */}

@@ -14,6 +14,9 @@ import {
   Target, AlertTriangle, ChevronDown, Zap, Layers,
   RefreshCw, Eye,
 } from 'lucide-react';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const CTA_DATA = [
   { cta: 'Book Demo Button', funnel: 'Enterprise Lead', clicks: 2892, conversions: 612, rate: 21.2 },
@@ -79,6 +82,50 @@ export default function LandingFunnelsPage() {
   const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
   const subtle = isDark ? 'text-white/30' : 'text-black/30';
   const medium = isDark ? 'text-white/50' : 'text-black/50';
+
+  const ctaColumns: DataTableColumnDef[] = [
+    {
+      key: 'cta',
+      label: 'CTA',
+      sortable: true,
+      render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{row.cta as string}</span>,
+    },
+    {
+      key: 'funnel',
+      label: 'Funnel',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textSecondary }}>{row.funnel as string}</span>,
+    },
+    {
+      key: 'clicks',
+      label: 'Clicks',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.clicks as number)}</span>,
+    },
+    {
+      key: 'conversions',
+      label: 'Conversions',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.conversions as number)}</span>,
+    },
+    {
+      key: 'rate',
+      label: 'Rate',
+      sortable: true,
+      render: (row) => {
+        const rate = row.rate as number;
+        const barColor = rate >= 40 ? '#10b981' : rate >= 20 ? '#f59e0b' : '#ef4444';
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-16 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${Math.min(rate, 100)}%`, backgroundColor: barColor }} />
+            </div>
+            <span className="tabular-nums text-[10px]" style={{ color: CSS.textSecondary }}>{rate}%</span>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -286,44 +333,11 @@ export default function LandingFunnelsPage() {
             </div>
             <span className={cn('text-xs', subtle)}>{CTA_DATA.length} CTAs</span>
           </div>
-          <div className="overflow-x-auto max-h-[320px] overflow-y-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-y', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                  {['CTA', 'Funnel', 'Clicks', 'Conversions', 'Rate'].map(h => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', medium)}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {CTA_DATA.map((row, i) => (
-                  <motion.tr
-                    key={i}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.04, duration: 0.2 }}
-                    className={cn('border-b', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                  >
-                    <td className={cn('px-4 py-2.5 font-medium', isDark ? 'text-white' : 'text-gray-900')}>{row.cta}</td>
-                    <td className={cn('px-4 py-2.5', medium)}>{row.funnel}</td>
-                    <td className={cn('px-4 py-2.5 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>{formatNumber(row.clicks)}</td>
-                    <td className={cn('px-4 py-2.5 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>{formatNumber(row.conversions)}</td>
-                    <td className="px-4 py-2.5">
-                      <div className="flex items-center gap-2">
-                        <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                          <div
-                            className={cn('h-full rounded-full', row.rate >= 40 ? 'bg-green-500' : row.rate >= 20 ? 'bg-amber-500' : 'bg-red-500')}
-                            style={{ width: `${Math.min(row.rate, 100)}%` }}
-                          />
-                        </div>
-                        <span className={cn('tabular-nums text-[10px]', isDark ? 'text-white/60' : 'text-gray-600')}>{row.rate}%</span>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={CTA_DATA as unknown as Record<string, unknown>[]}
+            columns={ctaColumns}
+            pageSize={10}
+          />
         </motion.div>
 
         {/* Funnel Comparison Bar Chart */}

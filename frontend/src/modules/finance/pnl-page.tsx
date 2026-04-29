@@ -2,15 +2,17 @@
 
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  FileText, Calendar, ArrowUpRight, ArrowDownRight, TrendingUp, Download, ChevronLeft, ChevronRight,
-} from 'lucide-react';
+import { FileText, TrendingUp, Download } from 'lucide-react';
 import { pnlData } from '@/modules/finance/data/mock-data';
 import type { PnLEntry } from '@/modules/finance/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { PageShell } from '@/components/shared/page-shell';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -19,28 +21,14 @@ function formatINR(num: number): string {
   return `₹${num}`;
 }
 
-const highlightedRows = ['Total Revenue', 'Total COGS', 'Gross Margin', 'Total OpEx', 'EBITDA', 'Net Profit', 'Net Margin %'];
 const majorRows = ['Total Revenue', 'Gross Margin', 'Total OpEx', 'EBITDA', 'Net Profit', 'Net Margin %'];
 
 export default function PnLPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [selectedMonth, setSelectedMonth] = useState(0);
 
-  const today = new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
   const months = ['Apr 2026', 'Mar 2026', 'Feb 2026', 'Jan 2026'];
 
-  const getRowStyle = (category: string) => {
-    if (category === 'Gross Margin' || category === 'EBITDA' || category === 'Net Profit' || category === 'Net Margin %') {
-      return isDark ? 'bg-white/[0.04] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]';
-    }
-    if (highlightedRows.includes(category)) {
-      return isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]';
-    }
-    return '';
-  };
-
-  const isCategoryBold = (cat: string) => highlightedRows.includes(cat);
+  const isCategoryBold = (cat: string) => majorRows.includes(cat);
   const isCategoryAccent = (cat: string) => cat === 'Gross Margin' || cat === 'EBITDA' || cat === 'Net Profit' || cat === 'Net Margin %';
   const isVariancePositive = (entry: PnLEntry) => {
     if (entry.category.includes('COGS') || entry.category.includes('OpEx') || entry.category === 'Depreciation & Amort.') {
@@ -56,161 +44,158 @@ export default function PnLPage() {
     const margin = pnlData.find(d => d.category === 'Net Margin %');
     const cogs = pnlData.find(d => d.category === 'Total COGS');
     return [
-      { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-      { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-      { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: ArrowUpRight, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-      { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
-      { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: ArrowDownRight, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+      { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'success' },
+      { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'info' },
+      { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: TrendingUp, color: 'success' },
+      { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'accent' },
+      { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: FileText, color: 'warning' },
     ];
-  }, [isDark]);
+  }, []);
+
+  const tableData = useMemo(() =>
+    pnlData.map((entry, i) => {
+      const bold = isCategoryBold(entry.category);
+      const accent = isCategoryAccent(entry.category);
+      const positive = isVariancePositive(entry);
+      const isPercent = entry.category === 'Net Margin %';
+      const isMajor = entry.category === 'Gross Margin' || entry.category === 'EBITDA' || entry.category === 'Net Profit' || entry === 'Net Margin %';
+      return {
+        id: entry.category,
+        category: entry.category,
+        currentMonth: isPercent ? `${entry.currentMonth}%` : formatINR(entry.currentMonth),
+        previousMonth: isPercent ? `${entry.previousMonth}%` : formatINR(entry.previousMonth),
+        ytd: isPercent ? `${entry.ytd}%` : formatINR(entry.ytd),
+        varianceDisplay: isPercent ? `${entry.variance}pp` : formatINR(Math.abs(entry.variance)),
+        variancePositive: positive,
+        variancePercent: entry.variancePercent,
+        bold,
+        accent,
+        isMajor,
+      };
+    }),
+    [selectedMonth]
+  );
+
+  const columns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'category',
+      label: 'Category',
+      sortable: true,
+      render: (row) => {
+        const accent = row.accent as boolean;
+        return (
+          <span
+            className={row.bold ? 'font-bold text-sm' : 'text-xs font-medium'}
+            style={{ color: accent ? CSS.success : CSS.text }}
+          >
+            {row.category as string}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'currentMonth',
+      label: 'Current Month',
+      render: (row) => (
+        <span className={row.bold ? 'font-bold text-sm' : 'text-xs'} style={{ color: CSS.text }}>
+          {row.currentMonth as string}
+        </span>
+      ),
+    },
+    {
+      key: 'previousMonth',
+      label: 'Previous Month',
+      render: (row) => (
+        <span className={row.bold ? 'text-sm' : 'text-xs'} style={{ color: CSS.textSecondary }}>
+          {row.previousMonth as string}
+        </span>
+      ),
+    },
+    {
+      key: 'ytd',
+      label: 'YTD',
+      render: (row) => (
+        <span className={row.bold ? 'text-sm' : 'text-xs'} style={{ color: CSS.textSecondary }}>
+          {row.ytd as string}
+        </span>
+      ),
+    },
+    {
+      key: 'varianceDisplay',
+      label: 'Variance (₹)',
+      render: (row) => (
+        <span className="text-xs font-medium" style={{ color: row.variancePositive ? CSS.success : CSS.danger }}>
+          {row.variancePositive ? '↑' : '↓'} {row.varianceDisplay as string}
+        </span>
+      ),
+    },
+    {
+      key: 'variancePercent',
+      label: 'Variance (%)',
+      render: (row) => {
+        const positive = row.variancePositive as boolean;
+        return (
+          <StatusBadge
+            status={positive ? 'completed' : 'overdue'}
+            variant="pill"
+            className="text-[10px] px-2 py-0 font-medium"
+          >
+            {positive ? '+' : ''}{row.variancePercent as number}%
+          </StatusBadge>
+        );
+      },
+    },
+  ], []);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <FileText className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Profit & Loss Statement</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Executive P&L</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              <Calendar className="w-3.5 h-3.5" /> {today}
-            </Badge>
-            <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.max(0, selectedMonth - 1))} disabled={selectedMonth === 0} className={cn('w-8 h-8', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Badge variant="secondary" className={cn('px-3 py-1 text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-                {months[selectedMonth]}
-              </Badge>
-              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.min(months.length - 1, selectedMonth + 1))} disabled={selectedMonth === months.length - 1} className={cn('w-8 h-8', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
-              <Download className="w-4 h-4" /> Export
-            </Button>
-          </div>
+    <PageShell
+      title="Profit & Loss Statement"
+      subtitle="Executive P&L"
+      icon={() => <FileText className="w-5 h-5" style={{ color: CSS.accent }} />}
+      headerRight={
+        <div className="flex items-center gap-3">
+          <Button size="sm" className="text-xs px-3 py-1.5 rounded-lg" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+            {months[selectedMonth]}
+          </Button>
+          <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
+            <Download className="w-4 h-4" /> Export
+          </Button>
         </div>
-
+      }
+    >
+      <div className="space-y-6">
         {/* KPI Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {kpis.map((kpi, i) => {
             const isPositive = kpi.label === 'Total COGS' ? kpi.change <= 0 : kpi.change >= 0;
             return (
-              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-xl font-bold tracking-tight">{kpi.value}</p>
-                  <span className={cn('flex items-center gap-0.5 text-[10px] font-medium', isPositive ? 'text-emerald-500' : 'text-red-500')}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                    {Math.abs(kpi.change)}%
-                  </span>
-                </div>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>vs previous month</p>
-              </motion.div>
+              <KpiWidget
+                key={kpi.label}
+                label={kpi.label}
+                value={kpi.value}
+                icon={kpi.icon}
+                color={kpi.color}
+                trend={isPositive ? 'up' : 'down'}
+                trendValue={`${Math.abs(kpi.change)}%`}
+              />
             );
           })}
         </div>
 
         {/* P&L Table */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-          <div className="flex items-center justify-between mb-4">
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>P&L Statement — {months[selectedMonth]}</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Category', 'Current Month', 'Previous Month', 'YTD', 'Variance (₹)', 'Variance (%)'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', h === 'Category' ? 'min-w-[180px]' : 'min-w-[110px]', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {pnlData.map((entry, i) => {
-                  const rowStyle = getRowStyle(entry.category);
-                  const bold = isCategoryBold(entry.category);
-                  const accent = isCategoryAccent(entry.category);
-                  const positive = isVariancePositive(entry);
-                  const isPercent = entry.category === 'Net Margin %';
-                  return (
-                    <motion.tr
-                      key={entry.category}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 + i * 0.03 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        rowStyle || (isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'),
-                        isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'
-                      )}
-                    >
-                      <td className={cn('py-3 px-3', bold ? 'font-bold text-sm' : 'text-xs font-medium')}>
-                        <span className={accent ? (isDark ? 'text-emerald-400' : 'text-emerald-600') : ''}>{entry.category}</span>
-                      </td>
-                      <td className={cn('py-3 px-3', bold ? 'font-bold text-sm' : 'text-xs')}>{isPercent ? `${entry.currentMonth}%` : formatINR(entry.currentMonth)}</td>
-                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{isPercent ? `${entry.previousMonth}%` : formatINR(entry.previousMonth)}</td>
-                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{isPercent ? `${entry.ytd}%` : formatINR(entry.ytd)}</td>
-                      <td className={cn('py-3 px-3 text-xs font-medium', positive ? 'text-emerald-500' : 'text-red-500')}>
-                        <div className="flex items-center gap-1">
-                          {positive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                          {isPercent ? `${entry.variance}pp` : formatINR(Math.abs(entry.variance))}
-                        </div>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn(
-                          'text-[10px] px-2 py-0.5 font-medium',
-                          positive ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600') : (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')
-                        )}>
-                          {positive ? '+' : ''}{entry.variancePercent}%
-                        </Badge>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
-
-        {/* Waterfall Visual */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-          <div className="flex items-center justify-between mb-4">
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Revenue to Net Profit Waterfall</span>
-          </div>
-          <div className="flex items-end gap-3 h-40">
-            {[
-              { label: 'Revenue', value: 5200000, color: 'bg-emerald-500' },
-              { label: 'COGS', value: 697000, color: 'bg-rose-400' },
-              { label: 'Gross', value: 4503000, color: 'bg-emerald-400' },
-              { label: 'OpEx', value: 2750000, color: 'bg-rose-400' },
-              { label: 'EBITDA', value: 1753000, color: 'bg-emerald-500' },
-              { label: 'D&A', value: 85000, color: 'bg-rose-400' },
-              { label: 'Net', value: 1668000, color: 'bg-emerald-500' },
-            ].map((item, i) => {
-              const maxVal = 5200000;
-              const h = (item.value / maxVal) * 100;
-              return (
-                <div key={item.label} className="flex-1 flex flex-col items-center justify-end gap-1">
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{formatINR(item.value)}</span>
-                  <motion.div initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ delay: 0.65 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className={cn('w-full rounded-t-sm', item.color)} />
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
+        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
+          <SmartDataTable
+            columns={columns}
+            data={tableData}
+            searchable
+            searchPlaceholder="Search P&L categories..."
+            searchKeys={['category']}
+            enableExport
+            emptyMessage="No P&L data found"
+            pageSize={20}
+          />
+        </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

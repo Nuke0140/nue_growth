@@ -56,6 +56,8 @@ export interface DataTableColumnDef {
   editable?: boolean;
   /** Column data type hint */
   type?: 'text' | 'number' | 'date' | 'status' | 'badge' | 'currency';
+  /** Custom cell renderer - receives the full row data */
+  render?: (row: Record<string, unknown>) => React.ReactNode;
 }
 
 export interface DataTableSavedView {
@@ -108,6 +110,8 @@ interface SmartDataTableProps<T extends Record<string, unknown>> {
   selectable?: boolean;
   /** Callback when selected rows change */
   onSelectionChange?: (selectedIds: Set<string>) => void;
+  /** Custom actions column renderer */
+  actions?: React.ReactNode | ((row: T) => React.ReactNode);
   /** Additional class name */
   className?: string;
 }
@@ -149,6 +153,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
   density = 'normal',
   selectable = false,
   onSelectionChange,
+  actions,
   className,
 }: SmartDataTableProps<T>) {
   const [search, setSearch] = useState('');
@@ -357,6 +362,8 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
 
   // Show selection column when selectable is on or rows are selected
   const showSelectionColumn = selectable || selectedIds.size > 0;
+  // Show actions column when actions prop is provided
+  const showActionsColumn = actions !== undefined;
 
   // ── Render ───────────────────────────────────────────
 
@@ -596,9 +603,9 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                       {col.sortable && (
                         <ArrowUpDown
                           className={cn(
-                            'w-3.5 h-3.5 transition-opacity',
-                            sortKey === col.key ? 'opacity-100' : 'opacity-30'
-                          )}
+                              'w-3.5 h-3.5 transition-opacity',
+                              sortKey === col.key ? 'opacity-100' : 'opacity-30'
+                            )}
                           style={{ color: COLORS.text.muted }}
                           aria-hidden="true"
                         />
@@ -606,13 +613,22 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                     </div>
                   </TableHead>
                 ))}
+                {showActionsColumn && (
+                  <TableHead
+                    className={densityCellPadding[density]}
+                    style={{ color: COLORS.text.muted }}
+                    role="columnheader"
+                  >
+                    Actions
+                  </TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
               {paged.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={visibleColumns.length + (showSelectionColumn ? 1 : 0)}
+                    colSpan={visibleColumns.length + (showSelectionColumn ? 1 : 0) + (showActionsColumn ? 1 : 0)}
                     className="h-32 text-center"
                     style={{ color: CSS.textMuted }}
                   >
@@ -731,12 +747,21 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                     'cursor-text hover:bg-[var(--app-hover-bg)] rounded px-1 -mx-1 py-0.5 transition-colors'
                                 )}
                               >
-                                {(row[col.key] as React.ReactNode) ?? '—'}
+                                {col.render ? col.render(row) : ((row[col.key] as React.ReactNode) ?? '—')}
                               </div>
                             )}
                           </TableCell>
                         );
                       })}
+                      {showActionsColumn && (
+                        <TableCell
+                          style={{ color: COLORS.text.secondary }}
+                          role="gridcell"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {typeof actions === 'function' ? actions(row) : actions}
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })

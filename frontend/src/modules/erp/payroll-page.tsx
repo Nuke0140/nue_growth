@@ -10,12 +10,14 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { DataTable, type Column } from './components/ops/data-table';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { StatusBadge } from './components/ops/status-badge';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockPayroll } from './data/mock-data';
 import type { PayrollRecord } from './types';
 import { PageShell } from './components/ops/page-shell';
+import { CSS } from '@/styles/design-tokens';
 
 const MONTHS = ['2026-01', '2026-02', '2026-03', '2026-04'];
 
@@ -87,7 +89,8 @@ function PayslipModal({ record, open, onClose }: PayslipModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
+            className="fixed inset-0 z-50 backdrop-blur-sm"
+            style={{ backgroundColor: CSS.overlay }}
             onClick={onClose}
           />
           {/* Modal */}
@@ -102,21 +105,21 @@ function PayslipModal({ record, open, onClose }: PayslipModalProps) {
             <div
               className="w-full max-w-md rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
               style={{
-                backgroundColor: 'var(--ops-card-bg)',
-                border: '1px solid var(--ops-border)',
-                boxShadow: '0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--ops-border)',
+                backgroundColor: CSS.cardBg,
+                border: `1px solid ${CSS.border}`,
+                boxShadow: `0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px ${CSS.border}`,
               }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid var(--ops-border)' }}>
+              <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-xl" style={{ backgroundColor: 'var(--ops-accent-light)' }}>
-                    <FileText className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  <div className="flex items-center justify-center w-9 h-9 rounded-xl" style={{ backgroundColor: CSS.accentLight }}>
+                    <FileText className="w-4 h-4" style={{ color: CSS.accent }} />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>Payslip</h2>
-                    <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                    <h2 className="text-sm font-bold" style={{ color: CSS.text }}>Payslip</h2>
+                    <p className="text-[11px]" style={{ color: CSS.textMuted }}>
                       {getMonthLabel(record.month)}
                     </p>
                   </div>
@@ -124,8 +127,8 @@ function PayslipModal({ record, open, onClose }: PayslipModalProps) {
                 <button
                   onClick={onClose}
                   className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
-                  style={{ color: 'var(--ops-text-muted)' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
+                  style={{ color: CSS.textMuted }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
                 >
                   <X className="w-4 h-4" />
@@ -139,71 +142,71 @@ function PayslipModal({ record, open, onClose }: PayslipModalProps) {
                   <Avatar className="h-11 w-11">
                     <AvatarFallback
                       className="text-xs font-semibold"
-                      style={{ backgroundColor: avatarColors[Math.abs(hashCode(record.employeeName)) % avatarColors.length], color: 'var(--ops-accent)' }}
+                      style={{ backgroundColor: avatarColors[Math.abs(hashCode(record.employeeName)) % avatarColors.length], color: CSS.accent }}
                     >
                       {getInitials(record.employeeName)}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>{record.employeeName}</p>
-                    <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                    <p className="text-sm font-semibold" style={{ color: CSS.text }}>{record.employeeName}</p>
+                    <p className="text-[11px]" style={{ color: CSS.textMuted }}>
                       {record.employeeId} &middot; {record.department}
                     </p>
                   </div>
                 </div>
 
                 {/* Earnings */}
-                <div className="rounded-xl p-4 space-y-2.5" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Earnings</p>
+                <div className="rounded-xl p-4 space-y-2.5" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: CSS.textMuted }}>Earnings</p>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: 'var(--ops-text-secondary)' }}>Base Salary</span>
-                    <span style={{ color: 'var(--ops-text)' }}>{formatINR(record.baseSalary)}</span>
+                    <span style={{ color: CSS.textSecondary }}>Base Salary</span>
+                    <span style={{ color: CSS.text }}>{formatINR(record.baseSalary)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: 'var(--ops-text-secondary)' }}>Incentives</span>
+                    <span style={{ color: CSS.textSecondary }}>Incentives</span>
                     <span style={{ color: '#34d399' }}>+{formatINR(record.incentives)}</span>
                   </div>
-                  <div className="flex justify-between text-sm font-semibold pt-2" style={{ borderTop: '1px dashed var(--ops-border-strong)' }}>
-                    <span style={{ color: 'var(--ops-text)' }}>Total Earnings</span>
-                    <span style={{ color: 'var(--ops-text)' }}>{formatINR(totalEarnings)}</span>
+                  <div className="flex justify-between text-sm font-semibold pt-2" style={{ borderTop: `1px dashed ${CSS.borderStrong}` }}>
+                    <span style={{ color: CSS.text }}>Total Earnings</span>
+                    <span style={{ color: CSS.text }}>{formatINR(totalEarnings)}</span>
                   </div>
                 </div>
 
                 {/* Deductions */}
-                <div className="rounded-xl p-4 space-y-2.5" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Deductions</p>
+                <div className="rounded-xl p-4 space-y-2.5" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: CSS.textMuted }}>Deductions</p>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: 'var(--ops-text-secondary)' }}>Tax (TDS)</span>
+                    <span style={{ color: CSS.textSecondary }}>Tax (TDS)</span>
                     <span style={{ color: '#f87171' }}>-{formatINR(tax)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: 'var(--ops-text-secondary)' }}>Provident Fund</span>
+                    <span style={{ color: CSS.textSecondary }}>Provident Fund</span>
                     <span style={{ color: '#f87171' }}>-{formatINR(pf)}</span>
                   </div>
-                  <div className="flex justify-between text-sm font-semibold pt-2" style={{ borderTop: '1px dashed var(--ops-border-strong)' }}>
-                    <span style={{ color: 'var(--ops-text)' }}>Total Deductions</span>
+                  <div className="flex justify-between text-sm font-semibold pt-2" style={{ borderTop: `1px dashed ${CSS.borderStrong}` }}>
+                    <span style={{ color: CSS.text }}>Total Deductions</span>
                     <span style={{ color: '#f87171' }}>-{formatINR(record.deductions)}</span>
                   </div>
                 </div>
 
                 {/* Net Pay */}
-                <div className="rounded-xl p-4 flex items-center justify-between" style={{ backgroundColor: 'var(--ops-accent-light)', border: '1px solid rgba(204,92,55,0.2)' }}>
-                  <span className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>Net Pay</span>
-                  <span className="text-2xl font-bold" style={{ color: 'var(--ops-accent)' }}>{formatINR(record.netPay)}</span>
+                <div className="rounded-xl p-4 flex items-center justify-between" style={{ backgroundColor: CSS.accentLight, border: '1px solid rgba(204,92,55,0.2)' }}>
+                  <span className="text-sm font-semibold" style={{ color: CSS.text }}>Net Pay</span>
+                  <span className="text-2xl font-bold" style={{ color: CSS.accent }}>{formatINR(record.netPay)}</span>
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="flex items-center gap-2 px-6 py-4" style={{ borderTop: '1px solid var(--ops-border)' }}>
+              <div className="flex items-center gap-2 px-6 py-4" style={{ borderTop: `1px solid ${CSS.border}` }}>
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
-                  style={{ backgroundColor: 'var(--ops-hover-bg)', color: 'var(--ops-text-secondary)' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
+                  style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
                 >
                   <Download className="w-3.5 h-3.5" /> Download PDF
                 </button>
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
-                  style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+                  style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.2)'; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.12)'; }}
                 >
@@ -229,9 +232,9 @@ function PieTooltipContent({ active, payload }: PieTooltipProps) {
   if (!active || !payload || payload.length === 0) return null;
   const d = payload[0];
   return (
-    <div className="rounded-lg px-3 py-2 text-xs shadow-lg" style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)' }}>
-      <p className="font-semibold" style={{ color: 'var(--ops-text)' }}>{d.name}</p>
-      <p style={{ color: 'var(--ops-text-secondary)' }}>{formatINR(d.value)}</p>
+    <div className="rounded-lg px-3 py-2 text-xs shadow-lg" style={{ backgroundColor: CSS.elevated, border: `1px solid ${CSS.border}` }}>
+      <p className="font-semibold" style={{ color: CSS.text }}>{d.name}</p>
+      <p style={{ color: CSS.textSecondary }}>{formatINR(d.value)}</p>
     </div>
   );
 }
@@ -276,12 +279,12 @@ function PayrollPageInner() {
     setTimeout(() => setBulkProcessed(false), 2000);
   };
 
-  const handleRowClick = (row: PayrollRecord & Record<string, unknown>) => {
-    setPayslipRecord(row as PayrollRecord);
+  const handleRowClick = (row: Record<string, unknown>) => {
+    setPayslipRecord(row as unknown as PayrollRecord);
     setPayslipOpen(true);
   };
 
-  const columns: Column<PayrollRecord & Record<string, unknown>>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'employeeName',
       label: 'Employee',
@@ -291,14 +294,14 @@ function PayrollPageInner() {
           <Avatar className="h-8 w-8">
             <AvatarFallback
               className="text-[10px] font-semibold"
-              style={{ backgroundColor: avatarColors[Math.abs(hashCode(row.employeeName as string)) % avatarColors.length], color: 'var(--ops-accent)' }}
+              style={{ backgroundColor: avatarColors[Math.abs(hashCode(row.employeeName as string)) % avatarColors.length], color: CSS.accent }}
             >
               {getInitials(row.employeeName as string)}
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{row.employeeName}</p>
-            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{row.department}</p>
+            <p className="text-sm font-medium" style={{ color: CSS.text }}>{row.employeeName}</p>
+            <p className="text-[11px]" style={{ color: CSS.textMuted }}>{row.department}</p>
           </div>
         </div>
       ),
@@ -307,7 +310,7 @@ function PayrollPageInner() {
       key: 'baseSalary',
       label: 'Base Salary',
       sortable: true,
-      render: (row) => <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>{formatINR(row.baseSalary as number)}</span>,
+      render: (row) => <span className="text-sm" style={{ color: CSS.textSecondary }}>{formatINR(row.baseSalary as number)}</span>,
     },
     {
       key: 'incentives',
@@ -325,7 +328,7 @@ function PayrollPageInner() {
       key: 'netPay',
       label: 'Net Pay',
       sortable: true,
-      render: (row) => <span className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>{formatINR(row.netPay as number)}</span>,
+      render: (row) => <span className="text-sm font-bold" style={{ color: CSS.text }}>{formatINR(row.netPay as number)}</span>,
     },
     {
       key: 'status',
@@ -351,7 +354,7 @@ function PayrollPageInner() {
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-sm font-medium px-3 min-w-[120px] text-center" style={{ color: 'var(--ops-text)' }}>
+            <span className="text-sm font-medium px-3 min-w-[120px] text-center" style={{ color: CSS.text }}>
               {getMonthLabel(selectedMonth)}
             </span>
             <button
@@ -407,11 +410,11 @@ function PayrollPageInner() {
           {/* Salary Breakdown Chart */}
           <motion.div variants={fadeUp} className="lg:col-span-1">
             <div className="ops-card p-5 h-full">
-              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--ops-text)' }}>
+              <h3 className="text-sm font-semibold mb-4" style={{ color: CSS.text }}>
                 Salary by Department
               </h3>
               {deptData.length === 0 ? (
-                <div className="flex items-center justify-center h-48" style={{ color: 'var(--ops-text-muted)' }}>
+                <div className="flex items-center justify-center h-48" style={{ color: CSS.textMuted }}>
                   <p className="text-xs">No data for this month</p>
                 </div>
               ) : (
@@ -443,7 +446,7 @@ function PayrollPageInner() {
                     {deptData.map((entry, idx) => (
                       <div key={entry.name} className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: DEPT_COLORS[entry.name] || `hsl(${idx * 55}, 60%, 55%)` }} />
-                        <span className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{entry.name}</span>
+                        <span className="text-[11px]" style={{ color: CSS.textMuted }}>{entry.name}</span>
                       </div>
                     ))}
                   </div>
@@ -454,14 +457,16 @@ function PayrollPageInner() {
 
           {/* Table */}
           <motion.div variants={fadeUp} className="lg:col-span-2">
-            <DataTable
+            <SmartDataTable
+              data={monthData as unknown as Record<string, unknown>[]}
               columns={columns}
-              data={monthData as (PayrollRecord & Record<string, unknown>)[]}
               onRowClick={handleRowClick}
               searchable
               searchPlaceholder="Search employees..."
               searchKeys={['employeeName', 'department']}
               emptyMessage="No payroll records for this month."
+              enableExport
+              pageSize={10}
             />
           </motion.div>
         </div>

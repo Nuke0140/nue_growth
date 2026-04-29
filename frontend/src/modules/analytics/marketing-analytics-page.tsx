@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,9 @@ import DashboardWidget from './components/dashboard-widget';
 import FilterChip from './components/filter-chip';
 import ExportMenu from './components/export-menu';
 import { marketingAnalyticsData } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -58,21 +61,80 @@ export default function MarketingAnalyticsPage() {
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
   });
 
+  // ── Ad Fatigue column definitions ──
+  const adFatigueColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'campaign', label: 'Campaign', sortable: true },
+    {
+      key: 'fatigue',
+      label: 'Fatigue',
+      sortable: true,
+      render: (row) => {
+        const fatigue = Number(row.fatigue);
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-20 h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+              <div
+                className="h-full rounded-full"
+                style={{
+                  width: `${fatigue}%`,
+                  backgroundColor: fatigue >= 70
+                    ? '#ef4444'
+                    : fatigue >= 50
+                      ? '#f59e0b'
+                      : '#10b981',
+                }}
+              />
+            </div>
+            <span className={cn(
+              'text-xs font-semibold',
+              fatigue >= 70 ? 'text-red-500'
+                : fatigue >= 50 ? 'text-amber-500'
+                  : 'text-emerald-500',
+            )}>
+              {fatigue}%
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'impressions',
+      label: 'Impressions',
+      sortable: true,
+      render: (row) => <span>{formatNum(Number(row.impressions))}</span>,
+    },
+    {
+      key: 'ctr',
+      label: 'CTR',
+      sortable: true,
+      render: (row) => {
+        const ctr = Number(row.ctr);
+        return (
+          <span className={cn(
+            'text-sm font-semibold',
+            ctr >= 3 ? 'text-emerald-500'
+              : ctr >= 2 ? 'text-amber-500'
+                : 'text-red-500',
+          )}>
+            {ctr}%
+          </span>
+        );
+      },
+    },
+  ], []);
+
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
-            )}>
-              <Megaphone className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
+              <Megaphone className="w-5 h-5" style={{ color: CSS.textSecondary }} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Marketing Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className="text-xs" style={{ color: CSS.textMuted }}>
                 Channel ROI, campaign performance &amp; content engagement
               </p>
             </div>
@@ -89,10 +151,7 @@ export default function MarketingAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-            <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
-            )}>
+            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
             </span>
@@ -153,7 +212,7 @@ export default function MarketingAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{ch.channel}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className="text-xs" style={{ color: CSS.textMuted }}>
                         {formatINR(ch.revenue)} rev
                       </span>
                       <span className={cn(
@@ -164,7 +223,7 @@ export default function MarketingAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(ch.roi / maxChannelROI) * 100}%` }}
@@ -184,81 +243,14 @@ export default function MarketingAnalyticsPage() {
 
           {/* Ad Fatigue Table */}
           <ChartCard title="Ad Fatigue Monitor" subtitle="Campaign fatigue score &amp; engagement">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    {['Campaign', 'Fatigue', 'Impressions', 'CTR'].map((h) => (
-                      <th
-                        key={h}
-                        className={cn(
-                          'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                          isDark ? 'text-white/40' : 'text-black/40',
-                        )}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.adFatigue.map((ad, i) => (
-                    <motion.tr
-                      key={ad.campaign}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 + i * 0.06 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
-                      )}
-                    >
-                      <td className="py-3 px-3">
-                        <span className="text-sm font-medium">{ad.campaign}</span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-20 h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${ad.fatigue}%` }}
-                              transition={{ delay: 0.35 + i * 0.06, duration: 0.5 }}
-                              className={cn(
-                                'h-full rounded-full',
-                                ad.fatigue >= 70
-                                  ? (isDark ? 'bg-red-500/50' : 'bg-red-400')
-                                  : ad.fatigue >= 50
-                                    ? (isDark ? 'bg-amber-500/50' : 'bg-amber-400')
-                                    : (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400'),
-                              )}
-                            />
-                          </div>
-                          <span className={cn(
-                            'text-xs font-semibold',
-                            ad.fatigue >= 70 ? 'text-red-500'
-                              : ad.fatigue >= 50 ? 'text-amber-500'
-                                : 'text-emerald-500',
-                          )}>
-                            {ad.fatigue}%
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-3 text-sm">{formatNum(ad.impressions)}</td>
-                      <td className="py-3 px-3">
-                        <span className={cn(
-                          'text-sm font-semibold',
-                          ad.ctr >= 3 ? 'text-emerald-500'
-                            : ad.ctr >= 2 ? 'text-amber-500'
-                              : 'text-red-500',
-                        )}>
-                          {ad.ctr}%
-                        </span>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <SmartDataTable
+              data={data.adFatigue as unknown as Record<string, unknown>[]}
+              columns={adFatigueColumns}
+              searchable
+              enableExport
+              pageSize={10}
+              searchPlaceholder="Search campaigns…"
+            />
           </ChartCard>
         </div>
 
@@ -273,37 +265,30 @@ export default function MarketingAnalyticsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
-                  className={cn(
-                    'rounded-xl border p-3.5 transition-colors',
-                    isDark
-                      ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
-                      : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.03]',
-                  )}
+                  className="rounded-xl border p-3.5 transition-colors"
+                  style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.border }}
                 >
                   <div className="flex items-center gap-2 mb-2.5">
-                    <div className={cn(
-                      'w-7 h-7 rounded-lg flex items-center justify-center',
-                      isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
-                    )}>
-                      <ContentIcon className={cn('w-3.5 h-3.5', isDark ? 'text-white/50' : 'text-black/50')} />
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
+                      <ContentIcon className="w-3.5 h-3.5" style={{ color: CSS.textSecondary }} />
                     </div>
                     <span className="text-sm font-semibold truncate">{content.type}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Views</p>
+                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Views</p>
                       <p className="text-sm font-semibold">{formatNum(content.views)}</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>CTR</p>
+                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>CTR</p>
                       <p className="text-sm font-semibold text-blue-500">{content.ctr}%</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Likes</p>
+                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Likes</p>
                       <p className="text-sm font-medium">{formatNum(content.likes)}</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Shares</p>
+                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Shares</p>
                       <p className="text-sm font-medium">{formatNum(content.shares)}</p>
                     </div>
                   </div>
@@ -322,7 +307,7 @@ export default function MarketingAnalyticsPage() {
                 <div key={stage.stage} className="w-full flex flex-col items-center">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">{stage.stage}</span>
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <span className="text-xs" style={{ color: CSS.textMuted }}>
                       {stage.conversion}% conv
                     </span>
                   </div>
@@ -330,26 +315,20 @@ export default function MarketingAnalyticsPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${widthPct}%` }}
                     transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn(
-                      'h-10 rounded-xl flex items-center justify-center',
-                      isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
-                    )}
-                    style={{ maxWidth: '100%' }}
+                    className="h-10 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                   >
                     <div className="text-center">
-                      <p className={cn('text-base font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
+                      <p className="text-base font-bold" style={{ color: CSS.text }}>
                         {formatNum(stage.visitors)}
                       </p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>
                         visitors
                       </p>
                     </div>
                   </motion.div>
                   {i < data.funnelConversion.length - 1 && (
-                    <ChevronRight className={cn(
-                      'w-4 h-4 my-0.5 rotate-90',
-                      isDark ? 'text-white/20' : 'text-black/20',
-                    )} />
+                    <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
                   )}
                 </div>
               );
@@ -364,24 +343,22 @@ export default function MarketingAnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className={cn(
-              'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
-            )}
+            className="rounded-2xl border p-5"
+            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Mail className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Mail className="w-4 h-4" style={{ color: CSS.textMuted }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>
                 Email Campaigns
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Email CTR</span>
+                  <span className="text-xs" style={{ color: CSS.textMuted }}>Email CTR</span>
                   <span className="text-lg font-bold">{data.emailCTR}%</span>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(data.emailCTR / 10) * 100}%` }}
@@ -398,7 +375,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Unsub Rate', value: '0.4%', change: '-0.1%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-                    <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">
@@ -421,24 +398,22 @@ export default function MarketingAnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className={cn(
-              'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
-            )}
+            className="rounded-2xl border p-5"
+            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <MessageCircle className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <MessageCircle className="w-4 h-4" style={{ color: CSS.textMuted }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>
                 WhatsApp Business
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Reply Rate</span>
+                  <span className="text-xs" style={{ color: CSS.textMuted }}>Reply Rate</span>
                   <span className="text-lg font-bold">{data.whatsappReplyRate}%</span>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${data.whatsappReplyRate}%` }}
@@ -455,7 +430,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Response Time', value: '1.8h', change: '-15.0%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-                    <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">

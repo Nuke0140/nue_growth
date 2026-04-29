@@ -15,6 +15,10 @@ import {
 import { mockCampaigns, mockAttributionChannels, mockAIGrowthInsights, mockWorkflows, mockSocialPosts, marketingDashboardStats } from '@/modules/marketing/data/mock-data';
 import { useMarketingStore } from '@/modules/marketing/marketing-store';
 import type { MarketingPage, Campaign, InsightType, AttributionChannel, AIGrowthInsight as AIInsightTypeFull } from '@/modules/marketing/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 const iconMap: Record<string, React.ElementType> = {
   Users, Target, DollarSign, TrendingUp, BarChart3, PieChart, Activity, Heart, Share2, Wallet: DollarSign,
@@ -80,6 +84,75 @@ export default function MarketingDashboardPage() {
   const topInsights = useMemo(() => mockAIGrowthInsights.slice(0, 3), []);
   const totalBudget = useMemo(() => activeCampaigns.reduce((s: number, c: Campaign) => s + c.budget, 0), [activeCampaigns]);
   const totalSpend = useMemo(() => activeCampaigns.reduce((s: number, c: Campaign) => s + c.spend, 0), [activeCampaigns]);
+
+  const topCampaignsColumns: DataTableColumnDef[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      sortable: true,
+      render: (row) => <p className="text-sm font-medium" style={{ color: CSS.text }}>{(row as unknown as Campaign).name}</p>,
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      sortable: true,
+      render: (row) => (
+        <Badge variant="secondary" className="text-[10px] px-2 py-0.5" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+          {(row as unknown as Campaign).type}
+        </Badge>
+      ),
+    },
+    {
+      key: 'channels',
+      label: 'Channels',
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return (
+          <div className="flex gap-1">
+            {c.channels.slice(0, 3).map(ch => (
+              <Badge key={ch} variant="secondary" className="text-[9px] px-1.5 py-0" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
+                {ch}
+              </Badge>
+            ))}
+            {c.channels.length > 3 && (
+              <span className="text-[10px]" style={{ color: CSS.textMuted }}>+{c.channels.length - 3}</span>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      key: 'budget',
+      label: 'Budget',
+      sortable: true,
+      render: (row) => <span className="text-sm" style={{ color: CSS.text }}>{formatINR((row as unknown as Campaign).budget)}</span>,
+    },
+    {
+      key: 'spend',
+      label: 'Spend',
+      sortable: true,
+      render: (row) => <span className="text-sm" style={{ color: CSS.text }}>{formatINR((row as unknown as Campaign).spend)}</span>,
+    },
+    {
+      key: 'roi',
+      label: 'ROI',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        const color = c.roi >= 300 ? '#10b981' : c.roi >= 150 ? '#f59e0b' : '#ef4444';
+        return <span className="text-sm font-semibold" style={{ color }}>{c.roi}%</span>;
+      },
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as Campaign;
+        return <StatusBadge status={c.status} />;
+      },
+    },
+  ];
 
   const kpiStats = useMemo(() => [
     { label: 'Total Leads', value: marketingDashboardStats.totalLeads.toLocaleString(), icon: Users, color: 'text-blue-400', bg: isDark ? 'bg-blue-500/10' : 'bg-blue-50', change: 12.4, changeLabel: 'vs last month' },
@@ -337,74 +410,12 @@ export default function MarketingDashboardPage() {
               View All <ChevronRight className="w-3 h-3" />
             </Button>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Name', 'Type', 'Channels', 'Budget', 'Spend', 'ROI', 'Status'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {topCampaigns.map((campaign: Campaign, i) => (
-                  <motion.tr
-                    key={campaign.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.65 + i * 0.05 }}
-                    className={cn(
-                      'border-b cursor-pointer transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
-                    )}
-                  >
-                    <td className="py-3 px-3">
-                      <p className="text-sm font-medium">{campaign.name}</p>
-                    </td>
-                    <td className="py-3 px-3">
-                      <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-                        {campaign.type}
-                      </Badge>
-                    </td>
-                    <td className="py-3 px-3">
-                      <div className="flex gap-1">
-                        {campaign.channels.slice(0, 3).map(ch => (
-                          <Badge key={ch} variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
-                            {ch}
-                          </Badge>
-                        ))}
-                        {campaign.channels.length > 3 && (
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>+{campaign.channels.length - 3}</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3 px-3 text-sm">{formatINR(campaign.budget)}</td>
-                    <td className="py-3 px-3 text-sm">{formatINR(campaign.spend)}</td>
-                    <td className="py-3 px-3">
-                      <span className={cn(
-                        'text-sm font-semibold',
-                        campaign.roi >= 300 ? 'text-emerald-500' : campaign.roi >= 150 ? 'text-amber-500' : 'text-red-500'
-                      )}>
-                        {campaign.roi}%
-                      </span>
-                    </td>
-                    <td className="py-3 px-3">
-                      <Badge variant="secondary" className={cn(
-                        'text-[10px] px-2 py-0.5',
-                        campaign.status === 'active' ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600') :
-                        campaign.status === 'paused' ? (isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600') :
-                        (isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')
-                      )}>
-                        {campaign.status}
-                      </Badge>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={topCampaigns as unknown as Record<string, unknown>[]}
+            columns={topCampaignsColumns}
+            searchable pageSize={10}
+            searchPlaceholder="Search campaigns..."
+          />
         </motion.div>
 
         {/* Active Alerts */}

@@ -14,6 +14,9 @@ import {
   ArrowUpRight, ArrowDownRight, Search, RefreshCw, Globe,
   Palette, Users, Flame,
 } from 'lucide-react';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const PLATFORM_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
   google: { label: 'Google', color: '#ea4335', icon: 'G' },
@@ -98,6 +101,96 @@ export default function AdPerformancePage() {
       .sort((a, b) => b.roas - a.roas)
       .slice(0, 5);
   }, []);
+
+  const adCampaignColumns: DataTableColumnDef[] = [
+    {
+      key: 'name',
+      label: 'Campaign',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as AdCampaign;
+        return (
+          <div>
+            <p className="font-medium max-w-[200px] truncate" style={{ color: CSS.text }}>{c.name}</p>
+            <p className="text-[10px] truncate mt-0.5" style={{ color: CSS.textMuted }}>{c.creative}</p>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'platform',
+      label: 'Platform',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as AdCampaign;
+        const config = PLATFORM_CONFIG[c.platform];
+        return (
+          <div className="flex items-center gap-1.5">
+            <div className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold" style={{ backgroundColor: config?.color }}>
+              {config?.icon}
+            </div>
+            <span style={{ color: CSS.textSecondary }}>{config?.label}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      sortable: true,
+      render: (row) => {
+        const c = row as unknown as AdCampaign;
+        const status = STATUS_STYLES[c.status];
+        return <Badge className={cn('text-[10px]', status.className)}>{status.label}</Badge>;
+      },
+    },
+    {
+      key: 'spend',
+      label: 'Spend',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(row.spend as number)}</span>,
+    },
+    {
+      key: 'clicks',
+      label: 'Clicks',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.clicks as number)}</span>,
+    },
+    {
+      key: 'impressions',
+      label: 'Impressions',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.impressions as number)}</span>,
+    },
+    {
+      key: 'cpc',
+      label: 'CPC',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>₹{(row.cpc as number).toFixed(2)}</span>,
+    },
+    {
+      key: 'cpl',
+      label: 'CPL',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(row.cpl as number)}</span>,
+    },
+    {
+      key: 'roas',
+      label: 'ROAS',
+      sortable: true,
+      render: (row) => {
+        const roas = row.roas as number;
+        const color = roas >= 5 ? '#10b981' : roas >= 3 ? '#f59e0b' : roas > 0 ? '#ef4444' : CSS.textMuted;
+        return <span className="font-bold tabular-nums" style={{ color }}>{roas > 0 ? `${roas.toFixed(1)}x` : '—'}</span>;
+      },
+    },
+    {
+      key: 'conversions',
+      label: 'Conv.',
+      sortable: true,
+      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{(row.conversions as number) > 0 ? formatNumber(row.conversions as number) : '—'}</span>,
+    },
+  ];
 
   const card = (i: number) => cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
   const kpiCard = (i: number) => cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
@@ -273,79 +366,13 @@ export default function AdPerformancePage() {
             {filteredCampaigns.length} campaigns
           </span>
         </div>
-        <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className={cn('border-y', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                {['Campaign', 'Platform', 'Status', 'Spend', 'Clicks', 'Impressions', 'CPC', 'CPL', 'ROAS', 'Conv.'].map(h => (
-                  <th
-                    key={h}
-                    className={cn('px-4 py-3 text-left font-medium whitespace-nowrap', isDark ? 'text-white/50' : 'text-black/50')}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCampaigns.map((c, i) => {
-                const config = PLATFORM_CONFIG[c.platform];
-                const status = STATUS_STYLES[c.status];
-                const roasColor = c.roas >= 5 ? 'text-green-500' : c.roas >= 3 ? 'text-amber-500' : c.roas > 0 ? 'text-red-500' : isDark ? 'text-white/30' : 'text-black/30';
-                return (
-                  <motion.tr
-                    key={c.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.03, duration: 0.2 }}
-                    className={cn('border-b', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                  >
-                    <td className="px-4 py-3">
-                      <p className={cn('font-medium max-w-[200px] truncate', isDark ? 'text-white' : 'text-gray-900')}>{c.name}</p>
-                      <p className={cn('text-[10px] truncate mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{c.creative}</p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-1.5">
-                        <div
-                          className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold"
-                          style={{ backgroundColor: config?.color }}
-                        >
-                          {config?.icon}
-                        </div>
-                        <span className={isDark ? 'text-white/70' : 'text-gray-700'}>{config?.label}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge className={cn('text-[10px]', status.className)}>{status.label}</Badge>
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {formatCurrency(c.spend)}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {formatNumber(c.clicks)}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {formatNumber(c.impressions)}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      ₹{c.cpc.toFixed(2)}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {formatCurrency(c.cpl)}
-                    </td>
-                    <td className={cn('px-4 py-3 font-bold tabular-nums', roasColor)}>
-                      {c.roas > 0 ? `${c.roas.toFixed(1)}x` : '—'}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
-                      {c.conversions > 0 ? formatNumber(c.conversions) : '—'}
-                    </td>
-                  </motion.tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </motion.div>
+        <SmartDataTable
+            data={filteredCampaigns as unknown as Record<string, unknown>[]}
+            columns={adCampaignColumns}
+            searchable enableExport pageSize={10}
+            searchPlaceholder="Search campaigns..."
+          />
+        </motion.div>
 
       {/* Bottom Row: Creative Performance + Audience Fatigue */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

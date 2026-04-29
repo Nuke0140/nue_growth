@@ -2,16 +2,18 @@
 
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Plus, Receipt, AlertTriangle, Filter, FileText, IndianRupee,
-  Upload, CheckCircle2, Clock, XCircle, TrendingDown, Eye, Search,
-} from 'lucide-react';
+import { Plus, AlertTriangle, Filter, IndianRupee, Upload } from 'lucide-react';
 import { expenses } from '@/modules/finance/data/mock-data';
 import type { Expense } from '@/modules/finance/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { PageShell } from '@/components/shared/page-shell';
+import { FilterBar } from '@/components/shared/filter-bar';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -20,27 +22,31 @@ function formatINR(num: number): string {
   return `₹${num}`;
 }
 
-const categoryConfig: Record<string, { label: string; color: string; bgDark: string; bgLight: string }> = {
-  ads: { label: 'Ads', color: 'text-violet-400', bgDark: 'bg-violet-500/15', bgLight: 'bg-violet-50 text-violet-600' },
-  payroll: { label: 'Payroll', color: 'text-emerald-400', bgDark: 'bg-emerald-500/15', bgLight: 'bg-emerald-50 text-emerald-600' },
-  freelancers: { label: 'Freelancers', color: 'text-sky-400', bgDark: 'bg-sky-500/15', bgLight: 'bg-sky-50 text-sky-600' },
-  software: { label: 'Software', color: 'text-amber-400', bgDark: 'bg-amber-500/15', bgLight: 'bg-amber-50 text-amber-600' },
-  office: { label: 'Office', color: 'text-pink-400', bgDark: 'bg-pink-500/15', bgLight: 'bg-pink-50 text-pink-600' },
-  travel: { label: 'Travel', color: 'text-orange-400', bgDark: 'bg-orange-500/15', bgLight: 'bg-orange-50 text-orange-600' },
-  'client-delivery': { label: 'Client Delivery', color: 'text-teal-400', bgDark: 'bg-teal-500/15', bgLight: 'bg-teal-50 text-teal-600' },
-  refunds: { label: 'Refunds', color: 'text-red-400', bgDark: 'bg-red-500/15', bgLight: 'bg-red-50 text-red-600' },
-  other: { label: 'Other', color: 'text-slate-400', bgDark: 'bg-slate-500/15', bgLight: 'bg-slate-50 text-slate-600' },
+const categoryConfig: Record<string, { label: string; color: string }> = {
+  ads: { label: 'Ads', color: 'violet' },
+  payroll: { label: 'Payroll', color: 'emerald' },
+  freelancers: { label: 'Freelancers', color: 'sky' },
+  software: { label: 'Software', color: 'amber' },
+  office: { label: 'Office', color: 'pink' },
+  travel: { label: 'Travel', color: 'orange' },
+  'client-delivery': { label: 'Client Delivery', color: 'teal' },
+  refunds: { label: 'Refunds', color: 'red' },
+  other: { label: 'Other', color: 'slate' },
 };
 
-const approvalConfig: Record<string, { color: string; bgDark: string; bgLight: string }> = {
-  approved: { color: 'text-emerald-400', bgDark: 'bg-emerald-500/15', bgLight: 'bg-emerald-50 text-emerald-600' },
-  pending: { color: 'text-amber-400', bgDark: 'bg-amber-500/15', bgLight: 'bg-amber-50 text-amber-600' },
-  rejected: { color: 'text-red-400', bgDark: 'bg-red-500/15', bgLight: 'bg-red-50 text-red-600' },
+const categoryColors: Record<string, string> = {
+  violet: 'bg-violet-500/15 text-violet-400',
+  emerald: 'bg-emerald-500/15 text-emerald-400',
+  sky: 'bg-sky-500/15 text-sky-400',
+  amber: 'bg-amber-500/15 text-amber-400',
+  pink: 'bg-pink-500/15 text-pink-400',
+  orange: 'bg-orange-500/15 text-orange-400',
+  teal: 'bg-teal-500/15 text-teal-400',
+  red: 'bg-red-500/15 text-red-400',
+  slate: 'bg-slate-500/15 text-slate-400',
 };
 
 export default function ExpensesPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [approvalFilter, setApprovalFilter] = useState<string>('all');
 
@@ -67,25 +73,129 @@ export default function ExpensesPage() {
   const pendingCount = useMemo(() => expenses.filter(e => e.approvalStatus === 'pending').length, []);
   const gstTotal = useMemo(() => expenses.reduce((s, e) => s + e.gstAmount, 0), []);
 
-  return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Receipt className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Expenses</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Expense Control & Tracking</p>
-            </div>
-          </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
-            <Plus className="w-4 h-4" /> Add Expense
-          </Button>
-        </div>
+  const categoryFilterItems = useMemo(() => [
+    { key: 'all', label: 'All Categories' },
+    ...Object.entries(categoryConfig).map(([key, val]) => ({ key, label: val.label })),
+  ], []);
 
+  const approvalFilterItems = useMemo(() => [
+    { key: 'all', label: 'All Status' },
+    { key: 'approved', label: 'Approved' },
+    { key: 'pending', label: 'Pending' },
+    { key: 'rejected', label: 'Rejected' },
+  ], []);
+
+  const tableData = useMemo(() =>
+    filteredExpenses.map((exp: Expense) => ({
+      id: exp.id,
+      description: exp.description,
+      category: exp.category,
+      amount: formatINR(exp.amount),
+      gstAmount: formatINR(exp.gstAmount),
+      total: formatINR(exp.total),
+      date: exp.date,
+      vendor: exp.vendor,
+      receiptUploaded: exp.receiptUploaded,
+      approvalStatus: exp.approvalStatus,
+      isAnomaly: exp.isAnomaly,
+    })),
+    [filteredExpenses]
+  );
+
+  const columns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'description',
+      label: 'Description',
+      sortable: true,
+      render: (row) => (
+        <p className="text-sm font-medium max-w-[200px] truncate" style={{ color: CSS.text }}>
+          {row.description as string}
+        </p>
+      ),
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      sortable: true,
+      render: (row) => {
+        const cat = categoryConfig[row.category as string];
+        return (
+          <StatusBadge status={cat?.label ?? (row.category as string)} variant="pill" className="text-[10px] px-2 py-0" />
+        );
+      },
+    },
+    {
+      key: 'amount',
+      label: 'Amount',
+      sortable: true,
+      type: 'currency',
+    },
+    {
+      key: 'gstAmount',
+      label: 'GST',
+      type: 'currency',
+    },
+    {
+      key: 'total',
+      label: 'Total',
+      sortable: true,
+      render: (row) => (
+        <span className="text-sm font-semibold" style={{ color: CSS.text }}>
+          {row.total as string}
+        </span>
+      ),
+    },
+    {
+      key: 'date',
+      label: 'Date',
+      sortable: true,
+      type: 'date',
+    },
+    {
+      key: 'vendor',
+      label: 'Vendor',
+      sortable: true,
+      render: (row) => (
+        <p className="text-sm max-w-[120px] truncate" style={{ color: CSS.textSecondary }}>
+          {row.vendor as string}
+        </p>
+      ),
+    },
+    {
+      key: 'receiptUploaded',
+      label: 'Receipt',
+      render: (row) => (
+        <Upload
+          className="w-4 h-4"
+          style={{ color: row.receiptUploaded ? '#34d399' : CSS.textDisabled }}
+        />
+      ),
+    },
+    {
+      key: 'approvalStatus',
+      label: 'Approval',
+      sortable: true,
+      render: (row) => (
+        <StatusBadge status={row.approvalStatus as string} variant="pill" className="text-[10px] px-2 py-0 capitalize" />
+      ),
+    },
+    {
+      key: 'isAnomaly',
+      label: 'Anomaly',
+      render: (row) =>
+        row.isAnomaly ? <AlertTriangle className="w-4 h-4 text-red-500" /> : null,
+    },
+  ], []);
+
+  return (
+    <PageShell
+      title="Expenses"
+      subtitle="Expense Control & Tracking"
+      icon={() => <Upload className="w-5 h-5" style={{ color: CSS.accent }} />}
+      onCreate={() => {}}
+      createLabel="Add Expense"
+    >
+      <div className="space-y-6">
         {/* Category Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {categorySummary.map((cat, i) => {
@@ -96,15 +206,20 @@ export default function ExpensesPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+                className="rounded-2xl p-4 cursor-pointer transition-all duration-200"
+                style={{
+                  backgroundColor: CSS.cardBg,
+                  border: `1px solid ${CSS.border}`,
+                  boxShadow: CSS.shadowCard,
+                }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? config.bgDark : config.bgLight)}>
-                    {config.label}
-                  </Badge>
-                  <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{cat.count} items</span>
+                  <StatusBadge status={config.label} variant="pill" className="text-[10px] px-2 py-0" />
+                  <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
+                    {cat.count} items
+                  </span>
                 </div>
-                <p className="text-lg font-bold">{formatINR(cat.total)}</p>
+                <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(cat.total)}</p>
               </motion.div>
             );
           })}
@@ -112,28 +227,10 @@ export default function ExpensesPage() {
 
         {/* KPI Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Total Expenses', value: formatINR(totalExpenses), icon: IndianRupee, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-            { label: 'Total GST', value: formatINR(gstTotal), icon: FileText, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-            { label: 'Pending Approval', value: pendingCount.toString(), icon: Clock, color: 'text-orange-400', bg: isDark ? 'bg-orange-500/10' : 'bg-orange-50' },
-            { label: 'Anomalies', value: anomalyExpenses.length.toString(), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
-                </div>
-              </div>
-              <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
-            </motion.div>
-          ))}
+          <KpiWidget label="Total Expenses" value={formatINR(totalExpenses)} icon={IndianRupee} color="success" trend="down" trendValue="-12.3%" />
+          <KpiWidget label="Total GST" value={formatINR(gstTotal)} icon={AlertTriangle} color="warning" />
+          <KpiWidget label="Pending Approval" value={pendingCount.toString()} icon={Upload} color="info" />
+          <KpiWidget label="Anomalies" value={anomalyExpenses.length.toString()} icon={AlertTriangle} color="danger" />
         </div>
 
         {/* Anomaly Alerts */}
@@ -142,12 +239,12 @@ export default function ExpensesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
+            className="rounded-2xl border p-5"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--app-danger) 3%, transparent)', borderColor: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="w-4 h-4 text-red-500" />
-              <span className="text-sm font-semibold text-red-500">Anomaly Alerts</span>
-              <Badge variant="secondary" className="text-[10px] bg-red-500/15 text-red-400">{anomalyExpenses.length} detected</Badge>
+              <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.danger }}>Anomaly Alerts</span>
             </div>
             <div className="space-y-2">
               {anomalyExpenses.map((exp, i) => (
@@ -156,16 +253,17 @@ export default function ExpensesPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
-                  className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
+                  className="flex items-center justify-between p-3 rounded-xl border"
+                  style={{ borderColor: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' }}
                 >
                   <div className="flex items-center gap-3">
-                    <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
+                    <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
                     <div>
-                      <p className="text-sm font-medium">{exp.description}</p>
-                      <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{exp.vendor} • {exp.date}</p>
+                      <p className="text-sm font-medium" style={{ color: CSS.text }}>{exp.description}</p>
+                      <p className="text-xs" style={{ color: CSS.textMuted }}>{exp.vendor} · {exp.date}</p>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-red-500">{formatINR(exp.total)}</span>
+                  <span className="text-sm font-semibold" style={{ color: CSS.danger }}>{formatINR(exp.total)}</span>
                 </motion.div>
               ))}
             </div>
@@ -173,143 +271,67 @@ export default function ExpensesPage() {
         )}
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className={cn('flex items-center gap-2', isDark ? 'text-white/40' : 'text-black/40')}>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2 min-w-0" style={{ color: CSS.textMuted }}>
             <Filter className="w-4 h-4" />
-            <span className="text-xs font-medium uppercase tracking-wider">Filters</span>
+            <span className="text-xs font-medium uppercase tracking-wider">Category</span>
           </div>
-          <div className="flex gap-2">
-            <button onClick={() => setCategoryFilter('all')} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === 'all' ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
-              All Categories
-            </button>
-            {Object.entries(categoryConfig).map(([key, val]) => (
-              <button key={key} onClick={() => setCategoryFilter(key)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === key ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
-                {val.label}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2 ml-4">
-            {(['all', 'approved', 'pending', 'rejected'] as const).map((status) => (
-              <button key={status} onClick={() => setApprovalFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', approvalFilter === status ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
-                {status === 'all' ? 'All Status' : status}
-              </button>
-            ))}
-          </div>
+          <FilterBar filters={categoryFilterItems} activeFilter={categoryFilter} onFilterChange={setCategoryFilter} />
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <span className="text-xs font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Status</span>
+          <FilterBar filters={approvalFilterItems} activeFilter={approvalFilter} onFilterChange={setApprovalFilter} />
         </div>
 
         {/* Expense Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <TrendingDown className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Expense Ledger</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
-                {filteredExpenses.length} entries
-              </Badge>
-            </div>
-          </div>
-          <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
-            <table className="w-full">
-              <thead className={cn('sticky top-0 z-10', isDark ? 'bg-[#1a1a1a]' : 'bg-white')}>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Description', 'Category', 'Amount', 'GST', 'Total', 'Date', 'Vendor', 'Receipt', 'Approval', 'Anomaly'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3 whitespace-nowrap', isDark ? 'text-white/40' : 'text-black/40')}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredExpenses.map((exp: Expense, i) => {
-                  const catConf = categoryConfig[exp.category];
-                  const apprConf = approvalConfig[exp.approvalStatus];
-                  return (
-                    <motion.tr
-                      key={exp.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.55 + i * 0.03 }}
-                      className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]', exp.isAnomaly && (isDark ? 'bg-red-500/[0.03]' : 'bg-red-50/30'))}
-                    >
-                      <td className="py-3 px-3">
-                        <p className="text-sm font-medium max-w-[200px] truncate">{exp.description}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? catConf.bgDark : catConf.bgLight)}>
-                          {catConf.label}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-3 text-sm whitespace-nowrap">{formatINR(exp.amount)}</td>
-                      <td className="py-3 px-3 text-sm whitespace-nowrap">{formatINR(exp.gstAmount)}</td>
-                      <td className="py-3 px-3 text-sm font-semibold whitespace-nowrap">{formatINR(exp.total)}</td>
-                      <td className="py-3 px-3 text-sm whitespace-nowrap">{exp.date}</td>
-                      <td className="py-3 px-3">
-                        <p className="text-sm max-w-[120px] truncate">{exp.vendor}</p>
-                      </td>
-                      <td className="py-3 px-3">
-                        {exp.receiptUploaded ? (
-                          <Upload className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
-                        ) : (
-                          <Upload className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
-                        )}
-                      </td>
-                      <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', isDark ? apprConf.bgDark : apprConf.bgLight)}>
-                          {exp.approvalStatus}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-3">
-                        {exp.isAnomaly && <AlertTriangle className="w-4 h-4 text-red-500" />}
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+        <SmartDataTable
+          columns={columns}
+          data={tableData}
+          searchable
+          searchPlaceholder="Search expenses..."
+          searchKeys={['description', 'vendor', 'category']}
+          enableExport
+          emptyMessage="No expenses match the selected filters"
+          pageSize={10}
+        />
 
         {/* Total Expenses Summary */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className="rounded-2xl border p-5"
+          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
-                <IndianRupee className="w-5 h-5 text-emerald-400" />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.accentLight }}>
+                <IndianRupee className="w-5 h-5" style={{ color: CSS.accent }} />
               </div>
               <div>
-                <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Total Expenses (All Categories)</p>
-                <p className="text-2xl font-bold">{formatINR(totalExpenses)}</p>
+                <p className="text-xs" style={{ color: CSS.textMuted }}>Total Expenses (All Categories)</p>
+                <p className="text-2xl font-bold" style={{ color: CSS.text }}>{formatINR(totalExpenses)}</p>
               </div>
             </div>
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Base Amount</p>
-                <p className="text-sm font-semibold">{formatINR(totalExpenses - gstTotal)}</p>
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Base Amount</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(totalExpenses - gstTotal)}</p>
               </div>
-              <div className={cn('w-px h-8', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')} />
+              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>GST</p>
-                <p className="text-sm font-semibold">{formatINR(gstTotal)}</p>
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>GST</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(gstTotal)}</p>
               </div>
-              <div className={cn('w-px h-8', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')} />
+              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Entries</p>
-                <p className="text-sm font-semibold">{expenses.length}</p>
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Entries</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{expenses.length}</p>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
-    </div>
+    </PageShell>
   );
 }

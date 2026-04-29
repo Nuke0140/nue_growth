@@ -13,6 +13,9 @@ import {
 import { loyaltyTiers, loyaltyMembers } from '@/modules/retention/data/mock-data';
 import { useRetentionStore } from '@/modules/retention/retention-store';
 import type { LoyaltyTier, LoyaltyMember } from '@/modules/retention/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -71,6 +74,70 @@ export default function LoyaltyProgramPage() {
   );
 
   const totalMembers = tierDistribution.reduce((s, t) => s + t.count, 0);
+
+  // ── Member Directory columns ──
+  const memberColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'client',
+      label: 'Client',
+      sortable: true,
+      render: (row) => (
+        <div>
+          <p className="text-sm font-medium">{row.client as string}</p>
+          <p className="text-[10px]" style={{ color: CSS.textMuted }}>{row.lastPurchaseDate as string}</p>
+        </div>
+      ),
+    },
+    {
+      key: 'tier',
+      label: 'Tier',
+      render: (row) => {
+        const tc = tierConfig[(row.tier as string)] || tierConfig.silver;
+        return (
+          <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', tc.text, isDark ? 'bg-white/[0.06]' : 'bg-white/60')}>
+            {row.tier as string}
+          </Badge>
+        );
+      },
+    },
+    {
+      key: 'points',
+      label: 'Points',
+      sortable: true,
+      render: (row) => <span className="text-sm font-semibold">{Number(row.points).toLocaleString()}</span>,
+    },
+    {
+      key: 'totalSpent',
+      label: 'Total Spent',
+      sortable: true,
+      render: (row) => <span className="text-sm">{formatINR(row.totalSpent as number)}</span>,
+    },
+    { key: 'repeatPurchases', label: 'Repeat', sortable: true },
+    { key: 'referrals', label: 'Referrals', sortable: true },
+    {
+      key: 'milestoneProgress',
+      label: 'Next Milestone',
+      render: (row) => {
+        const m = row as unknown as LoyaltyMember;
+        return (
+          <div className="min-w-[100px]">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px]" style={{ color: CSS.textMuted }}>{m.nextMilestone}</span>
+              <span className="text-[10px] font-bold">{m.milestoneProgress}%</span>
+            </div>
+            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div
+                className={cn('h-full rounded-full',
+                  m.tier === 'platinum' ? 'bg-violet-500' : m.tier === 'gold' ? 'bg-amber-500' : 'bg-slate-400'
+                )}
+                style={{ width: `${m.milestoneProgress}%` }}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+  ], [isDark]);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -178,63 +245,14 @@ export default function LoyaltyProgramPage() {
                 {loyaltyMembers.length} members
               </Badge>
             </div>
-            <div className="overflow-x-auto max-h-[420px] overflow-y-auto">
-              <table className="w-full">
-                <thead className="sticky top-0 z-10">
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white')}>
-                    {['Client', 'Tier', 'Points', 'Total Spent', 'Repeat', 'Referrals', 'Next Milestone'].map(h => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {loyaltyMembers.map((m: LoyaltyMember, i) => {
-                    const tc = tierConfig[m.tier];
-                    return (
-                      <motion.tr
-                        key={m.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.45 + i * 0.04 }}
-                        className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
-                      >
-                        <td className="py-3 px-3">
-                          <div>
-                            <p className="text-sm font-medium">{m.client}</p>
-                            <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{m.lastPurchaseDate}</p>
-                          </div>
-                        </td>
-                        <td className="py-3 px-3">
-                          <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', isDark ? `${tc.text.replace('dark:', '')} bg-white/[0.06]` : `${tc.text} bg-white/60`)}>
-                            {m.tier}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-3 text-sm font-semibold">{m.points.toLocaleString()}</td>
-                        <td className="py-3 px-3 text-sm">{formatINR(m.totalSpent)}</td>
-                        <td className="py-3 px-3 text-sm">{m.repeatPurchases}</td>
-                        <td className="py-3 px-3 text-sm">{m.referrals}</td>
-                        <td className="py-3 px-3">
-                          <div className="min-w-[100px]">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{m.nextMilestone}</span>
-                              <span className="text-[10px] font-bold">{m.milestoneProgress}%</span>
-                            </div>
-                            <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                              <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${m.milestoneProgress}%` }}
-                                transition={{ delay: 0.5 + i * 0.04, duration: 0.6 }}
-                                className={cn('h-full rounded-full', m.tier === 'platinum' ? 'bg-violet-500' : m.tier === 'gold' ? 'bg-amber-500' : 'bg-slate-400')}
-                              />
-                            </div>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <SmartDataTable
+              data={loyaltyMembers as unknown as Record<string, unknown>[]}
+              columns={memberColumns}
+              searchable
+              searchPlaceholder="Search members..."
+              enableExport
+              pageSize={10}
+            />
           </motion.div>
 
           {/* Right Column: Progress Rings + Tier Distribution */}

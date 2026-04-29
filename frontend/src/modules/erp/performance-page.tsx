@@ -2,16 +2,15 @@
 
 import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Target, Clock, CheckCircle2, TrendingUp, Trophy, Star } from 'lucide-react';
+import { Target, Clock, Trophy, Star } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { DataTable, type Column } from './components/ops/data-table';
-import { StatusBadge } from './components/ops/status-badge';
-import { KpiWidget } from './components/ops/kpi-widget';
-import { mockPerformanceReviews, mockEmployees } from './data/mock-data';
-import type { PerformanceReview, PromotionReadiness } from './types';
-import { PageShell } from './components/ops/page-shell';
+import { PageShell } from '@/components/shared/page-shell';
+import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { CSS } from '@/styles/design-tokens';
+import { mockPerformanceReviews, mockEmployees } from '@/modules/erp/data/mock-data';
+import type { PerformanceReview, PromotionReadiness } from '@/modules/erp/types';
 
 function getEmployee(id: string) {
   return mockEmployees.find(e => e.id === id);
@@ -51,23 +50,24 @@ function PerformancePageInner() {
     };
   }, [reviews]);
 
-  const columns: Column<PerformanceReview & Record<string, unknown> & { employee: typeof mockEmployees[0] }>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'employeeId',
       label: 'Employee',
       sortable: true,
       render: (row) => {
-        const emp = (row as unknown as { employee: typeof mockEmployees[0] }).employee;
+        const review = row as unknown as (PerformanceReview & { employee: typeof mockEmployees[0] });
+        const emp = review.employee;
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{emp?.name}</p>
-              <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{emp?.department}</p>
+              <p className="text-sm font-medium" style={{ color: CSS.text }}>{emp?.name}</p>
+              <p className="text-[11px]" style={{ color: CSS.textMuted }}>{emp?.department}</p>
             </div>
           </div>
         );
@@ -77,59 +77,70 @@ function PerformancePageInner() {
       key: 'period',
       label: 'Period',
       sortable: true,
-      hiddenMobile: true,
+      render: (row) => (
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>{String(row.period)}</span>
+      ),
     },
     {
       key: 'kpiScore',
       label: 'KPI',
       sortable: true,
-      render: (row) => (
-        <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
-            <div className="h-full rounded-full" style={{ width: `${row.kpiScore}%`, backgroundColor: getBarColor(row.kpiScore as number) }} />
+      render: (row) => {
+        const score = Number(row.kpiScore);
+        return (
+          <div className="flex items-center gap-2 min-w-[80px]">
+            <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
+            </div>
+            <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
           </div>
-          <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.kpiScore as number) }}>{row.kpiScore}</span>
-        </div>
-      ),
+        );
+      },
     },
     {
       key: 'slaScore',
       label: 'SLA',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => (
-        <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
-            <div className="h-full rounded-full" style={{ width: `${row.slaScore}%`, backgroundColor: getBarColor(row.slaScore as number) }} />
+      render: (row) => {
+        const score = Number(row.slaScore);
+        return (
+          <div className="flex items-center gap-2 min-w-[80px]">
+            <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
+            </div>
+            <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
           </div>
-          <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.slaScore as number) }}>{row.slaScore}</span>
-        </div>
-      ),
+        );
+      },
     },
     {
       key: 'taskCompletion',
       label: 'Tasks',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => (
-        <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
-            <div className="h-full rounded-full" style={{ width: `${row.taskCompletion}%`, backgroundColor: getBarColor(row.taskCompletion as number) }} />
+      render: (row) => {
+        const score = Number(row.taskCompletion);
+        return (
+          <div className="flex items-center gap-2 min-w-[80px]">
+            <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
+            </div>
+            <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
           </div>
-          <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.taskCompletion as number) }}>{row.taskCompletion}</span>
-        </div>
-      ),
+        );
+      },
     },
     {
       key: 'clientFeedback',
       label: 'Feedback',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => (
-        <span className="text-sm font-medium" style={{ color: (row.clientFeedback as number) > 0 ? getBarColor(row.clientFeedback as number) : 'var(--ops-text-muted)' }}>
-          {(row.clientFeedback as number) > 0 ? `${row.clientFeedback}%` : 'N/A'}
-        </span>
-      ),
+      render: (row) => {
+        const score = Number(row.clientFeedback);
+        return (
+          <span className="text-sm font-medium" style={{ color: score > 0 ? getBarColor(score) : CSS.textMuted }}>
+            {score > 0 ? `${score}%` : 'N/A'}
+          </span>
+        );
+      },
     },
     {
       key: 'promotionReadiness',
@@ -154,13 +165,14 @@ function PerformancePageInner() {
 
         {/* Table */}
         <motion.div variants={fadeUp}>
-          <DataTable
-            columns={columns as Column<Record<string, unknown>>[]}
+          <SmartDataTable
             data={reviews as unknown as Record<string, unknown>[]}
+            columns={columns}
             searchable
             searchPlaceholder="Search employees..."
             searchKeys={['employeeId']}
             emptyMessage="No performance reviews found."
+            enableExport
           />
         </motion.div>
       </motion.div>

@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
   Trophy, Plus, Crown, Star, Target, Clock, Zap,
   DollarSign, TrendingUp, Shield, Sparkles, Users,
@@ -16,6 +15,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { mockTeamPerformance } from './data/mock-data';
 import type { TeamPerformance } from '@/modules/crm-sales/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -32,8 +34,6 @@ const RANK_STYLES: Record<number, { emoji: string; bg: string; ring: string; lab
 const PERIODS = ['This Week', 'This Month', 'This Quarter'] as const;
 
 function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' }) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const radius = size === 'sm' ? 28 : 36;
   const strokeWidth = size === 'sm' ? 4 : 5;
   const circumference = 2 * Math.PI * radius;
@@ -44,55 +44,47 @@ function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' 
     <div className="relative inline-flex items-center justify-center">
       <svg width={(radius + strokeWidth) * 2} height={(radius + strokeWidth) * 2} className="-rotate-90">
         <circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
-          fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} strokeWidth={strokeWidth} />
+          fill="none" stroke={CSS.hoverBg} strokeWidth={strokeWidth} />
         <motion.circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
           fill="none" stroke={color} strokeWidth={strokeWidth}
           strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }} transition={{ duration: 1.2, ease: 'easeOut' }}
           strokeLinecap="round" />
       </svg>
-      <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm',
-        isDark ? 'text-white' : 'text-black')}>
+      <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm')}
+        style={{ color: CSS.text }}>
         {score}
       </span>
     </div>
   );
 }
 
-function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boolean }) {
+function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={cn(
-        'rounded-2xl border p-6 md:p-8 relative overflow-hidden',
-        isDark
-          ? 'bg-gradient-to-br from-amber-500/[0.08] via-white/[0.04] to-white/[0.02] border-amber-500/20'
-          : 'bg-gradient-to-br from-amber-50 via-white to-white border-amber-200/50'
-      )}
+      className="rounded-2xl border p-6 md:p-8 relative overflow-hidden"
+      style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
     >
       {/* Decorative glow */}
       <div className="absolute -top-20 -right-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative flex flex-col md:flex-row md:items-center gap-6">
         <div className="flex items-center gap-5">
-          <div className={cn(
-            'w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black ring-2',
-            isDark ? 'bg-amber-500/20 text-amber-300 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-amber-300/50'
-          )}>
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black ring-2 bg-amber-500/20 text-amber-300 ring-amber-500/30">
             {rep.repName.split(' ').map(n => n[0]).join('')}
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Crown className="w-5 h-5 text-amber-500" />
-              <span className={cn('text-xs font-semibold uppercase tracking-widest',
-                isDark ? 'text-amber-400/60' : 'text-amber-600/60')}>
+              <span className="text-xs font-semibold uppercase tracking-widest text-amber-400/60">
                 Top Performer
               </span>
             </div>
-            <h2 className={cn('text-xl font-bold', isDark ? 'text-white' : 'text-black')}>{rep.repName}</h2>
-            <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>
+            <h2 className="text-xl font-bold" style={{ color: CSS.text }}>{rep.repName}</h2>
+            <p className="text-sm" style={{ color: CSS.textMuted }}>
               {rep.dealsWon} deals won · {rep.closeRate}% close rate
             </p>
           </div>
@@ -105,13 +97,10 @@ function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boole
             { label: 'SLA Score', value: `${rep.followUpSla}%`, icon: Shield },
             { label: 'AI Score', value: rep.aiProductivityScore.toString(), icon: Sparkles },
           ].map((metric) => (
-            <div key={metric.label} className={cn(
-              'rounded-xl p-3 text-center',
-              isDark ? 'bg-white/[0.04]' : 'bg-black/[0.03]'
-            )}>
-              <metric.icon className={cn('w-4 h-4 mx-auto mb-1', isDark ? 'text-white/30' : 'text-black/30')} />
-              <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>{metric.value}</p>
-              <p className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{metric.label}</p>
+            <div key={metric.label} className="rounded-xl p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+              <metric.icon className="w-4 h-4 mx-auto mb-1" style={{ color: CSS.textDisabled }} />
+              <p className="text-lg font-bold" style={{ color: CSS.text }}>{metric.value}</p>
+              <p className="text-[10px] font-medium" style={{ color: CSS.textDisabled }}>{metric.label}</p>
             </div>
           ))}
         </div>
@@ -121,8 +110,6 @@ function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boole
 }
 
 export default function TeamPerformancePage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [period, setPeriod] = useState<string>('This Month');
 
   const sortedReps = useMemo(() =>
@@ -143,6 +130,174 @@ export default function TeamPerformancePage() {
     return { totalRevenue, avgCloseRate, bestResponse, avgSla };
   }, []);
 
+  // SmartDataTable data & columns
+  const leaderboardData = useMemo(
+    () => sortedReps.map(rep => ({
+      id: rep.id,
+      rank: rep.rank,
+      repName: rep.repName,
+      dealsWon: rep.dealsWon,
+      revenueClosed: rep.revenueClosed,
+      followUpSla: rep.followUpSla,
+      avgResponseTime: rep.avgResponseTime,
+      closeRate: rep.closeRate,
+      aiProductivityScore: rep.aiProductivityScore,
+      targetProgress: rep.targetProgress,
+      targetAmount: rep.targetAmount,
+    })) as unknown as Record<string, unknown>[],
+    []
+  );
+
+  const leaderboardColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'rank',
+      label: 'Rank',
+      sortable: true,
+      render: (row) => {
+        const r = row as { rank: number };
+        const rankStyle = RANK_STYLES[r.rank];
+        if (rankStyle) {
+          const colorClass = r.rank === 1 ? 'text-amber-300 dark:text-amber-300' :
+            r.rank === 2 ? 'text-slate-300 dark:text-slate-300' : 'text-orange-300 dark:text-orange-300';
+          return (
+            <div className={cn('flex items-center gap-1.5 px-2.5 py-1 rounded-lg w-fit', rankStyle.bg)}>
+              <span className="text-base">{rankStyle.emoji}</span>
+              <span className={cn('text-xs font-bold', colorClass)}>#{r.rank}</span>
+            </div>
+          );
+        }
+        return (
+          <span className="text-xs font-medium px-2.5 py-1 rounded-lg" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
+            #{r.rank}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'repName',
+      label: 'Rep',
+      sortable: true,
+      render: (row) => {
+        const r = row as { rank: number; repName: string };
+        const initials = r.repName.split(' ').map(n => n[0]).join('');
+        return (
+          <div className="flex items-center gap-3">
+            <div className={cn(
+              'w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold shrink-0',
+              r.rank === 1
+                ? 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/30'
+                : ''
+            )}
+            style={r.rank !== 1 ? { backgroundColor: CSS.hoverBg, color: CSS.textSecondary } : undefined}
+            >
+              {initials}
+            </div>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>{r.repName}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'dealsWon',
+      label: 'Deals Won',
+      sortable: true,
+      render: (row) => {
+        const v = row.dealsWon as number;
+        return <span className="text-sm font-semibold" style={{ color: CSS.text }}>{v}</span>;
+      },
+    },
+    {
+      key: 'revenueClosed',
+      label: 'Revenue',
+      sortable: true,
+      render: (row) => {
+        const v = row.revenueClosed as number;
+        return <span className="text-sm font-bold text-emerald-500">{formatCurrency(v)}</span>;
+      },
+    },
+    {
+      key: 'followUpSla',
+      label: 'SLA %',
+      sortable: true,
+      render: (row) => {
+        const v = row.followUpSla as number;
+        const colorClass = v >= 90 ? 'bg-emerald-500/15 text-emerald-500' : v >= 80 ? 'bg-amber-500/15 text-amber-500' : 'bg-red-500/15 text-red-500';
+        return <span className={cn('text-xs font-medium px-2 py-1 rounded-md', colorClass)}>{v}%</span>;
+      },
+    },
+    {
+      key: 'avgResponseTime',
+      label: 'Avg Response',
+      render: (row) => {
+        const v = row.avgResponseTime as string;
+        return (
+          <div className="flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5" style={{ color: CSS.textDisabled }} />
+            <span className="text-xs font-medium" style={{ color: CSS.textSecondary }}>{v}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'closeRate',
+      label: 'Close Rate',
+      sortable: true,
+      render: (row) => {
+        const v = row.closeRate as number;
+        const colorClass = v >= 40 ? 'text-emerald-500' : v >= 30 ? 'text-amber-500' : 'text-red-500';
+        return <span className={cn('text-xs font-semibold', colorClass)}>{v}%</span>;
+      },
+    },
+    {
+      key: 'aiProductivityScore',
+      label: 'AI Score',
+      sortable: true,
+      render: (row) => {
+        const r = row as { aiProductivityScore: number };
+        const colorClass = r.aiProductivityScore >= 85 ? 'text-violet-400' : r.aiProductivityScore >= 70 ? 'text-amber-400' : 'text-red-400';
+        return (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-1.5 cursor-help">
+                <Sparkles className={cn('w-3.5 h-3.5', colorClass)} />
+                <span className="text-xs font-bold" style={{ color: CSS.text }}>{r.aiProductivityScore}</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">AI Productivity Score measures AI-assisted task completion rate, email optimization, and automated follow-up effectiveness.</p>
+            </TooltipContent>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      key: 'targetProgress',
+      label: 'Target',
+      render: (row) => {
+        const r = row as { targetProgress: number; targetAmount: number; revenueClosed: number };
+        const barColor = r.targetProgress >= 80 ? 'bg-emerald-500' : r.targetProgress >= 60 ? 'bg-amber-500' : 'bg-red-500';
+        return (
+          <div className="w-32 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>{r.targetProgress}%</span>
+              <span className="text-[10px]" style={{ color: CSS.textDisabled }}>
+                {formatCurrency(r.targetAmount - r.revenueClosed)} left
+              </span>
+            </div>
+            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${r.targetProgress}%` }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className={cn('h-full rounded-full', barColor)}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+  ], []);
+
   return (
     <TooltipProvider delayDuration={300}>
       <div className="h-full flex flex-col overflow-hidden">
@@ -151,18 +306,16 @@ export default function TeamPerformancePage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <h1 className="text-2xl font-bold tracking-tight" style={{ color: CSS.text }}>
                   Team Performance
                 </h1>
-                <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className="text-sm mt-1" style={{ color: CSS.textMuted }}>
                   Sales leaderboard &amp; rep analytics
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <div className={cn(
-                  'flex items-center rounded-xl border overflow-hidden',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
-                )}>
+                <div className="flex items-center rounded-xl border overflow-hidden"
+                  style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
                   {PERIODS.map((p) => (
                     <button
                       key={p}
@@ -170,18 +323,17 @@ export default function TeamPerformancePage() {
                       className={cn(
                         'px-3 py-1.5 text-xs font-medium transition-all',
                         period === p
-                          ? isDark ? 'bg-white text-black' : 'bg-black text-white'
-                          : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
+                          ? 'text-[var(--app-text)]'
+                          : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
                       )}
+                      style={period === p ? { backgroundColor: CSS.activeBg } : undefined}
                     >
                       {p}
                     </button>
                   ))}
                 </div>
-                <Button className={cn(
-                  'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-                  isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                )}>
+                <Button className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold"
+                  style={{ backgroundColor: CSS.accent, color: '#ffffff' }}>
                   <Plus className="w-3.5 h-3.5 mr-1.5" />
                   Add Rep
                 </Button>
@@ -189,183 +341,27 @@ export default function TeamPerformancePage() {
             </div>
 
             {/* Top Performer Hero Card */}
-            {topPerformer && <TopPerformerCard rep={topPerformer} isDark={isDark} />}
+            {topPerformer && <TopPerformerCard rep={topPerformer} />}
 
             {/* Leaderboard Table */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className={cn(
-                'rounded-2xl border overflow-hidden',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-              )}
+              className="rounded-2xl border overflow-hidden"
+              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
             >
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                      {['Rank', 'Rep', 'Deals Won', 'Revenue', 'SLA %', 'Avg Response', 'Close Rate', 'AI Score', 'Target'].map(col => (
-                        <th key={col} className={cn(
-                          'px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap',
-                          isDark ? 'text-white/30' : 'text-black/30'
-                        )}>
-                          {col}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedReps.map((rep, i) => {
-                      const rankStyle = RANK_STYLES[rep.rank];
-                      const initials = rep.repName.split(' ').map(n => n[0]).join('');
-                      return (
-                        <motion.tr
-                          key={rep.id}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.05 + 0.15 }}
-                          className={cn(
-                            'border-b transition-colors',
-                            isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
-                          )}
-                        >
-                          {/* Rank */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            {rankStyle ? (
-                              <div className={cn(
-                                'flex items-center gap-1.5 px-2.5 py-1 rounded-lg w-fit',
-                                rankStyle.bg
-                              )}>
-                                <span className="text-base">{rankStyle.emoji}</span>
-                                <span className={cn('text-xs font-bold',
-                                  rep.rank === 1 ? (isDark ? 'text-amber-300' : 'text-amber-700') :
-                                  rep.rank === 2 ? (isDark ? 'text-slate-300' : 'text-slate-600') :
-                                  (isDark ? 'text-orange-300' : 'text-orange-700')
-                                )}>
-                                  #{rep.rank}
-                                </span>
-                              </div>
-                            ) : (
-                              <span className={cn('text-xs font-medium px-2.5 py-1 rounded-lg',
-                                isDark ? 'text-white/40 bg-white/[0.04]' : 'text-black/40 bg-black/[0.04]'
-                              )}>
-                                #{rep.rank}
-                              </span>
-                            )}
-                          </td>
-
-                          {/* Rep Name + Avatar */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-3">
-                              <div className={cn(
-                                'w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold shrink-0',
-                                rep.rank === 1
-                                  ? (isDark ? 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-1 ring-amber-300')
-                                  : isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
-                              )}>
-                                {initials}
-                              </div>
-                              <span className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>
-                                {rep.repName}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Deals Won */}
-                          <td className={cn('px-4 py-4 text-sm font-semibold whitespace-nowrap', isDark ? 'text-white/80' : 'text-black/80')}>
-                            {rep.dealsWon}
-                          </td>
-
-                          {/* Revenue */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <span className={cn('text-sm font-bold', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
-                              {formatCurrency(rep.revenueClosed)}
-                            </span>
-                          </td>
-
-                          {/* Follow-up SLA */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <span className={cn('text-xs font-medium px-2 py-1 rounded-md',
-                              rep.followUpSla >= 90
-                                ? 'bg-emerald-500/15 text-emerald-500'
-                                : rep.followUpSla >= 80
-                                  ? 'bg-amber-500/15 text-amber-500'
-                                  : 'bg-red-500/15 text-red-500'
-                            )}>
-                              {rep.followUpSla}%
-                            </span>
-                          </td>
-
-                          {/* Avg Response Time */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <div className="flex items-center gap-1.5">
-                              <Clock className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                              <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
-                                {rep.avgResponseTime}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Close Rate */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <span className={cn('text-xs font-semibold',
-                              rep.closeRate >= 40 ? 'text-emerald-500' : rep.closeRate >= 30 ? 'text-amber-500' : 'text-red-500'
-                            )}>
-                              {rep.closeRate}%
-                            </span>
-                          </td>
-
-                          {/* AI Productivity Score */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div className="flex items-center gap-1.5 cursor-help">
-                                  <Sparkles className={cn('w-3.5 h-3.5',
-                                    rep.aiProductivityScore >= 85 ? 'text-violet-400' : rep.aiProductivityScore >= 70 ? 'text-amber-400' : 'text-red-400'
-                                  )} />
-                                  <span className={cn('text-xs font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
-                                    {rep.aiProductivityScore}
-                                  </span>
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-xs">AI Productivity Score measures AI-assisted task completion rate, email optimization, and automated follow-up effectiveness.</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </td>
-
-                          {/* Target Progress */}
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <div className="w-32 space-y-1.5">
-                              <div className="flex items-center justify-between">
-                                <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
-                                  {rep.targetProgress}%
-                                </span>
-                                <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
-                                  {formatCurrency(rep.targetAmount - rep.revenueClosed)} left
-                                </span>
-                              </div>
-                              <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                                <motion.div
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${rep.targetProgress}%` }}
-                                  transition={{ duration: 1, ease: 'easeOut', delay: i * 0.1 }}
-                                  className={cn(
-                                    'h-full rounded-full',
-                                    rep.targetProgress >= 80 ? 'bg-emerald-500' :
-                                    rep.targetProgress >= 60 ? 'bg-amber-500' : 'bg-red-500'
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          </td>
-                        </motion.tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+              <div className="px-5 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
+                <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Sales Leaderboard</h3>
               </div>
+              <SmartDataTable
+                data={leaderboardData}
+                columns={leaderboardColumns}
+                pageSize={10}
+                emptyMessage="No performance data available"
+                searchable={false}
+                searchKeys={['repName']}
+              />
             </motion.div>
 
             {/* Gamification Section */}
@@ -378,25 +374,24 @@ export default function TeamPerformancePage() {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + i * 0.1 }}
-                    className={cn(
-                      'rounded-2xl border p-5',
-                      rep.rank === 1
-                        ? (isDark ? 'bg-amber-500/[0.06] border-amber-500/20' : 'bg-amber-50/60 border-amber-200/50')
-                        : (isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')
-                    )}
+                    className="rounded-2xl border p-5"
+                    style={{
+                      backgroundColor: rep.rank === 1 ? 'rgba(245,158,11,0.04)' : CSS.cardBg,
+                      borderColor: rep.rank === 1 ? 'rgba(245,158,11,0.15)' : CSS.border,
+                    }}
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <ScoreMeter score={rep.aiProductivityScore} size="sm" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                          <span className="text-sm font-semibold" style={{ color: CSS.text }}>
                             {rep.repName}
                           </span>
                           {rankStyle && <span className="text-sm">{rankStyle.emoji}</span>}
                         </div>
                         <div className="flex items-center gap-1 mt-0.5">
                           <Sparkles className="w-3 h-3 text-violet-400" />
-                          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
                             AI Productivity Score
                           </span>
                           <Tooltip>
@@ -415,7 +410,7 @@ export default function TeamPerformancePage() {
                       {/* Target Progress */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
                             <Target className="w-3 h-3 inline mr-1" />Target Progress
                           </span>
                           <span className={cn('text-[10px] font-bold',
@@ -424,7 +419,7 @@ export default function TeamPerformancePage() {
                             {rep.targetProgress}%
                           </span>
                         </div>
-                        <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${rep.targetProgress}%` }}
@@ -436,7 +431,7 @@ export default function TeamPerformancePage() {
                             )}
                           />
                         </div>
-                        <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <p className="text-[10px] mt-1" style={{ color: CSS.textDisabled }}>
                           {formatCurrency(rep.revenueClosed)} of {formatCurrency(rep.targetAmount)}
                         </p>
                       </div>
@@ -448,12 +443,9 @@ export default function TeamPerformancePage() {
                           { label: 'SLA', value: `${rep.followUpSla}%` },
                           { label: 'Response', value: rep.avgResponseTime },
                         ].map((s) => (
-                          <div key={s.label} className={cn(
-                            'rounded-lg p-2 text-center',
-                            isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
-                          )}>
-                            <p className={cn('text-xs font-bold', isDark ? 'text-white/70' : 'text-black/70')}>{s.value}</p>
-                            <p className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>{s.label}</p>
+                          <div key={s.label} className="rounded-lg p-2 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+                            <p className="text-xs font-bold" style={{ color: CSS.textSecondary }}>{s.value}</p>
+                            <p className="text-[9px]" style={{ color: CSS.textDisabled }}>{s.label}</p>
                           </div>
                         ))}
                       </div>
@@ -476,16 +468,14 @@ export default function TeamPerformancePage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className={cn(
-                    'rounded-2xl border p-4 transition-colors',
-                    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-                  )}
+                  className="rounded-2xl border p-4 transition-colors"
+                  style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <stat.icon className={cn('w-4 h-4', stat.color)} />
-                    <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                    <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>{stat.label}</span>
                   </div>
-                  <p className={cn('text-xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
+                  <p className="text-xl font-bold tracking-tight" style={{ color: CSS.text }}>{stat.value}</p>
                 </motion.div>
               ))}
             </div>

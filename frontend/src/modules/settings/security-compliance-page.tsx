@@ -13,6 +13,9 @@ import {
 } from 'lucide-react';
 import { securityConfig } from './data/mock-data';
 import SecurityAlertChip from './components/security-alert-chip';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 export default function SecurityCompliancePage() {
   const { theme } = useTheme();
@@ -57,6 +60,35 @@ export default function SecurityCompliancePage() {
     },
   ];
 
+  // ── Device Logs columns ──
+  const deviceColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'device',
+      label: 'Device',
+      render: (row) => <span className="font-medium" style={{ color: CSS.textSecondary }}>{row.device as string}</span>,
+    },
+    {
+      key: 'lastActive',
+      label: 'Last Active',
+      sortable: true,
+      render: (row) => (
+        <span className="hidden md:inline" style={{ color: CSS.textMuted }}>
+          {new Date(row.lastActive as string).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+        </span>
+      ),
+    },
+    {
+      key: 'ip',
+      label: 'IP',
+      render: (row) => <span className="font-mono hidden md:inline" style={{ color: CSS.textDisabled }}>{row.ip as string}</span>,
+    },
+    {
+      key: 'location',
+      label: 'Location',
+      render: (row) => <span style={{ color: CSS.textMuted }}>{row.location as string}</span>,
+    },
+  ], []);
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-6">
@@ -94,7 +126,7 @@ export default function SecurityCompliancePage() {
             <h3 className={cn('text-xs font-medium uppercase tracking-wider mb-4', isDark ? 'text-white/40' : 'text-black/40')}>Security Score</h3>
             <div className="relative w-28 h-28 mb-4">
               <svg className="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" className={isDark ? 'stroke-white/[0.06]' : 'stroke-black/[0.06]'} strokeWidth="6" />
+                <circle cx="50" cy="50" r="45" fill="none" strokeWidth="6" style={{ stroke: CSS.hoverBg }} />
                 <motion.circle
                   cx="50" cy="50" r="45" fill="none"
                   stroke={scoreStroke}
@@ -268,30 +300,11 @@ export default function SecurityCompliancePage() {
                 <Smartphone className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
                 Device Management
               </h3>
-              <div className={cn('rounded-xl border overflow-hidden', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                <table className="w-full text-xs">
-                  <thead>
-                    <tr className={cn(isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                      <th className={cn('text-left px-4 py-2.5 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Device</th>
-                      <th className={cn('text-left px-4 py-2.5 font-medium hidden md:table-cell', isDark ? 'text-white/40' : 'text-black/40')}>Last Active</th>
-                      <th className={cn('text-left px-4 py-2.5 font-medium hidden md:table-cell', isDark ? 'text-white/40' : 'text-black/40')}>IP</th>
-                      <th className={cn('text-right px-4 py-2.5 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Location</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {securityConfig.deviceLogs.map((device, i) => (
-                      <tr key={i} className={cn('border-t', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                        <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{device.device}</td>
-                        <td className={cn('px-4 py-3 hidden md:table-cell', isDark ? 'text-white/40' : 'text-black/40')}>
-                          {new Date(device.lastActive).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                        </td>
-                        <td className={cn('px-4 py-3 font-mono hidden md:table-cell', isDark ? 'text-white/35' : 'text-black/35')}>{device.ip}</td>
-                        <td className={cn('px-4 py-3 text-right', isDark ? 'text-white/40' : 'text-black/40')}>{device.location}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <SmartDataTable
+                data={securityConfig.deviceLogs as unknown as Record<string, unknown>[]}
+                columns={deviceColumns}
+                pageSize={10}
+              />
             </motion.div>
 
             {/* Compliance */}

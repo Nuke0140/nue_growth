@@ -6,13 +6,15 @@ import { cn } from '@/lib/utils';
 import { FileText, Eye, Download, AlertTriangle, Clock, Shield } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { DataTable, type Column } from './components/ops/data-table';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { FilterBar } from './components/ops/filter-bar';
 import { SearchInput } from './components/ops/search-input';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { mockDocuments, mockEmployees } from './data/mock-data';
 import type { Document, DocumentType } from './types';
 import { PageShell } from './components/ops/page-shell';
+import { CSS } from '@/styles/design-tokens';
 
 type FilterKey = 'all' | DocumentType;
 
@@ -79,7 +81,7 @@ function DocumentsPageInner() {
     })),
   ];
 
-  const columns: Column<Document & Record<string, unknown>>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'title',
       label: 'Document Name',
@@ -90,7 +92,7 @@ function DocumentsPageInner() {
             <FileText className="w-4 h-4" style={{ color: '#60a5fa' }} />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium truncate" style={{ color: 'var(--ops-text)' }}>{row.title}</p>
+            <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>{row.title}</p>
           </div>
         </div>
       ),
@@ -112,17 +114,16 @@ function DocumentsPageInner() {
       key: 'employeeId',
       label: 'Employee',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => {
         const emp = getEmployee(row.employeeId as string);
         return (
           <div className="flex items-center gap-2">
             <Avatar className="h-6 w-6">
-              <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+              <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>{emp?.name || row.employeeId}</span>
+            <span className="text-sm" style={{ color: CSS.textSecondary }}>{emp?.name || row.employeeId}</span>
           </div>
         );
       },
@@ -131,9 +132,8 @@ function DocumentsPageInner() {
       key: 'uploadedAt',
       label: 'Uploaded',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
           {new Date(row.uploadedAt as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
         </span>
       ),
@@ -142,13 +142,12 @@ function DocumentsPageInner() {
       key: 'expiresAt',
       label: 'Expires',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => {
         const exp = getExpiryStatus(row.expiresAt as string | null);
         if (exp) {
           return <span className="ops-badge" style={{ backgroundColor: `${exp.color}15`, color: exp.color }}>{exp.label}</span>;
         }
-        return <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>Never</span>;
+        return <span className="text-xs" style={{ color: CSS.textMuted }}>Never</span>;
       },
     },
     {
@@ -157,10 +156,10 @@ function DocumentsPageInner() {
       render: () => (
         <div className="flex items-center gap-1">
           <button className="ops-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Eye className="w-3.5 h-3.5" style={{ color: 'var(--ops-text-muted)' }} />
+            <Eye className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
           </button>
           <button className="ops-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Download className="w-3.5 h-3.5" style={{ color: 'var(--ops-text-muted)' }} />
+            <Download className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
           </button>
         </div>
       ),
@@ -193,10 +192,12 @@ function DocumentsPageInner() {
 
         {/* Table */}
         <motion.div variants={fadeUp}>
-          <DataTable
+          <SmartDataTable
+            data={filtered as unknown as Record<string, unknown>[]}
             columns={columns}
-            data={filtered as (Document & Record<string, unknown>)[]}
             emptyMessage="No documents found."
+            enableExport
+            pageSize={10}
           />
         </motion.div>
       </motion.div>

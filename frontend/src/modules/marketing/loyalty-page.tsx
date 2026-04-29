@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Gift, Users, Award, TrendingUp, Crown, Star, Copy, Check } from 'lucide-react';
 import { mockLoyaltyMembers, mockCoupons } from '@/modules/marketing/data/mock-data';
 import type { LoyaltyMember, Coupon } from '@/modules/marketing/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const TIER_CONFIG = [
   { tier: 'diamond' as const, label: 'Diamond', color: '#8b5cf6', minPoints: 25000, benefits: '5x points, VIP access, priority support' },
@@ -53,6 +56,72 @@ export default function LoyaltyPage() {
   const topMembers = useMemo(() => {
     return [...mockLoyaltyMembers].sort((a, b) => b.points - a.points);
   }, []);
+
+  const topMembersColumns: DataTableColumnDef[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      sortable: true,
+      render: (row) => {
+        const m = row as unknown as LoyaltyMember;
+        const tierColor = TIER_CONFIG.find(t => t.tier === m.tier)?.color;
+        return (
+          <div className="flex items-center gap-2">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+              style={{ backgroundColor: tierColor ? tierColor + '22' : CSS.hoverBg, color: tierColor || CSS.textSecondary }}
+            >
+              {m.name.charAt(0)}
+            </div>
+            <span className="font-medium" style={{ color: CSS.text }}>{m.name}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textSecondary }}>{(row as unknown as LoyaltyMember).email}</span>,
+    },
+    {
+      key: 'points',
+      label: 'Points',
+      sortable: true,
+      render: (row) => <span className="font-mono font-semibold" style={{ color: CSS.text }}>{(row as unknown as LoyaltyMember).points.toLocaleString()}</span>,
+    },
+    {
+      key: 'tier',
+      label: 'Tier',
+      sortable: true,
+      render: (row) => {
+        const m = row as unknown as LoyaltyMember;
+        return (
+          <Badge variant="outline" className={cn('text-[10px] px-2 py-0 border', tierBadgeClass(m.tier))}>
+            {m.tier.charAt(0).toUpperCase() + m.tier.slice(1)}
+          </Badge>
+        );
+      },
+    },
+    {
+      key: 'couponsRedeemed',
+      label: 'Coupons',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textSecondary }}>{(row as unknown as LoyaltyMember).couponsRedeemed}</span>,
+    },
+    {
+      key: 'totalSpent',
+      label: 'Total Spent',
+      sortable: true,
+      render: (row) => <span className="font-medium" style={{ color: CSS.text }}>₹{(row as unknown as LoyaltyMember).totalSpent.toLocaleString()}</span>,
+    },
+    {
+      key: 'joinDate',
+      label: 'Join Date',
+      sortable: true,
+      render: (row) => <span style={{ color: CSS.textMuted }}>{(row as unknown as LoyaltyMember).joinDate}</span>,
+    },
+  ];
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -156,50 +225,12 @@ export default function LoyaltyPage() {
       {/* Top Members Table */}
       <div>
         <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Top Members</h2>
-        <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Name', 'Email', 'Points', 'Tier', 'Coupons', 'Total Spent', 'Join Date'].map(h => (
-                    <th key={h} className={cn('text-left px-4 py-3 text-xs font-medium', isDark ? 'text-white/40' : 'text-gray-500')}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {topMembers.map((member, i) => (
-                  <motion.tr
-                    key={member.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.03, duration: 0.2 }}
-                    className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-gray-50/50')}
-                  >
-                    <td className="px-4 py-3 font-medium" style={{ color: isDark ? 'white' : '#111827' }}>
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-                          style={{ backgroundColor: TIER_CONFIG.find(t => t.tier === member.tier)?.color + '22', color: TIER_CONFIG.find(t => t.tier === member.tier)?.color }}>
-                          {member.name.charAt(0)}
-                        </div>
-                        {member.name}
-                      </div>
-                    </td>
-                    <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-gray-500')}>{member.email}</td>
-                    <td className="px-4 py-3 font-mono font-semibold" style={{ color: isDark ? 'white' : '#111827' }}>{member.points.toLocaleString()}</td>
-                    <td className="px-4 py-3">
-                      <Badge variant="outline" className={cn('text-[10px] px-2 py-0 border', tierBadgeClass(member.tier))}>
-                        {member.tier.charAt(0).toUpperCase() + member.tier.slice(1)}
-                      </Badge>
-                    </td>
-                    <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-gray-500')}>{member.couponsRedeemed}</td>
-                    <td className="px-4 py-3 font-medium" style={{ color: isDark ? 'white' : '#111827' }}>₹{member.totalSpent.toLocaleString()}</td>
-                    <td className={cn('px-4 py-3', isDark ? 'text-white/40' : 'text-gray-400')}>{member.joinDate}</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <SmartDataTable
+          data={topMembers as unknown as Record<string, unknown>[]}
+          columns={topMembersColumns}
+          searchable enableExport pageSize={10}
+          searchPlaceholder="Search members..."
+        />
       </div>
 
       {/* Coupons Grid */}

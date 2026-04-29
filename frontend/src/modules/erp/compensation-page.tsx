@@ -2,13 +2,13 @@
 
 import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { DataTable, type Column } from './components/ops/data-table';
-import { KpiWidget } from './components/ops/kpi-widget';
-import { PageShell } from './components/ops/page-shell';
-import { mockPayroll, mockEmployees } from './data/mock-data';
-import type { PayrollRecord } from './types';
+import { PageShell } from '@/components/shared/page-shell';
+import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { CSS } from '@/styles/design-tokens';
+import { mockPayroll, mockEmployees } from '@/modules/erp/data/mock-data';
+import type { PayrollRecord } from '@/modules/erp/types';
 import { Wallet, TrendingUp, Building2 } from 'lucide-react';
 
 // ---- Helpers ----
@@ -106,13 +106,13 @@ function CompensationPageInner() {
   const maxAvgSalary = Math.max(...deptAvgSalary.map(d => d.avgSalary), 1);
 
   // DataTable columns
-  const columns: Column<(PayrollRecord & { salaryBand: string; totalComp: number }) & Record<string, unknown>>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'employeeName',
       label: 'Employee',
       sortable: true,
       render: (row) => {
-        const name = row.employeeName as string;
+        const name = String(row.employeeName);
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
@@ -120,13 +120,13 @@ function CompensationPageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--ops-accent)',
+                  color: CSS.accent,
                 }}
               >
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>
               {name}
             </span>
           </div>
@@ -137,10 +137,9 @@ function CompensationPageInner() {
       key: 'salaryBand',
       label: 'Band',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="ops-badge" style={{ backgroundColor: 'rgba(204, 92, 55, 0.1)', color: 'var(--ops-accent)' }}>
-          {row.salaryBand as string}
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold" style={{ backgroundColor: 'rgba(204, 92, 55, 0.1)', color: CSS.accent }}>
+          {String(row.salaryBand)}
         </span>
       ),
     },
@@ -149,8 +148,8 @@ function CompensationPageInner() {
       label: 'Department',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-          {row.department as string}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.department)}
         </span>
       ),
     },
@@ -158,10 +157,9 @@ function CompensationPageInner() {
       key: 'baseSalary',
       label: 'Base Salary',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
-          {formatINR(row.baseSalary as number)}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {formatINR(Number(row.baseSalary))}
         </span>
       ),
     },
@@ -169,10 +167,9 @@ function CompensationPageInner() {
       key: 'incentives',
       label: 'Incentives',
       sortable: true,
-      hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-success)' }}>
-          +{formatINR(row.incentives as number)}
+        <span className="text-sm" style={{ color: CSS.success }}>
+          +{formatINR(Number(row.incentives))}
         </span>
       ),
     },
@@ -181,8 +178,8 @@ function CompensationPageInner() {
       label: 'Total Comp',
       sortable: true,
       render: (row) => (
-        <span className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>
-          {formatINR(row.totalComp as number)}
+        <span className="text-sm font-bold" style={{ color: CSS.text }}>
+          {formatINR(Number(row.totalComp))}
         </span>
       ),
     },
@@ -202,23 +199,23 @@ function CompensationPageInner() {
         </motion.div>
 
         {/* Department Salary Distribution Bar Chart */}
-        <motion.div variants={fadeUp} className="ops-card p-6">
-          <h3 className="text-sm font-semibold mb-5" style={{ color: 'var(--ops-text)' }}>
+        <motion.div variants={fadeUp} className="rounded-2xl p-6" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
+          <h3 className="text-sm font-semibold mb-5" style={{ color: CSS.text }}>
             Avg Salary by Department
           </h3>
           <div className="space-y-3">
             {deptAvgSalary.map((dept, idx) => {
               const barWidth = Math.max((dept.avgSalary / maxAvgSalary) * 100, 4);
-              const barColor = deptColors[dept.department] || 'var(--ops-accent)';
+              const barColor = deptColors[dept.department] || CSS.accent;
               return (
                 <div key={dept.department} className="flex items-center gap-4">
                   <span
                     className="text-xs font-medium w-28 shrink-0 text-right"
-                    style={{ color: 'var(--ops-text-secondary)' }}
+                    style={{ color: CSS.textSecondary }}
                   >
                     {dept.department}
                   </span>
-                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}
@@ -239,13 +236,14 @@ function CompensationPageInner() {
 
         {/* Data Table */}
         <motion.div variants={fadeUp}>
-          <DataTable
+          <SmartDataTable
+            data={enriched as unknown as Record<string, unknown>[]}
             columns={columns}
-            data={enriched as ((PayrollRecord & { salaryBand: string; totalComp: number }) & Record<string, unknown>)[]}
             searchable
             searchPlaceholder="Search employees..."
             searchKeys={['employeeName', 'department']}
             emptyMessage="No compensation records found."
+            enableExport
           />
         </motion.div>
       </motion.div>

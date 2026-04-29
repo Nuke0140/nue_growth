@@ -2,16 +2,17 @@
 
 import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import {
-  TrendingUp, TrendingDown, DollarSign, ArrowUpRight, ArrowDownRight,
-  Flame, Wallet, Building2, CreditCard, BarChart3, PieChart, Target,
-  Activity, AlertTriangle, CheckCircle2, Clock
+  TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight,
+  Flame, Wallet, Building2, BarChart3, PieChart,
+  Activity, CheckCircle2, Clock
 } from 'lucide-react';
-import { PageShell } from './components/ops/page-shell';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { PageShell } from '@/components/shared/page-shell';
+import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { CSS } from '@/styles/design-tokens';
 import { mockFinanceOps } from '@/modules/erp/data/mock-data';
 
 function formatINR(num: number): string {
@@ -32,53 +33,141 @@ const monthlyTrend = [
 ];
 
 function FinanceOpsPageInner() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   const data = mockFinanceOps;
   const maxTrendRevenue = Math.max(...monthlyTrend.map(m => m.revenue));
 
-  const kpiStats = useMemo(() => [
-    { label: 'Receivables', value: formatINR(data.receivables), icon: ArrowDownRight, color: 'text-amber-500 dark:text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: '+12% vs last month', trendUp: false },
-    { label: 'Payables', value: formatINR(data.payables), icon: ArrowUpRight, color: 'text-red-500 dark:text-red-400', bgColor: isDark ? 'bg-red-500/10' : 'bg-red-50', trend: '-5% vs last month', trendUp: true },
-    { label: 'Cash Flow', value: formatINR(data.cashFlow), icon: TrendingUp, color: 'text-emerald-500 dark:text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+18% growth', trendUp: true },
-    { label: 'Budget Variance', value: `${((data.budgetVariance / (data.receivables + data.monthlyProfit)) * 100).toFixed(1)}%`, icon: Activity, color: data.budgetVariance < 0 ? 'text-red-500 dark:text-red-400' : 'text-emerald-500 dark:text-emerald-400', bgColor: data.budgetVariance < 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'), trend: data.budgetVariance < 0 ? 'Over budget' : 'Under budget', trendUp: data.budgetVariance >= 0 },
-    { label: 'Burn Rate', value: `${formatINR(data.burnRate)}/mo`, icon: Flame, color: 'text-orange-400', bgColor: isDark ? 'bg-orange-500/10' : 'bg-orange-50', trend: 'Across all projects', trendUp: null },
-    { label: 'Vendor Payouts Due', value: formatINR(data.vendorPayouts), icon: Wallet, color: 'text-amber-500 dark:text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50', trend: 'Due in next 15 days', trendUp: null },
-    { label: 'Monthly Profit', value: formatINR(data.monthlyProfit), icon: TrendingUp, color: 'text-emerald-500 dark:text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', trend: '+22% vs March', trendUp: true },
-    { label: 'Cost Centers', value: `${data.projectCostCenters.length}`, icon: Building2, color: 'text-sky-400', bgColor: isDark ? 'bg-sky-500/10' : 'bg-sky-50', trend: '6 active projects', trendUp: null },
-  ], [data, isDark]);
+  const columns: DataTableColumnDef[] = [
+    {
+      key: 'projectName',
+      label: 'Project',
+      sortable: true,
+      render: (row) => {
+        const cc = row as unknown as typeof data.projectCostCenters[0];
+        const spentPct = cc.budget > 0 ? Math.round((cc.spent / cc.budget) * 100) : 0;
+        return (
+          <div className="flex items-center gap-2">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+              style={{ backgroundColor: CSS.hoverBg }}
+            >
+              <PieChart className="w-4 h-4" style={{ color: CSS.textMuted }} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-medium truncate max-w-[220px]" style={{ color: CSS.text }}>{cc.projectName}</p>
+              <p className="text-[10px]" style={{ color: CSS.textDisabled }}>{spentPct}% utilized</p>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'budget',
+      label: 'Budget',
+      sortable: true,
+      render: (row) => (
+        <span className="text-sm font-medium" style={{ color: CSS.text }}>{formatINR(Number(row.budget))}</span>
+      ),
+    },
+    {
+      key: 'spent',
+      label: 'Spent',
+      sortable: true,
+      render: (row) => {
+        const cc = row as unknown as typeof data.projectCostCenters[0];
+        const spentPct = cc.budget > 0 ? Math.round((cc.spent / cc.budget) * 100) : 0;
+        return (
+          <div>
+            <span className="text-sm" style={{ color: CSS.text }}>{formatINR(cc.spent)}</span>
+            <div className="h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: CSS.hoverBg }}>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min(spentPct, 100)}%` }}
+                transition={{ duration: 0.6 }}
+                className="h-full rounded-full"
+                style={{ backgroundColor: spentPct > 100 ? '#f87171' : spentPct > 80 ? '#fbbf24' : '#34d399' }}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'variance',
+      label: 'Variance',
+      sortable: true,
+      render: (row) => {
+        const cc = row as unknown as typeof data.projectCostCenters[0];
+        const variancePct = cc.budget > 0 ? Math.round((cc.variance / cc.budget) * 100) : 0;
+        const isOverBudget = cc.variance < 0;
+        const varianceColor = isOverBudget ? '#f87171' : '#34d399';
+        return (
+          <div className="text-right">
+            <span className="text-sm font-semibold" style={{ color: varianceColor }}>
+              {cc.variance > 0 ? '+' : ''}{formatINR(cc.variance)}
+            </span>
+            <p className="text-[10px]" style={{ color: varianceColor }}>{variancePct}%</p>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'burnRate',
+      label: 'Burn Rate',
+      render: (row) => (
+        <span className="text-xs" style={{ color: CSS.textSecondary }}>
+          {formatINR(Number(row.burnRate))}/mo
+        </span>
+      ),
+    },
+    {
+      key: 'healthStatus',
+      label: 'Status',
+      render: (row) => {
+        const cc = row as unknown as typeof data.projectCostCenters[0];
+        const spentPct = cc.budget > 0 ? Math.round((cc.spent / cc.budget) * 100) : 0;
+        const isOverBudget = cc.variance < 0;
+        const status = isOverBudget ? 'over-budget' : spentPct > 80 ? 'caution' : 'healthy';
+        if (status === 'healthy') {
+          return (
+            <Badge className="text-[10px] font-medium border bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20">
+              <CheckCircle2 className="w-3 h-3 mr-0.5" />Healthy
+            </Badge>
+          );
+        }
+        if (status === 'caution') {
+          return (
+            <Badge className="text-[10px] font-medium border bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20">
+              <Activity className="w-3 h-3 mr-0.5" />Caution
+            </Badge>
+          );
+        }
+        return (
+          <Badge className="text-[10px] font-medium border bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20">
+            <Clock className="w-3 h-3 mr-0.5" />Over Budget
+          </Badge>
+        );
+      },
+    },
+  ];
+
+  const tableData = data.projectCostCenters.map(cc => ({
+    ...cc,
+    healthStatus: cc.variance < 0 ? 'over-budget' : (cc.budget > 0 && Math.round((cc.spent / cc.budget) * 100) > 80) ? 'caution' : 'healthy',
+  }));
 
   return (
     <PageShell title="Finance Ops" icon={TrendingDown}>
       <div className="space-y-6">
-
         {/* KPI Widgets Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {kpiStats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bgColor)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
-                </div>
-              </div>
-              <p className="text-xl font-bold tracking-tight">{stat.value}</p>
-              {stat.trend && (
-                <p className={cn('text-[10px] mt-1 flex items-center gap-1', stat.trendUp === true ? 'text-emerald-500 dark:text-emerald-400' : stat.trendUp === false ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/25' : 'text-black/25'))}>
-                  {stat.trendUp === true && <TrendingUp className="w-3 h-3" />}
-                  {stat.trendUp === false && <TrendingDown className="w-3 h-3" />}
-                  {stat.trend}
-                </p>
-              )}
-            </motion.div>
-          ))}
+          <KpiWidget label="Receivables" value={formatINR(data.receivables)} icon={ArrowDownRight} color="warning" trend="down" trendValue="+12% vs last month" />
+          <KpiWidget label="Payables" value={formatINR(data.payables)} icon={ArrowUpRight} color="danger" trend="up" trendValue="-5% vs last month" />
+          <KpiWidget label="Cash Flow" value={formatINR(data.cashFlow)} icon={TrendingUp} color="success" trend="up" trendValue="+18% growth" />
+          <KpiWidget label="Budget Variance" value={`${((data.budgetVariance / (data.receivables + data.monthlyProfit)) * 100).toFixed(1)}%`} icon={Activity} color={data.budgetVariance < 0 ? 'danger' : 'success'} trend={data.budgetVariance >= 0 ? 'up' : 'down'} trendValue={data.budgetVariance < 0 ? 'Over budget' : 'Under budget'} />
+          <KpiWidget label="Burn Rate" value={`${formatINR(data.burnRate)}/mo`} icon={Flame} color="warning" />
+          <KpiWidget label="Vendor Payouts Due" value={formatINR(data.vendorPayouts)} icon={Wallet} color="warning" />
+          <KpiWidget label="Monthly Profit" value={formatINR(data.monthlyProfit)} icon={TrendingUp} color="success" trend="up" trendValue="+22% vs March" />
+          <KpiWidget label="Cost Centers" value={`${data.projectCostCenters.length}`} icon={Building2} color="info" />
         </div>
 
         {/* Monthly Trend Chart */}
@@ -86,21 +175,26 @@ function FinanceOpsPageInner() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className="rounded-2xl p-5"
+          style={{
+            backgroundColor: CSS.cardBg,
+            border: `1px solid ${CSS.border}`,
+            boxShadow: CSS.shadowCard,
+          }}
         >
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Monthly Revenue vs Expense Trend</span>
+              <BarChart3 className="w-4 h-4" style={{ color: CSS.textMuted }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Monthly Revenue vs Expense Trend</span>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5">
-                <span className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Revenue</span>
+                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-400" />
+                <span className="text-[10px]" style={{ color: CSS.textMuted }}>Revenue</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-red-500/30' : 'bg-red-300')} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Expense</span>
+                <span className="w-2.5 h-2.5 rounded-sm bg-red-300" />
+                <span className="text-[10px]" style={{ color: CSS.textMuted }}>Expense</span>
               </div>
             </div>
           </div>
@@ -119,13 +213,13 @@ function FinanceOpsPageInner() {
                             initial={{ height: 0 }}
                             animate={{ height: `${revHeight}%` }}
                             transition={{ delay: 0.4 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            className={cn('flex-1 rounded-t-sm transition-all', isDark ? 'bg-emerald-500/40 group-hover:bg-emerald-500/60' : 'bg-emerald-300 group-hover:bg-emerald-400')}
+                            className="flex-1 rounded-t-sm bg-emerald-300 group-hover:bg-emerald-400 transition-all"
                           />
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${expHeight}%` }}
                             transition={{ delay: 0.5 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            className={cn('flex-1 rounded-t-sm transition-all', isDark ? 'bg-red-500/25 group-hover:bg-red-500/40' : 'bg-red-200 group-hover:bg-red-300')}
+                            className="flex-1 rounded-t-sm bg-red-200 group-hover:bg-red-300 transition-all"
                           />
                         </div>
                       </TooltipTrigger>
@@ -139,7 +233,7 @@ function FinanceOpsPageInner() {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                  <span className={cn('text-[10px] font-medium', isDark ? 'text-white/25' : 'text-black/25')}>{m.month}</span>
+                  <span className="text-[10px] font-medium" style={{ color: CSS.textDisabled }}>{m.month}</span>
                 </div>
               );
             })}
@@ -147,111 +241,25 @@ function FinanceOpsPageInner() {
         </motion.div>
 
         {/* Project Cost Centers Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
-        >
-          <div className="px-5 py-4 flex items-center justify-between border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center gap-2">
-              <Building2 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Project Cost Centers</span>
-            </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
-              {data.projectCostCenters.length} active
-            </Badge>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4" style={{ color: CSS.textMuted }} />
+            <span className="text-sm font-semibold" style={{ color: CSS.text }}>Project Cost Centers</span>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                  <th className="text-left px-5 py-3"><span className="text-[11px] font-semibold uppercase tracking-wider">Project</span></th>
-                  <th className="text-right px-3 py-3"><span className="text-[11px] font-semibold uppercase tracking-wider">Budget</span></th>
-                  <th className="text-right px-3 py-3"><span className="text-[11px] font-semibold uppercase tracking-wider">Spent</span></th>
-                  <th className="text-right px-3 py-3 hidden md:table-cell"><span className="text-[11px] font-semibold uppercase tracking-wider">Variance</span></th>
-                  <th className="text-right px-3 py-3 hidden lg:table-cell"><span className="text-[11px] font-semibold uppercase tracking-wider">Burn Rate</span></th>
-                  <th className="text-left px-3 py-3"><span className="text-[11px] font-semibold uppercase tracking-wider">Status</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.projectCostCenters.map((cc, idx) => {
-                  const spentPct = cc.budget > 0 ? Math.round((cc.spent / cc.budget) * 100) : 0;
-                  const variancePct = cc.budget > 0 ? Math.round((cc.variance / cc.budget) * 100) : 0;
-                  const isOverBudget = cc.variance < 0;
-                  const varianceColor = variancePct > 10 ? 'text-red-500 dark:text-red-400' : variancePct < -10 ? 'text-red-500 dark:text-red-400' : variancePct < 5 && variancePct > 0 ? 'text-emerald-500 dark:text-emerald-400' : isOverBudget ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400';
-                  const status = isOverBudget ? 'over-budget' : spentPct > 80 ? 'caution' : 'healthy';
-                  return (
-                    <motion.tr
-                      key={cc.projectId}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.45 + idx * 0.04 }}
-                      className={cn('border-b last:border-0 transition-colors', isDark ? 'border-white/[0.03] hover:bg-white/[0.04]' : 'border-black/[0.03] hover:bg-black/[0.02]')}
-                    >
-                      <td className="px-5 py-3">
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                            <PieChart className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium truncate max-w-[220px]">{cc.projectName}</p>
-                            <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{spentPct}% utilized</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-3 py-3 text-right"><span className="text-sm font-medium">{formatINR(cc.budget)}</span></td>
-                      <td className="px-3 py-3 text-right">
-                        <div>
-                          <span className="text-sm">{formatINR(cc.spent)}</span>
-                          <div className={cn('h-1 rounded-full overflow-hidden mt-1', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${Math.min(spentPct, 100)}%` }}
-                              transition={{ delay: 0.5 + idx * 0.05, duration: 0.6 }}
-                              className={cn('h-full rounded-full', spentPct > 100 ? 'bg-red-500' : spentPct > 80 ? 'bg-amber-500' : 'bg-emerald-500')}
-                            />
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-3 py-3 text-right hidden md:table-cell">
-                        <div>
-                          <span className={cn('text-sm font-semibold', varianceColor)}>
-                            {cc.variance > 0 ? '+' : ''}{formatINR(cc.variance)}
-                          </span>
-                          <p className={cn('text-[10px]', varianceColor)}>{variancePct}%</p>
-                        </div>
-                      </td>
-                      <td className="px-3 py-3 text-right hidden lg:table-cell">
-                        <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{formatINR(cc.burnRate)}/mo</span>
-                      </td>
-                      <td className="px-3 py-3">
-                        <div className="flex items-center gap-1.5">
-                          {status === 'healthy' ? (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200')}>
-                              <CheckCircle2 className="w-3 h-3 mr-0.5" />
-                              Healthy
-                            </Badge>
-                          ) : status === 'caution' ? (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200')}>
-                              <AlertTriangle className="w-3 h-3 mr-0.5" />
-                              Caution
-                            </Badge>
-                          ) : (
-                            <Badge className={cn('text-[10px] font-medium border', isDark ? 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200')}>
-                              <Clock className="w-3 h-3 mr-0.5" />
-                              Over Budget
-                            </Badge>
-                          )}
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+          <Badge variant="secondary" className="text-[10px]" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+            {data.projectCostCenters.length} active
+          </Badge>
+        </div>
+
+        <SmartDataTable
+          data={tableData as unknown as Record<string, unknown>[]}
+          columns={columns}
+          searchable
+          searchPlaceholder="Search projects..."
+          searchKeys={['projectName']}
+          emptyMessage="No cost centers found"
+          enableExport
+        />
 
         {/* Summary Footer */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -259,28 +267,34 @@ function FinanceOpsPageInner() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className="rounded-2xl p-4"
+            style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
-            <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Total Budget Allocated</p>
-            <p className="text-lg font-bold">{formatINR(data.projectCostCenters.reduce((s, c) => s + c.budget, 0))}</p>
+            <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: CSS.textMuted }}>Total Budget Allocated</p>
+            <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(data.projectCostCenters.reduce((s, c) => s + c.budget, 0))}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55 }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className="rounded-2xl p-4"
+            style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
-            <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Total Spent</p>
-            <p className="text-lg font-bold">{formatINR(data.projectCostCenters.reduce((s, c) => s + c.spent, 0))}</p>
+            <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: CSS.textMuted }}>Total Spent</p>
+            <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(data.projectCostCenters.reduce((s, c) => s + c.spent, 0))}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className="rounded-2xl p-4"
+            style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
-            <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Net Variance</p>
-            <p className={cn('text-lg font-bold', data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? 'text-emerald-500 dark:text-emerald-400' : 'text-red-500 dark:text-red-400')}>
+            <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: CSS.textMuted }}>Net Variance</p>
+            <p
+              className="text-lg font-bold"
+              style={{ color: data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? CSS.success : CSS.danger }}
+            >
               {data.projectCostCenters.reduce((s, c) => s + c.variance, 0) > 0 ? '+' : ''}{formatINR(data.projectCostCenters.reduce((s, c) => s + c.variance, 0))}
             </p>
           </motion.div>
@@ -288,10 +302,11 @@ function FinanceOpsPageInner() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.65 }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className="rounded-2xl p-4"
+            style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
-            <p className={cn('text-[10px] uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>Projects at Risk</p>
-            <p className="text-lg font-bold text-red-500 dark:text-red-400">
+            <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: CSS.textMuted }}>Projects at Risk</p>
+            <p className="text-lg font-bold" style={{ color: CSS.danger }}>
               {data.projectCostCenters.filter(c => c.variance < 0).length}
             </p>
           </motion.div>

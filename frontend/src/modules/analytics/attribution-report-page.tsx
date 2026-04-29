@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { BarChart3, Users, IndianRupee, GitBranch, Layers, Download } from 'lucide-react';
 import { attributionData } from './data/mock-data';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
 
 const MODELS = ['first-touch', 'last-touch', 'linear', 'ai-weighted'] as const;
 const MODEL_LABELS: Record<string, string> = {
@@ -36,31 +38,55 @@ function formatNumber(val: number): string {
 }
 
 export default function AttributionReportPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [selectedModelIndex, setSelectedModelIndex] = useState(0);
 
   const currentModel = MODELS[selectedModelIndex];
   const data = attributionData[selectedModelIndex];
 
-  const card = cn(
-    'rounded-2xl border shadow-sm',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
-  );
+  const card = 'rounded-2xl border shadow-sm';
+  const cardStyle = { backgroundColor: CSS.cardBg, borderColor: CSS.border, boxShadow: CSS.shadowCard };
 
   const maxRevenue = Math.max(...data.revenueBySource.map((s) => s.revenue));
   const maxContribution = Math.max(...data.touchpointContribution.map((t) => t.contribution));
   const totalRevenue = data.revenueBySource.reduce((s, r) => s + r.revenue, 0);
+
+  // ── CAC by Channel column definitions ──
+  const cacColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'channel', label: 'Channel', sortable: true },
+    { key: 'cac', label: 'CAC', sortable: true, render: (row) => (
+      <span className="font-semibold tabular-nums" style={{ color: CSS.text }}>₹{Number(row.cac).toLocaleString()}</span>
+    )},
+    { key: 'leads', label: 'Leads', sortable: true, render: (row) => (
+      <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(Number(row.leads))}</span>
+    )},
+    { key: 'spend', label: 'Spend', sortable: true, render: (row) => (
+      <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(Number(row.spend))}</span>
+    )},
+  ], []);
+
+  // ── Assisted Conversions column definitions ──
+  const assistedColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'channel', label: 'Channel', sortable: true },
+    { key: 'assisted', label: 'Assisted', sortable: true, render: (row) => (
+      <span className="tabular-nums" style={{ color: CSS.text }}>{Number(row.assisted).toLocaleString()}</span>
+    )},
+    { key: 'lastTouch', label: 'Last-Touch', sortable: true, render: (row) => (
+      <span className="tabular-nums" style={{ color: CSS.text }}>{Number(row.lastTouch).toLocaleString()}</span>
+    )},
+    { key: 'overlap', label: 'Overlap', sortable: true, render: (row) => (
+      <span className="tabular-nums" style={{ color: CSS.text }}>{Number(row.overlap).toLocaleString()}</span>
+    )},
+  ], []);
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
       <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: CSS.text }}>
             Attribution Reports
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className="text-sm mt-1" style={{ color: CSS.textSecondary }}>
             Multi-model revenue attribution
           </p>
         </div>
@@ -80,10 +106,13 @@ export default function AttributionReportPage() {
                   'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all',
                   isActive
                     ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
-                    : isDark
-                      ? 'bg-white/[0.04] border border-white/[0.06] text-zinc-400 hover:bg-white/[0.08]'
-                      : 'bg-black/[0.03] border border-black/[0.06] text-zinc-600 hover:bg-black/[0.06]',
+                    : 'hover:bg-[var(--app-hover-bg)]',
                 )}
+                style={!isActive ? {
+                  backgroundColor: CSS.cardBgHover,
+                  border: `1px solid ${CSS.borderLight}`,
+                  color: CSS.textSecondary,
+                } : undefined}
               >
                 {MODEL_LABELS[model]}
               </motion.button>
@@ -96,12 +125,10 @@ export default function AttributionReportPage() {
           key={currentModel}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className={cn(
-            'rounded-xl border p-3',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
-          )}
+          className="rounded-xl border p-3"
+          style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.borderLight }}
         >
-          <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+          <p className="text-xs" style={{ color: CSS.textSecondary }}>
             <span className="font-semibold">{MODEL_DESCRIPTIONS[currentModel]}</span>
           </p>
         </motion.div>
@@ -112,15 +139,14 @@ export default function AttributionReportPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
           className={cn(card, 'p-4 sm:p-5')}
+          style={cardStyle}
         >
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
-                Revenue by Source
-              </h3>
+              <BarChart3 className="w-4 h-4" style={{ color: CSS.textSecondary }} />
+              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Revenue by Source</h3>
             </div>
-            <span className={cn('text-xs', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <span className="text-xs" style={{ color: CSS.textMuted }}>
               Total: {formatCurrency(totalRevenue)}
             </span>
           </div>
@@ -135,20 +161,20 @@ export default function AttributionReportPage() {
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: SOURCE_COLORS[i % SOURCE_COLORS.length] }}
                       />
-                      <span className={cn('text-xs font-medium', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                      <span className="text-xs font-medium" style={{ color: CSS.text }}>
                         {source.source}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <span className="text-xs font-semibold" style={{ color: CSS.text }}>
                         {formatCurrency(source.revenue)}
                       </span>
-                      <span className={cn('text-[10px] tabular-nums', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className="text-[10px] tabular-nums" style={{ color: CSS.textMuted }}>
                         {source.percentage}%
                       </span>
                     </div>
                   </div>
-                  <div className={cn('h-2.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
@@ -171,45 +197,23 @@ export default function AttributionReportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3 }}
             className={cn(card, 'overflow-hidden')}
+            style={cardStyle}
           >
-            <div className="p-4 sm:p-5 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+            <div className="p-4 sm:p-5 border-b" style={{ borderColor: CSS.border }}>
               <div className="flex items-center gap-2">
-                <IndianRupee className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
-                  CAC by Channel
-                </h3>
+                <IndianRupee className="w-4 h-4" style={{ color: CSS.textSecondary }} />
+                <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>CAC by Channel</h3>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                    {['Channel', 'CAC', 'Leads', 'Spend'].map((h) => (
-                      <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.cacByChannel.map((row) => (
-                    <tr key={row.channel} className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}>
-                      <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
-                        {row.channel}
-                      </td>
-                      <td className={cn('px-4 py-3 font-semibold tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
-                        ₹{row.cac.toLocaleString()}
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
-                        {formatNumber(row.leads)}
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
-                        {formatCurrency(row.spend)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="p-4 sm:p-5">
+              <SmartDataTable
+                data={data.cacByChannel as unknown as Record<string, unknown>[]}
+                columns={cacColumns}
+                searchable
+                enableExport
+                pageSize={10}
+                searchPlaceholder="Search channels…"
+              />
             </div>
           </motion.div>
 
@@ -219,12 +223,11 @@ export default function AttributionReportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3 }}
             className={cn(card, 'p-4 sm:p-5')}
+            style={cardStyle}
           >
             <div className="flex items-center gap-2 mb-5">
-              <GitBranch className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
-                Touchpoint Contribution
-              </h3>
+              <GitBranch className="w-4 h-4" style={{ color: CSS.textSecondary }} />
+              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Touchpoint Contribution</h3>
             </div>
             <div className="space-y-4">
               {data.touchpointContribution.map((tp, i) => {
@@ -232,19 +235,19 @@ export default function AttributionReportPage() {
                 return (
                   <div key={tp.touchpoint}>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className={cn('text-xs font-medium', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                      <span className="text-xs font-medium" style={{ color: CSS.text }}>
                         {tp.touchpoint}
                       </span>
                       <div className="flex items-center gap-2">
-                        <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                        <span className="text-xs font-semibold" style={{ color: CSS.text }}>
                           {tp.contribution}%
                         </span>
-                        <span className={cn('text-[10px] tabular-nums', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                        <span className="text-[10px] tabular-nums" style={{ color: CSS.textMuted }}>
                           {tp.conversions} conv
                         </span>
                       </div>
                     </div>
-                    <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${width}%` }}
@@ -265,45 +268,23 @@ export default function AttributionReportPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.3 }}
           className={cn(card, 'overflow-hidden')}
+          style={cardStyle}
         >
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+          <div className="p-4 sm:p-5 border-b" style={{ borderColor: CSS.border }}>
             <div className="flex items-center gap-2">
-              <Users className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
-                Assisted Conversions
-              </h3>
+              <Users className="w-4 h-4" style={{ color: CSS.textSecondary }} />
+              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Assisted Conversions</h3>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
-                  {['Channel', 'Assisted', 'Last-Touch', 'Overlap'].map((h) => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.assistedConversions.map((row) => (
-                  <tr key={row.channel} className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}>
-                    <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
-                      {row.channel}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
-                      {row.assisted.toLocaleString()}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
-                      {row.lastTouch.toLocaleString()}
-                    </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
-                      {row.overlap.toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="p-4 sm:p-5">
+            <SmartDataTable
+              data={data.assistedConversions as unknown as Record<string, unknown>[]}
+              columns={assistedColumns}
+              searchable
+              enableExport
+              pageSize={10}
+              searchPlaceholder="Search channels…"
+            />
           </div>
         </motion.div>
 
@@ -313,12 +294,11 @@ export default function AttributionReportPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3 }}
           className={cn(card, 'p-4 sm:p-5')}
+          style={cardStyle}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Layers className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
-              Model Comparison
-            </h3>
+            <Layers className="w-4 h-4" style={{ color: CSS.textSecondary }} />
+            <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Model Comparison</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {attributionData.map((model, i) => {
@@ -329,27 +309,25 @@ export default function AttributionReportPage() {
                   key={model.model}
                   whileHover={{ scale: 1.02, y: -2 }}
                   onClick={() => setSelectedModelIndex(i)}
-                  className={cn(
-                    'rounded-xl border p-3 cursor-pointer transition-colors',
+                  className="rounded-xl border p-3 cursor-pointer transition-colors"
+                  style={
                     i === selectedModelIndex
-                      ? 'border-blue-500/30 bg-blue-500/5'
-                      : isDark
-                        ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
-                        : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.03]',
-                  )}
+                      ? { borderColor: 'rgba(59, 130, 246, 0.3)', backgroundColor: 'rgba(59, 130, 246, 0.05)' }
+                      : { backgroundColor: CSS.cardBgHover, borderColor: CSS.border }
+                  }
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <span className="text-xs font-semibold" style={{ color: CSS.text }}>
                       {MODEL_LABELS[model.model]}
                     </span>
                     {i === selectedModelIndex && (
                       <span className="inline-flex h-2 w-2 rounded-full bg-blue-500" />
                     )}
                   </div>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className="text-lg font-bold" style={{ color: CSS.text }}>
                     {formatCurrency(modelTotal)}
                   </p>
-                  <p className={cn('text-[10px] mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className="text-[10px] mt-1" style={{ color: CSS.textMuted }}>
                     Top: {topSource.source} ({topSource.percentage}%)
                   </p>
                 </motion.div>

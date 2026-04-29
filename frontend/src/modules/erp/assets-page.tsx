@@ -9,7 +9,8 @@ import { Monitor, Shield, Wrench, Archive, IndianRupee, Package,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { DataTable, type Column } from './components/ops/data-table';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { DrawerForm } from './components/ops/drawer-form';
 import { StatusBadge } from './components/ops/status-badge';
 import { FilterBar } from './components/ops/filter-bar';
@@ -19,6 +20,7 @@ import { Timeline, type TimelineItem } from './components/ops/timeline';
 import { mockAssets, mockEmployees } from './data/mock-data';
 import type { Asset, IssueLog } from './types';
 import { PageShell } from './components/ops/page-shell';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
@@ -31,7 +33,7 @@ const statusLabels: Record<string, string> = {
 const statusBadgeMap: Record<string, { bg: string; text: string; dot: string }> = {
   active: { bg: 'rgba(52,211,153,0.12)', text: '#34d399', dot: '#34d399' },
   'in-repair': { bg: 'rgba(251,191,36,0.12)', text: '#fbbf24', dot: '#fbbf24' },
-  retired: { bg: 'var(--ops-hover-bg)', text: 'var(--ops-text-secondary)', dot: 'var(--ops-text-muted)' },
+  retired: { bg: CSS.hoverBg, text: CSS.textSecondary, dot: CSS.textMuted },
   disposed: { bg: 'rgba(248,113,113,0.12)', text: '#f87171', dot: '#f87171' },
 };
 
@@ -88,7 +90,7 @@ function AssetCard({ asset, onClick, idx }: AssetCardProps) {
       style={{ borderRadius: '1rem' }}
       onClick={onClick}
       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(204,92,55,0.3)'; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--ops-border)'; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = CSS.border; }}
     >
       {/* Icon + Status */}
       <div className="flex items-start justify-between mb-4">
@@ -106,26 +108,26 @@ function AssetCard({ asset, onClick, idx }: AssetCardProps) {
 
       {/* Name + Type */}
       <div className="mb-3">
-        <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--ops-text)' }}>{asset.name}</p>
-        <p className="text-[11px] mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>{asset.type}</p>
+        <p className="text-sm font-semibold leading-snug" style={{ color: CSS.text }}>{asset.name}</p>
+        <p className="text-[11px] mt-0.5" style={{ color: CSS.textMuted }}>{asset.type}</p>
       </div>
 
       {/* Details */}
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
           <Avatar className="h-5 w-5">
-            <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+            <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
               {asset.assignedTo.split(' ').map(n => n[0]).join('').slice(0, 2)}
             </AvatarFallback>
           </Avatar>
-          <span className="text-xs truncate" style={{ color: 'var(--ops-text-secondary)' }}>{asset.assignedTo}</span>
+          <span className="text-xs truncate" style={{ color: CSS.textSecondary }}>{asset.assignedTo}</span>
         </div>
-        <code className="block text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>{asset.serialNo}</code>
+        <code className="block text-[10px]" style={{ color: CSS.textMuted }}>{asset.serialNo}</code>
       </div>
 
       {/* Cost */}
-      <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--ops-border)' }}>
-        <p className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>{formatINR(asset.purchaseCost)}</p>
+      <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${CSS.border}` }}>
+        <p className="text-sm font-bold" style={{ color: CSS.text }}>{formatINR(asset.purchaseCost)}</p>
       </div>
     </motion.div>
   );
@@ -197,36 +199,36 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
           })()}
         </div>
         <div className="min-w-0">
-          <p className="text-sm font-semibold truncate" style={{ color: 'var(--ops-text)' }}>{asset.name}</p>
-          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{asset.type} &middot; {asset.serialNo}</p>
+          <p className="text-sm font-semibold truncate" style={{ color: CSS.text }}>{asset.name}</p>
+          <p className="text-[11px]" style={{ color: CSS.textMuted }}>{asset.type} &middot; {asset.serialNo}</p>
         </div>
       </div>
 
       {/* Details grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Assigned To</p>
-          <p className="text-sm font-medium mt-1 truncate" style={{ color: 'var(--ops-text)' }}>{asset.assignedTo}</p>
+        <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Assigned To</p>
+          <p className="text-sm font-medium mt-1 truncate" style={{ color: CSS.text }}>{asset.assignedTo}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Status</p>
+        <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Status</p>
           <p className="mt-1">
             <StatusBadge status={statusLabels[asset.status] || asset.status} />
           </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Purchase Cost</p>
-          <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{formatINR(asset.purchaseCost)}</p>
+        <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Purchase Cost</p>
+          <p className="text-sm font-medium mt-1" style={{ color: CSS.text }}>{formatINR(asset.purchaseCost)}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>Warranty Until</p>
-          <p className="text-sm font-medium mt-1" style={{ color: 'var(--ops-text)' }}>{asset.warrantyEnd}</p>
+        <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
+          <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Warranty Until</p>
+          <p className="text-sm font-medium mt-1" style={{ color: CSS.text }}>{asset.warrantyEnd}</p>
         </div>
       </div>
 
       {/* Lifecycle Timeline */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--ops-text-muted)' }}>
+        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: CSS.textMuted }}>
           Lifecycle Timeline
         </h4>
         <Timeline items={lifecycleItems} />
@@ -234,13 +236,13 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
 
       {/* Issue History */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--ops-text-muted)' }}>
+        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: CSS.textMuted }}>
           Issue History
         </h4>
         {asset.issueLogs.length === 0 ? (
-          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
+          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}>
             <CheckCircle2 className="w-8 h-8 mx-auto mb-2" style={{ color: '#34d399', opacity: 0.4 }} />
-            <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>No issues reported</p>
+            <p className="text-xs" style={{ color: CSS.textMuted }}>No issues reported</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -248,7 +250,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
               <div
                 key={log.id}
                 className="rounded-xl p-3 flex items-start gap-3"
-                style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}
+                style={{ backgroundColor: CSS.hoverBg, border: `1px solid ${CSS.border}` }}
               >
                 <div className="mt-0.5">
                   {log.resolved ? (
@@ -258,9 +260,9 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs leading-snug" style={{ color: 'var(--ops-text)' }}>{log.description}</p>
+                  <p className="text-xs leading-snug" style={{ color: CSS.text }}>{log.description}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                    <span className="text-[10px]" style={{ color: CSS.textMuted }}>
                       {new Date(log.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                     <span
@@ -283,7 +285,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
       {/* Report Issue button */}
       <button
         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
-        style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+        style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.2)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.12)'; }}
       >
@@ -344,7 +346,7 @@ function AssetsPageInner() {
     { key: 'disposed', label: 'Disposed', count: mockAssets.filter(a => a.status === 'disposed').length },
   ];
 
-  const columns: Column<Asset & Record<string, unknown>>[] = [
+  const columns: DataTableColumnDef[] = [
     {
       key: 'name',
       label: 'Name',
@@ -361,8 +363,8 @@ function AssetsPageInner() {
             })()}
           </div>
           <div>
-            <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{row.name}</p>
-            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{row.type}</p>
+            <p className="text-sm font-medium" style={{ color: CSS.text }}>{row.name}</p>
+            <p className="text-[11px]" style={{ color: CSS.textMuted }}>{row.type}</p>
           </div>
         </div>
       ),
@@ -371,14 +373,13 @@ function AssetsPageInner() {
       key: 'serialNo',
       label: 'Serial #',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => <code className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>{row.serialNo}</code>,
+      render: (row) => <code className="text-xs" style={{ color: CSS.textSecondary }}>{row.serialNo}</code>,
     },
     {
       key: 'assignedTo',
       label: 'Assigned To',
       sortable: true,
-      render: (row) => <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>{row.assignedTo}</span>,
+      render: (row) => <span className="text-sm" style={{ color: CSS.textSecondary }}>{row.assignedTo}</span>,
     },
     {
       key: 'status',
@@ -390,20 +391,18 @@ function AssetsPageInner() {
       key: 'purchaseDate',
       label: 'Purchase Date',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>{row.purchaseDate}</span>,
+      render: (row) => <span className="text-sm" style={{ color: CSS.textSecondary }}>{row.purchaseDate}</span>,
     },
     {
       key: 'purchaseCost',
       label: 'Cost',
       sortable: true,
-      hiddenMobile: true,
-      render: (row) => <span className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{formatINR(row.purchaseCost as number)}</span>,
+      render: (row) => <span className="text-sm font-medium" style={{ color: CSS.text }}>{formatINR(row.purchaseCost as number)}</span>,
     },
   ];
 
-  const handleRowClick = (row: Asset & Record<string, unknown>) => {
-    setDetailAsset(row as Asset);
+  const handleRowClick = (row: Record<string, unknown>) => {
+    setDetailAsset(row as unknown as Asset);
     setDetailOpen(true);
   };
 
@@ -429,12 +428,12 @@ function AssetsPageInner() {
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search assets by name, type, serial..." className="max-w-sm" />
           <FilterBar filters={filterOptions} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
-          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: CSS.hoverBg }}>
             <button
               className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
               style={{
-                backgroundColor: viewMode === 'table' ? 'var(--ops-accent-light)' : 'transparent',
-                color: viewMode === 'table' ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
+                backgroundColor: viewMode === 'table' ? CSS.accentLight : 'transparent',
+                color: viewMode === 'table' ? CSS.accent : CSS.textMuted,
               }}
               onClick={() => setViewMode('table')}
               aria-label="Table view"
@@ -444,8 +443,8 @@ function AssetsPageInner() {
             <button
               className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
               style={{
-                backgroundColor: viewMode === 'card' ? 'var(--ops-accent-light)' : 'transparent',
-                color: viewMode === 'card' ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
+                backgroundColor: viewMode === 'card' ? CSS.accentLight : 'transparent',
+                color: viewMode === 'card' ? CSS.accent : CSS.textMuted,
               }}
               onClick={() => setViewMode('card')}
               aria-label="Card view"
@@ -474,11 +473,13 @@ function AssetsPageInner() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <DataTable
+                <SmartDataTable
+                  data={filtered as unknown as Record<string, unknown>[]}
                   columns={columns}
-                  data={filtered as (Asset & Record<string, unknown>)[]}
                   onRowClick={handleRowClick}
                   emptyMessage="No assets found."
+                  enableExport
+                  pageSize={10}
                 />
               </motion.div>
             ) : (
@@ -492,8 +493,8 @@ function AssetsPageInner() {
               >
                 {filtered.length === 0 ? (
                   <div className="col-span-full ops-card p-12 text-center">
-                    <Package className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)', opacity: 0.3 }} />
-                    <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>No assets found.</p>
+                    <Package className="w-12 h-12 mx-auto mb-3" style={{ color: CSS.textMuted, opacity: 0.3 }} />
+                    <p className="text-sm" style={{ color: CSS.textMuted }}>No assets found.</p>
                   </div>
                 ) : (
                   filtered.map((asset, idx) => (
@@ -522,21 +523,21 @@ function AssetsPageInner() {
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Asset Name</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Asset Name</label>
           <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder='e.g. MacBook Pro 16"' className="ops-input w-full px-3 py-2 text-sm" />
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Type</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Type</label>
           <select value={formType} onChange={(e) => setFormType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
             {assetTypes.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Serial Number</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Serial Number</label>
           <input type="text" value={formSerial} onChange={(e) => setFormSerial(e.target.value)} placeholder="e.g. MBP-2024-001" className="ops-input w-full px-3 py-2 text-sm" />
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Assigned To</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Assigned To</label>
           <select value={formAssigned} onChange={(e) => setFormAssigned(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
             <option value="">Select employee</option>
             {mockEmployees.map(e => <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>)}
@@ -544,16 +545,16 @@ function AssetsPageInner() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Date</label>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Purchase Date</label>
             <input type="date" value={formPurchaseDate} onChange={(e) => setFormPurchaseDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Purchase Cost (₹)</label>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Purchase Cost (₹)</label>
             <input type="number" value={formCost} onChange={(e) => setFormCost(e.target.value)} placeholder="0" className="ops-input w-full px-3 py-2 text-sm" />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Warranty End</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Warranty End</label>
           <input type="date" value={formWarranty} onChange={(e) => setFormWarranty(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
         </div>
       </div>

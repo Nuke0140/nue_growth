@@ -14,6 +14,10 @@ import {
 import { churnRiskData } from '@/modules/retention/data/mock-data';
 import { useRetentionStore } from '@/modules/retention/retention-store';
 import type { ChurnRisk } from '@/modules/retention/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { CSS } from '@/styles/design-tokens';
 
 function formatINR(num: number): string {
   if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
@@ -45,17 +49,65 @@ export default function ChurnRiskPage() {
 
   const maxTrend = Math.max(...churnTrend.map((c) => c.value));
 
-  const getRiskBadge = (level: string) => {
-    if (level === 'high') return { bg: isDark ? 'bg-red-500/15' : 'bg-red-50', text: 'text-red-500', label: 'High' };
-    if (level === 'medium') return { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'Medium' };
-    return { bg: isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', label: 'Safe' };
-  };
+  const riskBarColors = ['bg-emerald-500/40', 'bg-amber-500/40', 'bg-red-500/40'];
+  const getRiskBarColor = (score: number) => riskBarColors[score >= 70 ? 2 : score >= 40 ? 1 : 0];
 
-  const getRiskBarColor = (score: number) => {
-    if (score >= 70) return isDark ? 'bg-red-500/40' : 'bg-red-400';
-    if (score >= 40) return isDark ? 'bg-amber-500/40' : 'bg-amber-400';
-    return isDark ? 'bg-emerald-500/40' : 'bg-emerald-400';
-  };
+  // ── Churn Risk columns ──
+  const churnColumns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'client', label: 'Client', sortable: true },
+    { key: 'industry', label: 'Industry' },
+    {
+      key: 'riskScore',
+      label: 'Risk Score',
+      sortable: true,
+      render: (row) => {
+        const score = row.riskScore as number;
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-16 h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+              <div
+                className={cn('h-full rounded-full', riskBarColors[score >= 70 ? 2 : score >= 40 ? 1 : 0])}
+                style={{ width: `${score}%` }}
+              />
+            </div>
+            <span className="text-[10px] font-medium">{score}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'riskLevel',
+      label: 'Level',
+      render: (row) => {
+        const level = row.riskLevel as string;
+        return (
+          <div className="flex items-center gap-1.5">
+            <StatusBadge status={level === 'high' ? 'critical' : level === 'medium' ? 'warning' : 'good'} />
+            {(row.riskLevel as string) === 'high' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+            )}
+          </div>
+        );
+      },
+    },
+    { key: 'inactivityDays', label: 'Inactive Days' },
+    {
+      key: 'engagementDrop',
+      label: 'Eng Drop',
+      render: (row) => <span className="text-xs">{row.engagementDrop as number}%</span>,
+    },
+    { key: 'negativeFeedback', label: 'Feedback' },
+    { key: 'supportEscalations', label: 'Escalations' },
+    {
+      key: 'contractValue',
+      label: 'Value',
+      sortable: true,
+      render: (row) => <span className="text-xs font-medium">{formatINR(row.contractValue as number)}</span>,
+    },
+    { key: 'predictedChurnDate', label: 'Churn Date' },
+    { key: 'accountManager', label: 'Manager' },
+    { key: 'recommendedAction', label: 'Action' },
+  }, []);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -150,76 +202,14 @@ export default function ChurnRiskPage() {
               <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Churn Risk Details</span>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px]">
-              <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  {['Client', 'Industry', 'Risk Score', 'Level', 'Inactive Days', 'Eng Drop', 'Feedback', 'Escalations', 'Value', 'Churn Date', 'Manager', 'Action'].map((h) => (
-                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-3 px-2', isDark ? 'text-white/40' : 'text-black/40')}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {churnRiskData.map((entry: ChurnRisk, i) => {
-                  const badge = getRiskBadge(entry.riskLevel);
-                  return (
-                    <motion.tr
-                      key={entry.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.35 + i * 0.04 }}
-                      className={cn(
-                        'border-b transition-colors',
-                        entry.riskLevel === 'high'
-                          ? (isDark ? 'border-red-500/10 hover:bg-red-500/[0.03]' : 'border-red-100 hover:bg-red-50/50')
-                          : (isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.01]')
-                      )}
-                    >
-                      <td className="py-3 px-2 text-sm font-medium">{entry.client}</td>
-                      <td className="py-3 px-2 text-xs">{entry.industry}</td>
-                      <td className="py-3 px-2">
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-16 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${entry.riskScore}%` }}
-                              transition={{ delay: 0.4 + i * 0.05, duration: 0.5 }}
-                              className={cn('h-full rounded-full', getRiskBarColor(entry.riskScore))}
-                            />
-                          </div>
-                          <span className="text-[10px] font-medium">{entry.riskScore}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-2">
-                        <div className="flex items-center gap-1.5">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', badge.bg, badge.text)}>
-                            {badge.label}
-                          </Badge>
-                          {entry.riskLevel === 'high' && (
-                            <motion.span
-                              animate={{ opacity: [1, 0.3, 1] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                              className="w-1.5 h-1.5 rounded-full bg-red-500"
-                            />
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-3 px-2 text-xs">{entry.inactivityDays}</td>
-                      <td className="py-3 px-2 text-xs">{entry.engagementDrop}%</td>
-                      <td className="py-3 px-2 text-xs">{entry.negativeFeedback}</td>
-                      <td className="py-3 px-2 text-xs">{entry.supportEscalations}</td>
-                      <td className="py-3 px-2 text-xs font-medium">{formatINR(entry.contractValue)}</td>
-                      <td className="py-3 px-2 text-xs">{entry.predictedChurnDate}</td>
-                      <td className="py-3 px-2 text-xs">{entry.accountManager}</td>
-                      <td className="py-3 px-2 text-xs">{entry.recommendedAction}</td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={churnRiskData as unknown as Record<string, unknown>[]}
+            columns={churnColumns}
+            searchable
+            searchPlaceholder="Search churn risk..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* High Risk Action Buttons Row */}
