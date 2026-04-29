@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -81,35 +81,39 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Ops / ERP — light mode */
-  --ops-bg: #fafafa;
-  --ops-accent: #cc5c37;
-  --ops-accent-hover: #b8512f;
-  --ops-accent-light: rgba(204, 92, 55, 0.08);
-  --ops-card-bg: #ffffff;
-  --ops-card-bg-hover: #f5f5f5;
-  --ops-elevated: #f5f5f5;
-  --ops-input-bg: #f5f5f5;
-  --ops-border: rgba(0, 0, 0, 0.08);
-  --ops-border-light: rgba(0, 0, 0, 0.05);
-  --ops-border-strong: rgba(0, 0, 0, 0.12);
-  --ops-text: #0a0a0a;
-  --ops-text-secondary: rgba(0, 0, 0, 0.6);
-  --ops-text-muted: rgba(0, 0, 0, 0.35);
-  --ops-text-disabled: rgba(0, 0, 0, 0.2);
-  --ops-hover-bg: rgba(0, 0, 0, 0.04);
-  --ops-active-bg: rgba(204, 92, 55, 0.06);
-  --ops-success: #059669;
-  --ops-warning: #d97706;
-  --ops-danger: #dc2626;
-  --ops-info: #2563eb;
-  --ops-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --ops-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --ops-scrollbar-thumb: rgba(0, 0, 0, 0.15);
-  --ops-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
-  --ops-overlay: rgba(0, 0, 0, 0.4);
-  --ops-skeleton-from: rgba(0, 0, 0, 0.04);
-  --ops-skeleton-to: rgba(0, 0, 0, 0.08);
+  /* ============================================
+     Ops / ERP — backward compatibility aliases
+     All --ops-* tokens now point to --app-* globals.
+     Existing ERP components continue working without changes.
+     ============================================ */
+  --ops-bg: var(--app-bg);
+  --ops-accent: var(--app-accent);
+  --ops-accent-hover: var(--app-accent-hover);
+  --ops-accent-light: var(--app-accent-light);
+  --ops-card-bg: var(--app-card-bg);
+  --ops-card-bg-hover: var(--app-card-bg-hover);
+  --ops-elevated: var(--app-elevated);
+  --ops-input-bg: var(--app-input-bg);
+  --ops-border: var(--app-border);
+  --ops-border-light: var(--app-border-light);
+  --ops-border-strong: var(--app-border-strong);
+  --ops-text: var(--app-text);
+  --ops-text-secondary: var(--app-text-secondary);
+  --ops-text-muted: var(--app-text-muted);
+  --ops-text-disabled: var(--app-text-disabled);
+  --ops-hover-bg: var(--app-hover-bg);
+  --ops-active-bg: var(--app-active-bg);
+  --ops-success: var(--app-success);
+  --ops-warning: var(--app-warning);
+  --ops-danger: var(--app-danger);
+  --ops-info: var(--app-info);
+  --ops-shadow-card: var(--app-shadow-card);
+  --ops-shadow-card-hover: var(--app-shadow-card-hover);
+  --ops-scrollbar-thumb: var(--app-scrollbar-thumb);
+  --ops-scrollbar-thumb-hover: var(--app-scrollbar-thumb-hover);
+  --ops-overlay: var(--app-overlay);
+  --ops-skeleton-from: var(--app-skeleton-from);
+  --ops-skeleton-to: var(--app-skeleton-to);
 }
 
 /* ============================================
@@ -148,35 +152,11 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  /* Ops / ERP — dark mode */
-  --ops-bg: #1b1c1e;
-  --ops-accent: #cc5c37;
-  --ops-accent-hover: #d46a44;
-  --ops-accent-light: rgba(204, 92, 55, 0.1);
-  --ops-card-bg: #222325;
-  --ops-card-bg-hover: #2a2b2e;
-  --ops-elevated: #2a2b2e;
-  --ops-input-bg: #2a2b2e;
-  --ops-border: rgba(255, 255, 255, 0.06);
-  --ops-border-light: rgba(255, 255, 255, 0.04);
-  --ops-border-strong: rgba(255, 255, 255, 0.12);
-  --ops-text: #f5f5f5;
-  --ops-text-secondary: rgba(245, 245, 245, 0.6);
-  --ops-text-muted: rgba(245, 245, 245, 0.35);
-  --ops-text-disabled: rgba(245, 245, 245, 0.2);
-  --ops-hover-bg: rgba(255, 255, 255, 0.04);
-  --ops-active-bg: rgba(204, 92, 55, 0.08);
-  --ops-success: #34d399;
-  --ops-warning: #fbbf24;
-  --ops-danger: #f87171;
-  --ops-info: #60a5fa;
-  --ops-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --ops-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --ops-scrollbar-thumb: rgba(255, 255, 255, 0.1);
-  --ops-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
-  --ops-overlay: rgba(0, 0, 0, 0.6);
-  --ops-skeleton-from: rgba(255, 255, 255, 0.04);
-  --ops-skeleton-to: rgba(255, 255, 255, 0.08);
+  /* ============================================
+     Ops / ERP — dark mode aliases
+     Point to --app-* tokens which already have dark values
+     defined in tokens.css .dark block.
+     ============================================ */
 }
 
 /* ============================================
