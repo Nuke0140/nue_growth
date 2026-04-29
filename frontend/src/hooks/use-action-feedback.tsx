@@ -161,6 +161,8 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
 
   const progress = duration > 0 && !isLoading ? (remaining / duration) * 100 : 0;
 
+  const Icon = config!.Icon;
+
   return (
     <motion.div
       layout
@@ -194,7 +196,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <config!.Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4" />
             )}
           </div>
 

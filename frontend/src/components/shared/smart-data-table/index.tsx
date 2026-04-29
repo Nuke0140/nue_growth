@@ -27,7 +27,7 @@ import {
   ChevronDown,
   Rows3,
   Rows4,
-  Rows5,
+  Rows,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -412,7 +412,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 {density === 'compact' ? (
                   <Rows3 className="w-3.5 h-3.5 mr-1.5" />
                 ) : density === 'comfortable' ? (
-                  <Rows5 className="w-3.5 h-3.5 mr-1.5" />
+                  <Rows className="w-3.5 h-3.5 mr-1.5" />
                 ) : (
                   <Rows4 className="w-3.5 h-3.5 mr-1.5" />
                 )}
