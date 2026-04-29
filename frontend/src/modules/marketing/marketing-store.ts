@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
 import type { MarketingPage } from './types';
 
 interface MarketingState {
@@ -43,8 +44,20 @@ export const useMarketingStore = create<MarketingState>((set, get) => ({
   setSidebarOpen: (open: boolean) => set({ sidebarOpen: open }),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 
-  selectCampaign: (id: string) => set({ selectedCampaignId: id }),
-  selectWorkflow: (id: string) => set({ selectedWorkflowId: id }),
+  selectCampaign: (id: string) => {
+    set({ selectedCampaignId: id });
+    useFeedbackStore.getState().addToast('info', {
+      title: 'Campaign Selected',
+      message: 'Now viewing campaign details.',
+    });
+  },
+  selectWorkflow: (id: string) => {
+    set({ selectedWorkflowId: id });
+    useFeedbackStore.getState().addToast('info', {
+      title: 'Workflow Selected',
+      message: 'Now viewing workflow details.',
+    });
+  },
 
   goBack: () => {
     const { history, currentPage, forwardStack } = get();

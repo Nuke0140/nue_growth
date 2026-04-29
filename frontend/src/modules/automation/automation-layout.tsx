@@ -38,6 +38,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { ErrorBoundary } from '@/components/shared/error-boundary';
 
 import type { AutomationPage } from './types';
 
@@ -402,7 +403,9 @@ export default function AutomationLayout() {
           </AnimatePresence>
 
           <main className="flex-1 overflow-hidden">
-            <PageContent />
+            <ErrorBoundary>
+              <PageContent />
+            </ErrorBoundary>
           </main>
         </div>
       </div>

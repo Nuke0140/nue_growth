@@ -1,6 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
+import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
 import type { ErpPage, Toast, SmartAlert, SidebarPanel, PinnedPage, SavedView, DashboardWidget } from './types';
 
 // ---- Create Entity Types ----
@@ -366,17 +367,22 @@ export const useErpStore = create<ErpState>((set, get) => ({
     const exists = pinnedPages.some((p) => p.page === page);
     if (exists) {
       set({ pinnedPages: pinnedPages.filter((p) => p.page !== page) });
+      useFeedbackStore.getState().addToast('info', { title: 'Page Unpinned', message: `${label} removed from pinned pages` });
     } else {
       set({ pinnedPages: [...pinnedPages, { page, label, icon }] });
+      useFeedbackStore.getState().addToast('success', { title: 'Page Pinned', message: `${label} added to pinned pages` });
     }
   },
 
   addSavedView: (view) => {
     set({ savedViews: [...get().savedViews, view] });
+    useFeedbackStore.getState().addToast('success', { title: 'View Saved', message: `"${view.name}" has been saved` });
   },
 
   removeSavedView: (id) => {
+    const view = get().savedViews.find((v) => v.id === id);
     set({ savedViews: get().savedViews.filter((v) => v.id !== id) });
+    useFeedbackStore.getState().addToast('info', { title: 'View Removed', message: view ? `"${view.name}" has been removed` : 'View has been removed' });
   },
 
   updateWidgetPosition: (widgetId, position) => {
@@ -397,6 +403,7 @@ export const useErpStore = create<ErpState>((set, get) => ({
 
   setOnboardingCompleted: () => {
     set({ onboardingCompleted: true });
+    useFeedbackStore.getState().addToast('success', { title: 'Onboarding Completed', message: 'Welcome! You are all set up.' });
   },
 
   setColumnVisibility: (page, columns) => {
@@ -427,6 +434,7 @@ export const useErpStore = create<ErpState>((set, get) => ({
         a.id === id ? { ...a, isSilenced: true } : a
       ),
     });
+    useFeedbackStore.getState().addToast('info', { title: 'Alert Silenced', message: 'You will no longer receive notifications for this alert' });
   },
 
   setFinanceExpanded: (expanded) => set({ financeExpanded: expanded }),

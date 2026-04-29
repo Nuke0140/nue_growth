@@ -50,11 +50,12 @@ import { ANIMATION } from './design-tokens';
 
 // Ops components
 import { CommandPalette } from './components/ops/command-palette';
-import { SkeletonDashboard } from './components/ops/skeleton-loader';
+import { SkeletonDashboard } from '@/components/shared/skeleton';
 import { CreateModal } from './components/ops/create-modal';
 import { DensityToggle } from './components/ops/density-toggle';
-import { ErpErrorBoundary } from './components/ops/error-boundary';
+import { ErrorBoundary } from '@/components/shared/error-boundary';
 import { ContextualSidebar } from './components/ops/contextual-sidebar';
+import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
 
 // Mock data
 import { mockNotifications } from './data/mock-data';
@@ -140,6 +141,7 @@ import {
 
 import type { LucideIcon } from 'lucide-react';
 import type { ErpPage, Toast } from './types';
+import type { CreateEntityType } from './erp-store';
 import { usePermissions } from './hooks/use-permissions';
 
 // ---- Navigation definitions ----
@@ -1379,6 +1381,19 @@ function Topbar() {
 export default function ErpLayout() {
   const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal, sidebarOpen, setSidebarOpen, contextualSidebar, closeContextualSidebar } = useErpStore();
 
+  // Toast feedback for entity creation via CreateModal
+  const handleCreateSubmit = useCallback((_data: Record<string, unknown>) => {
+    const entityLabels: Record<CreateEntityType, string> = {
+      task: 'Task',
+      employee: 'Employee',
+      project: 'Project',
+      leave: 'Leave Request',
+      asset: 'Asset',
+    };
+    const label = entityLabels[createModalType || 'task'];
+    useFeedbackStore.getState().addToast('success', { title: `${label} Created`, message: `New ${label.toLowerCase()} has been created successfully` });
+  }, [createModalType]);
+
   // Build command items for the command palette from all nav sections
   const commands = useMemo(() => {
     const allItems: Array<{
@@ -1486,9 +1501,9 @@ export default function ErpLayout() {
 
           {/* Content area */}
           <main className="flex-1 overflow-auto bg-[var(--ops-bg)] scroll-smooth">
-            <ErpErrorBoundary>
+            <ErrorBoundary onError={(error, info) => console.error('ERP Error:', error, info)}>
               <PageContent />
-            </ErpErrorBoundary>
+            </ErrorBoundary>
           </main>
         </div>
 
@@ -1500,6 +1515,7 @@ export default function ErpLayout() {
           open={createModalOpen && createModalType !== null}
           onClose={closeCreateModal}
           type={createModalType || 'task'}
+          onSubmit={handleCreateSubmit}
         />
 
         {/* Toast Container */}

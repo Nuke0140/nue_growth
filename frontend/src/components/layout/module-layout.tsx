@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ModuleProvider } from './module-provider';
 import { Sidebar } from './sidebar';
 import { Topbar } from './topbar';
+import { ErrorBoundary } from '@/components/shared/error-boundary';
 
 // Types — import canonical types and extend for backward compat
 import type { ModuleConfig as BaseModuleConfig, NavSection, NavSubItem } from '@/types/module-config';
@@ -270,6 +271,7 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
           {/* Page content */}
           <main className="flex-1 overflow-hidden">
             {config.beforeContent}
+            <ErrorBoundary>
             <div className="relative h-full">
               {/* Progress bar (lazy mode only) */}
               {progressWidth > 0 && (
@@ -312,6 +314,7 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
                 </motion.div>
               </AnimatePresence>
             </div>
+            </ErrorBoundary>
             {config.afterContent}
           </main>
         </div>

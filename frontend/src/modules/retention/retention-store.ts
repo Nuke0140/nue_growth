@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
 import type { RetentionPage } from './types';
 
 interface RetentionState {
@@ -39,7 +40,13 @@ export const useRetentionStore = create<RetentionState>((set, get) => ({
 
   setSidebarOpen: (open: boolean) => set({ sidebarOpen: open }),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
-  selectClient: (id: string) => set({ selectedClientId: id }),
+  selectClient: (id: string) => {
+    set({ selectedClientId: id });
+    useFeedbackStore.getState().addToast('info', {
+      title: 'Client Selected',
+      message: 'Now viewing client details.',
+    });
+  },
 
   goBack: () => {
     const { history, currentPage, forwardStack } = get();

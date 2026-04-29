@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
 import type { FinancePage } from './types';
 
 interface FinanceState {
@@ -43,8 +44,20 @@ export const useFinanceStore = create<FinanceState>((set, get) => ({
   setSidebarOpen: (open: boolean) => set({ sidebarOpen: open }),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 
-  selectInvoice: (id: string) => set({ selectedInvoiceId: id }),
-  selectClient: (id: string) => set({ selectedClientId: id }),
+  selectInvoice: (id: string) => {
+    set({ selectedInvoiceId: id });
+    useFeedbackStore.getState().addToast('info', {
+      title: 'Invoice Selected',
+      message: 'Now viewing invoice details.',
+    });
+  },
+  selectClient: (id: string) => {
+    set({ selectedClientId: id });
+    useFeedbackStore.getState().addToast('info', {
+      title: 'Client Selected',
+      message: 'Now viewing client details.',
+    });
+  },
 
   goBack: () => {
     const { history, currentPage, forwardStack } = get();
