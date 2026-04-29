@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth-store';
+import { getModuleConfigFromPathname } from '@/lib/module-registry';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
 import CrmSalesLayout from '@/modules/crm-sales/crm-sales-layout';
 import ErpLayout from '@/modules/erp/erp-layout';
@@ -37,6 +39,21 @@ const pageComponents: Record<string, React.ComponentType> = {
 const authEntryPages = new Set(['login', 'register', 'forgot-password', 'otp']);
 const managementPages = new Set(['profile', 'roles', 'team-invite', 'sessions']);
 
+// Module routing map — supports both store-based IDs and pathname-detected IDs
+const moduleLayoutMap: Record<string, React.ComponentType> = {
+  crm: CrmSalesLayout,
+  sales: CrmSalesLayout,
+  'crm-sales': CrmSalesLayout,
+  erp: ErpLayout,
+  marketing: MarketingLayout,
+  finance: FinanceLayout,
+  growth: RetentionLayout,
+  retention: RetentionLayout,
+  analytics: AnalyticsLayout,
+  automation: AutomationLayout,
+  settings: SettingsLayout,
+};
+
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },
@@ -45,6 +62,7 @@ const pageVariants = {
 
 export default function Home() {
   const { isAuthenticated, currentPage, activeModule } = useAuthStore();
+  const pathname = usePathname();
   const [isInitializing, setIsInitializing] = useState(true);
 
   const isAuthEntry = authEntryPages.has(currentPage);
@@ -103,24 +121,18 @@ export default function Home() {
     }
   } else {
     // Render authenticated application routes
-    if (activeModule) {
-      renderKey = activeModule;
-      if (activeModule === 'crm' || activeModule === 'sales') {
-        content = <CrmSalesLayout />;
-      } else if (activeModule === 'erp') {
-        content = <ErpLayout />;
-      } else if (activeModule === 'marketing') {
-        content = <MarketingLayout />;
-      } else if (activeModule === 'finance') {
-        content = <FinanceLayout />;
-      } else if (activeModule === 'growth') {
-        content = <RetentionLayout />;
-      } else if (activeModule === 'analytics') {
-        content = <AnalyticsLayout />;
-      } else if (activeModule === 'automation') {
-        content = <AutomationLayout />;
-      } else if (activeModule === 'settings') {
-        content = <SettingsLayout />;
+    // Resolve module: store-based (activeModule) takes priority, pathname-based as fallback
+    const pathDetectedModule = (() => {
+      const detected = getModuleConfigFromPathname(pathname);
+      return detected?.moduleId ?? null;
+    })();
+    const renderModule = activeModule || pathDetectedModule;
+
+    if (renderModule) {
+      const LayoutComponent = moduleLayoutMap[renderModule];
+      if (LayoutComponent) {
+        content = <LayoutComponent />;
+        renderKey = renderModule;
       } else {
         content = <WindowsDesktop />;
         renderKey = 'dashboard';
