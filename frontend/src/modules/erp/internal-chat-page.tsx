@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
-  Hash, Users, FolderOpen, Megaphone, MessageCircle, MessageSquare, Pin,
+  Hash, Users, FolderOpen, Megaphone, MessageCircle, Pin,
   Paperclip, AtSign, Send, Sparkles, ChevronRight, Info,
   FileText, X, Search
 } from 'lucide-react';

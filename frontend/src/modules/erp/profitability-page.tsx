@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import {
   Search, TrendingUp, TrendingDown, DollarSign, Flame, AlertTriangle,
   ChevronRight, ArrowUpRight, ArrowDownRight, IndianRupee, Target,
-  BarChart2, BarChart3, Zap, Info, Bell
+  BarChart3, Zap, Info, Bell
 } from 'lucide-react';
 import { PageShell } from './components/ops/page-shell';
 import { Badge } from '@/components/ui/badge';

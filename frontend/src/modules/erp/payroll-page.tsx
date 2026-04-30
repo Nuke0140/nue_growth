@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import {
   ChevronLeft, ChevronRight, Wallet, Clock, CheckCircle2,
-  Download, FileText, Printer, TrendingUp, X, Check, Banknote,
+  Download, FileText, Printer, TrendingUp, X, Check,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
