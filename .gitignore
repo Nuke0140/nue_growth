@@ -58,3 +58,7 @@ coverage/
 .vercel
 .claude
 .z-ai-config
+
+# ── Root-level Next.js artifacts (should only exist in frontend/) ──
+/next-env.d.ts
+/.next/
