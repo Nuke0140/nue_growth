@@ -70,7 +70,7 @@ export default function SLAAlertChip({
       whileTap={{ scale: 0.97 }}
       onClick={onAction}
       className={cn(
-        'group relative inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium shadow-sm transition-colors cursor-pointer',
+        'group relative inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors cursor-pointer',
         isDark
           ? 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06]'
           : 'bg-white border-black/[0.08] hover:bg-black/[0.03]',

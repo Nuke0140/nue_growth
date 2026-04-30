@@ -237,16 +237,16 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="app-card rounded-2xl p-4 flex flex-col gap-2">
+    <div className="app-card rounded-[var(--app-radius-xl)] p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium" style={{ color: 'var(--app-text-muted)' }}>
           {label}
         </span>
         <div
-          className="w-7 h-7 rounded-lg flex items-center justify-center"
+          className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
           style={{ backgroundColor: 'var(--app-hover-bg)' }}
         >
-          <Icon className="w-3.5 h-3.5" style={{ color: accent || 'var(--app-text-muted)' }} />
+          <Icon className="w-4 h-4" style={{ color: accent || 'var(--app-text-muted)' }} />
         </div>
       </div>
       <p className="text-xl font-bold" style={{ color: 'var(--app-text)' }}>
@@ -294,7 +294,7 @@ function LabelFilterBar({
             key={label}
             onClick={() => onLabelChange(isActive ? null : label)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all'
+              'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors'
             )}
             style={{
               backgroundColor: isActive
@@ -357,7 +357,7 @@ function TaskDetailDrawer({
         <DrawerHeader className="border-b" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex items-center justify-between">
             <DrawerTitle
-              className="text-base font-semibold"
+              className="text-sm font-semibold"
               style={{ color: 'var(--app-text)' }}
             >
               Task Details
@@ -366,7 +366,7 @@ function TaskDetailDrawer({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 rounded-lg"
+                className="h-8 w-8 rounded-[var(--app-radius-lg)]"
                 style={{ color: 'var(--app-text-muted)' }}
               >
                 <X className="w-4 h-4" />
@@ -378,11 +378,11 @@ function TaskDetailDrawer({
           </DrawerDescription>
         </DrawerHeader>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-5">
+        <div className="flex-1 overflow-y-auto p-4 space-y-app-xl">
           {/* Meta row */}
           <div className="grid grid-cols-2 gap-3">
             <div
-              className="app-card rounded-xl p-3 space-y-1"
+              className="app-card rounded-[var(--app-radius-lg)] p-3 space-y-1"
             >
               <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Project
@@ -391,7 +391,7 @@ function TaskDetailDrawer({
                 {projectName}
               </p>
             </div>
-            <div className="app-card rounded-xl p-3 space-y-1">
+            <div className="app-card rounded-[var(--app-radius-lg)] p-3 space-y-1">
               <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Assignee
               </span>
@@ -412,7 +412,7 @@ function TaskDetailDrawer({
                 </p>
               </div>
             </div>
-            <div className="app-card rounded-xl p-3 space-y-1">
+            <div className="app-card rounded-[var(--app-radius-lg)] p-3 space-y-1">
               <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Due Date
               </span>
@@ -420,7 +420,7 @@ function TaskDetailDrawer({
                 {formatDueDate(task.dueDate)}
               </p>
             </div>
-            <div className="app-card rounded-xl p-3 space-y-1">
+            <div className="app-card rounded-[var(--app-radius-lg)] p-3 space-y-1">
               <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Story Points
               </span>
@@ -457,7 +457,7 @@ function TaskDetailDrawer({
           {/* Blocked indicator */}
           {task.isBlocked && (
             <div
-              className="flex items-center gap-2 p-3 rounded-xl"
+              className="flex items-center gap-2 p-3 rounded-[var(--app-radius-lg)]"
               style={{
                 backgroundColor: 'rgba(239, 68, 68, 0.08)',
                 border: '1px solid rgba(239, 68, 68, 0.2)',
@@ -483,7 +483,7 @@ function TaskDetailDrawer({
           {/* Attachments */}
           {attachmentCount > 0 && (
             <div
-              className="flex items-center gap-3 p-3 rounded-xl"
+              className="flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)]"
               style={{
                 backgroundColor: 'var(--app-hover-bg)',
                 border: '1px solid var(--app-border)',
@@ -539,7 +539,7 @@ function TaskDetailDrawer({
                       key={subtask.id}
                       onClick={() => onSubtaskToggle(task.id, subtask.id)}
                       className={cn(
-                        'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors',
+                        'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-[var(--app-radius-lg)] transition-colors',
                       )}
                       style={{
                         backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'var(--app-hover-bg)',
@@ -575,7 +575,7 @@ function TaskDetailDrawer({
           style={{ borderColor: 'var(--app-border)' }}
         >
           <Button
-            className="w-full rounded-xl"
+            className="w-full rounded-[var(--app-radius-lg)]"
             style={{
               backgroundColor: 'var(--app-accent)',
               color: '#fff',
@@ -626,7 +626,7 @@ function AddTaskDrawer({
     backgroundColor: 'var(--app-elevated)',
     border: '1px solid var(--app-border)',
     color: 'var(--app-text)',
-    borderRadius: '0.75rem',
+    borderRadius: 'var(--app-radius-md)',
   };
 
   return (
@@ -641,7 +641,7 @@ function AddTaskDrawer({
         <DrawerHeader className="border-b" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex items-center justify-between">
             <DrawerTitle
-              className="text-base font-semibold"
+              className="text-sm font-semibold"
               style={{ color: 'var(--app-text)' }}
             >
               Add New Task
@@ -650,7 +650,7 @@ function AddTaskDrawer({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 rounded-lg"
+                className="h-8 w-8 rounded-[var(--app-radius-lg)]"
                 style={{ color: 'var(--app-text-muted)' }}
               >
                 <X className="w-4 h-4" />
@@ -821,7 +821,7 @@ function AddTaskDrawer({
           <div className="flex gap-2 w-full">
             <Button
               variant="ghost"
-              className="flex-1 rounded-xl"
+              className="flex-1 rounded-[var(--app-radius-lg)]"
               style={{
                 color: 'var(--app-text-secondary)',
                 backgroundColor: 'var(--app-hover-bg)',
@@ -831,7 +831,7 @@ function AddTaskDrawer({
               Cancel
             </Button>
             <Button
-              className="flex-1 rounded-xl"
+              className="flex-1 rounded-[var(--app-radius-lg)]"
               style={{
                 backgroundColor: 'var(--app-accent)',
                 color: '#fff',
@@ -963,7 +963,7 @@ function TasksBoardPageInner() {
           className="w-full sm:w-52"
         />
         <Button
-          className="h-9 px-3 rounded-xl gap-1.5 text-xs font-medium"
+          className="h-10  px-3 rounded-[var(--app-radius-lg)] gap-1.5 text-xs font-medium"
           style={{
             backgroundColor: 'var(--app-accent)',
             color: '#fff',
@@ -996,7 +996,7 @@ function TasksBoardPageInner() {
                 backgroundColor: 'var(--app-elevated)',
                 border: '1px solid var(--app-border)',
                 color: 'var(--app-text)',
-                borderRadius: '0.75rem',
+                borderRadius: 'var(--app-radius-md)',
               }}
             >
               <SelectValue placeholder="All Projects" />

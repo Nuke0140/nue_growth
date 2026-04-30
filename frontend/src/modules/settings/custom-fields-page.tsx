@@ -92,7 +92,7 @@ export default function CustomFieldsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -101,7 +101,7 @@ export default function CustomFieldsPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <SlidersHorizontal className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -112,11 +112,11 @@ export default function CustomFieldsPage() {
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
             className={cn(
-              'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer shrink-0',
+              'inline-flex items-center gap-1.5 px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-semibold transition-colors cursor-pointer shrink-0',
               isDark ? 'bg-violet-500/15 text-violet-400 hover:bg-violet-500/25' : 'bg-violet-50 text-violet-600 hover:bg-violet-100',
             )}
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4" />
             {showCreateForm ? 'Close Form' : 'Create Custom Field'}
           </button>
         </motion.div>
@@ -127,16 +127,16 @@ export default function CustomFieldsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('inline-flex items-center rounded-[var(--app-radius-lg)] p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
             {moduleTabs.map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setActiveModule(tab)}
                 className={cn(
-                  'rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer',
+                  'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer',
                   activeModule === tab
-                    ? isDark ? 'bg-violet-500/20 text-violet-300 shadow-sm' : 'bg-violet-100 text-violet-700 shadow-sm'
+                    ? isDark ? 'bg-violet-500/20 text-violet-300 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]' : 'bg-violet-100 text-violet-700 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                     : isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-zinc-400 hover:text-zinc-600',
                 )}
               >
@@ -152,16 +152,16 @@ export default function CustomFieldsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
         >
-          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('inline-flex items-center rounded-[var(--app-radius-lg)] p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
             {typeFilters.map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setActiveType(type)}
                 className={cn(
-                  'rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer',
+                  'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer',
                   activeType === type
-                    ? isDark ? 'bg-violet-500/20 text-violet-300 shadow-sm' : 'bg-violet-100 text-violet-700 shadow-sm'
+                    ? isDark ? 'bg-violet-500/20 text-violet-300 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]' : 'bg-violet-100 text-violet-700 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                     : isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-zinc-400 hover:text-zinc-600',
                 )}
               >
@@ -186,7 +186,7 @@ export default function CustomFieldsPage() {
             <motion.div
               key={kpi.label}
               variants={fadeUp}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-2">
                 <kpi.icon className={cn('w-4 h-4', kpi.color)} />
@@ -212,14 +212,14 @@ export default function CustomFieldsPage() {
                 key={field.id}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-2xl border p-5 transition-colors',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors',
                   isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
                 )}
               >
                 {/* Header row */}
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                       <TypeIcon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                     </div>
                     <div>
@@ -231,11 +231,11 @@ export default function CustomFieldsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <button className={cn('p-1.5 rounded-lg transition-colors cursor-pointer', isDark ? 'hover:bg-white/[0.06] text-white/30 hover:text-white/60' : 'hover:bg-black/[0.06] text-black/30 hover:text-black/60')}>
-                      <Pencil className="w-3.5 h-3.5" />
+                    <button className={cn('p-1.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer', isDark ? 'hover:bg-white/[0.06] text-white/30 hover:text-white/60' : 'hover:bg-black/[0.06] text-black/30 hover:text-black/60')}>
+                      <Pencil className="w-4 h-4" />
                     </button>
-                    <button className={cn('p-1.5 rounded-lg transition-colors cursor-pointer', isDark ? 'hover:bg-red-500/10 text-white/30 hover:text-red-400' : 'hover:bg-red-50 text-black/30 hover:text-red-600')}>
-                      <Trash2 className="w-3.5 h-3.5" />
+                    <button className={cn('p-1.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer', isDark ? 'hover:bg-red-500/10 text-white/30 hover:text-red-400' : 'hover:bg-red-50 text-black/30 hover:text-red-600')}>
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -317,7 +317,7 @@ export default function CustomFieldsPage() {
               <Plus className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Create Custom Field</span>
             </div>
-            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Name */}
                 <div>
@@ -328,7 +328,7 @@ export default function CustomFieldsPage() {
                     onChange={(e) => setFormName(e.target.value)}
                     placeholder="e.g. lead_score"
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                       'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
@@ -343,7 +343,7 @@ export default function CustomFieldsPage() {
                     onChange={(e) => setFormLabel(e.target.value)}
                     placeholder="e.g. Lead Score"
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                       'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
@@ -356,7 +356,7 @@ export default function CustomFieldsPage() {
                     value={formModule}
                     onChange={(e) => setFormModule(e.target.value)}
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
                       isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.03] border-black/[0.08] text-black',
                     )}
                   >
@@ -373,7 +373,7 @@ export default function CustomFieldsPage() {
                     value={formType}
                     onChange={(e) => setFormType(e.target.value)}
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
                       isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.03] border-black/[0.08] text-black',
                     )}
                   >
@@ -392,7 +392,7 @@ export default function CustomFieldsPage() {
                     onChange={(e) => setFormDefault(e.target.value)}
                     placeholder="Optional"
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                       'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
@@ -407,7 +407,7 @@ export default function CustomFieldsPage() {
                     onChange={(e) => setFormValidation(e.target.value)}
                     placeholder="e.g. min:0,max:100"
                     className={cn(
-                      'w-full rounded-lg border px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                      'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                       'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
@@ -423,7 +423,7 @@ export default function CustomFieldsPage() {
                       placeholder="Option 1, Option 2, Option 3"
                       rows={2}
                       className={cn(
-                        'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-none',
+                        'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-none',
                         'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                       )}
                     />
@@ -436,7 +436,7 @@ export default function CustomFieldsPage() {
                     type="button"
                     onClick={() => setFormRequired(!formRequired)}
                     className={cn(
-                      'inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition-colors cursor-pointer',
+                      'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs font-medium transition-colors cursor-pointer',
                       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
@@ -455,7 +455,7 @@ export default function CustomFieldsPage() {
                         type="button"
                         onClick={() => toggleRole(role)}
                         className={cn(
-                          'transition-all cursor-pointer',
+                          'transition-colors cursor-pointer',
                           formRoles.includes(role) ? 'ring-2 ring-violet-500 ring-offset-1 ring-offset-transparent rounded-full' : '',
                         )}
                       >
@@ -467,12 +467,12 @@ export default function CustomFieldsPage() {
               </div>
 
               {/* Submit */}
-              <div className="mt-5 flex justify-end">
+              <div className="mt-app-xl flex justify-end">
                 <button className={cn(
-                  'inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer',
+                  'inline-flex items-center gap-1.5 px-app-xl py-2.5 rounded-[var(--app-radius-lg)] text-xs font-semibold transition-colors cursor-pointer',
                   isDark ? 'bg-violet-500/20 text-violet-400 hover:bg-violet-500/30' : 'bg-violet-100 text-violet-600 hover:bg-violet-200',
                 )}>
-                  <Plus className="w-3.5 h-3.5" /> Create Field
+                  <Plus className="w-4 h-4" /> Create Field
                 </button>
               </div>
             </div>

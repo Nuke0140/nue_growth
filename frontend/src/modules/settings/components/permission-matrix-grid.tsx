@@ -66,7 +66,7 @@ export default function PermissionMatrixGrid({
 
   return (
     <div className={cn(
-      'rounded-2xl border overflow-hidden',
+      'rounded-[var(--app-radius-xl)] border overflow-hidden',
       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
     )}>
       <div className="overflow-x-auto">
@@ -109,10 +109,10 @@ export default function PermissionMatrixGrid({
                     <td key={role} className="px-2 py-3 text-center">
                       {hasNone ? (
                         <span className={cn(
-                          'inline-flex items-center justify-center h-6 w-6 rounded-md',
+                          'inline-flex items-center justify-center h-6 w-6 rounded-[var(--app-radius-md)]',
                           isDark ? 'bg-zinc-500/10' : 'bg-zinc-100',
                         )}>
-                          <Minus className="w-3 h-3 text-zinc-400" />
+                          <Minus className="w-4 h-4 text-zinc-400" />
                         </span>
                       ) : (
                         <div className="flex items-center justify-center gap-0.5 flex-wrap">
@@ -121,7 +121,7 @@ export default function PermissionMatrixGrid({
                               key={perm}
                               title={perm}
                               className={cn(
-                                'inline-flex items-center justify-center h-6 min-w-[24px] rounded-md text-[9px] font-bold',
+                                'inline-flex items-center justify-center h-6 min-w-[24px] rounded-[var(--app-radius-md)] text-[9px] font-bold',
                                 hasFull
                                   ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
                                   : ('bg-[var(--app-warning-bg)] text-[var(--app-warning)]'),

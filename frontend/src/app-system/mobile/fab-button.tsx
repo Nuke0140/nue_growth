@@ -23,7 +23,7 @@ export function FabButton({ isOpen, onToggle, icon }: FabButtonProps) {
         'fixed bottom-6 right-6 z-40',
         'w-14 h-14 rounded-full',
         'flex items-center justify-center',
-        'shadow-lg',
+        'shadow-[var(--app-shadow-md)]-lg',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'cursor-pointer',
         'md:hidden',

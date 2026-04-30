@@ -76,7 +76,7 @@ function OverviewTab({ project }: { project: ErpProject }) {
   const completedMilestones = project.milestones.filter((m) => m.completed).length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Milestones checklist */}
       <div>
         <div className="flex items-center justify-between mb-3">
@@ -156,7 +156,7 @@ function OverviewTab({ project }: { project: ErpProject }) {
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="flex items-center gap-2.5 p-2.5 rounded-xl"
+              className="flex items-center gap-2.5 p-2.5 rounded-[var(--app-radius-lg)]"
               style={{ backgroundColor: 'var(--app-hover-bg)' }}
             >
               <Package className="w-4 h-4 shrink-0" style={{ color: 'var(--app-text-muted)' }} />
@@ -184,10 +184,10 @@ function OverviewTab({ project }: { project: ErpProject }) {
             {project.linkedInvoices.map((inv) => (
               <div
                 key={inv}
-                className="flex items-center gap-2 p-2.5 rounded-xl"
+                className="flex items-center gap-2 p-2.5 rounded-[var(--app-radius-lg)]"
                 style={{ backgroundColor: 'var(--app-hover-bg)' }}
               >
-                <FileText className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--app-text-muted)' }} />
+                <FileText className="w-4 h-4 shrink-0" style={{ color: 'var(--app-text-muted)' }} />
                 <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
                   {inv}
                 </span>
@@ -224,7 +224,7 @@ function TasksTab({ projectId }: { projectId: string }) {
       </div>
 
       {tasks.length === 0 ? (
-        <p className="text-xs text-center py-10" style={{ color: 'var(--app-text-muted)' }}>
+        <p className="text-xs text-center py-app-4xl" style={{ color: 'var(--app-text-muted)' }}>
           No tasks linked to this project
         </p>
       ) : (
@@ -235,7 +235,7 @@ function TasksTab({ projectId }: { projectId: string }) {
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="flex items-center gap-3 p-3 rounded-xl"
+              className="flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)]"
               style={{
                 backgroundColor: 'var(--app-hover-bg)',
                 border: task.isBlocked ? '1px solid rgba(248,113,113,0.2)' : '1px solid var(--app-border)',
@@ -289,7 +289,7 @@ function TeamTab({ projectId }: { projectId: string }) {
         Team Members
       </h4>
       {team.length === 0 ? (
-        <p className="text-xs text-center py-10" style={{ color: 'var(--app-text-muted)' }}>
+        <p className="text-xs text-center py-app-4xl" style={{ color: 'var(--app-text-muted)' }}>
           No team members assigned
         </p>
       ) : (
@@ -300,7 +300,7 @@ function TeamTab({ projectId }: { projectId: string }) {
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="flex items-center gap-3 p-3 rounded-xl"
+              className="flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)]"
               style={{ backgroundColor: 'var(--app-hover-bg)' }}
             >
               <Avatar className="h-8 w-8">
@@ -368,7 +368,7 @@ function TimelineTab({ project }: { project: ErpProject }) {
                   >
                     {ms.completed ? (
                       <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                        <CheckCircle2 className="w-3 h-3 text-white" />
+                        <CheckCircle2 className="w-4 h-4 text-white" />
                       </div>
                     ) : (
                       <div
@@ -418,7 +418,7 @@ function TimelineTab({ project }: { project: ErpProject }) {
           </div>
         </div>
       ) : (
-        <p className="text-xs text-center py-10" style={{ color: 'var(--app-text-muted)' }}>
+        <p className="text-xs text-center py-app-4xl" style={{ color: 'var(--app-text-muted)' }}>
           No milestones defined
         </p>
       )}
@@ -535,7 +535,7 @@ function ProjectDetailPageInner() {
         </span>
       </div>
     }>
-      <div className="space-y-5">
+      <div className="space-y-app-xl">
 
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -545,10 +545,10 @@ function ProjectDetailPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.04, duration: 0.3 }}
-              className="app-card rounded-xl p-3"
+              className="app-card rounded-[var(--app-radius-lg)] p-3"
             >
               <div className="flex items-center gap-1.5 mb-1.5">
-                <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
+                <stat.icon className="w-4 h-4" style={{ color: stat.color }} />
                 <span className="text-[10px] font-medium" style={{ color: 'var(--app-text-muted)' }}>
                   {stat.label}
                 </span>
@@ -579,7 +579,7 @@ function ProjectDetailPageInner() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
-          className="app-card rounded-2xl p-1.5"
+          className="app-card rounded-[var(--app-radius-xl)] p-1.5"
         >
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList
@@ -597,13 +597,13 @@ function ProjectDetailPageInner() {
                     key={tab.key}
                     value={tab.key}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap data-[state=active]:shadow-none',
+                      'flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap data-[state=active]:shadow-[var(--app-shadow-md)]-none',
                       isActive
                         ? 'bg-[var(--app-accent-light)] text-[var(--app-accent)]'
                         : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
-                    <tab.icon className="w-3.5 h-3.5" />
+                    <tab.icon className="w-4 h-4" />
                     {tab.label}
                   </TabsTrigger>
                 );

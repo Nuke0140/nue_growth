@@ -32,11 +32,11 @@ function WKPI({ label, value, sub, isDark, icon: Icon }: {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center bg-emerald-500/10')}>
-          <Icon className="w-3.5 h-3.5 text-emerald-500" />
+        <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center bg-emerald-500/10')}>
+          <Icon className="w-4 h-4 text-emerald-500" />
         </div>
         <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{label}</p>
       </div>
@@ -107,14 +107,14 @@ function TemplateCard({ name, text, category, isDark, index }: {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 + index * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => setSelected(!selected)}
-      className={cn('rounded-2xl border p-4 cursor-pointer transition-all',
+      className={cn('rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors',
         selected
           ? 'ring-2 ring-emerald-500/40 border-emerald-500/30'
           : 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
       )}
     >
       {/* Chat bubble style */}
-      <div className={cn('rounded-2xl rounded-tl-sm p-3 mb-3 text-xs leading-relaxed',
+      <div className={cn('rounded-[var(--app-radius-xl)] rounded-tl-sm p-3 mb-3 text-xs leading-relaxed',
         isDark ? 'bg-emerald-500/5 text-white/60' : 'bg-emerald-50 text-black/60'
       )}>
         {text}
@@ -188,7 +188,7 @@ export default function WhatsAppCampaignsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="max-w-7xl mx-auto p-6 space-y-app-2xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -197,7 +197,7 @@ export default function WhatsAppCampaignsPage() {
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+            <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-emerald-500/10 flex items-center justify-center">
               <WhatsAppIcon className="w-5 h-5 text-emerald-500" />
             </div>
             <div>
@@ -209,10 +209,10 @@ export default function WhatsAppCampaignsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="h-8 gap-1.5">
-              <BarChart3 className="w-3.5 h-3.5" /> Analytics
+              <BarChart3 className="w-4 h-4" /> Analytics
             </Button>
             <Button size="sm" className="h-8 gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white">
-              <Plus className="w-3.5 h-3.5" /> New Campaign
+              <Plus className="w-4 h-4" /> New Campaign
             </Button>
           </div>
         </motion.div>
@@ -236,7 +236,7 @@ export default function WhatsAppCampaignsPage() {
               <Zap className="w-4 h-4 text-emerald-500" /> Quick Templates
             </h3>
             <button className={cn('text-xs flex items-center gap-1', 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')}>
-              View All <ChevronRight className="w-3 h-3" />
+              View All <ChevronRight className="w-4 h-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -251,14 +251,14 @@ export default function WhatsAppCampaignsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold">Campaigns</h3>
-            <div className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg border',
+            <div className={cn('flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text" placeholder="Search..." value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -278,22 +278,22 @@ export default function WhatsAppCampaignsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 + i * 0.04, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn('rounded-xl p-4 border transition-colors',
+                  className={cn('rounded-[var(--app-radius-lg)] p-4 border transition-colors',
                     isDark ? 'bg-white/[0.01] border-white/[0.04] hover:bg-white/[0.03]' : 'bg-black/[0.01] border-black/[0.04] hover:bg-black/[0.02]'
                   )}
                 >
                   {/* Top Row: Name + Status + Actions */}
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center bg-emerald-500/10')}>
-                        <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-500" />
+                      <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center bg-emerald-500/10')}>
+                        <WhatsAppIcon className="w-4 h-4 text-emerald-500" />
                       </div>
                       <div>
                         <p className="text-sm font-medium">{campaign.name}</p>
                         <div className="flex items-center gap-2 mt-0.5">
                           <WStatusBadge status={campaign.status} isDark={isDark} />
                           <span className={cn('text-[10px] flex items-center gap-1', 'text-[var(--app-text-muted)]')}>
-                            <MediaIcon className="w-3 h-3" /> {campaign.mediaType}
+                            <MediaIcon className="w-4 h-4" /> {campaign.mediaType}
                           </span>
                         </div>
                       </div>
@@ -305,13 +305,13 @@ export default function WhatsAppCampaignsPage() {
                         </Badge>
                       )}
                       <Button variant="outline" size="sm" className="h-6 text-[10px] gap-1 px-2">
-                        <Headphones className="w-3 h-3" /> Agent Takeover
+                        <Headphones className="w-4 h-4" /> Agent Takeover
                       </Button>
                     </div>
                   </div>
 
                   {/* Template Preview */}
-                  <div className={cn('rounded-lg p-2.5 mb-3 text-xs',
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-2.5 mb-3 text-xs',
                     isDark ? 'bg-emerald-500/5 text-white/50' : 'bg-emerald-50/50 text-black/50'
                   )}>
                     {campaign.template}
@@ -349,7 +349,7 @@ export default function WhatsAppCampaignsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -368,13 +368,13 @@ export default function WhatsAppCampaignsPage() {
                     initial={{ height: 0 }}
                     animate={{ height: `${(d.delivered / chartMax) * 120}px` }}
                     transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex-1 rounded-t-lg bg-emerald-500"
+                    className="flex-1 rounded-t-[var(--app-radius-lg)] bg-emerald-500"
                   />
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(d.read / chartMax) * 120}px` }}
                     transition={{ delay: i * 0.08 + 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex-1 rounded-t-lg bg-emerald-400"
+                    className="flex-1 rounded-t-[var(--app-radius-lg)] bg-emerald-400"
                   />
                 </div>
                 <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{d.month}</span>
@@ -388,7 +388,7 @@ export default function WhatsAppCampaignsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -403,7 +403,7 @@ export default function WhatsAppCampaignsPage() {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.45 + i * 0.05, duration: 0.2 }}
-                className={cn('flex items-start gap-3 p-3 rounded-xl transition-colors',
+                className={cn('flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] transition-colors',
                   'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
@@ -424,7 +424,7 @@ export default function WhatsAppCampaignsPage() {
                   <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-secondary)]')}>{reply.message}</p>
                 </div>
                 <Button variant="ghost" size="sm" className="h-6 text-[10px] shrink-0 gap-1">
-                  <Bot className="w-3 h-3" /> AI Reply
+                  <Bot className="w-4 h-4" /> AI Reply
                 </Button>
               </motion.div>
             ))}

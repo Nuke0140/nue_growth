@@ -98,11 +98,11 @@ export default function WorkflowsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Zap className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -115,7 +115,7 @@ export default function WorkflowsPage() {
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Visual automation builder for marketing workflows</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Plus className="w-4 h-4" />
             Create Workflow
           </Button>
@@ -128,7 +128,7 @@ export default function WorkflowsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'lg:w-72 shrink-0 rounded-2xl border p-4 space-y-2',
+              'lg:w-72 shrink-0 rounded-[var(--app-radius-xl)] border p-4 space-y-2',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -142,7 +142,7 @@ export default function WorkflowsPage() {
                   key={wf.id}
                   onClick={() => setSelectedWorkflowId(wf.id)}
                   className={cn(
-                    'w-full text-left p-3 rounded-xl border transition-all duration-200',
+                    'w-full text-left p-3 rounded-[var(--app-radius-lg)] border transition-colors duration-200',
                     isSelected
                       ? (isDark ? 'border-white/[0.12] bg-white/[0.05]' : 'border-black/[0.12] bg-black/[0.03]')
                       : ('border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')
@@ -178,7 +178,7 @@ export default function WorkflowsPage() {
                     </p>
                   )}
                   <ChevronRight className={cn(
-                    'w-3.5 h-3.5 mt-1.5 transition-transform',
+                    'w-4 h-4 mt-1.5 transition-transform',
                     isSelected ? (isDark ? 'text-white/40 rotate-90' : 'text-black/40 rotate-90') : ('text-[var(--app-text-disabled)]')
                   )} />
                 </button>
@@ -195,7 +195,7 @@ export default function WorkflowsPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
               className={cn(
-                'flex-1 rounded-2xl border overflow-hidden relative',
+                'flex-1 rounded-[var(--app-radius-xl)] border overflow-hidden relative',
                 isDark ? 'bg-white/[0.01] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]'
               )}
               style={{ minHeight: '400px' }}
@@ -232,31 +232,31 @@ export default function WorkflowsPage() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setZoom(prev => Math.max(prev - 0.2, 0.5))}
-                    className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}
+                    className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}
                   >
-                    <ZoomOut className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                    <ZoomOut className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   </button>
                   <span className={cn('text-[10px] w-10 text-center', 'text-[var(--app-text-muted)]')}>
                     {Math.round(zoom * 100)}%
                   </span>
                   <button
                     onClick={() => setZoom(prev => Math.min(prev + 0.2, 2))}
-                    className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}
+                    className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}
                   >
-                    <ZoomIn className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                    <ZoomIn className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   </button>
                   <div className={cn('w-px h-4 mx-1', 'bg-[var(--app-hover-bg)]')} />
-                  <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
-                    <Maximize2 className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                  <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
+                    <Maximize2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   </button>
                   <div className={cn('w-px h-4 mx-1', 'bg-[var(--app-hover-bg)]')} />
                   {selectedWorkflow.status === 'active' ? (
-                    <Button variant="ghost" size="sm" className={cn('h-7 gap-1.5 text-[10px] rounded-lg', isDark ? 'text-amber-400 hover:bg-amber-500/10' : 'text-amber-600 hover:bg-amber-50')}>
-                      <Pause className="w-3 h-3" /> Pause
+                    <Button variant="ghost" size="sm" className={cn('h-8  gap-1.5 text-[10px] rounded-[var(--app-radius-lg)]', isDark ? 'text-amber-400 hover:bg-amber-500/10' : 'text-amber-600 hover:bg-amber-50')}>
+                      <Pause className="w-4 h-4" /> Pause
                     </Button>
                   ) : (
-                    <Button variant="ghost" size="sm" className={cn('h-7 gap-1.5 text-[10px] rounded-lg', isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50')}>
-                      <Play className="w-3 h-3" /> Activate
+                    <Button variant="ghost" size="sm" className={cn('h-8  gap-1.5 text-[10px] rounded-[var(--app-radius-lg)]', isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50')}>
+                      <Play className="w-4 h-4" /> Activate
                     </Button>
                   )}
                 </div>
@@ -307,8 +307,8 @@ export default function WorkflowsPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.08, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
-                          'absolute rounded-2xl border p-3 cursor-pointer transition-all duration-200 hover:shadow-lg group',
-                          isDark ? 'bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.06]' : 'bg-white border-black/[0.08] hover:bg-black/[0.02] hover:shadow-black/5',
+                          'absolute rounded-[var(--app-radius-xl)] border p-3 cursor-pointer transition-colors duration-200 hover:shadow-[var(--app-shadow-md)]-lg group',
+                          isDark ? 'bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.06]' : 'bg-white border-black/[0.08] hover:bg-black/[0.02] hover:shadow-[var(--app-shadow-md)]-black/5',
                         )}
                         style={{
                           left: node.x,
@@ -318,8 +318,8 @@ export default function WorkflowsPage() {
                         }}
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center shrink-0', bgColor)}>
-                            <Icon className={cn('w-3.5 h-3.5', textColor)} />
+                          <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', bgColor)}>
+                            <Icon className={cn('w-4 h-4', textColor)} />
                           </div>
                           <Badge variant="secondary" className={cn('text-[8px] px-1.5 py-0 shrink-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                             {nodeTypeLabels[node.type]}
@@ -339,10 +339,10 @@ export default function WorkflowsPage() {
 
               {/* Drag Hint */}
               <div className={cn(
-                'absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border',
+                'absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
                 isDark ? 'bg-white/[0.04] border-white/[0.06]' : 'bg-white/80 border-black/[0.06]'
               )}>
-                <MousePointer2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                <MousePointer2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                   Drag nodes to rearrange · Click to edit
                 </span>
@@ -355,7 +355,7 @@ export default function WorkflowsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -367,7 +367,7 @@ export default function WorkflowsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className={cn('w-4 h-4 text-emerald-400')} />
@@ -379,7 +379,7 @@ export default function WorkflowsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <BarChart3 className={cn('w-4 h-4 text-violet-400')} />
@@ -394,10 +394,10 @@ export default function WorkflowsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3 }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <p className={cn('text-[10px] uppercase tracking-wider font-medium mb-3', 'text-[var(--app-text-muted)]')}>
-                <Plus className="w-3 h-3 inline mr-1.5" /> Node Palette
+                <Plus className="w-4 h-4 inline mr-1.5" /> Node Palette
               </p>
               <div className="flex flex-wrap gap-2">
                 {paletteNodes.map(nodeType => {
@@ -408,11 +408,11 @@ export default function WorkflowsPage() {
                     <button
                       key={nodeType}
                       className={cn(
-                        'flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border transition-all duration-200 group',
+                        'flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--app-radius-lg)] border transition-colors duration-200 group',
                         isDark ? 'border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.04]' : 'border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.04]'
                       )}
                     >
-                      <div className={cn('w-5 h-5 rounded-md flex items-center justify-center', bgColor)}>
+                      <div className={cn('w-5 h-5 rounded-[var(--app-radius-md)] flex items-center justify-center', bgColor)}>
                         <Icon className={cn('w-2.5 h-2.5', textColor)} />
                       </div>
                       <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50 group-hover:text-white/70' : 'text-black/50 group-hover:text-black/70')}>

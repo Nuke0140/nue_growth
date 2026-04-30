@@ -126,7 +126,7 @@ export function RadialMenu({ isOpen, onClose, items }: RadialMenuProps) {
                         'flex items-center justify-center',
                         'w-12 h-12 rounded-full',
                         'bg-primary text-primary-foreground',
-                        'shadow-md',
+                        'shadow-[var(--app-shadow-md)]-md',
                         'hover:bg-primary/90',
                         'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                         'cursor-pointer'

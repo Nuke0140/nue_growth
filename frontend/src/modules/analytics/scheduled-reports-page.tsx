@@ -41,13 +41,13 @@ export default function ScheduledReportsPage() {
   }).length;
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -62,7 +62,7 @@ export default function ScheduledReportsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={cn(
-              'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors',
+              'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-medium transition-colors',
               isDark
                 ? 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 border border-blue-500/30'
                 : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200',
@@ -96,7 +96,7 @@ export default function ScheduledReportsPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -109,9 +109,9 @@ export default function ScheduledReportsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className={cn('rounded-2xl border shadow-sm overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
+          <div className="p-4 sm:p-app-xl border-b" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-2">
               <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
@@ -149,7 +149,7 @@ export default function ScheduledReportsPage() {
                     >
                       <td className={cn('px-4 py-3 font-medium', 'text-[var(--app-text)]')}>
                         <div className="flex items-center gap-2">
-                          {isFailed && <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+                          {isFailed && <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />}
                           {report.name}
                         </div>
                       </td>
@@ -160,7 +160,7 @@ export default function ScheduledReportsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1.5">
-                          <DeliveryIcon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                          <DeliveryIcon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                           <span className="capitalize">{report.deliveryMethod}</span>
                         </div>
                       </td>
@@ -183,11 +183,11 @@ export default function ScheduledReportsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1">
-                          <button className={cn('p-1 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06] text-zinc-400 hover:text-zinc-200' : 'hover:bg-black/[0.04] text-zinc-500 hover:text-zinc-700')}>
-                            <Pencil className="w-3.5 h-3.5" />
+                          <button className={cn('p-1 rounded-[var(--app-radius-lg)] transition-colors', isDark ? 'hover:bg-white/[0.06] text-zinc-400 hover:text-zinc-200' : 'hover:bg-black/[0.04] text-zinc-500 hover:text-zinc-700')}>
+                            <Pencil className="w-4 h-4" />
                           </button>
-                          <button className="p-1 rounded-lg transition-colors text-red-400 hover:text-red-300 hover:bg-red-500/10">
-                            <Trash2 className="w-3.5 h-3.5" />
+                          <button className="p-1 rounded-[var(--app-radius-lg)] transition-colors text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>
@@ -216,7 +216,7 @@ export default function ScheduledReportsPage() {
                   <div
                     key={report.id}
                     className={cn(
-                      'rounded-2xl border border-l-4 border-l-amber-500 p-4',
+                      'rounded-[var(--app-radius-xl)] border border-l-4 border-l-amber-500 p-4',
                       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
@@ -238,11 +238,11 @@ export default function ScheduledReportsPage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className={cn(
-                          'shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium',
+                          'shrink-0 inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium',
                           isDark ? 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25' : 'bg-amber-50 text-amber-600 hover:bg-amber-100',
                         )}
                       >
-                        <RefreshCw className="w-3 h-3" />
+                        <RefreshCw className="w-4 h-4" />
                         Retry Now
                       </motion.button>
                     </div>

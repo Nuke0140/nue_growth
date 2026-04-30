@@ -85,7 +85,7 @@ export default function DealDetailPage() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="p-4 md:p-6 max-w-[1400px] mx-auto space-y-6">
+      <div className="p-4 md:p-6 max-w-[1400px] mx-auto space-y-app-2xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -99,7 +99,7 @@ export default function DealDetailPage() {
                   {deal.name}
                 </h1>
                 <span className={cn(
-                  'inline-flex px-2.5 py-1 rounded-lg text-xs font-medium capitalize',
+                  'inline-flex px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium capitalize',
                   getStageColor(deal.stage, isDark)
                 )}>
                   {STAGE_LABELS[deal.stage]}
@@ -107,15 +107,15 @@ export default function DealDetailPage() {
               </div>
               <div className="flex flex-wrap items-center gap-4 text-xs">
                 <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
-                  <Building2 className="w-3.5 h-3.5" />
+                  <Building2 className="w-4 h-4" />
                   {deal.company}
                 </span>
                 <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
-                  <User className="w-3.5 h-3.5" />
+                  <User className="w-4 h-4" />
                   {deal.contactName}
                 </span>
                 <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
-                  <Calendar className="w-3.5 h-3.5" />
+                  <Calendar className="w-4 h-4" />
                   Expected Close: {new Date(deal.expectedClose).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 </span>
               </div>
@@ -134,7 +134,7 @@ export default function DealDetailPage() {
 
           {/* Probability Bar */}
           <div className={cn(
-            'rounded-2xl border p-4 mt-5',
+            'rounded-[var(--app-radius-xl)] border p-4 mt-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
             <div className="flex items-center justify-between mb-2">
@@ -182,7 +182,7 @@ export default function DealDetailPage() {
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-app-2xl">
           {/* Center - Activity Timeline */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -191,7 +191,7 @@ export default function DealDetailPage() {
             className="lg:col-span-7"
           >
             <div className={cn(
-              'rounded-2xl border overflow-hidden',
+              'rounded-[var(--app-radius-xl)] border overflow-hidden',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div className={cn('p-4 border-b', 'border-[var(--app-border)]')}>
@@ -209,7 +209,7 @@ export default function DealDetailPage() {
                     >
                       <div className="flex items-start gap-3">
                         <div className={cn(
-                          'w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0',
+                          'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center text-sm shrink-0',
                           'bg-[var(--app-hover-bg)]'
                         )}>
                           {ACTIVITY_ICONS[activity.type] || '📋'}
@@ -240,7 +240,7 @@ export default function DealDetailPage() {
                   ))}
                 </div>
               ) : (
-                <div className={cn('flex flex-col items-center justify-center py-12', 'text-[var(--app-text-disabled)]')}>
+                <div className={cn('flex flex-col items-center justify-center py-app-4xl', 'text-[var(--app-text-disabled)]')}>
                   <Clock className="w-8 h-8 mb-2" />
                   <p className="text-xs">No activity recorded yet</p>
                 </div>
@@ -257,7 +257,7 @@ export default function DealDetailPage() {
           >
             {/* Deal Info Cards */}
             <div className={cn(
-              'rounded-2xl border p-4 space-y-3',
+              'rounded-[var(--app-radius-xl)] border p-4 space-y-3',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -272,11 +272,11 @@ export default function DealDetailPage() {
               ].map(({ label, value, icon: Icon, alert }) => (
                 <div key={label} className="flex items-center gap-3">
                   <div className={cn(
-                    'w-7 h-7 rounded-lg flex items-center justify-center shrink-0',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <Icon className={cn(
-                      'w-3.5 h-3.5',
+                      'w-4 h-4',
                       alert ? 'text-amber-500' : ('text-[var(--app-text-muted)]')
                     )} />
                   </div>
@@ -287,25 +287,25 @@ export default function DealDetailPage() {
                       alert ? 'text-amber-500' : ('text-[var(--app-text)]')
                     )}>{value}</span>
                   </div>
-                  {alert && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
+                  {alert && <AlertTriangle className="w-4 h-4 text-amber-500" />}
                 </div>
               ))}
             </div>
 
             {/* Contact Info */}
             <div className={cn(
-              'rounded-2xl border p-4',
+              'rounded-[var(--app-radius-xl)] border p-4',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
                 Linked Contact
               </h3>
               <div className={cn(
-                'flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-colors',
+                'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] border cursor-pointer transition-colors',
                 isDark ? 'bg-white/[0.02] border-white/[0.04] hover:bg-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04] hover:bg-black/[0.03]'
               )}>
                 <div className={cn(
-                  'w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold',
+                  'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center text-sm font-bold',
                   'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                 )}>
                   {deal.contactName.split(' ').map(n => n[0]).join('')}
@@ -319,7 +319,7 @@ export default function DealDetailPage() {
 
             {/* AI Insights */}
             <div className={cn(
-              'rounded-2xl border p-4 space-y-4',
+              'rounded-[var(--app-radius-xl)] border p-4 space-y-4',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div className="flex items-center gap-2">
@@ -330,7 +330,7 @@ export default function DealDetailPage() {
               </div>
 
               {/* Win Probability Analysis */}
-              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                 <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Win Probability
                 </span>
@@ -349,7 +349,7 @@ export default function DealDetailPage() {
               </div>
 
               {/* Recommended Next Steps */}
-              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                 <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Recommended Next Steps
                 </span>
@@ -357,11 +357,11 @@ export default function DealDetailPage() {
                   {deal.stage === 'proposal' && (
                     <>
                       <div className="flex items-start gap-2">
-                        <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Schedule pricing discussion meeting</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Handshake className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                        <Handshake className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Prepare negotiation talking points</span>
                       </div>
                     </>
@@ -369,11 +369,11 @@ export default function DealDetailPage() {
                   {deal.stage === 'demo' && (
                     <>
                       <div className="flex items-start gap-2">
-                        <Video className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                        <Video className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Follow up with technical deep-dive</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Edit3 className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+                        <Edit3 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send personalized demo recap</span>
                       </div>
                     </>
@@ -381,11 +381,11 @@ export default function DealDetailPage() {
                   {deal.stage === 'negotiation' && (
                     <>
                       <div className="flex items-start gap-2">
-                        <TrendingUp className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                        <TrendingUp className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Create urgency with limited-time offer</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Target className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <Target className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Align final terms with decision maker</span>
                       </div>
                     </>
@@ -393,18 +393,18 @@ export default function DealDetailPage() {
                   {deal.stage === 'qualified' && (
                     <>
                       <div className="flex items-start gap-2">
-                        <Video className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                        <Video className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Schedule product demo call</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send case study from similar industry</span>
                       </div>
                     </>
                   )}
                   {(deal.stage === 'new' || deal.stage === 'won' || deal.stage === 'lost') && (
                     <div className="flex items-start gap-2">
-                      <ArrowLeftRight className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                      <ArrowLeftRight className="w-4 h-4 shrink-0 mt-0.5" />
                       <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Continue building relationship</span>
                     </div>
                   )}
@@ -413,14 +413,14 @@ export default function DealDetailPage() {
 
               {/* Similar Deals */}
               {similarDeals.length > 0 && (
-                <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                   <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                     Similar Deals
                   </span>
                   <div className="space-y-2">
                     {similarDeals.map(sd => (
                       <div key={sd.id} className={cn(
-                        'flex items-center gap-2 p-2 rounded-lg',
+                        'flex items-center gap-2 p-2 rounded-[var(--app-radius-lg)]',
                         'hover:bg-[var(--app-hover-bg)]'
                       )}>
                         <div className="flex-1 min-w-0">
@@ -452,10 +452,10 @@ export default function DealDetailPage() {
           <div className="flex flex-wrap items-center gap-2 max-w-[1400px] mx-auto">
             <Select>
               <SelectTrigger className={cn(
-                'h-9 w-44 text-xs rounded-xl',
+                'h-10  w-44 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
-                <ArrowLeftRight className="w-3.5 h-3.5 mr-1.5" />
+                <ArrowLeftRight className="w-4 h-4 mr-1.5" />
                 <SelectValue placeholder="Move Stage" />
               </SelectTrigger>
               <SelectContent>
@@ -466,16 +466,16 @@ export default function DealDetailPage() {
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" className="h-9 px-4 rounded-xl text-xs">
-              <Edit3 className="w-3.5 h-3.5 mr-1.5" />
+            <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs">
+              <Edit3 className="w-4 h-4 mr-1.5" />
               Edit Deal
             </Button>
-            <Button variant="outline" className="h-9 px-4 rounded-xl text-xs">
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+            <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs">
+              <Plus className="w-4 h-4 mr-1.5" />
               Add Activity
             </Button>
-            <Button variant="outline" className="h-9 px-4 rounded-xl text-xs">
-              <Video className="w-3.5 h-3.5 mr-1.5" />
+            <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs">
+              <Video className="w-4 h-4 mr-1.5" />
               Schedule Meeting
             </Button>
           </div>

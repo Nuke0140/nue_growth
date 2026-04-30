@@ -111,11 +111,11 @@ export default function CustomerHealthPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Heart className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -129,7 +129,7 @@ export default function CustomerHealthPage() {
                 key={f}
                 onClick={() => setFilterRisk(f)}
                 className={cn(
-                  'px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors capitalize',
+                  'px-3 py-1.5 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors capitalize',
                   filterRisk === f
                     ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                     : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -153,12 +153,12 @@ export default function CustomerHealthPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
-                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-4 h-4', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.count}</p>
@@ -172,7 +172,7 @@ export default function CustomerHealthPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -211,7 +211,7 @@ export default function CustomerHealthPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-5 transition-colors cursor-pointer',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors cursor-pointer',
                   customer.riskTag === 'high'
                     ? (isDark ? 'bg-red-500/[0.03] border-red-500/15 hover:bg-red-500/[0.06]' : 'bg-red-50/50 border-red-200 hover:bg-red-50')
                     : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
@@ -225,7 +225,7 @@ export default function CustomerHealthPage() {
                       <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', riskStyle.bg, riskStyle.text)}>
                         {riskStyle.label}
                       </Badge>
-                      <TrendIcon className={cn('w-3.5 h-3.5 shrink-0', trendColor)} />
+                      <TrendIcon className={cn('w-4 h-4 shrink-0', trendColor)} />
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{customer.industry}</span>
                     </div>
 
@@ -242,15 +242,15 @@ export default function CustomerHealthPage() {
 
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="flex items-center gap-1.5">
-                        <User className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <User className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{customer.accountManager}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <IndianRupee className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <IndianRupee className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                         <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{formatINR(customer.value)}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Calendar className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last: {customer.lastActiveDate}</span>
                       </div>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>•</span>

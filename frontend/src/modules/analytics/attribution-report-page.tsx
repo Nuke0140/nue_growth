@@ -44,7 +44,7 @@ export default function AttributionReportPage() {
   const data = attributionData[selectedModelIndex];
 
   const card = cn(
-    'rounded-2xl border shadow-sm',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -54,7 +54,7 @@ export default function AttributionReportPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -77,7 +77,7 @@ export default function AttributionReportPage() {
                 transition={{ delay: i * 0.04, duration: 0.25 }}
                 onClick={() => setSelectedModelIndex(i)}
                 className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                  'flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
                   isActive
                     ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
                     : isDark
@@ -97,7 +97,7 @@ export default function AttributionReportPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
-            'rounded-xl border p-3',
+            'rounded-[var(--app-radius-lg)] border p-3',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -111,9 +111,9 @@ export default function AttributionReportPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
-          className={cn(card, 'p-4 sm:p-5')}
+          className={cn(card, 'p-4 sm:p-app-xl')}
         >
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-app-xl">
             <div className="flex items-center gap-2">
               <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
@@ -164,7 +164,7 @@ export default function AttributionReportPage() {
         </motion.div>
 
         {/* CAC by Channel + Touchpoint Contribution */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
           {/* CAC Table */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -172,7 +172,7 @@ export default function AttributionReportPage() {
             transition={{ delay: 0.15, duration: 0.3 }}
             className={cn(card, 'overflow-hidden')}
           >
-            <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
+            <div className="p-4 sm:p-app-xl border-b" style={{ borderColor: 'var(--app-border)' }}>
               <div className="flex items-center gap-2">
                 <IndianRupee className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
@@ -218,9 +218,9 @@ export default function AttributionReportPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3 }}
-            className={cn(card, 'p-4 sm:p-5')}
+            className={cn(card, 'p-4 sm:p-app-xl')}
           >
-            <div className="flex items-center gap-2 mb-5">
+            <div className="flex items-center gap-2 mb-app-xl">
               <GitBranch className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Touchpoint Contribution
@@ -266,7 +266,7 @@ export default function AttributionReportPage() {
           transition={{ delay: 0.25, duration: 0.3 }}
           className={cn(card, 'overflow-hidden')}
         >
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
+          <div className="p-4 sm:p-app-xl border-b" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-2">
               <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
@@ -312,7 +312,7 @@ export default function AttributionReportPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3 }}
-          className={cn(card, 'p-4 sm:p-5')}
+          className={cn(card, 'p-4 sm:p-app-xl')}
         >
           <div className="flex items-center gap-2 mb-4">
             <Layers className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -330,7 +330,7 @@ export default function AttributionReportPage() {
                   whileHover={{ scale: 1.02, y: -2 }}
                   onClick={() => setSelectedModelIndex(i)}
                   className={cn(
-                    'rounded-xl border p-3 cursor-pointer transition-colors',
+                    'rounded-[var(--app-radius-lg)] border p-3 cursor-pointer transition-colors',
                     i === selectedModelIndex
                       ? 'border-blue-500/30 bg-blue-500/5'
                       : isDark

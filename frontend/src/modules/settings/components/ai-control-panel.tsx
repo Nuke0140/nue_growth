@@ -74,7 +74,7 @@ export default function AIControlPanel({
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       className={cn(
-        'relative rounded-2xl border border-l-4 border-l-violet-500 p-5 shadow-sm overflow-hidden',
+        'relative rounded-[var(--app-radius-xl)] border border-l-4 border-l-violet-500 p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -95,7 +95,7 @@ export default function AIControlPanel({
           <div className="relative">
             {enabled && (
               <motion.div
-                className="absolute inset-0 rounded-xl blur-md"
+                className="absolute inset-0 rounded-[var(--app-radius-lg)] blur-md"
                 animate={{
                   opacity: [0.3, 0.6, 0.3],
                   scale: [0.95, 1.05, 0.95],
@@ -106,7 +106,7 @@ export default function AIControlPanel({
             )}
             <div
               className={cn(
-                'relative flex h-10 w-10 items-center justify-center rounded-xl',
+                'relative flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]',
                 enabled
                   ? isDark
                     ? 'bg-violet-500/15'
@@ -161,9 +161,9 @@ export default function AIControlPanel({
           aria-label={`Toggle ${title}`}
         >
           {enabled ? (
-            <ToggleRight className="h-7 w-7" />
+            <ToggleRight className="h-8  w-7" />
           ) : (
-            <ToggleLeft className="h-7 w-7" />
+            <ToggleLeft className="h-8  w-7" />
           )}
         </motion.button>
       </div>
@@ -182,7 +182,7 @@ export default function AIControlPanel({
             </p>
             <div
               className={cn(
-                'inline-flex items-center rounded-xl p-1 gap-0.5',
+                'inline-flex items-center rounded-[var(--app-radius-lg)] p-1 gap-0.5',
                 'bg-[var(--app-hover-bg)]',
               )}
             >
@@ -192,11 +192,11 @@ export default function AIControlPanel({
                   type="button"
                   onClick={() => handleModeChange(m.value)}
                   className={cn(
-                    'rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer',
+                    'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer',
                     localMode === m.value
                       ? isDark
-                        ? 'bg-violet-500/20 text-violet-300 shadow-sm'
-                        : 'bg-violet-100 text-violet-700 shadow-sm'
+                        ? 'bg-violet-500/20 text-violet-300 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
+                        : 'bg-violet-100 text-violet-700 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                       : isDark
                         ? 'text-zinc-500 hover:text-zinc-300'
                         : 'text-zinc-400 hover:text-zinc-600',
@@ -261,7 +261,7 @@ export default function AIControlPanel({
             {/* Prompt logging */}
             <div
               className={cn(
-                'flex items-center justify-between rounded-xl p-3 border',
+                'flex items-center justify-between rounded-[var(--app-radius-lg)] p-3 border',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -287,7 +287,7 @@ export default function AIControlPanel({
             {/* Safe action confirmation */}
             <div
               className={cn(
-                'flex items-center justify-between rounded-xl p-3 border',
+                'flex items-center justify-between rounded-[var(--app-radius-lg)] p-3 border',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >

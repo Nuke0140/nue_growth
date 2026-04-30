@@ -29,21 +29,21 @@ function getStatusConfig(status: BudgetStatus, isDark: boolean) {
         barColor: 'bg-amber-500',
         barBg: isDark ? 'bg-amber-500/10' : 'bg-amber-100',
         textColor: 'text-[var(--app-warning)]',
-        icon: <AlertTriangle className="w-3 h-3 text-amber-500" />,
+        icon: <AlertTriangle className="w-4 h-4 text-amber-500" />,
       };
     case 'overspent':
       return {
         barColor: 'bg-red-500',
         barBg: isDark ? 'bg-red-500/10' : 'bg-red-100',
         textColor: 'text-[var(--app-danger)]',
-        icon: <AlertTriangle className="w-3 h-3 text-red-500" />,
+        icon: <AlertTriangle className="w-4 h-4 text-red-500" />,
       };
     case 'locked':
       return {
         barColor: 'bg-slate-500',
         barBg: isDark ? 'bg-slate-500/10' : 'bg-slate-100',
         textColor: isDark ? 'text-slate-400' : 'text-slate-600',
-        icon: <Lock className="w-3 h-3 text-slate-500" />,
+        icon: <Lock className="w-4 h-4 text-slate-500" />,
       };
   }
 }
@@ -79,7 +79,7 @@ export default function BudgetProgress({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-4',
+        'rounded-[var(--app-radius-xl)] border p-4',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -90,7 +90,7 @@ export default function BudgetProgress({
             {name}
           </span>
           <span className={cn(
-            'inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-medium',
+            'inline-flex items-center px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[9px] font-medium',
             isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.04] text-black/40'
           )}>
             {type}

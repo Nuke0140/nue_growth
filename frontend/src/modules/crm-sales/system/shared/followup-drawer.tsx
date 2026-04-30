@@ -71,7 +71,7 @@ export default function FollowupDrawer({
           </SheetTitle>
         </SheetHeader>
 
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-app-2xl">
           {/* Quick Actions Grid */}
           <div>
             <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
@@ -85,7 +85,7 @@ export default function FollowupDrawer({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.2, delay: i * 0.03 }}
                   className={cn(
-                    'flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-200 group',
+                    'flex flex-col items-center gap-1.5 p-3 rounded-[var(--app-radius-lg)] transition-colors duration-200 group',
                     isDark
                       ? `hover:${action.hoverBg} hover:bg-white/[0.06]`
                       : `hover:${action.hoverBg} hover:bg-black/[0.04]`,
@@ -93,7 +93,7 @@ export default function FollowupDrawer({
                   )}
                 >
                   <div className={cn(
-                    'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
+                    'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                     isDark ? 'bg-white/[0.04] group-hover:bg-white/[0.08]' : 'bg-black/[0.03] group-hover:bg-black/[0.06]'
                   )}>
                     <action.icon className={cn('w-5 h-5', action.color)} />
@@ -108,7 +108,7 @@ export default function FollowupDrawer({
 
           {/* AI Suggestion */}
           <div className={cn(
-            'rounded-xl p-4 border',
+            'rounded-[var(--app-radius-lg)] p-4 border',
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]'
           )}>
             <div className="flex items-center gap-2 mb-2">
@@ -121,7 +121,7 @@ export default function FollowupDrawer({
               placeholder="AI-powered follow-up suggestion will appear here..."
               rows={3}
               className={cn(
-                'text-xs resize-none rounded-lg border-0',
+                'text-xs resize-none rounded-[var(--app-radius-lg)] border-0',
                 isDark
                   ? 'bg-white/[0.03] text-white/70 placeholder:text-white/20 focus-visible:ring-white/[0.08]'
                   : 'bg-black/[0.02] text-black/70 placeholder:text-black/20 focus-visible:ring-black/[0.08]'
@@ -146,12 +146,12 @@ export default function FollowupDrawer({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.25, delay: i * 0.05 }}
                   className={cn(
-                    'flex items-center gap-3 p-3 rounded-xl transition-colors',
+                    'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
-                    'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <item.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />

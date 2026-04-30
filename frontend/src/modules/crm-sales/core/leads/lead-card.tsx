@@ -147,17 +147,17 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
       onHoverEnd={() => setShowActions(false)}
       onClick={() => selectLead(lead.id)}
       className={cn(
-        'relative rounded-2xl border p-4 cursor-pointer transition-all duration-200 group',
+        'relative rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200 group',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12]'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] shadow-sm hover:shadow-md',
+          : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] hover:shadow-[var(--app-shadow-md)]-md',
         lead.isDuplicate && (isDark ? 'ring-1 ring-amber-500/30' : 'ring-1 ring-amber-400/50'),
       )}
     >
       {/* Glow for hot intent */}
       {intentConfig.glow && (
         <motion.div
-          className="absolute -inset-px rounded-2xl pointer-events-none"
+          className="absolute -inset-px rounded-[var(--app-radius-xl)] pointer-events-none"
           animate={{
             boxShadow: [
               '0 0 0 0 rgba(239,68,68,0)',
@@ -173,7 +173,7 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
         {/* Top Row: Avatar + Name + Badges */}
         <div className="flex items-start gap-3 mb-3">
           <div className={cn(
-            'w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shrink-0 border',
+            'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center text-sm font-bold shrink-0 border',
             avatarColor
           )}>
             {getInitials(lead.firstName, lead.lastName)}
@@ -191,7 +191,7 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
                 {lead.score}
               </Badge>
               {lead.isHighValue && (
-                <span title="High Value Lead"><Rocket className={cn('w-3.5 h-3.5', isDark ? 'text-purple-400' : 'text-purple-600')} /></span>
+                <span title="High Value Lead"><Rocket className={cn('w-4 h-4', isDark ? 'text-purple-400' : 'text-purple-600')} /></span>
               )}
               {lead.isDuplicate && (
                 <Badge variant="outline" className={cn(
@@ -258,21 +258,21 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
             <div className="flex items-center gap-2">
               <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Engagement</span>
               <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(engagementScore))} style={{ width: `${engagementScore}%` }} />
+                <div className={cn('h-full rounded-full transition-colors', getScoreBarColor(engagementScore))} style={{ width: `${engagementScore}%` }} />
               </div>
               <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{engagementScore}%</span>
             </div>
             <div className="flex items-center gap-2">
               <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Fit</span>
               <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(fitScore))} style={{ width: `${fitScore}%` }} />
+                <div className={cn('h-full rounded-full transition-colors', getScoreBarColor(fitScore))} style={{ width: `${fitScore}%` }} />
               </div>
               <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{fitScore}%</span>
             </div>
             <div className="flex items-center gap-2">
               <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Timing</span>
               <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(timingScore))} style={{ width: `${timingScore}%` }} />
+                <div className={cn('h-full rounded-full transition-colors', getScoreBarColor(timingScore))} style={{ width: `${timingScore}%` }} />
               </div>
               <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{timingScore}%</span>
             </div>
@@ -286,9 +286,9 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
             <Badge variant="outline" className={cn(
               'text-[10px] px-2 py-0 h-5 font-medium gap-1',
               isDark ? intentConfig.bgDark : intentConfig.bgLight,
-              intentConfig.glow && (isDark ? 'shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'shadow-[0_0_10px_rgba(239,68,68,0.15)]')
+              intentConfig.glow && (isDark ? 'shadow-[var(--app-shadow-md)]-[0_0_10px_rgba(239,68,68,0.2)]' : 'shadow-[var(--app-shadow-md)]-[0_0_10px_rgba(239,68,68,0.15)]')
             )}>
-              <IntentIcon className={cn('w-3 h-3', isDark ? intentConfig.iconColorDark : intentConfig.iconColorLight)} />
+              <IntentIcon className={cn('w-4 h-4', isDark ? intentConfig.iconColorDark : intentConfig.iconColorLight)} />
               {intentConfig.label}
             </Badge>
             {isSlaUrgent && (
@@ -344,7 +344,7 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
           className={cn(
-            'absolute -right-1 top-1/2 -translate-y-1/2 flex flex-col gap-0.5 p-1 rounded-xl border shadow-xl z-20',
+            'absolute -right-1 top-1/2 -translate-y-1/2 flex flex-col gap-0.5 p-1 rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-xl z-20',
             isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]'
           )}
         >
@@ -358,11 +358,11 @@ const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
               key={action.label}
               onClick={(e) => { e.stopPropagation(); }}
               className={cn(
-                'p-2 rounded-lg transition-colors',
+                'p-2 rounded-[var(--app-radius-lg)] transition-colors',
                 isDark ? 'hover:bg-white/[0.08] text-white/60 hover:text-white' : 'hover:bg-black/[0.06] text-black/60 hover:text-black'
               )}
             >
-              <action.icon className="w-3.5 h-3.5" />
+              <action.icon className="w-4 h-4" />
             </button>
           ))}
         </motion.div>

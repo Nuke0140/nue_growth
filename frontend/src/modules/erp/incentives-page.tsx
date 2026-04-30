@@ -87,7 +87,7 @@ function IncentivesPageInner() {
 
   return (
     <PageShell title="Incentives" icon={Gift}>
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Actions */}
         <div className="flex items-center justify-between gap-2">
           <div className="relative">
@@ -95,7 +95,7 @@ function IncentivesPageInner() {
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
               className={cn(
-                'appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-lg border cursor-pointer focus:outline-none',
+                'appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-[var(--app-radius-lg)] border cursor-pointer focus:outline-none',
                 isDark ? 'bg-white/[0.04] border-white/[0.08] text-white/60' : 'bg-black/[0.03] border-black/[0.08] text-black/60'
               )}
             >
@@ -103,12 +103,12 @@ function IncentivesPageInner() {
                 <option key={m} value={m}>{m === 'all' ? 'All Time' : new Date(m + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</option>
               ))}
             </select>
-            <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
+            <ChevronDown className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
           </div>
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className={cn('h-9 rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+                <Button className={cn('h-10  rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                   <Plus className="w-4 h-4" /> Add Incentive
                 </Button>
               </TooltipTrigger>
@@ -118,7 +118,7 @@ function IncentivesPageInner() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit overflow-x-auto" style={{ background: 'var(--app-hover-bg)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit overflow-x-auto" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
             return (
@@ -126,8 +126,8 @@ function IncentivesPageInner() {
                 key={filter.key}
                 onClick={() => setActiveFilter(filter.key)}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap',
-                  isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200 whitespace-nowrap',
+                  isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
                 )}
               >
                 <span>{filter.label}</span>
@@ -152,12 +152,12 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-lg font-bold">{stat.value}</p>
@@ -165,14 +165,14 @@ function IncentivesPageInner() {
           ))}
         </div>
 
-        <div className="flex flex-col xl:flex-row gap-6">
+        <div className="flex flex-col xl:flex-row gap-app-2xl">
           {/* Table */}
           <div className="flex-1">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.3 }}
-              className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -202,7 +202,7 @@ function IncentivesPageInner() {
                         >
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
-                              <Avatar className="h-7 w-7">
+                              <Avatar className="h-8  w-7">
                                 <AvatarFallback className={cn('text-[10px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
                                   {emp?.avatar || '??'}
                                 </AvatarFallback>
@@ -237,7 +237,7 @@ function IncentivesPageInner() {
                           <td className="px-3">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+                                <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
                                   <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                                 </button>
                               </DropdownMenuTrigger>
@@ -265,7 +265,7 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" /> Type Distribution

@@ -88,7 +88,7 @@ export default function ProposalsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -108,10 +108,10 @@ export default function ProposalsPage() {
               </p>
             </div>
             <Button className={cn(
-              'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+              'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Create Proposal
             </Button>
           </div>
@@ -127,7 +127,7 @@ export default function ProposalsPage() {
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
                   className={cn(
-                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap border',
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap border',
                     isActive
                       ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
                       : isDark ? 'text-white/40 border-white/[0.06] hover:bg-white/[0.04]' : 'text-black/40 border-black/[0.06] hover:bg-black/[0.04]'
@@ -161,7 +161,7 @@ export default function ProposalsPage() {
               { label: 'Total Value', value: formatCurrency(stats.totalValue), icon: DollarSign, color: 'text-amber-500' },
             ].map((stat) => (
               <div key={stat.label} className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center gap-2 mb-2">
@@ -186,7 +186,7 @@ export default function ProposalsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.05 }}
                   className={cn(
-                    'rounded-2xl border p-4 text-left transition-colors group',
+                    'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors group',
                     isDark
                       ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
                       : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -194,7 +194,7 @@ export default function ProposalsPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className={cn(
-                      'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
+                      'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                       isDark ? 'bg-white/[0.06] group-hover:bg-white/[0.1]' : 'bg-black/[0.04] group-hover:bg-black/[0.08]'
                     )}>
                       <tpl.icon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -222,7 +222,7 @@ export default function ProposalsPage() {
 
           {filtered.length === 0 && (
             <div className={cn(
-              'rounded-2xl border p-12 text-center',
+              'rounded-[var(--app-radius-xl)] border p-app-4xl text-center',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <FileText className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
@@ -266,7 +266,7 @@ function ProposalCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15 + index * 0.05 }}
       className={cn(
-        'rounded-2xl border p-5 transition-colors',
+        'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -284,7 +284,7 @@ function ProposalCard({
           <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-semibold bg-white/[0.06] border-0">
             v{proposal.version}
           </Badge>
-          <span className={cn('px-2 py-0.5 rounded-md text-[10px] font-semibold', statusCfg.bg, statusCfg.text)}>
+          <span className={cn('px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-semibold', statusCfg.bg, statusCfg.text)}>
             {statusCfg.label}
           </span>
         </div>
@@ -321,10 +321,10 @@ function ProposalCard({
 
       {/* Client Engagement */}
       {proposal.viewedByClient && (
-        <div className={cn('rounded-xl p-3 mb-3 border', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.04]')}>
+        <div className={cn('rounded-[var(--app-radius-lg)] p-3 mb-3 border', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.04]')}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
-              <Eye className="w-3.5 h-3.5 text-violet-400" />
+              <Eye className="w-4 h-4 text-violet-400" />
               <span className={cn('text-[10px] font-semibold', 'text-[var(--app-text-secondary)]')}>
                 Client Engagement
               </span>
@@ -361,14 +361,14 @@ function ProposalCard({
       {/* Approval + Payment */}
       <div className="flex flex-wrap gap-2 mb-3">
         {approvalCfg && (
-          <span className={cn('px-2 py-0.5 rounded-md text-[10px] font-medium flex items-center gap-1', approvalCfg.bg, approvalCfg.text)}>
-            <CheckCircle2 className="w-3 h-3" />
+          <span className={cn('px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium flex items-center gap-1', approvalCfg.bg, approvalCfg.text)}>
+            <CheckCircle2 className="w-4 h-4" />
             {approvalCfg.label}
           </span>
         )}
         {paymentCfg && (
-          <span className={cn('px-2 py-0.5 rounded-md text-[10px] font-medium flex items-center gap-1', paymentCfg.bg, paymentCfg.text)}>
-            <DollarSign className="w-3 h-3" />
+          <span className={cn('px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium flex items-center gap-1', paymentCfg.bg, paymentCfg.text)}>
+            <DollarSign className="w-4 h-4" />
             {paymentCfg.label}
           </span>
         )}
@@ -408,10 +408,10 @@ function ProposalCard({
         <ActionButton icon={Download} label="Download" isDark={isDark} />
         <div className="flex-1" />
         <Button size="sm" variant="ghost" className={cn(
-          'h-7 px-2.5 rounded-lg text-[10px] font-medium gap-1',
+          'h-8  px-2.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium gap-1',
           isDark ? 'text-violet-400 hover:text-violet-300 hover:bg-violet-500/10' : 'text-violet-600 hover:text-violet-500 hover:bg-violet-500/10'
         )}>
-          <PenTool className="w-3 h-3" />
+          <PenTool className="w-4 h-4" />
           Digital Sign
         </Button>
       </div>
@@ -422,10 +422,10 @@ function ProposalCard({
 function ActionButton({ icon: Icon, label, isDark }: { icon: typeof Eye; label: string; isDark: boolean }) {
   return (
     <button className={cn(
-      'flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors',
+      'flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors',
       isDark ? 'text-white/40 hover:text-white/70 hover:bg-white/[0.06]' : 'text-black/40 hover:text-black/70 hover:bg-black/[0.04]'
     )}>
-      <Icon className="w-3 h-3" />
+      <Icon className="w-4 h-4" />
       <span className="hidden sm:inline">{label}</span>
     </button>
   );

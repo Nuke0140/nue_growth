@@ -301,14 +301,14 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   size="sm"
                   className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                 >
-                  <Eye className="w-3.5 h-3.5 mr-1.5" />
+                  <Eye className="w-4 h-4 mr-1.5" />
                   Views
-                  <ChevronDown className="w-3 h-3 ml-1" />
+                  <ChevronDown className="w-4 h-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-xl"
+                className="w-52 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)]"
               >
                 <DropdownMenuLabel className="text-[var(--app-text-muted)] text-xs">
                   Saved Views
@@ -340,14 +340,14 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 size="sm"
                 className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
               >
-                <Settings2 className="w-3.5 h-3.5 mr-1.5" />
+                <Settings2 className="w-4 h-4 mr-1.5" />
                 Columns
-                <ChevronDown className="w-3 h-3 ml-1" />
+                <ChevronDown className="w-4 h-4 ml-1" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-48 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-xl"
+              className="w-48 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)]"
             >
               <DropdownMenuLabel className="text-[var(--app-text-muted)] text-xs">
                 Toggle Columns
@@ -360,9 +360,9 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   className="flex items-center gap-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] cursor-pointer"
                 >
                   {hiddenCols.has(col.key) ? (
-                    <EyeOff className="w-3.5 h-3.5 text-[var(--app-text-disabled)]" />
+                    <EyeOff className="w-4 h-4 text-[var(--app-text-disabled)]" />
                   ) : (
-                    <Eye className="w-3.5 h-3.5 text-[var(--app-accent)]" />
+                    <Eye className="w-4 h-4 text-[var(--app-accent)]" />
                   )}
                   {col.label}
                 </DropdownMenuItem>
@@ -372,7 +372,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 onClick={handleSaveView}
                 className="text-[13px] text-[var(--app-accent)] hover:bg-[var(--app-active-bg)] cursor-pointer"
               >
-                <Save className="w-3.5 h-3.5 mr-2" />
+                <Save className="w-4 h-4 mr-2" />
                 Save Current View
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -386,7 +386,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               onClick={handleExport}
               className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
             >
-              <Download className="w-3.5 h-3.5 mr-1.5" />
+              <Download className="w-4 h-4 mr-1.5" />
               Export
             </Button>
           )}
@@ -430,7 +430,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                     {col.sortable && (
                       <ArrowUpDown
                         className={cn(
-                          'w-3.5 h-3.5 transition-opacity',
+                          'w-4 h-4 transition-opacity',
                           sortKey === col.key
                             ? 'opacity-100'
                             : 'opacity-30'
@@ -549,7 +549,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                 className="shrink-0"
                                 aria-hidden="true"
                               >
-                                <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                                <Check className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                               </motion.div>
                             </div>
                           ) : (

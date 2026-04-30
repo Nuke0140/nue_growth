@@ -108,12 +108,12 @@ export default function ExecutiveBIPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-8">
+      <div className="space-y-app-3xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Crown className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -130,7 +130,7 @@ export default function ExecutiveBIPage() {
 
           {/* Mode Toggle */}
           <div className={cn(
-            'inline-flex rounded-2xl border p-1',
+            'inline-flex rounded-[var(--app-radius-xl)] border p-1',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             {(['standard', 'board'] as const).map((m) => (
@@ -138,11 +138,11 @@ export default function ExecutiveBIPage() {
                 key={m}
                 onClick={() => setMode(m)}
                 className={cn(
-                  'px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200',
+                  'px-4 py-2 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
                   mode === m
                     ? (isDark
-                        ? 'bg-white text-black shadow-lg shadow-white/10'
-                        : 'bg-black text-white shadow-lg shadow-black/10')
+                        ? 'bg-white text-black shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/10'
+                        : 'bg-black text-white shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/10')
                     : (isDark
                         ? 'text-white/50 hover:text-white/70 hover:bg-white/[0.04]'
                         : 'text-black/50 hover:text-black/70 hover:bg-black/[0.04]'),
@@ -171,11 +171,11 @@ export default function ExecutiveBIPage() {
                   key={score.label}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-2xl border p-5 sm:p-6 transition-all duration-200',
+                    'rounded-[var(--app-radius-xl)] border p-app-xl sm:p-6 transition-colors duration-200',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
-                    isBoardMode && 'p-6 sm:p-8',
+                    isBoardMode && 'p-6 sm:p-app-3xl',
                   )}
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -200,9 +200,9 @@ export default function ExecutiveBIPage() {
                         'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold',
                         status.bg, status.color,
                       )}>
-                        {score.status === 'excellent' && <Star className="w-3 h-3" />}
-                        {score.status === 'good' && <CheckCircle2 className="w-3 h-3" />}
-                        {score.status === 'warning' && <AlertTriangle className="w-3 h-3" />}
+                        {score.status === 'excellent' && <Star className="w-4 h-4" />}
+                        {score.status === 'good' && <CheckCircle2 className="w-4 h-4" />}
+                        {score.status === 'warning' && <AlertTriangle className="w-4 h-4" />}
                         {status.label}
                       </span>
                       {/* Trend */}
@@ -212,7 +212,7 @@ export default function ExecutiveBIPage() {
                           ? ('text-[var(--app-success)]')
                           : ('text-[var(--app-danger)]'),
                       )}>
-                        {isPositive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+                        {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                         {Math.abs(score.trend)}%
                       </span>
                     </div>
@@ -239,7 +239,7 @@ export default function ExecutiveBIPage() {
                   key={q.quarter}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-2xl border p-5 transition-all duration-200',
+                    'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
@@ -286,7 +286,7 @@ export default function ExecutiveBIPage() {
                                 ? ('text-[var(--app-success)]')
                                 : ('text-[var(--app-danger)]'),
                             )}>
-                              {metric.change >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                              {metric.change >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                               {Math.abs(metric.change).toFixed(1)}%
                             </span>
                           )}
@@ -306,16 +306,16 @@ export default function ExecutiveBIPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-6 sm:p-8',
+            'rounded-[var(--app-radius-xl)] border p-6 sm:p-app-3xl',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
-            isBoardMode && 'p-8 sm:p-10',
+            isBoardMode && 'p-app-3xl sm:p-app-4xl',
           )}
         >
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-app-2xl">
             <div className={cn(
-              'w-8 h-8 rounded-lg flex items-center justify-center',
+              'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               isDark ? 'bg-violet-500/15' : 'bg-violet-100',
             )}>
               <Award className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
@@ -335,7 +335,7 @@ export default function ExecutiveBIPage() {
           </div>
 
           {/* Key Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-app-2xl mb-app-3xl">
             {[
               { label: 'Total Revenue', value: formatINR(boardSummary.totalRevenue), icon: DollarSign, color: 'text-emerald-400' },
               { label: 'Total Profit', value: formatINR(boardSummary.totalProfit), icon: TrendingUp, color: 'text-blue-400' },
@@ -361,14 +361,14 @@ export default function ExecutiveBIPage() {
           </div>
 
           {/* Secondary Metrics Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-app-3xl">
             {[
               { label: 'YoY Growth', value: `${boardSummary.yoyGrowth}%`, positive: true },
               { label: 'Client Retention', value: `${boardSummary.clientRetention}%`, positive: true },
               { label: 'NPS Score', value: `${boardSummary.npsScore}`, positive: boardSummary.npsScore >= 50 },
             ].map((m) => (
               <div key={m.label} className={cn(
-                'rounded-xl p-4',
+                'rounded-[var(--app-radius-lg)] p-4',
                 'bg-[var(--app-hover-bg)]',
               )}>
                 <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
@@ -389,7 +389,7 @@ export default function ExecutiveBIPage() {
 
           {/* Top Achievement */}
           <div className={cn(
-            'rounded-xl p-4 flex items-start gap-3',
+            'rounded-[var(--app-radius-lg)] p-4 flex items-start gap-3',
             isDark ? 'bg-violet-500/[0.06] border border-violet-500/10' : 'bg-violet-50 border border-violet-200',
           )}>
             <Award className={cn('w-5 h-5 shrink-0 mt-0.5', 'text-[var(--app-purple)]')} />
@@ -449,7 +449,7 @@ export default function ExecutiveBIPage() {
                 key={card.title}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-2xl border p-5 sm:p-6 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl sm:p-6 transition-colors duration-200',
                   isDark
                     ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                     : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
@@ -466,7 +466,7 @@ export default function ExecutiveBIPage() {
                 </p>
                 <div className="grid grid-cols-3 gap-2">
                   {card.metrics.map((m) => (
-                    <div key={m.label} className={cn('rounded-lg p-2 text-center', 'bg-[var(--app-hover-bg)]')}>
+                    <div key={m.label} className={cn('rounded-[var(--app-radius-lg)] p-2 text-center', 'bg-[var(--app-hover-bg)]')}>
                       <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>{m.value}</p>
                       <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{m.label}</p>
                     </div>
@@ -483,7 +483,7 @@ export default function ExecutiveBIPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
@@ -500,7 +500,7 @@ export default function ExecutiveBIPage() {
             </div>
             <div className="flex items-center gap-3">
               <button className={cn(
-                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
+                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
                 isDark
                   ? 'bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white'
                   : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black',
@@ -509,7 +509,7 @@ export default function ExecutiveBIPage() {
                 Export PDF
               </button>
               <button className={cn(
-                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
+                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
                 isDark
                   ? 'bg-white text-black hover:bg-white/90'
                   : 'bg-black text-white hover:bg-black/90',

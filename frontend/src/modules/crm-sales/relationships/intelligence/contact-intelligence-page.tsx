@@ -80,7 +80,7 @@ export default function ContactIntelligencePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               isDark ? 'bg-purple-500/10' : 'bg-purple-500/10'
             )}>
               <BrainCircuit className="w-5 h-5 text-purple-400" />
@@ -91,7 +91,7 @@ export default function ContactIntelligencePage() {
                   AI Intelligence
                 </h1>
                 <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] px-2 h-5 gap-1">
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-4 h-4" />
                   Powered by AI
                 </Badge>
               </div>
@@ -105,7 +105,7 @@ export default function ContactIntelligencePage() {
 
       <ScrollArea className="flex-1 px-6 pb-6">
         {/* Top widgets row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-app-3xl">
           {[
             {
               label: 'Buying Intent Score',
@@ -146,17 +146,17 @@ export default function ContactIntelligencePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               className={cn(
-                'rounded-2xl p-5 transition-all',
+                'rounded-[var(--app-radius-xl)] p-app-xl transition-colors',
                 isDark
                   ? 'bg-white/[0.03] border border-white/[0.06]'
-                  : 'bg-white border border-black/[0.06] shadow-sm'
+                  : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
               )}
             >
               <div className={cn(
-                'w-9 h-9 rounded-lg flex items-center justify-center mb-3',
+                'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center mb-3',
                 widget.bg
               )}>
-                <widget.icon className={cn('w-4.5 h-4.5', widget.color)} />
+                <widget.icon className={cn('w-5 h-5', widget.color)} />
               </div>
               <p className={cn('text-[11px] mb-1', 'text-[var(--app-text-muted)]')}>
                 {widget.label}
@@ -172,7 +172,7 @@ export default function ContactIntelligencePage() {
         </div>
 
         {/* Main content grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-app-2xl mb-app-3xl">
           {/* AI Insights grid - takes 2 columns */}
           <div className="xl:col-span-2">
             <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
@@ -187,7 +187,7 @@ export default function ContactIntelligencePage() {
           </div>
 
           {/* Right sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-app-2xl">
             {/* Customer Health Distribution */}
             <div>
               <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
@@ -195,10 +195,10 @@ export default function ContactIntelligencePage() {
                 Health Distribution
               </h2>
               <div className={cn(
-                'rounded-2xl p-5',
+                'rounded-[var(--app-radius-xl)] p-app-xl',
                 isDark
                   ? 'bg-white/[0.03] border border-white/[0.06]'
-                  : 'bg-white border border-black/[0.06] shadow-sm'
+                  : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
               )}>
                 <div className="space-y-3">
                   {healthBars.map((bar) => (
@@ -247,10 +247,10 @@ export default function ContactIntelligencePage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.06 }}
                     className={cn(
-                      'rounded-xl p-3 flex items-center gap-3 cursor-pointer transition-all group',
+                      'rounded-[var(--app-radius-lg)] p-3 flex items-center gap-3 cursor-pointer transition-colors group',
                       isDark
                         ? 'bg-white/[0.03] border border-white/[0.04] hover:border-white/[0.08]'
-                        : 'bg-white border border-black/[0.04] hover:border-black/[0.08] shadow-sm'
+                        : 'bg-white border border-black/[0.04] hover:border-black/[0.08] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                     )}
                     onClick={() => action.contactId && selectContact(action.contactId)}
                   >
@@ -267,7 +267,7 @@ export default function ContactIntelligencePage() {
                       </p>
                     </div>
                     <ArrowRight className={cn(
-                      'w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity',
+                      'w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity',
                       'text-[var(--app-text-disabled)]'
                     )} />
                   </motion.div>
@@ -284,10 +284,10 @@ export default function ContactIntelligencePage() {
             Relationship Strength — Top Contacts
           </h2>
           <div className={cn(
-            'rounded-2xl p-5',
+            'rounded-[var(--app-radius-xl)] p-app-xl',
             isDark
               ? 'bg-white/[0.03] border border-white/[0.06]'
-              : 'bg-white border border-black/[0.06] shadow-sm'
+              : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {topContacts.map((contact, i) => (
@@ -297,7 +297,7 @@ export default function ContactIntelligencePage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.08 }}
                   className={cn(
-                    'rounded-xl p-4 text-center cursor-pointer transition-all group',
+                    'rounded-[var(--app-radius-lg)] p-4 text-center cursor-pointer transition-colors group',
                     isDark
                       ? 'bg-white/[0.02] hover:bg-white/[0.04]'
                       : 'bg-black/[0.01] hover:bg-black/[0.03]'

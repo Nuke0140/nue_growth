@@ -146,17 +146,17 @@ function ApprovalsPageInner() {
   function getStatusBadge(status: ApprovalStatus) {
     if (status === 'approved') return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}>
-        <CheckCircle2 className="w-3 h-3" /> Approved
+        <CheckCircle2 className="w-4 h-4" /> Approved
       </span>
     );
     if (status === 'rejected') return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-danger-bg)', color: '#f87171' }}>
-        <XCircle className="w-3 h-3" /> Rejected
+        <XCircle className="w-4 h-4" /> Rejected
       </span>
     );
     if (status === 'escalated') return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-warning-bg)', color: '#fbbf24' }}>
-        <AlertTriangle className="w-3 h-3" /> Escalated
+        <AlertTriangle className="w-4 h-4" /> Escalated
       </span>
     );
     return (
@@ -166,7 +166,7 @@ function ApprovalsPageInner() {
         animate={{ opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <Clock className="w-3 h-3" /> Pending
+        <Clock className="w-4 h-4" /> Pending
       </motion.span>
     );
   }
@@ -219,7 +219,7 @@ function ApprovalsPageInner() {
 
   return (
     <PageShell title="Approvals" icon={CheckCircle2} badge={filtered.length}>
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
 
         {/* Type filter pills */}
         <motion.div variants={fadeUp}>
@@ -238,7 +238,7 @@ function ApprovalsPageInner() {
         {/* Approval Cards */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length === 0 ? (
-            <div className="col-span-full app-card p-12 text-center">
+            <div className="col-span-full app-card p-app-4xl text-center">
               <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--app-text-muted)', opacity: 0.3 }} />
               <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>No approvals in this category.</p>
             </div>
@@ -257,10 +257,10 @@ function ApprovalsPageInner() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05, duration: 0.3 }}
                   className="app-card transition-colors"
-                  style={{ ...cardStyle, borderRadius: '1rem', border: isSelected ? '1.5px solid #cc5c37' : cardStyle.border }}
+                  style={{ ...cardStyle, borderRadius: 'var(--app-radius-md)', border: isSelected ? '1.5px solid #cc5c37' : cardStyle.border }}
                 >
                   {/* Card body */}
-                  <div className="p-5 space-y-4">
+                  <div className="p-app-xl space-y-4">
                     {/* Top: Checkbox + Type icon + Status */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
@@ -273,7 +273,7 @@ function ApprovalsPageInner() {
                           />
                         </label>
                         <div
-                          className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+                          className="flex items-center justify-center w-10 h-10 rounded-[var(--app-radius-lg)] shrink-0"
                           style={{ backgroundColor: typeColorMap[approval.type] }}
                         >
                           <TypeIcon className="w-5 h-5" style={{ color: typeTextColor[approval.type] }} />
@@ -307,7 +307,7 @@ function ApprovalsPageInner() {
                         )}
                         {approval.comments.length > 0 && (
                           <span className="inline-flex items-center gap-1">
-                            <MessageSquare className="w-3 h-3" /> {approval.comments.length}
+                            <MessageSquare className="w-4 h-4" /> {approval.comments.length}
                           </span>
                         )}
                       </div>
@@ -315,16 +315,16 @@ function ApprovalsPageInner() {
 
                     {/* Expand toggle */}
                     <button
-                      className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-lg"
+                      className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-[var(--app-radius-lg)]"
                       style={{ color: 'var(--app-text-muted)' }}
                       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
                       onClick={() => toggleExpand(approval.id)}
                     >
                       {isExpanded ? (
-                        <><ChevronUp className="w-3 h-3 mr-1" /> Hide Details</>
+                        <><ChevronUp className="w-4 h-4 mr-1" /> Hide Details</>
                       ) : (
-                        <><ChevronDown className="w-3 h-3 mr-1" /> View Details</>
+                        <><ChevronDown className="w-4 h-4 mr-1" /> View Details</>
                       )}
                     </button>
 
@@ -359,22 +359,22 @@ function ApprovalsPageInner() {
                           {isActionable && (
                             <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
                               <button
-                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
                                 style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(52,211,153,0.2)'; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-success-bg)'; }}
                                 onClick={() => handleApprove(approval.id)}
                               >
-                                <ThumbsUp className="w-3.5 h-3.5" /> Approve
+                                <ThumbsUp className="w-4 h-4" /> Approve
                               </button>
                               <button
-                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
                                 style={{ backgroundColor: 'var(--app-danger-bg)', color: '#f87171' }}
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(248,113,113,0.2)'; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-danger-bg)'; }}
                                 onClick={() => handleReject(approval.id)}
                               >
-                                <ThumbsDown className="w-3.5 h-3.5" /> Reject
+                                <ThumbsDown className="w-4 h-4" /> Reject
                               </button>
                             </div>
                           )}

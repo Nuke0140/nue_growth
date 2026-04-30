@@ -118,13 +118,13 @@ export function MobileFab() {
                   }}
                   className="flex items-center gap-2"
                 >
-                  <span className="text-xs font-medium text-[var(--app-text)] bg-[var(--app-card-bg)] border border-[var(--app-border)] px-2.5 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                  <span className="text-xs font-medium text-[var(--app-text)] bg-[var(--app-card-bg)] border border-[var(--app-border)] px-2.5 py-1 rounded-[var(--app-radius-lg)] shadow-[var(--app-shadow-md)]-lg whitespace-nowrap">
                     {action.label}
                   </span>
                   <button
                     onClick={action.action}
                     className={cn(
-                      'w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95',
+                      'w-11 h-10  rounded-full flex items-center justify-center shadow-[var(--app-shadow-md)]-lg transition-transform hover:scale-110 active:scale-95',
                       action.color,
                       'text-white'
                     )}
@@ -143,7 +143,7 @@ export function MobileFab() {
         whileTap={{ scale: 0.9 }}
         onClick={toggleExpanded}
         className={cn(
-          'w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-colors relative',
+          'w-14 h-14 rounded-full flex items-center justify-center shadow-[var(--app-shadow-md)]-xl transition-colors relative',
           expanded ? 'bg-[var(--app-card-bg)]' : 'bg-[var(--app-accent)]'
         )}
         style={{ border: expanded ? '2px solid var(--app-border-strong)' : 'none' }}

@@ -158,7 +158,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
         {/* Target highlight ring */}
         {targetRef.current && (
           <div
-            className="fixed z-[95] pointer-events-none rounded-xl border-2"
+            className="fixed z-[95] pointer-events-none rounded-[var(--app-radius-lg)] border-2"
             style={{
               top: targetRef.current.getBoundingClientRect().top - 6,
               left: targetRef.current.getBoundingClientRect().left - 6,
@@ -185,7 +185,7 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -5 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-xl shadow-2xl overflow-hidden"
+            className="bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] shadow-[var(--app-shadow-md)]-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -194,10 +194,10 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
               </span>
               <button
                 onClick={onSkip}
-                className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)] transition-colors"
+                className="flex items-center justify-center w-6 h-6 rounded-[var(--app-radius-lg)] text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)] transition-colors"
                 aria-label="Skip tour"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -248,10 +248,10 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
                 {!isFirstStep && (
                   <button
                     onClick={handlePrev}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
                     aria-label="Previous step"
                   >
-                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <ChevronLeft className="w-4 h-4" />
                     Back
                   </button>
                 )}
@@ -260,19 +260,19 @@ export function OnboardingTour({ tour, onComplete, onSkip }: OnboardingTourProps
               <div className="flex items-center gap-2">
                 <button
                   onClick={onSkip}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)] transition-colors"
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)] transition-colors"
                   aria-label="Skip tour"
                 >
-                  <SkipForward className="w-3 h-3" />
+                  <SkipForward className="w-4 h-4" />
                   Skip
                 </button>
                 <button
                   onClick={handleNext}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 transition-colors"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-semibold bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 transition-colors"
                   aria-label={isLastStep ? 'Get Started - complete tour' : 'Next step'}
                 >
                   {isLastStep ? 'Get Started' : 'Next'}
-                  {!isLastStep && <ChevronRight className="w-3.5 h-3.5" />}
+                  {!isLastStep && <ChevronRight className="w-4 h-4" />}
                 </button>
               </div>
             </div>

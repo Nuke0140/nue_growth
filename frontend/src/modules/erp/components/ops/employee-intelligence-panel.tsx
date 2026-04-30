@@ -172,7 +172,7 @@ function WorkloadHeatmap() {
             {row.map((value, hourIdx) => (
               <div
                 key={hourIdx}
-                className="shrink-0 rounded-sm cursor-pointer transition-transform hover:scale-150 hover:z-10 relative"
+                className="shrink-0 rounded-[var(--app-radius-sm)] cursor-pointer transition-transform hover:scale-150 hover:z-10 relative"
                 style={{
                   width: 14,
                   height: 14,
@@ -214,7 +214,7 @@ function WorkloadHeatmap() {
           ].map((c, i) => (
             <div
               key={i}
-              className="rounded-sm"
+              className="rounded-[var(--app-radius-sm)]"
               style={{ width: 10, height: 10, backgroundColor: c }}
             />
           ))}
@@ -229,7 +229,7 @@ function WorkloadHeatmap() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="fixed z-50 pointer-events-none px-2 py-1.5 rounded-md text-[10px]"
+          className="fixed z-50 pointer-events-none px-2 py-1.5 rounded-[var(--app-radius-md)] text-[10px]"
           style={{
             left: tooltip.x,
             top: tooltip.y - 36,
@@ -349,9 +349,9 @@ function PerformanceTrend({ data }: { data: number[] }) {
         </div>
         <div className="flex items-center gap-1">
           {isTrendingUp ? (
-            <TrendingUp className="w-3.5 h-3.5" style={{ color: '#22c55e' }} />
+            <TrendingUp className="w-4 h-4" style={{ color: '#22c55e' }} />
           ) : (
-            <TrendingDown className="w-3.5 h-3.5" style={{ color: '#ef4444' }} />
+            <TrendingDown className="w-4 h-4" style={{ color: '#ef4444' }} />
           )}
           <span
             className="text-[10px] font-medium"
@@ -463,7 +463,7 @@ function SkillTags({ skills }: { skills: string[] }) {
               key={skill.name}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-medium transition-colors"
+              className="shrink-0 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors"
               style={{
                 backgroundColor: lc.bg,
                 color: lc.text,
@@ -489,14 +489,14 @@ export function EmployeeIntelligencePanel({
     <div className="app-card p-0 overflow-hidden">
       {/* Header */}
       <div
-        className="flex items-center gap-3 px-5 py-4"
+        className="flex items-center gap-3 px-app-xl py-4"
         style={{ borderBottom: '1px solid var(--app-border)' }}
       >
         <div
-          className="flex items-center justify-center w-9 h-9 rounded-xl"
+          className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
           style={{ backgroundColor: 'var(--app-accent-light)' }}
         >
-          <Brain className="w-4.5 h-4.5" style={{ color: 'var(--app-accent)' }} />
+          <Brain className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
         </div>
         <div className="min-w-0">
           <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
@@ -541,7 +541,7 @@ export function EmployeeIntelligencePanel({
       </div>
 
       {/* Content grid */}
-      <div className="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="p-app-xl grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Workload Heatmap */}
         <WorkloadHeatmap />
 

@@ -93,11 +93,11 @@ export default function WinbackCampaignsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Megaphone className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -107,7 +107,7 @@ export default function WinbackCampaignsPage() {
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
@@ -129,12 +129,12 @@ export default function WinbackCampaignsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
-                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-4 h-4', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.value}</p>
@@ -144,14 +144,14 @@ export default function WinbackCampaignsPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-2">
-          <Filter className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+          <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <span className={cn('text-[10px] font-medium mr-1', 'text-[var(--app-text-muted)]')}>Status:</span>
           {['all', 'active', 'completed', 'draft', 'paused'].map((s) => (
             <button
               key={s}
               onClick={() => setFilterStatus(s)}
               className={cn(
-                'px-2.5 py-1 text-[10px] font-medium rounded-lg transition-colors capitalize',
+                'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] transition-colors capitalize',
                 filterStatus === s
                   ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -167,7 +167,7 @@ export default function WinbackCampaignsPage() {
               key={ch}
               onClick={() => setFilterChannel(ch)}
               className={cn(
-                'px-2.5 py-1 text-[10px] font-medium rounded-lg transition-colors capitalize',
+                'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] transition-colors capitalize',
                 filterChannel === ch
                   ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -193,7 +193,7 @@ export default function WinbackCampaignsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-5 transition-colors',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
@@ -212,20 +212,20 @@ export default function WinbackCampaignsPage() {
                     </div>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                        <Users className="w-3 h-3 inline mr-1" />{campaign.segment}
+                        <Users className="w-4 h-4 inline mr-1" />{campaign.segment}
                       </span>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                        <Clock className="w-3 h-3 inline mr-1" />{campaign.inactivityDays}
+                        <Clock className="w-4 h-4 inline mr-1" />{campaign.inactivityDays}
                       </span>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                        <IndianRupee className="w-3 h-3 inline mr-1" />{campaign.offerType}: {campaign.offerValue > 0 ? `${campaign.offerValue}%` : campaign.offerValue === 0 ? 'Free' : formatINR(campaign.offerValue)}
+                        <IndianRupee className="w-4 h-4 inline mr-1" />{campaign.offerType}: {campaign.offerValue > 0 ? `${campaign.offerValue}%` : campaign.offerValue === 0 ? 'Free' : formatINR(campaign.offerValue)}
                       </span>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                        <Clock className="w-3 h-3 inline mr-1" />Best: {campaign.bestSendTime}
+                        <Clock className="w-4 h-4 inline mr-1" />Best: {campaign.bestSendTime}
                       </span>
                       {campaign.launchedDate !== '—' && (
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                          <Calendar className="w-3 h-3 inline mr-1" />{campaign.launchedDate}
+                          <Calendar className="w-4 h-4 inline mr-1" />{campaign.launchedDate}
                         </span>
                       )}
                     </div>
@@ -266,7 +266,7 @@ export default function WinbackCampaignsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -295,7 +295,7 @@ export default function WinbackCampaignsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -307,12 +307,12 @@ export default function WinbackCampaignsPage() {
             {inactivitySegments.map((seg, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className={cn('text-[10px] w-28 shrink-0 font-medium truncate', 'text-[var(--app-text-muted)]')}>{seg.segment}</span>
-                <div className="flex-1 h-5 rounded-lg overflow-hidden" style={{ display: 'flex' }}>
+                <div className="flex-1 h-5 rounded-[var(--app-radius-lg)] overflow-hidden" style={{ display: 'flex' }}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${seg.rate}%` }}
                     transition={{ delay: 0.6 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn('h-full rounded-lg', seg.rate >= 40 ? ('bg-[var(--app-success)]') : ('bg-[var(--app-warning)]'))}
+                    className={cn('h-full rounded-[var(--app-radius-lg)]', seg.rate >= 40 ? ('bg-[var(--app-success)]') : ('bg-[var(--app-warning)]'))}
                   />
                 </div>
                 <span className={cn('text-[10px] w-10 text-right font-medium', 'text-[var(--app-text-muted)]')}>{seg.rate.toFixed(1)}%</span>

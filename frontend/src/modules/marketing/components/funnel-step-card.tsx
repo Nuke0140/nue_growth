@@ -30,7 +30,7 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
         className="w-full"
       >
         <div
-          className={cn('rounded-xl border p-3 transition-all',
+          className={cn('rounded-[var(--app-radius-lg)] border p-3 transition-colors',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]',
             isLast && 'ring-1 ring-emerald-500/20'
           )}
@@ -92,7 +92,7 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
           />
           {step.dropOff > 0 && (
             <div className="flex items-center gap-0.5">
-              <ArrowDown className={cn('w-3 h-3', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')} />
+              <ArrowDown className={cn('w-4 h-4', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')} />
               <span className={cn('text-[9px] font-medium', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')}>
                 -{step.dropOff}%
               </span>

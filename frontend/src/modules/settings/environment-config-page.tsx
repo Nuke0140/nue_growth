@@ -64,7 +64,7 @@ export default function EnvironmentConfigPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -73,7 +73,7 @@ export default function EnvironmentConfigPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Server className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -98,7 +98,7 @@ export default function EnvironmentConfigPage() {
                 key={env.id}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-2xl border p-5',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
@@ -119,13 +119,13 @@ export default function EnvironmentConfigPage() {
                     API Base URL
                   </label>
                   <div className="relative">
-                    <Globe className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                    <Globe className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <input
                       type="text"
                       value={apiUrls[env.id] ?? ''}
                       onChange={(e) => setApiUrls((prev) => ({ ...prev, [env.id]: e.target.value }))}
                       className={cn(
-                        'w-full rounded-lg border pl-8 pr-3 py-2 text-[11px] font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                        'w-full rounded-[var(--app-radius-lg)] border pl-8 pr-3 py-2 text-[11px] font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                         isDark
                           ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20'
                           : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
@@ -136,10 +136,10 @@ export default function EnvironmentConfigPage() {
 
                 {/* Debug Mode + Log Verbosity */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
-                  <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
-                        <Bug className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                        <Bug className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                         <span className="text-[10px] font-semibold">Debug</span>
                       </div>
                       <span className={cn('h-2 w-2 rounded-full', debugModes[env.id] ? 'bg-amber-400' : isDark ? 'bg-zinc-600' : 'bg-zinc-300')} />
@@ -155,9 +155,9 @@ export default function EnvironmentConfigPage() {
                     </button>
                   </div>
 
-                  <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Terminal className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                      <Terminal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                       <span className="text-[10px] font-semibold">Verbosity</span>
                     </div>
                     <div className="relative">
@@ -165,7 +165,7 @@ export default function EnvironmentConfigPage() {
                         value={verbosity[env.id] ?? 'warn'}
                         onChange={(e) => setVerbosity((prev) => ({ ...prev, [env.id]: e.target.value }))}
                         className={cn(
-                          'w-full appearance-none rounded-md border px-2 py-1.5 text-[10px] font-mono pr-6 focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
+                          'w-full appearance-none rounded-[var(--app-radius-md)] border px-2 py-1.5 text-[10px] font-mono pr-6 focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
                           isDark
                             ? 'bg-white/[0.04] border-white/[0.08] text-white'
                             : 'bg-black/[0.03] border-black/[0.08] text-black',
@@ -175,7 +175,7 @@ export default function EnvironmentConfigPage() {
                           <option key={level} value={level}>{level}</option>
                         ))}
                       </select>
-                      <ChevronDown className={cn('absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none', 'text-[var(--app-text-muted)]')} />
+                      <ChevronDown className={cn('absolute right-1.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', 'text-[var(--app-text-muted)]')} />
                     </div>
                   </div>
                 </div>
@@ -218,22 +218,22 @@ export default function EnvironmentConfigPage() {
                 <div className="flex items-center gap-2">
                   {env.type === 'production' && (
                     <button className={cn(
-                      'inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-medium transition-colors cursor-pointer',
+                      'inline-flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors cursor-pointer',
                       isDark ? 'bg-violet-500/15 text-violet-400 hover:bg-violet-500/25' : 'bg-violet-50 text-violet-600 hover:bg-violet-100',
                     )}>
-                      <Rocket className="w-3.5 h-3.5" /> Deploy
+                      <Rocket className="w-4 h-4" /> Deploy
                     </button>
                   )}
                   <button
                     onClick={() => toggleEnv(env.id)}
                     className={cn(
-                      'inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-medium transition-colors cursor-pointer',
+                      'inline-flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors cursor-pointer',
                       isActive
                         ? isDark ? 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25' : 'bg-amber-50 text-amber-600 hover:bg-amber-100'
                         : isDark ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100',
                     )}
                   >
-                    <Power className="w-3.5 h-3.5" />
+                    <Power className="w-4 h-4" />
                     {isActive ? 'Deactivate' : 'Activate'}
                   </button>
                 </div>
@@ -254,14 +254,14 @@ export default function EnvironmentConfigPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Default environment */}
-            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-2">Default Environment</p>
               <div className="relative">
                 <select
                   value={defaultEnv}
                   onChange={(e) => setDefaultEnv(e.target.value)}
                   className={cn(
-                    'w-full appearance-none rounded-lg border px-3 py-2 text-xs font-medium pr-8 focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
+                    'w-full appearance-none rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs font-medium pr-8 focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer',
                     isDark
                       ? 'bg-white/[0.04] border-white/[0.08] text-white'
                       : 'bg-black/[0.03] border-black/[0.08] text-black',
@@ -271,20 +271,20 @@ export default function EnvironmentConfigPage() {
                     <option key={e.id} value={e.type}>{e.name}</option>
                   ))}
                 </select>
-                <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none', 'text-[var(--app-text-muted)]')} />
+                <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', 'text-[var(--app-text-muted)]')} />
               </div>
             </div>
 
             {/* Deployment checklist */}
-            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-3">Deployment Checklist</p>
               <div className="space-y-2">
                 {deploymentChecklist.map((item, i) => (
                   <div key={i} className="flex items-center gap-2">
                     {item.completed ? (
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     ) : (
-                      <XCircle className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                      <XCircle className="w-4 h-4 text-zinc-400 shrink-0" />
                     )}
                     <span className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>{item.label}</span>
                   </div>
@@ -293,7 +293,7 @@ export default function EnvironmentConfigPage() {
             </div>
 
             {/* Health check */}
-            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-3">Health Check</p>
               <div className="space-y-2">
                 {[

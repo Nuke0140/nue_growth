@@ -13,7 +13,7 @@ export function PageSkeleton({ rows = 5, className }: PageSkeletonProps) {
   return (
     <div
       className={cn(
-        'w-full space-y-6 p-6',
+        'w-full space-y-app-2xl p-6',
         className
       )}
       aria-label="Loading page content"
@@ -27,17 +27,17 @@ export function PageSkeleton({ rows = 5, className }: PageSkeletonProps) {
 
       {/* Action bar skeleton */}
       <div className="flex items-center gap-3">
-        <Skeleton className="h-9 w-24 rounded-md" />
-        <Skeleton className="h-9 w-24 rounded-md" />
+        <Skeleton className="h-10  w-24 rounded-[var(--app-radius-md)]" />
+        <Skeleton className="h-10  w-24 rounded-[var(--app-radius-md)]" />
         <div className="flex-1" />
-        <Skeleton className="h-9 w-32 rounded-md" />
+        <Skeleton className="h-10  w-32 rounded-[var(--app-radius-md)]" />
       </div>
 
       {/* Content card skeletons */}
       {Array.from({ length: rows }).map((_, index) => (
         <div
           key={index}
-          className="rounded-lg border p-4 space-y-3"
+          className="rounded-[var(--app-radius-lg)] border p-4 space-y-3"
         >
           <div className="flex items-center gap-3">
             <Skeleton className="h-10 w-10 rounded-full" />

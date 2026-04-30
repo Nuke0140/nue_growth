@@ -99,12 +99,12 @@ export default function AdvocacyPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <Award className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -116,7 +116,7 @@ export default function AdvocacyPage() {
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
@@ -134,7 +134,7 @@ export default function AdvocacyPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4 transition-all duration-200',
+                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -142,8 +142,8 @@ export default function AdvocacyPage() {
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
@@ -158,13 +158,13 @@ export default function AdvocacyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn(
-            'rounded-2xl border p-4',
+            'rounded-[var(--app-radius-xl)] border p-4',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex items-center gap-2">
-              <Filter className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+              <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Type:</span>
               <div className="flex gap-1.5 flex-wrap">
                 {(['all', 'testimonial', 'review', 'case-study', 'ambassador', 'speaker', 'referral-champion'] as FilterType[]).map((t) => (
@@ -174,7 +174,7 @@ export default function AdvocacyPage() {
                     size="sm"
                     onClick={() => setTypeFilter(t)}
                     className={cn(
-                      'px-2.5 py-1 text-[10px] font-medium rounded-lg capitalize transition-colors',
+                      'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] capitalize transition-colors',
                       typeFilter === t
                         ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                         : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -195,7 +195,7 @@ export default function AdvocacyPage() {
                     size="sm"
                     onClick={() => setStatusFilter(s)}
                     className={cn(
-                      'px-2.5 py-1 text-[10px] font-medium rounded-lg capitalize transition-colors',
+                      'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] capitalize transition-colors',
                       statusFilter === s
                         ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                         : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -222,7 +222,7 @@ export default function AdvocacyPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                   entry.status === 'declined'
                     ? (isDark ? 'bg-red-500/[0.02] border-red-500/15' : 'bg-red-50/50 border-red-200')
                     : entry.status === 'published'
@@ -232,7 +232,7 @@ export default function AdvocacyPage() {
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', tCfg.color.split(' ')[0])}>
+                    <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', tCfg.color.split(' ')[0])}>
                       <TypeIcon className={cn('w-4 h-4', tCfg.color.split(' ')[1])} />
                     </div>
                     <div>
@@ -268,11 +268,11 @@ export default function AdvocacyPage() {
 
                 <div className="flex items-center justify-between mt-2 pt-2 border-t border-dashed" style={{ borderColor: 'var(--app-border)' }}>
                   <div className="flex items-center gap-1.5">
-                    <Eye className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                    <Eye className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <span className="text-[10px] font-medium">{entry.impact.toLocaleString()} views</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Star className={cn('w-3 h-3', entry.promoterScore >= 80 ? 'text-amber-400' : 'text-[var(--app-text-muted)]')} />
+                    <Star className={cn('w-4 h-4', entry.promoterScore >= 80 ? 'text-amber-400' : 'text-[var(--app-text-muted)]')} />
                     <span className={cn('text-[10px] font-medium', entry.promoterScore >= 80 ? 'text-amber-400' : '')}>
                       NPS: {entry.promoterScore}
                     </span>
@@ -289,7 +289,7 @@ export default function AdvocacyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -330,7 +330,7 @@ export default function AdvocacyPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               isDark ? 'bg-red-500/[0.02] border-red-500/15' : 'bg-red-50/50 border-red-200'
             )}
           >
@@ -351,7 +351,7 @@ export default function AdvocacyPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 + i * 0.06, duration: 0.3 }}
                   className={cn(
-                    'flex items-center gap-3 p-3 rounded-xl border',
+                    'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] border',
                     isDark ? 'border-red-500/10' : 'border-red-200'
                   )}
                 >
@@ -370,7 +370,7 @@ export default function AdvocacyPage() {
                 </motion.div>
               ))}
             </div>
-            <div className={cn('mt-3 p-3 rounded-xl', isDark ? 'bg-red-500/[0.04]' : 'bg-red-100/50')}>
+            <div className={cn('mt-3 p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-red-500/[0.04]' : 'bg-red-100/50')}>
               <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-semibold text-red-400">Analysis:</span> Declined requests correlate with NPS scores below 50. Focus on improving service delivery before re-requesting. Average promoter score of declined: {Math.round(declinedEntries.reduce((s, e) => s + e.promoterScore, 0) / declinedEntries.length)}.
               </p>
@@ -392,7 +392,7 @@ export default function AdvocacyPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

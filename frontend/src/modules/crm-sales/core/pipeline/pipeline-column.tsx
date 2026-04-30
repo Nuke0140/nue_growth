@@ -79,7 +79,7 @@ const DroppableColumn = memo(function DroppableColumn({
     <div
       ref={setNodeRef}
       className={cn(
-        'flex flex-col min-w-[280px] max-w-[320px] w-[300px] rounded-2xl transition-all duration-200',
+        'flex flex-col min-w-[280px] max-w-[320px] w-[300px] rounded-[var(--app-radius-xl)] transition-colors duration-200',
         isOver && ('bg-[var(--app-hover-bg)]')
       )}
     >
@@ -94,7 +94,7 @@ const DroppableColumn = memo(function DroppableColumn({
             {STAGE_LABELS[stage]}
           </h3>
           <span className={cn(
-            'ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-md',
+            'ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-[var(--app-radius-md)]',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}>
             {deals.length}
@@ -114,7 +114,7 @@ const DroppableColumn = memo(function DroppableColumn({
       )}>
         {deals.length === 0 ? (
           <div className={cn(
-            'flex flex-col items-center justify-center py-8 text-center',
+            'flex flex-col items-center justify-center py-app-3xl text-center',
             'text-[var(--app-text-disabled)]'
           )}>
             <div className={cn(

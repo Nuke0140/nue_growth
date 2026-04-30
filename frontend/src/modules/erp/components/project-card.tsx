@@ -121,7 +121,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => onClick?.(project.id)}
       className={cn(
-        'relative rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
+        'relative rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)]'
       )}
     >
@@ -136,7 +136,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         <div className="flex items-center gap-1.5 shrink-0">
           <span
             className={cn(
-              'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-medium border',
+              'inline-flex items-center px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium border',
               `${priority.bg} ${priority.color} ${priority.border}`
             )}
           >
@@ -144,7 +144,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           </span>
           <span
             className={cn(
-              'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-medium border',
+              'inline-flex items-center px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium border',
               `${health.bg} ${health.color} ${health.border}`
             )}
           >
@@ -156,7 +156,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Account Manager */}
       <div className="flex items-center gap-1.5 mb-3">
-        <User className="w-3 h-3 shrink-0 text-[var(--app-text-muted)]" />
+        <User className="w-4 h-4 shrink-0 text-[var(--app-text-muted)]" />
         <span className="text-xs text-[var(--app-text-muted)]">
           {project.accountManager}
         </span>
@@ -165,7 +165,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       {/* Budget / Spend */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-1.5">
-          <DollarSign className="w-3 h-3 text-[var(--app-text-muted)]" />
+          <DollarSign className="w-4 h-4 text-[var(--app-text-muted)]" />
           <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
             Budget
           </span>
@@ -177,7 +177,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div className="mb-3">
         <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
           <div
-            className={cn('h-full rounded-full transition-all duration-500', budgetUsed > 90 ? 'bg-red-500' : budgetUsed > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
+            className={cn('h-full rounded-full transition-colors duration-200', budgetUsed > 90 ? 'bg-red-500' : budgetUsed > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
             style={{ width: `${Math.min(budgetUsed, 100)}%` }}
           />
         </div>
@@ -202,7 +202,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       </div>
       <div className="h-1.5 rounded-full overflow-hidden mb-3 bg-[var(--app-hover-bg)]">
         <div
-          className={cn('h-full rounded-full transition-all duration-500', getProgressColor(project.progress))}
+          className={cn('h-full rounded-full transition-colors duration-200', getProgressColor(project.progress))}
           style={{ width: `${project.progress}%` }}
         />
       </div>
@@ -216,16 +216,16 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       >
         <div className="flex items-center gap-1.5">
           {project.profitability >= 0 ? (
-            <TrendingUp className="w-3.5 h-3.5" />
+            <TrendingUp className="w-4 h-4" />
           ) : (
-            <TrendingDown className="w-3.5 h-3.5" />
+            <TrendingDown className="w-4 h-4" />
           )}
           <span className={cn('text-xs font-semibold', getProfitabilityColor(project.profitability))}>
             {project.profitability > 0 ? '+' : ''}{project.profitability}% margin
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Clock className="w-3 h-3 text-[var(--app-text-muted)]" />
+          <Clock className="w-4 h-4 text-[var(--app-text-muted)]" />
           <span className="text-[11px] text-[var(--app-text-muted)]">
             {formatDate(project.dueDate)}
           </span>

@@ -144,7 +144,7 @@ function PerformancePageInner() {
 
   return (
     <PageShell title="Performance" icon={Target} subtitle="Q1 2026">
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg KPI Score" value={`${stats.avgKpi}%`} icon={Target} color="accent" />

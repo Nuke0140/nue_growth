@@ -74,13 +74,13 @@ export default function RetentionPage() {
     if (!reEngaged.includes(name)) setReEngaged(prev => [...prev, name]);
   };
 
-  const card = cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
   const subtle = 'text-[var(--app-text-muted)]';
   const medium = 'text-[var(--app-text-secondary)]';
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -136,7 +136,7 @@ export default function RetentionPage() {
         transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center gap-2 mb-app-xl">
           <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
           <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Cohort Retention</h3>
           <span className={cn('text-xs ml-auto', subtle)}>Monthly retention rate %</span>
@@ -181,7 +181,7 @@ export default function RetentionPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-5 pt-4 border-t" style={{ borderColor: 'var(--app-border)' }}>
+        <div className="flex items-center gap-4 mt-app-xl pt-4 border-t" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-green-500" />
             <span className={cn('text-[10px]', medium)}>≥80% Healthy</span>
@@ -197,13 +197,13 @@ export default function RetentionPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Churn Risk Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -266,7 +266,7 @@ export default function RetentionPage() {
                             className="text-[10px] h-6 px-2"
                             onClick={() => handleReEngage(customer.name)}
                           >
-                            <Send className="w-3 h-3 mr-1" />
+                            <Send className="w-4 h-4 mr-1" />
                             Re-engage
                           </Button>
                         )}
@@ -300,7 +300,7 @@ export default function RetentionPage() {
                 <div
                   key={i}
                   className={cn(
-                    'rounded-xl border p-4 space-y-3',
+                    'rounded-[var(--app-radius-lg)] border p-4 space-y-3',
                     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     isUrgent && (isDark ? 'border-red-500/20' : 'border-red-500/20'),
                   )}
@@ -323,7 +323,7 @@ export default function RetentionPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Calendar className={cn('w-3 h-3', subtle)} />
+                      <Calendar className={cn('w-4 h-4', subtle)} />
                       <span className={cn('text-[10px]', medium)}>Renews: {alert.date}</span>
                     </div>
                     <div className={cn(
@@ -334,8 +334,8 @@ export default function RetentionPage() {
                       {alert.daysLeft} days left
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full text-[10px] h-7">
-                    <Send className="w-3 h-3 mr-1.5" />
+                  <Button variant="outline" size="sm" className="w-full text-[10px] h-8"">
+                    <Send className="w-4 h-4 mr-1.5" />
                     Send Reminder
                   </Button>
                 </div>
@@ -367,7 +367,7 @@ export default function RetentionPage() {
             <div
               key={campaign.id}
               className={cn(
-                'rounded-xl border p-4 space-y-3',
+                'rounded-[var(--app-radius-lg)] border p-4 space-y-3',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -394,8 +394,8 @@ export default function RetentionPage() {
                 <Shield className={cn('w-4 h-4', subtle)} />
               </div>
               <div className="flex items-center gap-2">
-                {campaign.channel.includes('Email') && <Mail className={cn('w-3 h-3', subtle)} />}
-                {campaign.channel.includes('WhatsApp') && <MessageSquare className={cn('w-3 h-3', subtle)} />}
+                {campaign.channel.includes('Email') && <Mail className={cn('w-4 h-4', subtle)} />}
+                {campaign.channel.includes('WhatsApp') && <MessageSquare className={cn('w-4 h-4', subtle)} />}
                 <span className={cn('text-[10px]', medium)}>{campaign.channel}</span>
               </div>
               <p className={cn('text-[10px]', subtle)}>Audience: {campaign.audience}</p>

@@ -104,7 +104,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => selectContact(contact.id)}
       className={cn(
-        'relative rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
+        'relative rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
           : 'bg-white border-black/[0.06] hover:bg-black/[0.02] hover:border-black/[0.1]'
@@ -125,11 +125,11 @@ export default function ContactCard({ contact }: ContactCardProps) {
               <button
                 onClick={(e) => { e.stopPropagation(); }}
                 className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   isDark ? 'bg-white/[0.06] hover:bg-white/[0.12] text-white/60 hover:text-white' : 'bg-black/[0.06] hover:bg-black/[0.12] text-black/60 hover:text-black'
                 )}
               >
-                <Phone className="w-3.5 h-3.5" />
+                <Phone className="w-4 h-4" />
               </button>
             </TooltipTrigger>
             <TooltipContent><p>Call</p></TooltipContent>
@@ -142,11 +142,11 @@ export default function ContactCard({ contact }: ContactCardProps) {
               <button
                 onClick={(e) => { e.stopPropagation(); }}
                 className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   isDark ? 'bg-white/[0.06] hover:bg-white/[0.12] text-white/60 hover:text-white' : 'bg-black/[0.06] hover:bg-black/[0.12] text-black/60 hover:text-black'
                 )}
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="w-4 h-4" />
               </button>
             </TooltipTrigger>
             <TooltipContent><p>Email</p></TooltipContent>
@@ -159,11 +159,11 @@ export default function ContactCard({ contact }: ContactCardProps) {
               <button
                 onClick={(e) => { e.stopPropagation(); }}
                 className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   isDark ? 'bg-white/[0.06] hover:bg-white/[0.12] text-white/60 hover:text-white' : 'bg-black/[0.06] hover:bg-black/[0.12] text-black/60 hover:text-black'
                 )}
               >
-                <MessageCircle className="w-3.5 h-3.5" />
+                <MessageCircle className="w-4 h-4" />
               </button>
             </TooltipTrigger>
             <TooltipContent><p>WhatsApp</p></TooltipContent>
@@ -174,7 +174,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
       {/* Top Section: Avatar + Info */}
       <div className="flex items-start gap-3 mb-3">
         <div className="relative shrink-0">
-          <Avatar className={cn('h-11 w-11', contact.aiIntent === 'high' && 'ring-2 ring-orange-500/30 ring-offset-1', isDark && 'ring-offset-[#0a0a0a]')}>
+          <Avatar className={cn('h-10  w-11', contact.aiIntent === 'high' && 'ring-2 ring-orange-500/30 ring-offset-1', isDark && 'ring-offset-[#0a0a0a]')}>
             <AvatarImage src={contact.avatar} alt={fullName} />
             <AvatarFallback className={cn(
               'text-sm font-semibold',
@@ -207,9 +207,9 @@ export default function ContactCard({ contact }: ContactCardProps) {
       {/* AI Intent Badge */}
       <div className="mb-3">
         <span className={cn(
-          'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border',
+          'inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-md)] text-[11px] font-medium border',
           intent.className,
-          contact.aiIntent === 'high' && 'shadow-sm shadow-orange-500/10'
+          contact.aiIntent === 'high' && 'shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] shadow-[var(--app-shadow-md)]-orange-500/10'
         )}>
           <span>{intent.emoji}</span>
           {intent.label}
@@ -228,7 +228,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
         </div>
         <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
           <div
-            className={cn('h-full rounded-full transition-all duration-500', getHealthColor(contact.healthScore))}
+            className={cn('h-full rounded-full transition-colors duration-200', getHealthColor(contact.healthScore))}
             style={{ width: `${contact.healthScore}%` }}
           />
         </div>
@@ -237,10 +237,10 @@ export default function ContactCard({ contact }: ContactCardProps) {
       {/* Lifecycle Stage */}
       <div className="mb-3">
         <span className={cn(
-          'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border',
+          'inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-md)] text-[11px] font-medium border',
           getStageColor(contact.lifecycleStage, isDark)
         )}>
-          <Users className="w-3 h-3" />
+          <Users className="w-4 h-4" />
           {getStageLabel(contact.lifecycleStage)}
         </span>
       </div>

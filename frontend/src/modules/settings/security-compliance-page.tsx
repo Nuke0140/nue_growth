@@ -59,11 +59,11 @@ export default function SecurityCompliancePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -83,13 +83,13 @@ export default function SecurityCompliancePage() {
         </div>
 
         {/* Security Score + Config Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
           {/* Security Score Card */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-6 flex flex-col items-center justify-center', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
           >
             <h3 className={cn('text-xs font-medium uppercase tracking-wider mb-4', 'text-[var(--app-text-muted)]')}>Security Score</h3>
             <div className="relative w-28 h-28 mb-4">
@@ -123,7 +123,7 @@ export default function SecurityCompliancePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
                 <Fingerprint className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -131,7 +131,7 @@ export default function SecurityCompliancePage() {
               </h3>
               <div className="space-y-4">
                 {/* MFA */}
-                <div className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
                     <div>
@@ -140,12 +140,12 @@ export default function SecurityCompliancePage() {
                     </div>
                   </div>
                   <div className={cn('relative w-10 h-5.5 rounded-full cursor-pointer transition-colors', securityConfig.mfaEnforced ? 'bg-emerald-500' : 'bg-[var(--app-hover-bg)]')}>
-                    <div className={cn('absolute top-1 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-transform', securityConfig.mfaEnforced && 'translate-x-[18px]')} style={{ left: 2 }} />
+                    <div className={cn('absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-transform', securityConfig.mfaEnforced && 'translate-x-[18px]')} style={{ left: 2 }} />
                   </div>
                 </div>
 
                 {/* Password Policy */}
-                <div className={cn('p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center gap-2 mb-3">
                     <Key className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <p className="text-sm font-medium">Password Policy</p>
@@ -158,7 +158,7 @@ export default function SecurityCompliancePage() {
                       { label: 'Symbols', value: securityConfig.passwordPolicy.requireSymbols ? 'Required' : 'Optional' },
                       { label: 'Expiry', value: `${securityConfig.passwordPolicy.expiryDays} days` },
                     ].map((item) => (
-                      <div key={item.label} className={cn('p-2 rounded-lg text-center', 'bg-[var(--app-hover-bg)]')}>
+                      <div key={item.label} className={cn('p-2 rounded-[var(--app-radius-lg)] text-center', 'bg-[var(--app-hover-bg)]')}>
                         <p className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>{item.label}</p>
                         <p className="text-xs font-medium">{item.value}</p>
                       </div>
@@ -167,7 +167,7 @@ export default function SecurityCompliancePage() {
                 </div>
 
                 {/* Session Timeout */}
-                <div className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center gap-3">
                     <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <div>
@@ -191,7 +191,7 @@ export default function SecurityCompliancePage() {
                 </div>
 
                 {/* SSO Status */}
-                <div className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center gap-3">
                     <Lock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <div>
@@ -214,7 +214,7 @@ export default function SecurityCompliancePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
                 <Globe className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -222,19 +222,19 @@ export default function SecurityCompliancePage() {
               </h3>
               <div className="space-y-4">
                 {/* IP Allowlist */}
-                <div className={cn('p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-sm font-medium">IP Allowlist</p>
-                    <Button variant="ghost" size="sm" className={cn('rounded-lg text-xs gap-1', isDark ? 'text-white/30 hover:bg-white/[0.06]' : 'text-black/30 hover:bg-black/[0.06]')}>
-                      <Plus className="w-3 h-3" /> Add IP
+                    <Button variant="ghost" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1', isDark ? 'text-white/30 hover:bg-white/[0.06]' : 'text-black/30 hover:bg-black/[0.06]')}>
+                      <Plus className="w-4 h-4" /> Add IP
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {securityConfig.ipAllowlist.map((ip, i) => (
-                      <div key={i} className={cn('flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-mono', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
+                      <div key={i} className={cn('flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--app-radius-lg)] border text-xs font-mono', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
                         <span>{ip}</span>
                         <button className={cn('hover:text-red-400 transition-colors', 'text-[var(--app-text-disabled)]')}>
-                          <Trash2 className="w-3 h-3" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     ))}
@@ -242,7 +242,7 @@ export default function SecurityCompliancePage() {
                 </div>
 
                 {/* Suspicious Login Alerts */}
-                <div className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                <div className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                   <div className="flex items-center gap-3">
                     <ShieldAlert className="w-4 h-4 text-amber-500" />
                     <div>
@@ -251,7 +251,7 @@ export default function SecurityCompliancePage() {
                     </div>
                   </div>
                   <div className={cn('relative w-10 h-5.5 rounded-full cursor-pointer transition-colors', securityConfig.suspiciousLoginAlerts ? 'bg-emerald-500' : 'bg-[var(--app-hover-bg)]')}>
-                    <div className={cn('absolute top-1 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-transform', securityConfig.suspiciousLoginAlerts && 'translate-x-[18px]')} style={{ left: 2 }} />
+                    <div className={cn('absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-transform', securityConfig.suspiciousLoginAlerts && 'translate-x-[18px]')} style={{ left: 2 }} />
                   </div>
                 </div>
               </div>
@@ -262,13 +262,13 @@ export default function SecurityCompliancePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
                 <Smartphone className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 Device Management
               </h3>
-              <div className={cn('rounded-xl border overflow-hidden', 'border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
                 <table className="w-full text-xs">
                   <thead>
                     <tr className={cn('bg-[var(--app-hover-bg)]')}>
@@ -299,7 +299,7 @@ export default function SecurityCompliancePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
                 <ShieldCheck className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -307,7 +307,7 @@ export default function SecurityCompliancePage() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {/* SOC2 */}
-                <div className={cn('p-4 rounded-xl border text-center', 'border-[var(--app-border-light)]')}>
+                <div className={cn('p-4 rounded-[var(--app-radius-lg)] border text-center', 'border-[var(--app-border-light)]')}>
                   <ShieldCheck className={cn('w-6 h-6 mx-auto mb-2', securityConfig.soc2Compliant ? 'text-emerald-500' : 'text-red-500')} />
                   <p className="text-sm font-semibold">SOC 2</p>
                   <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 border-0 mt-1', securityConfig.soc2Compliant ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400')}>
@@ -316,7 +316,7 @@ export default function SecurityCompliancePage() {
                 </div>
 
                 {/* GDPR */}
-                <div className={cn('p-4 rounded-xl border text-center', 'border-[var(--app-border-light)]')}>
+                <div className={cn('p-4 rounded-[var(--app-radius-lg)] border text-center', 'border-[var(--app-border-light)]')}>
                   <ShieldCheck className={cn('w-6 h-6 mx-auto mb-2', securityConfig.gdprCompliant ? 'text-emerald-500' : 'text-red-500')} />
                   <p className="text-sm font-semibold">GDPR</p>
                   <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 border-0 mt-1', securityConfig.gdprCompliant ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400')}>
@@ -325,13 +325,13 @@ export default function SecurityCompliancePage() {
                 </div>
 
                 {/* Data Residency */}
-                <div className={cn('p-4 rounded-xl border text-center', 'border-[var(--app-border-light)]')}>
+                <div className={cn('p-4 rounded-[var(--app-radius-lg)] border text-center', 'border-[var(--app-border-light)]')}>
                   <Globe className={cn('w-6 h-6 mx-auto mb-2', 'text-[var(--app-text-muted)]')} />
                   <p className="text-sm font-semibold">Data Residency</p>
                   <div className="relative mt-2">
                     <select
                       defaultValue={securityConfig.dataResidency}
-                      className={cn('w-full px-3 py-1.5 rounded-lg text-xs border outline-none appearance-none transition-colors text-center', isDark ? 'bg-white/[0.06] border-white/[0.08] text-white/60' : 'bg-black/[0.04] border-black/[0.08] text-black/60')}
+                      className={cn('w-full px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs border outline-none appearance-none transition-colors text-center', isDark ? 'bg-white/[0.06] border-white/[0.08] text-white/60' : 'bg-black/[0.04] border-black/[0.08] text-black/60')}
                     >
                       <option value="India">India</option>
                       <option value="US">United States</option>

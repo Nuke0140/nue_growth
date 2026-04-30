@@ -181,12 +181,12 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-app-3xl py-app-3xl sm:py-app-4xl">
         {/* Page Header */}
-        <motion.div {...fadeUp} className="mb-8">
+        <motion.div {...fadeUp} className="mb-app-3xl">
           <button
             onClick={() => navigateTo('login')}
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors mb-6 group"
+            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors mb-app-2xl group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span className="text-sm font-medium">Back</span>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
             Profile &amp; Settings
           </h1>
-          <p className="text-gray-500 mt-1.5 text-sm sm:text-base">
+          <p className="text-gray-500 mt-1.5 text-sm sm:text-sm">
             Manage your account preferences
           </p>
         </motion.div>
@@ -205,31 +205,31 @@ export default function ProfilePage() {
           transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="w-full sm:w-auto grid grid-cols-4 mb-6 bg-gray-100 rounded-xl p-1">
+            <TabsList className="w-full sm:w-auto grid grid-cols-4 mb-app-2xl bg-gray-100 rounded-[var(--app-radius-lg)] p-1">
               <TabsTrigger
                 value="profile"
-                className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm transition-all"
+                className="rounded-[var(--app-radius-lg)] text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors"
               >
                 <User className="w-4 h-4 sm:mr-1.5" />
                 <span className="hidden sm:inline">Profile</span>
               </TabsTrigger>
               <TabsTrigger
                 value="security"
-                className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm transition-all"
+                className="rounded-[var(--app-radius-lg)] text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors"
               >
                 <Shield className="w-4 h-4 sm:mr-1.5" />
                 <span className="hidden sm:inline">Security</span>
               </TabsTrigger>
               <TabsTrigger
                 value="preferences"
-                className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm transition-all"
+                className="rounded-[var(--app-radius-lg)] text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors"
               >
                 <Settings className="w-4 h-4 sm:mr-1.5" />
                 <span className="hidden sm:inline">Prefs</span>
               </TabsTrigger>
               <TabsTrigger
                 value="notifications"
-                className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm transition-all"
+                className="rounded-[var(--app-radius-lg)] text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors"
               >
                 <Bell className="w-4 h-4 sm:mr-1.5" />
                 <span className="hidden sm:inline">Notify</span>
@@ -243,12 +243,12 @@ export default function ProfilePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
-                <Card className="rounded-2xl shadow-sm border-gray-100 bg-white">
-                  <CardContent className="p-6 sm:p-8">
+                <Card className="rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] border-gray-100 bg-white">
+                  <CardContent className="p-6 sm:p-app-3xl">
                     {/* Avatar Section */}
-                    <div className="flex flex-col items-center mb-8">
+                    <div className="flex flex-col items-center mb-app-3xl">
                       <div className="relative group">
-                        <Avatar className="w-20 h-20 border-2 border-gray-100 shadow-sm">
+                        <Avatar className="w-20 h-20 border-2 border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
                           <AvatarImage src={user?.avatar} alt={user?.name ?? 'User'} />
                           <AvatarFallback className="text-xl font-bold bg-gray-900 text-white">
                             {user?.name?.charAt(0).toUpperCase() ?? 'U'}
@@ -261,14 +261,14 @@ export default function ProfilePage() {
                       <p className="text-xs text-gray-400 mt-2.5 font-medium">Change Photo</p>
                     </div>
 
-                    <Separator className="mb-8" />
+                    <Separator className="mb-app-3xl" />
 
                     {/* Form Fields */}
                     <motion.div
                       variants={staggerContainer}
                       initial="initial"
                       animate="animate"
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-app-xl sm:gap-app-2xl"
                     >
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">
@@ -279,7 +279,7 @@ export default function ProfilePage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder="John Doe"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
                         />
                       </motion.div>
 
@@ -293,7 +293,7 @@ export default function ProfilePage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="john@example.com"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
                         />
                       </motion.div>
 
@@ -306,7 +306,7 @@ export default function ProfilePage() {
                           value={designation}
                           onChange={(e) => setDesignation(e.target.value)}
                           placeholder="Product Designer"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
                         />
                       </motion.div>
 
@@ -320,17 +320,17 @@ export default function ProfilePage() {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="+91 98765 43210"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
                         />
                       </motion.div>
 
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Timezone</Label>
                         <Select value={timezone} onValueChange={setTimezone}>
-                          <SelectTrigger className="rounded-xl border-gray-200 focus:border-gray-400 h-11">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
                             <SelectValue placeholder="Select timezone" />
                           </SelectTrigger>
-                          <SelectContent className="rounded-xl">
+                          <SelectContent className="rounded-[var(--app-radius-lg)]">
                             {TIMEZONES.map((tz) => (
                               <SelectItem key={tz.value} value={tz.value}>
                                 {tz.label}
@@ -343,10 +343,10 @@ export default function ProfilePage() {
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Language</Label>
                         <Select value={language} onValueChange={setLanguage}>
-                          <SelectTrigger className="rounded-xl border-gray-200 focus:border-gray-400 h-11">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
                             <SelectValue placeholder="Select language" />
                           </SelectTrigger>
-                          <SelectContent className="rounded-xl">
+                          <SelectContent className="rounded-[var(--app-radius-lg)]">
                             {LANGUAGES.map((lang) => (
                               <SelectItem key={lang.value} value={lang.value}>
                                 {lang.label}
@@ -366,16 +366,16 @@ export default function ProfilePage() {
                           onChange={(e) => setBio(e.target.value)}
                           placeholder="Tell us about yourself..."
                           rows={3}
-                          className="rounded-xl border-gray-200 focus:border-gray-400 resize-none"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 resize-none"
                         />
                       </motion.div>
                     </motion.div>
 
                     {/* Save Button & Success */}
-                    <div className="mt-8 flex items-center gap-4">
+                    <div className="mt-app-3xl flex items-center gap-4">
                       <Button
                         onClick={handleSaveProfile}
-                        className="bg-gray-900 text-white rounded-xl hover:bg-gray-800 px-6 h-11 font-medium"
+                        className="bg-gray-900 text-white rounded-[var(--app-radius-lg)] hover:bg-gray-800 px-6 h-10  font-medium"
                       >
                         Save Changes
                       </Button>
@@ -403,13 +403,13 @@ export default function ProfilePage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
-                className="space-y-6"
+                className="space-y-app-2xl"
               >
                 {/* Change Password */}
-                <Card className="rounded-2xl shadow-sm border-gray-100 bg-white">
+                <Card className="rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] border-gray-100 bg-white">
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-[var(--app-radius-lg)] bg-gray-100 flex items-center justify-center">
                         <Shield className="w-5 h-5 text-gray-600" />
                       </div>
                       <div>
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                           value={currentPassword}
                           onChange={(e) => setCurrentPassword(e.target.value)}
                           placeholder="Enter current password"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11 pr-10"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10  pr-10"
                         />
                         <button
                           type="button"
@@ -460,7 +460,7 @@ export default function ProfilePage() {
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
                           placeholder="Enter new password"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11 pr-10"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10  pr-10"
                         />
                         <button
                           type="button"
@@ -486,7 +486,7 @@ export default function ProfilePage() {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="Confirm new password"
-                          className="rounded-xl border-gray-200 focus:border-gray-400 h-11 pr-10"
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10  pr-10"
                         />
                         <button
                           type="button"
@@ -505,7 +505,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-4 pt-2">
                       <Button
                         onClick={handleUpdatePassword}
-                        className="bg-gray-900 text-white rounded-xl hover:bg-gray-800 px-6 h-11 font-medium"
+                        className="bg-gray-900 text-white rounded-[var(--app-radius-lg)] hover:bg-gray-800 px-6 h-10  font-medium"
                       >
                         Update Password
                       </Button>
@@ -526,10 +526,10 @@ export default function ProfilePage() {
                 </Card>
 
                 {/* Two-Factor Authentication */}
-                <Card className="rounded-2xl shadow-sm border-gray-100 bg-white">
+                <Card className="rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] border-gray-100 bg-white">
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-[var(--app-radius-lg)] bg-gray-100 flex items-center justify-center">
                         <Shield className="w-5 h-5 text-gray-600" />
                       </div>
                       <div>
@@ -561,7 +561,7 @@ export default function ProfilePage() {
                       </div>
                       <Badge
                         variant="secondary"
-                        className={`text-xs font-medium rounded-lg ${
+                        className={`text-xs font-medium rounded-[var(--app-radius-lg)] ${
                           twoFactorEnabled
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                             : 'bg-gray-100 text-gray-500 border-gray-200'
@@ -582,10 +582,10 @@ export default function ProfilePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
-                <Card className="rounded-2xl shadow-sm border-gray-100 bg-white">
-                  <CardContent className="p-6 sm:p-8">
+                <Card className="rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] border-gray-100 bg-white">
+                  <CardContent className="p-6 sm:p-app-3xl">
                     {/* Theme Selection */}
-                    <div className="mb-8">
+                    <div className="mb-app-3xl">
                       <h3 className="text-sm font-semibold text-gray-900 mb-1">Theme</h3>
                       <p className="text-xs text-gray-400 mb-4">Choose your preferred appearance</p>
                       <div className="grid grid-cols-3 gap-3 sm:gap-4">
@@ -597,7 +597,7 @@ export default function ProfilePage() {
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                               onClick={() => setSelectedTheme(option.value)}
-                              className={`relative flex flex-col items-center gap-2.5 p-4 sm:p-5 rounded-xl border-2 transition-all cursor-pointer ${
+                              className={`relative flex flex-col items-center gap-2.5 p-4 sm:p-app-xl rounded-[var(--app-radius-lg)] border-2 transition-colors cursor-pointer ${
                                 isSelected
                                   ? 'border-gray-900 bg-gray-50'
                                   : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50/50'
@@ -609,7 +609,7 @@ export default function ProfilePage() {
                                   animate={{ scale: 1 }}
                                   className="absolute top-2 right-2 w-5 h-5 rounded-full bg-gray-900 flex items-center justify-center"
                                 >
-                                  <Check className="w-3 h-3 text-white" />
+                                  <Check className="w-4 h-4 text-white" />
                                 </motion.div>
                               )}
                               <option.icon
@@ -640,15 +640,15 @@ export default function ProfilePage() {
                       variants={staggerContainer}
                       initial="initial"
                       animate="animate"
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-app-xl sm:gap-app-2xl"
                     >
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Date Format</Label>
                         <Select value={dateFormat} onValueChange={setDateFormat}>
-                          <SelectTrigger className="rounded-xl border-gray-200 focus:border-gray-400 h-11">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
                             <SelectValue placeholder="Select format" />
                           </SelectTrigger>
-                          <SelectContent className="rounded-xl">
+                          <SelectContent className="rounded-[var(--app-radius-lg)]">
                             {DATE_FORMATS.map((f) => (
                               <SelectItem key={f.value} value={f.value}>
                                 {f.label}
@@ -661,10 +661,10 @@ export default function ProfilePage() {
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Currency</Label>
                         <Select value={currency} onValueChange={setCurrency}>
-                          <SelectTrigger className="rounded-xl border-gray-200 focus:border-gray-400 h-11">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
                             <SelectValue placeholder="Select currency" />
                           </SelectTrigger>
-                          <SelectContent className="rounded-xl">
+                          <SelectContent className="rounded-[var(--app-radius-lg)]">
                             {CURRENCIES.map((c) => (
                               <SelectItem key={c.value} value={c.value}>
                                 {c.label}
@@ -676,10 +676,10 @@ export default function ProfilePage() {
                     </motion.div>
 
                     {/* Save */}
-                    <div className="mt-8 flex items-center gap-4">
+                    <div className="mt-app-3xl flex items-center gap-4">
                       <Button
                         onClick={handleSavePreferences}
-                        className="bg-gray-900 text-white rounded-xl hover:bg-gray-800 px-6 h-11 font-medium"
+                        className="bg-gray-900 text-white rounded-[var(--app-radius-lg)] hover:bg-gray-800 px-6 h-10  font-medium"
                       >
                         Save Preferences
                       </Button>
@@ -708,7 +708,7 @@ export default function ProfilePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
-                <Card className="rounded-2xl shadow-sm border-gray-100 bg-white">
+                <Card className="rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] border-gray-100 bg-white">
                   <CardHeader className="pb-4">
                     <CardTitle className="text-lg font-semibold text-gray-900">
                       Notification Preferences
@@ -722,7 +722,7 @@ export default function ProfilePage() {
                       variants={staggerContainer}
                       initial="initial"
                       animate="animate"
-                      className="space-y-0 divide-y divide-gray-100"
+                      className="space-y-0 divide-gray-100"
                     >
                       {notificationItems.map((item) => (
                         <motion.div
@@ -743,10 +743,10 @@ export default function ProfilePage() {
                       ))}
                     </motion.div>
 
-                    <div className="mt-8 flex items-center gap-4">
+                    <div className="mt-app-3xl flex items-center gap-4">
                       <Button
                         onClick={handleSaveNotifications}
-                        className="bg-gray-900 text-white rounded-xl hover:bg-gray-800 px-6 h-11 font-medium"
+                        className="bg-gray-900 text-white rounded-[var(--app-radius-lg)] hover:bg-gray-800 px-6 h-10  font-medium"
                       >
                         Save Notification Settings
                       </Button>

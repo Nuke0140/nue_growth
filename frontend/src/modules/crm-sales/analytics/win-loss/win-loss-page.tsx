@@ -87,7 +87,7 @@ export default function WinLossAnalysisPage() {
     <TooltipProvider delayDuration={300}>
       <div className="h-full flex flex-col overflow-hidden">
         <ScrollArea className="flex-1">
-          <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+          <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
@@ -100,7 +100,7 @@ export default function WinLossAnalysisPage() {
               </div>
               <div className="flex items-center gap-2">
                 <div className={cn(
-                  'flex items-center rounded-xl border overflow-hidden',
+                  'flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                   'border-[var(--app-border)]'
                 )}>
                   {PERIODS.map((p) => (
@@ -108,7 +108,7 @@ export default function WinLossAnalysisPage() {
                       key={p}
                       onClick={() => setPeriod(p)}
                       className={cn(
-                        'px-3 py-1.5 text-xs font-medium transition-all',
+                        'px-3 py-1.5 text-xs font-medium transition-colors',
                         period === p
                           ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                           : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
@@ -119,10 +119,10 @@ export default function WinLossAnalysisPage() {
                   ))}
                 </div>
                 <Button variant="outline" size="sm" className={cn(
-                  'h-9 px-3 rounded-xl text-xs gap-1.5',
+                  'h-10  px-3 rounded-[var(--app-radius-lg)] text-xs gap-1.5',
                   isDark ? 'border-white/[0.06] text-white/60 hover:text-white hover:bg-white/[0.04]' : 'border-black/[0.06] text-black/60 hover:text-black hover:bg-black/[0.04]'
                 )}>
-                  <Download className="w-3.5 h-3.5" />
+                  <Download className="w-4 h-4" />
                   Export
                 </Button>
               </div>
@@ -142,7 +142,7 @@ export default function WinLossAnalysisPage() {
                 { label: 'Avg Sales Cycle', value: `${data.avgSalesCycle}d`, icon: Clock, color: 'text-amber-500' },
               ].map((kpi) => (
                 <div key={kpi.label} className={cn(
-                  'rounded-2xl border p-4',
+                  'rounded-[var(--app-radius-xl)] border p-4',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}>
                   <div className="flex items-center gap-2 mb-2">
@@ -162,22 +162,22 @@ export default function WinLossAnalysisPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
-              <div className="flex items-center gap-2 mb-5">
+              <div className="flex items-center gap-2 mb-app-xl">
                 <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Monthly Win vs Loss
                 </h3>
                 <div className="ml-auto flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+                    <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500" />
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Won</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+                    <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-red-500" />
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Lost</span>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function WinLossAnalysisPage() {
                           initial={{ height: 0 }}
                           animate={{ height: `${wonHeight}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
-                          className="flex-1 rounded-t-md bg-emerald-500 min-h-[2px] relative group"
+                          className="flex-1 rounded-t-[var(--app-radius-md)] bg-emerald-500 min-h-[2px] relative group"
                         >
                           <div className={cn(
                             'absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap',
@@ -210,7 +210,7 @@ export default function WinLossAnalysisPage() {
                           initial={{ height: 0 }}
                           animate={{ height: `${lostHeight}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 + 0.05 }}
-                          className="flex-1 rounded-t-md bg-red-500 min-h-[2px] relative group"
+                          className="flex-1 rounded-t-[var(--app-radius-md)] bg-red-500 min-h-[2px] relative group"
                         >
                           <div className={cn(
                             'absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap',
@@ -229,14 +229,14 @@ export default function WinLossAnalysisPage() {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-xl">
               {/* Competitor Analysis */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className={cn(
-                  'rounded-2xl border p-5',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
@@ -255,7 +255,7 @@ export default function WinLossAnalysisPage() {
                       <div
                         key={comp.competitor}
                         className={cn(
-                          'rounded-xl p-3',
+                          'rounded-[var(--app-radius-lg)] p-3',
                           isTop
                             ? (isDark ? 'bg-red-500/[0.06]' : 'bg-red-50/50')
                             : ('bg-[var(--app-hover-bg)]')
@@ -302,7 +302,7 @@ export default function WinLossAnalysisPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.25 }}
                 className={cn(
-                  'rounded-2xl border p-5',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
@@ -313,7 +313,7 @@ export default function WinLossAnalysisPage() {
                   </h3>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="flex flex-col sm:flex-row items-center gap-app-2xl">
                   {/* Pie chart */}
                   <div className="relative w-36 h-36 shrink-0">
                     <div
@@ -341,11 +341,11 @@ export default function WinLossAnalysisPage() {
                       <div
                         key={reason.reason}
                         className={cn(
-                          'flex items-center gap-2 px-2.5 py-1.5 rounded-lg',
+                          'flex items-center gap-2 px-2.5 py-1.5 rounded-[var(--app-radius-lg)]',
                           'bg-[var(--app-hover-bg)]'
                         )}
                       >
-                        <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: LOSS_REASON_COLORS[i] }} />
+                        <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] shrink-0" style={{ background: LOSS_REASON_COLORS[i] }} />
                         <span className={cn('text-xs flex-1 truncate', 'text-[var(--app-text-secondary)]')}>
                           {reason.reason}
                         </span>
@@ -368,11 +368,11 @@ export default function WinLossAnalysisPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
-              <div className="flex items-center gap-2 mb-5">
+              <div className="flex items-center gap-2 mb-app-xl">
                 <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Stage Drop-off Funnel
@@ -404,7 +404,7 @@ export default function WinLossAnalysisPage() {
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.max(widthPercent, 8)}%` }}
                             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 + i * 0.08 }}
-                            className="h-full rounded-md flex items-center justify-between px-3"
+                            className="h-full rounded-[var(--app-radius-md)] flex items-center justify-between px-3"
                             style={{
                               background: STAGE_COLORS[i],
                               minWidth: '60px',
@@ -413,7 +413,7 @@ export default function WinLossAnalysisPage() {
                             <span className="text-[10px] font-bold text-white">{stage.entered}</span>
                             {stage.dropRate > 0 && (
                               <div className="flex items-center gap-1">
-                                <ArrowDown className="w-3 h-3 text-white/70" />
+                                <ArrowDown className="w-4 h-4 text-white/70" />
                                 <span className="text-[9px] font-medium text-white/80">
                                   {stage.dropRate}%
                                 </span>
@@ -454,7 +454,7 @@ export default function WinLossAnalysisPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5 + i * 0.1 }}
                       className={cn(
-                        'rounded-2xl border p-4',
+                        'rounded-[var(--app-radius-xl)] border p-4',
                         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                       )}
                     >
@@ -477,11 +477,11 @@ export default function WinLossAnalysisPage() {
                         'mt-3 pt-3 border-t flex items-center gap-1',
                         'border-[var(--app-border)]'
                       )}>
-                        <Lightbulb className="w-3 h-3 text-amber-400" />
+                        <Lightbulb className="w-4 h-4 text-amber-400" />
                         <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                           AI Recommendation available
                         </span>
-                        <ChevronRight className={cn('w-3 h-3 ml-auto', 'text-[var(--app-text-disabled)]')} />
+                        <ChevronRight className={cn('w-4 h-4 ml-auto', 'text-[var(--app-text-disabled)]')} />
                       </div>
                     </motion.div>
                   );
@@ -495,11 +495,11 @@ export default function WinLossAnalysisPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.6 }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
-              <div className="flex items-center gap-2 mb-5">
+              <div className="flex items-center gap-2 mb-app-xl">
                 <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Average Days per Stage
@@ -524,7 +524,7 @@ export default function WinLossAnalysisPage() {
                   <div
                     key={s.stage}
                     className={cn(
-                      'rounded-xl p-3 text-center',
+                      'rounded-[var(--app-radius-lg)] p-3 text-center',
                       'bg-[var(--app-hover-bg)]'
                     )}
                   >

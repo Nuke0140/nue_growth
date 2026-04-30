@@ -102,7 +102,7 @@ export default function AiGrowthIntelligencePage() {
   };
 
   return (
-    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-app-3xl py-app-2xl space-y-app-2xl">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -111,7 +111,7 @@ export default function AiGrowthIntelligencePage() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-purple-500 to-violet-600">
+          <div className="w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center bg-gradient-to-br from-purple-500 to-violet-600">
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -145,10 +145,10 @@ export default function AiGrowthIntelligencePage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-2xl border p-5 bg-gradient-to-br from-purple-500/10 via-violet-500/5 to-fuchsia-500/10 border-purple-500/20"
+        className="rounded-[var(--app-radius-xl)] border p-app-xl bg-gradient-to-br from-purple-500/10 via-violet-500/5 to-fuchsia-500/10 border-purple-500/20"
       >
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center shrink-0 mt-0.5">
+          <div className="w-8 h-8 rounded-[var(--app-radius-lg)] bg-purple-500/20 flex items-center justify-center shrink-0 mt-0.5">
             <Sparkles className="w-4 h-4 text-purple-400" />
           </div>
           <div className="space-y-1">
@@ -176,14 +176,14 @@ export default function AiGrowthIntelligencePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-5 space-y-3',
+                className={cn('rounded-[var(--app-radius-xl)] border p-app-xl space-y-3',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]',
                   isApplied && 'ring-1 ring-emerald-500/30'
                 )}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
+                    <div className="w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
                       <div style={{ color }}>{INSIGHT_ICONS[insight.type] || <Search className="w-5 h-5" />}</div>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -206,12 +206,12 @@ export default function AiGrowthIntelligencePage() {
                     <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{insight.confidence}%</span>
                   </div>
                   <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
-                    <div className="h-full rounded-full transition-all duration-700" style={{ backgroundColor: color, width: `${insight.confidence}%` }} />
+                    <div className="h-full rounded-full transition-colors duration-200" style={{ backgroundColor: color, width: `${insight.confidence}%` }} />
                   </div>
                 </div>
 
                 {/* Recommendation */}
-                <div className={cn('rounded-lg p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
                   <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/50' : 'text-gray-600')}>
                     <span className="font-medium">Recommendation: </span>{insight.recommendation}
                   </p>
@@ -224,10 +224,10 @@ export default function AiGrowthIntelligencePage() {
                   <Button
                     size="sm"
                     variant={isApplied ? 'outline' : 'default'}
-                    className={cn('text-xs h-7 gap-1', isApplied ? 'border-emerald-500/50 text-emerald-500' : 'bg-gradient-to-r from-purple-500 to-violet-600 text-white hover:from-purple-600 hover:to-violet-700')}
+                    className={cn('text-xs h-8  gap-1', isApplied ? 'border-emerald-500/50 text-emerald-500' : 'bg-gradient-to-r from-purple-500 to-violet-600 text-white hover:from-purple-600 hover:to-violet-700')}
                     onClick={() => handleApply(insight.id)}
                   >
-                    {isApplied ? <><Check className="w-3 h-3" /> Applied</> : 'Apply'}
+                    {isApplied ? <><Check className="w-4 h-4" /> Applied</> : 'Apply'}
                   </Button>
                 </div>
               </motion.div>
@@ -243,7 +243,7 @@ export default function AiGrowthIntelligencePage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-4 mb-4">
             <div className="flex items-center gap-1.5">
@@ -265,7 +265,7 @@ export default function AiGrowthIntelligencePage() {
                   </div>
                   <div className="flex items-center gap-2 text-[10px]">
                     <span className={'text-[var(--app-text-muted)]'}>{ch.current}%</span>
-                    <ArrowRight className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-gray-300')} />
+                    <ArrowRight className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-gray-300')} />
                     <span className="font-medium text-emerald-500">{ch.recommended}%</span>
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export default function AiGrowthIntelligencePage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           {CHURN_ACCOUNTS.map((acc, i) => (
             <motion.div
@@ -326,7 +326,7 @@ export default function AiGrowthIntelligencePage() {
                     <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>risk</span>
                   </div>
                 </div>
-                <div className={cn('hidden sm:block text-[10px] px-2 py-1 rounded-lg max-w-[140px]', isDark ? 'bg-white/[0.04] text-white/50' : 'bg-gray-50 text-gray-600')}>
+                <div className={cn('hidden sm:block text-[10px] px-2 py-1 rounded-[var(--app-radius-lg)] max-w-[140px]', isDark ? 'bg-white/[0.04] text-white/50' : 'bg-gray-50 text-gray-600')}>
                   {acc.action}
                 </div>
               </div>
@@ -335,7 +335,7 @@ export default function AiGrowthIntelligencePage() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Content Trend Predictions */}
         <div>
           <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Content Trend Predictions</h2>
@@ -346,7 +346,7 @@ export default function AiGrowthIntelligencePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div>
@@ -355,7 +355,7 @@ export default function AiGrowthIntelligencePage() {
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3 text-emerald-500" />
+                      <TrendingUp className="w-4 h-4 text-emerald-500" />
                       <span className="text-xs font-medium text-emerald-500">{trend.trend}</span>
                     </div>
                   </div>
@@ -381,7 +381,7 @@ export default function AiGrowthIntelligencePage() {
         {/* Audience Fatigue Map */}
         <div>
           <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Audience Fatigue Map</h2>
-          <div className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="grid grid-cols-2 gap-3">
               {FATIGUE_MAP.map((item, i) => (
                 <motion.div
@@ -389,7 +389,7 @@ export default function AiGrowthIntelligencePage() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.4 + i * 0.05, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn('rounded-xl border p-3 space-y-1.5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-gray-50/50 border-gray-100')}
+                  className={cn('rounded-[var(--app-radius-lg)] border p-3 space-y-1.5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-gray-50/50 border-gray-100')}
                 >
                   <div className="flex items-center justify-between">
                     <span className={cn('text-xs font-medium', isDark ? 'text-white/80' : 'text-gray-800')}>{item.segment}</span>

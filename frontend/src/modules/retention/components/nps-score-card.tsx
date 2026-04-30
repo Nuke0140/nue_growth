@@ -34,12 +34,12 @@ export default function NpsScoreCard({ score, totalResponses, promoters, passive
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Large NPS display */}
-      <div className="text-center mb-5">
+      <div className="text-center mb-app-xl">
         <p className={cn('text-[10px] font-semibold tracking-wider uppercase mb-1', 'text-[var(--app-text-muted)]')}>
           Net Promoter Score
         </p>
@@ -80,15 +80,15 @@ export default function NpsScoreCard({ score, totalResponses, promoters, passive
 
       {/* Category breakdown */}
       <div className="grid grid-cols-3 gap-2">
-        <div className={cn('rounded-lg p-2 text-center border', isDark ? 'bg-emerald-400/5 border-emerald-400/10' : 'bg-emerald-50 border-emerald-100')}>
+        <div className={cn('rounded-[var(--app-radius-lg)] p-2 text-center border', isDark ? 'bg-emerald-400/5 border-emerald-400/10' : 'bg-emerald-50 border-emerald-100')}>
           <p className="text-xs font-bold text-emerald-400">{promoters}</p>
           <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Promoters</p>
         </div>
-        <div className={cn('rounded-lg p-2 text-center border', isDark ? 'bg-amber-400/5 border-amber-400/10' : 'bg-amber-50 border-amber-100')}>
+        <div className={cn('rounded-[var(--app-radius-lg)] p-2 text-center border', isDark ? 'bg-amber-400/5 border-amber-400/10' : 'bg-amber-50 border-amber-100')}>
           <p className="text-xs font-bold text-amber-400">{passives}</p>
           <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Passives</p>
         </div>
-        <div className={cn('rounded-lg p-2 text-center border', isDark ? 'bg-red-400/5 border-red-400/10' : 'bg-red-50 border-red-100')}>
+        <div className={cn('rounded-[var(--app-radius-lg)] p-2 text-center border', isDark ? 'bg-red-400/5 border-red-400/10' : 'bg-red-50 border-red-100')}>
           <p className="text-xs font-bold text-red-400">{detractors}</p>
           <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Detractors</p>
         </div>

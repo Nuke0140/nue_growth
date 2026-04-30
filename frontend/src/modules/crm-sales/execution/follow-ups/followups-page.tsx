@@ -95,7 +95,7 @@ export default function FollowupsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-5 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -116,17 +116,17 @@ export default function FollowupsPage() {
               </div>
             </div>
             <Button className={cn(
-              'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+              'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Add Follow-up
             </Button>
           </div>
 
           {/* View Tabs */}
           <div className={cn(
-            'flex items-center gap-1 p-1 rounded-xl overflow-x-auto',
+            'flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] overflow-x-auto',
             'bg-[var(--app-hover-bg)]'
           )}>
             {VIEW_TABS.map((tab) => {
@@ -138,13 +138,13 @@ export default function FollowupsPage() {
                   key={tab.id}
                   onClick={() => setViewTab(tab.id)}
                   className={cn(
-                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap',
                     isActive
                       ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                       : isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
                   )}
                 >
-                  {TabIcon && <TabIcon className="w-3.5 h-3.5" />}
+                  {TabIcon && <TabIcon className="w-4 h-4" />}
                   {tab.label}
                   {badgeCount !== undefined && badgeCount > 0 && (
                     <span className={cn(
@@ -174,13 +174,13 @@ export default function FollowupsPage() {
                     key={type}
                     onClick={() => setTypeFilter(type)}
                     className={cn(
-                      'flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all border',
+                      'flex items-center gap-1 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors border',
                       active
                         ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
                         : isDark ? 'text-white/40 border-white/[0.06] hover:bg-white/[0.04] hover:text-white/60' : 'text-black/40 border-black/[0.06] hover:bg-black/[0.04] hover:text-black/60'
                     )}
                   >
-                    {TypeIcon && <TypeIcon className="w-3 h-3" />}
+                    {TypeIcon && <TypeIcon className="w-4 h-4" />}
                     {type === 'all' ? 'All Types' : cfg?.label}
                   </button>
                 );
@@ -199,7 +199,7 @@ export default function FollowupsPage() {
                     key={p}
                     onClick={() => setPriorityFilter(p)}
                     className={cn(
-                      'px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all border',
+                      'px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors border',
                       active
                         ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
                         : isDark ? 'text-white/40 border-white/[0.06] hover:bg-white/[0.04]' : 'text-black/40 border-black/[0.06] hover:bg-black/[0.04]'
@@ -213,13 +213,13 @@ export default function FollowupsPage() {
           </div>
 
           {/* Content: Follow-ups + AI Panel */}
-          <div className="flex flex-col lg:flex-row gap-5">
+          <div className="flex flex-col lg:flex-row gap-app-xl">
             {/* Main Follow-up List */}
             <div className="flex-1 space-y-3">
               {/* Overdue Section */}
               {overdueItems.length > 0 && (
                 <div className={cn(
-                  'rounded-2xl border-2 p-4 space-y-3',
+                  'rounded-[var(--app-radius-xl)] border-2 p-4 space-y-3',
                   isDark ? 'bg-red-500/[0.04] border-red-500/20' : 'bg-red-50/60 border-red-200/50'
                 )}>
                   <div className="flex items-center gap-2 mb-1">
@@ -259,11 +259,11 @@ export default function FollowupsPage() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className={cn(
-                    'rounded-2xl border p-12 text-center',
+                    'rounded-[var(--app-radius-xl)] border p-app-4xl text-center',
                     'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                   )}
                 >
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-emerald-500/15">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-[var(--app-radius-xl)] flex items-center justify-center bg-emerald-500/15">
                     <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                   </div>
                   <h3 className={cn('text-lg font-semibold mb-1', 'text-[var(--app-text)]')}>
@@ -279,7 +279,7 @@ export default function FollowupsPage() {
             {/* AI Suggestion Panel */}
             <div className="lg:w-80 shrink-0">
               <div className={cn(
-                'rounded-2xl border p-4 lg:sticky lg:top-4',
+                'rounded-[var(--app-radius-xl)] border p-4 lg:sticky lg:top-4',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center gap-2 mb-4">
@@ -298,7 +298,7 @@ export default function FollowupsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 + i * 0.1 }}
                         className={cn(
-                          'rounded-xl p-3 border cursor-pointer transition-colors',
+                          'rounded-[var(--app-radius-lg)] p-3 border cursor-pointer transition-colors',
                           isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]'
                         )}
                       >
@@ -317,7 +317,7 @@ export default function FollowupsPage() {
                           'flex items-center gap-1 mt-2 text-[10px] font-medium',
                           'text-violet-500 hover:text-violet-400 transition-colors'
                         )}>
-                          Take Action <ArrowRight className="w-3 h-3" />
+                          Take Action <ArrowRight className="w-4 h-4" />
                         </button>
                       </motion.div>
                     );
@@ -359,7 +359,7 @@ function FollowUpCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
       className={cn(
-        'rounded-2xl border p-4 transition-colors',
+        'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
         isOverdue
           ? (isDark ? 'bg-red-500/[0.03] border-red-500/15' : 'bg-red-50/40 border-red-200/40')
           : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
@@ -369,7 +369,7 @@ function FollowUpCard({
         {/* Left: Icon + Info */}
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <div className={cn(
-            'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
+            'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
             'bg-[var(--app-hover-bg)]'
           )}>
             <TypeIcon className={cn('w-5 h-5', typeCfg.color)} />
@@ -390,7 +390,7 @@ function FollowUpCard({
             {/* Date + Time */}
             <div className="flex items-center gap-3 mt-1">
               <div className="flex items-center gap-1">
-                <Clock className={cn('w-3 h-3', isOverdue ? 'text-red-400' : ('text-[var(--app-text-muted)]'))} />
+                <Clock className={cn('w-4 h-4', isOverdue ? 'text-red-400' : ('text-[var(--app-text-muted)]'))} />
                 <span className={cn('text-[11px] font-medium', isOverdue ? 'text-red-400' : ('text-[var(--app-text-muted)]'))}>
                   {followUp.scheduledDate}
                   {followUp.scheduledTime && ` · ${followUp.scheduledTime}`}
@@ -398,7 +398,7 @@ function FollowUpCard({
               </div>
               {followUp.isRecurring && (
                 <div className="flex items-center gap-1">
-                  <RefreshCw className="w-3 h-3 text-violet-400" />
+                  <RefreshCw className="w-4 h-4 text-violet-400" />
                   <span className="text-[10px] text-violet-400 font-medium">{followUp.recurringPattern}</span>
                 </div>
               )}
@@ -411,7 +411,7 @@ function FollowUpCard({
                   onClick={() => onToggleSuggestion(followUp.id)}
                   className="flex items-center gap-1 group"
                 >
-                  <Sparkles className="w-3 h-3 text-violet-400" />
+                  <Sparkles className="w-4 h-4 text-violet-400" />
                   <span className={cn('text-[11px] group-hover:text-violet-400 transition-colors',
                     'text-[var(--app-text-muted)]'
                   )}>
@@ -443,51 +443,51 @@ function FollowUpCard({
         {/* Right: Badges + Actions */}
         <div className="flex items-center gap-2 sm:flex-col sm:items-end sm:gap-1.5 shrink-0">
           <div className="flex items-center gap-1.5">
-            <span className={cn('px-2 py-0.5 rounded-md text-[10px] font-semibold', priCfg.bg, priCfg.text)}>
+            <span className={cn('px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-semibold', priCfg.bg, priCfg.text)}>
               {priCfg.label}
             </span>
-            <span className={cn('px-2 py-0.5 rounded-md text-[10px] font-medium', statusCfg.bg, statusCfg.text)}>
+            <span className={cn('px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium', statusCfg.bg, statusCfg.text)}>
               {statusCfg.label}
             </span>
           </div>
           <div className="flex items-center gap-1 mt-1">
             {/* Action Buttons */}
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               'hover:bg-[var(--app-hover-bg)]'
             )} title="Mark Done">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
             </button>
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               'hover:bg-[var(--app-hover-bg)]'
             )} title="Snooze">
-              <Bell className="w-3.5 h-3.5" />
+              <Bell className="w-4 h-4" />
             </button>
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               'hover:bg-[var(--app-hover-bg)]'
             )} title="Reschedule">
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
             </button>
             <Separator orientation="vertical" className="h-4 mx-0.5" />
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               isDark ? 'hover:bg-green-500/10' : 'hover:bg-green-500/10'
             )} title="WhatsApp">
-              <MessageCircle className="w-3.5 h-3.5 text-green-500" />
+              <MessageCircle className="w-4 h-4 text-green-500" />
             </button>
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               'hover:bg-[var(--app-hover-bg)]'
             )} title="Email">
-              <Mail className="w-3.5 h-3.5 text-blue-500" />
+              <Mail className="w-4 h-4 text-blue-500" />
             </button>
             <button className={cn(
-              'p-1.5 rounded-lg transition-colors',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
               'hover:bg-[var(--app-hover-bg)]'
             )} title="Call">
-              <Phone className="w-3.5 h-3.5 text-emerald-500" />
+              <Phone className="w-4 h-4 text-emerald-500" />
             </button>
           </div>
         </div>

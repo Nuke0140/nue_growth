@@ -35,7 +35,7 @@ export function Timeline({ items, className }: TimelineProps) {
   if (items.length === 0) {
     return (
       <div
-        className="flex items-center justify-center py-12"
+        className="flex items-center justify-center py-app-4xl"
         style={{ color: 'var(--app-text-muted)' }}
       >
         <p className="text-sm">No timeline events</p>
@@ -64,7 +64,7 @@ export function Timeline({ items, className }: TimelineProps) {
               <div className="flex flex-col items-center shrink-0">
                 {/* Dot */}
                 <div
-                  className="flex items-center justify-center w-9 h-9 rounded-full relative z-10"
+                  className="flex items-center justify-center w-9 h-10  rounded-full relative z-10"
                   style={{ backgroundColor: `${color}18` }}
                 >
                   <Icon className="w-4 h-4" style={{ color }} />
@@ -121,7 +121,7 @@ export function Timeline({ items, className }: TimelineProps) {
             onClick={() => setExpanded((prev) => !prev)}
             className="app-btn-ghost text-xs px-4 py-1.5"
             style={{
-              borderRadius: '9999px',
+              borderRadius: 'var(--app-radius-lg)',
               border: '1px solid var(--app-border)',
               color: 'var(--app-accent)',
             }}

@@ -91,7 +91,7 @@ export default function LeadsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -104,7 +104,7 @@ export default function LeadsPage() {
             </div>
             <div className="flex items-center gap-2">
               <div className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
+                'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -120,10 +120,10 @@ export default function LeadsPage() {
                 />
               </div>
               <Button className={cn(
-                'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+                'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                <Plus className="w-4 h-4 mr-1.5" />
                 Add Lead
               </Button>
             </div>
@@ -146,7 +146,7 @@ export default function LeadsPage() {
               <div
                 key={stat.label}
                 className={cn(
-                  'rounded-2xl border p-4 transition-colors',
+                  'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
@@ -170,7 +170,7 @@ export default function LeadsPage() {
                     key={intent}
                     onClick={() => { setIntentFilter(intent); setPage(1); }}
                     className={cn(
-                      'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border',
+                      'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors border',
                       active
                         ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
                         : isDark ? 'text-white/50 border-white/[0.06] hover:bg-white/[0.04]' : 'text-black/50 border-black/[0.06] hover:bg-black/[0.04]'
@@ -187,7 +187,7 @@ export default function LeadsPage() {
             {/* Source */}
             <Select value={sourceFilter} onValueChange={(v) => { setSourceFilter(v as ContactSource | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
-                'w-[130px] h-8 text-xs rounded-lg',
+                'w-[130px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <SelectValue placeholder="Source" />
@@ -207,7 +207,7 @@ export default function LeadsPage() {
             {/* Status */}
             <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v as LeadStatus | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
-                'w-[130px] h-8 text-xs rounded-lg',
+                'w-[130px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <SelectValue placeholder="Status" />
@@ -230,7 +230,7 @@ export default function LeadsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             className={cn(
-              'rounded-2xl border overflow-hidden',
+              'rounded-[var(--app-radius-xl)] border overflow-hidden',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -293,7 +293,7 @@ export default function LeadsPage() {
                         {/* Source */}
                         <td className="px-4 py-3 whitespace-nowrap">
                           <span className={cn(
-                            'inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border capitalize',
+                            'inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium border capitalize',
                             SOURCE_COLORS[lead.source]
                           )}>
                             {lead.source.replace('_', ' ')}
@@ -316,10 +316,10 @@ export default function LeadsPage() {
                         {/* Intent */}
                         <td className="px-4 py-3 whitespace-nowrap">
                           <span className={cn(
-                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold',
+                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-semibold',
                             intentCfg.bg, intentCfg.text
                           )}>
-                            <IntentIcon className="w-3 h-3" />
+                            <IntentIcon className="w-4 h-4" />
                             {intentCfg.label}
                           </span>
                         </td>
@@ -354,29 +354,29 @@ export default function LeadsPage() {
                             <button
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
-                                'p-1.5 rounded-lg transition-colors',
+                                'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                                 'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
-                              <ArrowRightLeft className="w-3.5 h-3.5" />
+                              <ArrowRightLeft className="w-4 h-4" />
                             </button>
                             <button
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
-                                'p-1.5 rounded-lg transition-colors',
+                                'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                                 'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
-                              <Mail className="w-3.5 h-3.5" />
+                              <Mail className="w-4 h-4" />
                             </button>
                             <button
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
-                                'p-1.5 rounded-lg transition-colors',
+                                'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                                 'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
-                              <Phone className="w-3.5 h-3.5" />
+                              <Phone className="w-4 h-4" />
                             </button>
                           </div>
                         </td>
@@ -406,7 +406,7 @@ export default function LeadsPage() {
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors disabled:opacity-30',
+                    'p-1.5 rounded-[var(--app-radius-lg)] border transition-colors disabled:opacity-30',
                     isDark ? 'border-white/[0.06] hover:bg-white/[0.04]' : 'border-black/[0.06] hover:bg-black/[0.04]'
                   )}
                 >
@@ -417,7 +417,7 @@ export default function LeadsPage() {
                     key={p}
                     onClick={() => setPage(p)}
                     className={cn(
-                      'w-8 h-8 rounded-lg text-xs font-medium transition-colors',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                       p === page
                         ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                         : isDark ? 'text-white/40 hover:bg-white/[0.04]' : 'text-black/40 hover:bg-black/[0.04]'
@@ -430,7 +430,7 @@ export default function LeadsPage() {
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors disabled:opacity-30',
+                    'p-1.5 rounded-[var(--app-radius-lg)] border transition-colors disabled:opacity-30',
                     isDark ? 'border-white/[0.06] hover:bg-white/[0.04]' : 'border-black/[0.06] hover:bg-black/[0.04]'
                   )}
                 >
@@ -445,7 +445,7 @@ export default function LeadsPage() {
       {/* Lead Qualification Modal */}
       <Dialog open={!!selectedLeadModal} onOpenChange={(open) => !open && setSelectedLeadModal(null)}>
         <DialogContent className={cn(
-          'sm:max-w-lg rounded-2xl',
+          'sm:max-w-lg rounded-[var(--app-radius-xl)]',
           isDark ? 'bg-[#111] border-white/[0.08]' : 'bg-white border-black/[0.08]'
         )}>
           {selectedLeadModal && (
@@ -469,14 +469,14 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-app-xl">
       <DialogHeader>
         <DialogTitle className={cn('text-lg', 'text-[var(--app-text)]')}>
           Lead Qualification
         </DialogTitle>
       </DialogHeader>
 
-      <div className={cn('rounded-xl p-4 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+      <div className={cn('rounded-[var(--app-radius-lg)] p-4 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
         <div className="flex items-center gap-3 mb-4">
           <div className={cn(
             'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold',
@@ -489,10 +489,10 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
             <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{lead.company} · {lead.email}</p>
           </div>
           <span className={cn(
-            'ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold',
+            'ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-xs font-semibold',
             intentCfg.bg, intentCfg.text
           )}>
-            <IntentIcon className="w-3.5 h-3.5" />
+            <IntentIcon className="w-4 h-4" />
             {intentCfg.label}
           </span>
         </div>
@@ -552,17 +552,17 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
       <div className="flex items-center gap-2">
         <Button
           className={cn(
-            'flex-1 h-9 rounded-xl text-xs font-semibold',
+            'flex-1 h-10  rounded-[var(--app-radius-lg)] text-xs font-semibold',
             'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
           )}
           onClick={onClose}
         >
-          <Zap className="w-3.5 h-3.5 mr-1.5" />
+          <Zap className="w-4 h-4 mr-1.5" />
           Convert to Deal
         </Button>
         <Select>
           <SelectTrigger className={cn(
-            'h-9 w-36 text-xs rounded-xl',
+            'h-10  w-36 text-xs rounded-[var(--app-radius-lg)]',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
           )}>
             <SelectValue placeholder="Assign Rep" />

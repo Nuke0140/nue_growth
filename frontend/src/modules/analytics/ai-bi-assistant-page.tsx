@@ -118,13 +118,13 @@ export default function AIBIAssistantPage() {
   }
 
   const card = cn(
-    'rounded-2xl border shadow-sm',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -136,7 +136,7 @@ export default function AIBIAssistantPage() {
         </div>
 
         {/* Two-Panel Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-app-2xl">
           {/* LEFT: Chat Interface */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -145,10 +145,10 @@ export default function AIBIAssistantPage() {
             className="lg:col-span-2 space-y-4"
           >
             {/* Chat Messages Area */}
-            <div className={cn('rounded-2xl border shadow-sm overflow-hidden flex flex-col', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden flex flex-col', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               {/* Chat Header */}
               <div className={cn('flex items-center gap-2 px-4 py-3 border-b', 'border-[var(--app-border)]')}>
-                <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', 'bg-[var(--app-purple-light)]')}>
+                <div className={cn('flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-purple-light)]')}>
                   <Bot className="w-4 h-4 text-purple-400" />
                 </div>
                 <div>
@@ -167,7 +167,7 @@ export default function AIBIAssistantPage() {
                   <div key={msg.id} className={cn('flex gap-3', msg.role === 'user' && 'flex-row-reverse')}>
                     {/* Avatar */}
                     <div className={cn(
-                      'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl',
+                      'flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
                       msg.role === 'assistant'
                         ? 'bg-purple-500/15 text-purple-400'
                         : isDark ? 'bg-blue-500/15 text-blue-400' : 'bg-blue-50 text-blue-500',
@@ -179,7 +179,7 @@ export default function AIBIAssistantPage() {
                     <div className={cn('max-w-[80%] space-y-2')}>
                       <div
                         className={cn(
-                          'rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed',
+                          'rounded-[var(--app-radius-xl)] px-3.5 py-2.5 text-xs leading-relaxed',
                           msg.role === 'assistant'
                             ? isDark ? 'bg-white/[0.04] text-zinc-200' : 'bg-black/[0.03] text-zinc-700'
                             : 'bg-blue-500/15 text-blue-100',
@@ -192,14 +192,14 @@ export default function AIBIAssistantPage() {
 
                       {/* Mini chart visualization */}
                       {msg.chartData && (
-                        <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                        <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                           <div className="flex items-end gap-1.5 h-16">
                             {msg.chartData.labels.map((label, ci) => {
                               const maxVal = Math.max(...msg.chartData!.values);
                               const height = maxVal > 0 ? (msg.chartData!.values[ci] / maxVal) * 100 : 0;
                               return (
                                 <div key={label} className="flex-1 flex flex-col items-center gap-1">
-                                  <div className={cn('w-full rounded-t-md bg-blue-500/40 transition-all', isDark ? 'hover:bg-blue-500/60' : 'hover:bg-blue-500/30')} style={{ height: `${height}%` }} />
+                                  <div className={cn('w-full rounded-t-[var(--app-radius-md)] bg-blue-500/40 transition-colors', isDark ? 'hover:bg-blue-500/60' : 'hover:bg-blue-500/30')} style={{ height: `${height}%` }} />
                                   <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{label}</span>
                                 </div>
                               );
@@ -210,9 +210,9 @@ export default function AIBIAssistantPage() {
 
                       {/* Recommendation */}
                       {msg.recommendation && (
-                        <div className={cn('rounded-xl border border-l-4 border-l-emerald-500 p-3', isDark ? 'bg-emerald-500/5 border-white/[0.06]' : 'bg-emerald-50/50 border-black/[0.06]')}>
+                        <div className={cn('rounded-[var(--app-radius-lg)] border border-l-4 border-l-emerald-500 p-3', isDark ? 'bg-emerald-500/5 border-white/[0.06]' : 'bg-emerald-50/50 border-black/[0.06]')}>
                           <div className="flex items-center gap-1 mb-1">
-                            <Lightbulb className="w-3 h-3 text-emerald-400" />
+                            <Lightbulb className="w-4 h-4 text-emerald-400" />
                             <span className={cn('text-[10px] font-semibold text-emerald-400 uppercase tracking-wider')}>Recommendation</span>
                           </div>
                           <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-secondary)]')}>
@@ -231,10 +231,10 @@ export default function AIBIAssistantPage() {
                 {/* Typing Indicator */}
                 {isTyping && (
                   <div className="flex gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-400">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)] bg-purple-500/15 text-purple-400">
                       <Sparkles className="w-4 h-4 animate-pulse" />
                     </div>
-                    <div className={cn('rounded-2xl px-4 py-3', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('rounded-[var(--app-radius-xl)] px-4 py-3', 'bg-[var(--app-hover-bg)]')}>
                       <div className="flex gap-1">
                         {[0, 1, 2].map((i) => (
                           <motion.div
@@ -277,7 +277,7 @@ export default function AIBIAssistantPage() {
 
               {/* Input Area */}
               <div className={cn('border-t p-3', 'border-[var(--app-border)]')}>
-                <div className={cn('flex items-center gap-2 rounded-xl border px-3 py-2', isDark ? 'border-white/[0.08] bg-white/[0.02]' : 'border-black/[0.08] bg-black/[0.01]')}>
+                <div className={cn('flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2', isDark ? 'border-white/[0.08] bg-white/[0.02]' : 'border-black/[0.08] bg-black/[0.01]')}>
                   <input
                     type="text"
                     value={inputText}
@@ -289,7 +289,7 @@ export default function AIBIAssistantPage() {
                       isDark ? 'text-white placeholder-zinc-600' : 'text-zinc-900 placeholder-zinc-400',
                     )}
                   />
-                  <button className={cn('p-1.5 rounded-lg transition-colors', isDark ? 'text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.06]' : 'text-zinc-400 hover:text-zinc-600 hover:bg-black/[0.04]')}>
+                  <button className={cn('p-1.5 rounded-[var(--app-radius-lg)] transition-colors', isDark ? 'text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.06]' : 'text-zinc-400 hover:text-zinc-600 hover:bg-black/[0.04]')}>
                     <Mic className="w-4 h-4" />
                   </button>
                   <motion.button
@@ -298,7 +298,7 @@ export default function AIBIAssistantPage() {
                     onClick={handleSend}
                     disabled={!inputText.trim()}
                     className={cn(
-                      'p-1.5 rounded-lg transition-colors',
+                      'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                       inputText.trim()
                         ? 'bg-blue-500 text-white hover:bg-blue-600'
                         : isDark ? 'bg-white/[0.06] text-zinc-600' : 'bg-black/[0.06] text-zinc-400',
@@ -316,7 +316,7 @@ export default function AIBIAssistantPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="lg:col-span-3 space-y-6"
+            className="lg:col-span-3 space-y-app-2xl"
           >
             {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -328,7 +328,7 @@ export default function AIBIAssistantPage() {
                   transition={{ delay: i * 0.05 + 0.25, duration: 0.3 }}
                   className={cn(card, 'flex items-center gap-3')}
                 >
-                  <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl', 'bg-[var(--app-purple-light)]')}>
+                  <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-purple-light)]')}>
                     <stat.icon className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
@@ -374,7 +374,7 @@ export default function AIBIAssistantPage() {
                   <div
                     key={cap.title}
                     className={cn(
-                      'rounded-xl border p-3',
+                      'rounded-[var(--app-radius-lg)] border p-3',
                       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >

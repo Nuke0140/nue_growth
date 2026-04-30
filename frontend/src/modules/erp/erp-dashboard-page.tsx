@@ -113,7 +113,7 @@ const recentActivities = [
 function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; fill: string }>; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[var(--app-bg)] border border-[var(--app-border-strong)] rounded-lg px-3 py-2 shadow-xl">
+    <div className="bg-[var(--app-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] px-3 py-2 shadow-[var(--app-shadow-md)]-xl">
       <p className="text-xs font-medium text-[var(--app-text)]">{label}</p>
       <p className="text-xs text-[var(--app-text-secondary)]">{payload[0].value} projects</p>
     </div>
@@ -181,20 +181,20 @@ function ErpDashboardPageInner() {
 
   return (
     <PageShell title="Dashboard" icon={LayoutDashboard} subtitle="Operations overview">
-      <div className="space-y-6 max-w-[1600px] mx-auto">
+      <div className="space-y-app-2xl max-w-[1600px] mx-auto">
         {/* ── Row 1: Today Summary ── */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5 md:p-6 relative overflow-hidden"
+          className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl md:p-6 relative overflow-hidden"
         >
           {/* Gradient accent bar */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#cc5c37] via-[#f59e0b] to-[#cc5c37]" />
 
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[var(--app-accent-light)] flex items-center justify-center">
+              <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] flex items-center justify-center">
                 <Brain className="w-[18px] h-[18px] text-[var(--app-accent)]" />
               </div>
               <div>
@@ -203,11 +203,11 @@ function ErpDashboardPageInner() {
               </div>
             </div>
             <Badge className="bg-[var(--app-accent-light)] text-[var(--app-accent)] border-0 text-[11px] font-medium gap-1 self-start">
-              <Sparkles className="w-3 h-3" /> AI Generated
+              <Sparkles className="w-4 h-4" /> AI Generated
             </Badge>
           </div>
 
-          <p className="text-[13px] leading-relaxed text-[var(--app-text-secondary)] mb-5 max-w-3xl">
+          <p className="text-[13px] leading-relaxed text-[var(--app-text-secondary)] mb-app-xl max-w-3xl">
             You have 3 overdue tasks, 2 pending approvals, and 1 project at risk. Revenue pipeline is at $2.76M with 35% win rate.
             Team utilization is strong at 87%, but Nikhil Das is at 100% allocation — consider rebalancing.
           </p>
@@ -216,7 +216,7 @@ function ErpDashboardPageInner() {
             {summaryChips.map((chip) => (
               <div
                 key={chip.label}
-                className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-medium', chip.color)}
+                className={cn('flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[12px] font-medium', chip.color)}
               >
                 <span>{chip.value}</span>
                 <span className="opacity-60">{chip.label}</span>
@@ -248,9 +248,9 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="lg:col-span-3 rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
+            className="lg:col-span-3 rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-app-xl">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-[var(--app-text-muted)]" />
                 <span className="text-sm font-semibold text-[var(--app-text)]">Project Pipeline</span>
@@ -287,7 +287,7 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="lg:col-span-2 rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5 flex flex-col"
+            className="lg:col-span-2 rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -307,7 +307,7 @@ function ErpDashboardPageInner() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.35 + i * 0.06 }}
                   className={cn(
-                    'rounded-xl border p-3 cursor-pointer transition-colors hover:bg-[var(--app-hover-bg)]',
+                    'rounded-[var(--app-radius-lg)] border p-3 cursor-pointer transition-colors hover:bg-[var(--app-hover-bg)]',
                     'border-[var(--app-border)]',
                     alert.severity === 'critical' ? 'border-l-[3px] border-l-[#ef4444]' : 'border-l-[3px] border-l-[#f59e0b]'
                   )}
@@ -329,7 +329,7 @@ function ErpDashboardPageInner() {
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-[var(--app-text-muted)]">{alert.affected}</span>
                     <button className="text-[11px] text-[var(--app-accent)] font-medium hover:text-[var(--app-accent)]/80 flex items-center gap-1">
-                      {alert.action} <ArrowRight className="w-3 h-3" />
+                      {alert.action} <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </motion.div>
@@ -352,7 +352,7 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
+            className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -373,9 +373,9 @@ function ErpDashboardPageInner() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.45 + i * 0.06 }}
-                    className="rounded-xl border border-[var(--app-border)] bg-[var(--app-hover-bg)] p-4 flex gap-3"
+                    className="rounded-[var(--app-radius-lg)] border border-[var(--app-border)] bg-[var(--app-hover-bg)] p-4 flex gap-3"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-[var(--app-accent-light)] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] flex items-center justify-center shrink-0">
                       <Icon className="w-4 h-4 text-[var(--app-accent)]" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -386,7 +386,7 @@ function ErpDashboardPageInner() {
                           Confidence: <span className="text-[var(--app-emerald)]">{rec.confidence}%</span>
                         </span>
                         <button className="text-[11px] text-[var(--app-accent)] font-medium hover:text-[var(--app-accent)]/80 flex items-center gap-1">
-                          {rec.action} <ArrowRight className="w-3 h-3" />
+                          {rec.action} <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -401,7 +401,7 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.5 }}
-            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
+            className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -430,10 +430,10 @@ function ErpDashboardPageInner() {
                 key={qa.label}
                 variants={item}
                 onClick={qa.action}
-                className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-4 text-left transition-all duration-200 hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)] group"
+                className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-4 text-left transition-colors duration-200 hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)] group"
               >
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                  className="w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center mb-3"
                   style={{ backgroundColor: `${qa.accent}18` }}
                 >
                   <Icon className="w-5 h-5" style={{ color: qa.accent }} />
@@ -441,7 +441,7 @@ function ErpDashboardPageInner() {
                 <p className="text-[13px] font-medium text-[var(--app-text)] group-hover:text-white">{qa.label}</p>
                 <div className="flex items-center gap-1 mt-1 text-[11px] text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)] transition-colors">
                   <span>Get started</span>
-                  <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </motion.button>
             );

@@ -117,12 +117,12 @@ export default function FinanceDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <Wallet className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -137,13 +137,13 @@ export default function FinanceDashboardPage() {
               'px-3 py-1.5 text-xs font-medium gap-1.5',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </Badge>
             <Button
               onClick={() => navigateTo('invoices')}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -164,7 +164,7 @@ export default function FinanceDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                   stat.severity === 'critical'
                     ? (isDark ? 'bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.07]' : 'bg-red-50 border-red-200 hover:bg-red-100')
                     : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
@@ -174,8 +174,8 @@ export default function FinanceDashboardPage() {
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -184,7 +184,7 @@ export default function FinanceDashboardPage() {
                     'flex items-center gap-0.5 text-[10px] font-medium',
                     isPositive ? 'text-emerald-500' : 'text-red-500'
                   )}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(stat.change)}%
                   </span>
                 </div>
@@ -203,7 +203,7 @@ export default function FinanceDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -242,7 +242,7 @@ export default function FinanceDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -292,7 +292,7 @@ export default function FinanceDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -305,11 +305,11 @@ export default function FinanceDashboardPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Revenue</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-red-500/50' : 'bg-red-400')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-red-500/50' : 'bg-red-400')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Burn</span>
                 </div>
               </div>
@@ -346,7 +346,7 @@ export default function FinanceDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -384,7 +384,7 @@ export default function FinanceDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -401,7 +401,7 @@ export default function FinanceDashboardPage() {
               onClick={() => navigateTo('invoices')}
               className={cn('text-xs gap-1', isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.06]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.06]')}
             >
-              View All <ChevronRight className="w-3 h-3" />
+              View All <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
           <div className="overflow-x-auto">
@@ -418,7 +418,7 @@ export default function FinanceDashboardPage() {
               <tbody>
                 {topOverdue.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className={cn('py-8 text-center text-sm', 'text-[var(--app-text-muted)]')}>
+                    <td colSpan={7} className={cn('py-app-3xl text-center text-sm', 'text-[var(--app-text-muted)]')}>
                       No overdue invoices
                     </td>
                   </tr>
@@ -464,7 +464,7 @@ export default function FinanceDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -488,11 +488,11 @@ export default function FinanceDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }}
                   className={cn(
-                    'flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer',
+                    'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
                     'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -524,7 +524,7 @@ export default function FinanceDashboardPage() {
               transition={{ delay: 0.85 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

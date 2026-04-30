@@ -59,12 +59,12 @@ export default function AnalyticsDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -78,10 +78,10 @@ export default function AnalyticsDashboardPage() {
           </div>
           <div className="flex items-center gap-3">
             <span className={cn(
-              'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
+              'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </span>
           </div>
@@ -92,15 +92,15 @@ export default function AnalyticsDashboardPage() {
           style={{ backgroundColor: isDark ? 'rgba(9,9,11,0.8)' : 'rgba(255,255,255,0.8)' }}>
           <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-none">
             <div className={cn(
-              'flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium shrink-0 cursor-pointer',
+              'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2 text-xs font-medium shrink-0 cursor-pointer',
               isDark ? 'bg-white/[0.06] text-white/60 hover:bg-white/[0.08]' : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.06]',
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               Last 12 Months
-              <ChevronDown className="w-3 h-3" />
+              <ChevronDown className="w-4 h-4" />
             </div>
             <div className="w-px h-6 shrink-0" style={{ backgroundColor: 'var(--app-border-strong)' }} />
-            <Filter className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-muted)]')} />
+            <Filter className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             {['All Channels', 'This Quarter', 'India', 'Google Ads', 'LinkedIn'].map((f) => (
               <FilterChip
                 key={f}
@@ -141,11 +141,11 @@ export default function AnalyticsDashboardPage() {
             <div className="h-full flex flex-col justify-end pb-4">
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-blue-500/50' : 'bg-blue-500')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-blue-500/50' : 'bg-blue-500')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Leads (×100)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-500')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-emerald-500/50' : 'bg-emerald-500')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Revenue</span>
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default function AnalyticsDashboardPage() {
                         transition={{ delay: 0.2 + i * 0.04, duration: 0.3 }}
                         className={cn(
                           'absolute w-2.5 h-2.5 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-pointer',
-                          isDark ? 'bg-violet-400 shadow-lg shadow-violet-500/30' : 'bg-violet-500 shadow-lg shadow-violet-500/20',
+                          isDark ? 'bg-violet-400 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-violet-500/30' : 'bg-violet-500 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-violet-500/20',
                         )}
                         style={{ left: `${x}%`, top: `${y}%` }}
                         title={`${d.month}: ₹${(d.revenue / 100000).toFixed(0)}L`}
@@ -303,12 +303,12 @@ export default function AnalyticsDashboardPage() {
                         {stage.value.toLocaleString()}
                       </span>
                     </div>
-                    <div className={cn('h-8 rounded-lg flex items-center justify-center relative overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center relative overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${widthPct}%` }}
                         transition={{ delay: 0.15 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                        className={cn('absolute inset-y-0 left-0 rounded-lg', colors[i])}
+                        className={cn('absolute inset-y-0 left-0 rounded-[var(--app-radius-lg)]', colors[i])}
                       />
                       <span className={cn('relative z-10 text-[10px] font-semibold', isDark ? 'text-white' : 'text-white')}>
                         {stage.value.toLocaleString()}
@@ -320,7 +320,7 @@ export default function AnalyticsDashboardPage() {
                           'flex items-center gap-1 text-[10px]',
                           isDark ? 'text-red-400/70' : 'text-red-500',
                         )}>
-                          <ArrowDownRight className="w-3 h-3" />
+                          <ArrowDownRight className="w-4 h-4" />
                           -{stage.dropRate}% drop-off
                         </span>
                       </div>
@@ -485,7 +485,7 @@ export default function AnalyticsDashboardPage() {
             <div className="h-full flex flex-col justify-end pb-4">
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Score</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -568,14 +568,14 @@ export default function AnalyticsDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.55 + i * 0.05, duration: 0.3 }}
                   className={cn(
-                    'flex items-start gap-3 p-4 rounded-2xl border-l-4 shadow-sm cursor-pointer transition-all duration-200',
+                    'flex items-start gap-3 p-4 rounded-[var(--app-radius-xl)] border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] cursor-pointer transition-colors duration-200',
                     isDark
                       ? 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border border-black/[0.06] hover:bg-black/[0.04]',
                     config.border,
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="min-w-0 flex-1">

@@ -75,7 +75,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-4 shadow-sm transition-colors duration-200',
+        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors duration-200',
         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
       )}
     >
@@ -83,7 +83,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5">
           <div className={cn(
-            'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0',
+            'w-9 h-10  rounded-full flex items-center justify-center text-xs font-bold shrink-0',
             getAvatarColor(record.employeeName)
           )}>
             {getInitials(record.employeeName)}
@@ -97,7 +97,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         </div>
         <span
           className={cn(
-            'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border shrink-0',
+            'inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium border shrink-0',
             `${status.bg} ${status.color} ${status.border}`
           )}
         >
@@ -110,7 +110,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         {/* Base Salary */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Wallet className="w-3 h-3 text-[var(--app-text-muted)]" />
+            <Wallet className="w-4 h-4 text-[var(--app-text-muted)]" />
             <span className="text-[11px] text-[var(--app-text-secondary)]">Base Salary</span>
           </div>
           <span className="text-[11px] font-medium text-[var(--app-text)]">
@@ -121,7 +121,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         {/* Incentives */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <ArrowUpRight className="w-3 h-3 text-emerald-500" />
+            <ArrowUpRight className="w-4 h-4 text-emerald-500" />
             <span className="text-[11px] text-[var(--app-text-secondary)]">Incentives</span>
           </div>
           <span className="text-[11px] font-medium text-emerald-500">
@@ -132,7 +132,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         {/* Deductions */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <ArrowDownRight className="w-3 h-3 text-red-500" />
+            <ArrowDownRight className="w-4 h-4 text-red-500" />
             <span className="text-[11px] text-[var(--app-text-secondary)]">Deductions</span>
           </div>
           <span className="text-[11px] font-medium text-red-500">
@@ -150,7 +150,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Banknote className="w-3.5 h-3.5 text-[var(--app-text-secondary)]" />
+            <Banknote className="w-4 h-4 text-[var(--app-text-secondary)]" />
             <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
               Net Pay
             </span>

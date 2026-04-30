@@ -118,12 +118,12 @@ export default function CustomerSuccessPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -137,7 +137,7 @@ export default function CustomerSuccessPage() {
             'px-3 py-1.5 text-xs font-medium gap-1.5',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}>
-            <Target className="w-3.5 h-3.5" />
+            <Target className="w-4 h-4" />
             {successPlans.length} Active Plans
           </Badge>
         </div>
@@ -151,7 +151,7 @@ export default function CustomerSuccessPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4 transition-all duration-200',
+                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -159,8 +159,8 @@ export default function CustomerSuccessPage() {
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
@@ -186,7 +186,7 @@ export default function CustomerSuccessPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + planIdx * 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 overdueMilestones.length > 0
                   ? (isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')
                   : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
@@ -263,14 +263,14 @@ export default function CustomerSuccessPage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 + planIdx * 0.1 + msIdx * 0.05, duration: 0.3 }}
                       className={cn(
-                        'flex items-center gap-3 p-3 rounded-xl border transition-colors',
+                        'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors',
                         ms.status === 'overdue'
                           ? (isDark ? 'border-red-500/20 bg-red-500/[0.04]' : 'border-red-200 bg-red-50')
                           : (isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.01]')
                       )}
                     >
-                      <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center shrink-0', sConfig.bg)}>
-                        <StatusIcon className={cn('w-3.5 h-3.5', sConfig.color)} />
+                      <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', sConfig.bg)}>
+                        <StatusIcon className={cn('w-4 h-4', sConfig.color)} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -314,7 +314,7 @@ export default function CustomerSuccessPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -334,7 +334,7 @@ export default function CustomerSuccessPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 + j * 0.06, duration: 0.3 }}
                 className={cn(
-                  'rounded-xl border p-3',
+                  'rounded-[var(--app-radius-lg)] border p-3',
                   isDark ? 'border-white/[0.04] bg-white/[0.02]' : 'border-black/[0.04] bg-black/[0.01]'
                 )}
               >
@@ -363,7 +363,7 @@ export default function CustomerSuccessPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -376,11 +376,11 @@ export default function CustomerSuccessPage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Delivered</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/15' : 'bg-black/15')} />
+                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-white/15' : 'bg-black/15')} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</span>
               </div>
             </div>
@@ -425,7 +425,7 @@ export default function CustomerSuccessPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

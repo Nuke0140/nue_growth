@@ -106,12 +106,12 @@ export default function RetentionDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -126,13 +126,13 @@ export default function RetentionDashboardPage() {
               'px-3 py-1.5 text-xs font-medium gap-1.5',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </Badge>
             <Button
               onClick={() => navigateTo('winback-campaigns')}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -153,7 +153,7 @@ export default function RetentionDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                   stat.severity === 'warning'
                     ? (isDark ? 'bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.07]' : 'bg-red-50 border-red-200 hover:bg-red-100')
                     : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
@@ -163,8 +163,8 @@ export default function RetentionDashboardPage() {
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -173,7 +173,7 @@ export default function RetentionDashboardPage() {
                     'flex items-center gap-0.5 text-[10px] font-medium',
                     isPositive ? 'text-emerald-500' : 'text-red-500'
                   )}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(stat.change)}%
                   </span>
                 </div>
@@ -191,7 +191,7 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -267,11 +267,11 @@ export default function RetentionDashboardPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>M1</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-amber-500/50' : 'bg-amber-400')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-amber-500/50' : 'bg-amber-400')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>M2</span>
                 </div>
               </div>
@@ -285,13 +285,13 @@ export default function RetentionDashboardPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m1}%` }}
                       transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-5 rounded-sm', 'bg-[var(--app-success)]')}
+                      className={cn('h-5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')}
                     />
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m2}%` }}
                       transition={{ delay: 0.55 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-5 rounded-sm', 'bg-[var(--app-warning)]')}
+                      className={cn('h-5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-warning)]')}
                     />
                   </div>
                   <span className={cn('text-[10px] w-8 text-right font-medium', 'text-[var(--app-text-muted)]')}>{c.m2}%</span>
@@ -304,7 +304,7 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -313,11 +313,11 @@ export default function RetentionDashboardPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-violet-500/50' : 'bg-violet-400')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-violet-500/50' : 'bg-violet-400')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export default function RetentionDashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -386,7 +386,7 @@ export default function RetentionDashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -409,11 +409,11 @@ export default function RetentionDashboardPage() {
                   transition={{ delay: 0.65 + i * 0.05, duration: 0.3 }}
                   onClick={() => alert.actionPage && navigateTo(alert.actionPage as RetentionPage)}
                   className={cn(
-                    'flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer',
+                    'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
                     'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -454,7 +454,7 @@ export default function RetentionDashboardPage() {
                 transition={{ delay: 0.8 + i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => navigateTo(nav.page)}
                 className={cn(
-                  'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                  'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >

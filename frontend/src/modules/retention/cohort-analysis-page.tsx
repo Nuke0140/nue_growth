@@ -123,12 +123,12 @@ export default function CohortAnalysisPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -146,7 +146,7 @@ export default function CohortAnalysisPage() {
                 size="sm"
                 onClick={() => setActiveView(opt.value)}
                 className={cn(
-                  'px-3 py-1.5 text-xs font-medium rounded-lg transition-colors',
+                  'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)] transition-colors',
                   activeView === opt.value
                     ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                     : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -169,7 +169,7 @@ export default function CohortAnalysisPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
@@ -177,8 +177,8 @@ export default function CohortAnalysisPage() {
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -188,7 +188,7 @@ export default function CohortAnalysisPage() {
                       'flex items-center gap-0.5 text-[10px] font-medium',
                       stat.label === 'Avg Churn Rate' ? (isPositive ? 'text-red-500' : 'text-emerald-500') : (isPositive ? 'text-emerald-500' : 'text-red-500')
                     )}>
-                      {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                      {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                       {Math.abs(stat.change)}%
                     </span>
                   )}
@@ -207,7 +207,7 @@ export default function CohortAnalysisPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -226,7 +226,7 @@ export default function CohortAnalysisPage() {
                 { label: '<50%', color: isDark ? 'bg-red-400/30' : 'bg-red-300' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
-                  <div className={cn('w-3 h-3 rounded-sm', l.color)} />
+                  <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', l.color)} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}
@@ -273,7 +273,7 @@ export default function CohortAnalysisPage() {
                             onMouseEnter={() => setHoveredCell({ row: rowIdx, col: colIdx })}
                             onMouseLeave={() => setHoveredCell(null)}
                             className={cn(
-                              'w-full min-h-[40px] rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200 relative',
+                              'w-full min-h-[40px] rounded-[var(--app-radius-lg)] flex items-center justify-center cursor-pointer transition-colors duration-200 relative',
                               getHeatColor(val, isDark),
                               isHovered && 'ring-2 ring-white/30 scale-105'
                             )}
@@ -283,7 +283,7 @@ export default function CohortAnalysisPage() {
                             </span>
                             {isHovered && (
                               <div className={cn(
-                                'absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg shadow-lg text-[11px] whitespace-nowrap pointer-events-none',
+                                'absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-[var(--app-radius-lg)] shadow-[var(--app-shadow-md)]-lg text-[11px] whitespace-nowrap pointer-events-none',
                                 isDark ? 'bg-neutral-800 border border-white/10 text-white/80' : 'bg-white border border-black/10 text-black/80'
                               )}>
                                 <p className="font-semibold">{row.cohort} — {monthHeaders[colIdx]}</p>
@@ -312,7 +312,7 @@ export default function CohortAnalysisPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -349,7 +349,7 @@ export default function CohortAnalysisPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -387,7 +387,7 @@ export default function CohortAnalysisPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -426,7 +426,7 @@ export default function CohortAnalysisPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -439,11 +439,11 @@ export default function CohortAnalysisPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Best Performing */}
             <div className={cn(
-              'rounded-xl border p-4',
+              'rounded-[var(--app-radius-lg)] border p-4',
               isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'
             )}>
               <div className="flex items-center gap-2 mb-2">
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
                   <TrendingUp className="w-4 h-4 text-emerald-500" />
                 </div>
                 <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Best Performing</span>
@@ -459,11 +459,11 @@ export default function CohortAnalysisPage() {
 
             {/* Worst Performing */}
             <div className={cn(
-              'rounded-xl border p-4',
+              'rounded-[var(--app-radius-lg)] border p-4',
               isDark ? 'bg-red-500/[0.04] border-red-500/20' : 'bg-red-50 border-red-200'
             )}>
               <div className="flex items-center gap-2 mb-2">
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-red-500/15' : 'bg-red-100')}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-red-500/15' : 'bg-red-100')}>
                   <TrendingDown className="w-4 h-4 text-red-500" />
                 </div>
                 <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Needs Attention</span>
@@ -479,11 +479,11 @@ export default function CohortAnalysisPage() {
 
             {/* Average */}
             <div className={cn(
-              'rounded-xl border p-4',
+              'rounded-[var(--app-radius-lg)] border p-4',
               isDark ? 'bg-white/[0.03] border-white/[0.08]' : 'bg-black/[0.02] border-black/[0.08]'
             )}>
               <div className="flex items-center gap-2 mb-2">
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                   <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 </div>
                 <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Portfolio Average</span>
@@ -513,7 +513,7 @@ export default function CohortAnalysisPage() {
               transition={{ delay: 0.65 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

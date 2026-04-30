@@ -26,7 +26,7 @@ export default function ApprovalStatusChip({ stage }: ApprovalStatusChipProps) {
 
   return (
     <span
-      className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-medium',
+      className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium',
         isDark ? 'bg-white/[0.06]' : 'bg-gray-50'
       )}
     >

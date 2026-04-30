@@ -62,7 +62,7 @@ export default function AuditLogsPage() {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          'pl-3 pr-8 py-2 rounded-xl text-xs border outline-none appearance-none transition-colors cursor-pointer',
+          'pl-3 pr-8 py-2 rounded-[var(--app-radius-lg)] text-xs border outline-none appearance-none transition-colors cursor-pointer',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06] text-white/60 focus:border-violet-500/40'
             : 'bg-black/[0.02] border-black/[0.06] text-black/60 focus:border-violet-500/40'
@@ -73,17 +73,17 @@ export default function AuditLogsPage() {
           <option key={opt} value={opt}>{opt.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
         ))}
       </select>
-      <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none', 'text-[var(--app-text-muted)]')} />
+      <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', 'text-[var(--app-text-muted)]')} />
     </div>
   );
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <FileText className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -92,11 +92,11 @@ export default function AuditLogsPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className={cn('rounded-xl text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
-              <Download className="w-3.5 h-3.5" /> Export PDF
+            <Button variant="outline" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
+              <Download className="w-4 h-4" /> Export PDF
             </Button>
-            <Button variant="outline" size="sm" className={cn('rounded-xl text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
-              <Download className="w-3.5 h-3.5" /> Export CSV
+            <Button variant="outline" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
+              <Download className="w-4 h-4" /> Export CSV
             </Button>
           </div>
         </div>
@@ -109,12 +109,12 @@ export default function AuditLogsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <kpi.icon className={cn('w-4 h-4', kpi.color)} />
                 </div>
               </div>
               <p className={cn('text-2xl font-bold tracking-tight', kpi.color)}>{kpi.value}</p>
@@ -127,7 +127,7 @@ export default function AuditLogsPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-4 mb-3">
             <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Severity Distribution</span>
@@ -187,7 +187,7 @@ export default function AuditLogsPage() {
           <input
             type="date"
             className={cn(
-              'px-3 py-2 rounded-xl text-xs border outline-none transition-colors',
+              'px-3 py-2 rounded-[var(--app-radius-lg)] text-xs border outline-none transition-colors',
               isDark
                 ? 'bg-white/[0.03] border-white/[0.06] text-white/60 focus:border-violet-500/40'
                 : 'bg-black/[0.02] border-black/[0.06] text-black/60 focus:border-violet-500/40'
@@ -210,7 +210,7 @@ export default function AuditLogsPage() {
         </div>
 
         {filteredLogs.length === 0 && (
-          <div className={cn('text-center py-12 rounded-2xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('text-center py-app-4xl rounded-[var(--app-radius-xl)] border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <FileText className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
             <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No audit logs match your filters</p>
           </div>

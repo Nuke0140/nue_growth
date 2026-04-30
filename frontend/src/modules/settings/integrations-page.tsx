@@ -79,12 +79,12 @@ export default function IntegrationsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Puzzle className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -104,7 +104,7 @@ export default function IntegrationsPage() {
             <div
               key={kpi.label}
               className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -137,7 +137,7 @@ export default function IntegrationsPage() {
             ))}
           </div>
           <div className={cn(
-            'flex items-center gap-2 rounded-xl border px-3 py-2 max-w-sm',
+            'flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2 max-w-sm',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -172,7 +172,7 @@ export default function IntegrationsPage() {
                 key={integ.id}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-2xl border p-4 sm:p-5 shadow-sm transition-all',
+                  'rounded-[var(--app-radius-xl)] border p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors',
                   isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
                   integ.status === 'error' && (isDark ? 'border-l-red-500/50' : 'border-l-red-400/50'),
                 )}
@@ -181,7 +181,7 @@ export default function IntegrationsPage() {
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0"
+                      className="w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center text-white font-bold text-sm shrink-0"
                       style={{ backgroundColor: iconBg + '30', color: iconBg }}
                     >
                       {integ.icon}
@@ -200,7 +200,7 @@ export default function IntegrationsPage() {
                     status.bg,
                     status.color,
                   )}>
-                    <StatusIcon className="w-3 h-3" />
+                    <StatusIcon className="w-4 h-4" />
                     {integ.status}
                   </span>
                 </div>
@@ -253,16 +253,16 @@ export default function IntegrationsPage() {
 
                 {/* Sync Logs Mini-Timeline */}
                 {integ.syncLogs.length > 0 && (
-                  <div className={cn('rounded-lg p-2.5 mb-3', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-2.5 mb-3', 'bg-[var(--app-hover-bg)]')}>
                     <p className={cn('text-[10px] font-medium mb-1.5', 'text-[var(--app-text-muted)]')}>Recent Sync Logs</p>
                     <div className="space-y-1">
                       {integ.syncLogs.slice(0, 3).map((log, logIdx) => (
                         <div key={logIdx} className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-1.5 min-w-0">
                             {log.status === 'success' ? (
-                              <CheckCircle className="w-3 h-3 text-emerald-400 shrink-0" />
+                              <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                             ) : (
-                              <XCircle className="w-3 h-3 text-red-400 shrink-0" />
+                              <XCircle className="w-4 h-4 text-red-400 shrink-0" />
                             )}
                             <span className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                               {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
@@ -284,38 +284,38 @@ export default function IntegrationsPage() {
                   {integ.status === 'connected' || integ.status === 'error' ? (
                     <>
                       <button className={cn(
-                        'flex-1 rounded-lg py-2 text-xs font-medium transition-colors text-center',
+                        'flex-1 rounded-[var(--app-radius-lg)] py-2 text-xs font-medium transition-colors text-center',
                         isDark ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-red-50 text-red-600 hover:bg-red-100',
                       )}>
                         Disconnect
                       </button>
                       {integ.status === 'error' && (
                         <button className={cn(
-                          'flex-1 rounded-lg py-2 text-xs font-medium transition-colors text-center',
+                          'flex-1 rounded-[var(--app-radius-lg)] py-2 text-xs font-medium transition-colors text-center',
                           isDark ? 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25' : 'bg-amber-50 text-amber-600 hover:bg-amber-100',
                         )}>
-                          <RefreshCw className="w-3 h-3 inline mr-1" />
+                          <RefreshCw className="w-4 h-4 inline mr-1" />
                           Retry
                         </button>
                       )}
                       <button className={cn(
-                        'rounded-lg py-2 px-3 text-xs font-medium transition-colors',
+                        'rounded-[var(--app-radius-lg)] py-2 px-3 text-xs font-medium transition-colors',
                         isDark ? 'bg-white/[0.06] text-white/60 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.08]',
                       )}>
-                        <Zap className="w-3.5 h-3.5" />
+                        <Zap className="w-4 h-4" />
                       </button>
                     </>
                   ) : integ.status === 'pending' ? (
-                    <button className="flex-1 rounded-lg py-2 text-xs font-medium transition-colors text-center bg-amber-500/15 text-amber-400 hover:bg-amber-500/25">
-                      <Clock className="w-3 h-3 inline mr-1" />
+                    <button className="flex-1 rounded-[var(--app-radius-lg)] py-2 text-xs font-medium transition-colors text-center bg-amber-500/15 text-amber-400 hover:bg-amber-500/25">
+                      <Clock className="w-4 h-4 inline mr-1" />
                       Awaiting Setup
                     </button>
                   ) : (
                     <button className={cn(
-                      'flex-1 rounded-lg py-2 text-xs font-medium transition-colors text-center',
+                      'flex-1 rounded-[var(--app-radius-lg)] py-2 text-xs font-medium transition-colors text-center',
                       isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' : 'bg-blue-50 text-blue-700 hover:bg-blue-100',
                     )}>
-                      <Link className="w-3 h-3 inline mr-1" />
+                      <Link className="w-4 h-4 inline mr-1" />
                       Connect
                     </button>
                   )}
@@ -331,7 +331,7 @@ export default function IntegrationsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-6 flex flex-col sm:flex-row items-center justify-between gap-4',
+            'rounded-[var(--app-radius-xl)] border p-6 flex flex-col sm:flex-row items-center justify-between gap-4',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -344,7 +344,7 @@ export default function IntegrationsPage() {
             </p>
           </div>
           <button className={cn(
-            'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-colors shrink-0',
+            'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-app-xl py-2.5 text-sm font-medium transition-colors shrink-0',
             isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' : 'bg-blue-50 text-blue-700 hover:bg-blue-100',
           )}>
             Browse Marketplace

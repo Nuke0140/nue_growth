@@ -66,11 +66,11 @@ export default function PnLPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <FileText className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -80,7 +80,7 @@ export default function PnLPage() {
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
-              <Calendar className="w-3.5 h-3.5" /> {today}
+              <Calendar className="w-4 h-4" /> {today}
             </Badge>
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.max(0, selectedMonth - 1))} disabled={selectedMonth === 0} className={cn('w-8 h-8', 'hover:bg-[var(--app-hover-bg)]')}>
@@ -93,7 +93,7 @@ export default function PnLPage() {
                 <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Download className="w-4 h-4" /> Export
             </Button>
           </div>
@@ -104,15 +104,15 @@ export default function PnLPage() {
           {kpis.map((kpi, i) => {
             const isPositive = kpi.label === 'Total COGS' ? kpi.change <= 0 : kpi.change >= 0;
             return (
-              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-4 h-4', kpi.color)} /></div>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <p className="text-xl font-bold tracking-tight">{kpi.value}</p>
                   <span className={cn('flex items-center gap-0.5 text-[10px] font-medium', isPositive ? 'text-emerald-500' : 'text-red-500')}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(kpi.change)}%
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export default function PnLPage() {
         </div>
 
         {/* P&L Table */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>P&L Statement — {months[selectedMonth]}</span>
           </div>
@@ -163,7 +163,7 @@ export default function PnLPage() {
                       <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', 'text-[var(--app-text-secondary)]')}>{isPercent ? `${entry.ytd}%` : formatINR(entry.ytd)}</td>
                       <td className={cn('py-3 px-3 text-xs font-medium', positive ? 'text-emerald-500' : 'text-red-500')}>
                         <div className="flex items-center gap-1">
-                          {positive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                          {positive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                           {isPercent ? `${entry.variance}pp` : formatINR(Math.abs(entry.variance))}
                         </div>
                       </td>
@@ -184,7 +184,7 @@ export default function PnLPage() {
         </motion.div>
 
         {/* Waterfall Visual */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue to Net Profit Waterfall</span>
           </div>

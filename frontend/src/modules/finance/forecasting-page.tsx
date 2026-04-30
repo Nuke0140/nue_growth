@@ -68,11 +68,11 @@ export default function ForecastingPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -81,7 +81,7 @@ export default function ForecastingPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Sparkles className="w-4 h-4" /> Generate Report
             </Button>
           </div>
@@ -93,10 +93,10 @@ export default function ForecastingPage() {
             const TrendIcon = trendIcons[forecast.trend];
             const isPositiveTrend = forecast.metric === 'Receivables Risk' || forecast.metric === 'Burn Rate' ? forecast.trend === 'down' : forecast.trend === 'up';
             return (
-              <motion.div key={forecast.metric} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]', 'transition-all duration-200')}>
+              <motion.div key={forecast.metric} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]', 'transition-colors duration-200')}>
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{forecast.metric}</span>
-                  <TrendIcon className={cn('w-3.5 h-3.5', trendColors[forecast.trend])} />
+                  <TrendIcon className={cn('w-4 h-4', trendColors[forecast.trend])} />
                 </div>
 
                 <p className="text-lg font-bold tracking-tight">{formatForecastValue(forecast.metric, forecast.current)}</p>
@@ -137,7 +137,7 @@ export default function ForecastingPage() {
         {/* Scenario Comparison */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Best Case */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50/50 border-emerald-200')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50/50 border-emerald-200')}>
             <div className="flex items-center gap-2 mb-4">
               <ArrowUpRight className="w-4 h-4 text-emerald-500" />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Best Case Scenario</span>
@@ -148,7 +148,7 @@ export default function ForecastingPage() {
                 { label: 'Profit Margin', value: `${bestCaseSummary.margin}%` },
                 { label: 'Cash Runway', value: `${bestCaseSummary.runway} months` },
               ].map((item, i) => (
-                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
+                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
                   <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{item.label}</span>
                   <span className="text-sm font-bold text-emerald-500">{item.value}</span>
                 </div>
@@ -157,7 +157,7 @@ export default function ForecastingPage() {
           </motion.div>
 
           {/* Worst Case */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')}>
             <div className="flex items-center gap-2 mb-4">
               <ArrowDownRight className="w-4 h-4 text-red-500" />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Worst Case Scenario</span>
@@ -168,7 +168,7 @@ export default function ForecastingPage() {
                 { label: 'Profit Margin', value: `${worstCaseSummary.margin}%` },
                 { label: 'Cash Runway', value: `${worstCaseSummary.runway} months` },
               ].map((item) => (
-                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
+                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
                   <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{item.label}</span>
                   <span className="text-sm font-bold text-red-500">{item.value}</span>
                 </div>
@@ -180,7 +180,7 @@ export default function ForecastingPage() {
         {/* Confidence Overview & Risk Indicators */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Average Confidence */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <Zap className={cn('w-4 h-4 text-amber-400')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Model Confidence</span>
@@ -210,7 +210,7 @@ export default function ForecastingPage() {
           </motion.div>
 
           {/* Key Risk Indicators */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle className="w-4 h-4 text-red-400" />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Key Risk Indicators</span>
@@ -220,9 +220,9 @@ export default function ForecastingPage() {
               {riskIndicators.map((risk, i) => {
                 const TrendIcon = trendIcons[risk.trend];
                 return (
-                  <motion.div key={risk.metric} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                  <motion.div key={risk.metric} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                     <div className="flex items-center gap-2">
-                      <TrendIcon className={cn('w-3.5 h-3.5', trendColors[risk.trend])} />
+                      <TrendIcon className={cn('w-4 h-4', trendColors[risk.trend])} />
                       <div>
                         <p className="text-xs font-medium">{risk.metric}</p>
                         <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{risk.trend === 'down' ? 'Declining' : risk.trend === 'up' ? 'Rising' : 'Stable'} · {risk.confidence}% confidence</p>

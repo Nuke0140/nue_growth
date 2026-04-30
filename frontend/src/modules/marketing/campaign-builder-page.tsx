@@ -112,7 +112,7 @@ export default function CampaignBuilderPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -120,7 +120,7 @@ export default function CampaignBuilderPage() {
               variant="ghost"
               size="icon"
               onClick={() => navigateTo('campaigns')}
-              className={cn('h-9 w-9 rounded-xl', 'hover:bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}
+              className={cn('h-10  w-9 rounded-[var(--app-radius-lg)]', 'hover:bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}
             >
               <ArrowLeft className="w-4 h-4" />
             </Button>
@@ -213,19 +213,19 @@ export default function CampaignBuilderPage() {
                         key={obj.id}
                         onClick={() => setSelectedObjective(obj.id)}
                         className={cn(
-                          'rounded-2xl border p-5 text-left transition-all duration-200',
+                          'rounded-[var(--app-radius-xl)] border p-app-xl text-left transition-colors duration-200',
                           isSelected
                             ? ('border-[var(--app-success)]/50 bg-[var(--app-success-bg)]')
                             : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
                         )}
                       >
                         <div className="flex items-start justify-between mb-3">
-                          <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', obj.bg)}>
+                          <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', obj.bg)}>
                             <obj.icon className={cn('w-5 h-5', obj.color)} />
                           </div>
                           {isSelected && (
                             <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
-                              <Check className="w-3.5 h-3.5 text-white" />
+                              <Check className="w-4 h-4 text-white" />
                             </div>
                           )}
                         </div>
@@ -260,19 +260,19 @@ export default function CampaignBuilderPage() {
                         key={ch.id}
                         onClick={() => toggleChannel(ch.id)}
                         className={cn(
-                          'rounded-2xl border p-4 text-left transition-all duration-200',
+                          'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200',
                           isSelected
                             ? ('border-[var(--app-success)]/50 bg-[var(--app-success-bg)]')
                             : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
                         )}
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                            <ch.icon className={cn('w-4.5 h-4.5', ch.color)} />
+                          <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                            <ch.icon className={cn('w-5 h-5', ch.color)} />
                           </div>
                           {isSelected && (
                             <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                              <Check className="w-3 h-3 text-white" />
+                              <Check className="w-4 h-4 text-white" />
                             </div>
                           )}
                         </div>
@@ -286,7 +286,7 @@ export default function CampaignBuilderPage() {
 
             {/* Step 3: Audience */}
             {currentStep === 3 && (
-              <div className="space-y-5">
+              <div className="space-y-app-xl">
                 <div>
                   <h2 className="text-lg font-semibold mb-1">Define Your Audience</h2>
                   <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>Target the right audience for maximum impact</p>
@@ -295,15 +295,15 @@ export default function CampaignBuilderPage() {
                 {/* Segment */}
                 <div className="space-y-2">
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Users className="w-3 h-3 inline mr-1.5" /> CRM Segment
+                    <Users className="w-4 h-4 inline mr-1.5" /> CRM Segment
                   </label>
-                  <div className={cn('rounded-xl border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     {segments.map(seg => (
                       <button
                         key={seg}
                         onClick={() => setSelectedSegment(seg)}
                         className={cn(
-                          'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                          'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                           selectedSegment === seg
                             ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                             : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -316,15 +316,15 @@ export default function CampaignBuilderPage() {
                 {/* Lifecycle Stage */}
                 <div className="space-y-2">
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Target className="w-3 h-3 inline mr-1.5" /> Lifecycle Stage
+                    <Target className="w-4 h-4 inline mr-1.5" /> Lifecycle Stage
                   </label>
-                  <div className={cn('rounded-xl border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     {lifecycleStages.map(stage => (
                       <button
                         key={stage}
                         onClick={() => setSelectedLifecycle(stage)}
                         className={cn(
-                          'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                          'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                           selectedLifecycle === stage
                             ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                             : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -337,10 +337,10 @@ export default function CampaignBuilderPage() {
                 {/* Behavior Rules */}
                 <div className="space-y-2">
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Zap className="w-3 h-3 inline mr-1.5" /> Behavior Rules
+                    <Zap className="w-4 h-4 inline mr-1.5" /> Behavior Rules
                     {selectedBehaviors.length > 0 && <span className="ml-2 text-emerald-400">({selectedBehaviors.length} selected)</span>}
                   </label>
-                  <div className={cn('rounded-xl border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     {behaviorRules.map(rule => {
                       const isSelected = selectedBehaviors.includes(rule);
                       return (
@@ -348,13 +348,13 @@ export default function CampaignBuilderPage() {
                           key={rule}
                           onClick={() => toggleBehavior(rule)}
                           className={cn(
-                            'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                            'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                             isSelected
                               ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
                               : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                           )}
                         >
-                          {isSelected && <Check className="w-3 h-3 inline mr-1" />}
+                          {isSelected && <Check className="w-4 h-4 inline mr-1" />}
                           {rule}
                         </button>
                       );
@@ -366,7 +366,7 @@ export default function CampaignBuilderPage() {
 
             {/* Step 4: Budget & Schedule */}
             {currentStep === 4 && (
-              <div className="space-y-5">
+              <div className="space-y-app-xl">
                 <div>
                   <h2 className="text-lg font-semibold mb-1">Budget & Schedule</h2>
                   <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>Set your campaign budget and timeline</p>
@@ -374,9 +374,9 @@ export default function CampaignBuilderPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Total Budget */}
-                  <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                      <DollarSign className="w-3 h-3 inline mr-1.5" /> Total Budget (₹)
+                      <DollarSign className="w-4 h-4 inline mr-1.5" /> Total Budget (₹)
                     </label>
                     <input
                       type="number"
@@ -396,9 +396,9 @@ export default function CampaignBuilderPage() {
                   </div>
 
                   {/* Daily Budget */}
-                  <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                      <Clock className="w-3 h-3 inline mr-1.5" /> Daily Budget (₹)
+                      <Clock className="w-4 h-4 inline mr-1.5" /> Daily Budget (₹)
                     </label>
                     <input
                       type="number"
@@ -410,9 +410,9 @@ export default function CampaignBuilderPage() {
                   </div>
 
                   {/* Start Date */}
-                  <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                      <Calendar className="w-3 h-3 inline mr-1.5" /> Start Date
+                      <Calendar className="w-4 h-4 inline mr-1.5" /> Start Date
                     </label>
                     <input
                       type="date"
@@ -423,9 +423,9 @@ export default function CampaignBuilderPage() {
                   </div>
 
                   {/* End Date */}
-                  <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                      <Calendar className="w-3 h-3 inline mr-1.5" /> End Date
+                      <Calendar className="w-4 h-4 inline mr-1.5" /> End Date
                     </label>
                     <input
                       type="date"
@@ -440,7 +440,7 @@ export default function CampaignBuilderPage() {
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={cn('rounded-2xl border p-4 flex items-center justify-between', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                    className={cn('rounded-[var(--app-radius-xl)] border p-4 flex items-center justify-between', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
                   >
                     <div className="flex items-center gap-2">
                       <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -454,16 +454,16 @@ export default function CampaignBuilderPage() {
 
             {/* Step 5: Content & CTA */}
             {currentStep === 5 && (
-              <div className="space-y-5">
+              <div className="space-y-app-xl">
                 <div>
                   <h2 className="text-lg font-semibold mb-1">Content & CTA</h2>
                   <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>Finalize your campaign content and call-to-action</p>
                 </div>
 
                 {/* Campaign Name */}
-                <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Tag className="w-3 h-3 inline mr-1.5" /> Campaign Name
+                    <Tag className="w-4 h-4 inline mr-1.5" /> Campaign Name
                   </label>
                   <input
                     type="text"
@@ -475,9 +475,9 @@ export default function CampaignBuilderPage() {
                 </div>
 
                 {/* CTA Text */}
-                <div className={cn('rounded-2xl border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Send className="w-3 h-3 inline mr-1.5" /> CTA Text
+                    <Send className="w-4 h-4 inline mr-1.5" /> CTA Text
                   </label>
                   <input
                     type="text"
@@ -491,7 +491,7 @@ export default function CampaignBuilderPage() {
                 {/* Content Type */}
                 <div className="space-y-2">
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <FileText className="w-3 h-3 inline mr-1.5" /> Content Type
+                    <FileText className="w-4 h-4 inline mr-1.5" /> Content Type
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {contentTypes.map(ct => {
@@ -501,7 +501,7 @@ export default function CampaignBuilderPage() {
                           key={ct.id}
                           onClick={() => setSelectedContentType(ct.id)}
                           className={cn(
-                            'rounded-2xl border p-4 text-left transition-all',
+                            'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors',
                             isSelected
                               ? ('border-[var(--app-success)]/50 bg-[var(--app-success-bg)]')
                               : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
@@ -519,15 +519,15 @@ export default function CampaignBuilderPage() {
                 {/* Tone */}
                 <div className="space-y-2">
                   <label className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
-                    <Lightbulb className="w-3 h-3 inline mr-1.5" /> Tone
+                    <Lightbulb className="w-4 h-4 inline mr-1.5" /> Tone
                   </label>
-                  <div className={cn('rounded-xl border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-1 flex flex-wrap gap-1', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                     {toneOptions.map(tone => (
                       <button
                         key={tone.id}
                         onClick={() => setSelectedTone(tone.id)}
                         className={cn(
-                          'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                          'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                           selectedTone === tone.id
                             ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                             : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
@@ -538,7 +538,7 @@ export default function CampaignBuilderPage() {
                 </div>
 
                 {/* Summary */}
-                <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <h3 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>Campaign Summary</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div>
@@ -571,7 +571,7 @@ export default function CampaignBuilderPage() {
             onClick={goBack}
             disabled={currentStep === 1}
             className={cn(
-              'gap-2 rounded-xl',
+              'gap-2 rounded-[var(--app-radius-lg)]',
               currentStep === 1 ? 'opacity-30 cursor-not-allowed' : '',
               isDark ? 'text-white/50 hover:text-white hover:bg-white/[0.06]' : 'text-black/50 hover:text-black hover:bg-black/[0.06]'
             )}
@@ -584,7 +584,7 @@ export default function CampaignBuilderPage() {
               onClick={goNext}
               disabled={!canNext()}
               className={cn(
-                'px-6 py-2 text-sm font-medium rounded-xl gap-2',
+                'px-6 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2',
                 canNext()
                   ? ('bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')
                   : 'opacity-30 cursor-not-allowed'
@@ -598,7 +598,7 @@ export default function CampaignBuilderPage() {
               onClick={() => navigateTo('campaigns')}
               disabled={!canNext()}
               className={cn(
-                'px-6 py-2 text-sm font-medium rounded-xl gap-2',
+                'px-6 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2',
                 canNext()
                   ? 'bg-emerald-500 text-white hover:bg-emerald-600'
                   : 'opacity-30 cursor-not-allowed'

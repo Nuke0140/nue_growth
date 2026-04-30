@@ -66,7 +66,7 @@ export default function LeadCapturePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 max-w-[1600px] mx-auto space-y-6">
+      <div className="p-6 max-w-[1600px] mx-auto space-y-app-2xl">
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -100,15 +100,15 @@ export default function LeadCapturePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl p-5 border transition-all duration-200 group cursor-default',
+                  'rounded-[var(--app-radius-xl)] p-app-xl border transition-colors duration-200 group cursor-default',
                   isDark
                     ? 'bg-white/[0.03] border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05]'
-                    : 'bg-white border-black/[0.06] hover:border-black/[0.12] hover:shadow-md'
+                    : 'bg-white border-black/[0.06] hover:border-black/[0.12] hover:shadow-[var(--app-shadow-md)]-md'
                 )}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className={cn(
-                    'w-10 h-10 rounded-xl flex items-center justify-center',
+                    'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <SourceIcon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -144,7 +144,7 @@ export default function LeadCapturePage() {
                       ? 'text-[var(--app-success)]'
                       : 'text-[var(--app-danger)]'
                   )}>
-                    {source.trend >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    {source.trend >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     {source.trend >= 0 ? '+' : ''}{source.trend}%
                   </div>
                 </div>
@@ -157,8 +157,8 @@ export default function LeadCapturePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Source Conversion Chart */}
           <div className={cn(
-            'lg:col-span-2 rounded-2xl border p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+            'lg:col-span-2 rounded-[var(--app-radius-xl)] border p-6',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}>
             <h3 className={cn('text-sm font-semibold mb-4', 'text-[var(--app-text)]')}>
               Source Conversion Rates
@@ -169,13 +169,13 @@ export default function LeadCapturePage() {
                   <span className={cn('text-xs w-28 truncate shrink-0', 'text-[var(--app-text-secondary)]')}>
                     {source.name}
                   </span>
-                  <div className={cn('flex-1 h-6 rounded-lg overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('flex-1 h-6 rounded-[var(--app-radius-lg)] overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(source.conversionRate / maxConversion) * 100}%` }}
                       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
-                        'h-full rounded-lg flex items-center justify-end pr-2',
+                        'h-full rounded-[var(--app-radius-lg)] flex items-center justify-end pr-2',
                         source.conversionRate >= 30 ? 'bg-emerald-500/20'
                           : source.conversionRate >= 15 ? 'bg-amber-500/20'
                           : 'bg-red-500/20'
@@ -198,8 +198,8 @@ export default function LeadCapturePage() {
 
           {/* Live Lead Feed */}
           <div className={cn(
-            'rounded-2xl border p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+            'rounded-[var(--app-radius-xl)] border p-6',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}>
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10">
@@ -219,12 +219,12 @@ export default function LeadCapturePage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.25, delay: i * 0.08 }}
                   className={cn(
-                    'flex items-center gap-3 p-3 rounded-xl transition-colors',
+                    'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
-                    'w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold shrink-0',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[10px] font-bold shrink-0',
                     lead.intent === 'hot' && (isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100 text-red-600'),
                     lead.intent === 'warm' && (isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-600'),
                     lead.intent === 'cold' && (isDark ? 'bg-zinc-500/20 text-zinc-400' : 'bg-zinc-100 text-zinc-600'),
@@ -250,7 +250,7 @@ export default function LeadCapturePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Failed Webhooks */}
           <div className={cn(
-            'rounded-2xl border p-6',
+            'rounded-[var(--app-radius-xl)] border p-6',
             isDark ? 'bg-red-500/[0.03] border-red-500/10' : 'bg-red-50 border-red-200'
           )}>
             <div className="flex items-center gap-2 mb-3">
@@ -270,7 +270,7 @@ export default function LeadCapturePage() {
             ) : (
               <div className="space-y-2">
                 {webhookErrors.map(err => (
-                  <div key={err.id} className={cn('rounded-lg p-2 text-xs', isDark ? 'bg-red-500/5' : 'bg-red-100/50')}>
+                  <div key={err.id} className={cn('rounded-[var(--app-radius-lg)] p-2 text-xs', isDark ? 'bg-red-500/5' : 'bg-red-100/50')}>
                     <p className={cn('font-medium', isDark ? 'text-red-300' : 'text-red-700')}>{err.name}</p>
                     <p className={cn('text-[10px] mt-0.5', isDark ? 'text-red-400/60' : 'text-red-600/60')}>Connection error — check API key</p>
                   </div>
@@ -281,8 +281,8 @@ export default function LeadCapturePage() {
 
           {/* Deduplication Preview */}
           <div className={cn(
-            'rounded-2xl border p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+            'rounded-[var(--app-radius-xl)] border p-6',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}>
             <div className="flex items-center gap-2 mb-3">
               <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -291,7 +291,7 @@ export default function LeadCapturePage() {
               </h3>
             </div>
             <div className={cn(
-              'rounded-xl p-4 text-center',
+              'rounded-[var(--app-radius-lg)] p-4 text-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <p className={cn('text-3xl font-bold', 'text-[var(--app-text)]')}>
@@ -308,8 +308,8 @@ export default function LeadCapturePage() {
 
           {/* Auto Routing Rules */}
           <div className={cn(
-            'rounded-2xl border p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+            'rounded-[var(--app-radius-xl)] border p-6',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}>
             <div className="flex items-center gap-2 mb-3">
               <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -322,7 +322,7 @@ export default function LeadCapturePage() {
                 <div
                   key={rule.id}
                   className={cn(
-                    'rounded-xl p-3 border transition-colors',
+                    'rounded-[var(--app-radius-lg)] p-3 border transition-colors',
                     'border-[var(--app-border-light)]',
                     rule.status === 'active' && ('bg-[var(--app-hover-bg)]')
                   )}

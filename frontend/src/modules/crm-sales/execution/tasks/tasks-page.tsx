@@ -145,7 +145,7 @@ export default function TasksPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
-              'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
+              'flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -163,11 +163,11 @@ export default function TasksPage() {
             <Button
               size="sm"
               className={cn(
-                'rounded-xl text-xs h-9 px-4',
+                'rounded-[var(--app-radius-lg)] text-xs h-10  px-4',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Add Task
             </Button>
           </div>
@@ -176,7 +176,7 @@ export default function TasksPage() {
         {/* View toggle */}
         <div className="flex items-center gap-2 mb-4">
           <div className={cn(
-            'flex items-center gap-1 p-1 rounded-xl',
+            'flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)]',
             'bg-[var(--app-hover-bg)]'
           )}>
             {[
@@ -188,7 +188,7 @@ export default function TasksPage() {
                 key={v.key}
                 onClick={() => setView(v.key)}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                   view === v.key
                     ? isDark
                       ? 'bg-white/[0.08] text-white'
@@ -198,7 +198,7 @@ export default function TasksPage() {
                       : 'text-black/40 hover:text-black/60'
                 )}
               >
-                <v.icon className="w-3.5 h-3.5" />
+                <v.icon className="w-4 h-4" />
                 {v.label}
               </button>
             ))}
@@ -212,13 +212,13 @@ export default function TasksPage() {
             <button
               key={tmpl.label}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap',
+                'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap',
                 isDark
                   ? 'bg-white/[0.03] border border-white/[0.04] text-white/50 hover:text-white/70 hover:bg-white/[0.06]'
                   : 'bg-black/[0.02] border border-black/[0.04] text-black/50 hover:text-black/70 hover:bg-black/[0.04]'
               )}
             >
-              <tmpl.icon className="w-3.5 h-3.5" />
+              <tmpl.icon className="w-4 h-4" />
               {tmpl.label}
             </button>
           ))}
@@ -247,7 +247,7 @@ export default function TasksPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
                     className={cn(
-                      'flex items-center gap-3 px-4 py-3 rounded-xl transition-all group',
+                      'flex items-center gap-3 px-4 py-3 rounded-[var(--app-radius-lg)] transition-colors group',
                       isDark
                         ? 'bg-white/[0.02] hover:bg-white/[0.04]'
                         : 'bg-white hover:bg-black/[0.01] border border-black/[0.04]',
@@ -271,10 +271,10 @@ export default function TasksPage() {
                           {task.title}
                         </span>
                         {task.isRecurring && (
-                          <Repeat className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-disabled)]')} />
+                          <Repeat className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                         )}
                         {(task.priority === 'urgent' || task.priority === 'high') && (
-                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+                          <AlertTriangle className="w-4 h-4 shrink-0 text-amber-400" />
                         )}
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -288,13 +288,13 @@ export default function TasksPage() {
                                 : 'text-purple-600/70 hover:text-purple-500'
                             )}
                           >
-                            <User className="w-3 h-3" />
+                            <User className="w-4 h-4" />
                             {task.contactName}
                           </button>
                         )}
                         {task.dealName && (
                           <span className={cn('text-xs flex items-center gap-1', 'text-[var(--app-text-muted)]')}>
-                            <Briefcase className="w-3 h-3" />
+                            <Briefcase className="w-4 h-4" />
                             {task.dealName}
                           </span>
                         )}
@@ -338,7 +338,7 @@ export default function TasksPage() {
                 <button
                   onClick={() => setCalendarMonth(Math.max(0, calendarMonth - 1))}
                   className={cn(
-                    'p-1.5 rounded-lg transition-colors',
+                    'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
@@ -350,7 +350,7 @@ export default function TasksPage() {
                 <button
                   onClick={() => setCalendarMonth(Math.min(11, calendarMonth + 1))}
                   className={cn(
-                    'p-1.5 rounded-lg transition-colors',
+                    'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
@@ -377,7 +377,7 @@ export default function TasksPage() {
                     <div
                       key={cell.date}
                       className={cn(
-                        'h-20 rounded-xl p-1.5 transition-colors overflow-hidden',
+                        'h-20 rounded-[var(--app-radius-lg)] p-1.5 transition-colors overflow-hidden',
                         isDark
                           ? 'bg-white/[0.02] hover:bg-white/[0.04]'
                           : 'bg-black/[0.01] hover:bg-black/[0.03]',
@@ -458,10 +458,10 @@ export default function TasksPage() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.05 }}
                           className={cn(
-                            'rounded-xl p-3 transition-all',
+                            'rounded-[var(--app-radius-lg)] p-3 transition-colors',
                             isDark
                               ? 'bg-white/[0.03] border border-white/[0.04] hover:border-white/[0.08]'
-                              : 'bg-white border border-black/[0.04] hover:border-black/[0.08] shadow-sm',
+                              : 'bg-white border border-black/[0.04] hover:border-black/[0.08] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                             task.isOverdue && 'border-l-2 border-l-red-500'
                           )}
                         >

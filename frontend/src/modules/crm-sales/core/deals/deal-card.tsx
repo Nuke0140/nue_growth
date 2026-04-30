@@ -59,19 +59,19 @@ const DealCard = memo(function DealCard({ deal, onSelect, isDragging }: { deal: 
       whileHover={{ y: -2 }}
       onClick={() => onSelect ? onSelect(deal) : selectDeal(deal.id)}
       className={cn(
-        'relative rounded-xl border p-3.5 cursor-pointer transition-all duration-200 group',
-        isDragging && 'opacity-50 shadow-2xl scale-105',
+        'relative rounded-[var(--app-radius-lg)] border p-3.5 cursor-pointer transition-colors duration-200 group',
+        isDragging && 'opacity-50 shadow-[var(--app-shadow-md)]-2xl scale-105',
         isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-lg hover:shadow-black/20'
-          : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] hover:shadow-lg hover:shadow-black/5'
+          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/20'
+          : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/5'
       )}
     >
       {/* Drag Handle */}
       <div className={cn(
-        'absolute left-0 top-0 bottom-0 rounded-l-xl flex items-start justify-center pt-4 w-5 opacity-0 group-hover:opacity-100 transition-opacity',
+        'absolute left-0 top-0 bottom-0 rounded-l-[var(--app-radius-lg)] flex items-start justify-center pt-4 w-5 opacity-0 group-hover:opacity-100 transition-opacity',
         isDark ? 'bg-white/[0.06]' : 'bg-black/[0.03]'
       )}>
-        <GripVertical className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
+        <GripVertical className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
       </div>
 
       <div className="pl-1">
@@ -84,7 +84,7 @@ const DealCard = memo(function DealCard({ deal, onSelect, isDragging }: { deal: 
             {deal.name}
           </h4>
           <span className={cn(
-            'shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-md border',
+            'shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-[var(--app-radius-md)] border',
             getProbabilityColor(deal.probability, isDark)
           )}>
             {deal.probability}%
@@ -173,7 +173,7 @@ const DealCard = memo(function DealCard({ deal, onSelect, isDragging }: { deal: 
           isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
         )}>
           <div className="flex items-center gap-1.5">
-            <Calendar className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
+            <Calendar className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
             <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
               {new Date(deal.expectedClose).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
             </span>
@@ -194,7 +194,7 @@ const DealCard = memo(function DealCard({ deal, onSelect, isDragging }: { deal: 
             'flex items-center gap-1 mt-2',
             isDark ? 'text-amber-400/70' : 'text-amber-600'
           )}>
-            <AlertTriangle className="w-3 h-3" />
+            <AlertTriangle className="w-4 h-4" />
             <span className="text-[10px] font-medium">Stuck {daysInStage}d in stage</span>
           </div>
         )}

@@ -53,12 +53,12 @@ export default function ConditionsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <GitBranch className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -71,7 +71,7 @@ export default function ConditionsPage() {
             </div>
           </div>
           <button className={cn(
-            'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold transition-colors',
+            'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2 text-xs font-semibold transition-colors',
             isDark ? 'bg-violet-500/15 text-violet-300 hover:bg-violet-500/25' : 'bg-violet-50 text-violet-600 hover:bg-violet-100',
           )}>
             <Plus className="w-4 h-4" />
@@ -122,7 +122,7 @@ export default function ConditionsPage() {
           </div>
 
           <div className={cn(
-            'rounded-2xl border p-5 space-y-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl space-y-app-xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             {/* Conditions */}
@@ -137,7 +137,7 @@ export default function ConditionsPage() {
                       value={cond.logic}
                       onChange={(e) => updateCondition(i, 'logic', e.target.value)}
                       className={cn(
-                        'rounded-lg border px-2 py-1.5 text-[10px] font-bold focus:outline-none',
+                        'rounded-[var(--app-radius-lg)] border px-2 py-1.5 text-[10px] font-bold focus:outline-none',
                         isDark
                           ? 'bg-violet-500/15 border-violet-500/20 text-violet-300'
                           : 'bg-violet-50 border-violet-200 text-violet-600',
@@ -150,7 +150,7 @@ export default function ConditionsPage() {
                     value={cond.field}
                     onChange={(e) => updateCondition(i, 'field', e.target.value)}
                     className={cn(
-                      'rounded-lg border px-2 py-1.5 text-xs font-mono focus:outline-none min-w-[180px]',
+                      'rounded-[var(--app-radius-lg)] border px-2 py-1.5 text-xs font-mono focus:outline-none min-w-[180px]',
                       isDark
                         ? 'bg-white/[0.04] border-white/[0.08] text-white/70'
                         : 'bg-black/[0.03] border-black/[0.08] text-black/70',
@@ -162,7 +162,7 @@ export default function ConditionsPage() {
                     value={cond.operator}
                     onChange={(e) => updateCondition(i, 'operator', e.target.value)}
                     className={cn(
-                      'rounded-lg border px-2 py-1.5 text-xs focus:outline-none',
+                      'rounded-[var(--app-radius-lg)] border px-2 py-1.5 text-xs focus:outline-none',
                       isDark
                         ? 'bg-white/[0.04] border-white/[0.08] text-white/70'
                         : 'bg-black/[0.03] border-black/[0.08] text-black/70',
@@ -178,7 +178,7 @@ export default function ConditionsPage() {
                     onChange={(e) => updateCondition(i, 'value', e.target.value)}
                     placeholder="Value"
                     className={cn(
-                      'rounded-lg border px-2 py-1.5 text-xs w-24 focus:outline-none',
+                      'rounded-[var(--app-radius-lg)] border px-2 py-1.5 text-xs w-24 focus:outline-none',
                       isDark
                         ? 'bg-white/[0.04] border-white/[0.08] text-white/70 placeholder:text-white/20'
                         : 'bg-black/[0.03] border-black/[0.08] text-black/70 placeholder:text-black/20',
@@ -188,7 +188,7 @@ export default function ConditionsPage() {
                     <button
                       onClick={() => removeCondition(i)}
                       className={cn(
-                        'w-7 h-7 rounded-lg flex items-center justify-center transition-colors text-xs',
+                        'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors text-xs',
                         isDark ? 'hover:bg-red-500/15 text-red-400/50 hover:text-red-400' : 'hover:bg-red-50 text-red-300 hover:text-red-500',
                       )}
                     >
@@ -200,11 +200,11 @@ export default function ConditionsPage() {
               <button
                 onClick={addCondition}
                 className={cn(
-                  'inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors',
+                  'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-2.5 py-1.5 text-xs font-medium transition-colors',
                   isDark ? 'bg-white/[0.06] text-white/40 hover:text-white/60' : 'bg-black/[0.04] text-black/40 hover:text-black/60',
                 )}
               >
-                <Plus className="w-3 h-3" />
+                <Plus className="w-4 h-4" />
                 Add Condition
               </button>
             </div>
@@ -212,7 +212,7 @@ export default function ConditionsPage() {
             {/* Then / Else Actions */}
             <div className={cn('border-t pt-4 space-y-3', 'border-[var(--app-border)]')}>
               <div className="flex items-center gap-2">
-                <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-success)]')} />
+                <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-success)]')} />
                 <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-success)]')}>
                   THEN
                 </span>
@@ -221,7 +221,7 @@ export default function ConditionsPage() {
                   value={thenAction}
                   onChange={(e) => setThenAction(e.target.value)}
                   className={cn(
-                    'flex-1 rounded-lg border px-2.5 py-1.5 text-xs focus:outline-none',
+                    'flex-1 rounded-[var(--app-radius-lg)] border px-2.5 py-1.5 text-xs focus:outline-none',
                     isDark
                       ? 'bg-white/[0.04] border-white/[0.08] text-white/70 placeholder:text-white/20'
                       : 'bg-black/[0.03] border-black/[0.08] text-black/70 placeholder:text-black/20',
@@ -230,7 +230,7 @@ export default function ConditionsPage() {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-danger)]')} />
+                <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-danger)]')} />
                 <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-danger)]')}>
                   ELSE
                 </span>
@@ -239,7 +239,7 @@ export default function ConditionsPage() {
                   value={elseAction}
                   onChange={(e) => setElseAction(e.target.value)}
                   className={cn(
-                    'flex-1 rounded-lg border px-2.5 py-1.5 text-xs focus:outline-none',
+                    'flex-1 rounded-[var(--app-radius-lg)] border px-2.5 py-1.5 text-xs focus:outline-none',
                     isDark
                       ? 'bg-white/[0.04] border-white/[0.08] text-white/70 placeholder:text-white/20'
                       : 'bg-black/[0.03] border-black/[0.08] text-black/70 placeholder:text-black/20',
@@ -251,7 +251,7 @@ export default function ConditionsPage() {
 
             {/* Preview */}
             <div className={cn(
-              'rounded-xl p-3',
+              'rounded-[var(--app-radius-lg)] p-3',
               isDark ? 'bg-white/[0.02] border border-white/[0.06]' : 'bg-black/[0.02] border border-black/[0.06]',
             )}>
               <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -284,7 +284,7 @@ export default function ConditionsPage() {
 
             {/* Example Rule */}
             <div className={cn(
-              'rounded-xl p-3 border border-dashed',
+              'rounded-[var(--app-radius-lg)] p-3 border border-dashed',
               'border-[var(--app-border)]',
             )}>
               <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>

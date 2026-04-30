@@ -40,7 +40,7 @@ export default function WebhookIntegrationsPage() {
   }, 0) / Math.max(webhookIntegrations.filter((w) => w.responseLogs.length > 0).length, 1);
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -63,7 +63,7 @@ export default function WebhookIntegrationsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -77,7 +77,7 @@ export default function WebhookIntegrationsPage() {
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors shrink-0"
+            className="flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors shrink-0"
           >
             <Plus className="h-4 w-4" />
             Add Webhook
@@ -108,7 +108,7 @@ export default function WebhookIntegrationsPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -130,7 +130,7 @@ export default function WebhookIntegrationsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
-                  'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
+                  'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-3',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
@@ -142,7 +142,7 @@ export default function WebhookIntegrationsPage() {
                         {webhook.name}
                       </h3>
                       <span className={cn(
-                        'inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-bold',
+                        'inline-flex items-center rounded-[var(--app-radius-md)] px-1.5 py-0.5 text-[10px] font-bold',
                         methodConf.bgColor, methodConf.textColor,
                       )}>
                         {webhook.method}
@@ -158,7 +158,7 @@ export default function WebhookIntegrationsPage() {
 
                     {/* URL with copy */}
                     <div className={cn(
-                      'flex items-center gap-2 rounded-lg px-2.5 py-1.5 mt-1',
+                      'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-2.5 py-1.5 mt-1',
                       'bg-[var(--app-hover-bg)]',
                     )}>
                       <code className={cn('text-[11px] font-mono flex-1 truncate', 'text-[var(--app-text-muted)]')}>
@@ -167,7 +167,7 @@ export default function WebhookIntegrationsPage() {
                       <button
                         onClick={() => handleCopy(webhook.url, webhook.id)}
                         className={cn(
-                          'shrink-0 p-1 rounded-md transition-colors',
+                          'shrink-0 p-1 rounded-[var(--app-radius-md)] transition-colors',
                           isDark ? 'hover:bg-white/[0.06] text-zinc-500 hover:text-zinc-300' : 'hover:bg-black/[0.06] text-zinc-400 hover:text-zinc-600',
                         )}
                       >
@@ -186,7 +186,7 @@ export default function WebhookIntegrationsPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                        'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                         'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                       )}
                     >
@@ -197,7 +197,7 @@ export default function WebhookIntegrationsPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                        'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                         'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                       )}
                     >
@@ -208,7 +208,7 @@ export default function WebhookIntegrationsPage() {
                 </div>
 
                 {/* Event Mapping */}
-                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                   <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1.5', 'text-[var(--app-text-muted)]')}>
                     Events
                   </p>
@@ -218,7 +218,7 @@ export default function WebhookIntegrationsPage() {
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {Object.entries(webhook.eventMapping).map(([key, val]) => (
                       <div key={key} className={cn(
-                        'inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px]',
+                        'inline-flex items-center gap-1 rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[10px]',
                         isDark ? 'bg-white/[0.06] text-zinc-400' : 'bg-black/[0.04] text-zinc-500',
                       )}>
                         <span className="font-mono">{key}</span>
@@ -267,7 +267,7 @@ export default function WebhookIntegrationsPage() {
 
                 {/* Response Logs Mini-Table */}
                 {webhook.responseLogs.length > 0 && (
-                  <div className={cn('rounded-xl border overflow-hidden', 'border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border)]')}>
                     <div className={cn(
                       'grid grid-cols-4 gap-2 px-3 py-2 text-[10px] font-medium uppercase tracking-wider',
                       isDark ? 'bg-white/[0.03] text-zinc-500' : 'bg-black/[0.02] text-zinc-400',
@@ -289,7 +289,7 @@ export default function WebhookIntegrationsPage() {
                           {formatTimestamp(log.timestamp)}
                         </span>
                         <span className={cn(
-                          'inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-bold w-fit',
+                          'inline-flex items-center rounded-[var(--app-radius-md)] px-1.5 py-0.5 text-[10px] font-bold w-fit',
                           log.success ? 'bg-emerald-500/15 text-emerald-400' :
                           log.statusCode === 0 ? 'bg-orange-500/15 text-orange-400' :
                           'bg-red-500/15 text-red-400',
@@ -321,7 +321,7 @@ export default function WebhookIntegrationsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn(
-            'rounded-2xl border shadow-sm p-4 sm:p-5',
+            'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -341,7 +341,7 @@ export default function WebhookIntegrationsPage() {
               { source: 'custom.event', target: 'api.processEvent', active: false },
             ].map((mapping) => (
               <div key={mapping.source} className={cn(
-                'rounded-xl border p-3 flex items-center justify-between gap-2',
+                'rounded-[var(--app-radius-lg)] border p-3 flex items-center justify-between gap-2',
                 'border-[var(--app-border)]',
                 mapping.active && ('bg-[var(--app-hover-bg)]'),
               )}>

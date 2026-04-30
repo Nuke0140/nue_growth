@@ -183,8 +183,8 @@ function ProjectCard({
       transition={{ type: 'tween', duration: 0.2 }}
       onClick={onClick}
       className={cn(
-        'app-card app-glow app-card-hover cursor-pointer p-5 flex flex-col gap-3.5',
-        'rounded-2xl relative'
+        'app-card app-glow app-card-hover cursor-pointer p-app-xl flex flex-col gap-3.5',
+        'rounded-[var(--app-radius-xl)] relative'
       )}
       role="button"
       tabIndex={0}
@@ -246,7 +246,7 @@ function ProjectCard({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Users
-            className="w-3.5 h-3.5 shrink-0"
+            className="w-4 h-4 shrink-0"
             style={{ color: 'var(--app-text-muted)' }}
           />
           <div className="flex -space-x-2">
@@ -301,7 +301,7 @@ function ProjectCard({
             }`,
           }}
         >
-          <Shield className="w-3 h-3" />
+          <Shield className="w-4 h-4" />
           SLA: {project.sla}%
         </div>
       </div>
@@ -333,7 +333,7 @@ function ProjectCard({
           className="flex items-center gap-1 text-[11px]"
           style={{ color: daysLeft <= 14 && project.status === 'active' ? '#f87171' : 'var(--app-text-muted)' }}
         >
-          <Calendar className="w-3 h-3" />
+          <Calendar className="w-4 h-4" />
           {daysLeft > 0
             ? `${daysLeft}d left`
             : project.status === 'completed'
@@ -367,7 +367,7 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="app-card rounded-2xl p-4 flex flex-col gap-2">
+    <div className="app-card rounded-[var(--app-radius-xl)] p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span
           className="text-xs font-medium"
@@ -376,11 +376,11 @@ function StatCard({
           {label}
         </span>
         <div
-          className="w-7 h-7 rounded-lg flex items-center justify-center"
+          className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
           style={{ backgroundColor: 'var(--app-hover-bg)' }}
         >
           <Icon
-            className="w-3.5 h-3.5"
+            className="w-4 h-4"
             style={{ color: accent || 'var(--app-text-muted)' }}
           />
         </div>
@@ -478,7 +478,7 @@ function ProjectsPageInner() {
 
   return (
     <PageShell title="Projects" icon={FolderKanban} createType="project">
-      <div className="space-y-5">
+      <div className="space-y-app-xl">
         {/* ── Search (moved from header) ── */}
         <div className="flex items-center gap-3">
           <div className="flex-1 max-w-sm">
@@ -557,7 +557,7 @@ function ProjectsPageInner() {
             {filtered.length === 0 ? (
               <div className="col-span-full flex flex-col items-center justify-center py-20 gap-3">
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  className="w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center"
                   style={{ backgroundColor: 'var(--app-hover-bg)' }}
                 >
                   <FolderKanban

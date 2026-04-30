@@ -63,11 +63,11 @@ export default function ProfitabilityPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Target className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -76,7 +76,7 @@ export default function ProfitabilityPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Download className="w-4 h-4" /> Export Report
             </Button>
           </div>
@@ -87,15 +87,15 @@ export default function ProfitabilityPage() {
           {kpis.map((kpi, i) => {
             const isPositive = kpi.change >= 0;
             return (
-              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-4 h-4', kpi.color)} /></div>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <p className="text-xl font-bold tracking-tight">{kpi.value}</p>
                   <span className={cn('flex items-center gap-0.5 text-[10px] font-medium', isPositive ? 'text-emerald-500' : 'text-red-500')}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(kpi.change)}%
                   </span>
                 </div>
@@ -115,12 +115,12 @@ export default function ProfitabilityPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {clientProfitability.map((client, i) => (
-              <motion.div key={client.client} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]', 'transition-all duration-200 cursor-pointer')}>
+              <motion.div key={client.client} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]', 'transition-colors duration-200 cursor-pointer')}>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-semibold">{client.client}</span>
                   <div className="flex items-center gap-1.5">
                     <span className={cn('text-[10px] font-medium', getMarginColor(client.margin))}>{client.margin}%</span>
-                    {client.trend >= 0 ? <TrendingUp className="w-3 h-3 text-emerald-500" /> : <TrendingDown className="w-3 h-3 text-red-500" />}
+                    {client.trend >= 0 ? <TrendingUp className="w-4 h-4 text-emerald-500" /> : <TrendingDown className="w-4 h-4 text-red-500" />}
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 mb-3">
@@ -153,7 +153,7 @@ export default function ProfitabilityPage() {
         </div>
 
         {/* Project Margin Table */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Project Margins</span>
           </div>
@@ -188,7 +188,7 @@ export default function ProfitabilityPage() {
         {/* Service Margins & Alerts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Service Margin Chart */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Service Margins</span>
@@ -215,7 +215,7 @@ export default function ProfitabilityPage() {
           {/* Low Margin & Churn Risk */}
           <div className="space-y-4">
             {/* Low Margin Alerts */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle className="w-4 h-4 text-amber-400" />
                 <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Low Margin Alerts</span>
@@ -223,7 +223,7 @@ export default function ProfitabilityPage() {
               </div>
               <div className="space-y-2">
                 {lowMarginClients.map((c, i) => (
-                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.75 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.75 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                     <div>
                       <p className="text-xs font-medium">{c.client}</p>
                       <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{formatINR(c.revenue)} revenue</p>
@@ -239,7 +239,7 @@ export default function ProfitabilityPage() {
             </motion.div>
 
             {/* Churn Risk */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-4 h-4 text-red-400" />
                 <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Risk</span>
@@ -247,7 +247,7 @@ export default function ProfitabilityPage() {
               </div>
               <div className="space-y-2">
                 {highRiskClients.map((c, i) => (
-                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.85 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.85 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                     <div>
                       <p className="text-xs font-medium">{c.client}</p>
                       <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Trend: {c.trend}%</p>

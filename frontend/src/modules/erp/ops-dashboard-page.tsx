@@ -235,7 +235,7 @@ function RevenueTooltip({ active, payload, label }: { active?: boolean; payload?
   if (!active || !payload || !payload.length) return null;
   return (
     <div
-      className="px-3 py-2 rounded-lg text-xs"
+      className="px-3 py-2 rounded-[var(--app-radius-lg)] text-xs"
       style={{
         backgroundColor: 'var(--app-card-bg)',
         border: '1px solid var(--app-border-strong)',
@@ -279,7 +279,7 @@ function OpsDashboardPageInner() {
   return (
     <PageShell title="Operations Dashboard" icon={LayoutDashboard}>
       <motion.div
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-app-2xl"
         variants={containerVariants}
         initial="hidden"
         animate="show"
@@ -369,7 +369,7 @@ function OpsDashboardPageInner() {
                       const d = payload[0].payload as { name: string; progress: number };
                       return (
                         <div
-                          className="px-3 py-2 rounded-lg text-xs"
+                          className="px-3 py-2 rounded-[var(--app-radius-lg)] text-xs"
                           style={{
                             backgroundColor: 'var(--app-card-bg)',
                             border: '1px solid var(--app-border-strong)',
@@ -471,17 +471,17 @@ function OpsDashboardPageInner() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.25, delay: idx * 0.06 }}
-                    className="flex items-start gap-3 p-2.5 rounded-lg"
+                    className="flex items-start gap-3 p-2.5 rounded-[var(--app-radius-lg)]"
                     style={{
                       backgroundColor: 'var(--app-hover-bg)',
                       border: '1px solid var(--app-border)',
                     }}
                   >
                     <div
-                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
+                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0 mt-0.5"
                       style={{ backgroundColor: `${iconColor}14` }}
                     >
-                      <Icon className="w-3.5 h-3.5" style={{ color: iconColor }} />
+                      <Icon className="w-4 h-4" style={{ color: iconColor }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p
@@ -533,7 +533,7 @@ function OpsDashboardPageInner() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.25, delay: idx * 0.07 }}
-                    className="flex items-center gap-3 p-2.5 rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-3 p-2.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer"
                     style={{
                       backgroundColor: bgColor,
                       border: `1px solid ${borderColor}`,
@@ -595,7 +595,7 @@ function OpsDashboardPageInner() {
           {/* Section header with Sparkles */}
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+              className="flex items-center justify-center w-10 h-10 rounded-[var(--app-radius-lg)] shrink-0"
               style={{ backgroundColor: 'var(--app-accent-light)' }}
             >
               <Sparkles className="w-5 h-5" style={{ color: ACCENT }} />
@@ -632,7 +632,7 @@ function OpsDashboardPageInner() {
                     delay: idx * 0.08,
                     ease: 'easeOut',
                   }}
-                  className="app-card-hover rounded-xl p-3.5 cursor-pointer transition-colors"
+                  className="app-card-hover rounded-[var(--app-radius-lg)] p-3.5 cursor-pointer transition-colors"
                   style={{
                     backgroundColor: 'var(--app-hover-bg)',
                     border: '1px solid var(--app-border)',
@@ -641,11 +641,11 @@ function OpsDashboardPageInner() {
                   {/* Top row: severity icon + title + confidence badge */}
                   <div className="flex items-start gap-2.5">
                     <div
-                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
+                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0 mt-0.5"
                       style={{ backgroundColor: `${sevColor}14` }}
                     >
                       <SeverityIcon
-                        className="w-3.5 h-3.5"
+                        className="w-4 h-4"
                         style={{ color: sevColor }}
                       />
                     </div>
@@ -661,7 +661,7 @@ function OpsDashboardPageInner() {
                       {/* Confidence badge */}
                       <div className="flex items-center gap-1.5 mt-1">
                         <div
-                          className="flex items-center gap-1 px-1.5 py-0.5 rounded-md"
+                          className="flex items-center gap-1 px-1.5 py-0.5 rounded-[var(--app-radius-md)]"
                           style={{
                             backgroundColor: `${sevColor}14`,
                             border: `1px solid ${sevColor}30`,
@@ -675,7 +675,7 @@ function OpsDashboardPageInner() {
                           </span>
                         </div>
                         <span
-                          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
+                          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-[var(--app-radius-md)]"
                           style={{
                             backgroundColor: 'var(--app-hover-bg)',
                             color: 'var(--app-text-secondary)',
@@ -703,7 +703,7 @@ function OpsDashboardPageInner() {
 
                   {/* View Details link */}
                   <div className="flex items-center gap-1 mt-2.5">
-                    <ExternalLink className="w-3 h-3" style={{ color: ACCENT }} />
+                    <ExternalLink className="w-4 h-4" style={{ color: ACCENT }} />
                     <span
                       className="text-[11px] font-medium"
                       style={{ color: ACCENT }}

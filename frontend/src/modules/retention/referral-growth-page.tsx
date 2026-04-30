@@ -65,11 +65,11 @@ export default function ReferralGrowthPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Share2 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -78,11 +78,11 @@ export default function ReferralGrowthPage() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'border-white/[0.1] text-white/70 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/70 hover:bg-black/[0.05]')}>
+            <Button variant="outline" className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', isDark ? 'border-white/[0.1] text-white/70 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/70 hover:bg-black/[0.05]')}>
               <Link className="w-4 h-4" />
               Generate Link
             </Button>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Share2 className="w-4 h-4" />
               Create Program
             </Button>
@@ -97,19 +97,19 @@ export default function ReferralGrowthPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
                 {'change' in stat && stat.change && (
                   <span className="flex items-center gap-0.5 text-[10px] font-medium text-emerald-500">
-                    <ArrowUpRight className="w-3 h-3" />{stat.change}%
+                    <ArrowUpRight className="w-4 h-4" />{stat.change}%
                   </span>
                 )}
               </div>
@@ -122,13 +122,13 @@ export default function ReferralGrowthPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
-          <div className="flex items-center gap-2 mb-5">
+          <div className="flex items-center gap-2 mb-app-xl">
             <Trophy className={cn('w-4 h-4 text-amber-400')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Leaderboard — Top 3 Advocates</span>
           </div>
-          <div className="flex items-end justify-center gap-4 md:gap-8">
+          <div className="flex items-end justify-center gap-4 md:gap-app-3xl">
             {top3.map((entry, idx) => {
               const heights = ['h-32', 'h-24', 'h-20'];
               const podiumBgs = [
@@ -171,7 +171,7 @@ export default function ReferralGrowthPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4 }}
-            className={cn('lg:col-span-2 rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('lg:col-span-2 rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -221,7 +221,7 @@ export default function ReferralGrowthPage() {
                       <td className="py-3 px-3">
                         {r.fraudFlag && (
                           <Badge variant="secondary" className="text-[10px] px-2 py-0.5 bg-red-500/15 text-red-400">
-                            <Shield className="w-3 h-3 mr-1" />Flag
+                            <Shield className="w-4 h-4 mr-1" />Flag
                           </Badge>
                         )}
                       </td>
@@ -239,7 +239,7 @@ export default function ReferralGrowthPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -270,7 +270,7 @@ export default function ReferralGrowthPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', fraudEntries.length > 0
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', fraudEntries.length > 0
                 ? (isDark ? 'bg-red-500/[0.04] border-red-500/20' : 'bg-red-50 border-red-200')
                 : (isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')
               )}
@@ -283,7 +283,7 @@ export default function ReferralGrowthPage() {
                 <div className="space-y-2">
                   {fraudEntries.map(f => (
                     <div key={f.id} className="flex items-center gap-2">
-                      <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                      <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
                       <p className="text-xs text-red-500 dark:text-red-400">Suspicious activity detected for <span className="font-bold">{f.advocate}</span></p>
                     </div>
                   ))}
@@ -301,18 +301,18 @@ export default function ReferralGrowthPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-3">
                 <Link className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Quick Link Generator</span>
               </div>
-              <div className={cn('flex items-center gap-2 p-3 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+              <div className={cn('flex items-center gap-2 p-3 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                 <code className={cn('text-xs flex-1 truncate', 'text-[var(--app-text-muted)]')}>
                   https://diginue.in/ref/RAZ2024
                 </code>
-                <Button variant="ghost" size="sm" className="shrink-0 h-7 w-7 p-0">
-                  <Copy className="w-3.5 h-3.5" />
+                <Button variant="ghost" size="sm" className="shrink-0 h-8  w-7 p-0">
+                  <Copy className="w-4 h-4" />
                 </Button>
               </div>
               <p className={cn('text-[10px] mt-2', 'text-[var(--app-text-muted)]')}>

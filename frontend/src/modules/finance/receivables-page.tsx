@@ -95,12 +95,12 @@ export default function ReceivablesPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <CreditCard className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -116,7 +116,7 @@ export default function ReceivablesPage() {
             'px-3 py-1.5 text-xs font-medium gap-1.5',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}>
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-4 h-4" />
             {today}
           </Badge>
         </div>
@@ -131,7 +131,7 @@ export default function ReceivablesPage() {
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setAgingFilter(bucket.key === agingFilter ? 'all' : bucket.key)}
               className={cn(
-                'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
+                'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                 bucket.border,
                 agingFilter === bucket.key
                   ? ('bg-[var(--app-hover-bg)]')
@@ -159,7 +159,7 @@ export default function ReceivablesPage() {
               key={b.value}
               onClick={() => setAgingFilter(b.value)}
               className={cn(
-                'px-3 py-1.5 text-xs font-medium rounded-lg transition-colors',
+                'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)] transition-colors',
                 agingFilter === b.value
                   ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -176,7 +176,7 @@ export default function ReceivablesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -194,7 +194,7 @@ export default function ReceivablesPage() {
               <tbody>
                 {filteredReceivables.length === 0 ? (
                   <tr>
-                    <td colSpan={11} className={cn('py-8 text-center text-sm', 'text-[var(--app-text-muted)]')}>
+                    <td colSpan={11} className={cn('py-app-3xl text-center text-sm', 'text-[var(--app-text-muted)]')}>
                       No data for this aging bucket
                     </td>
                   </tr>
@@ -235,7 +235,7 @@ export default function ReceivablesPage() {
                         </td>
                         <td className="py-3 px-2">
                           <div className="flex items-center gap-1.5">
-                            <User className="w-3 h-3" />
+                            <User className="w-4 h-4" />
                             <span className="text-xs">{r.assignedOwner}</span>
                           </div>
                         </td>
@@ -263,11 +263,11 @@ export default function ReceivablesPage() {
                         </td>
                         <td className="py-3 px-2">
                           <div className="flex items-center gap-1">
-                            <Button variant="ghost" size="sm" className={cn('h-7 w-7 p-0', 'hover:bg-[var(--app-hover-bg)]')}>
-                              <MessageCircle className="w-3.5 h-3.5 text-emerald-500" />
+                            <Button variant="ghost" size="sm" className={cn('h-8  w-7 p-0', 'hover:bg-[var(--app-hover-bg)]')}>
+                              <MessageCircle className="w-4 h-4 text-emerald-500" />
                             </Button>
-                            <Button variant="ghost" size="sm" className={cn('h-7 w-7 p-0', 'hover:bg-[var(--app-hover-bg)]')}>
-                              <Send className="w-3.5 h-3.5 text-sky-500" />
+                            <Button variant="ghost" size="sm" className={cn('h-8  w-7 p-0', 'hover:bg-[var(--app-hover-bg)]')}>
+                              <Send className="w-4 h-4 text-sky-500" />
                             </Button>
                           </div>
                         </td>
@@ -287,13 +287,13 @@ export default function ReceivablesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4 }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'
             )}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
+                <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
                   <MessageCircle className="w-5 h-5 text-emerald-500" />
                 </div>
                 <div>
@@ -304,7 +304,7 @@ export default function ReceivablesPage() {
                 </div>
               </div>
               <Button className={cn(
-                'px-4 py-2 text-sm font-medium rounded-xl gap-2',
+                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2',
                 isDark ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
               )}>
                 <MessageCircle className="w-4 h-4" />

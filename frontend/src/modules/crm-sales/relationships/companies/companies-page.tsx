@@ -123,13 +123,13 @@ export default function CompaniesPage() {
   };
 
   function renderSortIcon(field: SortField) {
-    if (sortField !== field) return <ArrowUpDown className="w-3 h-3 opacity-40" />;
-    return sortDir === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />;
+    if (sortField !== field) return <ArrowUpDown className="w-4 h-4 opacity-40" />;
+    return sortDir === 'asc' ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />;
   }
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export default function CompaniesPage() {
           <div className="flex items-center gap-2">
             {/* Search */}
             <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-56 transition-colors',
+              'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-56 transition-colors',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -163,10 +163,10 @@ export default function CompaniesPage() {
             {/* Industry Filter */}
             <Select value={industryFilter} onValueChange={(v) => { setIndustryFilter(v); setCurrentPage(1); }}>
               <SelectTrigger className={cn(
-                'w-[140px] h-9 text-xs rounded-xl border',
+                'w-[140px] h-10  text-xs rounded-[var(--app-radius-lg)] border',
                 isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/60' : 'bg-white border-black/[0.06] text-black/60'
               )}>
-                <Filter className="w-3.5 h-3.5 mr-1" />
+                <Filter className="w-4 h-4 mr-1" />
                 <SelectValue placeholder="Industry" />
               </SelectTrigger>
               <SelectContent>
@@ -179,13 +179,13 @@ export default function CompaniesPage() {
 
             {/* View Toggle */}
             <div className={cn(
-              'flex items-center rounded-xl border p-0.5',
+              'flex items-center rounded-[var(--app-radius-lg)] border p-0.5',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <button
                 onClick={() => setViewMode('grid')}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   viewMode === 'grid'
                     ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
                     : isDark ? 'text-white/30 hover:text-white/60' : 'text-black/30 hover:text-black/60'
@@ -196,7 +196,7 @@ export default function CompaniesPage() {
               <button
                 onClick={() => setViewMode('table')}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   viewMode === 'table'
                     ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
                     : isDark ? 'text-white/30 hover:text-white/60' : 'text-black/30 hover:text-black/60'
@@ -210,7 +210,7 @@ export default function CompaniesPage() {
             <Button
               size="icon"
               className={cn(
-                'h-9 w-9 rounded-xl shrink-0',
+                'h-10  w-9 rounded-[var(--app-radius-lg)] shrink-0',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -233,7 +233,7 @@ export default function CompaniesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
@@ -242,10 +242,10 @@ export default function CompaniesPage() {
                   {stat.label}
                 </span>
                 <div className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                   'bg-[var(--app-hover-bg)]'
                 )}>
-                  <stat.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                  <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 </div>
               </div>
               <p className="text-xl font-bold">
@@ -261,7 +261,7 @@ export default function CompaniesPage() {
             {paginated.length === 0 ? (
               <div className="col-span-full flex flex-col items-center py-16">
                 <div className={cn(
-                  'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
+                  'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
                   'bg-[var(--app-hover-bg)]'
                 )}>
                   <Building2 className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
@@ -291,7 +291,7 @@ export default function CompaniesPage() {
         {/* Table View */}
         {viewMode === 'table' && (
           <div className={cn(
-            'rounded-2xl border overflow-hidden',
+            'rounded-[var(--app-radius-xl)] border overflow-hidden',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
             <div className="overflow-x-auto">
@@ -340,7 +340,7 @@ export default function CompaniesPage() {
                       <TableCell colSpan={9} className="h-48 text-center">
                         <div className="flex flex-col items-center gap-3">
                           <div className={cn(
-                            'w-14 h-14 rounded-2xl flex items-center justify-center',
+                            'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center',
                             'bg-[var(--app-hover-bg)]'
                           )}>
                             <Building2 className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
@@ -413,7 +413,7 @@ export default function CompaniesPage() {
                             <div className="flex items-center gap-2 min-w-[80px]">
                               <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                                 <div
-                                  className={cn('h-full rounded-full transition-all', getHealthBarColor(company.healthScore))}
+                                  className={cn('h-full rounded-full transition-colors', getHealthBarColor(company.healthScore))}
                                   style={{ width: `${company.healthScore}%` }}
                                 />
                               </div>
@@ -433,7 +433,7 @@ export default function CompaniesPage() {
                                 <button
                                   onClick={(e) => e.stopPropagation()}
                                   className={cn(
-                                    'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                                     'hover:bg-[var(--app-hover-bg)]'
                                   )}
                                 >
@@ -470,7 +470,7 @@ export default function CompaniesPage() {
                     onClick={() => setCurrentPage(1)}
                     disabled={currentPage === 1}
                     className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
@@ -480,7 +480,7 @@ export default function CompaniesPage() {
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                     className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
@@ -502,7 +502,7 @@ export default function CompaniesPage() {
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
                         className={cn(
-                          'w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors',
+                          'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-medium transition-colors',
                           currentPage === pageNum
                             ? isDark
                               ? 'bg-white text-black'
@@ -520,7 +520,7 @@ export default function CompaniesPage() {
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                     className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
@@ -530,7 +530,7 @@ export default function CompaniesPage() {
                     onClick={() => setCurrentPage(totalPages)}
                     disabled={currentPage === totalPages}
                     className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
@@ -553,7 +553,7 @@ export default function CompaniesPage() {
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                   'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
@@ -563,7 +563,7 @@ export default function CompaniesPage() {
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                   'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
@@ -585,7 +585,7 @@ export default function CompaniesPage() {
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
                     className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-medium transition-colors',
                       currentPage === pageNum
                         ? isDark
                           ? 'bg-white text-black'
@@ -603,7 +603,7 @@ export default function CompaniesPage() {
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                   'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
@@ -613,7 +613,7 @@ export default function CompaniesPage() {
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}
                 className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
+                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                   'hover:bg-[var(--app-hover-bg)]'
                 )}
               >

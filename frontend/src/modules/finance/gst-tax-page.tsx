@@ -76,11 +76,11 @@ export default function GSTTaxPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Receipt className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -89,10 +89,10 @@ export default function GSTTaxPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" className={cn('px-3 py-2 text-sm font-medium rounded-xl gap-2 border', isDark ? 'border-white/[0.1] text-white/60 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/60 hover:bg-black/[0.05]')}>
+            <Button variant="outline" className={cn('px-3 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 border', isDark ? 'border-white/[0.1] text-white/60 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/60 hover:bg-black/[0.05]')}>
               <Download className="w-4 h-4" /> Export GST Report
             </Button>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <FileText className="w-4 h-4" /> File GST
             </Button>
           </div>
@@ -108,18 +108,18 @@ export default function GSTTaxPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <p className="text-xl font-bold tracking-tight">{stat.value}</p>
                   <span className={cn('flex items-center gap-0.5 text-[10px] font-medium', isPositive ? 'text-emerald-500' : 'text-red-500')}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(stat.change)}%
                   </span>
                 </div>
@@ -133,7 +133,7 @@ export default function GSTTaxPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -200,11 +200,11 @@ export default function GSTTaxPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + i * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 transition-all duration-200 cursor-pointer', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200 cursor-pointer', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">{q.label}</span>
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                     <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                   </div>
                 </div>
@@ -232,7 +232,7 @@ export default function GSTTaxPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -280,9 +280,9 @@ export default function GSTTaxPage() {
                       <td className="py-3 px-3 text-sm whitespace-nowrap">{filing.filedDate || '—'}</td>
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-1.5">
-                          {filing.status === 'filed' && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />}
-                          {filing.status === 'pending' && <Clock className="w-3.5 h-3.5 text-amber-500" />}
-                          {filing.status === 'overdue' && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
+                          {filing.status === 'filed' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                          {filing.status === 'pending' && <Clock className="w-4 h-4 text-amber-500" />}
+                          {filing.status === 'overdue' && <AlertCircle className="w-4 h-4 text-red-500" />}
                           <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', isDark ? sConf.bgDark : sConf.bgLight)}>
                             {filing.status}
                           </Badge>
@@ -303,7 +303,7 @@ export default function GSTTaxPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
           >
             <div className="flex items-center gap-2 mb-4">
               <AlertCircle className="w-4 h-4 text-red-500" />
@@ -317,7 +317,7 @@ export default function GSTTaxPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.85 + i * 0.05, duration: 0.3 }}
-                  className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
+                  className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
                 >
                   <div className="flex items-center gap-3">
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
@@ -326,7 +326,7 @@ export default function GSTTaxPage() {
                       <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Due: {f.dueDate} • {formatINR(f.amount)}</p>
                     </div>
                   </div>
-                  <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-lg">
+                  <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-[var(--app-radius-lg)]">
                     File Now
                   </Button>
                 </motion.div>
@@ -341,7 +341,7 @@ export default function GSTTaxPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-amber-500/[0.03] border-amber-500/[0.12]' : 'bg-amber-50/50 border-amber-200/60')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-amber-500/[0.03] border-amber-500/[0.12]' : 'bg-amber-50/50 border-amber-200/60')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Clock className="w-4 h-4 text-amber-500" />
@@ -359,7 +359,7 @@ export default function GSTTaxPage() {
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.95 + i * 0.05, duration: 0.3 }}
-                    className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-amber-500/10 bg-amber-500/[0.02]' : 'border-amber-200/40 bg-white/60')}
+                    className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'border-amber-500/10 bg-amber-500/[0.02]' : 'border-amber-200/40 bg-white/60')}
                   >
                     <div className="flex items-center gap-3">
                       <Clock className="w-4 h-4 text-amber-500 shrink-0" />

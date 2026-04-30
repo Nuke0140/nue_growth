@@ -98,11 +98,11 @@ export default function FeedbackNpsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <MessageSquare className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -110,7 +110,7 @@ export default function FeedbackNpsPage() {
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Sentiment & Satisfaction Cockpit</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Send className="w-4 h-4" />
             Send Survey
           </Button>
@@ -124,12 +124,12 @@ export default function FeedbackNpsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className={cn('text-2xl font-bold tracking-tight', stat.color)}>{stat.value}</p>
@@ -144,7 +144,7 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.4 }}
-            className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center text-center', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-6 flex flex-col items-center justify-center text-center', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <p className={cn('text-xs font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>Net Promoter Score</p>
             <motion.p
@@ -165,9 +165,9 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4 }}
-            className={cn('md:col-span-2 rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('md:col-span-2 rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <div className="flex items-center gap-2 mb-5">
+            <div className="flex items-center gap-2 mb-app-xl">
               <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>NPS Distribution</span>
             </div>
@@ -180,7 +180,7 @@ export default function FeedbackNpsPage() {
                 <div key={cat.label}>
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
-                      <div className={cn('w-2.5 h-2.5 rounded-sm', cat.color)} />
+                      <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', cat.color)} />
                       <span className={cn('text-sm font-medium', 'text-[var(--app-text-secondary)]')}>{cat.label}</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -215,7 +215,7 @@ export default function FeedbackNpsPage() {
                   key={opt}
                   onClick={() => fo.setter(opt)}
                   className={cn(
-                    'px-2 py-1 rounded-md text-[10px] font-medium transition-colors',
+                    'px-2 py-1 rounded-[var(--app-radius-md)] text-[10px] font-medium transition-colors',
                     fo.value === opt
                       ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                       : (isDark ? 'bg-white/[0.03] text-white/35 hover:bg-white/[0.06]' : 'bg-black/[0.03] text-black/35 hover:bg-black/[0.06]')
@@ -233,7 +233,7 @@ export default function FeedbackNpsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -273,7 +273,7 @@ export default function FeedbackNpsPage() {
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-0.5">
                           {Array.from({ length: 5 }).map((_, j) => (
-                            <Star key={j} className={cn('w-3 h-3', j < fb.rating ? 'text-amber-400 fill-amber-400' : ('text-[var(--app-text-disabled)]'))} />
+                            <Star key={j} className={cn('w-4 h-4', j < fb.rating ? 'text-amber-400 fill-amber-400' : ('text-[var(--app-text-disabled)]'))} />
                           ))}
                         </div>
                       </td>
@@ -292,7 +292,7 @@ export default function FeedbackNpsPage() {
                       </td>
                       <td className="py-3 px-3">
                         <div className={cn('flex items-center gap-1', sentConf.color)}>
-                          <SentIcon className="w-3 h-3" />
+                          <SentIcon className="w-4 h-4" />
                           <span className="text-[10px] capitalize">{fb.sentiment}</span>
                         </div>
                       </td>
@@ -311,7 +311,7 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Heart className="w-4 h-4 text-emerald-500" />
@@ -320,7 +320,7 @@ export default function FeedbackNpsPage() {
             </div>
             <div className="space-y-2.5">
               {promoters.map((p: NPSResponse) => (
-                <div key={p.id} className={cn('flex items-start gap-3 p-3 rounded-xl', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
+                <div key={p.id} className={cn('flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
                   <div className="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
                     <span className="text-sm font-bold text-emerald-500">{p.score}</span>
                   </div>
@@ -342,7 +342,7 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50 border-red-200')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50 border-red-200')}
           >
             <div className="flex items-center gap-2 mb-4">
               <ShieldAlert className="w-4 h-4 text-red-400" />
@@ -351,7 +351,7 @@ export default function FeedbackNpsPage() {
             </div>
             <div className="space-y-2.5">
               {detractors.map((d: NPSResponse) => (
-                <div key={d.id} className={cn('flex items-start gap-3 p-3 rounded-xl border', isDark ? 'bg-white/[0.02] border-red-500/10' : 'bg-white border-red-100')}>
+                <div key={d.id} className={cn('flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'bg-white/[0.02] border-red-500/10' : 'bg-white border-red-100')}>
                   <div className="w-8 h-8 rounded-full bg-red-500/15 flex items-center justify-center shrink-0 mt-0.5">
                     <span className="text-sm font-bold text-red-500">{d.score}</span>
                   </div>
@@ -363,7 +363,7 @@ export default function FeedbackNpsPage() {
                     <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>{d.feedback}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Button variant="ghost" size="sm" className="h-6 text-[10px] px-2 text-red-500 hover:bg-red-500/10 gap-1">
-                        <Eye className="w-3 h-3" />Investigate
+                        <Eye className="w-4 h-4" />Investigate
                       </Button>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>{d.date}</span>
                     </div>
@@ -379,7 +379,7 @@ export default function FeedbackNpsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -410,7 +410,7 @@ export default function FeedbackNpsPage() {
                     >
                       <td className="py-3 px-3 text-sm font-medium">{r.client}</td>
                       <td className="py-3 px-3">
-                        <span className={cn('text-base font-black', scoreColor)}>{r.score}</span>
+                        <span className={cn('text-sm font-black', scoreColor)}>{r.score}</span>
                       </td>
                       <td className="py-3 px-3">
                         <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize',
@@ -427,7 +427,7 @@ export default function FeedbackNpsPage() {
                       </td>
                       <td className="py-3 px-3">
                         <div className={cn('flex items-center gap-1', sentConf.color)}>
-                          <sentConf.icon className="w-3 h-3" />
+                          <sentConf.icon className="w-4 h-4" />
                           <span className="text-[10px] capitalize">{r.sentiment}</span>
                         </div>
                       </td>

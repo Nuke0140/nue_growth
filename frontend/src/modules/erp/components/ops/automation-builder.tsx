@@ -211,13 +211,13 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                     toggleWorkflow(wf.id);
                   }}
                   className={cn(
-                    'w-7 h-7 rounded-lg flex items-center justify-center transition-colors shrink-0',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors shrink-0',
                     wf.active
                       ? 'text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/10'
                       : 'text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
-                  {wf.active ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                  {wf.active ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 </button>
               </div>
             </motion.button>
@@ -233,7 +233,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
             <div className="px-6 py-4 border-b border-[var(--app-border)] shrink-0">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-semibold text-[var(--app-text)]">
+                  <h2 className="text-sm font-semibold text-[var(--app-text)]">
                     {selectedWorkflow.name}
                   </h2>
                   <p className="text-xs text-[var(--app-text-muted)] mt-0.5">
@@ -243,7 +243,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                 <div className="flex items-center gap-2">
                   <span
                     className={cn(
-                      'text-[11px] font-medium px-2.5 py-1 rounded-lg',
+                      'text-[11px] font-medium px-2.5 py-1 rounded-[var(--app-radius-lg)]',
                       selectedWorkflow.active
                         ? 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400'
                         : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
@@ -253,7 +253,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                   </span>
                   <button
                     onClick={handleSave}
-                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 transition-colors"
+                    className="text-xs font-semibold px-3 py-1.5 rounded-[var(--app-radius-lg)] bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 transition-colors"
                   >
                     Save
                   </button>
@@ -287,7 +287,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                         >
                           <div
                             className={cn(
-                              'w-[140px] rounded-xl border p-3 transition-colors cursor-pointer',
+                              'w-[140px] rounded-[var(--app-radius-lg)] border p-3 transition-colors cursor-pointer',
                               colors.bg,
                               colors.border,
                               'hover:brightness-110'
@@ -348,9 +348,9 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                               e.stopPropagation();
                               deleteStep(step.id);
                             }}
-                            className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                            className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-[var(--app-shadow-md)]-lg"
                           >
-                            <X className="w-3 h-3" />
+                            <X className="w-4 h-4" />
                           </button>
                         </motion.div>
 
@@ -364,7 +364,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                               animate={{ x: [0, 6, 0] }}
                               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
                             >
-                              <ChevronRight className="w-3 h-3 text-[var(--app-text-muted)]" />
+                              <ChevronRight className="w-4 h-4 text-[var(--app-text-muted)]" />
                             </motion.div>
                           </div>
                         )}
@@ -381,13 +381,13 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                               setEditingStepId(null);
                             }}
                             className={cn(
-                              'w-7 h-7 rounded-full flex items-center justify-center transition-all shrink-0',
+                              'w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0',
                               showAddMenu?.stepId === step.id
                                 ? 'bg-[var(--app-accent)] text-white'
                                 : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] hover:text-[var(--app-text-secondary)]'
                             )}
                           >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-4 h-4" />
                           </button>
 
                           {/* Add menu popup */}
@@ -398,7 +398,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -5, scale: 0.95 }}
                                 transition={{ duration: 0.15 }}
-                                className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[200px] bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-xl shadow-xl z-20 py-1.5"
+                                className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[200px] bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] shadow-[var(--app-shadow-md)]-xl z-20 py-1.5"
                               >
                                 <p className="text-[10px] font-semibold text-[var(--app-text-muted)] uppercase tracking-wider px-3 pb-1.5">
                                   Triggers
@@ -411,7 +411,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                       onClick={() => addStep(showAddMenu.index, t.type)}
                                       className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
                                     >
-                                      <TIcon className="w-3.5 h-3.5 text-purple-400" />
+                                      <TIcon className="w-4 h-4 text-purple-400" />
                                       {t.label}
                                     </button>
                                   );
@@ -428,7 +428,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                       onClick={() => addStep(showAddMenu.index, a.type)}
                                       className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
                                     >
-                                      <AIcon className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                                      <AIcon className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                                       {a.label}
                                     </button>
                                   );
@@ -448,7 +448,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
           /* Empty state */
           <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6">
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center"
+              className="w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center"
               style={{ backgroundColor: 'var(--app-hover-bg)' }}
             >
               <Workflow className="w-8 h-8 text-[var(--app-text-muted)]" />

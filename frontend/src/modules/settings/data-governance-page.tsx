@@ -48,11 +48,11 @@ export default function DataGovernancePage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Database className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -89,7 +89,7 @@ export default function DataGovernancePage() {
                   key={policy.id}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-2xl border p-5 transition-all duration-200',
+                    'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
                     isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
                   )}
                 >
@@ -134,7 +134,7 @@ export default function DataGovernancePage() {
                   <div className="space-y-1 mb-4">
                     {policy.archiveRules.map((rule, i) => (
                       <div key={i} className={cn('flex items-start gap-2 text-[11px]', 'text-[var(--app-text-muted)]')}>
-                        <Archive className="w-3 h-3 shrink-0 mt-0.5" />
+                        <Archive className="w-4 h-4 shrink-0 mt-0.5" />
                         <span>{rule}</span>
                       </div>
                     ))}
@@ -142,11 +142,11 @@ export default function DataGovernancePage() {
 
                   <button
                     className={cn(
-                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors w-full justify-center',
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors w-full justify-center',
                       isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1] hover:text-white' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1] hover:text-black',
                     )}
                   >
-                    <Pencil className="w-3 h-3" /> Edit Policy
+                    <Pencil className="w-4 h-4" /> Edit Policy
                   </button>
                 </motion.div>
               );
@@ -164,7 +164,7 @@ export default function DataGovernancePage() {
             <Download className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Data Export Requests</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -208,11 +208,11 @@ export default function DataGovernancePage() {
                         <td className="px-4 py-3">
                           {req.status === 'completed' ? (
                             <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500 hover:text-emerald-400 transition-colors')}>
-                              <Download className="w-3 h-3" /> Download
+                              <Download className="w-4 h-4" /> Download
                             </button>
                           ) : req.status === 'pending' || req.status === 'processing' ? (
                             <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-red-400 hover:text-red-300 transition-colors')}>
-                              <XCircle className="w-3 h-3" /> Cancel
+                              <XCircle className="w-4 h-4" /> Cancel
                             </button>
                           ) : (
                             <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>—</span>
@@ -237,7 +237,7 @@ export default function DataGovernancePage() {
             <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Consent Logs</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -294,14 +294,14 @@ export default function DataGovernancePage() {
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>GDPR / Delete Workflow</span>
           </div>
           <div className={cn(
-            'rounded-2xl border-l-4 border-l-red-500 p-5',
+            'rounded-[var(--app-radius-xl)] border-l-4 border-l-red-500 p-app-xl',
             isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-black/[0.02] border border-black/[0.06]',
           )}>
             <h3 className="text-sm font-semibold mb-2">GDPR Data Deletion Workflow</h3>
             <p className={cn('text-xs mb-4', 'text-[var(--app-text-muted)]')}>
               When a deletion request is received, the following steps are executed automatically:
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-app-xl">
               {[
                 { step: 1, label: 'Request Received', desc: 'User submits deletion request' },
                 { step: 2, label: 'Verification', desc: 'Identity verified via email OTP' },
@@ -309,7 +309,7 @@ export default function DataGovernancePage() {
                 { step: 4, label: 'Soft Delete', desc: 'Mark records for deletion (30-day grace)' },
                 { step: 5, label: 'Hard Purge', desc: 'Permanently remove from all systems' },
               ].map((s) => (
-                <div key={s.step} className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                <div key={s.step} className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                   <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mb-2', isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600')}>
                     {s.step}
                   </div>
@@ -321,11 +321,11 @@ export default function DataGovernancePage() {
             <button
               onClick={() => setShowDeleteDialog(true)}
               className={cn(
-                'inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-colors',
+                'inline-flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 isDark ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-red-50 text-red-600 hover:bg-red-100',
               )}
             >
-              <Trash2 className="w-3.5 h-3.5" /> Request Data Deletion
+              <Trash2 className="w-4 h-4" /> Request Data Deletion
             </button>
           </div>
         </motion.div>
@@ -341,11 +341,11 @@ export default function DataGovernancePage() {
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Tenant Isolation</span>
           </div>
           <div className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="flex items-start gap-4">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0', 'bg-[var(--app-success-bg)]')}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'bg-[var(--app-success-bg)]')}>
                 <Shield className="w-5 h-5 text-emerald-400" />
               </div>
               <div className="flex-1">
@@ -362,7 +362,7 @@ export default function DataGovernancePage() {
                     { label: 'Encryption', value: 'AES-256 per tenant' },
                     { label: 'Isolation Level', value: 'Row-Level + Encryption' },
                   ].map((item) => (
-                    <div key={item.label} className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                    <div key={item.label} className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                       <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                       <p className="text-xs font-semibold">{item.value}</p>
                     </div>

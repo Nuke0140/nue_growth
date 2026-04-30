@@ -35,7 +35,7 @@ export function ActivityFeed({
     <div className={cn('flex flex-col', className)}>
       {items.length === 0 && (
         <p
-          className="text-sm text-center py-8"
+          className="text-sm text-center py-app-3xl"
           style={{ color: 'var(--app-text-muted)' }}
         >
           No recent activity
@@ -66,7 +66,7 @@ export function ActivityFeed({
               className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full shrink-0 mt-0.5"
               style={{ backgroundColor: `${accentColor}18` }}
             >
-              <Icon className="w-3.5 h-3.5" style={{ color: accentColor }} />
+              <Icon className="w-4 h-4" style={{ color: accentColor }} />
             </div>
 
             {/* Content */}

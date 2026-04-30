@@ -129,7 +129,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onRegister }: Log
       variants={formVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-5"
+      className="space-y-app-xl"
     >
       {/* Header */}
       <motion.div variants={fieldVariants} className="mb-1 text-center">
@@ -154,7 +154,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onRegister }: Log
             placeholder="you@company.com"
             value={email}
             onChange={(e) => handleEmailChange(e.target.value)}
-            className={`h-11 rounded-xl border-gray-200 bg-gray-50/50 pl-10 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-gray-500 dark:focus:border-white/20 dark:focus:ring-white/10 ${
+            className={`h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 pl-10 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-gray-500 dark:focus:border-white/20 dark:focus:ring-white/10 ${
               errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
             }`}
           />
@@ -189,7 +189,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onRegister }: Log
             onChange={(e) => handlePasswordChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
-            className={`h-11 rounded-xl border-gray-200 bg-gray-50/50 pl-10 pr-10 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-gray-500 dark:focus:border-white/20 dark:focus:ring-white/10 ${
+            className={`h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 pl-10 pr-10 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-gray-500 dark:focus:border-white/20 dark:focus:ring-white/10 ${
               errors.password ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
             }`}
           />
@@ -264,7 +264,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onRegister }: Log
         <Button
           type="submit"
           disabled={loading}
-          className="h-11 w-full rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 dark:active:bg-gray-300"
+          className="h-10  w-full rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 dark:active:bg-gray-300"
         >
           <AnimatePresence mode="wait">
             {loading ? (

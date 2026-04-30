@@ -99,11 +99,11 @@ export default function AdPerformancePage() {
       .slice(0, 5);
   }, []);
 
-  const card = (i: number) => cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiCard = (i: number) => cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const card = (i: number) => cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiCard = (i: number) => cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -134,7 +134,7 @@ export default function AdPerformancePage() {
               key={p}
               onClick={() => setPlatformFilter(p)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition',
                 platformFilter === p
                   ? 'bg-orange-500/15 text-orange-600'
                   : isDark ? 'bg-white/[0.04] text-white/50 hover:bg-white/[0.08]' : 'bg-black/[0.04] text-black/50 hover:bg-black/[0.08]',
@@ -150,7 +150,7 @@ export default function AdPerformancePage() {
               key={range}
               onClick={() => setDateRange(range)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition',
                 dateRange === range
                   ? 'bg-orange-500/15 text-orange-600'
                   : isDark ? 'bg-white/[0.04] text-white/50 hover:bg-white/[0.08]' : 'bg-black/[0.04] text-black/50 hover:bg-black/[0.08]',
@@ -205,14 +205,14 @@ export default function AdPerformancePage() {
               <div
                 key={p.platform}
                 className={cn(
-                  'rounded-xl border p-4 space-y-3',
+                  'rounded-[var(--app-radius-lg)] border p-4 space-y-3',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+                      className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-white text-xs font-bold"
                       style={{ backgroundColor: config?.color }}
                     >
                       {config?.icon}
@@ -262,9 +262,9 @@ export default function AdPerformancePage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+        className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
       >
-        <div className="p-5 flex items-center justify-between">
+        <div className="p-app-xl flex items-center justify-between">
           <div className="flex items-center gap-2">
             <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
             <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Campaign Table</h3>
@@ -348,7 +348,7 @@ export default function AdPerformancePage() {
       </motion.div>
 
       {/* Bottom Row: Creative Performance + Audience Fatigue */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Creative Performance */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -367,11 +367,11 @@ export default function AdPerformancePage() {
                 <div
                   key={c.id}
                   className={cn(
-                    'rounded-xl border p-3 flex items-center gap-3',
+                    'rounded-[var(--app-radius-lg)] border p-3 flex items-center gap-3',
                     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
+                  <div className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-white text-xs font-bold shrink-0"
                     style={{ backgroundColor: config?.color }}>
                     {i + 1}
                   </div>
@@ -413,7 +413,7 @@ export default function AdPerformancePage() {
                 <div
                   key={p.platform}
                   className={cn(
-                    'rounded-xl border p-3',
+                    'rounded-[var(--app-radius-lg)] border p-3',
                     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
@@ -451,8 +451,8 @@ export default function AdPerformancePage() {
                     </div>
                   </div>
                   {p.fatigue.level === 'High' && (
-                    <div className="mt-2 flex items-start gap-1.5 p-2 rounded-lg bg-red-500/5">
-                      <AlertTriangle className="w-3 h-3 text-red-500 mt-0.5 shrink-0" />
+                    <div className="mt-2 flex items-start gap-1.5 p-2 rounded-[var(--app-radius-lg)] bg-red-500/5">
+                      <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
                       <p className="text-[10px] text-red-500/80">
                         Creative refresh recommended. CTR declining significantly.
                       </p>

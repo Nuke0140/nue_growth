@@ -111,7 +111,7 @@ const NavItemButton = memo(function NavItemButton({
       type="button"
       onClick={() => onClick(item.href)}
       className={cn(
-        'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+        'flex w-full items-center gap-3 rounded-[var(--app-radius-lg)] px-3 py-2 text-sm font-medium transition-colors',
         'hover:bg-accent hover:text-accent-foreground',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
         isActive

@@ -29,8 +29,8 @@ function AiCircularWidget({ label, value, isDark }: { label: string; value: numb
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-xl p-4 border text-center',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+        'rounded-[var(--app-radius-lg)] p-4 border text-center',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
       )}
     >
       <div className="relative w-18 h-18 mx-auto mb-2" style={{ width: 72, height: 72 }}>
@@ -46,7 +46,7 @@ function AiCircularWidget({ label, value, isDark }: { label: string; value: numb
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className={cn('text-base font-bold', 'text-[var(--app-text)]')}>{value}%</span>
+          <span className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>{value}%</span>
         </div>
       </div>
       <p className={cn('text-[10px] font-medium leading-tight', 'text-[var(--app-text-secondary)]')}>{label}</p>
@@ -84,13 +84,13 @@ function BantCard({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'rounded-2xl p-5 border',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+        'rounded-[var(--app-radius-xl)] p-app-xl border',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
       )}
     >
       <div className="flex items-center gap-2 mb-3">
         <div className={cn(
-          'w-8 h-8 rounded-lg flex items-center justify-center',
+          'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
           'bg-[var(--app-hover-bg)]'
         )}>
           <Icon className={cn('w-4 h-4', textColor)} />
@@ -184,7 +184,7 @@ export default function QualificationPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 max-w-[1400px] mx-auto space-y-6">
+      <div className="p-6 max-w-[1400px] mx-auto space-y-app-2xl">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
@@ -195,12 +195,12 @@ export default function QualificationPage() {
               'text-xs px-2.5 gap-1',
               isDark ? 'border-amber-500/30 text-amber-400' : 'border-amber-400/50 text-amber-600'
             )}>
-              <Sparkles className="w-3 h-3" /> AI + BANT
+              <Sparkles className="w-4 h-4" /> AI + BANT
             </Badge>
           </div>
 
           <Select value={selectedLeadId} onValueChange={handleLeadChange}>
-            <SelectTrigger className={cn('w-[240px] h-9 rounded-xl', isDark ? 'border-white/[0.06] bg-white/[0.03]' : 'border-black/[0.06] bg-black/[0.02]')}>
+            <SelectTrigger className={cn('w-[240px] h-10  rounded-[var(--app-radius-lg)]', isDark ? 'border-white/[0.06] bg-white/[0.03]' : 'border-black/[0.06] bg-black/[0.02]')}>
               <SelectValue placeholder="Select lead..." />
             </SelectTrigger>
             <SelectContent>
@@ -218,8 +218,8 @@ export default function QualificationPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
-            'rounded-2xl border p-8 flex flex-col sm:flex-row items-center gap-8',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+            'rounded-[var(--app-radius-xl)] border p-app-3xl flex flex-col sm:flex-row items-center gap-app-3xl',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
           )}
         >
           {/* Large Score Circle */}
@@ -259,7 +259,7 @@ export default function QualificationPage() {
             <div className="flex items-center gap-4 mt-3 justify-center sm:justify-start">
               {qualification.decisionMaker && (
                 <Badge className={cn('text-[10px] px-2 py-0 h-5 bg-emerald-500/10 text-emerald-400 border-0')}>
-                  <UserCheck className="w-3 h-3 mr-1" /> Decision Maker
+                  <UserCheck className="w-4 h-4 mr-1" /> Decision Maker
                 </Badge>
               )}
               <Badge variant="outline" className={cn('text-[10px] px-2 py-0 h-5', isDark ? 'border-white/[0.08] text-white/50' : 'border-black/[0.08] text-black/50')}>
@@ -334,8 +334,8 @@ export default function QualificationPage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className={cn(
-              'rounded-2xl p-5 border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+              'rounded-[var(--app-radius-xl)] p-app-xl border',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
             )}
           >
             <div className="flex items-center justify-between mb-2">
@@ -358,8 +358,8 @@ export default function QualificationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
             className={cn(
-              'rounded-2xl p-5 border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+              'rounded-[var(--app-radius-xl)] p-app-xl border',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
             )}
           >
             <div className="flex items-center gap-2 mb-3">
@@ -387,8 +387,8 @@ export default function QualificationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className={cn(
-              'rounded-2xl p-5 border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+              'rounded-[var(--app-radius-xl)] p-app-xl border',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
             )}
           >
             <div className="flex items-center justify-between mb-3">
@@ -418,8 +418,8 @@ export default function QualificationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className={cn(
-              'rounded-2xl p-5 border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
+              'rounded-[var(--app-radius-xl)] p-app-xl border',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
             )}
           >
             <div className="flex items-center gap-2 mb-3">

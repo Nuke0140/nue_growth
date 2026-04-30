@@ -91,7 +91,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-50 h-full w-[360px] max-w-[90vw] flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 z-50 h-full w-[360px] max-w-[90vw] flex flex-col shadow-[var(--app-shadow-md)]-2xl"
             style={{
               backgroundColor: 'var(--app-bg)',
               borderLeft: '1px solid var(--app-border)',
@@ -99,12 +99,12 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
+              className="flex items-center justify-between px-app-xl py-4 shrink-0"
               style={{ borderBottom: '1px solid var(--app-border)' }}
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="flex items-center justify-center w-9 h-9 rounded-xl"
+                  className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
                   style={{ backgroundColor: 'var(--app-accent-light)' }}
                 >
                   <Icon className="w-[18px] h-[18px]" style={{ color: 'var(--app-accent)' }} />
@@ -120,7 +120,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
               </div>
               <button
                 onClick={onClose}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
@@ -128,15 +128,15 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-app-xl py-4">
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
-                className="space-y-5"
+                className="space-y-app-xl"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg capitalize bg-[var(--app-accent-light)] text-[var(--app-accent)]">
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-[var(--app-radius-lg)] capitalize bg-[var(--app-accent-light)] text-[var(--app-accent)]">
                     {entity.entityType}
                   </span>
                   <span className="text-[11px] font-mono text-[var(--app-text-muted)]">
@@ -153,13 +153,13 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                 {entity.entityType === 'approval' && (
                   <div className="flex gap-2 pt-2">
                     <button
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/25 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-xs font-semibold bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/25 transition-colors"
                     >
                       <CheckCircle2 className="w-4 h-4" />
                       Approve
                     </button>
                     <button
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-red-500/15 text-red-500 dark:text-red-400 hover:bg-red-500/25 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-xs font-semibold bg-red-500/15 text-red-500 dark:text-red-400 hover:bg-red-500/25 transition-colors"
                     >
                       <XCircle className="w-4 h-4" />
                       Reject
@@ -174,7 +174,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                       {['Update Status', 'Reassign', 'Add Comment', 'Log Time'].map((action) => (
                         <button
                           key={action}
-                          className="w-full text-left text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] px-2 py-1.5 rounded-lg transition-colors"
+                          className="w-full text-left text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] px-2 py-1.5 rounded-[var(--app-radius-lg)] transition-colors"
                         >
                           {action}
                         </button>
@@ -208,7 +208,7 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
                       {['View Profile', 'View Attendance', 'View Tasks', 'Send Message'].map((action) => (
                         <button
                           key={action}
-                          className="w-full text-left text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] px-2 py-1.5 rounded-lg transition-colors"
+                          className="w-full text-left text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] px-2 py-1.5 rounded-[var(--app-radius-lg)] transition-colors"
                         >
                           {action}
                         </button>
@@ -221,15 +221,15 @@ export function ContextualSidebar({ entity, onClose }: ContextualSidebarProps) {
 
             {/* Footer */}
             <div
-              className="shrink-0 px-5 py-4"
+              className="shrink-0 px-app-xl py-4"
               style={{ borderTop: '1px solid var(--app-border)' }}
             >
               <button
                 onClick={handleViewFull}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-[var(--app-accent)] bg-[var(--app-accent-light)] hover:bg-[var(--app-accent-light)] transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--app-radius-lg)] text-xs font-semibold text-[var(--app-accent)] bg-[var(--app-accent-light)] hover:bg-[var(--app-accent-light)] transition-colors"
               >
                 View Full Details
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </motion.div>

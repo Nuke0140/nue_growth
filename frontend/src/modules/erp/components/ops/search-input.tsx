@@ -51,7 +51,7 @@ export function SearchInput({
       {value && (
         <button
           onClick={() => onChange('')}
-          className="absolute right-10 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-md transition-colors"
+          className="absolute right-10 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-[var(--app-radius-md)] transition-colors"
           style={{ color: 'var(--app-text-muted)' }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -63,7 +63,7 @@ export function SearchInput({
           }}
           aria-label="Clear search"
         >
-          <X className="w-3 h-3" />
+          <X className="w-4 h-4" />
         </button>
       )}
       <kbd

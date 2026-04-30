@@ -38,7 +38,7 @@ export default function AnomalyDetectionPage() {
   const resolvedCount = anomalies.filter((a) => a.status === 'resolved').length;
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -49,7 +49,7 @@ export default function AnomalyDetectionPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -84,7 +84,7 @@ export default function AnomalyDetectionPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function AnomalyDetectionPage() {
                 transition={{ delay: i * 0.03, duration: 0.2 }}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-all cursor-pointer',
+                  'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-colors cursor-pointer',
                   activeFilter === filter
                     ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
                     : isDark
@@ -187,7 +187,7 @@ export default function AnomalyDetectionPage() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.04, duration: 0.2 }}
                   className={cn(
-                    'flex items-start gap-3 rounded-xl border p-3',
+                    'flex items-start gap-3 rounded-[var(--app-radius-lg)] border p-3',
                     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
@@ -233,12 +233,12 @@ export default function AnomalyDetectionPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
           className={cn(
-            'rounded-2xl border border-l-4 border-l-purple-500 p-4 sm:p-5',
+            'rounded-[var(--app-radius-xl)] border border-l-4 border-l-purple-500 p-4 sm:p-app-xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', 'bg-[var(--app-purple-light)]')}>
+            <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-purple-light)]')}>
               <Bot className="w-5 h-5 text-purple-400" />
             </div>
             <div>
@@ -250,13 +250,13 @@ export default function AnomalyDetectionPage() {
               </p>
             </div>
             <div className={cn('ml-auto flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
-              <Activity className="w-3 h-3" />
+              <Activity className="w-4 h-4" />
               Active
             </div>
           </div>
           <div
             className={cn(
-              'rounded-xl p-3',
+              'rounded-[var(--app-radius-lg)] p-3',
               'bg-[var(--app-hover-bg)]',
             )}
           >

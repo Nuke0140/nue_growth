@@ -32,20 +32,20 @@ export default function ChartCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn(
-        'flex flex-col rounded-2xl border shadow-sm',
+        'flex flex-col rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
         fullscreen && 'fixed inset-4 z-50',
         fullscreen && (isDark ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-200'),
-        fullscreen && 'rounded-2xl shadow-2xl',
+        fullscreen && 'rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-2xl',
         className,
       )}
     >
       {/* Header */}
       <div
         className={cn(
-          'flex items-center justify-between gap-2 border-b px-4 py-3 sm:px-5 sm:py-4',
+          'flex items-center justify-between gap-2 border-b px-4 py-3 sm:px-app-xl sm:py-4',
           'border-[var(--app-border)]',
         )}
       >
@@ -74,7 +74,7 @@ export default function ChartCard({
           {/* Export button placeholder */}
           <button
             className={cn(
-              'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+              'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
               isDark
                 ? 'hover:bg-white/[0.06] text-zinc-400 hover:text-zinc-200'
                 : 'hover:bg-black/[0.04] text-zinc-500 hover:text-zinc-700',
@@ -89,7 +89,7 @@ export default function ChartCard({
             <button
               onClick={onFullscreen}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
                 isDark
                   ? 'hover:bg-white/[0.06] text-zinc-400 hover:text-zinc-200'
                   : 'hover:bg-black/[0.04] text-zinc-500 hover:text-zinc-700',
@@ -109,7 +109,7 @@ export default function ChartCard({
       {/* Chart Content */}
       <div
         className={cn(
-          'relative flex-1 overflow-hidden p-4 sm:p-5',
+          'relative flex-1 overflow-hidden p-4 sm:p-app-xl',
           fullscreen ? 'min-h-0 flex-1' : 'min-h-[300px]',
         )}
       >

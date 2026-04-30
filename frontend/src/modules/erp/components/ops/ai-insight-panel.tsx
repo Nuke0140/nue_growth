@@ -93,7 +93,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-50 h-full w-[420px] max-w-[90vw] flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 z-50 h-full w-[420px] max-w-[90vw] flex flex-col shadow-[var(--app-shadow-md)]-2xl"
             style={{
               backgroundColor: 'var(--app-bg)',
               borderLeft: '1px solid var(--app-border)',
@@ -101,12 +101,12 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
+              className="flex items-center justify-between px-app-xl py-4 shrink-0"
               style={{ borderBottom: '1px solid var(--app-border)' }}
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="flex items-center justify-center w-9 h-9 rounded-xl"
+                  className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
                   style={{ backgroundColor: 'var(--app-accent-light)' }}
                 >
                   <Sparkles className="w-[18px] h-[18px]" style={{ color: 'var(--app-accent)' }} />
@@ -126,7 +126,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                 )}
                 <button
                   onClick={onClose}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                  className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
@@ -139,7 +139,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
               {grouped.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-4">
                   <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                    className="w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center"
                     style={{ backgroundColor: 'var(--app-hover-bg)' }}
                   >
                     <Sparkles
@@ -221,7 +221,7 @@ export function AiInsightPanel({ isOpen, onClose, insights }: AiInsightPanelProp
                               className="mt-3 flex items-center gap-1.5 text-xs font-medium text-[var(--app-accent)] hover:text-[var(--app-accent-hover)] transition-colors"
                             >
                               {insight.actionText}
-                              <ChevronRight className="w-3 h-3" />
+                              <ChevronRight className="w-4 h-4" />
                             </button>
                           )}
                         </div>

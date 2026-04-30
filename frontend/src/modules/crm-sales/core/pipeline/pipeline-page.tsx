@@ -82,7 +82,7 @@ function PipelineColumn({
   const totalValue = deals.reduce((sum, d) => sum + d.value, 0);
 
   return (
-    <div className="flex flex-col min-w-[270px] max-w-[310px] w-[290px] rounded-2xl shrink-0">
+    <div className="flex flex-col min-w-[270px] max-w-[310px] w-[290px] rounded-[var(--app-radius-xl)] shrink-0">
       <div className={cn(
         'rounded-t-2xl px-3 py-2.5 border-b',
         isDark ? `${colors.isDarkHeader} border-white/[0.04]` : `${colors.header} border-black/[0.04]`
@@ -93,7 +93,7 @@ function PipelineColumn({
             {STAGE_LABELS[stage]}
           </h3>
           <span className={cn(
-            'ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-md',
+            'ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-[var(--app-radius-md)]',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}>
             {deals.length}
@@ -109,7 +109,7 @@ function PipelineColumn({
         'bg-[var(--app-hover-bg)]'
       )}>
         {deals.length === 0 ? (
-          <div className={cn('flex flex-col items-center justify-center py-8 text-center', 'text-[var(--app-text-disabled)]')}>
+          <div className={cn('flex flex-col items-center justify-center py-app-3xl text-center', 'text-[var(--app-text-disabled)]')}>
             <div className={cn('w-10 h-10 rounded-full flex items-center justify-center mb-2', 'bg-[var(--app-hover-bg)]')}>
               <span className="text-lg">📋</span>
             </div>
@@ -125,10 +125,10 @@ function PipelineColumn({
               whileHover={{ y: -2 }}
               onClick={() => onSelect(deal)}
               className={cn(
-                'rounded-xl border p-3.5 cursor-pointer transition-all duration-200 group',
+                'rounded-[var(--app-radius-lg)] border p-3.5 cursor-pointer transition-colors duration-200 group',
                 isDark
-                  ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-lg hover:shadow-black/20'
-                  : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] hover:shadow-lg hover:shadow-black/5'
+                  ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/20'
+                  : 'bg-white border-black/[0.06] hover:bg-black/[0.01] hover:border-black/[0.12] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/5'
               )}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
@@ -136,7 +136,7 @@ function PipelineColumn({
                   {deal.name}
                 </h4>
                 <span className={cn(
-                  'shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-md border',
+                  'shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-[var(--app-radius-md)] border',
                   getProbabilityColor(deal.probability, isDark)
                 )}>
                   {deal.probability}%
@@ -162,7 +162,7 @@ function PipelineColumn({
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                  <Clock className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                   <span className={cn('text-[10px]', deal.daysInStage > 15 ? 'text-amber-500 font-medium' : ('text-[var(--app-text-muted)]'))}>
                     {deal.daysInStage}d
                   </span>
@@ -170,7 +170,7 @@ function PipelineColumn({
               </div>
               {deal.daysInStage > 15 && (
                 <div className={cn('flex items-center gap-1 mt-2', isDark ? 'text-amber-400/70' : 'text-amber-600')}>
-                  <AlertTriangle className="w-3 h-3" />
+                  <AlertTriangle className="w-4 h-4" />
                   <span className="text-[10px] font-medium">Stuck</span>
                 </div>
               )}
@@ -246,7 +246,7 @@ export default function DealsPipelinePage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1600px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1600px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -255,7 +255,7 @@ export default function DealsPipelinePage() {
                   Deals Pipeline
                 </h1>
                 <Badge variant="secondary" className={cn(
-                  'text-[10px] font-semibold px-2 py-0.5 rounded-lg',
+                  'text-[10px] font-semibold px-2 py-0.5 rounded-[var(--app-radius-lg)]',
                   'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {formatCurrency(totalPipeline)}
@@ -267,7 +267,7 @@ export default function DealsPipelinePage() {
             </div>
             <div className="flex items-center gap-2">
               <div className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
+                'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -282,10 +282,10 @@ export default function DealsPipelinePage() {
                 />
               </div>
               <Button className={cn(
-                'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+                'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                <Plus className="w-4 h-4 mr-1.5" />
                 Add Deal
               </Button>
             </div>
@@ -299,10 +299,10 @@ export default function DealsPipelinePage() {
             className="flex flex-wrap gap-4"
           >
             <div className={cn(
-              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              'flex items-center gap-3 rounded-[var(--app-radius-lg)] border p-4 flex-1 min-w-[200px]',
               isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
             )}>
-              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
                 <Zap className={cn('w-5 h-5', isDark ? 'text-emerald-400' : 'text-emerald-600')} />
               </div>
               <div>
@@ -312,10 +312,10 @@ export default function DealsPipelinePage() {
             </div>
 
             <div className={cn(
-              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              'flex items-center gap-3 rounded-[var(--app-radius-lg)] border p-4 flex-1 min-w-[200px]',
               isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
             )}>
-              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-blue-500/10' : 'bg-blue-50')}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', isDark ? 'bg-blue-500/10' : 'bg-blue-50')}>
                 <BarChart3 className={cn('w-5 h-5', isDark ? 'text-blue-400' : 'text-blue-600')} />
               </div>
               <div>
@@ -325,10 +325,10 @@ export default function DealsPipelinePage() {
             </div>
 
             <div className={cn(
-              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              'flex items-center gap-3 rounded-[var(--app-radius-lg)] border p-4 flex-1 min-w-[200px]',
               isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
             )}>
-              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-amber-500/10' : 'bg-amber-50')}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', isDark ? 'bg-amber-500/10' : 'bg-amber-50')}>
                 <Timer className={cn('w-5 h-5', isDark ? 'text-amber-400' : 'text-amber-600')} />
               </div>
               <div>
@@ -338,10 +338,10 @@ export default function DealsPipelinePage() {
             </div>
 
             <div className={cn(
-              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              'flex items-center gap-3 rounded-[var(--app-radius-lg)] border p-4 flex-1 min-w-[200px]',
               isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
             )}>
-              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', stuckDeals > 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'))}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', stuckDeals > 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'))}>
                 <ShieldAlert className={cn('w-5 h-5', stuckDeals > 0 ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-emerald-400' : 'text-emerald-600'))} />
               </div>
               <div>
@@ -368,7 +368,7 @@ export default function DealsPipelinePage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className={cn('rounded-2xl border p-4 transition-colors',
+                className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
@@ -390,13 +390,13 @@ export default function DealsPipelinePage() {
           {/* View Toggle + Stage Filters */}
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'table')}>
-              <TabsList className={cn('rounded-xl p-0.5 h-9', 'bg-[var(--app-hover-bg)]')}>
-                <TabsTrigger value="kanban" className="rounded-lg text-xs gap-1.5">
-                  <LayoutGrid className="w-3.5 h-3.5" />
+              <TabsList className={cn('rounded-[var(--app-radius-lg)] p-0.5 h-10'', 'bg-[var(--app-hover-bg)]')}>
+                <TabsTrigger value="kanban" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">
+                  <LayoutGrid className="w-4 h-4" />
                   Kanban
                 </TabsTrigger>
-                <TabsTrigger value="table" className="rounded-lg text-xs gap-1.5">
-                  <List className="w-3.5 h-3.5" />
+                <TabsTrigger value="table" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">
+                  <List className="w-4 h-4" />
                   Table
                 </TabsTrigger>
               </TabsList>
@@ -407,7 +407,7 @@ export default function DealsPipelinePage() {
               <button
                 onClick={() => setStageFilter('all')}
                 className={cn(
-                  'px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors',
+                  'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors',
                   stageFilter === 'all'
                     ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                     : isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.04]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
@@ -420,7 +420,7 @@ export default function DealsPipelinePage() {
                   key={stage}
                   onClick={() => setStageFilter(stage)}
                   className={cn(
-                    'px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors',
+                    'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors',
                     stageFilter === stage
                       ? getStageColor(stage, isDark)
                       : isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.04]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
@@ -458,7 +458,7 @@ export default function DealsPipelinePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className={cn('rounded-2xl border overflow-hidden',
+              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
@@ -494,7 +494,7 @@ export default function DealsPipelinePage() {
                           {formatCurrency(deal.value)}
                         </td>
                         <td className="px-4 py-3">
-                          <span className={cn('inline-flex px-2 py-0.5 rounded-md text-[10px] font-bold border', getProbabilityColor(deal.probability, isDark))}>
+                          <span className={cn('inline-flex px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-bold border', getProbabilityColor(deal.probability, isDark))}>
                             {deal.probability}%
                           </span>
                         </td>
@@ -515,7 +515,7 @@ export default function DealsPipelinePage() {
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={cn('inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium capitalize', getStageColor(deal.stage, isDark))}>
+                          <span className={cn('inline-flex px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium capitalize', getStageColor(deal.stage, isDark))}>
                             {STAGE_LABELS[deal.stage]}
                           </span>
                         </td>
@@ -524,7 +524,7 @@ export default function DealsPipelinePage() {
                         </td>
                         <td className="px-4 py-3">
                           {deal.daysInStage > 15 ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/15 text-amber-600 border border-amber-500/20">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium bg-amber-500/15 text-amber-600 border border-amber-500/20">
                               <AlertTriangle className="w-2.5 h-2.5" />
                               Stuck
                             </span>
@@ -553,7 +553,7 @@ export default function DealsPipelinePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Q2 Forecast</h3>
@@ -564,7 +564,7 @@ export default function DealsPipelinePage() {
                   $1.26M
                 </span>
                 <span className="text-emerald-500 text-xs font-medium mb-1 flex items-center gap-0.5">
-                  <ArrowUpRight className="w-3 h-3" />
+                  <ArrowUpRight className="w-4 h-4" />
                   +18% vs Q1
                 </span>
               </div>
@@ -600,13 +600,13 @@ export default function DealsPipelinePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Won vs Lost by Month</h3>
                 <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Won</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-red-400" /> Lost</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Won</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-red-400" /> Lost</span>
                 </div>
               </div>
               <div className="flex items-end justify-between gap-3 h-40 mt-2">

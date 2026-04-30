@@ -100,7 +100,7 @@ export default function ProfitabilityWidget({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-4 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -110,11 +110,11 @@ export default function ProfitabilityWidget({
           {client}
         </span>
         <div className="flex items-center gap-1.5 shrink-0">
-          <Shield className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <Badge
             variant="outline"
             className={cn(
-              'px-1.5 py-0 rounded-md text-[9px] font-medium border',
+              'px-1.5 py-0 rounded-[var(--app-radius-md)] text-[9px] font-medium border',
               isDark
                 ? `${riskConfig.bgDark} ${riskConfig.textDark} border-transparent`
                 : `${riskConfig.bgLight} ${riskConfig.textLight} border-transparent`
@@ -127,15 +127,15 @@ export default function ProfitabilityWidget({
 
       {/* Metrics */}
       <div className="grid grid-cols-3 gap-2 mb-3">
-        <div className={cn('p-2.5 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
           <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Revenue</p>
           <p className="text-xs font-bold tabular-nums text-emerald-500">{formatAmount(revenue)}</p>
         </div>
-        <div className={cn('p-2.5 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
           <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Cost</p>
           <p className="text-xs font-bold tabular-nums text-red-500">{formatAmount(cost)}</p>
         </div>
-        <div className={cn('p-2.5 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
           <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Profit</p>
           <p className={cn('text-xs font-bold tabular-nums', getMarginColor(margin, isDark))}>
             {formatAmount(profit)}
@@ -155,7 +155,7 @@ export default function ProfitabilityWidget({
                 ? 'text-emerald-500'
                 : 'text-[var(--app-danger)]'
             )}>
-              {isPositiveTrend ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+              {isPositiveTrend ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
               {isPositiveTrend ? '+' : ''}{trend.toFixed(1)}%
             </span>
           </div>
@@ -173,10 +173,10 @@ export default function ProfitabilityWidget({
       {/* Risk indicator */}
       {margin < 20 && (
         <div className={cn(
-          'flex items-center gap-1.5 p-2 rounded-xl',
+          'flex items-center gap-1.5 p-2 rounded-[var(--app-radius-lg)]',
           isDark ? 'bg-red-500/[0.06]' : 'bg-red-50'
         )}>
-          <AlertTriangle className="w-3 h-3 text-red-500 shrink-0" />
+          <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
           <p className={cn('text-[10px]', 'text-[var(--app-danger)]')}>
             Low margin — review pricing or reduce costs
           </p>

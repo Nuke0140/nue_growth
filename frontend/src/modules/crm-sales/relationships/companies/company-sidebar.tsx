@@ -71,16 +71,16 @@ function formatArr(value: number): string {
 
 function getActivityIcon(type: string) {
   switch (type) {
-    case 'call': return <PhoneCall className="w-3.5 h-3.5" />;
-    case 'email': return <MessageSquare className="w-3.5 h-3.5" />;
-    case 'meeting': return <Video className="w-3.5 h-3.5" />;
-    case 'whatsapp': return <MessageSquare className="w-3.5 h-3.5" />;
-    case 'demo': return <FileText className="w-3.5 h-3.5" />;
-    case 'proposal': return <FileText className="w-3.5 h-3.5" />;
-    case 'file_share': return <FileText className="w-3.5 h-3.5" />;
-    case 'website_visit': return <ActivityIcon className="w-3.5 h-3.5" />;
-    case 'payment': return <DollarSign className="w-3.5 h-3.5" />;
-    default: return <ActivityIcon className="w-3.5 h-3.5" />;
+    case 'call': return <PhoneCall className="w-4 h-4" />;
+    case 'email': return <MessageSquare className="w-4 h-4" />;
+    case 'meeting': return <Video className="w-4 h-4" />;
+    case 'whatsapp': return <MessageSquare className="w-4 h-4" />;
+    case 'demo': return <FileText className="w-4 h-4" />;
+    case 'proposal': return <FileText className="w-4 h-4" />;
+    case 'file_share': return <FileText className="w-4 h-4" />;
+    case 'website_visit': return <ActivityIcon className="w-4 h-4" />;
+    case 'payment': return <DollarSign className="w-4 h-4" />;
+    default: return <ActivityIcon className="w-4 h-4" />;
   }
 }
 
@@ -102,7 +102,7 @@ const OverviewTab = React.memo(function OverviewTab({
   return (
     <div className="space-y-4">
       {/* Company Info */}
-      <div className="rounded-xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+      <div className="rounded-[var(--app-radius-lg)] p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
         <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: CSS.textMuted }}>Company Information</h3>
         <div className="space-y-2.5">
           <div className="flex items-center gap-2.5">
@@ -127,15 +127,15 @@ const OverviewTab = React.memo(function OverviewTab({
       </div>
 
       {/* Metrics */}
-      <div className="rounded-xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+      <div className="rounded-[var(--app-radius-lg)] p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
         <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: CSS.textMuted }}>Metrics</h3>
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-lg p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+          <div className="rounded-[var(--app-radius-lg)] p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
             <Users className="w-4 h-4 mx-auto mb-1" style={{ color: CSS.accent }} />
             <p className="text-lg font-bold" style={{ color: CSS.text }}>{contactCount}</p>
             <p className="text-[10px]" style={{ color: CSS.textMuted }}>Contacts</p>
           </div>
-          <div className="rounded-lg p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+          <div className="rounded-[var(--app-radius-lg)] p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
             <Handshake className="w-4 h-4 mx-auto mb-1" style={{ color: '#10b981' }} />
             <p className="text-lg font-bold" style={{ color: CSS.text }}>{activeDeals}</p>
             <p className="text-[10px]" style={{ color: CSS.textMuted }}>Active Deals</p>
@@ -151,11 +151,11 @@ const OverviewTab = React.memo(function OverviewTab({
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div className="rounded-xl p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+        <div className="rounded-[var(--app-radius-lg)] p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
           <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: CSS.textMuted }}>Tags</h3>
           <div className="flex flex-wrap gap-1.5">
             {tags.map((tag) => (
-              <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
+              <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-md)] text-xs" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
                 <Tag className="w-2.5 h-2.5" />
                 {tag}
               </span>
@@ -170,7 +170,7 @@ const OverviewTab = React.memo(function OverviewTab({
 const ActivityTab = React.memo(function ActivityTab({ activities }: { activities: Activity[] }) {
   if (activities.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 space-y-2">
+      <div className="flex flex-col items-center justify-center py-app-4xl space-y-2">
         <ActivityIcon className="w-8 h-8" style={{ color: CSS.textDisabled }} />
         <p className="text-sm" style={{ color: CSS.textMuted }}>No activity recorded</p>
       </div>
@@ -182,7 +182,7 @@ const ActivityTab = React.memo(function ActivityTab({ activities }: { activities
       {activities.map((activity, i) => (
         <div key={activity.id} className="flex gap-3 pb-4">
           <div className="flex flex-col items-center">
-            <div className="flex items-center justify-center w-7 h-7 rounded-full shrink-0" style={{ backgroundColor: CSS.hoverBg, color: CSS.accent }}>
+            <div className="flex items-center justify-center w-8 h-8 rounded-full shrink-0" style={{ backgroundColor: CSS.hoverBg, color: CSS.accent }}>
               {getActivityIcon(activity.type)}
             </div>
             {i < activities.length - 1 && <div className="w-px flex-1 mt-1" style={{ backgroundColor: CSS.borderLight }} />}
@@ -193,7 +193,7 @@ const ActivityTab = React.memo(function ActivityTab({ activities }: { activities
               <p className="text-xs leading-relaxed" style={{ color: CSS.textSecondary }}>{activity.description}</p>
             )}
             <div className="flex items-center gap-2 text-xs" style={{ color: CSS.textMuted }}>
-              <Clock className="w-3 h-3" />
+              <Clock className="w-4 h-4" />
               {new Date(activity.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               {activity.duration && <span> - {activity.duration}</span>}
             </div>
@@ -207,7 +207,7 @@ const ActivityTab = React.memo(function ActivityTab({ activities }: { activities
 const NotesTab = React.memo(function NotesTab({ notes }: { notes: CrmNote[] }) {
   if (notes.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 space-y-2">
+      <div className="flex flex-col items-center justify-center py-app-4xl space-y-2">
         <FileText className="w-8 h-8" style={{ color: CSS.textDisabled }} />
         <p className="text-sm" style={{ color: CSS.textMuted }}>No notes yet</p>
       </div>
@@ -217,15 +217,15 @@ const NotesTab = React.memo(function NotesTab({ notes }: { notes: CrmNote[] }) {
   return (
     <div className="space-y-3">
       {notes.map((note) => (
-        <div key={note.id} className="rounded-xl p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+        <div key={note.id} className="rounded-[var(--app-radius-lg)] p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4 shrink-0" style={{ color: CSS.accent }} />
               <h4 className="text-sm font-medium" style={{ color: CSS.text }}>{note.title}</h4>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
-              {note.isPinned && <Pin className="w-3 h-3" style={{ color: CSS.accent }} />}
-              {note.isPrivate && <Lock className="w-3 h-3" style={{ color: CSS.textMuted }} />}
+              {note.isPinned && <Pin className="w-4 h-4" style={{ color: CSS.accent }} />}
+              {note.isPrivate && <Lock className="w-4 h-4" style={{ color: CSS.textMuted }} />}
             </div>
           </div>
           <p className="text-xs leading-relaxed line-clamp-3" style={{ color: CSS.textSecondary }}>{note.content}</p>
@@ -282,10 +282,10 @@ const AiInsightsTab = React.memo(function AiInsightsTab({
   return (
     <div className="space-y-3">
       {/* Next Best Action */}
-      <div className="rounded-xl p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+      <div className="rounded-[var(--app-radius-lg)] p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
         <div className="flex items-center gap-2">
           <div
-            className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0"
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0"
             style={{ backgroundColor: nextAction.bg, color: nextAction.color }}
           >
             {nextAction.icon}
@@ -298,11 +298,11 @@ const AiInsightsTab = React.memo(function AiInsightsTab({
       {/* General AI Insights */}
       {insights.length > 0 ? (
         insights.map((insight) => (
-          <div key={insight.id} className="rounded-xl p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
+          <div key={insight.id} className="rounded-[var(--app-radius-lg)] p-4 space-y-2" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}` }}>
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0" style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', color: '#6366f1' }}>
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0" style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', color: '#6366f1' }}>
+                  <Sparkles className="w-4 h-4" />
                 </div>
                 <h4 className="text-sm font-medium" style={{ color: CSS.text }}>{insight.title}</h4>
               </div>
@@ -312,15 +312,15 @@ const AiInsightsTab = React.memo(function AiInsightsTab({
             </div>
             <p className="text-xs leading-relaxed" style={{ color: CSS.textSecondary }}>{insight.description}</p>
             {insight.actionText && (
-              <Button variant="outline" size="sm" className="mt-1 text-xs h-7">
+              <Button variant="outline" size="sm" className="mt-1 text-xs h-8"">
                 {insight.actionText}
-                <ChevronRight className="w-3 h-3" />
+                <ChevronRight className="w-4 h-4" />
               </Button>
             )}
           </div>
         ))
       ) : (
-        <div className="flex flex-col items-center justify-center py-8 space-y-2">
+        <div className="flex flex-col items-center justify-center py-app-3xl space-y-2">
           <Sparkles className="w-8 h-8" style={{ color: CSS.textDisabled }} />
           <p className="text-sm" style={{ color: CSS.textMuted }}>No additional AI insights</p>
         </div>
@@ -442,7 +442,7 @@ export function CompanySidebar({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-50 h-full flex flex-col shadow-2xl w-[440px] max-w-[90vw]"
+            className="fixed top-0 right-0 z-50 h-full flex flex-col shadow-[var(--app-shadow-md)]-2xl w-[440px] max-w-[90vw]"
             style={{
               backgroundColor: CSS.bg,
               borderLeft: `1px solid ${CSS.border}`,
@@ -452,30 +452,30 @@ export function CompanySidebar({
             aria-label={`Company: ${company.name}`}
           >
             {/* ── Sticky Header ── */}
-            <div className="shrink-0 px-5 pt-5 pb-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
+            <div className="shrink-0 px-app-xl pt-5 pb-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3 min-w-0">
                   <div
-                    className="flex items-center justify-center w-11 h-11 rounded-xl shrink-0"
+                    className="flex items-center justify-center w-11 h-10  rounded-[var(--app-radius-lg)] shrink-0"
                     style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}
                   >
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <h2 className="text-base font-semibold truncate" style={{ color: CSS.text }}>
+                    <h2 className="text-sm font-semibold truncate" style={{ color: CSS.text }}>
                       {company.name}
                     </h2>
                     <div className="flex items-center gap-2 mt-1">
                       {company.website && (
                         <span className="text-xs flex items-center gap-1" style={{ color: CSS.textMuted }}>
-                          <Globe className="w-3 h-3" />
+                          <Globe className="w-4 h-4" />
                           {company.website}
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span
-                        className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium"
+                        className="inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium"
                         style={{ color: CSS.accent, backgroundColor: CSS.accentLight }}
                       >
                         {company.industry}
@@ -510,7 +510,7 @@ export function CompanySidebar({
             </div>
 
             {/* ── Tab Bar ── */}
-            <div className="shrink-0 px-5 relative" style={{ borderBottom: `1px solid ${CSS.border}` }}>
+            <div className="shrink-0 px-app-xl relative" style={{ borderBottom: `1px solid ${CSS.border}` }}>
               <div className="flex gap-1">
                 {TABS.map((tab) => (
                   <button
@@ -534,7 +534,7 @@ export function CompanySidebar({
             </div>
 
             {/* ── Tab Content ── */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-app-xl py-4">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -567,7 +567,7 @@ export function CompanySidebar({
             </div>
 
             {/* ── Footer ── */}
-            <div className="shrink-0 px-5 py-4 flex items-center gap-2" style={{ borderTop: `1px solid ${CSS.border}` }}>
+            <div className="shrink-0 px-app-xl py-4 flex items-center gap-2" style={{ borderTop: `1px solid ${CSS.border}` }}>
               <Button variant="outline" size="sm" onClick={onClose}>
                 Close
               </Button>
@@ -576,7 +576,7 @@ export function CompanySidebar({
                 size="sm"
                 onClick={() => console.log('View Contacts', company.name)}
               >
-                <Users className="w-3.5 h-3.5" />
+                <Users className="w-4 h-4" />
                 Contacts
               </Button>
               <Button
@@ -585,7 +585,7 @@ export function CompanySidebar({
                 style={{ backgroundColor: CSS.accent, color: '#fff' }}
                 onClick={() => console.log('Create Deal', company.name)}
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 Create Deal
               </Button>
             </div>

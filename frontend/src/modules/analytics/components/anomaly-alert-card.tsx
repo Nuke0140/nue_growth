@@ -100,14 +100,14 @@ export default function AnomalyAlertCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.25 }}
       className={cn(
-        'rounded-2xl border border-l-4 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
         config.borderColor,
       )}
     >
-      <div className="p-4 sm:p-5 space-y-3">
+      <div className="p-4 sm:p-app-xl space-y-3">
         {/* Header Row */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
@@ -148,7 +148,7 @@ export default function AnomalyAlertCard({
         {/* Metric Comparison */}
         <div
           className={cn(
-            'grid grid-cols-3 gap-2 rounded-xl p-3',
+            'grid grid-cols-3 gap-2 rounded-[var(--app-radius-lg)] p-3',
             'bg-[var(--app-hover-bg)]',
           )}
         >
@@ -199,7 +199,7 @@ export default function AnomalyAlertCard({
         <button
           onClick={() => setExpanded(!expanded)}
           className={cn(
-            'flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors text-left',
+            'flex w-full items-center justify-between rounded-[var(--app-radius-lg)] px-3 py-2 text-xs transition-colors text-left',
             isDark
               ? 'bg-white/[0.03] hover:bg-white/[0.05] text-zinc-400'
               : 'bg-black/[0.02] hover:bg-black/[0.03] text-zinc-500',

@@ -89,10 +89,10 @@ function ProfitabilityPageInner() {
     <PageShell title="Profitability" icon={BarChart2} headerRight={
       <div className="flex items-center gap-2">
         <Badge className={cn('text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border')}>
-          <Target className="w-3 h-3 mr-1" />
+          <Target className="w-4 h-4 mr-1" />
           Founder View
         </Badge>
-        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
         </div>
@@ -106,14 +106,14 @@ function ProfitabilityPageInner() {
             { label: 'Net Margin', value: `${kpis.netMargin}%`, icon: Target, change: kpis.netMargin, up: Number(kpis.netMargin) > 0, color: Number(kpis.netMargin) >= 10 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400' },
             { label: 'Burn Rate', value: `${formatCurrency(kpis.burnRate)}/mo`, icon: Flame, change: 'per month', up: false, color: 'text-orange-400' },
           ].map((kpi, i) => (
-            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><kpi.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} /></div>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><kpi.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></div>
               </div>
               <p className="text-xl font-bold">{kpi.value}</p>
               <div className="flex items-center gap-1 mt-1">
-                {kpi.up ? <ArrowUpRight className="w-3 h-3 text-emerald-500 dark:text-emerald-400" /> : <ArrowDownRight className="w-3 h-3 text-red-500 dark:text-red-400" />}
+                {kpi.up ? <ArrowUpRight className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> : <ArrowDownRight className="w-4 h-4 text-red-500 dark:text-red-400" />}
                 <span className={cn('text-[10px] font-medium', kpi.color)}>{kpi.change}</span>
               </div>
             </motion.div>
@@ -124,7 +124,7 @@ function ProfitabilityPageInner() {
           {/* Client Profitability Table */}
           <div className="xl:col-span-2 space-y-3">
             <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text-secondary)]')}>Client Profitability</h2>
-            <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -146,7 +146,7 @@ function ProfitabilityPageInner() {
                         <motion.tr key={client.clientId} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.03 }} className={cn('border-b last:border-0 transition-colors', isDark ? 'border-white/[0.03] hover:bg-white/[0.03]' : 'border-black/[0.03] hover:bg-black/[0.02]')}>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
-                              {isNegMargin && <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />}
+                              {isNegMargin && <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />}
                               <span className={cn('text-sm font-medium', isNegMargin && 'text-red-500 dark:text-red-400')}>{client.clientName}</span>
                             </div>
                           </td>
@@ -160,7 +160,7 @@ function ProfitabilityPageInner() {
                             <div className="flex items-center justify-end gap-2">
                               <span className={cn('text-xs font-bold', marginColor.text)}>{client.margin > 0 ? '+' : ''}{client.margin}%</span>
                               <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
-                                <div className={cn('h-full rounded-full transition-all', marginColor.bar)} style={{ width: `${Math.min(Math.abs(client.margin) * 2, 100)}%` }} />
+                                <div className={cn('h-full rounded-full transition-colors', marginColor.bar)} style={{ width: `${Math.min(Math.abs(client.margin) * 2, 100)}%` }} />
                               </div>
                             </div>
                           </td>
@@ -188,7 +188,7 @@ function ProfitabilityPageInner() {
           {/* Right Column */}
           <div className="space-y-4">
             {/* Profit by Service Type */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 Profit by Service
@@ -212,7 +212,7 @@ function ProfitabilityPageInner() {
             </motion.div>
 
             {/* Burn vs Revenue Chart */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
                   <Zap className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -260,7 +260,7 @@ function ProfitabilityPageInner() {
               const severity = getAlertSeverity(alert.severity);
               const SeverityIcon = severity.icon;
               return (
-                <motion.div key={alert.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.03 }} className={cn('rounded-2xl border p-3 flex items-start gap-3', severity.bg(isDark))}>
+                <motion.div key={alert.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.03 }} className={cn('rounded-[var(--app-radius-xl)] border p-3 flex items-start gap-3', severity.bg(isDark))}>
                   <SeverityIcon className={cn('w-4 h-4 shrink-0 mt-0.5', severity.color)} />
                   <div className="flex-1 min-w-0">
                     <p className={cn('text-[10px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>{alert.clientName}</p>

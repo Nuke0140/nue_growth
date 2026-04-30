@@ -21,7 +21,7 @@ function getStatusConfig(status: PayoutStatus, isDark: boolean) {
     case 'pending':
       return {
         label: 'Pending',
-        icon: <Clock className="w-3 h-3" />,
+        icon: <Clock className="w-4 h-4" />,
         dotColor: 'bg-amber-500',
         bgDark: 'bg-amber-500/15',
         bgLight: 'bg-amber-50',
@@ -33,7 +33,7 @@ function getStatusConfig(status: PayoutStatus, isDark: boolean) {
     case 'processing':
       return {
         label: 'Processing',
-        icon: <RefreshCw className="w-3 h-3 animate-spin" />,
+        icon: <RefreshCw className="w-4 h-4 animate-spin" />,
         dotColor: 'bg-blue-500',
         bgDark: 'bg-blue-500/15',
         bgLight: 'bg-blue-50',
@@ -45,7 +45,7 @@ function getStatusConfig(status: PayoutStatus, isDark: boolean) {
     case 'completed':
       return {
         label: 'Completed',
-        icon: <CheckCircle className="w-3 h-3" />,
+        icon: <CheckCircle className="w-4 h-4" />,
         dotColor: 'bg-emerald-500',
         bgDark: 'bg-emerald-500/15',
         bgLight: 'bg-emerald-50',
@@ -57,7 +57,7 @@ function getStatusConfig(status: PayoutStatus, isDark: boolean) {
     case 'failed':
       return {
         label: 'Failed',
-        icon: <XCircle className="w-3 h-3" />,
+        icon: <XCircle className="w-4 h-4" />,
         dotColor: 'bg-red-500',
         bgDark: 'bg-red-500/15',
         bgLight: 'bg-red-50',
@@ -69,7 +69,7 @@ function getStatusConfig(status: PayoutStatus, isDark: boolean) {
     case 'retrying':
       return {
         label: 'Retrying',
-        icon: <RefreshCw className="w-3 h-3 animate-spin" />,
+        icon: <RefreshCw className="w-4 h-4 animate-spin" />,
         dotColor: 'bg-orange-500',
         bgDark: 'bg-orange-500/15',
         bgLight: 'bg-orange-50',
@@ -124,7 +124,7 @@ export default function PayoutCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-4 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-white border-black/[0.06]',
@@ -135,7 +135,7 @@ export default function PayoutCard({
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center shrink-0',
+            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
             isDark ? 'bg-emerald-500/10' : 'bg-emerald-100'
           )}>
             <Banknote className="w-4 h-4 text-emerald-500" />
@@ -165,9 +165,9 @@ export default function PayoutCard({
 
       {/* Amount + Method */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-base font-bold text-emerald-500 tabular-nums">{formatAmount(amount)}</span>
+        <span className="text-sm font-bold text-emerald-500 tabular-nums">{formatAmount(amount)}</span>
         <span className={cn(
-          'inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border',
+          'inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium border',
           isDark
             ? 'bg-white/[0.04] text-white/50 border-white/[0.08]'
             : 'bg-black/[0.03] text-black/50 border-black/[0.08]'
@@ -182,13 +182,13 @@ export default function PayoutCard({
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className={cn(
-            'flex items-start gap-2 p-2.5 rounded-xl mt-2',
+            'flex items-start gap-2 p-2.5 rounded-[var(--app-radius-lg)] mt-2',
             isDark
               ? 'bg-red-500/[0.06] border border-red-500/[0.1]'
               : 'bg-red-50 border border-red-100'
           )}
         >
-          <AlertCircle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+          <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
           <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-danger)]')}>
             {failureReason}
           </p>

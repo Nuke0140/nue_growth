@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 // ── Shared skeleton pulse ──────────────────────────────
 
 const SKELETON_BASE =
-  'animate-pulse bg-[var(--app-hover-bg)] rounded-2xl';
+  'animate-pulse bg-[var(--app-hover-bg)] rounded-[var(--app-radius-xl)]';
 
 // ── SkeletonCard ───────────────────────────────────────
 
@@ -28,7 +28,7 @@ export function SkeletonCard({
       {/* Optional image placeholder */}
       {hasImage && (
         <div
-          className="w-full h-32 rounded-xl mb-4 bg-[var(--app-hover-bg)] animate-pulse"
+          className="w-full h-32 rounded-[var(--app-radius-lg)] mb-4 bg-[var(--app-hover-bg)] animate-pulse"
         />
       )}
 
@@ -36,19 +36,19 @@ export function SkeletonCard({
         {/* Optional avatar */}
         {hasAvatar && (
           <div
-            className="w-9 h-9 rounded-full shrink-0 bg-[var(--app-hover-bg)] animate-pulse"
+            className="w-9 h-10  rounded-full shrink-0 bg-[var(--app-hover-bg)] animate-pulse"
           />
         )}
 
         <div className="flex-1 min-w-0 space-y-2.5">
           {/* Title line */}
-          <div className="h-4 w-3/5 rounded-lg bg-[var(--app-border-strong)] animate-pulse" />
+          <div className="h-4 w-3/5 rounded-[var(--app-radius-lg)] bg-[var(--app-border-strong)] animate-pulse" />
           {/* Body lines */}
           {Array.from({ length: lines }).map((_, i) => (
             <div
               key={i}
               className={cn(
-                'h-3 rounded-lg bg-[var(--app-hover-bg)] animate-pulse',
+                'h-3 rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] animate-pulse',
                 i === lines - 1 ? 'w-2/5' : 'w-full'
               )}
             />
@@ -79,7 +79,7 @@ export function SkeletonTable({
         {Array.from({ length: columns }).map((_, i) => (
           <div
             key={`head-${i}`}
-            className="h-3 rounded-lg bg-[var(--app-border-strong)] animate-pulse"
+            className="h-3 rounded-[var(--app-radius-lg)] bg-[var(--app-border-strong)] animate-pulse"
             style={{ width: `${60 + ((i * 17) % 40)}%` }}
           />
         ))}
@@ -97,7 +97,7 @@ export function SkeletonTable({
           {Array.from({ length: columns }).map((_, c) => (
             <div
               key={`cell-${r}-${c}`}
-              className="h-3 rounded-lg bg-[var(--app-hover-bg)] animate-pulse"
+              className="h-3 rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] animate-pulse"
               style={{ width: `${50 + ((c * 19 + r * 7) % 50)}%` }}
             />
           ))}
@@ -118,11 +118,11 @@ export function SkeletonKPI({ className }: SkeletonKPIProps) {
     <div className={cn(SKELETON_BASE, 'p-6', className)}>
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-2 min-w-0">
-          <div className="h-3 w-24 rounded-lg bg-[var(--app-border-strong)] animate-pulse" />
-          <div className="h-8 w-20 rounded-lg bg-[var(--app-border-strong)] animate-pulse" />
-          <div className="h-3 w-16 rounded-lg bg-[var(--app-hover-bg)] animate-pulse" />
+          <div className="h-3 w-24 rounded-[var(--app-radius-lg)] bg-[var(--app-border-strong)] animate-pulse" />
+          <div className="h-8 w-20 rounded-[var(--app-radius-lg)] bg-[var(--app-border-strong)] animate-pulse" />
+          <div className="h-3 w-16 rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] animate-pulse" />
         </div>
-        <div className="w-11 h-11 rounded-xl bg-[var(--app-hover-bg)] animate-pulse shrink-0" />
+        <div className="w-11 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] animate-pulse shrink-0" />
       </div>
     </div>
   );

@@ -337,7 +337,7 @@ function EmployeesPageInner() {
   return (
     <>
     <PageShell title="Employees" icon={Users} createType="employee">
-      <div className="space-y-5">
+      <div className="space-y-app-xl">
         {/* ---- Filters & Search ---- */}
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -360,7 +360,7 @@ function EmployeesPageInner() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   onClick={clearAllFilters}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium shrink-0 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium shrink-0 transition-colors"
                   style={{
                     color: 'var(--app-danger)',
                     backgroundColor: 'rgba(248, 113, 113, 0.08)',
@@ -368,7 +368,7 @@ function EmployeesPageInner() {
                   }}
                   title="Clear all filters"
                 >
-                  <FilterX className="w-3.5 h-3.5" />
+                  <FilterX className="w-4 h-4" />
                   Clear All
                 </motion.button>
               )}
@@ -406,10 +406,10 @@ function EmployeesPageInner() {
               </Select>
             </div>
             {/* View mode toggle */}
-            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-[var(--app-radius-lg)]" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
               <button
                 onClick={() => setViewMode('table')}
-                className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-md)] transition-colors"
                 style={{
                   backgroundColor: viewMode === 'table' ? 'var(--app-hover-bg)' : 'transparent',
                   color: viewMode === 'table' ? 'var(--app-text)' : 'var(--app-text-muted)',
@@ -420,7 +420,7 @@ function EmployeesPageInner() {
               </button>
               <button
                 onClick={() => setViewMode('grid')}
-                className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-md)] transition-colors"
                 style={{
                   backgroundColor: viewMode === 'grid' ? 'var(--app-hover-bg)' : 'transparent',
                   color: viewMode === 'grid' ? 'var(--app-text)' : 'var(--app-text-muted)',
@@ -480,10 +480,10 @@ function EmployeesPageInner() {
                     {stat.label}
                   </span>
                   <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center"
+                    className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
                     style={{ backgroundColor: 'var(--app-hover-bg)' }}
                   >
-                    <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
+                    <stat.icon className="w-4 h-4" style={{ color: stat.color }} />
                   </div>
                 </div>
                 <p className="text-xl font-bold" style={{ color: stat.color }}>
@@ -528,7 +528,7 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-1.5">
                             Name
                             <ArrowUpDown
-                              className="w-3.5 h-3.5"
+                              className="w-4 h-4"
                               style={{ opacity: sortKey === 'name' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
@@ -546,7 +546,7 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-1.5">
                             Email
                             <ArrowUpDown
-                              className="w-3.5 h-3.5"
+                              className="w-4 h-4"
                               style={{ opacity: sortKey === 'email' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
@@ -560,7 +560,7 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-1.5">
                             Department
                             <ArrowUpDown
-                              className="w-3.5 h-3.5"
+                              className="w-4 h-4"
                               style={{ opacity: sortKey === 'department' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
@@ -574,7 +574,7 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-1.5">
                             Role
                             <ArrowUpDown
-                              className="w-3.5 h-3.5"
+                              className="w-4 h-4"
                               style={{ opacity: sortKey === 'designation' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
@@ -588,7 +588,7 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-1.5">
                             Status
                             <ArrowUpDown
-                              className="w-3.5 h-3.5"
+                              className="w-4 h-4"
                               style={{ opacity: sortKey === 'status' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
@@ -654,7 +654,7 @@ function EmployeesPageInner() {
                                       onChange={(e) => setEditingName(e.target.value)}
                                       onBlur={saveInlineEdit}
                                       onKeyDown={handleInlineKeyDown}
-                                      className="text-sm font-medium px-2 py-1 rounded-md w-full max-w-[200px]"
+                                      className="text-sm font-medium px-2 py-1 rounded-[var(--app-radius-md)] w-full max-w-[200px]"
                                       style={{
                                         backgroundColor: 'var(--app-hover-bg)',
                                         border: '1px solid var(--app-accent)',
@@ -667,7 +667,7 @@ function EmployeesPageInner() {
                                       className="flex items-center justify-center w-6 h-6 rounded"
                                       style={{ backgroundColor: 'var(--app-success)', color: '#fff' }}
                                     >
-                                      <Check className="w-3.5 h-3.5" />
+                                      <Check className="w-4 h-4" />
                                     </button>
                                   </div>
                                 ) : (
@@ -750,7 +750,7 @@ function EmployeesPageInner() {
                                 <DropdownMenu>
                                   <DropdownMenuTrigger asChild>
                                     <button
-                                      className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+                                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
                                       style={{ color: 'var(--app-text-muted)' }}
                                       onMouseEnter={(e) => {
                                         (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)';
@@ -838,7 +838,7 @@ function EmployeesPageInner() {
               transition={{ duration: 0.2 }}
             >
               {paged.length === 0 ? (
-                <div className="app-card p-12 text-center">
+                <div className="app-card p-app-4xl text-center">
                   <Users className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--app-text-muted)' }} />
                   <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
                     No employees found. Try adjusting your search or filters.
@@ -857,7 +857,7 @@ function EmployeesPageInner() {
                         transition={{ delay: idx * 0.03, duration: 0.25 }}
                       >
                         <div
-                          className="app-card app-glow p-5 cursor-pointer transition-all"
+                          className="app-card app-glow p-app-xl cursor-pointer transition-colors"
                           style={{
                             border: isSelected ? '1px solid var(--app-accent)' : undefined,
                             backgroundColor: isSelected
@@ -883,7 +883,7 @@ function EmployeesPageInner() {
                                 </Avatar>
                                 {/* Status dot */}
                                 <span
-                                  className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"
+                                  className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2"
                                   style={{
                                     backgroundColor: getStatusDotColor(emp.status),
                                     borderColor: 'var(--app-card-bg)',
@@ -943,7 +943,7 @@ function EmployeesPageInner() {
                           {/* Bottom row: projects + productivity */}
                           <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--app-border)' }}>
                             <div className="flex items-center gap-1.5">
-                              <FolderKanban className="w-3.5 h-3.5" style={{ color: 'var(--app-accent)' }} />
+                              <FolderKanban className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                               <span className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                                 {emp.activeProjects} Projects
                               </span>
@@ -954,7 +954,7 @@ function EmployeesPageInner() {
                                 style={{ backgroundColor: 'var(--app-hover-bg)', width: '60px' }}
                               >
                                 <div
-                                  className="h-full rounded-full transition-all"
+                                  className="h-full rounded-full transition-colors"
                                   style={{
                                     width: `${emp.productivityScore}%`,
                                     backgroundColor: getBarColor(emp.productivityScore),

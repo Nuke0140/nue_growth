@@ -46,18 +46,18 @@ export default function FinanceKpiCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'relative rounded-2xl border p-4 shadow-sm overflow-hidden',
+        'relative rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-white border-black/[0.06]',
-        severity === 'critical' && 'shadow-red-500/10',
-        severity === 'warning' && 'shadow-amber-500/10'
+        severity === 'critical' && 'shadow-[var(--app-shadow-md)]-red-500/10',
+        severity === 'warning' && 'shadow-[var(--app-shadow-md)]-amber-500/10'
       )}
     >
       {/* Severity glow pulse */}
       {severity === 'critical' && (
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-[var(--app-radius-xl)]"
           animate={{
             boxShadow: [
               '0 0 15px rgba(239,68,68,0.06)',
@@ -70,7 +70,7 @@ export default function FinanceKpiCard({
       )}
       {severity === 'warning' && (
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-[var(--app-radius-xl)]"
           animate={{
             boxShadow: [
               '0 0 12px rgba(245,158,11,0.06)',
@@ -85,11 +85,11 @@ export default function FinanceKpiCard({
       <div className="flex items-start justify-between mb-3">
         <div
           className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center',
+            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
             isDark ? (bg || 'bg-white/[0.06]') : (bg || 'bg-black/[0.04]')
           )}
         >
-          <Icon className={cn('w-4.5 h-4.5', color)} />
+          <Icon className={cn('w-5 h-5', color)} />
         </div>
         {severity !== 'normal' && (
           <AlertTriangle
@@ -112,13 +112,13 @@ export default function FinanceKpiCard({
         <div className="flex items-center gap-1.5">
           <div
             className={cn(
-              'flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-semibold',
+              'flex items-center gap-0.5 px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-semibold',
               isPositive
                 ? 'bg-[var(--app-success-bg)] text-[var(--app-success)]'
                 : 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]'
             )}
           >
-            {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+            {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
             {isPositive ? '+' : ''}
             {typeof change === 'number' ? change.toFixed(1) : change}%
           </div>

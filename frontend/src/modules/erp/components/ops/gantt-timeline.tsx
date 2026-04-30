@@ -109,7 +109,7 @@ function TaskTooltip({
       style={{ left: position.x, top: position.y, transform: 'translate(-50%, -110%)' }}
     >
       <div
-        className="rounded-lg px-3 py-2.5 shadow-2xl border min-w-[200px]"
+        className="rounded-[var(--app-radius-lg)] px-3 py-2.5 shadow-[var(--app-shadow-md)]-2xl border min-w-[200px]"
         style={{
           backgroundColor: 'var(--app-elevated)',
           borderColor: 'var(--app-border-strong)',
@@ -117,11 +117,11 @@ function TaskTooltip({
       >
         <p className="text-xs font-semibold" style={{ color: 'var(--app-text)' }}>{task.name}</p>
         <div className="flex items-center gap-1.5 mt-1.5">
-          <User className="w-3 h-3" style={{ color: 'var(--app-text-muted)' }} />
+          <User className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>{task.assignee}</span>
         </div>
         <div className="flex items-center gap-1.5 mt-1">
-          <Calendar className="w-3 h-3" style={{ color: 'var(--app-text-muted)' }} />
+          <Calendar className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>
             {totalDays} days total · {remainingDays} remaining
           </span>
@@ -258,13 +258,13 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
   return (
     <div className="app-card p-0 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--app-border)' }}>
+      <div className="flex items-center justify-between px-app-xl py-4" style={{ borderBottom: '1px solid var(--app-border)' }}>
         <div className="flex items-center gap-3">
           <div
-            className="flex items-center justify-center w-9 h-9 rounded-xl"
+            className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
             style={{ backgroundColor: 'var(--app-accent-light)' }}
           >
-            <Calendar className="w-4.5 h-4.5" style={{ color: 'var(--app-accent)' }} />
+            <Calendar className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
           </div>
           <div>
             <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
@@ -281,7 +281,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
           <button
             onClick={() => setIsMobileView((v) => !v)}
             className={cn(
-              'p-1.5 rounded-lg transition-colors md:hidden',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors md:hidden',
               isMobileView
                 ? 'bg-[var(--app-accent-light)]'
                 : 'hover:bg-[var(--app-hover-bg)]'
@@ -293,7 +293,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
 
           {/* Zoom controls */}
           <div
-            className="hidden md:flex items-center rounded-lg overflow-hidden"
+            className="hidden md:flex items-center rounded-[var(--app-radius-lg)] overflow-hidden"
             style={{ border: '1px solid var(--app-border)' }}
           >
             {(['week', 'month', 'quarter'] as ZoomLevel[]).map((z) => (
@@ -324,7 +324,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
             <div className="flex" style={{ borderBottom: '1px solid var(--app-border)' }}>
               {/* Task label column */}
               <div
-                className="shrink-0 px-5 py-2"
+                className="shrink-0 px-app-xl py-2"
                 style={{
                   width: 220,
                   borderBottom: '1px solid var(--app-border)',
@@ -470,7 +470,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                   >
                     {/* Task label */}
                     <div
-                      className="shrink-0 flex items-center gap-2 px-5 overflow-hidden"
+                      className="shrink-0 flex items-center gap-2 px-app-xl overflow-hidden"
                       style={{ width: 220 }}
                     >
                       <button
@@ -479,9 +479,9 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                         style={{ color: 'var(--app-text-muted)' }}
                       >
                         {isExpanded ? (
-                          <ChevronDown className="w-3.5 h-3.5" />
+                          <ChevronDown className="w-4 h-4" />
                         ) : (
-                          <ChevronRight className="w-3.5 h-3.5" />
+                          <ChevronRight className="w-4 h-4" />
                         )}
                       </button>
                       <div className="min-w-0">
@@ -503,7 +503,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                     {/* Gantt bar area */}
                     <div className="relative flex-1 h-full">
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 h-7 rounded-md cursor-pointer overflow-hidden transition-shadow group-hover:shadow-lg"
+                        className="absolute top-1/2 -translate-y-1/2 h-8  rounded-[var(--app-radius-md)] cursor-pointer overflow-hidden transition-shadow group-hover:shadow-[var(--app-shadow-md)]-lg"
                         style={{
                           left: pos.clampedLeft,
                           width: Math.max(pos.width, dayWidth * 2),
@@ -518,7 +518,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                           initial={{ width: 0 }}
                           animate={{ width: `${task.progress}%` }}
                           transition={{ duration: 0.6, delay: idx * 0.05 }}
-                          className="h-full rounded-md"
+                          className="h-full rounded-[var(--app-radius-md)]"
                           style={{ backgroundColor: colors.fill }}
                         />
                         {/* Label on bar */}
@@ -550,7 +550,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: idx * 0.04 }}
-                className="p-3 rounded-lg"
+                className="p-3 rounded-[var(--app-radius-lg)]"
                 style={{
                   backgroundColor: 'rgba(255,255,255,0.03)',
                   border: '1px solid var(--app-border)',

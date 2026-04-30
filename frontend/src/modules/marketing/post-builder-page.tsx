@@ -77,7 +77,7 @@ export default function PostBuilderPage() {
 
   // ---- Platform Previews ----
   const renderInstagramPreview = () => (
-    <div className="rounded-lg overflow-hidden border max-w-[280px]">
+    <div className="rounded-[var(--app-radius-lg)] overflow-hidden border max-w-[280px]">
       <div className="w-full aspect-square bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 flex items-center justify-center">
         {mediaUploaded ? (
           <CheckCircle2 className="w-12 h-12 text-white" />
@@ -87,7 +87,7 @@ export default function PostBuilderPage() {
       </div>
       <div className="p-3 space-y-2">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-pink-500" />
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500" />
           <span className="text-xs font-semibold">diginue_official</span>
         </div>
         <p className="text-[11px] leading-relaxed line-clamp-3">
@@ -99,7 +99,7 @@ export default function PostBuilderPage() {
   );
 
   const renderFacebookPreview = () => (
-    <div className="rounded-lg border max-w-[300px] p-3 space-y-2">
+    <div className="rounded-[var(--app-radius-lg)] border max-w-[300px] p-3 space-y-2">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">D</div>
         <div>
@@ -124,7 +124,7 @@ export default function PostBuilderPage() {
   );
 
   const renderTwitterPreview = () => (
-    <div className="rounded-lg border max-w-[300px] p-3 space-y-2">
+    <div className="rounded-[var(--app-radius-lg)] border max-w-[300px] p-3 space-y-2">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white text-xs font-bold">D</div>
         <div>
@@ -135,7 +135,7 @@ export default function PostBuilderPage() {
         {fullCaption || 'Your tweet will appear here...'}
       </p>
       {mediaUploaded && (
-        <div className="w-full h-36 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
+        <div className="w-full h-36 rounded-[var(--app-radius-lg)] bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
           <ImagePlus className="w-8 h-8 text-sky-400" />
         </div>
       )}
@@ -148,7 +148,7 @@ export default function PostBuilderPage() {
   );
 
   const renderLinkedInPreview = () => (
-    <div className="rounded-lg border max-w-[300px] p-3 space-y-2">
+    <div className="rounded-[var(--app-radius-lg)] border max-w-[300px] p-3 space-y-2">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded bg-blue-700 flex items-center justify-center text-white text-xs font-bold">D</div>
         <div>
@@ -184,7 +184,7 @@ export default function PostBuilderPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -220,9 +220,9 @@ export default function PostBuilderPage() {
               transition={{ delay: i * 0.04, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setSelectedPlatform(platform.id)}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-white shadow-lg border border-black/5 text-gray-900'
+                  ? 'bg-white shadow-[var(--app-shadow-md)]-lg border border-black/5 text-gray-900'
                   : isDark
                     ? 'bg-white/[0.04] border border-white/[0.06] text-white/60 hover:bg-white/[0.08] hover:text-white/80'
                     : 'bg-black/[0.03] border border-black/[0.06] text-black/50 hover:bg-black/[0.06] hover:text-black/70',
@@ -235,15 +235,15 @@ export default function PostBuilderPage() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
         {/* Left Column — Editor */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-app-xl">
           {/* Caption Editor */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -260,7 +260,7 @@ export default function PostBuilderPage() {
               placeholder={`Write your ${activePlatform.label} caption here...`}
               rows={6}
               className={cn(
-                'w-full rounded-xl border p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition',
+                'w-full rounded-[var(--app-radius-lg)] border p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition',
                 isDark
                   ? 'bg-white/[0.03] border-white/[0.06] text-white placeholder:text-white/30'
                   : 'bg-black/[0.02] border-black/[0.06] text-gray-900 placeholder:text-black/30',
@@ -289,7 +289,7 @@ export default function PostBuilderPage() {
                       key={idx}
                       onClick={() => handleApplySuggestion(s)}
                       className={cn(
-                        'w-full text-left p-3 rounded-xl border text-xs leading-relaxed transition hover:shadow-md',
+                        'w-full text-left p-3 rounded-[var(--app-radius-lg)] border text-xs leading-relaxed transition hover:shadow-[var(--app-shadow-md)]-md',
                         isDark
                           ? 'bg-white/[0.03] border-white/[0.06] text-white/70 hover:bg-white/[0.06]'
                           : 'bg-black/[0.01] border-black/[0.06] text-gray-700 hover:bg-black/[0.03]',
@@ -308,7 +308,7 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-3">
               <Hash className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -340,7 +340,7 @@ export default function PostBuilderPage() {
                   key={tag}
                   onClick={() => handleAddHashtag(tag)}
                   className={cn(
-                    'text-xs px-2.5 py-1 rounded-lg border transition hover:shadow-sm',
+                    'text-xs px-2.5 py-1 rounded-[var(--app-radius-lg)] border transition hover:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                     isDark
                       ? 'bg-white/[0.04] border-white/[0.06] text-white/60 hover:bg-white/[0.08] hover:text-white/80'
                       : 'bg-black/[0.03] border-black/[0.06] text-black/50 hover:bg-black/[0.06] hover:text-black/70',
@@ -357,13 +357,13 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <h3 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>Media Upload</h3>
             <button
               onClick={() => setMediaUploaded(!mediaUploaded)}
               className={cn(
-                'w-full border-2 border-dashed rounded-xl p-8 flex flex-col items-center gap-2 transition',
+                'w-full border-2 border-dashed rounded-[var(--app-radius-lg)] p-app-3xl flex flex-col items-center gap-2 transition',
                 mediaUploaded
                   ? 'border-green-500/50 bg-green-500/5'
                   : isDark
@@ -393,13 +393,13 @@ export default function PostBuilderPage() {
         </div>
 
         {/* Right Column — Preview & Schedule */}
-        <div className="space-y-5">
+        <div className="space-y-app-xl">
           {/* Platform Preview */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Eye className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -417,7 +417,7 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-amber-500" />
@@ -435,7 +435,7 @@ export default function PostBuilderPage() {
                   <div
                     key={day}
                     className={cn(
-                      'text-center py-1.5 rounded-lg text-[10px] font-medium',
+                      'text-center py-1.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium',
                       isHot
                         ? 'bg-green-500/15 text-green-600'
                         : isWarm
@@ -455,7 +455,7 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-3">
               <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -469,7 +469,7 @@ export default function PostBuilderPage() {
                   value={scheduledDate}
                   onChange={e => setScheduledDate(e.target.value)}
                   className={cn(
-                    'w-full rounded-xl border p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30',
+                    'w-full rounded-[var(--app-radius-lg)] border p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] text-white'
                       : 'bg-black/[0.02] border-black/[0.06] text-gray-900',
@@ -483,7 +483,7 @@ export default function PostBuilderPage() {
                   value={scheduledTime}
                   onChange={e => setScheduledTime(e.target.value)}
                   className={cn(
-                    'w-full rounded-xl border p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30',
+                    'w-full rounded-[var(--app-radius-lg)] border p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] text-white'
                       : 'bg-black/[0.02] border-black/[0.06] text-gray-900',
@@ -508,7 +508,7 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <h4 className={cn('text-xs font-semibold mb-3', 'text-[var(--app-text)]')}>Post Checklist</h4>
             <div className="space-y-2.5">
@@ -520,7 +520,7 @@ export default function PostBuilderPage() {
               ].map(item => (
                 <div key={item.label} className="flex items-center gap-2">
                   <div className={cn('w-4 h-4 rounded-full flex items-center justify-center', item.done ? 'bg-green-500' : 'bg-[var(--app-hover-bg)]')}>
-                    {item.done && <CheckCircle2 className="w-3 h-3 text-white" />}
+                    {item.done && <CheckCircle2 className="w-4 h-4 text-white" />}
                   </div>
                   <span className={cn('text-xs', item.done ? ('text-[var(--app-text-secondary)]') : ('text-[var(--app-text-muted)]'))}>
                     {item.label}

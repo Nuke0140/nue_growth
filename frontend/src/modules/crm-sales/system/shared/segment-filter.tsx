@@ -62,10 +62,10 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl p-6 transition-all duration-300 group cursor-default',
+        'rounded-[var(--app-radius-xl)] p-6 transition-colors duration-200 group cursor-default',
         isDark
           ? 'bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12]'
-          : 'bg-white border border-black/[0.06] hover:border-black/[0.12] shadow-sm'
+          : 'bg-white border border-black/[0.06] hover:border-black/[0.12] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
       )}
     >
       {/* Header */}
@@ -97,12 +97,12 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
           </span>
         </div>
         <div className={cn(
-          'flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-medium',
+          'flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-lg)] text-xs font-medium',
           isGrowing
             ? 'text-emerald-400 bg-emerald-500/10'
             : 'text-red-400 bg-red-500/10'
         )}>
-          {isGrowing ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          {isGrowing ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
           {Math.abs(segment.growthTrend)}%
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
               animate={{ height: `${height}%` }}
               transition={{ duration: 0.5, delay: index * 0.06 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'flex-1 rounded-md min-h-[4px] transition-colors',
+                'flex-1 rounded-[var(--app-radius-md)] min-h-[4px] transition-colors',
                 isLast
                   ? isDark ? 'bg-white/30' : 'bg-black/30'
                   : 'bg-[var(--app-hover-bg)]'
@@ -132,7 +132,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
 
       {/* Rules */}
       <div className={cn(
-        'rounded-xl p-3 mb-4 space-y-2',
+        'rounded-[var(--app-radius-lg)] p-3 mb-4 space-y-2',
         isDark ? 'bg-white/[0.02] border border-white/[0.04]' : 'bg-black/[0.02] border border-black/[0.04]'
       )}>
         {segment.rules.map((rule, i) => (
@@ -167,7 +167,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <RefreshCw className={cn(
-            'w-3 h-3',
+            'w-4 h-4',
             segment.isSyncedToCampaign
               ? 'text-emerald-400'
               : 'text-[var(--app-text-disabled)]'
@@ -188,14 +188,14 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
           size="sm"
           onClick={() => navigateTo('contacts')}
           className={cn(
-            'text-xs h-7 px-3 rounded-lg gap-1',
+            'text-xs h-8  px-3 rounded-[var(--app-radius-lg)] gap-1',
             isDark
               ? 'text-white/50 hover:text-white hover:bg-white/[0.06]'
               : 'text-black/50 hover:text-black hover:bg-black/[0.04]'
           )}
         >
           View Contacts
-          <ArrowRight className="w-3 h-3" />
+          <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
 
@@ -205,7 +205,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
           variant="outline"
           size="sm"
           className={cn(
-            'w-full mt-3 text-xs h-8 rounded-lg',
+            'w-full mt-3 text-xs h-8 rounded-[var(--app-radius-lg)]',
             isDark
               ? 'border-purple-500/20 text-purple-400 hover:bg-purple-500/10 hover:text-purple-300'
               : 'border-purple-500/20 text-purple-600 hover:bg-purple-500/5 hover:text-purple-500'

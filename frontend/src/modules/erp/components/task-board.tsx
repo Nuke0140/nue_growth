@@ -88,7 +88,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: stageIndex * 0.05 }}
               className={cn(
-                'w-[280px] flex-shrink-0 rounded-2xl border flex flex-col',
+                'w-[280px] flex-shrink-0 rounded-[var(--app-radius-xl)] border flex flex-col',
                 isBlockedColumn
                   ? 'bg-red-50/50 dark:bg-red-500/[0.03] border-red-200/50 dark:border-red-500/[0.1]'
                   : 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -121,7 +121,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               <ScrollArea className="flex-1 px-2 py-2">
                 <div className="flex flex-col gap-2">
                   {stageTasks.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-8 px-4 rounded-xl text-center text-[var(--app-text-disabled)]">
+                    <div className="flex flex-col items-center justify-center py-app-3xl px-4 rounded-[var(--app-radius-lg)] text-center text-[var(--app-text-disabled)]">
                       <div className="w-8 h-8 rounded-full mb-2 flex items-center justify-center bg-[var(--app-hover-bg)]">
                         <StageIcon className="w-4 h-4" />
                       </div>
@@ -138,7 +138,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => onTaskClick?.(task.id)}
                       className={cn(
-                        'p-3 rounded-xl border cursor-pointer transition-colors duration-150 shadow-sm',
+                        'p-3 rounded-[var(--app-radius-lg)] border cursor-pointer transition-colors duration-150 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)]'
                       )}
                     >
@@ -177,7 +177,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
 
                           {/* Blocked Indicator */}
                           {task.isBlocked && (
-                            <AlertCircle className="w-3 h-3 text-red-500" />
+                            <AlertCircle className="w-4 h-4 text-red-500" />
                           )}
 
                           {/* Due Date */}

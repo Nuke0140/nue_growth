@@ -120,14 +120,14 @@ function AssetManagementPageInner() {
   return (
     <PageShell title="Asset Management" icon={Monitor} headerRight={
       <div className="flex items-center gap-2">
-        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           <input type="text" placeholder="Search assets..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
         </div>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className={cn('h-9 w-9 rounded-xl flex items-center justify-center shrink-0', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+              <button className={cn('h-10  w-9 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                 <Plus className="w-4 h-4" />
               </button>
             </TooltipTrigger>
@@ -138,12 +138,12 @@ function AssetManagementPageInner() {
     }>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
             return (
-              <button key={filter.key} onClick={() => { setActiveFilter(filter.key); setCurrentPage(1); }} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200', isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'))}>
-                <filter.icon className="w-3.5 h-3.5" />
+              <button key={filter.key} onClick={() => { setActiveFilter(filter.key); setCurrentPage(1); }} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200', isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'))}>
+                <filter.icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{filter.label}</span>
                 <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? ('bg-[var(--app-hover-bg)]') : ('bg-[var(--app-hover-bg)]'))}>{filter.count}</span>
               </button>
@@ -159,10 +159,10 @@ function AssetManagementPageInner() {
             { label: 'In Repair', value: stats.inRepair, icon: AlertTriangle },
             { label: 'Total Value', value: formatCurrency(stats.totalValue), icon: IndianRupee },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><stat.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} /></div>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
             </motion.div>
@@ -170,7 +170,7 @@ function AssetManagementPageInner() {
         </div>
 
         {/* Table */}
-        <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -191,7 +191,7 @@ function AssetManagementPageInner() {
                   <TableRow>
                     <TableCell colSpan={9} className="h-48 text-center">
                       <div className="flex flex-col items-center gap-3">
-                        <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><Monitor className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} /></div>
+                        <div className={cn('w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><Monitor className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} /></div>
                         <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>No assets found</p>
                       </div>
                     </TableCell>
@@ -205,7 +205,7 @@ function AssetManagementPageInner() {
                       <motion.tr key={asset.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.03 }} className={cn('border-b cursor-pointer transition-colors duration-150 last:border-0', isDark ? 'border-white/[0.03] hover:bg-white/[0.04]' : 'border-black/[0.03] hover:bg-black/[0.02]')}>
                         <TableCell className="px-3">
                           <div className="flex items-center gap-2.5">
-                            <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                            <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                               <TypeIcon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                             </div>
                             <span className="text-sm font-medium">{asset.name}</span>
@@ -232,7 +232,7 @@ function AssetManagementPageInner() {
                         <TableCell className="hidden lg:table-cell px-3">
                           {asset.issueLogs.length > 0 ? (
                             <div className="flex items-center gap-1">
-                              <FileWarning className={cn('w-3.5 h-3.5', unresolvedIssues > 0 ? 'text-red-500 dark:text-red-400' : ('text-[var(--app-text-muted)]'))} />
+                              <FileWarning className={cn('w-4 h-4', unresolvedIssues > 0 ? 'text-red-500 dark:text-red-400' : ('text-[var(--app-text-muted)]'))} />
                               <span className={cn('text-xs', unresolvedIssues > 0 ? 'text-red-500 dark:text-red-400 font-medium' : ('text-[var(--app-text-secondary)]'))}>{asset.issueLogs.length}</span>
                             </div>
                           ) : (
@@ -242,7 +242,7 @@ function AssetManagementPageInner() {
                         <TableCell className="px-3">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <button onClick={(e) => e.stopPropagation()} className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}><MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></button>
+                              <button onClick={(e) => e.stopPropagation()} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}><MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem>View Details</DropdownMenuItem>
@@ -266,8 +266,8 @@ function AssetManagementPageInner() {
             <div className={cn('flex items-center justify-between px-4 py-3 border-t', 'border-[var(--app-border-light)]')}>
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}</p>
               <div className="flex items-center gap-1">
-                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsLeft className="w-4 h-4" /></button>
-                <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronLeft className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsLeft className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronLeft className="w-4 h-4" /></button>
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                   let pageNum: number;
                   if (totalPages <= 5) pageNum = i + 1;
@@ -275,11 +275,11 @@ function AssetManagementPageInner() {
                   else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
                   else pageNum = currentPage - 2 + i;
                   return (
-                    <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors', currentPage === pageNum ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]') : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]'))}>{pageNum}</button>
+                    <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-medium transition-colors', currentPage === pageNum ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]') : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]'))}>{pageNum}</button>
                   );
                 })}
-                <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronRight className="w-4 h-4" /></button>
-                <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsRight className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronRight className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsRight className="w-4 h-4" /></button>
               </div>
             </div>
           )}

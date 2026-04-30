@@ -261,14 +261,14 @@ function DelayPrediction({
 
         {isOnTime ? (
           <div className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" style={{ color: '#22c55e' }} />
+            <CheckCircle2 className="w-4 h-4" style={{ color: '#22c55e' }} />
             <span className="text-[11px] font-medium" style={{ color: '#22c55e' }}>
               On Track
             </span>
           </div>
         ) : (
           <div className="flex items-center gap-1.5">
-            <CalendarClock className="w-3.5 h-3.5" style={{ color: '#ef4444' }} />
+            <CalendarClock className="w-4 h-4" style={{ color: '#ef4444' }} />
             <span className="text-[11px] font-medium" style={{ color: '#ef4444' }}>
               {delayDays} days late expected
             </span>
@@ -312,7 +312,7 @@ function DelayPrediction({
               >
                 {m.current ? (
                   <motion.div
-                    className="w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                    className="w-4 h-4 rounded-full flex items-center justify-center"
                     style={{
                       backgroundColor: '#f59e0b',
                       boxShadow: '0 0 8px rgba(245,158,11,0.5)',
@@ -327,7 +327,7 @@ function DelayPrediction({
                   </motion.div>
                 ) : m.completed ? (
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="w-4 h-4 rounded-full"
                     style={{
                       backgroundColor: '#22c55e',
                       boxShadow: '0 0 4px rgba(34,197,94,0.4)',
@@ -335,7 +335,7 @@ function DelayPrediction({
                   />
                 ) : (
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="w-4 h-4 rounded-full"
                     style={{
                       backgroundColor: 'var(--app-border-strong)',
                       border: '1.5px solid rgba(255,255,255,0.2)',
@@ -363,14 +363,14 @@ function DelayPrediction({
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mt-3 p-2.5 rounded-lg flex items-center gap-3"
+          className="mt-3 p-2.5 rounded-[var(--app-radius-lg)] flex items-center gap-3"
           style={{
             backgroundColor: 'rgba(239,68,68,0.06)',
             border: '1px solid var(--app-danger-bg)',
           }}
         >
           <div
-            className="flex items-center justify-center w-8 h-8 rounded-lg"
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)]"
             style={{ backgroundColor: 'var(--app-danger-bg)' }}
           >
             <AlertCircle className="w-4 h-4" style={{ color: '#ef4444' }} />
@@ -421,7 +421,7 @@ function RiskFactors({ risks }: { risks: string[] }) {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors hover:bg-[var(--app-hover-bg)] w-full"
+              className="flex items-center gap-2.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-left transition-colors hover:bg-[var(--app-hover-bg)] w-full"
               style={{
                 border: '1px solid var(--app-border)',
               }}
@@ -441,7 +441,7 @@ function RiskFactors({ risks }: { risks: string[] }) {
                 {risk}
               </span>
               <ChevronRight
-                className="w-3 h-3 shrink-0"
+                className="w-4 h-4 shrink-0"
                 style={{ color: 'var(--app-text-muted)' }}
               />
             </motion.button>
@@ -463,14 +463,14 @@ export function ProjectIntelligencePanel({
     <div className="app-card p-0 overflow-hidden">
       {/* Header */}
       <div
-        className="flex items-center gap-3 px-5 py-4"
+        className="flex items-center gap-3 px-app-xl py-4"
         style={{ borderBottom: '1px solid var(--app-border)' }}
       >
         <div
-          className="flex items-center justify-center w-9 h-9 rounded-xl"
+          className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
           style={{ backgroundColor: config.bg }}
         >
-          <Activity className="w-4.5 h-4.5" style={{ color: config.color }} />
+          <Activity className="w-5 h-5" style={{ color: config.color }} />
         </div>
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--app-text)' }}>
@@ -481,7 +481,7 @@ export function ProjectIntelligencePanel({
           </p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          <Users className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+          <Users className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>
             {data.teamSize} members
           </span>
@@ -489,7 +489,7 @@ export function ProjectIntelligencePanel({
       </div>
 
       {/* Content */}
-      <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="p-app-xl grid grid-cols-1 md:grid-cols-2 gap-app-2xl">
         {/* Health Badge */}
         <div className="flex items-center justify-center">
           <HealthBadge health={data.health} />

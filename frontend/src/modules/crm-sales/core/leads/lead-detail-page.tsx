@@ -96,7 +96,7 @@ export default function LeadDetailPage() {
   return (
     <ScrollArea className="h-full">
       <div className="p-4 md:p-6 max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-app-2xl">
           {/* Left Panel - Lead Info */}
           <motion.div
             initial={{ opacity: 0, x: -12 }}
@@ -106,11 +106,11 @@ export default function LeadDetailPage() {
           >
             {/* Avatar & Name Card */}
             <div className={cn(
-              'rounded-2xl border p-5 text-center',
+              'rounded-[var(--app-radius-xl)] border p-app-xl text-center',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div className={cn(
-                'w-16 h-16 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3',
+                'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center text-xl font-bold mx-auto mb-3',
                 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
               )}>
                 {lead.firstName[0]}{lead.lastName[0]}
@@ -124,10 +124,10 @@ export default function LeadDetailPage() {
 
               <div className="flex items-center justify-center gap-2 mt-3">
                 <span className={cn(
-                  'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold',
+                  'inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                   intentCfg.bg, intentCfg.text
                 )}>
-                  <IntentIcon className="w-3.5 h-3.5" />
+                  <IntentIcon className="w-4 h-4" />
                   {intentCfg.label}
                 </span>
                 <Badge variant="outline" className="text-[10px] capitalize">
@@ -143,7 +143,7 @@ export default function LeadDetailPage() {
 
             {/* Contact Info */}
             <div className={cn(
-              'rounded-2xl border p-4 space-y-3',
+              'rounded-[var(--app-radius-xl)] border p-4 space-y-3',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -157,10 +157,10 @@ export default function LeadDetailPage() {
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2.5">
                   <div className={cn(
-                    'w-7 h-7 rounded-lg flex items-center justify-center shrink-0',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                     'bg-[var(--app-hover-bg)]'
                   )}>
-                    <Icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                    <Icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   </div>
                   <span className={cn('text-xs truncate', 'text-[var(--app-text-secondary)]')}>{label}</span>
                 </div>
@@ -169,7 +169,7 @@ export default function LeadDetailPage() {
 
             {/* Assigned Rep & Campaign */}
             <div className={cn(
-              'rounded-2xl border p-4 space-y-3',
+              'rounded-[var(--app-radius-xl)] border p-4 space-y-3',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div>
@@ -194,11 +194,11 @@ export default function LeadDetailPage() {
                 <div>
                   <span className={cn('text-[10px] uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>Next Action</span>
                   <div className="flex items-center gap-1.5">
-                    <Clock className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                    <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{lead.nextAction}</span>
                   </div>
                   {lead.nextActionDate && (
-                    <span className={cn('text-[10px] ml-5', 'text-[var(--app-text-muted)]')}>
+                    <span className={cn('text-[10px] ml-app-xl', 'text-[var(--app-text-muted)]')}>
                       {new Date(lead.nextActionDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </span>
                   )}
@@ -216,17 +216,17 @@ export default function LeadDetailPage() {
           >
             <Tabs defaultValue="activity" className="space-y-4">
               <TabsList className={cn(
-                'rounded-xl p-0.5 h-9',
+                'rounded-[var(--app-radius-lg)] p-0.5 h-10'',
                 'bg-[var(--app-hover-bg)]'
               )}>
-                <TabsTrigger value="activity" className="rounded-lg text-xs">Activity</TabsTrigger>
-                <TabsTrigger value="tasks" className="rounded-lg text-xs">Tasks</TabsTrigger>
-                <TabsTrigger value="notes" className="rounded-lg text-xs">Notes</TabsTrigger>
+                <TabsTrigger value="activity" className="rounded-[var(--app-radius-lg)] text-xs">Activity</TabsTrigger>
+                <TabsTrigger value="tasks" className="rounded-[var(--app-radius-lg)] text-xs">Tasks</TabsTrigger>
+                <TabsTrigger value="notes" className="rounded-[var(--app-radius-lg)] text-xs">Notes</TabsTrigger>
               </TabsList>
 
               <TabsContent value="activity" className="space-y-0">
                 <div className={cn(
-                  'rounded-2xl border overflow-hidden',
+                  'rounded-[var(--app-radius-xl)] border overflow-hidden',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}>
                   <div className="p-4 border-b" style={{ borderColor: 'var(--app-border)' }}>
@@ -247,7 +247,7 @@ export default function LeadDetailPage() {
                         >
                           <div className="flex items-start gap-3">
                             <div className={cn(
-                              'w-8 h-8 rounded-lg flex items-center justify-center text-[10px] uppercase font-bold shrink-0 mt-0.5',
+                              'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[10px] uppercase font-bold shrink-0 mt-0.5',
                               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                             )}>
                               {activity.type.slice(0, 2)}
@@ -273,7 +273,7 @@ export default function LeadDetailPage() {
                       ))}
                     </div>
                   ) : (
-                    <div className={cn('flex flex-col items-center justify-center py-12', 'text-[var(--app-text-disabled)]')}>
+                    <div className={cn('flex flex-col items-center justify-center py-app-4xl', 'text-[var(--app-text-disabled)]')}>
                       <Calendar className="w-8 h-8 mb-2" />
                       <p className="text-xs">No activity recorded yet</p>
                     </div>
@@ -283,7 +283,7 @@ export default function LeadDetailPage() {
 
               <TabsContent value="tasks">
                 <div className={cn(
-                  'rounded-2xl border p-8 text-center',
+                  'rounded-[var(--app-radius-xl)] border p-app-3xl text-center',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}>
                   <Target className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
@@ -293,7 +293,7 @@ export default function LeadDetailPage() {
 
               <TabsContent value="notes">
                 <div className={cn(
-                  'rounded-2xl border p-8 text-center',
+                  'rounded-[var(--app-radius-xl)] border p-app-3xl text-center',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}>
                   <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No notes yet</p>
@@ -311,7 +311,7 @@ export default function LeadDetailPage() {
           >
             {/* AI Insights Card */}
             <div className={cn(
-              'rounded-2xl border p-4 space-y-4',
+              'rounded-[var(--app-radius-xl)] border p-4 space-y-4',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div className="flex items-center gap-2">
@@ -322,7 +322,7 @@ export default function LeadDetailPage() {
               </div>
 
               {/* Conversion Probability */}
-              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                 <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Conversion Probability
                 </span>
@@ -341,7 +341,7 @@ export default function LeadDetailPage() {
               </div>
 
               {/* Recommended Actions */}
-              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                 <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Recommended Actions
                 </span>
@@ -349,33 +349,33 @@ export default function LeadDetailPage() {
                   {lead.intent === 'hot' ? (
                     <>
                       <div className="flex items-start gap-2">
-                        <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Schedule demo within 24h</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+                        <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send personalized proposal</span>
                       </div>
                     </>
                   ) : lead.intent === 'warm' ? (
                     <>
                       <div className="flex items-start gap-2">
-                        <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+                        <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send nurture email sequence</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                        <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Follow up with discovery call</span>
                       </div>
                     </>
                   ) : (
                     <>
                       <div className="flex items-start gap-2">
-                        <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+                        <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Add to drip campaign</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <TrendingUp className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <TrendingUp className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Share case studies by email</span>
                       </div>
                     </>
@@ -385,14 +385,14 @@ export default function LeadDetailPage() {
 
               {/* Similar Leads */}
               {similarLeads.length > 0 && (
-                <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                   <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                     Similar Leads
                   </span>
                   <div className="space-y-2">
                     {similarLeads.map(sl => (
                       <div key={sl.id} className={cn(
-                        'flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors',
+                        'flex items-center gap-2 p-2 rounded-[var(--app-radius-lg)] cursor-pointer transition-colors',
                         'hover:bg-[var(--app-hover-bg)]'
                       )}>
                         <div className={cn(
@@ -415,9 +415,9 @@ export default function LeadDetailPage() {
               )}
 
               {/* Duplicate Detection */}
-              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
                 <div className="flex items-center gap-2 mb-2">
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-4 h-4" />
                   <span className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     Duplicate Check
                   </span>
@@ -447,28 +447,28 @@ export default function LeadDetailPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
           className={cn(
-            'sticky bottom-0 mt-6 -mx-4 md:-mx-6 px-4 md:px-6 py-4 border-t',
+            'sticky bottom-0 mt-app-2xl -mx-4 md:-mx-6 px-4 md:px-6 py-4 border-t',
             isDark ? 'bg-[#0a0a0a]/90 border-white/[0.06]' : 'bg-white/90 border-black/[0.06]'
           )}
         >
           <div className="flex items-center gap-2 max-w-[1400px] mx-auto">
             <Button className={cn(
-              'h-9 px-5 rounded-xl text-xs font-semibold',
+              'h-10  px-app-xl rounded-[var(--app-radius-lg)] text-xs font-semibold',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
-              <ArrowRightLeft className="w-3.5 h-3.5 mr-1.5" />
+              <ArrowRightLeft className="w-4 h-4 mr-1.5" />
               Convert to Deal
             </Button>
-            <Button variant="outline" className="h-9 px-4 rounded-xl text-xs">
-              <Calendar className="w-3.5 h-3.5 mr-1.5" />
+            <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs">
+              <Calendar className="w-4 h-4 mr-1.5" />
               Schedule Follow-up
             </Button>
-            <Button variant="outline" className="h-9 px-4 rounded-xl text-xs">
-              <Mail className="w-3.5 h-3.5 mr-1.5" />
+            <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs">
+              <Mail className="w-4 h-4 mr-1.5" />
               Send Email
             </Button>
             <Button variant="outline" className={cn(
-              'h-9 px-4 rounded-xl text-xs',
+              'h-10  px-4 rounded-[var(--app-radius-lg)] text-xs',
               isDark ? 'text-red-400 border-red-500/20 hover:bg-red-500/10' : 'text-red-600 border-red-200 hover:bg-red-50'
             )}>
               Disqualify

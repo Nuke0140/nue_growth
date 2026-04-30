@@ -145,7 +145,7 @@ const TaskCard = React.memo(function TaskCard({
       <div className="flex items-start gap-2">
         {!overlay && (
           <GripVertical
-            className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
+            className="w-4 h-4 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
             style={{ color: 'var(--app-text-muted)' }}
           />
         )}
@@ -199,7 +199,7 @@ const TaskCard = React.memo(function TaskCard({
       {hasSubtasks && (
         <div className="mt-2.5 space-y-1">
           <div className="flex items-center gap-1.5">
-            <CheckSquare className="w-3 h-3" style={{ color: 'var(--app-text-muted)' }} />
+            <CheckSquare className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
             <span
               className="text-[10px] font-medium"
               style={{ color: 'var(--app-text-muted)' }}
@@ -269,7 +269,7 @@ const TaskCard = React.memo(function TaskCard({
 
           {task.attachments !== undefined && task.attachments > 0 && (
             <div className="flex items-center gap-0.5" style={{ color: 'var(--app-text-muted)' }}>
-              <Paperclip className="w-3 h-3" />
+              <Paperclip className="w-4 h-4" />
               <span className="text-[10px]">{task.attachments}</span>
             </div>
           )}
@@ -281,7 +281,7 @@ const TaskCard = React.memo(function TaskCard({
             className="flex items-center gap-1 text-[10px]"
             style={{ color: 'var(--app-text-muted)' }}
           >
-            <Calendar className="w-3 h-3" />
+            <Calendar className="w-4 h-4" />
             {task.dueDate}
           </div>
         )}
@@ -334,7 +334,7 @@ const SortableColumn = React.memo(function SortableColumn({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors snap-start',
+        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-[var(--app-radius-lg)] p-2 transition-colors snap-start',
         isOver && 'bg-[var(--app-accent-light)]'
       )}
       role="region"
@@ -372,7 +372,7 @@ const SortableColumn = React.memo(function SortableColumn({
           ))}
           {column.items.length === 0 && (
             <div
-              className="flex items-center justify-center h-24 rounded-lg border border-dashed"
+              className="flex items-center justify-center h-24 rounded-[var(--app-radius-lg)] border border-dashed"
               style={{
                 borderColor: 'var(--app-border)',
                 color: 'var(--app-text-muted)',

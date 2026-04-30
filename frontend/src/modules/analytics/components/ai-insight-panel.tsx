@@ -83,7 +83,7 @@ export default function AIInsightPanel({
       <div className="flex items-center gap-2 mb-1">
         <div
           className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-lg',
+            'flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]',
             'bg-[var(--app-purple-light)]',
           )}
         >
@@ -108,7 +108,7 @@ export default function AIInsightPanel({
       {insights.length === 0 && (
         <div
           className={cn(
-            'rounded-2xl border p-8 text-center',
+            'rounded-[var(--app-radius-xl)] border p-app-3xl text-center',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
@@ -130,7 +130,7 @@ export default function AIInsightPanel({
             key={insight.id}
             variants={itemVariants}
             className={cn(
-              'rounded-2xl border border-l-4 shadow-sm overflow-hidden',
+              'rounded-[var(--app-radius-xl)] border border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
               isDark
                 ? 'bg-white/[0.03] border-white/[0.06]'
                 : 'bg-black/[0.02] border-black/[0.06]',
@@ -140,7 +140,7 @@ export default function AIInsightPanel({
             {/* Card Header */}
             <button
               onClick={() => toggleExpand(insight.id)}
-              className="flex w-full items-center justify-between p-4 sm:p-5 text-left"
+              className="flex w-full items-center justify-between p-4 sm:p-app-xl text-left"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -196,7 +196,7 @@ export default function AIInsightPanel({
                 >
                   <div
                     className={cn(
-                      'border-t px-4 sm:px-5 py-3 sm:py-4 space-y-3',
+                      'border-t px-4 sm:px-app-xl py-3 sm:py-4 space-y-3',
                       'border-[var(--app-border)]',
                     )}
                   >
@@ -221,7 +221,7 @@ export default function AIInsightPanel({
                     {/* Recommendation */}
                     <div
                       className={cn(
-                        'rounded-xl p-3',
+                        'rounded-[var(--app-radius-lg)] p-3',
                         'bg-[var(--app-hover-bg)]',
                       )}
                     >

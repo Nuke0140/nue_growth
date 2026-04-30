@@ -74,7 +74,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
   }
 
   return (
-    <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+    <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
       <div
         className="relative w-full overflow-auto"
         style={{ minHeight: `${Math.max(canvasH, 200)}px` }}
@@ -104,8 +104,8 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.06, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('absolute rounded-xl border p-2 w-[140px] shadow-sm',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-white border-gray-200 shadow-black/5'
+                className={cn('absolute rounded-[var(--app-radius-lg)] border p-2 w-[140px] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+                  isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-white border-gray-200 shadow-[var(--app-shadow-md)]-black/5'
                 )}
                 style={{ left: node.x * scaleX, top: node.y * scaleY }}
                 title={node.description}

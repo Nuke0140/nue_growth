@@ -96,7 +96,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => onClick?.(employee.id)}
       className={cn(
-        'rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)]'
       )}
     >
@@ -115,7 +115,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
           </p>
           <span
             className={cn(
-              'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border',
+              'inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium border',
               `${status.bg} ${status.color} ${status.border}`
             )}
           >
@@ -126,9 +126,9 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Department Badge */}
       <div className="flex items-center gap-1.5 mb-3">
-        <Briefcase className="w-3 h-3 text-[var(--app-text-muted)]" />
+        <Briefcase className="w-4 h-4 text-[var(--app-text-muted)]" />
         <span className={cn(
-          'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium',
+          'inline-flex items-center px-2 py-0.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium',
           'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
         )}>
           {employee.department}
@@ -137,7 +137,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Manager */}
       <div className="flex items-center gap-1.5 mb-3">
-        <User className="w-3 h-3 text-[var(--app-text-muted)]" />
+        <User className="w-4 h-4 text-[var(--app-text-muted)]" />
         <span className="text-[11px] text-[var(--app-text-muted)]">
           Reports to: <span className="font-medium">{employee.manager}</span>
         </span>
@@ -147,7 +147,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-1.5">
-            <BarChart3 className="w-3 h-3 text-[var(--app-text-muted)]" />
+            <BarChart3 className="w-4 h-4 text-[var(--app-text-muted)]" />
             <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
               Productivity
             </span>
@@ -158,7 +158,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
         </div>
         <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
           <motion.div
-            className={cn('h-full rounded-full transition-all duration-500', getScoreBarColor(employee.productivityScore))}
+            className={cn('h-full rounded-full transition-colors duration-200', getScoreBarColor(employee.productivityScore))}
             initial={{ width: 0 }}
             animate={{ width: `${employee.productivityScore}%` }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -168,7 +168,7 @@ export default function EmployeeCard({ employee, onClick }: EmployeeCardProps) {
 
       {/* Active Projects */}
       <div className="flex items-center gap-1.5 mb-3">
-        <FolderOpen className="w-3 h-3 text-[var(--app-text-muted)]" />
+        <FolderOpen className="w-4 h-4 text-[var(--app-text-muted)]" />
         <span className="text-[11px] text-[var(--app-text-muted)]">
           <span className="font-semibold">{employee.activeProjects}</span> active project{employee.activeProjects !== 1 ? 's' : ''}
         </span>

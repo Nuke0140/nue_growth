@@ -92,12 +92,12 @@ function WorkloadPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -110,7 +110,7 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4" /> Allocation vs Capacity
@@ -132,10 +132,10 @@ function WorkloadPageInner() {
                       {w.employee!.name.split(' ')[0]}
                     </span>
                     {isOverloaded && (
-                      <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />
+                      <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />
                     )}
                     {isIdle && (
-                      <Info className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                      <Info className="w-4 h-4 text-blue-400 shrink-0" />
                     )}
                   </div>
                   <div className="flex-1">
@@ -168,19 +168,19 @@ function WorkloadPageInner() {
           </div>
           <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: 'var(--app-hover-bg)' }}>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Optimal (60-85%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm bg-amber-500" />
+              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-amber-500" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>At Capacity (90-100%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-red-500" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Overloaded (&gt;95%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm bg-blue-500" />
+              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-blue-500" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Under-utilized (&lt;60%)</span>
             </div>
           </div>
@@ -191,7 +191,7 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <h3 className="text-sm font-bold mb-4">Project Allocation Heatmap</h3>
           <div className="overflow-x-auto">
@@ -238,7 +238,7 @@ function WorkloadPageInner() {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <div className={cn(
-                                  'h-8 rounded-lg flex items-center justify-center text-[10px] font-medium cursor-default transition-colors',
+                                  'h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[10px] font-medium cursor-default transition-colors',
                                   getCellColor(allocation),
                                   allocation > 0 ? ('text-[var(--app-text-secondary)]') : ('text-[var(--app-text-disabled)]')
                                 )}>
@@ -265,14 +265,14 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.3 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
             <Clock className="w-4 h-4" /> Overtime Summary
           </h3>
           <div className="space-y-2">
             {data.filter(w => w.overtime > 0).sort((a, b) => b.overtime - a.overtime).map(w => (
-              <div key={w.id} className={cn('flex items-center justify-between p-2.5 rounded-lg', 'bg-[var(--app-hover-bg)]')}>
+              <div key={w.id} className={cn('flex items-center justify-between p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-6 w-6">
                     <AvatarFallback className={cn('text-[9px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>

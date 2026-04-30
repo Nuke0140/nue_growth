@@ -108,7 +108,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
       exit={{ opacity: 0, x: 80, scale: 0.95 }}
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className={cn(
-        'pointer-events-auto relative overflow-hidden rounded-xl border p-4 shadow-xl',
+        'pointer-events-auto relative overflow-hidden rounded-[var(--app-radius-lg)] border p-4 shadow-[var(--app-shadow-md)]-xl',
         'bg-[var(--app-card-bg)]',
         config.border
       )}
@@ -126,7 +126,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
 
       <div className="flex items-start gap-3">
         {/* Icon */}
-        <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', config.bg)}>
+        <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', config.bg)}>
           <Icon className={cn('w-4 h-4', config.color)} />
         </div>
 
@@ -153,10 +153,10 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
         {/* Close */}
         <button
           onClick={onDismiss}
-          className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--app-text-disabled)] hover:text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] transition-all shrink-0"
+          className="flex items-center justify-center w-6 h-6 rounded-[var(--app-radius-lg)] text-[var(--app-text-disabled)] hover:text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] transition-colors shrink-0"
           aria-label="Dismiss"
         >
-          <X className="w-3.5 h-3.5" />
+          <X className="w-4 h-4" />
         </button>
       </div>
     </motion.div>

@@ -53,7 +53,7 @@ export default function HealthScoreCard({ client, score, trend, riskTag, account
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -61,14 +61,14 @@ export default function HealthScoreCard({ client, score, trend, riskTag, account
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold">{client}</h3>
           <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0 border', risk.className)}>
-            <RiskIcon className="w-3 h-3 mr-0.5" />
+            <RiskIcon className="w-4 h-4 mr-0.5" />
             {risk.label}
           </Badge>
         </div>
         <TrendIcon className={cn('w-4 h-4', trendIcon.color)} />
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-app-xl">
         {/* Circular progress ring */}
         <div className="relative shrink-0">
           <svg width="88" height="88" viewBox="0 0 88 88">
@@ -97,7 +97,7 @@ export default function HealthScoreCard({ client, score, trend, riskTag, account
             <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manager</span>
             <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{accountManager}</span>
           </div>
-          <div className={cn('rounded-lg p-2 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+          <div className={cn('rounded-[var(--app-radius-lg)] p-2 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
             <p className={cn('text-[10px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Next Best Action</p>
             <p className="text-xs leading-snug">{nextBestAction}</p>
           </div>

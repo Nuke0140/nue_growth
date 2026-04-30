@@ -132,7 +132,7 @@ export default function ActivitiesPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
-              'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
+              'flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -150,11 +150,11 @@ export default function ActivitiesPage() {
             <Button
               size="sm"
               className={cn(
-                'rounded-xl text-xs h-9 px-4',
+                'rounded-[var(--app-radius-lg)] text-xs h-10  px-4',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Add Activity
             </Button>
           </div>
@@ -168,7 +168,7 @@ export default function ActivitiesPage() {
               key={f}
               onClick={() => setDateFilter(f)}
               className={cn(
-                'px-3 py-1 rounded-lg text-xs font-medium transition-colors',
+                'px-3 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 dateFilter === f
                   ? isDark
                     ? 'bg-white/[0.08] text-white'
@@ -191,7 +191,7 @@ export default function ActivitiesPage() {
               key={ft.key}
               onClick={() => setActiveType(ft.key)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap',
                 activeType === ft.key
                   ? isDark
                     ? 'bg-white/[0.08] text-white'
@@ -216,10 +216,10 @@ export default function ActivitiesPage() {
             className="flex flex-col items-center justify-center py-20"
           >
             <div className={cn(
-              'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
+              'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-4',
               'bg-[var(--app-hover-bg)]'
             )}>
-              <Inbox className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
+              <Inbox className={cn('w-8 h-8', 'text-[var(--app-text-disabled)]')} />
             </div>
             <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
               No activities found
@@ -229,7 +229,7 @@ export default function ActivitiesPage() {
             </p>
           </motion.div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-app-2xl">
             {grouped.map((group, gi) => (
               <div key={group.label}>
                 {/* Group header */}
@@ -264,7 +264,7 @@ export default function ActivitiesPage() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.25, delay: gi * 0.1 + i * 0.04 }}
                         className={cn(
-                          'flex items-start gap-3 px-4 py-3 rounded-xl transition-all duration-200 group cursor-default',
+                          'flex items-start gap-3 px-4 py-3 rounded-[var(--app-radius-lg)] transition-colors duration-200 group cursor-default',
                           isDark
                             ? 'hover:bg-white/[0.03]'
                             : 'hover:bg-black/[0.02]'
@@ -272,7 +272,7 @@ export default function ActivitiesPage() {
                       >
                         {/* Type icon */}
                         <div className={cn(
-                          'w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5',
+                          'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5',
                           config.bg
                         )}>
                           <Icon className={cn('w-4 h-4', config.color)} />
@@ -315,7 +315,7 @@ export default function ActivitiesPage() {
                               </div>
                             </div>
                             <div className="flex items-center gap-1.5 shrink-0">
-                              <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                              <Clock className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                               <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                                 {formatTime(activity.date)}
                               </span>

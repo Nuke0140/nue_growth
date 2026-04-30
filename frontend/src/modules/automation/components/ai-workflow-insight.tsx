@@ -61,10 +61,10 @@ export default function AIWorkflowInsight({
       whileHover={{ y: -2, scale: 1.01 }}
       onClick={onClick}
       className={cn(
-        'relative rounded-2xl border border-l-4 border-l-violet-500 p-4 sm:p-5 shadow-sm transition-shadow cursor-pointer',
+        'relative rounded-[var(--app-radius-xl)] border border-l-4 border-l-violet-500 p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-shadow cursor-pointer',
         isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:shadow-violet-500/5'
-          : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03] hover:shadow-violet-500/5',
+          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:shadow-[var(--app-shadow-md)]-violet-500/5'
+          : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03] hover:shadow-[var(--app-shadow-md)]-violet-500/5',
       )}
     >
       {/* Header */}
@@ -72,14 +72,14 @@ export default function AIWorkflowInsight({
         {/* AI Icon with glow */}
         <div
           className={cn(
-            'relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+            'relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
             'bg-[var(--app-purple-light)]',
           )}
         >
           {/* Subtle glow behind icon */}
           <motion.div
             className={cn(
-              'absolute inset-0 rounded-xl blur-md',
+              'absolute inset-0 rounded-[var(--app-radius-lg)] blur-md',
               isDark ? 'bg-violet-500/20' : 'bg-violet-400/20',
             )}
             animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -173,7 +173,7 @@ export default function AIWorkflowInsight({
           {/* Suggested action */}
           <div
             className={cn(
-              'flex items-center gap-2 rounded-xl px-3 py-2.5',
+              'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2.5',
               isDark ? 'bg-violet-500/[0.06]' : 'bg-violet-50/50',
             )}
           >

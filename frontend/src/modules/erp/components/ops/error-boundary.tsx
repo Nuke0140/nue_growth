@@ -35,13 +35,13 @@ export class ErpErrorBoundary extends Component<Props, State> {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-md px-6"
           >
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-500/10 flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-[var(--app-radius-xl)] bg-red-500/10 flex items-center justify-center">
               <AlertTriangle className="w-8 h-8 text-red-500 dark:text-red-400" />
             </div>
             <h3 className="text-lg font-semibold text-[var(--app-text)] mb-2">Something went wrong</h3>
             <p className="text-sm text-[var(--app-text-secondary)] mb-1">An unexpected error occurred.</p>
             {this.state.error && (
-              <p className="text-xs text-[var(--app-text-muted)] mb-6 font-mono bg-[var(--app-hover-bg)] p-3 rounded-lg break-all">
+              <p className="text-xs text-[var(--app-text-muted)] mb-app-2xl font-mono bg-[var(--app-hover-bg)] p-3 rounded-[var(--app-radius-lg)] break-all">
                 {this.state.error.message}
               </p>
             )}

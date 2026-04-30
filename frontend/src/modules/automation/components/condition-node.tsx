@@ -30,7 +30,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       whileHover={{ scale: 1.01, y: -1 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className={cn(
-        'rounded-2xl border p-4 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -40,7 +40,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2.5">
           <div className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center',
+            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
             'bg-[var(--app-warning-bg)]',
           )}>
             <GitBranch className={cn('w-4 h-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
@@ -55,7 +55,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
           </div>
         </div>
         <span className={cn(
-          'inline-flex items-center rounded-lg px-2 py-0.5 text-[10px] font-medium border shrink-0',
+          'inline-flex items-center rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[10px] font-medium border shrink-0',
           moduleColors[rule.module] || moduleColors.CRM,
         )}>
           {rule.module}
@@ -63,7 +63,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       </div>
 
       {/* Conditions */}
-      <div className={cn('rounded-xl p-3 mb-3', 'bg-[var(--app-hover-bg)]')}>
+      <div className={cn('rounded-[var(--app-radius-lg)] p-3 mb-3', 'bg-[var(--app-hover-bg)]')}>
         <div className="flex items-center gap-1.5 mb-2">
           <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
             IF
@@ -91,7 +91,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       {/* Then / Else */}
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
-          <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-success)]')} />
+          <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-success)]')} />
           <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-success)]')}>
             THEN
           </span>
@@ -101,7 +101,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
         </div>
         {rule.elseAction && (
           <div className="flex items-center gap-2">
-            <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-danger)]')} />
+            <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-danger)]')} />
             <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-danger)]')}>
               ELSE
             </span>

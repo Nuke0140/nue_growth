@@ -64,7 +64,7 @@ export default function NotificationsPage() {
   const avgFailureRate = Math.round((100 - avgDeliveryRate) * 10) / 10;
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -92,7 +92,7 @@ export default function NotificationsPage() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className={cn(
-              'flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors shrink-0',
+              'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-semibold transition-colors shrink-0',
               'bg-blue-500 text-white hover:bg-blue-600',
             )}
           >
@@ -118,7 +118,7 @@ export default function NotificationsPage() {
                 transition={{ delay: i * 0.03 }}
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all cursor-pointer',
+                  'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer',
                   activeTab === tab
                     ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
                     : isDark
@@ -162,7 +162,7 @@ export default function NotificationsPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function NotificationsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
-                  'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
+                  'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-3',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
@@ -218,7 +218,7 @@ export default function NotificationsPage() {
                 </div>
 
                 {/* Template */}
-                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                   <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                     Template
                   </p>
@@ -237,7 +237,7 @@ export default function NotificationsPage() {
                       <div
                         key={ri}
                         className={cn(
-                          'flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold',
+                          'flex h-8  w-7 items-center justify-center rounded-full text-[10px] font-bold',
                           AVATAR_COLORS[ri % AVATAR_COLORS.length],
                         )}
                         title={recipient}
@@ -252,7 +252,7 @@ export default function NotificationsPage() {
                 </div>
 
                 {/* Retry Logic */}
-                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
                     <RotateCcw className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
                     <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>

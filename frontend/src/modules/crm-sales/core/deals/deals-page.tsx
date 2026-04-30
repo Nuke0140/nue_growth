@@ -77,7 +77,7 @@ export default function DealsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -90,7 +90,7 @@ export default function DealsPage() {
             </div>
             <div className="flex items-center gap-2">
               <div className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
+                'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -106,10 +106,10 @@ export default function DealsPage() {
                 />
               </div>
               <Button className={cn(
-                'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+                'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                <Plus className="w-4 h-4 mr-1.5" />
                 Add Deal
               </Button>
             </div>
@@ -133,7 +133,7 @@ export default function DealsPage() {
               <div
                 key={stat.label}
                 className={cn(
-                  'rounded-2xl border p-4 transition-colors',
+                  'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
@@ -160,15 +160,15 @@ export default function DealsPage() {
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'table')}>
               <TabsList className={cn(
-                'rounded-xl p-0.5 h-9',
+                'rounded-[var(--app-radius-lg)] p-0.5 h-10'',
                 'bg-[var(--app-hover-bg)]'
               )}>
-                <TabsTrigger value="kanban" className="rounded-lg text-xs gap-1.5">
-                  <LayoutGrid className="w-3.5 h-3.5" />
+                <TabsTrigger value="kanban" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">
+                  <LayoutGrid className="w-4 h-4" />
                   Kanban
                 </TabsTrigger>
-                <TabsTrigger value="table" className="rounded-lg text-xs gap-1.5">
-                  <List className="w-3.5 h-3.5" />
+                <TabsTrigger value="table" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">
+                  <List className="w-4 h-4" />
                   Table
                 </TabsTrigger>
               </TabsList>
@@ -178,7 +178,7 @@ export default function DealsPage() {
 
             <Select value={stageFilter} onValueChange={(v) => setStageFilter(v as DealStage | 'all')}>
               <SelectTrigger className={cn(
-                'w-[140px] h-8 text-xs rounded-lg',
+                'w-[140px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <SelectValue placeholder="All Stages" />
@@ -210,7 +210,7 @@ export default function DealsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
               className={cn(
-                'rounded-2xl border overflow-hidden',
+                'rounded-[var(--app-radius-xl)] border overflow-hidden',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
@@ -282,7 +282,7 @@ export default function DealsPage() {
                         </td>
                         <td className="px-4 py-3">
                           <span className={cn(
-                            'inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium capitalize',
+                            'inline-flex px-2 py-0.5 rounded-[var(--app-radius-md)] text-[10px] font-medium capitalize',
                             getStageColor(deal.stage, isDark)
                           )}>
                             {STAGE_LABELS[deal.stage]}
@@ -296,7 +296,7 @@ export default function DealsPage() {
                             )}>
                               {deal.aging}d
                             </span>
-                            {deal.aging > 15 && <AlertTriangle className="w-3 h-3 text-amber-500" />}
+                            {deal.aging > 15 && <AlertTriangle className="w-4 h-4 text-amber-500" />}
                           </div>
                         </td>
                       </motion.tr>
@@ -321,7 +321,7 @@ export default function DealsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
@@ -336,7 +336,7 @@ export default function DealsPage() {
                   {formatCurrency(revenueStats.forecastQ2)}
                 </span>
                 <span className="text-emerald-500 text-xs font-medium mb-1 flex items-center gap-0.5">
-                  <ArrowUpRight className="w-3 h-3" />
+                  <ArrowUpRight className="w-4 h-4" />
                   +18% vs Q1
                 </span>
               </div>
@@ -375,15 +375,15 @@ export default function DealsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className={cn(
-                'rounded-2xl border p-5',
+                'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Won vs Lost by Month</h3>
                 <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Won</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-red-400" /> Lost</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Won</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-red-400" /> Lost</span>
                 </div>
               </div>
 

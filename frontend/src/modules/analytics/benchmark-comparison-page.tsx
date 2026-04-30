@@ -58,13 +58,13 @@ export default function BenchmarkComparisonPage() {
   }, []);
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -85,7 +85,7 @@ export default function BenchmarkComparisonPage() {
               transition={{ delay: i * 0.04, duration: 0.25 }}
               onClick={() => setSelectedTab(i)}
               className={cn(
-                'px-3 py-1.5 rounded-xl text-xs font-medium transition-all',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 i === selectedTab
                   ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
                   : isDark
@@ -124,7 +124,7 @@ export default function BenchmarkComparisonPage() {
                     </span>
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function BenchmarkComparisonPage() {
                 {/* Metric Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                       <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     </div>
                     <div>
@@ -172,19 +172,19 @@ export default function BenchmarkComparisonPage() {
 
                 {/* Values Row */}
                 <div className="grid grid-cols-3 gap-2">
-                  <div className={cn('rounded-lg border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</p>
                     <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                       {formatValue(item.current, item.unit)}
                     </p>
                   </div>
-                  <div className={cn('rounded-lg border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Previous</p>
                     <p className={cn('text-xs font-bold', 'text-[var(--app-text-secondary)]')}>
                       {formatValue(item.previous, item.unit)}
                     </p>
                   </div>
-                  <div className={cn('rounded-lg border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</p>
                     <p className={cn('text-xs font-bold', 'text-[var(--app-text-secondary)]')}>
                       {formatValue(item.target, item.unit)}
@@ -202,7 +202,7 @@ export default function BenchmarkComparisonPage() {
                         : 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
                     )}
                   >
-                    {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     {item.delta >= 0 ? '+' : ''}{formatValue(item.delta, item.unit)}
                   </span>
                   <span

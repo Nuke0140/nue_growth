@@ -53,11 +53,11 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
     <motion.div
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
+          <div className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
             <span style={{ color }}>{INSIGHT_ICONS[insight.type] || <Search className="w-4 h-4" />}</span>
           </div>
           <div className="min-w-0">
@@ -93,7 +93,7 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
       </div>
 
       {/* Recommendation */}
-      <div className={cn('rounded-lg p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
+      <div className={cn('rounded-[var(--app-radius-lg)] p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
         <p className={cn('text-[10px] leading-relaxed', isDark ? 'text-white/40' : 'text-gray-600')}>
           {insight.recommendation}
         </p>
@@ -107,7 +107,7 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
           size="sm"
           className="text-[10px] h-6 px-2 gap-1 bg-gradient-to-r from-purple-500 to-violet-600 text-white hover:from-purple-600 hover:to-violet-700"
         >
-          <Check className="w-3 h-3" />
+          <Check className="w-4 h-4" />
           Apply
         </Button>
       </div>

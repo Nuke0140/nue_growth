@@ -67,12 +67,12 @@ export default function RevenuePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -86,7 +86,7 @@ export default function RevenuePage() {
           </div>
           <div className="flex items-center gap-3">
             <div className={cn(
-              'flex items-center gap-1 rounded-xl border p-1',
+              'flex items-center gap-1 rounded-[var(--app-radius-lg)] border p-1',
               isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.03] border-black/[0.06]'
             )}>
               {dateRanges.map((dr) => (
@@ -94,7 +94,7 @@ export default function RevenuePage() {
                   key={dr.value}
                   onClick={() => setSelectedRange(dr.value)}
                   className={cn(
-                    'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
+                    'px-2.5 py-1 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors',
                     selectedRange === dr.value
                       ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                       : (isDark ? 'text-white/30 hover:text-white/50' : 'text-black/30 hover:text-black/50')
@@ -108,7 +108,7 @@ export default function RevenuePage() {
               'px-3 py-1.5 text-xs font-medium gap-1.5',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </Badge>
           </div>
@@ -125,7 +125,7 @@ export default function RevenuePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
@@ -133,8 +133,8 @@ export default function RevenuePage() {
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -144,7 +144,7 @@ export default function RevenuePage() {
                       'flex items-center gap-0.5 text-[10px] font-medium',
                       isPositive ? 'text-emerald-500' : 'text-red-500'
                     )}>
-                      {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                      {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                       {Math.abs(stat.change)}%
                     </span>
                   )}
@@ -163,7 +163,7 @@ export default function RevenuePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -176,11 +176,11 @@ export default function RevenuePage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Actual</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/20' : 'bg-black/15')} />
+                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-white/20' : 'bg-black/15')} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</span>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function RevenuePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -266,7 +266,7 @@ export default function RevenuePage() {
                         'flex items-center gap-0.5 text-sm font-semibold',
                         client.growth > 0 ? 'text-emerald-500' : 'text-red-500'
                       )}>
-                        {client.growth > 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+                        {client.growth > 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                         {Math.abs(client.growth)}%
                       </span>
                     </td>
@@ -292,7 +292,7 @@ export default function RevenuePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >

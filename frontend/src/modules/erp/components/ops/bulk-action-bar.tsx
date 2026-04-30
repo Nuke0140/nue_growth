@@ -45,7 +45,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
           )}
         >
           <div
-            className="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl"
+            className="flex items-center gap-3 px-4 py-3 rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-2xl backdrop-blur-xl"
             role="toolbar"
             aria-label="Bulk actions"
             style={{
@@ -58,7 +58,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
             {/* Selected count */}
             <div className="flex items-center gap-2 mr-2" role="status" aria-label={`${selectedCount} items selected`} aria-live="polite">
               <span
-                className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-lg text-xs font-bold"
+                className="inline-flex items-center justify-center min-w-[28px] h-8  px-2 rounded-[var(--app-radius-lg)] text-xs font-bold"
                 style={{
                   backgroundColor: 'var(--app-accent)',
                   color: '#ffffff',
@@ -96,7 +96,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
                         action.onClick();
                       }
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors cursor-pointer"
                     style={{
                       color: isDanger
                         ? 'var(--app-danger)'
@@ -119,7 +119,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
                     }}
                     aria-label={action.label}
                   >
-                    <Icon className="w-3.5 h-3.5" />
+                    <Icon className="w-4 h-4" />
                     <span className="hidden sm:inline">{action.label}</span>
                   </button>
                 );
@@ -141,7 +141,7 @@ export const BulkActionBar = React.memo(function BulkActionBar({
                   onClear();
                 }
               }}
-              className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer"
               style={{ color: 'var(--app-text-muted)' }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =

@@ -86,7 +86,7 @@ export default function LifecyclePage() {
 
       <ScrollArea className="flex-1 px-6 pb-6">
         {/* Analytics row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-app-3xl">
           {[
             { label: 'Total in Pipeline', value: totalInPipeline.toLocaleString(), icon: Users, color: 'text-blue-400' },
             { label: 'Total Customers', value: totalCustomers.toLocaleString(), icon: TrendingUp, color: 'text-emerald-400' },
@@ -99,10 +99,10 @@ export default function LifecyclePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={cn(
-                'rounded-xl p-4',
+                'rounded-[var(--app-radius-lg)] p-4',
                 isDark
                   ? 'bg-white/[0.03] border border-white/[0.04]'
-                  : 'bg-white border border-black/[0.04] shadow-sm'
+                  : 'bg-white border border-black/[0.04] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
               )}
             >
               <div className="flex items-center gap-2 mb-1">
@@ -117,7 +117,7 @@ export default function LifecyclePage() {
         </div>
 
         {/* Horizontal Funnel */}
-        <div className="mb-8">
+        <div className="mb-app-3xl">
           <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <GitBranch className="w-4 h-4" />
             Stage Funnel
@@ -135,8 +135,8 @@ export default function LifecyclePage() {
                   className="shrink-0"
                 >
                   <div className={cn(
-                    'rounded-xl p-3 transition-colors',
-                    isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-white border border-black/[0.06] shadow-sm'
+                    'rounded-[var(--app-radius-lg)] p-3 transition-colors',
+                    isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                   )}>
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className={cn('w-2 h-2 rounded-full', stageBgColors[stage.stage].replace('/10', '/40'))} />
@@ -149,13 +149,13 @@ export default function LifecyclePage() {
                     </p>
                     {stage.conversionRate > 0 && (
                       <div className="flex items-center gap-1 mt-1">
-                        <TrendingUp className="w-3 h-3 text-emerald-400" />
+                        <TrendingUp className="w-4 h-4 text-emerald-400" />
                         <span className="text-[10px] text-emerald-400">{stage.conversionRate}% conv</span>
                       </div>
                     )}
                     {stage.dropOffRate > 0 && (
                       <div className="flex items-center gap-1">
-                        <TrendingDown className="w-3 h-3 text-red-400" />
+                        <TrendingDown className="w-4 h-4 text-red-400" />
                         <span className="text-[10px] text-red-400">{stage.dropOffRate}% drop</span>
                       </div>
                     )}
@@ -170,7 +170,7 @@ export default function LifecyclePage() {
               const widthPercent = Math.max(15, (mockLifecycleStages[i].count / maxCount) * 100);
               return (
                 <div key={i} style={{ width: `${widthPercent}%` }} className="shrink-0 flex justify-center">
-                  <ArrowRight className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                  <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                 </div>
               );
             })}
@@ -178,7 +178,7 @@ export default function LifecyclePage() {
         </div>
 
         {/* Stage Detail Cards */}
-        <div className="mb-8">
+        <div className="mb-app-3xl">
           <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <BarChart3 className="w-4 h-4" />
             Stage Details
@@ -191,17 +191,17 @@ export default function LifecyclePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
-                  'rounded-2xl p-5 transition-all',
+                  'rounded-[var(--app-radius-xl)] p-app-xl transition-colors',
                   isDark
                     ? 'bg-white/[0.03] border border-white/[0.06]'
-                    : 'bg-white border border-black/[0.06] shadow-sm'
+                    : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                 )}
               >
                 {/* Stage header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                       stageBgColors[stage.stage]
                     )}>
                       <GitBranch className={cn('w-4 h-4', stageColors[stage.stage])} />
@@ -224,7 +224,7 @@ export default function LifecyclePage() {
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   {stage.conversionRate > 0 && (
                     <div className={cn(
-                      'rounded-lg p-2 text-center',
+                      'rounded-[var(--app-radius-lg)] p-2 text-center',
                       isDark ? 'bg-emerald-500/5' : 'bg-emerald-500/5'
                     )}>
                       <p className="text-[10px] text-emerald-400 mb-0.5">Conv.</p>
@@ -235,7 +235,7 @@ export default function LifecyclePage() {
                   )}
                   {stage.dropOffRate > 0 && (
                     <div className={cn(
-                      'rounded-lg p-2 text-center',
+                      'rounded-[var(--app-radius-lg)] p-2 text-center',
                       isDark ? 'bg-red-500/5' : 'bg-red-500/5'
                     )}>
                       <p className="text-[10px] text-red-400 mb-0.5">Drop-off</p>
@@ -246,7 +246,7 @@ export default function LifecyclePage() {
                   )}
                   {stage.avgDaysInStage > 0 && (
                     <div className={cn(
-                      'rounded-lg p-2 text-center',
+                      'rounded-[var(--app-radius-lg)] p-2 text-center',
                       isDark ? 'bg-amber-500/5' : 'bg-amber-500/5'
                     )}>
                       <p className="text-[10px] text-amber-400 mb-0.5">Avg Days</p>
@@ -266,7 +266,7 @@ export default function LifecyclePage() {
                       <div
                         key={s.stage}
                         className={cn(
-                          'flex-1 rounded-sm min-h-[3px] transition-all',
+                          'flex-1 rounded-[var(--app-radius-sm)] min-h-[3px] transition-colors',
                           isActive
                             ? stageBgColors[s.stage].replace('/10', '/40')
                             : 'bg-[var(--app-hover-bg)]'
@@ -280,10 +280,10 @@ export default function LifecyclePage() {
                 {/* AI Insight */}
                 {stage.aiInsight && (
                   <div className={cn(
-                    'rounded-lg p-3 flex items-start gap-2',
+                    'rounded-[var(--app-radius-lg)] p-3 flex items-start gap-2',
                     isDark ? 'bg-purple-500/5 border border-purple-500/10' : 'bg-purple-500/5 border border-purple-500/10'
                   )}>
-                    <Zap className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                    <Zap className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                     <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                       {stage.aiInsight}
                     </p>
@@ -311,7 +311,7 @@ export default function LifecyclePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
                   className={cn(
-                    'rounded-xl p-4 border',
+                    'rounded-[var(--app-radius-lg)] p-4 border',
                     isDark
                       ? 'bg-red-500/5 border-red-500/10'
                       : 'bg-red-500/5 border-red-500/10'
@@ -333,7 +333,7 @@ export default function LifecyclePage() {
                     'text-[10px] font-medium flex items-center gap-1',
                     isDark ? 'text-emerald-400/70' : 'text-emerald-600/70'
                   )}>
-                    <Zap className="w-3 h-3" />
+                    <Zap className="w-4 h-4" />
                     Recommendation: Focus on improving lead qualification criteria
                   </div>
                 </motion.div>

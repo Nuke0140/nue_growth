@@ -63,7 +63,7 @@ export function DrawerForm({
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className={cn(
-              'fixed top-0 right-0 z-50 h-full flex flex-col shadow-2xl',
+              'fixed top-0 right-0 z-50 h-full flex flex-col shadow-[var(--app-shadow-md)]-2xl',
               width
             )}
             style={{
@@ -84,7 +84,7 @@ export function DrawerForm({
               </h2>
               <button
                 onClick={onClose}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
                 style={{ color: 'var(--app-text-muted)' }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor =

@@ -66,7 +66,7 @@ function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boole
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        'rounded-2xl border p-6 md:p-8 relative overflow-hidden',
+        'rounded-[var(--app-radius-xl)] border p-6 md:p-app-3xl relative overflow-hidden',
         isDark
           ? 'bg-gradient-to-br from-amber-500/[0.08] via-white/[0.04] to-white/[0.02] border-amber-500/20'
           : 'bg-gradient-to-br from-amber-50 via-white to-white border-amber-200/50'
@@ -75,10 +75,10 @@ function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boole
       {/* Decorative glow */}
       <div className="absolute -top-20 -right-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative flex flex-col md:flex-row md:items-center gap-6">
-        <div className="flex items-center gap-5">
+      <div className="relative flex flex-col md:flex-row md:items-center gap-app-2xl">
+        <div className="flex items-center gap-app-xl">
           <div className={cn(
-            'w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black ring-2',
+            'w-20 h-20 rounded-[var(--app-radius-xl)] flex items-center justify-center text-2xl font-black ring-2',
             isDark ? 'bg-amber-500/20 text-amber-300 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-amber-300/50'
           )}>
             {rep.repName.split(' ').map(n => n[0]).join('')}
@@ -106,7 +106,7 @@ function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boole
             { label: 'AI Score', value: rep.aiProductivityScore.toString(), icon: Sparkles },
           ].map((metric) => (
             <div key={metric.label} className={cn(
-              'rounded-xl p-3 text-center',
+              'rounded-[var(--app-radius-lg)] p-3 text-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <metric.icon className={cn('w-4 h-4 mx-auto mb-1', 'text-[var(--app-text-muted)]')} />
@@ -147,7 +147,7 @@ export default function TeamPerformancePage() {
     <TooltipProvider delayDuration={300}>
       <div className="h-full flex flex-col overflow-hidden">
         <ScrollArea className="flex-1">
-          <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+          <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
@@ -160,7 +160,7 @@ export default function TeamPerformancePage() {
               </div>
               <div className="flex items-center gap-2">
                 <div className={cn(
-                  'flex items-center rounded-xl border overflow-hidden',
+                  'flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                   'border-[var(--app-border)]'
                 )}>
                   {PERIODS.map((p) => (
@@ -168,7 +168,7 @@ export default function TeamPerformancePage() {
                       key={p}
                       onClick={() => setPeriod(p)}
                       className={cn(
-                        'px-3 py-1.5 text-xs font-medium transition-all',
+                        'px-3 py-1.5 text-xs font-medium transition-colors',
                         period === p
                           ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                           : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
@@ -179,10 +179,10 @@ export default function TeamPerformancePage() {
                   ))}
                 </div>
                 <Button className={cn(
-                  'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
+                  'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                   'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
                 )}>
-                  <Plus className="w-3.5 h-3.5 mr-1.5" />
+                  <Plus className="w-4 h-4 mr-1.5" />
                   Add Rep
                 </Button>
               </div>
@@ -197,7 +197,7 @@ export default function TeamPerformancePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className={cn(
-                'rounded-2xl border overflow-hidden',
+                'rounded-[var(--app-radius-xl)] border overflow-hidden',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
@@ -234,10 +234,10 @@ export default function TeamPerformancePage() {
                           <td className="px-4 py-4 whitespace-nowrap">
                             {rankStyle ? (
                               <div className={cn(
-                                'flex items-center gap-1.5 px-2.5 py-1 rounded-lg w-fit',
+                                'flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--app-radius-lg)] w-fit',
                                 rankStyle.bg
                               )}>
-                                <span className="text-base">{rankStyle.emoji}</span>
+                                <span className="text-sm">{rankStyle.emoji}</span>
                                 <span className={cn('text-xs font-bold',
                                   rep.rank === 1 ? (isDark ? 'text-amber-300' : 'text-amber-700') :
                                   rep.rank === 2 ? (isDark ? 'text-slate-300' : 'text-slate-600') :
@@ -247,7 +247,7 @@ export default function TeamPerformancePage() {
                                 </span>
                               </div>
                             ) : (
-                              <span className={cn('text-xs font-medium px-2.5 py-1 rounded-lg',
+                              <span className={cn('text-xs font-medium px-2.5 py-1 rounded-[var(--app-radius-lg)]',
                                 isDark ? 'text-white/40 bg-white/[0.04]' : 'text-black/40 bg-black/[0.04]'
                               )}>
                                 #{rep.rank}
@@ -259,7 +259,7 @@ export default function TeamPerformancePage() {
                           <td className="px-4 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-3">
                               <div className={cn(
-                                'w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold shrink-0',
+                                'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-bold shrink-0',
                                 rep.rank === 1
                                   ? (isDark ? 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-1 ring-amber-300')
                                   : 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
@@ -286,7 +286,7 @@ export default function TeamPerformancePage() {
 
                           {/* Follow-up SLA */}
                           <td className="px-4 py-4 whitespace-nowrap">
-                            <span className={cn('text-xs font-medium px-2 py-1 rounded-md',
+                            <span className={cn('text-xs font-medium px-2 py-1 rounded-[var(--app-radius-md)]',
                               rep.followUpSla >= 90
                                 ? 'bg-emerald-500/15 text-emerald-500'
                                 : rep.followUpSla >= 80
@@ -300,7 +300,7 @@ export default function TeamPerformancePage() {
                           {/* Avg Response Time */}
                           <td className="px-4 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-1.5">
-                              <Clock className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                              <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                               <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                                 {rep.avgResponseTime}
                               </span>
@@ -321,7 +321,7 @@ export default function TeamPerformancePage() {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <div className="flex items-center gap-1.5 cursor-help">
-                                  <Sparkles className={cn('w-3.5 h-3.5',
+                                  <Sparkles className={cn('w-4 h-4',
                                     rep.aiProductivityScore >= 85 ? 'text-violet-400' : rep.aiProductivityScore >= 70 ? 'text-amber-400' : 'text-red-400'
                                   )} />
                                   <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
@@ -379,7 +379,7 @@ export default function TeamPerformancePage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + i * 0.1 }}
                     className={cn(
-                      'rounded-2xl border p-5',
+                      'rounded-[var(--app-radius-xl)] border p-app-xl',
                       rep.rank === 1
                         ? (isDark ? 'bg-amber-500/[0.06] border-amber-500/20' : 'bg-amber-50/60 border-amber-200/50')
                         : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
@@ -395,13 +395,13 @@ export default function TeamPerformancePage() {
                           {rankStyle && <span className="text-sm">{rankStyle.emoji}</span>}
                         </div>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <Sparkles className="w-3 h-3 text-violet-400" />
+                          <Sparkles className="w-4 h-4 text-violet-400" />
                           <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                             AI Productivity Score
                           </span>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Info className="w-3 h-3 cursor-help opacity-40" />
+                              <Info className="w-4 h-4 cursor-help opacity-40" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p className="text-xs max-w-[200px]">Composite score measuring AI email drafting, auto follow-ups, lead scoring accuracy, and CRM automation usage.</p>
@@ -416,7 +416,7 @@ export default function TeamPerformancePage() {
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
-                            <Target className="w-3 h-3 inline mr-1" />Target Progress
+                            <Target className="w-4 h-4 inline mr-1" />Target Progress
                           </span>
                           <span className={cn('text-[10px] font-bold',
                             rep.targetProgress >= 80 ? 'text-emerald-500' : rep.targetProgress >= 60 ? 'text-amber-500' : 'text-red-500'
@@ -449,7 +449,7 @@ export default function TeamPerformancePage() {
                           { label: 'Response', value: rep.avgResponseTime },
                         ].map((s) => (
                           <div key={s.label} className={cn(
-                            'rounded-lg p-2 text-center',
+                            'rounded-[var(--app-radius-lg)] p-2 text-center',
                             'bg-[var(--app-hover-bg)]'
                           )}>
                             <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>{s.value}</p>
@@ -477,7 +477,7 @@ export default function TeamPerformancePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                   className={cn(
-                    'rounded-2xl border p-4 transition-colors',
+                    'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                     'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                   )}
                 >

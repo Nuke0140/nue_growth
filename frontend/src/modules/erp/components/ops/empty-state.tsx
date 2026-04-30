@@ -312,7 +312,7 @@ function GettingStartedChecklist() {
           <motion.button
             key={idx}
             onClick={() => toggle(idx)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors w-full"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-left transition-colors w-full"
             style={{
               backgroundColor: isChecked
                 ? 'rgba(34,197,94,0.06)'
@@ -327,7 +327,7 @@ function GettingStartedChecklist() {
           >
             {/* Checkbox */}
             <motion.div
-              className="flex items-center justify-center w-5 h-5 rounded-md shrink-0"
+              className="flex items-center justify-center w-5 h-5 rounded-[var(--app-radius-md)] shrink-0"
               style={{
                 backgroundColor: isChecked
                   ? '#22c55e'
@@ -345,7 +345,7 @@ function GettingStartedChecklist() {
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring' as const, stiffness: 500, damping: 25 }}
                 >
-                  <Check className="w-3 h-3" style={{ color: '#fff' }} />
+                  <Check className="w-4 h-4" style={{ color: '#fff' }} />
                 </motion.div>
               )}
             </motion.div>
@@ -372,7 +372,7 @@ function GettingStartedChecklist() {
 
             {!isChecked && (
               <ChevronRight
-                className="w-3.5 h-3.5 ml-auto shrink-0"
+                className="w-4 h-4 ml-auto shrink-0"
                 style={{ color: 'var(--app-text-disabled)' }}
               />
             )}
@@ -406,7 +406,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: ANIMATION.durationSlow, ease: ANIMATION.easeOut }}
       className={cn(
-        'flex flex-col items-center justify-center py-12 px-6 text-center',
+        'flex flex-col items-center justify-center py-app-4xl px-6 text-center',
         className
       )}
       role="status"
@@ -414,7 +414,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
       {/* Icon or Illustration */}
       {IllustrationComponent ? (
         <motion.div
-          className="mb-5"
+          className="mb-app-xl"
           initial={{ y: 8, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.15, duration: ANIMATION.durationSlow, ease: ANIMATION.easeOut }}
@@ -434,11 +434,11 @@ const EmptyStateInner = memo(function EmptyStateInner({
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
+            className="flex items-center justify-center w-16 h-16 rounded-[var(--app-radius-xl)] mb-app-xl"
             style={{ backgroundColor: 'var(--app-hover-bg)' }}
           >
             <Icon
-              className="w-7 h-7"
+              className="w-8 h-8"
               style={{ color: 'var(--app-text-muted)' }}
             />
           </motion.div>
@@ -476,16 +476,16 @@ const EmptyStateInner = memo(function EmptyStateInner({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: ANIMATION.durationSlow, delay: 0.25 }}
-          className="mt-6 w-full max-w-sm"
+          className="mt-app-2xl w-full max-w-sm"
         >
           <div className="flex items-center justify-center gap-1.5 mb-3">
-            <Eye className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+            <Eye className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
             <span className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
               Preview of what this will look like
             </span>
           </div>
           <div
-            className="rounded-lg p-4 opacity-40"
+            className="rounded-[var(--app-radius-lg)] p-4 opacity-40"
             style={{
               backgroundColor: 'var(--app-hover-bg)',
               border: '1px solid var(--app-border)',
@@ -502,7 +502,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: ANIMATION.durationSlow, delay: 0.2 }}
-          className="flex items-center gap-3 mt-6"
+          className="flex items-center gap-3 mt-app-2xl"
         >
           {primaryAction && (
             <motion.button
@@ -516,7 +516,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
                 }
               }}
               type="button"
-              className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
+              className="px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-semibold transition-colors"
               style={{
                 backgroundColor: 'var(--app-accent)',
                 color: '#fff',
@@ -538,7 +538,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
                 }
               }}
               type="button"
-              className="px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+              className="px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
               style={{
                 backgroundColor: 'transparent',
                 color: 'var(--app-text-secondary)',

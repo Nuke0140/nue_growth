@@ -61,7 +61,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
 
         <div className="px-6 pb-6">
           {/* Actions Grid */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-3 mb-app-2xl">
             {actions.map((action, i) => (
               <motion.button
                 key={action.label}
@@ -70,13 +70,13 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                 transition={{ duration: 0.25, delay: i * 0.04 }}
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  'flex items-center gap-3 p-3.5 rounded-xl transition-all duration-200 text-left group',
+                  'flex items-center gap-3 p-3.5 rounded-[var(--app-radius-lg)] transition-colors duration-200 text-left group',
                   isDark
                     ? 'bg-white/[0.03] border border-white/[0.04] hover:bg-white/[0.06] hover:border-white/[0.08]'
                     : 'bg-black/[0.02] border border-black/[0.04] hover:bg-black/[0.04] hover:border-black/[0.08]'
                 )}
               >
-                <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center', action.bg)}>
+                <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center', action.bg)}>
                   <action.icon className={cn('w-4 h-4', action.color)} />
                 </div>
                 <span className={cn(
@@ -92,7 +92,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
           <Separator className={cn('bg-[var(--app-hover-bg)]')} />
 
           {/* Recent Actions */}
-          <div className="mt-5">
+          <div className="mt-app-xl">
             <h4 className={cn(
               'text-xs font-semibold uppercase tracking-wider mb-3',
               'text-[var(--app-text-muted)]'
@@ -107,7 +107,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.25, delay: 0.3 + i * 0.04 }}
                   className={cn(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors cursor-pointer',
+                    'flex items-center gap-3 px-3 py-2.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer',
                     'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
@@ -128,7 +128,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                     {item.time}
                   </span>
                   <ArrowRight className={cn(
-                    'w-3 h-3 opacity-0 group-hover:opacity-100',
+                    'w-4 h-4 opacity-0 group-hover:opacity-100',
                     'text-[var(--app-text-disabled)]'
                   )} />
                 </motion.div>

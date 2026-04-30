@@ -24,8 +24,8 @@ const severityBorder: Record<string, string> = {
 
 const severityGlow: Record<string, string> = {
   normal: '',
-  warning: 'shadow-amber-500/5',
-  critical: 'shadow-red-500/5',
+  warning: 'shadow-[var(--app-shadow-md)]-amber-500/5',
+  critical: 'shadow-[var(--app-shadow-md)]-red-500/5',
 };
 
 export default function KPICard({
@@ -56,8 +56,8 @@ export default function KPICard({
       whileTap={{ scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className={cn(
-        'relative rounded-2xl border border-l-4 p-4 sm:p-5',
-        'shadow-sm hover:shadow-md transition-shadow',
+        'relative rounded-[var(--app-radius-xl)] border border-l-4 p-4 sm:p-app-xl',
+        'shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] hover:shadow-[var(--app-shadow-md)]-md transition-shadow',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -115,7 +115,7 @@ export default function KPICard({
         {Icon && (
           <div
             className={cn(
-              'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+              'flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)]',
             )}
           >

@@ -41,20 +41,20 @@ export default function QualificationScoreDisplay({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-xl p-4 border',
+        'rounded-[var(--app-radius-lg)] p-4 border',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
-          : 'bg-white border-black/[0.06] shadow-sm'
+          : 'bg-white border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
       )}
     >
       {/* Label */}
       <div className="flex items-center gap-2 mb-3">
         {Icon && (
           <div className={cn(
-            'w-7 h-7 rounded-lg flex items-center justify-center',
+            'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
             'bg-[var(--app-hover-bg)]'
           )}>
-            <Icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-secondary)]')} />
+            <Icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
           </div>
         )}
         <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>

@@ -70,7 +70,7 @@ export const NavigationTopbar = React.memo(function NavigationTopbar({
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className="h-8  w-7"
           disabled={!canBack}
           onClick={goBack}
           aria-label="Go back"
@@ -80,7 +80,7 @@ export const NavigationTopbar = React.memo(function NavigationTopbar({
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className="h-8  w-7"
           disabled={!canFwd}
           onClick={goForward}
           aria-label="Go forward"

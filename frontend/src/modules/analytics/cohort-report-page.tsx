@@ -56,18 +56,18 @@ export default function CohortReportPage() {
   });
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   const statCard = cn(
-    'rounded-2xl border shadow-sm p-4',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -88,7 +88,7 @@ export default function CohortReportPage() {
               transition={{ delay: i * 0.04, duration: 0.25 }}
               onClick={() => setSelectedView(i)}
               className={cn(
-                'px-3 py-1.5 rounded-xl text-xs font-medium transition-all',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 i === selectedView
                   ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
                   : isDark
@@ -111,7 +111,7 @@ export default function CohortReportPage() {
               transition={{ delay: i * 0.03, duration: 0.2 }}
               onClick={() => setSelectedMetric(i)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 i === selectedMetric
                   ? 'bg-purple-500/15 text-purple-600 border border-purple-500/30'
                   : isDark
@@ -155,7 +155,7 @@ export default function CohortReportPage() {
                   {stat.value}
                 </p>
                 <div className={cn('flex items-center gap-1 mt-1', stat.trend === 'up' ? 'text-emerald-500' : stat.trend === 'down' ? 'text-red-500' : 'text-zinc-500')}>
-                  <TrendIcon className="w-3 h-3" />
+                  <TrendIcon className="w-4 h-4" />
                   <span className="text-[10px] font-medium">vs prior</span>
                 </div>
               </motion.div>
@@ -180,7 +180,7 @@ export default function CohortReportPage() {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                       <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     </div>
                     <div>
@@ -206,7 +206,7 @@ export default function CohortReportPage() {
                       </span>
                       <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                         <div
-                          className="h-full rounded-full bg-emerald-500 transition-all"
+                          className="h-full rounded-full bg-emerald-500 transition-colors"
                           style={{ width: `${period.retention}%` }}
                         />
                       </div>

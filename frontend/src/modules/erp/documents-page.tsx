@@ -86,7 +86,7 @@ function DocumentsPageInner() {
       sortable: true,
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style={{ backgroundColor: 'var(--app-info-bg)' }}>
+          <div className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0" style={{ backgroundColor: 'var(--app-info-bg)' }}>
             <FileText className="w-4 h-4" style={{ color: '#60a5fa' }} />
           </div>
           <div className="min-w-0">
@@ -157,10 +157,10 @@ function DocumentsPageInner() {
       render: () => (
         <div className="flex items-center gap-1">
           <button className="app-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Eye className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+            <Eye className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           </button>
           <button className="app-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Download className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+            <Download className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           </button>
         </div>
       ),
@@ -172,7 +172,7 @@ function DocumentsPageInner() {
 
   return (
     <PageShell title="Documents" icon={FileText}>
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Search + Filter */}
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search documents..." className="max-w-sm" />

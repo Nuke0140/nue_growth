@@ -169,7 +169,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                     {col.sortable && (
                       <ArrowUpDown
                         className={cn(
-                          'w-3.5 h-3.5 transition-opacity',
+                          'w-4 h-4 transition-opacity',
                           sortKey === col.key
                             ? 'opacity-100'
                             : 'opacity-30'

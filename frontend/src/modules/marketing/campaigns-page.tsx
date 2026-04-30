@@ -86,8 +86,8 @@ export default function CampaignsPage() {
       {campaignChannels.map(ch => {
         const ChIcon = channelIcons[ch];
         return (
-          <div key={ch} className={cn('w-6 h-6 rounded-md flex items-center justify-center', 'bg-[var(--app-hover-bg)]')} title={ch}>
-            <ChIcon className="w-3 h-3" />
+          <div key={ch} className={cn('w-6 h-6 rounded-[var(--app-radius-md)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')} title={ch}>
+            <ChIcon className="w-4 h-4" />
           </div>
         );
       })}
@@ -102,7 +102,7 @@ export default function CampaignsPage() {
         <div className={cn('w-16 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
           <div
             className={cn(
-              'h-full rounded-full transition-all',
+              'h-full rounded-full transition-colors',
               pct > 80 ? 'bg-red-500' : pct > 60 ? 'bg-amber-500' : 'bg-emerald-500'
             )}
             style={{ width: `${Math.min(pct, 100)}%` }}
@@ -120,7 +120,7 @@ export default function CampaignsPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.03, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-5 transition-all duration-200',
+        'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
       )}
     >
@@ -162,15 +162,15 @@ export default function CampaignsPage() {
 
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-1">
-          <Eye className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <Eye className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{campaign.clicks.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-1">
-          <Zap className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{campaign.leads.toLocaleString()} leads</span>
         </div>
         <div className="flex items-center gap-1">
-          <TrendingUp className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{campaign.conversions} conv</span>
         </div>
       </div>
@@ -180,11 +180,11 @@ export default function CampaignsPage() {
           {campaign.owner} · {campaign.startDate}
         </span>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', 'hover:bg-[var(--app-hover-bg)]')}>
-            {campaign.status === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+          <Button variant="ghost" size="icon" className={cn('h-8  w-7 rounded-[var(--app-radius-lg)]', 'hover:bg-[var(--app-hover-bg)]')}>
+            {campaign.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
           </Button>
-          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', 'hover:bg-[var(--app-hover-bg)]')}>
-            <Copy className="w-3.5 h-3.5" />
+          <Button variant="ghost" size="icon" className={cn('h-8  w-7 rounded-[var(--app-radius-lg)]', 'hover:bg-[var(--app-hover-bg)]')}>
+            <Copy className="w-4 h-4" />
           </Button>
         </div>
       </div>
@@ -193,11 +193,11 @@ export default function CampaignsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Megaphone className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -212,7 +212,7 @@ export default function CampaignsPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl border w-48',
+              'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-48',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -227,13 +227,13 @@ export default function CampaignsPage() {
             <Button
               variant="ghost"
               onClick={() => setShowFilters(!showFilters)}
-              className={cn('h-9 w-9 rounded-xl p-0', 'hover:bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}
+              className={cn('h-10  w-9 rounded-[var(--app-radius-lg)] p-0', 'hover:bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}
             >
               <Filter className="w-4 h-4" />
             </Button>
             <Button
               onClick={() => navigateTo('campaign-builder')}
-              className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+              className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create Campaign</span>
@@ -250,13 +250,13 @@ export default function CampaignsPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className={cn('rounded-2xl border p-4 flex flex-wrap gap-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-xl)] border p-4 flex flex-wrap gap-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div>
                   <p className={cn('text-[10px] uppercase tracking-wider mb-2 font-medium', 'text-[var(--app-text-muted)]')}>Channel</p>
                   <div className="flex gap-1 flex-wrap">
                     <button
                       onClick={() => setChannelFilter('all')}
-                      className={cn('px-2.5 py-1 rounded-lg text-xs font-medium transition-colors',
+                      className={cn('px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                         channelFilter === 'all'
                           ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                           : (isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1]' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1]')
@@ -266,7 +266,7 @@ export default function CampaignsPage() {
                       <button
                         key={ch}
                         onClick={() => setChannelFilter(ch)}
-                        className={cn('px-2.5 py-1 rounded-lg text-xs font-medium capitalize transition-colors',
+                        className={cn('px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium capitalize transition-colors',
                           channelFilter === ch
                             ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                             : (isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1]' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1]')
@@ -281,7 +281,7 @@ export default function CampaignsPage() {
                   <div className="flex gap-1 flex-wrap">
                     <button
                       onClick={() => setStatusFilter('all')}
-                      className={cn('px-2.5 py-1 rounded-lg text-xs font-medium transition-colors',
+                      className={cn('px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                         statusFilter === 'all'
                           ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                           : (isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1]' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1]')
@@ -291,7 +291,7 @@ export default function CampaignsPage() {
                       <button
                         key={st}
                         onClick={() => setStatusFilter(st)}
-                        className={cn('px-2.5 py-1 rounded-lg text-xs font-medium capitalize transition-colors',
+                        className={cn('px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium capitalize transition-colors',
                           statusFilter === st
                             ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
                             : (isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1]' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1]')
@@ -318,12 +318,12 @@ export default function CampaignsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
@@ -336,11 +336,11 @@ export default function CampaignsPage() {
           <p className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
             Showing {filteredCampaigns.length} campaign{filteredCampaigns.length !== 1 ? 's' : ''}
           </p>
-          <div className={cn('flex rounded-xl border p-0.5', 'border-[var(--app-border)]')}>
+          <div className={cn('flex rounded-[var(--app-radius-lg)] border p-0.5', 'border-[var(--app-border)]')}>
             <button
               onClick={() => setViewMode('table')}
               className={cn(
-                'p-1.5 rounded-lg transition-colors',
+                'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                 viewMode === 'table'
                   ? (isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
@@ -351,7 +351,7 @@ export default function CampaignsPage() {
             <button
               onClick={() => setViewMode('cards')}
               className={cn(
-                'p-1.5 rounded-lg transition-colors',
+                'p-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                 viewMode === 'cards'
                   ? (isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
@@ -364,7 +364,7 @@ export default function CampaignsPage() {
 
         {/* Table View */}
         {viewMode === 'table' && (
-          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -427,11 +427,11 @@ export default function CampaignsPage() {
                       </td>
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-1">
-                          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', 'hover:bg-[var(--app-hover-bg)]')}>
-                            {campaign.status === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                          <Button variant="ghost" size="icon" className={cn('h-8  w-7 rounded-[var(--app-radius-lg)]', 'hover:bg-[var(--app-hover-bg)]')}>
+                            {campaign.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                           </Button>
-                          <Button variant="ghost" size="icon" className={cn('h-7 w-7 rounded-lg', 'hover:bg-[var(--app-hover-bg)]')}>
-                            <Copy className="w-3.5 h-3.5" />
+                          <Button variant="ghost" size="icon" className={cn('h-8  w-7 rounded-[var(--app-radius-lg)]', 'hover:bg-[var(--app-hover-bg)]')}>
+                            <Copy className="w-4 h-4" />
                           </Button>
                         </div>
                       </td>
@@ -441,7 +441,7 @@ export default function CampaignsPage() {
               </table>
             </div>
             {filteredCampaigns.length === 0 && (
-              <div className="py-12 text-center">
+              <div className="py-app-4xl text-center">
                 <Megaphone className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
                 <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No campaigns match your filters</p>
               </div>
@@ -454,7 +454,7 @@ export default function CampaignsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {filteredCampaigns.map((campaign: Campaign, i) => renderCampaignCard(campaign, i))}
             {filteredCampaigns.length === 0 && (
-              <div className="col-span-full py-12 text-center">
+              <div className="col-span-full py-app-4xl text-center">
                 <Megaphone className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
                 <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No campaigns match your filters</p>
               </div>

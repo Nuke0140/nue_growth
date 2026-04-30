@@ -84,8 +84,8 @@ function AssetCard({ asset, onClick, idx }: AssetCardProps) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: idx * 0.04, duration: 0.3 }}
-      className="app-card p-5 cursor-pointer transition-colors"
-      style={{ borderRadius: '1rem' }}
+      className="app-card p-app-xl cursor-pointer transition-colors"
+      style={{ borderRadius: 'var(--app-radius-md)' }}
       onClick={onClick}
       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-shadow-accent)'; }}
       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border)'; }}
@@ -93,7 +93,7 @@ function AssetCard({ asset, onClick, idx }: AssetCardProps) {
       {/* Icon + Status */}
       <div className="flex items-start justify-between mb-4">
         <div
-          className="flex items-center justify-center w-12 h-12 rounded-xl"
+          className="flex items-center justify-center w-12 h-12 rounded-[var(--app-radius-lg)]"
           style={{ backgroundColor: assetIconColorMap[asset.type] || 'rgba(204,92,55,0.12)' }}
         >
           <Icon className="w-6 h-6" style={{ color: assetIconTextColorMap[asset.type] || '#cc5c37' }} />
@@ -184,11 +184,11 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Asset header */}
       <div className="flex items-center gap-3">
         <div
-          className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0"
+          className="flex items-center justify-center w-12 h-12 rounded-[var(--app-radius-lg)] shrink-0"
           style={{ backgroundColor: assetIconColorMap[asset.type] || 'rgba(204,92,55,0.12)' }}
         >
           {(() => {
@@ -204,21 +204,21 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
 
       {/* Details grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+        <div className="rounded-[var(--app-radius-lg)] p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>Assigned To</p>
           <p className="text-sm font-medium mt-1 truncate" style={{ color: 'var(--app-text)' }}>{asset.assignedTo}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+        <div className="rounded-[var(--app-radius-lg)] p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>Status</p>
           <p className="mt-1">
             <StatusBadge status={statusLabels[asset.status] || asset.status} />
           </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+        <div className="rounded-[var(--app-radius-lg)] p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>Purchase Cost</p>
           <p className="text-sm font-medium mt-1" style={{ color: 'var(--app-text)' }}>{formatINR(asset.purchaseCost)}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+        <div className="rounded-[var(--app-radius-lg)] p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
           <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>Warranty Until</p>
           <p className="text-sm font-medium mt-1" style={{ color: 'var(--app-text)' }}>{asset.warrantyEnd}</p>
         </div>
@@ -238,7 +238,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
           Issue History
         </h4>
         {asset.issueLogs.length === 0 ? (
-          <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+          <div className="rounded-[var(--app-radius-lg)] p-6 text-center" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
             <CheckCircle2 className="w-8 h-8 mx-auto mb-2" style={{ color: '#34d399', opacity: 0.4 }} />
             <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>No issues reported</p>
           </div>
@@ -247,7 +247,7 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
             {asset.issueLogs.map(log => (
               <div
                 key={log.id}
-                className="rounded-xl p-3 flex items-start gap-3"
+                className="rounded-[var(--app-radius-lg)] p-3 flex items-start gap-3"
                 style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}
               >
                 <div className="mt-0.5">
@@ -282,12 +282,12 @@ function AssetDetailContent({ asset }: { asset: Asset }) {
 
       {/* Report Issue button */}
       <button
-        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-colors"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
         style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-selection-bg)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(204,92,55,0.12)'; }}
       >
-        <AlertTriangle className="w-3.5 h-3.5" /> Report Issue
+        <AlertTriangle className="w-4 h-4" /> Report Issue
       </button>
     </div>
   );
@@ -352,7 +352,7 @@ function AssetsPageInner() {
       render: (row) => (
         <div className="flex items-center gap-3">
           <div
-            className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0"
             style={{ backgroundColor: assetIconColorMap[row.type as string] || 'rgba(204,92,55,0.12)' }}
           >
             {(() => {
@@ -424,12 +424,12 @@ function AssetsPageInner() {
   return (
     <>
     <PageShell title="Assets" icon={Monitor} createType="asset">
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Search + Filter + View Toggle */}
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
           <SearchInput value={search} onChange={setSearch} placeholder="Search assets by name, type, serial..." className="max-w-sm" />
           <FilterBar filters={filterOptions} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
-          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+          <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-[var(--app-radius-lg)]" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
             <button
               className={cn('flex items-center justify-center w-8 h-8 transition-colors')}
               style={{
@@ -491,7 +491,7 @@ function AssetsPageInner() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
               >
                 {filtered.length === 0 ? (
-                  <div className="col-span-full app-card p-12 text-center">
+                  <div className="col-span-full app-card p-app-4xl text-center">
                     <Package className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--app-text-muted)', opacity: 0.3 }} />
                     <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>No assets found.</p>
                   </div>

@@ -125,7 +125,7 @@ function FormFieldInput({
         placeholder={field.placeholder}
         rows={3}
         className={cn(
-          'w-full rounded-xl border text-[13px] placeholder:text-[var(--app-text-disabled)] resize-none transition-colors',
+          'w-full rounded-[var(--app-radius-lg)] border text-[13px] placeholder:text-[var(--app-text-disabled)] resize-none transition-colors',
           errorBorder
         )}
         style={{
@@ -142,7 +142,7 @@ function FormFieldInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          'w-full rounded-xl border text-[13px] transition-colors cursor-pointer',
+          'w-full rounded-[var(--app-radius-lg)] border text-[13px] transition-colors cursor-pointer',
           errorBorder,
           !value && 'text-[var(--app-text-disabled)]'
         )}
@@ -172,7 +172,7 @@ function FormFieldInput({
         placeholder={field.placeholder}
         min={0}
         className={cn(
-          'w-full rounded-xl border text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
+          'w-full rounded-[var(--app-radius-lg)] border text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
           errorBorder
         )}
         style={{
@@ -194,7 +194,7 @@ function FormFieldInput({
               type="button"
               onClick={() => onChange(opt.getValue())}
               className={cn(
-                'text-[11px] px-2.5 py-1 rounded-lg border transition-colors',
+                'text-[11px] px-2.5 py-1 rounded-[var(--app-radius-lg)] border transition-colors',
                 value === opt.getValue()
                   ? 'bg-[var(--app-accent-light)] border-[var(--app-accent)]/30 text-[var(--app-accent)]'
                   : 'bg-[var(--app-hover-bg)] border-[var(--app-border)] text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
@@ -209,7 +209,7 @@ function FormFieldInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={cn(
-            'w-full rounded-xl border text-[13px] transition-colors',
+            'w-full rounded-[var(--app-radius-lg)] border text-[13px] transition-colors',
             errorBorder,
             '[&::-webkit-calendar-picker-indicator]:opacity-30 [&::-webkit-calendar-picker-indicator]:invert'
           )}
@@ -230,7 +230,7 @@ function FormFieldInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={field.placeholder}
       className={cn(
-        'w-full rounded-xl border text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
+        'w-full rounded-[var(--app-radius-lg)] border text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
         errorBorder
       )}
       style={{
@@ -389,7 +389,7 @@ function CreateModalInner({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative"
+              className="w-full max-w-lg rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-2xl overflow-hidden relative"
               style={{
                 backgroundColor: CSS.cardBg,
                 border: `1px solid ${CSS.borderStrong}`,
@@ -408,7 +408,7 @@ function CreateModalInner({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: ANIMATION.duration.slow }}
-                    className="absolute inset-0 z-10 bg-emerald-500/15 rounded-2xl flex items-center justify-center pointer-events-none"
+                    className="absolute inset-0 z-10 bg-emerald-500/15 rounded-[var(--app-radius-xl)] flex items-center justify-center pointer-events-none"
                     aria-hidden="true"
                   >
                     <motion.div
@@ -430,7 +430,7 @@ function CreateModalInner({
                 <div className="flex items-center gap-3">
                   {Icon && (
                     <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center"
+                      className="w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center"
                       style={{ backgroundColor: CSS.accentLight }}
                     >
                       <Icon
@@ -461,7 +461,7 @@ function CreateModalInner({
                     variant="ghost"
                     size="icon"
                     onClick={onClose}
-                    className="h-8 w-8 rounded-lg hover:bg-[var(--app-hover-bg)]"
+                    className="h-8 w-8 rounded-[var(--app-radius-lg)] hover:bg-[var(--app-hover-bg)]"
                     style={{ color: CSS.textMuted }}
                     aria-label="Close dialog"
                   >
@@ -507,7 +507,7 @@ function CreateModalInner({
                   variant="ghost"
                   onClick={onClose}
                   disabled={submitting}
-                  className="h-9 px-4 rounded-xl text-[13px] hover:bg-[var(--app-hover-bg)]"
+                  className="h-10  px-4 rounded-[var(--app-radius-lg)] text-[13px] hover:bg-[var(--app-hover-bg)]"
                   style={{ color: CSS.textSecondary }}
                 >
                   Cancel
@@ -515,14 +515,14 @@ function CreateModalInner({
                 <Button
                   onClick={handleSubmit as unknown as () => void}
                   disabled={submitting}
-                  className="h-9 px-5 rounded-xl text-[13px] font-medium text-white transition-colors"
+                  className="h-10  px-app-xl rounded-[var(--app-radius-lg)] text-[13px] font-medium text-white transition-colors"
                   style={{
                     backgroundColor: CSS.accent,
                   }}
                 >
                   {submitting ? (
                     <span className="flex items-center gap-2">
-                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Creating...
                     </span>
                   ) : (

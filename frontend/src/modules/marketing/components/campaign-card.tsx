@@ -8,12 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import type { Campaign } from '@/modules/marketing/types';
 
 const CHANNEL_ICONS: Record<string, React.ReactNode> = {
-  email: <Mail className="w-3 h-3" />,
-  whatsapp: <MessageSquare className="w-3 h-3" />,
-  sms: <Smartphone className="w-3 h-3" />,
-  social: <Share2 className="w-3 h-3" />,
-  ads: <Megaphone className="w-3 h-3" />,
-  'landing-page': <Globe className="w-3 h-3" />,
+  email: <Mail className="w-4 h-4" />,
+  whatsapp: <MessageSquare className="w-4 h-4" />,
+  sms: <Smartphone className="w-4 h-4" />,
+  social: <Share2 className="w-4 h-4" />,
+  ads: <Megaphone className="w-4 h-4" />,
+  'landing-page': <Globe className="w-4 h-4" />,
 };
 
 const STATUS_COLORS: Record<string, string> = {
@@ -36,8 +36,8 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
     <motion.div
       whileHover={{ y: -2, scale: 1.01 }}
       transition={{ duration: 0.2 }}
-      className={cn('rounded-2xl border p-5 cursor-pointer transition-shadow',
-        isDark ? 'bg-white/[0.02] border-white/[0.06] hover:shadow-lg hover:shadow-black/20' : 'bg-white border-black/[0.06] hover:shadow-lg hover:shadow-black/5'
+      className={cn('rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-shadow',
+        isDark ? 'bg-white/[0.02] border-white/[0.06] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/20' : 'bg-white border-black/[0.06] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/5'
       )}
     >
       <div className="flex items-start justify-between gap-2 mb-3">
@@ -54,14 +54,14 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
         {campaign.channels.map(ch => (
           <div key={ch} className={cn('w-5 h-5 rounded flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}
             title={ch}>
-            <span className={'text-[var(--app-text-muted)]'}>{CHANNEL_ICONS[ch] || <Megaphone className="w-3 h-3" />}</span>
+            <span className={'text-[var(--app-text-muted)]'}>{CHANNEL_ICONS[ch] || <Megaphone className="w-4 h-4" />}</span>
           </div>
         ))}
       </div>
 
       {campaign.roi > 0 && (
         <div className="flex items-center gap-1 mb-3">
-          <TrendingUp className="w-3 h-3 text-emerald-500" />
+          <TrendingUp className="w-4 h-4 text-emerald-500" />
           <span className="text-xs font-semibold text-emerald-500">{campaign.roi}% ROI</span>
         </div>
       )}

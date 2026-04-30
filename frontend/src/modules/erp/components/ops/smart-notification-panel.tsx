@@ -128,7 +128,7 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-50 h-full w-[420px] max-w-[90vw] flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 z-50 h-full w-[420px] max-w-[90vw] flex flex-col shadow-[var(--app-shadow-md)]-2xl"
             style={{
               backgroundColor: 'var(--app-bg)',
               borderLeft: '1px solid var(--app-border)',
@@ -136,12 +136,12 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
+              className="flex items-center justify-between px-app-xl py-4 shrink-0"
               style={{ borderBottom: '1px solid var(--app-border)' }}
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="flex items-center justify-center w-9 h-9 rounded-xl"
+                  className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
                   style={{ backgroundColor: 'var(--app-accent-light)' }}
                 >
                   <Bell className="w-[18px] h-[18px]" style={{ color: 'var(--app-accent)' }} />
@@ -160,14 +160,14 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="text-[11px] font-medium text-[var(--app-accent)] hover:text-[var(--app-accent-hover)] transition-colors px-2 py-1 rounded-lg hover:bg-[var(--app-active-bg)]"
+                    className="text-[11px] font-medium text-[var(--app-accent)] hover:text-[var(--app-accent-hover)] transition-colors px-2 py-1 rounded-[var(--app-radius-lg)] hover:bg-[var(--app-active-bg)]"
                   >
                     Mark all read
                   </button>
                 )}
                 <button
                   onClick={onClose}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                  className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
@@ -176,13 +176,13 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
             </div>
 
             {/* Tabs */}
-            <div className="flex items-center gap-1 px-5 py-3 shrink-0" style={{ borderBottom: '1px solid var(--app-border)' }}>
+            <div className="flex items-center gap-1 px-app-xl py-3 shrink-0" style={{ borderBottom: '1px solid var(--app-border)' }}>
               {tabs.map((tab) => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
                   className={cn(
-                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                     activeTab === tab.key
                       ? 'bg-[var(--app-active-bg)] text-[var(--app-accent)]'
                       : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]'
@@ -220,7 +220,7 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: idx * 0.04, duration: 0.2 }}
                         className={cn(
-                          'flex items-start gap-3 px-5 py-3.5 transition-colors cursor-pointer group',
+                          'flex items-start gap-3 px-app-xl py-3.5 transition-colors cursor-pointer group',
                           !notif.read
                             ? 'bg-[var(--app-active-bg)] hover:bg-[var(--app-active-bg)]'
                             : 'hover:bg-[var(--app-hover-bg)]'
@@ -228,7 +228,7 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
                         onClick={() => handleAction(notif)}
                       >
                         {/* Icon */}
-                        <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                        <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                           <NotifIcon className={cn('w-4 h-4', config.color)} />
                         </div>
 
@@ -266,10 +266,10 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
                             e.stopPropagation();
                             dismissNotification(notif.id);
                           }}
-                          className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-6 h-6 rounded-lg text-[var(--app-text-disabled)] hover:text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] transition-all shrink-0 mt-0.5"
+                          className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-6 h-6 rounded-[var(--app-radius-lg)] text-[var(--app-text-disabled)] hover:text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] transition-colors shrink-0 mt-0.5"
                           aria-label="Dismiss"
                         >
-                          <Trash2 className="w-3 h-3" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </motion.div>
                     );
@@ -279,7 +279,7 @@ export function SmartNotificationPanel({ isOpen, onClose }: SmartNotificationPan
             </div>
 
             {/* Footer */}
-            <div className="shrink-0 px-5 py-3" style={{ borderTop: '1px solid var(--app-border)' }}>
+            <div className="shrink-0 px-app-xl py-3" style={{ borderTop: '1px solid var(--app-border)' }}>
               <button
                 onClick={() => {
                   navigateTo('ai-ops');

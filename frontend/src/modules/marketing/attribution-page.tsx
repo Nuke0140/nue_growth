@@ -83,11 +83,11 @@ export default function AttributionPage() {
   const totalRevenue = useMemo(() => adjustedChannels.reduce((s, c) => s + c.revenue, 0), [adjustedChannels]);
   const maxRevenue = useMemo(() => Math.max(...adjustedChannels.map(c => c.revenue)), [adjustedChannels]);
 
-  const card = cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -123,7 +123,7 @@ export default function AttributionPage() {
               transition={{ delay: i * 0.04, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setSelectedModel(model.id)}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
                 isActive
                   ? 'bg-orange-500/15 text-orange-600 border border-orange-500/20'
                   : isDark
@@ -131,7 +131,7 @@ export default function AttributionPage() {
                     : 'bg-black/[0.03] border border-black/[0.06] text-black/50 hover:bg-black/[0.06]',
               )}
             >
-              {isAI && <Zap className="w-3.5 h-3.5" />}
+              {isAI && <Zap className="w-4 h-4" />}
               {model.label}
             </motion.button>
           );
@@ -143,7 +143,7 @@ export default function AttributionPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         key={selectedModel}
-        className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+        className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
       >
         <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
           <span className="font-semibold">{MODEL_COMPARISON[selectedModel].desc}</span>
@@ -159,7 +159,7 @@ export default function AttributionPage() {
         transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-app-xl">
           <div className="flex items-center gap-2">
             <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
             <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Attribution</h3>
@@ -202,13 +202,13 @@ export default function AttributionPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Channel Contribution Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="p-4">
             <div className="flex items-center gap-2">
@@ -280,7 +280,7 @@ export default function AttributionPage() {
                   key={key}
                   onClick={() => setSelectedModel(key)}
                   className={cn(
-                    'w-full rounded-xl border p-3 text-left transition',
+                    'w-full rounded-[var(--app-radius-lg)] border p-3 text-left transition',
                     isActive
                       ? isDark
                         ? 'bg-orange-500/5 border-orange-500/20'
@@ -292,7 +292,7 @@ export default function AttributionPage() {
                 >
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
-                      {key === 'ai' && <Zap className="w-3.5 h-3.5 text-amber-500" />}
+                      {key === 'ai' && <Zap className="w-4 h-4 text-amber-500" />}
                       <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                         {ATTRIBUTION_MODELS.find(m => m.id === key)?.label ?? key}
                       </span>
@@ -321,17 +321,17 @@ export default function AttributionPage() {
         transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center gap-2 mb-app-xl">
           <GitBranch className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
           <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Conversion Paths</h3>
           <span className={cn('text-xs ml-auto', 'text-[var(--app-text-muted)]')}>Top 3 journeys</span>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-app-xl">
           {CONVERSION_PATHS.map((path, i) => (
             <div
               key={i}
               className={cn(
-                'rounded-xl border p-4',
+                'rounded-[var(--app-radius-lg)] border p-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -354,7 +354,7 @@ export default function AttributionPage() {
                       animate={{ scale: 1 }}
                       transition={{ delay: j * 0.1 + i * 0.1, duration: 0.3 }}
                       className={cn(
-                        'px-3 py-1.5 rounded-lg text-[10px] font-medium whitespace-nowrap',
+                        'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium whitespace-nowrap',
                         j === path.steps.length - 1
                           ? 'bg-green-500/15 text-green-600'
                           : isDark
@@ -365,7 +365,7 @@ export default function AttributionPage() {
                       {step}
                     </motion.div>
                     {j < path.steps.length - 1 && (
-                      <ArrowRight className={cn('w-3 h-3 shrink-0', 'text-[var(--app-text-disabled)]')} />
+                      <ArrowRight className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                     )}
                   </div>
                 ))}

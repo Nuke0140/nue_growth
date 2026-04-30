@@ -75,13 +75,13 @@ export default function LandingFunnelsPage() {
     return Math.max(...selectedFunnel.steps.map(s => s.visitors));
   }, [selectedFunnel]);
 
-  const card = cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
   const subtle = 'text-[var(--app-text-muted)]';
   const medium = 'text-[var(--app-text-secondary)]';
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -108,7 +108,7 @@ export default function LandingFunnelsPage() {
             transition={{ delay: i * 0.05, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => setSelectedFunnelIdx(i)}
             className={cn(
-              'px-4 py-2 rounded-xl text-sm font-medium transition-all',
+              'px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
               selectedFunnelIdx === i
                 ? 'bg-orange-500/15 text-orange-600 border border-orange-500/20'
                 : isDark
@@ -153,7 +153,7 @@ export default function LandingFunnelsPage() {
         transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center gap-2 mb-app-xl">
           <Filter className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
           <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
             {selectedFunnel.name}
@@ -179,12 +179,12 @@ export default function LandingFunnelsPage() {
 
                   {/* Bar */}
                   <div className="flex-1">
-                    <div className={cn('h-10 rounded-xl overflow-hidden relative', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('h-10 rounded-[var(--app-radius-lg)] overflow-hidden relative', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${widthPercent}%` }}
                         transition={{ delay: i * 0.1 + 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className="h-full rounded-xl flex items-center px-4"
+                        className="h-full rounded-[var(--app-radius-lg)] flex items-center px-4"
                         style={{ backgroundColor: barColor, opacity: 0.9 }}
                       >
                         <span className="text-white text-xs font-semibold">
@@ -216,7 +216,7 @@ export default function LandingFunnelsPage() {
                       <div>
                         <p className={cn('text-[10px]', subtle)}>Drop-off</p>
                         <div className="flex items-center justify-end gap-1">
-                          <TrendingDown className={cn('w-3 h-3', dropOffColor)} />
+                          <TrendingDown className={cn('w-4 h-4', dropOffColor)} />
                           <span className={cn('text-xs font-bold tabular-nums', dropOffColor)}>
                             {step.dropOff}%
                           </span>
@@ -271,13 +271,13 @@ export default function LandingFunnelsPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* CTA Tracking Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -337,7 +337,7 @@ export default function LandingFunnelsPage() {
             <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
             <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Funnel Comparison</h3>
           </div>
-          <div className="space-y-5">
+          <div className="space-y-app-xl">
             {/* Revenue comparison */}
             <div>
               <p className={cn('text-xs font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Total Revenue</p>

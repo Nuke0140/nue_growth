@@ -507,7 +507,7 @@ export const CommandPalette = React.memo(function CommandPalette({
             className="fixed inset-x-0 top-[12%] z-[101] mx-auto w-full max-w-lg px-4"
           >
             <div
-              className="rounded-2xl overflow-hidden shadow-2xl"
+              className="rounded-[var(--app-radius-xl)] overflow-hidden shadow-[var(--app-shadow-md)]-2xl"
               style={{
                 backgroundColor: 'var(--app-card-bg)',
                 border: '1px solid var(--app-border-strong)',
@@ -578,7 +578,7 @@ export const CommandPalette = React.memo(function CommandPalette({
               <div ref={listRef} className="max-h-[420px] overflow-y-auto py-2 custom-scrollbar" role="listbox" aria-label="Search results">
                 {/* No results state */}
                 {selectableItems.length === 0 && hasQuery && (
-                  <div className="flex flex-col items-center justify-center py-10">
+                  <div className="flex flex-col items-center justify-center py-app-4xl">
                     <Search
                       className="w-8 h-8 mb-3"
                       style={{ color: 'var(--app-text-disabled)' }}
@@ -600,7 +600,7 @@ export const CommandPalette = React.memo(function CommandPalette({
 
                 {/* No results when no query */}
                 {selectableItems.length === 0 && !hasQuery && (
-                  <div className="flex flex-col items-center justify-center py-10">
+                  <div className="flex flex-col items-center justify-center py-app-4xl">
                     <p
                       className="text-sm"
                       style={{ color: 'var(--app-text-muted)' }}
@@ -622,10 +622,10 @@ export const CommandPalette = React.memo(function CommandPalette({
                         <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
                           style={{ color: 'var(--app-text-muted)' }}
                         >
-                          {HeaderIcon && <HeaderIcon className="w-3 h-3" />}
+                          {HeaderIcon && <HeaderIcon className="w-4 h-4" />}
                           {row.label}
                           {row.label === 'AI Suggests' && (
-                            <Sparkles className="w-3 h-3 text-[var(--app-accent)]" />
+                            <Sparkles className="w-4 h-4 text-[var(--app-accent)]" />
                           )}
                         </span>
                         {hasQuery && (
@@ -667,7 +667,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         }}
                       >
                         <div
-                          className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 mt-0.5"
+                          className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0 mt-0.5"
                           style={{
                             backgroundColor: isActive
                               ? 'var(--app-accent-light)'
@@ -714,7 +714,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                                     close();
                                     sa.action();
                                   }}
-                                  className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:text-[var(--app-accent)] hover:bg-[var(--app-accent-light)] transition-colors"
+                                  className="text-[10px] px-2 py-0.5 rounded-[var(--app-radius-md)] bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:text-[var(--app-accent)] hover:bg-[var(--app-accent-light)] transition-colors"
                                 >
                                   {sa.label}
                                 </button>
@@ -724,7 +724,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         </div>
                         {isActive && (
                           <ArrowRight
-                            className="w-3.5 h-3.5 shrink-0 mt-1"
+                            className="w-4 h-4 shrink-0 mt-1"
                             style={{ color: 'var(--app-accent)' }}
                           />
                         )}
@@ -754,7 +754,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         }}
                       >
                         <div
-                          className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
+                          className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0"
                           style={{
                             backgroundColor: isActive
                               ? 'var(--app-accent-light)'
@@ -811,7 +811,7 @@ export const CommandPalette = React.memo(function CommandPalette({
                         )}
                         {isActive && !isAiSection && (
                           <ArrowRight
-                            className="w-3.5 h-3.5 shrink-0"
+                            className="w-4 h-4 shrink-0"
                             style={{ color: 'var(--app-accent)' }}
                           />
                         )}

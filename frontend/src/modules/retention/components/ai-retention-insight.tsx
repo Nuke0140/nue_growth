@@ -55,19 +55,19 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border border-l-2 border-l-violet-400 p-5',
+        'rounded-[var(--app-radius-xl)] border border-l-2 border-l-violet-400 p-app-xl',
         isDark ? 'bg-white/[0.03] border-white/[0.06] border-l-violet-400' : 'bg-white border-black/[0.06]'
       )}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5">
-          <div className={cn('p-1.5 rounded-lg', typeConfig.bg)}>
+          <div className={cn('p-1.5 rounded-[var(--app-radius-lg)]', typeConfig.bg)}>
             <TypeIcon className={cn('w-4 h-4', typeConfig.color)} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <Sparkles className="w-3 h-3 text-violet-400" />
+              <Sparkles className="w-4 h-4 text-violet-400" />
               <span className={cn('text-[10px] font-medium', typeConfig.color)}>{typeConfig.label}</span>
             </div>
             <h4 className="text-sm font-semibold mt-0.5">{insight.title}</h4>
@@ -98,7 +98,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       </div>
 
       {/* Recommendation */}
-      <div className={cn('rounded-lg p-2.5 border mb-3', isDark ? 'bg-violet-400/5 border-violet-400/10' : 'bg-violet-50 border-violet-100')}>
+      <div className={cn('rounded-[var(--app-radius-lg)] p-2.5 border mb-3', isDark ? 'bg-violet-400/5 border-violet-400/10' : 'bg-violet-50 border-violet-100')}>
         <p className={cn('text-[10px] font-medium mb-0.5', isDark ? 'text-violet-300' : 'text-violet-600')}>Recommendation</p>
         <p className={cn('text-xs leading-snug', 'text-[var(--app-text-secondary)]')}>{insight.recommendation}</p>
       </div>
@@ -107,7 +107,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       <div className="space-y-1.5 mb-3">
         {insight.actionItems.map((item, idx) => (
           <div key={idx} className="flex items-start gap-2">
-            <CheckCircle2 className={cn('w-3.5 h-3.5 shrink-0 mt-0.5', typeConfig.color)} />
+            <CheckCircle2 className={cn('w-4 h-4 shrink-0 mt-0.5', typeConfig.color)} />
             <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{item}</span>
           </div>
         ))}
@@ -116,7 +116,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       {/* Potential impact */}
       <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
         <div className="flex items-center gap-1.5">
-          <Target className="w-3.5 h-3.5 text-violet-400" />
+          <Target className="w-4 h-4 text-violet-400" />
           <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Potential Impact</span>
         </div>
         <span className="text-sm font-bold text-violet-400">{formatImpact(insight.potentialImpact)}</span>

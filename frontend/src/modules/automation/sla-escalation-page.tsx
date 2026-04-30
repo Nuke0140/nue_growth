@@ -43,7 +43,7 @@ export default function SlaEscalationPage() {
   const avgResponseTime = Math.round(slaRules.reduce((sum, r) => sum + r.analytics.avgResponseTime, 0) / slaRules.length * 10) / 10;
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -51,7 +51,7 @@ export default function SlaEscalationPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
@@ -86,7 +86,7 @@ export default function SlaEscalationPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function SlaEscalationPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               className={cn(
-                'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-4',
+                'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -167,7 +167,7 @@ export default function SlaEscalationPage() {
                   </p>
                 </div>
                 <div className={cn(
-                  'flex items-center gap-1.5 rounded-xl px-3 py-1.5 shrink-0',
+                  'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 shrink-0',
                   'bg-[var(--app-hover-bg)]',
                 )}>
                   <Timer className={cn('h-4 w-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
@@ -190,7 +190,7 @@ export default function SlaEscalationPage() {
                         {/* Timeline rail */}
                         <div className="flex flex-col items-center">
                           <div className={cn(
-                            'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold z-10',
+                            'flex h-8  w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold z-10',
                             isDark ? 'bg-white/[0.08] text-zinc-300' : 'bg-black/[0.06] text-zinc-600',
                           )}>
                             {step.order}
@@ -202,7 +202,7 @@ export default function SlaEscalationPage() {
 
                         {/* Step Content */}
                         <div className={cn(
-                          'flex-1 rounded-xl p-2.5 min-w-0',
+                          'flex-1 rounded-[var(--app-radius-lg)] p-2.5 min-w-0',
                           'bg-[var(--app-hover-bg)]',
                         )}>
                           <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -231,7 +231,7 @@ export default function SlaEscalationPage() {
 
               {/* Team Overrides */}
               {rule.teamOverrides.length > 0 && (
-                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
                     <Users className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
                     <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -252,7 +252,7 @@ export default function SlaEscalationPage() {
               )}
 
               {/* Analytics Row */}
-              <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                 <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                   Analytics
                 </p>
@@ -287,7 +287,7 @@ export default function SlaEscalationPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn(
-            'rounded-2xl border shadow-sm p-4 sm:p-5',
+            'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -336,11 +336,11 @@ export default function SlaEscalationPage() {
           {/* Legend */}
           <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-sm bg-emerald-500/40" />
+              <div className="h-2.5 w-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500/40" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Prevented</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-sm bg-red-500/40" />
+              <div className="h-2.5 w-2.5 rounded-[var(--app-radius-sm)] bg-red-500/40" />
               <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Breaches</span>
             </div>
           </div>

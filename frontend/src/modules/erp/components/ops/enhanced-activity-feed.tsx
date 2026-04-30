@@ -174,7 +174,7 @@ export function EnhancedActivityFeed({
             key={cat}
             onClick={() => handleFilterChange(cat)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all duration-150 shrink-0'
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium whitespace-nowrap transition-colors duration-150 shrink-0'
             )}
             style={{
               backgroundColor: isActive
@@ -185,7 +185,7 @@ export function EnhancedActivityFeed({
                 : 'var(--app-text-secondary)',
             }}
           >
-            <CatIcon className="w-3.5 h-3.5" />
+            <CatIcon className="w-4 h-4" />
             {label}
             <span
               className={cn(
@@ -222,7 +222,7 @@ export function EnhancedActivityFeed({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-12 text-center"
+              className="flex flex-col items-center justify-center py-app-4xl text-center"
             >
               <Inbox
                 className="w-8 h-8 mb-3"
@@ -300,7 +300,7 @@ export function EnhancedActivityFeed({
                       }}
                     >
                       <Icon
-                        className="w-3.5 h-3.5"
+                        className="w-4 h-4"
                         style={{ color: typeInfo.color }}
                       />
                       {isRecentEvent && (
@@ -372,7 +372,7 @@ export function EnhancedActivityFeed({
                           {/* Timestamp */}
                           <div className="flex items-center gap-1 mt-1">
                             <Clock
-                              className="w-3 h-3"
+                              className="w-4 h-4"
                               style={{ color: 'var(--app-text-disabled)' }}
                             />
                             <span
@@ -404,7 +404,7 @@ export function EnhancedActivityFeed({
                             color: 'var(--app-text-disabled)',
                           }}
                         >
-                          <ChevronDown className="w-3.5 h-3.5" />
+                          <ChevronDown className="w-4 h-4" />
                         </motion.div>
                       </div>
 
@@ -419,7 +419,7 @@ export function EnhancedActivityFeed({
                             className="overflow-hidden"
                           >
                             <div
-                              className="mt-2 p-3 rounded-lg"
+                              className="mt-2 p-3 rounded-[var(--app-radius-lg)]"
                               style={{
                                 backgroundColor: 'var(--app-hover-bg)',
                                 border: '1px solid var(--app-border)',
@@ -488,7 +488,7 @@ export function EnhancedActivityFeed({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => setVisibleCount((c) => c + 10)}
-            className="mt-2 py-2.5 text-center text-xs font-medium rounded-lg transition-colors hover:bg-[var(--app-hover-bg)]"
+            className="mt-2 py-2.5 text-center text-xs font-medium rounded-[var(--app-radius-lg)] transition-colors hover:bg-[var(--app-hover-bg)]"
             style={{
               color: 'var(--app-accent)',
               border: '1px solid var(--app-shadow-accent)',

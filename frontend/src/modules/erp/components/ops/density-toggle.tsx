@@ -29,7 +29,7 @@ export function DensityToggle() {
             <Button
               variant="ghost"
               size="icon"
-              className="hidden sm:flex h-8 w-8 rounded-lg text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+              className="hidden sm:flex h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
             >
               {isCompact ? (
                 <Rows4 className="w-4 h-4" />
@@ -45,7 +45,7 @@ export function DensityToggle() {
       </Tooltip>
       <DropdownMenuContent
         align="end"
-        className="w-44 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-xl app-dropdown-enter"
+        className="w-44 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] app-dropdown-enter"
       >
         <DropdownMenuLabel className="text-[var(--app-text-muted)] text-xs font-semibold tracking-wider uppercase">
           Display Density
@@ -53,7 +53,7 @@ export function DensityToggle() {
         <DropdownMenuItem
           onClick={() => setDensityMode('comfortable')}
           className={cn(
-            'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
+            'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-[var(--app-radius-lg)] mx-1',
             !isCompact
               ? 'text-[var(--app-text)] bg-[var(--app-accent-light)]'
               : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
@@ -68,7 +68,7 @@ export function DensityToggle() {
         <DropdownMenuItem
           onClick={() => setDensityMode('compact')}
           className={cn(
-            'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
+            'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-[var(--app-radius-lg)] mx-1',
             isCompact
               ? 'text-[var(--app-text)] bg-[var(--app-accent-light)]'
               : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'

@@ -193,7 +193,7 @@ function CompensationPageInner() {
 
   return (
     <PageShell title="Compensation" icon={Wallet}>
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* KPI Widgets */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg Salary" value={formatINR(kpis.avgSalary)} icon={Wallet} color="accent" />
@@ -203,7 +203,7 @@ function CompensationPageInner() {
 
         {/* Department Salary Distribution Bar Chart */}
         <motion.div variants={fadeUp} className="app-card p-6">
-          <h3 className="text-sm font-semibold mb-5" style={{ color: 'var(--app-text)' }}>
+          <h3 className="text-sm font-semibold mb-app-xl" style={{ color: 'var(--app-text)' }}>
             Avg Salary by Department
           </h3>
           <div className="space-y-3">
@@ -218,15 +218,15 @@ function CompensationPageInner() {
                   >
                     {dept.department}
                   </span>
-                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+                  <div className="flex-1 h-8  rounded-[var(--app-radius-lg)] overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}
                       transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                      className="h-full rounded-lg flex items-center justify-end pr-3"
+                      className="h-full rounded-[var(--app-radius-lg)] flex items-center justify-end pr-3"
                       style={{ backgroundColor: barColor, minWidth: '3rem' }}
                     >
-                      <span className="text-[11px] font-bold text-white drop-shadow-sm">
+                      <span className="text-[11px] font-bold text-white drop-shadow-[var(--app-shadow-sm)]">
                         {formatINR(dept.avgSalary)}
                       </span>
                     </motion.div>

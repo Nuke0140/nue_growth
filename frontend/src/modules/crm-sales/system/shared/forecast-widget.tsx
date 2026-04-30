@@ -33,10 +33,10 @@ export default function ForecastWidget({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'relative rounded-2xl p-6 overflow-hidden transition-all duration-200',
+        'relative rounded-[var(--app-radius-xl)] p-6 overflow-hidden transition-colors duration-200',
         isDark
           ? 'bg-white/[0.03] border border-white/[0.06]'
-          : 'bg-white border border-black/[0.06] shadow-sm'
+          : 'bg-white border border-black/[0.06] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
       )}
     >
       {/* Subtle gradient background */}
@@ -52,7 +52,7 @@ export default function ForecastWidget({
         <div className="flex items-center gap-2 mb-3">
           {Icon && (
             <div className={cn(
-              'w-8 h-8 rounded-lg flex items-center justify-center',
+              'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <Icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -80,9 +80,9 @@ export default function ForecastWidget({
               )}
             >
               {isPositive ? (
-                <TrendingUp className="w-3 h-3" />
+                <TrendingUp className="w-4 h-4" />
               ) : (
-                <TrendingDown className="w-3 h-3" />
+                <TrendingDown className="w-4 h-4" />
               )}
               {isPositive ? '+' : ''}{change}%
             </motion.div>

@@ -69,11 +69,11 @@ export default function ExpensesPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Receipt className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -81,7 +81,7 @@ export default function ExpensesPage() {
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Expense Control & Tracking</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Plus className="w-4 h-4" /> Add Expense
           </Button>
         </div>
@@ -96,7 +96,7 @@ export default function ExpensesPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? config.bgDark : config.bgLight)}>
@@ -123,12 +123,12 @@ export default function ExpensesPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
@@ -142,7 +142,7 @@ export default function ExpensesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
           >
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle className="w-4 h-4 text-red-500" />
@@ -156,7 +156,7 @@ export default function ExpensesPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
-                  className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
+                  className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
                 >
                   <div className="flex items-center gap-3">
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
@@ -179,18 +179,18 @@ export default function ExpensesPage() {
             <span className="text-xs font-medium uppercase tracking-wider">Filters</span>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setCategoryFilter('all')} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === 'all' ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
+            <button onClick={() => setCategoryFilter('all')} className={cn('px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors', categoryFilter === 'all' ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
               All Categories
             </button>
             {Object.entries(categoryConfig).map(([key, val]) => (
-              <button key={key} onClick={() => setCategoryFilter(key)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === key ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
+              <button key={key} onClick={() => setCategoryFilter(key)} className={cn('px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors', categoryFilter === key ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {val.label}
               </button>
             ))}
           </div>
           <div className="flex gap-2 ml-4">
             {(['all', 'approved', 'pending', 'rejected'] as const).map((status) => (
-              <button key={status} onClick={() => setApprovalFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', approvalFilter === status ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
+              <button key={status} onClick={() => setApprovalFilter(status)} className={cn('px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors capitalize', approvalFilter === status ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {status === 'all' ? 'All Status' : status}
               </button>
             ))}
@@ -202,7 +202,7 @@ export default function ExpensesPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -279,11 +279,11 @@ export default function ExpensesPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-success-bg)]')}>
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-success-bg)]')}>
                 <IndianRupee className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
@@ -291,7 +291,7 @@ export default function ExpensesPage() {
                 <p className="text-2xl font-bold">{formatINR(totalExpenses)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-app-2xl">
               <div className="text-center">
                 <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Base Amount</p>
                 <p className="text-sm font-semibold">{formatINR(totalExpenses - gstTotal)}</p>

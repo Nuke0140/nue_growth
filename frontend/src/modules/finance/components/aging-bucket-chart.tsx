@@ -44,10 +44,10 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
   if (buckets.length === 0) {
     return (
       <div className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}>
-        <p className={cn('text-xs text-center py-8', 'text-[var(--app-text-muted)]')}>
+        <p className={cn('text-xs text-center py-app-3xl', 'text-[var(--app-text-muted)]')}>
           No aging data available
         </p>
       </div>
@@ -60,7 +60,7 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -93,7 +93,7 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2 min-w-0">
                   <span
-                    className={cn('w-2 h-2 rounded-sm shrink-0', bucket.color)}
+                    className={cn('w-2 h-2 rounded-[var(--app-radius-sm)] shrink-0', bucket.color)}
                   />
                   <span className={cn('text-[11px] font-medium truncate', 'text-[var(--app-text-secondary)]')}>
                     {bucket.label}

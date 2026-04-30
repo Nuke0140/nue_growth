@@ -80,11 +80,11 @@ export default function ApiKeysWebhooksPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Key className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -93,7 +93,7 @@ export default function ApiKeysWebhooksPage() {
             </div>
           </div>
           <Button
-            className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+            className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
             onClick={() => {}}
           >
             <Plus className="w-4 h-4" /> Create API Key
@@ -108,7 +108,7 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <span className={cn('text-[11px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>
                 {kpi.label}
@@ -119,13 +119,13 @@ export default function ApiKeysWebhooksPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {(['keys', 'webhooks'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize',
+                'px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors capitalize',
                 activeTab === tab
                   ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
                   : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
@@ -148,7 +148,7 @@ export default function ApiKeysWebhooksPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-4 transition-colors', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+                  className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                     {/* Left */}
@@ -162,20 +162,20 @@ export default function ApiKeysWebhooksPage() {
 
                       {/* Key Value */}
                       <div className="flex items-center gap-2">
-                        <code className={cn('text-xs font-mono px-2 py-1 rounded-lg', isDark ? 'bg-white/[0.04] text-white/60' : 'bg-black/[0.04] text-black/60')}>
+                        <code className={cn('text-xs font-mono px-2 py-1 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.04] text-white/60' : 'bg-black/[0.04] text-black/60')}>
                           {isVisible ? apiKey.key : maskKey(apiKey.key)}
                         </code>
                         <button
                           onClick={() => toggleKeyVisibility(apiKey.id)}
-                          className={cn('p-1 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}
+                          className={cn('p-1 rounded-[var(--app-radius-lg)] transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}
                         >
-                          {isVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                          {isVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
                         <button
                           onClick={() => copyKey(apiKey.id, apiKey.key)}
-                          className={cn('p-1 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}
+                          className={cn('p-1 rounded-[var(--app-radius-lg)] transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}
                         >
-                          {copiedKey === apiKey.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedKey === apiKey.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                         </button>
                       </div>
 
@@ -201,15 +201,15 @@ export default function ApiKeysWebhooksPage() {
                       </div>
                       <div className="flex items-center gap-1.5">
                         <button
-                          className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
+                          className={cn('flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
                         >
-                          <RotateCw className="w-3 h-3" /> Rotate
+                          <RotateCw className="w-4 h-4" /> Rotate
                         </button>
                         {apiKey.status === 'active' && (
                           <button
-                            className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors text-red-400 hover:bg-red-500/10')}
+                            className={cn('flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors text-red-400 hover:bg-red-500/10')}
                           >
-                            <Trash2 className="w-3 h-3" /> Revoke
+                            <Trash2 className="w-4 h-4" /> Revoke
                           </button>
                         )}
                       </div>
@@ -224,7 +224,7 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
                 <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -232,7 +232,7 @@ export default function ApiKeysWebhooksPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {Object.entries(scopeDescriptions).map(([scope, desc]) => (
-                  <div key={scope} className={cn('p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                  <div key={scope} className={cn('p-3 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
                     <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0 mb-1', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
                       {scope}
                     </Badge>
@@ -255,7 +255,7 @@ export default function ApiKeysWebhooksPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+                  className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
                 >
                   <div className="flex flex-col gap-4">
                     {/* Header */}
@@ -282,21 +282,21 @@ export default function ApiKeysWebhooksPage() {
                       <div className="flex items-center gap-1.5 shrink-0">
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Retries: {wh.retryAttempts}</span>
                         <button
-                          className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
+                          className={cn('flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
                         >
-                          <Send className="w-3 h-3" /> Test
+                          <Send className="w-4 h-4" /> Test
                         </button>
                         <button
-                          className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
+                          className={cn('flex items-center gap-1 px-2 py-1 rounded-[var(--app-radius-lg)] text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
                         >
-                          <RefreshCw className="w-3 h-3" /> Regenerate Secret
+                          <RefreshCw className="w-4 h-4" /> Regenerate Secret
                         </button>
                       </div>
                     </div>
 
                     {/* Last Delivery */}
                     {wh.lastDelivery && (
-                      <div className={cn('flex items-center gap-2 p-2.5 rounded-lg text-xs', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('flex items-center gap-2 p-2.5 rounded-[var(--app-radius-lg)] text-xs', 'bg-[var(--app-hover-bg)]')}>
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last Delivery:</span>
                         {wh.lastDelivery.success ? (
                           <span className="text-emerald-500">✓ {wh.lastDelivery.statusCode} — {new Date(wh.lastDelivery.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
@@ -311,7 +311,7 @@ export default function ApiKeysWebhooksPage() {
                       <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                         Recent Deliveries
                       </span>
-                      <div className={cn('rounded-lg border overflow-hidden', 'border-[var(--app-border-light)]')}>
+                      <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
                         <table className="w-full text-[11px]">
                           <thead>
                             <tr className={cn('bg-[var(--app-hover-bg)]')}>
@@ -331,9 +331,9 @@ export default function ApiKeysWebhooksPage() {
                                 <td className="px-3 py-2 text-center">{log.duration}ms</td>
                                 <td className="px-3 py-2 text-right">
                                   {log.success ? (
-                                    <span className="text-emerald-500 flex items-center justify-end gap-1"><Check className="w-3 h-3" /> Success</span>
+                                    <span className="text-emerald-500 flex items-center justify-end gap-1"><Check className="w-4 h-4" /> Success</span>
                                   ) : (
-                                    <span className="text-red-500 flex items-center justify-end gap-1"><X className="w-3 h-3" /> Failed</span>
+                                    <span className="text-red-500 flex items-center justify-end gap-1"><X className="w-4 h-4" /> Failed</span>
                                   )}
                                 </td>
                               </tr>
@@ -352,7 +352,7 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -363,9 +363,9 @@ export default function ApiKeysWebhooksPage() {
                   onClick={() => setShowCreateWebhook(!showCreateWebhook)}
                   variant="ghost"
                   size="sm"
-                  className={cn('rounded-lg text-xs', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
+                  className={cn('rounded-[var(--app-radius-lg)] text-xs', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
                 >
-                  <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', showCreateWebhook && 'rotate-180')} />
+                  <ChevronDown className={cn('w-4 h-4 transition-transform', showCreateWebhook && 'rotate-180')} />
                 </Button>
               </div>
               {showCreateWebhook && (
@@ -375,15 +375,15 @@ export default function ApiKeysWebhooksPage() {
                     <input
                       type="url"
                       placeholder="https://your-server.com/webhooks/..."
-                      className={cn('w-full px-3 py-2 rounded-xl text-sm border outline-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
+                      className={cn('w-full px-3 py-2 rounded-[var(--app-radius-lg)] text-sm border outline-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
                     />
                   </div>
                   <div>
                     <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Event Subscriptions</label>
                     <div className="grid grid-cols-2 gap-2">
                       {['contact.created', 'contact.updated', 'deal.won', 'invoice.paid', 'user.login', 'backup.completed'].map((event) => (
-                        <label key={event} className={cn('flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-xs transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}>
-                          <input type="checkbox" className="accent-violet-500 w-3.5 h-3.5" />
+                        <label key={event} className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border cursor-pointer text-xs transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}>
+                          <input type="checkbox" className="accent-violet-500 w-4 h-4" />
                           <span className={cn('font-mono', 'text-[var(--app-text-secondary)]')}>{event}</span>
                         </label>
                       ))}
@@ -391,15 +391,15 @@ export default function ApiKeysWebhooksPage() {
                   </div>
                   <div>
                     <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Signing Secret</label>
-                    <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                    <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                       <code className="flex-1 text-xs font-mono text-violet-400">whsec_••••••••••••••••</code>
                       <button className={cn('p-1 rounded', 'hover:bg-[var(--app-hover-bg)]')}>
-                        <Copy className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                        <Copy className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                       </button>
                     </div>
                   </div>
                   <Button
-                    className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+                    className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
                   >
                     <Send className="w-4 h-4" /> Create Webhook
                   </Button>

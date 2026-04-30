@@ -43,18 +43,18 @@ export default function AiSalesInsight({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'relative rounded-2xl p-6 transition-all duration-300 group cursor-default',
+        'relative rounded-[var(--app-radius-xl)] p-6 transition-colors duration-200 group cursor-default',
         isDark
           ? 'bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05]'
-          : 'bg-white border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.02] shadow-sm',
-        isHighConfidence && isDark && 'shadow-[0_0_30px_-8px_rgba(16,185,129,0.15)]',
-        isHighConfidence && !isDark && 'shadow-[0_0_30px_-8px_rgba(16,185,129,0.1)]',
+          : 'bg-white border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.02] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+        isHighConfidence && isDark && 'shadow-[var(--app-shadow-md)]-[0_0_30px_-8px_rgba(16,185,129,0.15)]',
+        isHighConfidence && !isDark && 'shadow-[var(--app-shadow-md)]-[0_0_30px_-8px_rgba(16,185,129,0.1)]',
       )}
     >
       {/* Glow animation for high confidence */}
       {isHighConfidence && (
         <motion.div
-          className="absolute -inset-px rounded-2xl pointer-events-none"
+          className="absolute -inset-px rounded-[var(--app-radius-xl)] pointer-events-none"
           animate={{
             boxShadow: [
               '0 0 0 0 rgba(16,185,129,0)',
@@ -68,7 +68,7 @@ export default function AiSalesInsight({
 
       {/* Gradient border on hover */}
       <div className={cn(
-        'absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br pointer-events-none',
+        'absolute inset-0 rounded-[var(--app-radius-xl)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gradient-to-br pointer-events-none',
         isDark ? 'from-emerald-500/10 via-transparent to-transparent' : 'from-emerald-500/5 via-transparent to-transparent'
       )} />
 
@@ -92,7 +92,7 @@ export default function AiSalesInsight({
           </div>
           {score !== undefined && (
             <div className={cn(
-              'shrink-0 px-3 py-1.5 rounded-xl text-sm font-bold',
+              'shrink-0 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-sm font-bold',
               isDark ? 'bg-white/[0.06] text-white' : 'bg-black/[0.04] text-black'
             )}>
               {score}%
@@ -136,7 +136,7 @@ export default function AiSalesInsight({
               size="sm"
               variant="outline"
               className={cn(
-                'text-xs h-7 px-3 rounded-lg shrink-0',
+                'text-xs h-8  px-3 rounded-[var(--app-radius-lg)] shrink-0',
                 isDark
                   ? 'border-white/[0.08] text-white/70 hover:text-white hover:bg-white/[0.06]'
                   : 'border-black/[0.08] text-black/70 hover:text-black hover:bg-black/[0.04]'

@@ -76,12 +76,12 @@ export default function CRMAnalyticsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -106,10 +106,10 @@ export default function CRMAnalyticsPage() {
             </div>
             <ExportMenu />
             <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
+              'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
+              <Calendar className="w-4 h-4 inline mr-1.5" />
               {today}
             </span>
           </div>
@@ -208,13 +208,13 @@ export default function CRMAnalyticsPage() {
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
-                        'h-10 rounded-xl flex items-center justify-center',
+                        'h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                         'bg-[var(--app-hover-bg)]',
                       )}
                       style={{ maxWidth: '100%' }}
                     >
                       <div className="text-center">
-                        <p className={cn('text-base font-bold', 'text-[var(--app-text)]')}>
+                        <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>
                           {formatNum(stage.converted)}
                         </p>
                         <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
@@ -254,14 +254,14 @@ export default function CRMAnalyticsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.06, duration: 0.3 }}
                   className={cn(
-                    'rounded-xl border p-4 transition-colors',
+                    'rounded-[var(--app-radius-lg)] border p-4 transition-colors',
                     isDark
                       ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
                       : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.03]',
                   )}
                 >
                   <div className={cn(
-                    'w-8 h-8 rounded-lg flex items-center justify-center mb-3',
+                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center mb-3',
                     'bg-[var(--app-hover-bg)]',
                   )}>
                     <item.icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
@@ -276,7 +276,7 @@ export default function CRMAnalyticsPage() {
                         'flex items-center gap-0.5 text-[10px] font-medium',
                         isGoodChange ? 'text-emerald-500' : 'text-red-500',
                       )}>
-                        {item.change > 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                        {item.change > 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                         {Math.abs(item.change)}%
                       </span>
                     )}
@@ -355,7 +355,7 @@ export default function CRMAnalyticsPage() {
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
                           <div className={cn(
-                            'w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold',
+                            'w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-semibold',
                             'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
                           )}>
                             {rep.rep.split(' ').map((n) => n[0]).join('')}

@@ -109,7 +109,7 @@ export default function NotesPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
-              'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
+              'flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -127,11 +127,11 @@ export default function NotesPage() {
             <Button
               size="sm"
               className={cn(
-                'rounded-xl text-xs h-9 px-4',
+                'rounded-[var(--app-radius-lg)] text-xs h-10  px-4',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Add Note
             </Button>
           </div>
@@ -144,7 +144,7 @@ export default function NotesPage() {
               key={chip.key}
               onClick={() => setActiveFilter(chip.key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
+                'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap',
                 activeFilter === chip.key
                   ? isDark
                     ? 'bg-white/[0.08] text-white'
@@ -154,7 +154,7 @@ export default function NotesPage() {
                     : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
               )}
             >
-              {chip.icon && <chip.icon className="w-3.5 h-3.5" />}
+              {chip.icon && <chip.icon className="w-4 h-4" />}
               {chip.label}
             </button>
           ))}
@@ -170,10 +170,10 @@ export default function NotesPage() {
             className="flex flex-col items-center justify-center py-20"
           >
             <div className={cn(
-              'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
+              'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-4',
               'bg-[var(--app-hover-bg)]'
             )}>
-              <StickyNote className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
+              <StickyNote className={cn('w-8 h-8', 'text-[var(--app-text-disabled)]')} />
             </div>
             <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
               No notes yet
@@ -194,17 +194,17 @@ export default function NotesPage() {
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   onClick={() => setSelectedNote(note)}
                   className={cn(
-                    'rounded-2xl p-5 transition-all duration-200 cursor-pointer group relative',
+                    'rounded-[var(--app-radius-xl)] p-app-xl transition-colors duration-200 cursor-pointer group relative',
                     isDark
                       ? 'bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05]'
-                      : 'bg-white border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.01] shadow-sm'
+                      : 'bg-white border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.01] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                   )}
                 >
                   {/* Pin indicator */}
                   {note.isPinned && (
                     <div className="absolute top-3 right-3">
                       <Pin className={cn(
-                        'w-3.5 h-3.5 fill-current',
+                        'w-4 h-4 fill-current',
                         isDark ? 'text-amber-400' : 'text-amber-500'
                       )} />
                     </div>
@@ -220,7 +220,7 @@ export default function NotesPage() {
                     </h3>
                     {note.isPrivate && (
                       <Lock className={cn(
-                        'w-3.5 h-3.5 shrink-0',
+                        'w-4 h-4 shrink-0',
                         'text-[var(--app-text-disabled)]'
                       )} />
                     )}
@@ -247,7 +247,7 @@ export default function NotesPage() {
                       )}
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                      <Clock className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {formatRelative(note.updatedAt)}
                       </span>
@@ -309,8 +309,8 @@ export default function NotesPage() {
                   )}>
                     {noteTypeConfig[selectedNote.type].label}
                   </Badge>
-                  {selectedNote.isPinned && <Pin className={cn('w-3.5 h-3.5 text-amber-400 fill-current')} />}
-                  {selectedNote.isPrivate && <Lock className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />}
+                  {selectedNote.isPinned && <Pin className={cn('w-4 h-4 text-amber-400 fill-current')} />}
+                  {selectedNote.isPrivate && <Lock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />}
                   {selectedNote.version > 1 && (
                     <Badge variant="outline" className={cn(
                       'text-[10px] px-1.5 py-0 h-5',
@@ -330,7 +330,7 @@ export default function NotesPage() {
 
               {/* Note content */}
               <div className={cn(
-                'rounded-xl p-4 text-sm leading-relaxed',
+                'rounded-[var(--app-radius-lg)] p-4 text-sm leading-relaxed',
                 isDark ? 'bg-white/[0.03] text-white/70' : 'bg-black/[0.02] text-black/70'
               )}>
                 {selectedNote.content}
@@ -342,26 +342,26 @@ export default function NotesPage() {
                   variant="outline"
                   size="sm"
                   className={cn(
-                    'rounded-lg text-xs gap-1.5',
+                    'rounded-[var(--app-radius-lg)] text-xs gap-1.5',
                     isDark
                       ? 'border-white/[0.08] text-white/60 hover:bg-white/[0.06]'
                       : 'border-black/[0.08] text-black/60 hover:bg-black/[0.04]'
                   )}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                  <Sparkles className="w-4 h-4 text-purple-400" />
                   AI Summary
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   className={cn(
-                    'rounded-lg text-xs gap-1.5',
+                    'rounded-[var(--app-radius-lg)] text-xs gap-1.5',
                     isDark
                       ? 'border-white/[0.08] text-white/60 hover:bg-white/[0.06]'
                       : 'border-black/[0.08] text-black/60 hover:bg-black/[0.04]'
                   )}
                 >
-                  <History className="w-3.5 h-3.5" />
+                  <History className="w-4 h-4" />
                   Version History
                 </Button>
                 {selectedNote.contactName && (

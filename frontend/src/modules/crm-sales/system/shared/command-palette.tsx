@@ -208,7 +208,7 @@ function CrmCommandPalette() {
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              'relative w-full max-w-[580px] mx-4 rounded-2xl border shadow-2xl overflow-hidden',
+              'relative w-full max-w-[580px] mx-4 rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-2xl overflow-hidden',
               isDark
                 ? 'bg-[#1a1a1a] border-white/[0.08]'
                 : 'bg-white border-black/[0.08]'
@@ -247,7 +247,7 @@ function CrmCommandPalette() {
               style={{ scrollbarWidth: 'thin' }}
             >
               {Object.entries(groupedItems).length === 0 ? (
-                <div className={cn('py-12 text-center', isDark ? 'text-white/30' : 'text-black/30')}>
+                <div className={cn('py-app-4xl text-center', isDark ? 'text-white/30' : 'text-black/30')}>
                   <p className="text-sm">No results found</p>
                   <p className="text-xs mt-1 opacity-60">Try a different search term</p>
                 </div>
@@ -290,7 +290,7 @@ function CrmCommandPalette() {
                           <span className="truncate">{item.label}</span>
                           {isActive && (
                             <ArrowRight className={cn(
-                              'w-3 h-3 ml-auto shrink-0',
+                              'w-4 h-4 ml-auto shrink-0',
                               isDark ? 'text-white/40' : 'text-black/40'
                             )} />
                           )}

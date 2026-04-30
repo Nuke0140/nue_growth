@@ -43,7 +43,7 @@ export default function PostPreviewCard({ post }: PostPreviewCardProps) {
     <motion.div
       whileHover={{ y: -2, scale: 1.01 }}
       transition={{ duration: 0.2 }}
-      className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -77,19 +77,19 @@ export default function PostPreviewCard({ post }: PostPreviewCardProps) {
       {(post.likes || post.comments || post.shares || post.reach) && (
         <div className="flex items-center gap-3 pt-1">
           <div className="flex items-center gap-1">
-            <Heart className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <Heart className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.likes)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <MessageCircle className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <MessageCircle className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.comments)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Share2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <Share2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.shares)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Eye className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <Eye className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.reach)}</span>
           </div>
         </div>

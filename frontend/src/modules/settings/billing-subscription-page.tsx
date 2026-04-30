@@ -42,11 +42,11 @@ export default function BillingSubscriptionPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <CreditCard className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -62,7 +62,7 @@ export default function BillingSubscriptionPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-6 relative overflow-hidden',
+            'rounded-[var(--app-radius-xl)] border p-6 relative overflow-hidden',
             isDark ? 'bg-gradient-to-br from-violet-500/[0.06] to-purple-500/[0.03] border-violet-500/20' : 'bg-gradient-to-br from-violet-50/80 to-purple-50/80 border-violet-200/60'
           )}
         >
@@ -70,7 +70,7 @@ export default function BillingSubscriptionPage() {
           <div className={cn('absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px]', isDark ? 'bg-violet-500/[0.06]' : 'bg-violet-400/[0.08]')} />
 
           <div className="relative z-10">
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-app-2xl">
               {/* Left: Plan info */}
               <div className="space-y-4 flex-1">
                 <div className="flex items-center gap-3">
@@ -109,7 +109,7 @@ export default function BillingSubscriptionPage() {
               </div>
 
               {/* Right: Details */}
-              <div className={cn('space-y-4 lg:w-72 p-4 rounded-xl border shrink-0', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white/60 border-black/[0.06]')}>
+              <div className={cn('space-y-4 lg:w-72 p-4 rounded-[var(--app-radius-lg)] border shrink-0', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white/60 border-black/[0.06]')}>
                 <div className="flex items-center gap-2">
                   <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Next Billing</span>
@@ -127,7 +127,7 @@ export default function BillingSubscriptionPage() {
                 </div>
 
                 <Button
-                  className={cn('w-full rounded-xl text-sm font-medium gap-2 mt-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+                  className={cn('w-full rounded-[var(--app-radius-lg)] text-sm font-medium gap-2 mt-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
                 >
                   Manage Subscription <ChevronRight className="w-4 h-4" />
                 </Button>
@@ -135,12 +135,12 @@ export default function BillingSubscriptionPage() {
             </div>
 
             {/* Features List */}
-            <div className={cn('mt-5 pt-4 border-t', 'border-[var(--app-border)]')}>
+            <div className={cn('mt-app-xl pt-4 border-t', 'border-[var(--app-border)]')}>
               <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>Plan Features</p>
               <div className="flex flex-wrap gap-2">
                 {billingPlan.features.map((f) => (
                   <span key={f} className={cn('flex items-center gap-1.5 text-xs', 'text-[var(--app-text-secondary)]')}>
-                    <Check className="w-3 h-3 text-emerald-500 shrink-0" /> {f}
+                    <Check className="w-4 h-4 text-emerald-500 shrink-0" /> {f}
                   </span>
                 ))}
               </div>
@@ -180,7 +180,7 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className={cn('text-sm font-semibold flex items-center gap-2', 'text-[var(--app-text)]')}>
@@ -191,7 +191,7 @@ export default function BillingSubscriptionPage() {
               {billingPlan.invoiceHistory.length} invoices
             </Badge>
           </div>
-          <div className={cn('rounded-xl border overflow-hidden', 'border-[var(--app-border-light)]')}>
+          <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
@@ -221,8 +221,8 @@ export default function BillingSubscriptionPage() {
                           </Badge>
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <button className={cn('p-1.5 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}>
-                            <Download className="w-3.5 h-3.5" />
+                          <button className={cn('p-1.5 rounded-[var(--app-radius-lg)] transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30')}>
+                            <Download className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
@@ -239,19 +239,19 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className={cn('text-sm font-semibold flex items-center gap-2', 'text-[var(--app-text)]')}>
               <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               Payment Methods
             </h3>
-            <Button variant="outline" size="sm" className={cn('rounded-lg text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
-              <Plus className="w-3 h-3" /> Add Payment Method
+            <Button variant="outline" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
+              <Plus className="w-4 h-4" /> Add Payment Method
             </Button>
           </div>
-          <div className={cn('flex items-center gap-4 p-4 rounded-xl border', 'border-[var(--app-border-light)]')}>
-            <div className={cn('w-12 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-blue-500/15' : 'bg-blue-50')}>
+          <div className={cn('flex items-center gap-4 p-4 rounded-[var(--app-radius-lg)] border', 'border-[var(--app-border-light)]')}>
+            <div className={cn('w-12 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-blue-500/15' : 'bg-blue-50')}>
               <span className="text-blue-500 font-bold text-[10px]">VISA</span>
             </div>
             <div className="flex-1">
@@ -267,7 +267,7 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
             <Plus className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -275,7 +275,7 @@ export default function BillingSubscriptionPage() {
           </h3>
           <div className="space-y-2">
             {billingPlan.addOns.map((addon) => (
-              <div key={addon.name} className={cn('flex items-center justify-between p-3 rounded-xl border transition-colors', 'border-[var(--app-border-light)]')}>
+              <div key={addon.name} className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border transition-colors', 'border-[var(--app-border-light)]')}>
                 <div className="flex items-center gap-3">
                   <div
                     onClick={() => {}}
@@ -286,7 +286,7 @@ export default function BillingSubscriptionPage() {
                   >
                     <div
                       className={cn(
-                        'absolute top-1 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-transform',
+                        'absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-transform',
                         addon.active && 'translate-x-[18px]'
                       )}
                       style={{ left: 2 }}

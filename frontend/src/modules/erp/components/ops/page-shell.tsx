@@ -99,7 +99,7 @@ function PageShellInner({
     >
       <div className="flex items-center gap-3 min-w-0">
         {Icon && (
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--app-accent-light)] shrink-0">
+          <div className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] shrink-0">
             <Icon className="w-[18px] h-[18px] text-[var(--app-accent)]" />
           </div>
         )}
@@ -122,7 +122,7 @@ function PageShellInner({
         {createType && (
           <button
             onClick={handleCreate}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--app-accent)] text-white text-[13px] font-medium hover:bg-[var(--app-accent)]/90 transition-colors app-btn-press"
+            className="flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] bg-[var(--app-accent)] text-white text-[13px] font-medium hover:bg-[var(--app-accent)]/90 transition-colors app-btn-press"
             aria-label={`Create ${createType}`}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

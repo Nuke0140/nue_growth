@@ -113,7 +113,7 @@ export default function ExecutionReplayTimeline({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn(
-        'rounded-2xl border shadow-sm',
+        'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -122,7 +122,7 @@ export default function ExecutionReplayTimeline({
       {/* Header */}
       <div
         className={cn(
-          'flex items-center justify-between border-b px-4 py-3 sm:px-5',
+          'flex items-center justify-between border-b px-4 py-3 sm:px-app-xl',
           'border-[var(--app-border)]',
         )}
       >
@@ -153,7 +153,7 @@ export default function ExecutionReplayTimeline({
               whileTap={{ scale: 0.92 }}
               onClick={onPause}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
                 isDark
                   ? 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25'
                   : 'bg-blue-50 text-blue-600 hover:bg-blue-100',
@@ -168,7 +168,7 @@ export default function ExecutionReplayTimeline({
               whileTap={{ scale: 0.92 }}
               onClick={onPlay}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
                 isDark
                   ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25'
                   : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100',
@@ -182,7 +182,7 @@ export default function ExecutionReplayTimeline({
       </div>
 
       {/* Timeline */}
-      <div ref={scrollRef} className="max-h-[480px] overflow-y-auto p-4 sm:p-5 space-y-0">
+      <div ref={scrollRef} className="max-h-[480px] overflow-y-auto p-4 sm:p-app-xl space-y-0">
         {steps.map((step, i) => {
           const StatusIcon = statusIcon[step.status];
           const TypeIcon = nodeTypeIcon[step.nodeType] || Zap;
@@ -230,7 +230,7 @@ export default function ExecutionReplayTimeline({
                 transition={{ delay: i * 0.03, duration: 0.15 }}
                 onClick={() => onStep?.(step.id)}
                 className={cn(
-                  'flex-1 rounded-xl border p-3 mb-3 cursor-pointer transition-colors last:mb-0',
+                  'flex-1 rounded-[var(--app-radius-lg)] border p-3 mb-3 cursor-pointer transition-colors last:mb-0',
                   isRunning && (isDark ? 'bg-blue-500/5 border-blue-500/20' : 'bg-blue-50/50 border-blue-200'),
                   !isRunning && (isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.02]'),
                 )}
@@ -286,7 +286,7 @@ export default function ExecutionReplayTimeline({
                     >
                       <pre
                         className={cn(
-                          'rounded-lg p-2 text-[10px] leading-relaxed overflow-x-auto whitespace-pre-wrap',
+                          'rounded-[var(--app-radius-lg)] p-2 text-[10px] leading-relaxed overflow-x-auto whitespace-pre-wrap',
                           isDark ? 'bg-white/[0.03] text-zinc-400' : 'bg-black/[0.02] text-zinc-500',
                         )}
                       >

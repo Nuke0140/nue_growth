@@ -21,7 +21,7 @@ function KPICard({ label, value, subtitle, isDark }: {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <p className={cn('text-xs font-medium mb-1', 'text-[var(--app-text-muted)]')}>{label}</p>
       <p className="text-2xl font-bold tracking-tight">{value}</p>
@@ -41,13 +41,13 @@ function SegmentCard({ segment, index, isDark }: {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-5 group cursor-pointer transition-colors',
+        'rounded-[var(--app-radius-xl)] border p-app-xl group cursor-pointer transition-colors',
         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
       )}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold',
+          <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-bold',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
           )}>
             {segment.name.charAt(0)}
@@ -59,7 +59,7 @@ function SegmentCard({ segment, index, isDark }: {
             </p>
           </div>
         </div>
-        <button className={cn('p-1 rounded-lg transition-colors',
+        <button className={cn('p-1 rounded-[var(--app-radius-lg)] transition-colors',
           'hover:bg-[var(--app-hover-bg)]'
         )}>
           <MoreHorizontal className="w-4 h-4" />
@@ -67,9 +67,9 @@ function SegmentCard({ segment, index, isDark }: {
       </div>
 
       {/* Rules Summary */}
-      <div className={cn('rounded-xl p-3 mb-3', 'bg-[var(--app-hover-bg)]')}>
+      <div className={cn('rounded-[var(--app-radius-lg)] p-3 mb-3', 'bg-[var(--app-hover-bg)]')}>
         <div className="flex items-center gap-1.5 mb-2">
-          <Filter className="w-3 h-3" />
+          <Filter className="w-4 h-4" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Rules</span>
           <Badge variant="secondary" className="ml-auto text-[9px] px-1.5 py-0">
             {segment.operator}
@@ -100,7 +100,7 @@ function SegmentCard({ segment, index, isDark }: {
             ? 'text-emerald-500 bg-emerald-500/10'
             : 'text-red-500 bg-red-500/10'
         )}>
-          {segment.growth >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          {segment.growth >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
           {segment.growth >= 0 ? '+' : ''}{segment.growth}%
         </div>
       </div>
@@ -108,7 +108,7 @@ function SegmentCard({ segment, index, isDark }: {
       {/* Synced Campaigns */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <Link2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <Link2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
             {segment.syncedCampaigns.length} synced campaign{segment.syncedCampaigns.length !== 1 ? 's' : ''}
           </span>
@@ -116,7 +116,7 @@ function SegmentCard({ segment, index, isDark }: {
         <button className={cn('text-xs flex items-center gap-1 transition-colors',
           'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
         )}>
-          View <ArrowUpRight className="w-3 h-3" />
+          View <ArrowUpRight className="w-4 h-4" />
         </button>
       </div>
     </motion.div>
@@ -160,7 +160,7 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -169,12 +169,12 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
         </div>
         <div className="flex items-center gap-2">
           {/* AND/OR Toggle */}
-          <div className={cn('flex rounded-lg p-0.5 text-xs', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('flex rounded-[var(--app-radius-lg)] p-0.5 text-xs', 'bg-[var(--app-hover-bg)]')}>
             {(['AND', 'OR'] as const).map((op) => (
               <button
                 key={op}
                 onClick={() => setOperator(op)}
-                className={cn('px-3 py-1 rounded-md font-medium transition-all',
+                className={cn('px-3 py-1 rounded-[var(--app-radius-md)] font-medium transition-colors',
                   operator === op
                     ? isDark ? 'bg-white/[0.1] text-white' : 'bg-black/[0.08] text-black'
                     : 'text-[var(--app-text-muted)]'
@@ -184,15 +184,15 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
               </button>
             ))}
           </div>
-          <Button size="sm" onClick={handleSave} className="h-7 text-xs gap-1">
-            <Save className="w-3 h-3" />
+          <Button size="sm" onClick={handleSave} className="h-8  text-xs gap-1">
+            <Save className="w-4 h-4" />
             {saved ? 'Saved!' : 'Save Segment'}
           </Button>
         </div>
       </div>
 
       {/* Live Count Preview */}
-      <div className={cn('rounded-xl p-3 mb-4 flex items-center justify-between',
+      <div className={cn('rounded-[var(--app-radius-lg)] p-3 mb-4 flex items-center justify-between',
         isDark ? 'bg-emerald-500/5 border border-emerald-500/10' : 'bg-emerald-50 border border-emerald-100'
       )}>
         <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
       {/* Rules List */}
       <div className="space-y-2 mb-4">
         {rules.map((rule, idx) => (
-          <div key={idx} className={cn('flex items-center gap-2 rounded-xl p-3',
+          <div key={idx} className={cn('flex items-center gap-2 rounded-[var(--app-radius-lg)] p-3',
             'bg-[var(--app-hover-bg)]'
           )}>
             <div className={cn('text-[10px] font-bold uppercase px-2 py-0.5 rounded',
@@ -216,7 +216,7 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
             <select
               value={rule.field}
               onChange={(e) => updateRule(idx, 'field', e.target.value)}
-              className={cn('text-xs px-2 py-1.5 rounded-lg border bg-transparent flex-1 max-w-[140px]',
+              className={cn('text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent flex-1 max-w-[140px]',
                 isDark ? 'border-white/[0.06] text-white/80' : 'border-black/[0.06] text-black/80'
               )}
             >
@@ -225,7 +225,7 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
             <select
               value={rule.operator}
               onChange={(e) => updateRule(idx, 'operator', e.target.value)}
-              className={cn('text-xs px-2 py-1.5 rounded-lg border bg-transparent flex-1 max-w-[130px]',
+              className={cn('text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent flex-1 max-w-[130px]',
                 isDark ? 'border-white/[0.06] text-white/80' : 'border-black/[0.06] text-black/80'
               )}
             >
@@ -236,15 +236,15 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
               value={rule.value}
               onChange={(e) => updateRule(idx, 'value', e.target.value)}
               placeholder="Value..."
-              className={cn('text-xs px-2 py-1.5 rounded-lg border bg-transparent flex-1',
+              className={cn('text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent flex-1',
                 isDark ? 'border-white/[0.06] text-white/80 placeholder:text-white/20' : 'border-black/[0.06] text-black/80 placeholder:text-black/20'
               )}
             />
             <button
               onClick={() => removeRule(idx)}
-              className="p-1 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors"
+              className="p-1 rounded-[var(--app-radius-lg)] text-red-400 hover:bg-red-500/10 transition-colors"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 className="w-4 h-4" />
             </button>
           </div>
         ))}
@@ -252,7 +252,7 @@ function RuleBuilderPanel({ isDark }: { isDark: boolean }) {
 
       {/* Add Rule Button */}
       <Button variant="outline" size="sm" onClick={addRule} className="w-full h-8 text-xs gap-1.5">
-        <Plus className="w-3 h-3" />
+        <Plus className="w-4 h-4" />
         Add Rule
       </Button>
     </motion.div>
@@ -303,7 +303,7 @@ export default function AudienceSegmentsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="max-w-7xl mx-auto p-6 space-y-app-2xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -319,11 +319,11 @@ export default function AudienceSegmentsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="h-8 gap-1.5">
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className="w-4 h-4" />
               Sync All
             </Button>
             <Button size="sm" className="h-8 gap-1.5">
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               Create Segment
             </Button>
           </div>
@@ -338,7 +338,7 @@ export default function AudienceSegmentsPage() {
         </div>
 
         {/* Search */}
-        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full max-w-sm',
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full max-w-sm',
           'bg-[var(--app-card-bg)] border-[var(--app-border)]'
         )}>
           <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -359,7 +359,7 @@ export default function AudienceSegmentsPage() {
             <SegmentCard key={segment.id} segment={segment} index={i} isDark={isDark} />
           ))}
           {filtered.length === 0 && (
-            <div className="col-span-2 text-center py-12">
+            <div className="col-span-2 text-center py-app-4xl">
               <Users className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
               <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No segments found</p>
             </div>
@@ -374,7 +374,7 @@ export default function AudienceSegmentsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -390,7 +390,7 @@ export default function AudienceSegmentsPage() {
                   initial={{ height: 0 }}
                   animate={{ height: `${(d.value / growthMax) * 120}px` }}
                   transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn('w-full rounded-t-lg min-h-[4px]',
+                  className={cn('w-full rounded-t-[var(--app-radius-lg)] min-h-[4px]',
                     'bg-[var(--app-hover-bg)]'
                   )}
                 />
@@ -407,7 +407,7 @@ export default function AudienceSegmentsPage() {
               38.2K → 64.0K total audience
             </span>
             <div className="flex items-center gap-1 text-xs font-medium text-emerald-500">
-              <TrendingUp className="w-3 h-3" />
+              <TrendingUp className="w-4 h-4" />
               +67.5% growth
             </div>
           </div>
@@ -418,15 +418,15 @@ export default function AudienceSegmentsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ShieldOff className="w-4 h-4" />
               <h3 className="text-sm font-semibold">Exclusion Lists</h3>
             </div>
-            <Button variant="outline" size="sm" className="h-7 text-xs gap-1">
-              <Plus className="w-3 h-3" />
+            <Button variant="outline" size="sm" className="h-8  text-xs gap-1">
+              <Plus className="w-4 h-4" />
               Add List
             </Button>
           </div>
@@ -437,12 +437,12 @@ export default function AudienceSegmentsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + i * 0.04, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('flex items-center justify-between p-3 rounded-xl transition-colors',
+                className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] transition-colors',
                   isDark ? 'bg-white/[0.02] hover:bg-white/[0.04]' : 'bg-black/[0.01] hover:bg-black/[0.03]'
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center',
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                     'bg-[var(--app-danger-bg)]'
                   )}>
                     <ShieldOff className="w-4 h-4 text-red-400" />
@@ -456,7 +456,7 @@ export default function AudienceSegmentsPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-semibold">{list.count.toLocaleString()}</span>
-                  <button className={cn('text-xs p-1 rounded-lg transition-colors',
+                  <button className={cn('text-xs p-1 rounded-[var(--app-radius-lg)] transition-colors',
                     isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.04] text-black/40'
                   )}>
                     <MoreHorizontal className="w-4 h-4" />

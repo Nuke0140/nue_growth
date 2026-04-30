@@ -61,11 +61,11 @@ export default function RenewalCenterPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <RefreshCw className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -75,7 +75,7 @@ export default function RenewalCenterPage() {
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
@@ -97,12 +97,12 @@ export default function RenewalCenterPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
-                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-4 h-4', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.value}</p>
@@ -117,7 +117,7 @@ export default function RenewalCenterPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors capitalize',
+                'px-3 py-1.5 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors capitalize',
                 activeTab === tab
                   ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -140,7 +140,7 @@ export default function RenewalCenterPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-5 transition-colors',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors',
                   renewal.status === 'overdue'
                     ? (isDark ? 'bg-red-500/[0.03] border-red-500/15' : 'bg-red-50/50 border-red-200')
                     : renewal.status === 'lost'
@@ -166,7 +166,7 @@ export default function RenewalCenterPage() {
                       </div>
                       <div className="flex items-center gap-3 mt-1">
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                          <Calendar className="w-3 h-3 inline mr-1" />{renewal.renewalDate}
+                          <Calendar className="w-4 h-4 inline mr-1" />{renewal.renewalDate}
                         </span>
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           {renewal.contractPeriod}
@@ -197,20 +197,20 @@ export default function RenewalCenterPage() {
                 {/* Details Row */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-2">
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                    <User className="w-3 h-3 inline mr-1" />{renewal.accountManager}
+                    <User className="w-4 h-4 inline mr-1" />{renewal.accountManager}
                   </span>
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                    <MessageSquare className="w-3 h-3 inline mr-1" />{renewal.lastTouchpoint}
+                    <MessageSquare className="w-4 h-4 inline mr-1" />{renewal.lastTouchpoint}
                   </span>
                   <span className={cn('text-[10px] font-medium', isDark ? 'text-violet-400/70' : 'text-violet-600')}>
-                    <ArrowUpRight className="w-3 h-3 inline mr-1" />{renewal.nextStep}
+                    <ArrowUpRight className="w-4 h-4 inline mr-1" />{renewal.nextStep}
                   </span>
                 </div>
 
                 {/* Negotiation Notes */}
                 {renewal.negotiationNotes && (
                   <div className={cn(
-                    'mt-2 p-2.5 rounded-lg text-[10px] leading-relaxed',
+                    'mt-2 p-2.5 rounded-[var(--app-radius-lg)] text-[10px] leading-relaxed',
                     renewal.status === 'overdue'
                       ? (isDark ? 'bg-red-500/[0.06] text-red-400/70' : 'bg-red-100/60 text-red-700')
                       : (isDark ? 'bg-amber-500/[0.06] text-amber-400/70' : 'bg-amber-100/60 text-amber-700')
@@ -228,7 +228,7 @@ export default function RenewalCenterPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-2 mb-4">
             <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />

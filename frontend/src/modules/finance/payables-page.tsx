@@ -94,12 +94,12 @@ export default function PayablesPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <HandCoins className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -114,11 +114,11 @@ export default function PayablesPage() {
               'px-3 py-1.5 text-xs font-medium gap-1.5',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </Badge>
             <Button className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
               <CalendarClock className="w-4 h-4" />
@@ -136,7 +136,7 @@ export default function PayablesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-5 cursor-pointer transition-all duration-200',
+                'rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -144,7 +144,7 @@ export default function PayablesPage() {
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {card.label}
                 </span>
-                <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', card.bg)}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', card.bg)}>
                   <card.icon className={cn('w-4 h-4', card.color)} />
                 </div>
               </div>
@@ -166,7 +166,7 @@ export default function PayablesPage() {
                 key={f.value}
                 onClick={() => setStatusFilter(f.value)}
                 className={cn(
-                  'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
+                  'px-2.5 py-1 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors',
                   statusFilter === f.value
                     ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                     : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -184,7 +184,7 @@ export default function PayablesPage() {
                 key={f.value}
                 onClick={() => setPriorityFilter(f.value)}
                 className={cn(
-                  'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
+                  'px-2.5 py-1 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors',
                   priorityFilter === f.value
                     ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                     : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
@@ -202,7 +202,7 @@ export default function PayablesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -220,7 +220,7 @@ export default function PayablesPage() {
               <tbody>
                 {filteredPayables.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className={cn('py-8 text-center text-sm', 'text-[var(--app-text-muted)]')}>
+                    <td colSpan={8} className={cn('py-app-3xl text-center text-sm', 'text-[var(--app-text-muted)]')}>
                       No payables match the selected filters
                     </td>
                   </tr>
@@ -266,7 +266,7 @@ export default function PayablesPage() {
                       <td className="py-3 px-3">
                         {p.penaltyRisk ? (
                           <div className="flex items-center gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
+                            <AlertTriangle className="w-4 h-4 text-red-500" />
                             <span className="text-[10px] text-red-500 font-medium">Yes</span>
                           </div>
                         ) : (
@@ -282,25 +282,25 @@ export default function PayablesPage() {
                         <div className="flex items-center gap-1">
                           {p.approvalStatus === 'pending' && (
                             <>
-                              <Button variant="ghost" size="sm" className={cn('h-7 px-2 text-[10px] gap-1', isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50')}>
-                                <CheckCircle2 className="w-3 h-3" />
+                              <Button variant="ghost" size="sm" className={cn('h-8  px-2 text-[10px] gap-1', isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50')}>
+                                <CheckCircle2 className="w-4 h-4" />
                                 Approve
                               </Button>
-                              <Button variant="ghost" size="sm" className={cn('h-7 px-2 text-[10px] gap-1', isDark ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50')}>
-                                <XCircle className="w-3 h-3" />
+                              <Button variant="ghost" size="sm" className={cn('h-8  px-2 text-[10px] gap-1', isDark ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50')}>
+                                <XCircle className="w-4 h-4" />
                                 Reject
                               </Button>
                             </>
                           )}
                           {p.approvalStatus === 'approved' && (
-                            <Button className={cn('h-7 px-3 text-[10px] gap-1 rounded-lg', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
-                              <CalendarClock className="w-3 h-3" />
+                            <Button className={cn('h-8  px-3 text-[10px] gap-1 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+                              <CalendarClock className="w-4 h-4" />
                               Pay Now
                             </Button>
                           )}
                           {p.approvalStatus === 'paid' && (
                             <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-info-bg)] text-[var(--app-info)]')}>
-                              <CheckCircle2 className="w-3 h-3 mr-0.5" />
+                              <CheckCircle2 className="w-4 h-4 mr-0.5" />
                               Completed
                             </Badge>
                           )}

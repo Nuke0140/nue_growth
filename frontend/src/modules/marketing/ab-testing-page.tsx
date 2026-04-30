@@ -51,13 +51,13 @@ export default function AbTestingPage() {
   const completedTests = useMemo(() => mockABTests.filter(t => t.status === 'completed'), []);
   const maxTestCount = Math.max(...typeDistribution.map(d => d.count), 1);
 
-  const card = cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
   const subtle = 'text-[var(--app-text-muted)]';
   const medium = 'text-[var(--app-text-secondary)]';
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -105,7 +105,7 @@ export default function AbTestingPage() {
       </div>
 
       {/* Test Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-xl">
         {mockABTests.map((test, i) => {
           const typeStyle = TYPE_STYLES[test.type];
           const statusConfig = STATUS_CONFIG[test.status];
@@ -155,7 +155,7 @@ export default function AbTestingPage() {
 
               {/* Dates */}
               <div className="flex items-center gap-2 mb-4">
-                <Calendar className={cn('w-3 h-3', subtle)} />
+                <Calendar className={cn('w-4 h-4', subtle)} />
                 <span className={cn('text-[10px]', medium)}>
                   {test.startDate} → {test.endDate}
                 </span>
@@ -194,7 +194,7 @@ export default function AbTestingPage() {
                     <div
                       key={variant.id}
                       className={cn(
-                        'rounded-xl border p-3 transition',
+                        'rounded-[var(--app-radius-lg)] border p-3 transition',
                         isWinner
                           ? isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-green-500/5 border-green-500/20'
                           : 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
@@ -203,7 +203,7 @@ export default function AbTestingPage() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className={cn(
-                            'w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-bold',
+                            'w-5 h-5 rounded-[var(--app-radius-md)] flex items-center justify-center text-[10px] font-bold',
                             isWinner
                               ? 'bg-green-500 text-white'
                               : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
@@ -253,7 +253,7 @@ export default function AbTestingPage() {
       </div>
 
       {/* Bottom Row: Winner Announcements + Test Type Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Winner Announcements */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -276,7 +276,7 @@ export default function AbTestingPage() {
                   <div
                     key={test.id}
                     className={cn(
-                      'rounded-xl border p-4',
+                      'rounded-[var(--app-radius-lg)] border p-4',
                       isDark ? 'bg-green-500/[0.03] border-green-500/10' : 'bg-green-500/[0.03] border-green-500/10',
                     )}
                   >
@@ -348,7 +348,7 @@ export default function AbTestingPage() {
           </div>
 
           {/* Quick Stats */}
-          <div className={cn('mt-5 pt-4 border-t', 'border-[var(--app-border)]')}>
+          <div className={cn('mt-app-xl pt-4 border-t', 'border-[var(--app-border)]')}>
             <div className="grid grid-cols-3 gap-3">
               <div className="text-center">
                 <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{mockABTests.length}</p>

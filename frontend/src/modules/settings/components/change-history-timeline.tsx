@@ -73,7 +73,7 @@ export default function ChangeHistoryTimeline({
     return (
       <div
         className={cn(
-          'rounded-2xl border p-5 shadow-sm',
+          'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06]'
             : 'bg-black/[0.02] border-black/[0.06]',
@@ -92,7 +92,7 @@ export default function ChangeHistoryTimeline({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={cn(
-          'flex flex-col items-center justify-center rounded-2xl border p-10 shadow-sm',
+          'flex flex-col items-center justify-center rounded-[var(--app-radius-xl)] border p-app-4xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06]'
             : 'bg-black/[0.02] border-black/[0.06]',
@@ -100,7 +100,7 @@ export default function ChangeHistoryTimeline({
       >
         <div
           className={cn(
-            'flex h-12 w-12 items-center justify-center rounded-2xl mb-3',
+            'flex h-12 w-12 items-center justify-center rounded-[var(--app-radius-xl)] mb-3',
             'bg-[var(--app-hover-bg)]',
           )}
         >
@@ -121,7 +121,7 @@ export default function ChangeHistoryTimeline({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={cn(
-        'rounded-2xl border p-5 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -182,7 +182,7 @@ export default function ChangeHistoryTimeline({
                 <div className="flex items-center gap-2 mb-1.5">
                   <span
                     className={cn(
-                      'rounded-lg px-2 py-0.5 text-[11px] font-mono line-through max-w-[160px] truncate',
+                      'rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[11px] font-mono line-through max-w-[160px] truncate',
                       isDark ? 'bg-red-500/10 text-red-400/70' : 'bg-red-50 text-red-500/70',
                     )}
                   >
@@ -191,7 +191,7 @@ export default function ChangeHistoryTimeline({
                   <ArrowRight className={cn('h-3 w-3 shrink-0', 'text-[var(--app-text-secondary)]')} />
                   <span
                     className={cn(
-                      'rounded-lg px-2 py-0.5 text-[11px] font-mono font-semibold max-w-[160px] truncate',
+                      'rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[11px] font-mono font-semibold max-w-[160px] truncate',
                       'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                     )}
                   >

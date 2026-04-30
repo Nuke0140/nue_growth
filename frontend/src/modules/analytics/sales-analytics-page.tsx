@@ -67,12 +67,12 @@ export default function SalesAnalyticsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -97,10 +97,10 @@ export default function SalesAnalyticsPage() {
             </div>
             <ExportMenu />
             <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
+              'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
+              <Calendar className="w-4 h-4 inline mr-1.5" />
               {today}
             </span>
           </div>
@@ -210,7 +210,7 @@ export default function SalesAnalyticsPage() {
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
-                        'h-12 rounded-xl flex items-center justify-center',
+                        'h-12 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                         'bg-[var(--app-hover-bg)]',
                       )}
                       style={{ maxWidth: '100%' }}
@@ -288,7 +288,7 @@ export default function SalesAnalyticsPage() {
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
                         <div className={cn(
-                          'w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold',
+                          'w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold',
                           'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
                         )}>
                           {rep.name.split(' ').map((n) => n[0]).join('')}
@@ -352,7 +352,7 @@ export default function SalesAnalyticsPage() {
 
           {/* Lost Reasons Pie Chart */}
           <ChartCard title="Lost Reasons" subtitle="Why deals are being lost">
-            <div className="flex flex-col sm:flex-row items-center gap-6 pt-2">
+            <div className="flex flex-col sm:flex-row items-center gap-app-2xl pt-2">
               {/* Conic gradient pie */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -386,7 +386,7 @@ export default function SalesAnalyticsPage() {
                   >
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-2.5 h-2.5 rounded-sm shrink-0"
+                        className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] shrink-0"
                         style={{ backgroundColor: lostReasonColors[i % lostReasonColors.length] }}
                       />
                       <span className="text-xs font-medium truncate">{reason.reason}</span>

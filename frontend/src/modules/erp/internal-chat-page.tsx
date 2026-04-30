@@ -108,11 +108,11 @@ function InternalChatPageInner() {
         <div className={cn('p-4 border-b', 'border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-bold">Channels</h2>
-            <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
-              <Search className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+            <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             </button>
           </div>
-          <div className={cn('flex items-center gap-2 px-2.5 py-1.5 rounded-lg border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-white border-black/[0.04]')}>
+          <div className={cn('flex items-center gap-2 px-2.5 py-1.5 rounded-[var(--app-radius-lg)] border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-white border-black/[0.04]')}>
             <input type="text" placeholder="Search channels..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-xs focus:outline-none w-full', isDark ? 'text-white/70 placeholder:text-white/20' : 'text-black/70 placeholder:text-black/20')} />
           </div>
         </div>
@@ -134,7 +134,7 @@ function InternalChatPageInner() {
                       key={channel.id}
                       onClick={() => setActiveChannel(channel.id)}
                       className={cn(
-                        'w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 mb-0.5',
+                        'w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[var(--app-radius-lg)] text-left transition-colors duration-150 mb-0.5',
                         isActive
                           ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                           : isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.03]'
@@ -177,13 +177,13 @@ function InternalChatPageInner() {
             )}
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={() => {}} className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')} title="AI Summary">
+            <button onClick={() => {}} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')} title="AI Summary">
               <Sparkles className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
             </button>
-            <button className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+            <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             </button>
-            <button onClick={() => setShowInfo(!showInfo)} className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+            <button onClick={() => setShowInfo(!showInfo)} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
               <Info className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             </button>
           </div>
@@ -192,7 +192,7 @@ function InternalChatPageInner() {
         {/* Pinned Messages */}
         {pinnedMessages.length > 0 && (
           <div className={cn('px-4 py-2 border-b flex items-center gap-2', isDark ? 'bg-amber-500/[0.03] border-amber-500/10' : 'bg-amber-50 border-amber-200')}>
-            <Pin className="w-3 h-3 text-amber-500 dark:text-amber-400" />
+            <Pin className="w-4 h-4 text-amber-500 dark:text-amber-400" />
             <span className={cn('text-[10px] font-medium', isDark ? 'text-amber-300/60' : 'text-amber-700/60')}>Pinned:</span>
             <p className="text-[11px] truncate flex-1">{pinnedMessages[0].content}</p>
             {pinnedMessages.length > 1 && (
@@ -221,7 +221,7 @@ function InternalChatPageInner() {
                   transition={{ delay: idx * 0.03 }}
                   className={cn('flex gap-3', isOwn && 'flex-row-reverse')}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold shrink-0', avatarColors[idx % avatarColors.length])}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[10px] font-bold shrink-0', avatarColors[idx % avatarColors.length])}>
                     {getInitials(msg.sender)}
                   </div>
                   <div className={cn('max-w-[70%] space-y-1', isOwn && 'text-right')}>
@@ -230,7 +230,7 @@ function InternalChatPageInner() {
                       <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>{formatTime(msg.timestamp)}</span>
                     </div>
                     <div className={cn(
-                      'rounded-2xl rounded-tl-md px-3 py-2 text-sm',
+                      'rounded-[var(--app-radius-xl)] rounded-tl-md px-3 py-2 text-sm',
                       isOwn
                         ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                         : isDark ? 'bg-white/[0.06] text-white/90' : 'bg-black/[0.04] text-black/90'
@@ -241,8 +241,8 @@ function InternalChatPageInner() {
                     {msg.attachments.length > 0 && (
                       <div className="space-y-1 mt-1">
                         {msg.attachments.map(att => (
-                          <div key={att.id} className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] border', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/60' : 'bg-black/[0.02] border-black/[0.06] text-black/60')}>
-                            <FileText className="w-3 h-3" />
+                          <div key={att.id} className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[11px] border', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/60' : 'bg-black/[0.02] border-black/[0.06] text-black/60')}>
+                            <FileText className="w-4 h-4" />
                             {att.name}
                           </div>
                         ))}
@@ -264,11 +264,11 @@ function InternalChatPageInner() {
 
         {/* Message Input */}
         <div className={cn('px-4 py-3 border-t', 'border-[var(--app-border)]')}>
-          <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
-            <button className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', 'hover:bg-[var(--app-hover-bg)]')}>
+          <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'hover:bg-[var(--app-hover-bg)]')}>
               <Paperclip className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             </button>
-            <button className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', 'hover:bg-[var(--app-hover-bg)]')}>
+            <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'hover:bg-[var(--app-hover-bg)]')}>
               <AtSign className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             </button>
             <input
@@ -281,7 +281,7 @@ function InternalChatPageInner() {
             />
             <button
               onClick={handleSend}
-              className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors', messageInput.trim() ? ('bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]') : ('text-[var(--app-text-disabled)]'))}
+              className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 transition-colors', messageInput.trim() ? ('bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]') : ('text-[var(--app-text-disabled)]'))}
             >
               <Send className="w-4 h-4" />
             </button>
@@ -300,31 +300,31 @@ function InternalChatPageInner() {
           <div className="w-[280px] p-4 space-y-4 h-full overflow-y-auto">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold">Channel Info</h3>
-              <button onClick={() => setShowInfo(false)} className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+              <button onClick={() => setShowInfo(false)} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
                 <X className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               </button>
             </div>
             {activeChannelData && (
               <>
-                <div className={cn('rounded-xl border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Channel Name</p>
                   <p className="text-sm font-medium">{activeChannelData.name}</p>
                 </div>
-                <div className={cn('rounded-xl border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Type</p>
                   <p className="text-sm font-medium capitalize">{activeChannelData.type}</p>
                 </div>
-                <div className={cn('rounded-xl border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Members ({activeChannelData.members.length})</p>
                   <div className="flex flex-wrap gap-1">
                     {activeChannelData.members.map((m, i) => (
-                      <div key={m} className={cn('w-7 h-7 rounded-lg flex items-center justify-center text-[9px] font-bold', avatarColors[i % avatarColors.length])}>
+                      <div key={m} className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[9px] font-bold', avatarColors[i % avatarColors.length])}>
                         {m.replace('e', '').toUpperCase()}
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className={cn('rounded-xl border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] border p-3 space-y-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                   <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Created</p>
                   <p className="text-sm">Jan 2026</p>
                 </div>

@@ -158,7 +158,7 @@ function LeavesPageInner() {
   return (
     <>
     <PageShell title="Leave Management" icon={CalendarOff} createType="leave">
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Total Requests" value={stats.total} icon={CalendarDays} color="accent" />

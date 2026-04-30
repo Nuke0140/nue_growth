@@ -81,7 +81,7 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col items-center gap-6"
+          className="flex flex-col items-center gap-app-2xl"
         >
           <Image src="/logo.png" alt="NueEra" width={90} height={70} className="object-contain animate-pulse opacity-90" priority />
           <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">

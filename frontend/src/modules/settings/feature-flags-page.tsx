@@ -37,11 +37,11 @@ export default function FeatureFlagsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Flag className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -51,7 +51,7 @@ export default function FeatureFlagsPage() {
           </div>
           <Button
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+            className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
           >
             <Plus className="w-4 h-4" /> Create Feature Flag
           </Button>
@@ -65,7 +65,7 @@ export default function FeatureFlagsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <span className={cn('text-[11px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>
                 {kpi.label}
@@ -82,7 +82,7 @@ export default function FeatureFlagsPage() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 activeCategory === cat
                   ? isDark
                     ? 'bg-white/10 text-white'
@@ -117,7 +117,7 @@ export default function FeatureFlagsPage() {
         </div>
 
         {filteredFlags.length === 0 && (
-          <div className={cn('text-center py-12 rounded-2xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('text-center py-app-4xl rounded-[var(--app-radius-xl)] border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <Flag className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
             <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No feature flags in this category</p>
           </div>
@@ -128,7 +128,7 @@ export default function FeatureFlagsPage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -140,20 +140,20 @@ export default function FeatureFlagsPage() {
                 <input
                   type="text"
                   placeholder="e.g., New Dashboard Layout"
-                  className={cn('w-full px-3 py-2 rounded-xl text-sm border outline-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
+                  className={cn('w-full px-3 py-2 rounded-[var(--app-radius-lg)] text-sm border outline-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
                 />
               </div>
               <div>
                 <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Category</label>
                 <div className="relative">
                   <select
-                    className={cn('w-full px-3 py-2 rounded-xl text-sm border outline-none appearance-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 focus:border-violet-500/40')}
+                    className={cn('w-full px-3 py-2 rounded-[var(--app-radius-lg)] text-sm border outline-none appearance-none transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 focus:border-violet-500/40')}
                   >
                     {categories.filter(c => c !== 'All').map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
                   </select>
-                  <ChevronDown className={cn('absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none', 'text-[var(--app-text-muted)]')} />
+                  <ChevronDown className={cn('absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', 'text-[var(--app-text-muted)]')} />
                 </div>
               </div>
             </div>
@@ -162,17 +162,17 @@ export default function FeatureFlagsPage() {
               <textarea
                 rows={3}
                 placeholder="Describe what this feature flag controls..."
-                className={cn('w-full px-3 py-2 rounded-xl text-sm border outline-none transition-colors resize-none', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
+                className={cn('w-full px-3 py-2 rounded-[var(--app-radius-lg)] text-sm border outline-none transition-colors resize-none', isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:border-violet-500/40' : 'bg-black/[0.02] border-black/[0.06] text-black/80 placeholder:text-black/20 focus:border-violet-500/40')}
               />
             </div>
             <div className="flex items-center gap-2 mt-4">
-              <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+              <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                 <Plus className="w-4 h-4" /> Create Flag
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setShowCreateForm(false)}
-                className={cn('rounded-xl text-sm', 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')}
+                className={cn('rounded-[var(--app-radius-lg)] text-sm', 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')}
               >
                 Cancel
               </Button>

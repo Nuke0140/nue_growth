@@ -90,11 +90,11 @@ export default function NotificationsPreferencesPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <BellRing className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function NotificationsPreferencesPage() {
             <Button
               onClick={handleSave}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
                 saved
                   ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
                   : 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
@@ -130,7 +130,7 @@ export default function NotificationsPreferencesPage() {
                 key={ch}
                 onClick={() => setActiveChannel(ch)}
                 className={cn(
-                  'flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-all capitalize',
+                  'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors capitalize',
                   activeChannel === ch
                     ? isDark
                       ? 'bg-white/10 text-white'
@@ -140,7 +140,7 @@ export default function NotificationsPreferencesPage() {
                       : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06] hover:text-black/60'
                 )}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
                 {ch === 'in-app' ? 'In-App' : ch}
               </button>
             );
@@ -154,7 +154,7 @@ export default function NotificationsPreferencesPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: catIdx * 0.06, duration: 0.35 }}
-            className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-1">
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{category}</h3>
@@ -174,7 +174,7 @@ export default function NotificationsPreferencesPage() {
                   <div
                     key={pref.id}
                     className={cn(
-                      'flex items-center justify-between p-3 rounded-xl border transition-colors',
+                      'flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border transition-colors',
                       'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
@@ -189,7 +189,7 @@ export default function NotificationsPreferencesPage() {
                         <motion.div
                           animate={{ x: isEnabled ? 14 : 2 }}
                           transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                          className="absolute top-1 w-3 h-3 rounded-full bg-white shadow-sm"
+                          className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]"
                         />
                       </button>
                       <div className="min-w-0 flex-1">
@@ -213,7 +213,7 @@ export default function NotificationsPreferencesPage() {
         ))}
 
         {filteredPrefs.length === 0 && (
-          <div className={cn('text-center py-12 rounded-2xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('text-center py-app-4xl rounded-[var(--app-radius-xl)] border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <Bell className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
             <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No notifications configured for this channel</p>
           </div>
@@ -224,7 +224,7 @@ export default function NotificationsPreferencesPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <h3 className={cn('text-sm font-semibold mb-1 flex items-center gap-2', 'text-[var(--app-text)]')}>
             <Send className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -242,7 +242,7 @@ export default function NotificationsPreferencesPage() {
                   key={channel}
                   onClick={() => handleTest(channel)}
                   className={cn(
-                    'flex flex-col items-center gap-2 p-3 rounded-xl border transition-all',
+                    'flex flex-col items-center gap-2 p-3 rounded-[var(--app-radius-lg)] border transition-colors',
                     isTested
                       ? 'border-emerald-500/30 bg-emerald-500/10'
                       : isDark
@@ -250,7 +250,7 @@ export default function NotificationsPreferencesPage() {
                         : 'border-black/[0.04] hover:bg-black/[0.04]'
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? chColor.dark : chColor.light)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? chColor.dark : chColor.light)}>
                     {isTested ? <Check className="w-4 h-4 text-emerald-500" /> : <Icon className="w-4 h-4" />}
                   </div>
                   <span className={cn('text-[10px] font-medium capitalize', isTested ? 'text-emerald-500' : 'text-[var(--app-text-secondary)]')}>

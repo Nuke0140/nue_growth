@@ -69,11 +69,11 @@ export default function CustomerJourneyPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <GitBranch className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -81,7 +81,7 @@ export default function CustomerJourneyPage() {
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Lifecycle Visualization</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Eye className="w-4 h-4" />
             View Cohorts
           </Button>
@@ -95,12 +95,12 @@ export default function CustomerJourneyPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
@@ -113,9 +113,9 @@ export default function CustomerJourneyPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-app-2xl">
             <GitBranch className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Journey Funnel</span>
           </div>
@@ -142,12 +142,12 @@ export default function CustomerJourneyPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <div className={cn('h-10 rounded-lg overflow-hidden flex items-center', 'bg-[var(--app-hover-bg)]')}>
+                        <div className={cn('h-10 rounded-[var(--app-radius-lg)] overflow-hidden flex items-center', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${widthPct}%` }}
                             transition={{ delay: 0.4 + i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            className={cn('h-full rounded-lg', sc.bar(isDark))}
+                            className={cn('h-full rounded-[var(--app-radius-lg)]', sc.bar(isDark))}
                           />
                           <span className={cn('text-xs font-bold px-3 shrink-0', 'text-[var(--app-text-secondary)]')}>
                             {stage.customers}
@@ -156,7 +156,7 @@ export default function CustomerJourneyPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                          <Clock className="w-3 h-3 inline mr-0.5" />Avg {stage.avgDaysInStage} days
+                          <Clock className="w-4 h-4 inline mr-0.5" />Avg {stage.avgDaysInStage} days
                         </span>
                         {i === 0 && (
                           <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>100% from start</span>
@@ -176,12 +176,12 @@ export default function CustomerJourneyPage() {
                       <div className="w-24 shrink-0" />
                       <div className="flex-1 flex items-center gap-2 px-1">
                         <div className="flex-1 flex items-center justify-center gap-2">
-                          <ArrowRight className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                          <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                           <span className="text-[10px] font-medium text-emerald-500">{conversionPct}% convert</span>
                           {dropoffCount > 0 && (
                             <>
                               <div className={cn('h-3 w-px', isDark ? 'bg-white/10' : 'bg-black/10')} />
-                              <TrendingDown className="w-3 h-3 text-red-400" />
+                              <TrendingDown className="w-4 h-4 text-red-400" />
                               <span className="text-[10px] font-medium text-red-400">-{dropoffCount} drop ({nextStage.dropoff}%)</span>
                             </>
                           )}
@@ -202,7 +202,7 @@ export default function CustomerJourneyPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className={cn('lg:col-span-2 rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('lg:col-span-2 rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
               <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -221,7 +221,7 @@ export default function CustomerJourneyPage() {
                     className={cn('flex items-start gap-3 py-3', i < journeyEvents.length - 1 && cn('border-l-2 ml-1.5 pl-4', 'border-[var(--app-border)]'))}
                   >
                     <div className={cn('w-8 h-8 rounded-full flex items-center justify-center shrink-0 -ml-1.5', eConf.bg, 'border-2', isDark ? 'border-[#0a0a0a]' : 'border-white')}>
-                      <EIcon className={cn('w-3.5 h-3.5', eConf.color)} />
+                      <EIcon className={cn('w-4 h-4', eConf.color)} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5 flex-wrap">
@@ -245,7 +245,7 @@ export default function CustomerJourneyPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-amber-500/[0.03] border-amber-500/20' : 'bg-amber-50 border-amber-200')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-amber-500/[0.03] border-amber-500/20' : 'bg-amber-50 border-amber-200')}
             >
               <div className="flex items-center gap-2 mb-4">
                 <AlertTriangle className="w-4 h-4 text-amber-400" />
@@ -254,8 +254,8 @@ export default function CustomerJourneyPage() {
               </div>
               <div className="space-y-2.5">
                 {frictionEvents.map((event: JourneyEvent) => (
-                  <div key={event.id} className={cn('flex items-start gap-2.5 p-3 rounded-xl', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                  <div key={event.id} className={cn('flex items-start gap-2.5 p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold">{event.client}</p>
                       <p className={cn('text-[10px] leading-relaxed', 'text-[var(--app-text-muted)]')}>{event.event}</p>
@@ -271,7 +271,7 @@ export default function CustomerJourneyPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
             >
               <div className="flex items-center gap-2 mb-4">
                 <Milestone className="w-4 h-4 text-emerald-500" />
@@ -280,8 +280,8 @@ export default function CustomerJourneyPage() {
               </div>
               <div className="space-y-2.5">
                 {milestoneEvents.map((event: JourneyEvent) => (
-                  <div key={event.id} className={cn('flex items-start gap-2.5 p-3 rounded-xl', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <div key={event.id} className={cn('flex items-start gap-2.5 p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.02]' : 'bg-white')}>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold">{event.client}</p>
                       <p className={cn('text-[10px] leading-relaxed', 'text-[var(--app-text-muted)]')}>{event.event}</p>
@@ -297,7 +297,7 @@ export default function CustomerJourneyPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.55, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
                 <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -309,7 +309,7 @@ export default function CustomerJourneyPage() {
                   const convRate = prevStage ? ((stage.customers / prevStage.customers) * 100).toFixed(1) : '0';
                   const isGood = parseFloat(convRate) >= 80;
                   return (
-                    <div key={stage.id} className={cn('flex items-center justify-between p-2.5 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+                    <div key={stage.id} className={cn('flex items-center justify-between p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                       <div className="flex items-center gap-2">
                         <div className={cn('w-2 h-2 rounded-full', isGood ? 'bg-emerald-500' : 'bg-amber-500')} />
                         <span className="text-xs font-medium">{prevStage?.name} → {stage.name}</span>

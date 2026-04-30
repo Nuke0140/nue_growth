@@ -88,7 +88,7 @@ export default function ContentApprovalPage() {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-app-3xl py-app-2xl space-y-app-2xl">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -97,7 +97,7 @@ export default function ContentApprovalPage() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-blue-500/15' : 'bg-blue-50')}>
+          <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-blue-500/15' : 'bg-blue-50')}>
             <FileText className="w-5 h-5 text-blue-500" />
           </div>
           <div>
@@ -112,7 +112,7 @@ export default function ContentApprovalPage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className={cn('rounded-2xl border p-4 overflow-x-auto', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+        className={cn('rounded-[var(--app-radius-xl)] border p-4 overflow-x-auto', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
       >
         <div className="flex items-center gap-1 min-w-[600px]">
           {PIPELINE_STAGES.map((stage, i) => (
@@ -125,7 +125,7 @@ export default function ContentApprovalPage() {
                 </span>
               </div>
               {i < PIPELINE_STAGES.length - 1 && (
-                <ChevronRight className={cn('w-3.5 h-3.5 shrink-0', isDark ? 'text-white/15' : 'text-gray-300')} />
+                <ChevronRight className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/15' : 'text-gray-300')} />
               )}
             </div>
           ))}
@@ -136,7 +136,7 @@ export default function ContentApprovalPage() {
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setActiveTab('all')}
-          className={cn('px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors',
+          className={cn('px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium whitespace-nowrap transition-colors',
             activeTab === 'all'
               ? isDark ? 'bg-white/10 text-white' : 'bg-gray-900 text-white'
               : isDark ? 'text-white/50 hover:bg-white/[0.06]' : 'text-gray-500 hover:bg-gray-100'
@@ -148,7 +148,7 @@ export default function ContentApprovalPage() {
           <button
             key={stage.stage}
             onClick={() => setActiveTab(stage.stage)}
-            className={cn('px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5',
+            className={cn('px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5',
               activeTab === stage.stage
                 ? 'text-white'
                 : isDark ? 'text-white/50 hover:bg-white/[0.06]' : 'text-gray-500 hover:bg-gray-100'
@@ -160,7 +160,7 @@ export default function ContentApprovalPage() {
         ))}
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-app-2xl">
         {/* Kanban Board */}
         <div className="flex-1 min-w-0">
           {activeTab === 'all' ? (
@@ -182,7 +182,7 @@ export default function ContentApprovalPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.05, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                         onClick={() => setSelectedItem(item)}
-                        className={cn('rounded-xl border p-3 cursor-pointer transition-all hover:scale-[1.01]',
+                        className={cn('rounded-[var(--app-radius-lg)] border p-3 cursor-pointer transition-colors hover:scale-[1.01]',
                           isDark ? 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]' : 'bg-white border-black/[0.06] hover:border-black/[0.12]',
                           selectedItem?.id === item.id && 'ring-2 ring-blue-500/40'
                         )}
@@ -202,7 +202,7 @@ export default function ContentApprovalPage() {
                           <div className="flex items-center gap-2">
                             {item.comments.length > 0 && (
                               <div className="flex items-center gap-1">
-                                <MessageSquare className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                                <MessageSquare className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.comments.length}</span>
                               </div>
                             )}
@@ -224,7 +224,7 @@ export default function ContentApprovalPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => setSelectedItem(item)}
-                  className={cn('rounded-xl border p-4 cursor-pointer transition-all hover:scale-[1.005]',
+                  className={cn('rounded-[var(--app-radius-lg)] border p-4 cursor-pointer transition-colors hover:scale-[1.005]',
                     isDark ? 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]' : 'bg-white border-black/[0.06] hover:border-black/[0.12]',
                     selectedItem?.id === item.id && 'ring-2 ring-blue-500/40'
                   )}
@@ -245,7 +245,7 @@ export default function ContentApprovalPage() {
                     <div className="flex items-center gap-3">
                       {item.comments.length > 0 && (
                         <div className="flex items-center gap-1">
-                          <MessageSquare className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                          <MessageSquare className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                           <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{item.comments.length}</span>
                         </div>
                       )}
@@ -266,13 +266,13 @@ export default function ContentApprovalPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('w-80 shrink-0 rounded-2xl border p-4 space-y-4 self-start sticky top-6 max-h-[calc(100vh-12rem)] overflow-y-auto',
+              className={cn('w-80 shrink-0 rounded-[var(--app-radius-xl)] border p-4 space-y-4 self-start sticky top-6 max-h-[calc(100vh-12rem)] overflow-y-auto',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center justify-between">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Content Detail</h3>
-                <button onClick={() => setSelectedItem(null)} className={cn('p-1 rounded-md', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-gray-100')}>
+                <button onClick={() => setSelectedItem(null)} className={cn('p-1 rounded-[var(--app-radius-md)]', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-gray-100')}>
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -315,14 +315,14 @@ export default function ContentApprovalPage() {
               {/* Comments Thread */}
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
-                  <MessageSquare className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-gray-400')} />
+                  <MessageSquare className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-gray-400')} />
                   <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                     Comments ({selectedItem.comments.length})
                   </span>
                 </div>
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {selectedItem.comments.map(comment => (
-                    <div key={comment.id} className={cn('rounded-lg p-2.5 space-y-1', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
+                    <div key={comment.id} className={cn('rounded-[var(--app-radius-lg)] p-2.5 space-y-1', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
                       <div className="flex items-center justify-between">
                         <span className={cn('text-[10px] font-semibold', isDark ? 'text-white/60' : 'text-gray-700')}>{comment.author}</span>
                         <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-gray-400')}>
@@ -340,24 +340,24 @@ export default function ContentApprovalPage() {
                 {selectedItem.stage !== 'published' && selectedItem.stage !== 'approved' && (
                   <>
                     <Button className="w-full gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs h-8">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <CheckCircle2 className="w-4 h-4" />
                       Approve
                     </Button>
                     <Button className="w-full gap-2 text-xs h-8" variant="outline"
                       style={{ borderColor: '#f59e0b', color: '#f59e0b' }}>
-                      <RotateCcw className="w-3.5 h-3.5" />
+                      <RotateCcw className="w-4 h-4" />
                       Request Revision
                     </Button>
                     <Button className="w-full gap-2 text-xs h-8" variant="outline"
                       style={{ borderColor: '#ef4444', color: '#ef4444' }}>
-                      <XCircle className="w-3.5 h-3.5" />
+                      <XCircle className="w-4 h-4" />
                       Reject
                     </Button>
                   </>
                 )}
                 {selectedItem.stage === 'approved' && (
                   <Button className="w-full gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs h-8">
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-4 h-4" />
                     Publish
                   </Button>
                 )}
@@ -375,7 +375,7 @@ export default function ContentApprovalPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <p className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>{stat.value}</p>
             <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{stat.label}</p>

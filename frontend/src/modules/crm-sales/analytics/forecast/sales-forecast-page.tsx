@@ -73,7 +73,7 @@ export default function SalesForecastPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -85,13 +85,13 @@ export default function SalesForecastPage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className={cn('flex items-center gap-1 px-3 py-2 rounded-xl border',
+              <div className={cn('flex items-center gap-1 px-3 py-2 rounded-[var(--app-radius-lg)] border',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Apr 1 – Jun 30, 2026</span>
               </div>
-              <div className={cn('flex items-center rounded-xl border overflow-hidden',
+              <div className={cn('flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 {QUARTERS.map(q => (
@@ -126,7 +126,7 @@ export default function SalesForecastPage() {
               { label: 'Quarter Target', value: formatCurrency(totalTarget), icon: Target, change: '$4.64M', up: true },
               { label: 'Monthly Close', value: formatCurrency(expectedMonthlyClose), icon: Calendar, change: 'avg', up: true },
             ].map((stat) => (
-              <div key={stat.label} className={cn('rounded-2xl border p-4 transition-colors',
+              <div key={stat.label} className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center justify-between mb-2">
@@ -153,16 +153,16 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Monthly Forecast vs Actual</h3>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.6)' : '#a855f7' }} /> Forecast
+                    <span className="w-2 h-2 rounded-[var(--app-radius-sm)]" style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.6)' : '#a855f7' }} /> Forecast
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-sm bg-emerald-500" /> Actual
+                    <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Actual
                   </span>
                 </div>
               </div>
@@ -205,14 +205,14 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Rep Forecast Comparison</h3>
                 <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-white/30" /> Pipeline</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-purple-500" /> Weighted</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Committed</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-white/30" /> Pipeline</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-purple-500" /> Weighted</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Committed</span>
                 </div>
               </div>
               <div className="space-y-4">
@@ -231,19 +231,19 @@ export default function SalesForecastPage() {
                           initial={{ width: 0 }}
                           animate={{ width: `${pipelineW}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut' }}
-                          className={cn('h-full rounded-sm', 'bg-[var(--app-hover-bg)]')}
+                          className={cn('h-full rounded-[var(--app-radius-sm)]', 'bg-[var(--app-hover-bg)]')}
                         />
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${weightedW}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
-                          className="h-full rounded-sm bg-purple-500/60"
+                          className="h-full rounded-[var(--app-radius-sm)] bg-purple-500/60"
                         />
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${committedW}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                          className="h-full rounded-sm bg-emerald-500"
+                          className="h-full rounded-[var(--app-radius-sm)] bg-emerald-500"
                         />
                       </div>
                     </div>
@@ -257,14 +257,14 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Stage Revenue Trend</h3>
                 <div className="flex items-center gap-2 text-[10px] flex-wrap">
                   {['New', 'Qualified', 'Discovery', 'Demo', 'Proposal', 'Negotiation'].map((label, i) => (
                     <span key={label} className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: STAGE_COLORS_ARR[i] }} />
+                      <span className="w-2 h-2 rounded-[var(--app-radius-sm)]" style={{ backgroundColor: STAGE_COLORS_ARR[i] }} />
                       <span className={cn('text-[var(--app-text-muted)]')}>{label}</span>
                     </span>
                   ))}
@@ -310,7 +310,7 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.25 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Confidence Trend</h3>
@@ -354,7 +354,7 @@ export default function SalesForecastPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ duration: 0.3, delay: i * 0.1 }}
-                            className={cn('w-3 h-3 rounded-full border-2 shrink-0',
+                            className={cn('w-4 h-4 rounded-full border-2 shrink-0',
                               isDark ? 'bg-[#0a0a0a] border-purple-400' : 'bg-white border-purple-600'
                             )}
                           />
@@ -373,9 +373,9 @@ export default function SalesForecastPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-            className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <div className={cn('px-5 py-4 border-b', 'border-[var(--app-border)]')}>
+            <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Rep Breakdown</h3>
             </div>
             <div className="overflow-x-auto">
@@ -383,7 +383,7 @@ export default function SalesForecastPage() {
                 <thead>
                   <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Rep Name', 'Pipeline', 'Weighted', 'Committed', 'Best Case', 'Worst Case', 'Gap to Target'].map(col => (
-                      <th key={col} className={cn('px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
+                      <th key={col} className={cn('px-app-xl py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                         {col}
                       </th>
                     ))}
@@ -401,9 +401,9 @@ export default function SalesForecastPage() {
                         transition={{ delay: i * 0.05 }}
                         className={cn('border-b', 'border-[var(--app-border-light)]')}
                       >
-                        <td className="px-5 py-3">
+                        <td className="px-app-xl py-3">
                           <div className="flex items-center gap-2">
-                            <div className={cn('w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold',
+                            <div className={cn('w-8 h-8 rounded-full flex items-center justify-center text-[9px] font-bold',
                               'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                             )}>
                               {rep.repName.split(' ').map(n => n[0]).join('')}
@@ -416,12 +416,12 @@ export default function SalesForecastPage() {
                             </div>
                           </div>
                         </td>
-                        <td className={cn('px-5 py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(rep.pipelineValue)}</td>
-                        <td className={cn('px-5 py-3 text-xs font-medium text-purple-400')}>{formatCurrency(rep.weightedForecast)}</td>
-                        <td className={cn('px-5 py-3 text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(rep.committed)}</td>
-                        <td className={cn('px-5 py-3 text-xs', isDark ? 'text-emerald-400/70' : 'text-emerald-600/70')}>{formatCurrency(rep.bestCase)}</td>
-                        <td className={cn('px-5 py-3 text-xs', isDark ? 'text-red-400/70' : 'text-red-600/70')}>{formatCurrency(rep.worstCase)}</td>
-                        <td className="px-5 py-3">
+                        <td className={cn('px-app-xl py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(rep.pipelineValue)}</td>
+                        <td className={cn('px-app-xl py-3 text-xs font-medium text-purple-400')}>{formatCurrency(rep.weightedForecast)}</td>
+                        <td className={cn('px-app-xl py-3 text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(rep.committed)}</td>
+                        <td className={cn('px-app-xl py-3 text-xs', isDark ? 'text-emerald-400/70' : 'text-emerald-600/70')}>{formatCurrency(rep.bestCase)}</td>
+                        <td className={cn('px-app-xl py-3 text-xs', isDark ? 'text-red-400/70' : 'text-red-600/70')}>{formatCurrency(rep.worstCase)}</td>
+                        <td className="px-app-xl py-3">
                           <span className={cn('text-xs font-bold', gap > 0 ? 'text-red-500' : 'text-emerald-500')}>
                             {gap > 0 ? '-' : '+'}{formatCurrency(Math.abs(gap))}
                           </span>
@@ -439,10 +439,10 @@ export default function SalesForecastPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.35 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-purple-500/[0.04] border-purple-500/15' : 'bg-purple-50/50 border-purple-200/50')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-purple-500/[0.04] border-purple-500/15' : 'bg-purple-50/50 border-purple-200/50')}
           >
             <div className="flex items-start gap-3">
-              <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0',
+              <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                 isDark ? 'bg-purple-500/15' : 'bg-purple-100'
               )}>
                 <BrainCircuit className="w-4 h-4 text-purple-400" />

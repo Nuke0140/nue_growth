@@ -96,14 +96,14 @@ export default function SegmentsPage() {
                 Segments
               </h1>
               <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
-                <Users className="w-3.5 h-3.5 inline mr-1" />
+                <Users className="w-4 h-4 inline mr-1" />
                 {totalCustomers.toLocaleString()} customers in {mockSegments.length} segments
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
-              'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
+              'flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -122,11 +122,11 @@ export default function SegmentsPage() {
               size="sm"
               onClick={() => setShowBuilder(true)}
               className={cn(
-                'rounded-xl text-xs h-9 px-4',
+                'rounded-[var(--app-radius-lg)] text-xs h-10  px-4',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <Plus className="w-4 h-4 mr-1.5" />
               Create Segment
             </Button>
           </div>
@@ -140,7 +140,7 @@ export default function SegmentsPage() {
               key={tf.key}
               onClick={() => setActiveType(tf.key)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors whitespace-nowrap',
                 activeType === tf.key
                   ? isDark
                     ? 'bg-white/[0.08] text-white'
@@ -158,7 +158,7 @@ export default function SegmentsPage() {
 
       <ScrollArea className="flex-1 px-6 pb-6">
         {/* Analytics row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-app-2xl">
           {[
             { label: 'Total Segments', value: mockSegments.length, icon: BarChart3 },
             { label: 'Largest Segment', value: largestSegment?.name || '—', icon: Users },
@@ -171,10 +171,10 @@ export default function SegmentsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={cn(
-                'rounded-xl p-4',
+                'rounded-[var(--app-radius-lg)] p-4',
                 isDark
                   ? 'bg-white/[0.03] border border-white/[0.04]'
-                  : 'bg-white border border-black/[0.04] shadow-sm'
+                  : 'bg-white border border-black/[0.04] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
               )}
             >
               <div className="flex items-center gap-2 mb-1">
@@ -228,7 +228,7 @@ export default function SegmentsPage() {
                 onChange={(e) => setSegmentName(e.target.value)}
                 placeholder="e.g., High-Value Enterprise"
                 className={cn(
-                  'rounded-xl text-sm h-9',
+                  'rounded-[var(--app-radius-lg)] text-sm h-10'',
                   isDark
                     ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/25 focus:border-white/20'
                     : 'bg-black/[0.02] border-black/[0.08] text-black placeholder:text-black/25 focus:border-black/20'
@@ -253,7 +253,7 @@ export default function SegmentsPage() {
                           setBuilderRules(updated);
                         }}
                         className={cn(
-                          'text-[11px] font-mono px-2 py-1.5 rounded-lg border bg-transparent',
+                          'text-[11px] font-mono px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent',
                           isDark
                             ? 'border-white/10 text-white/50 focus:border-white/20'
                             : 'border-black/10 text-black/50 focus:border-black/20'
@@ -271,7 +271,7 @@ export default function SegmentsPage() {
                         setBuilderRules(updated);
                       }}
                       className={cn(
-                        'flex-1 text-xs px-2 py-1.5 rounded-lg border bg-transparent',
+                        'flex-1 text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent',
                         isDark
                           ? 'border-white/10 text-white/70 focus:border-white/20'
                           : 'border-black/10 text-black/70 focus:border-black/20'
@@ -289,7 +289,7 @@ export default function SegmentsPage() {
                         setBuilderRules(updated);
                       }}
                       className={cn(
-                        'flex-1 text-xs px-2 py-1.5 rounded-lg border bg-transparent',
+                        'flex-1 text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent',
                         isDark
                           ? 'border-white/10 text-white/70 focus:border-white/20'
                           : 'border-black/10 text-black/70 focus:border-black/20'
@@ -309,7 +309,7 @@ export default function SegmentsPage() {
                       }}
                       placeholder="Value"
                       className={cn(
-                        'w-20 text-xs px-2 py-1.5 rounded-lg border bg-transparent',
+                        'w-20 text-xs px-2 py-1.5 rounded-[var(--app-radius-lg)] border bg-transparent',
                         isDark
                           ? 'border-white/10 text-white/70 placeholder:text-white/25 focus:border-white/20'
                           : 'border-black/10 text-black/70 placeholder:text-black/25 focus:border-black/20'
@@ -318,9 +318,9 @@ export default function SegmentsPage() {
                     {builderRules.length > 1 && (
                       <button
                         onClick={() => removeRule(i)}
-                        className="p-1 rounded-lg hover:bg-red-500/10 text-red-400"
+                        className="p-1 rounded-[var(--app-radius-lg)] hover:bg-red-500/10 text-red-400"
                       >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-4 h-4" />
                       </button>
                     )}
                   </div>
@@ -329,20 +329,20 @@ export default function SegmentsPage() {
               <button
                 onClick={addRule}
                 className={cn(
-                  'mt-2 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors',
+                  'mt-2 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-[var(--app-radius-lg)] transition-colors',
                   isDark
                     ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
                     : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
                 )}
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 Add Rule
               </button>
             </div>
 
             {/* Live count preview */}
             <div className={cn(
-              'rounded-xl p-4',
+              'rounded-[var(--app-radius-lg)] p-4',
               isDark ? 'bg-white/[0.03] border border-white/[0.04]' : 'bg-black/[0.02] border border-black/[0.04]'
             )}>
               <div className="flex items-center justify-between">
@@ -365,7 +365,7 @@ export default function SegmentsPage() {
 
             <Button
               className={cn(
-                'w-full rounded-xl h-10',
+                'w-full rounded-[var(--app-radius-lg)] h-10',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
               onClick={() => setShowBuilder(false)}

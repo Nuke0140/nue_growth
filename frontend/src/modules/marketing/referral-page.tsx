@@ -63,7 +63,7 @@ export default function ReferralPage() {
   };
 
   return (
-    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-app-3xl py-app-2xl space-y-app-2xl">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -72,7 +72,7 @@ export default function ReferralPage() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-success-bg)]')}>
+          <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-success-bg)]')}>
             <Share2 className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
@@ -94,7 +94,7 @@ export default function ReferralPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-3">
               <kpi.icon className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-gray-400')} />
@@ -106,11 +106,11 @@ export default function ReferralPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
         {/* Leaderboard */}
         <div className="lg:col-span-2">
           <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Leaderboard</h2>
-          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -132,14 +132,14 @@ export default function ReferralPage() {
                         className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-gray-50/50')}
                       >
                         <td className="px-4 py-3">
-                          <div className={cn('w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold', ref.rank <= 3 ? badge.bg : (isDark ? 'bg-white/[0.06] text-white/50' : 'bg-gray-100 text-gray-500'))}>
+                          <div className={cn('w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold', ref.rank <= 3 ? badge.bg : (isDark ? 'bg-white/[0.06] text-white/50' : 'bg-gray-100 text-gray-500'))}>
                             {ref.rank <= 3 ? badge.icon : ref.rank}
                           </div>
                         </td>
                         <td className="px-4 py-3 font-medium" style={{ color: isDark ? 'white' : '#111827' }}>{ref.name}</td>
                         <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-gray-500')}>{ref.email}</td>
                         <td className="px-4 py-3">
-                          <code className={cn('text-xs font-mono px-2 py-1 rounded-md', isDark ? 'bg-white/[0.06] text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+                          <code className={cn('text-xs font-mono px-2 py-1 rounded-[var(--app-radius-md)]', isDark ? 'bg-white/[0.06] text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
                             {ref.referralCode}
                           </code>
                         </td>
@@ -156,7 +156,7 @@ export default function ReferralPage() {
         </div>
 
         {/* Right column */}
-        <div className="space-y-6">
+        <div className="space-y-app-2xl">
           {/* Referral Links */}
           <div>
             <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Referral Links</h2>
@@ -164,10 +164,10 @@ export default function ReferralPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2">
-                <code className={cn('flex-1 text-xs font-mono px-3 py-2 rounded-lg truncate', isDark ? 'bg-white/[0.06] text-white/70' : 'bg-gray-50 text-gray-600')}>
+                <code className={cn('flex-1 text-xs font-mono px-3 py-2 rounded-[var(--app-radius-lg)] truncate', isDark ? 'bg-white/[0.06] text-white/70' : 'bg-gray-50 text-gray-600')}>
                   https://diginue.in/ref/AARAV2024
                 </code>
                 <Button
@@ -176,7 +176,7 @@ export default function ReferralPage() {
                   className={cn('shrink-0 gap-1 text-xs h-8', isDark ? 'border-white/[0.1] text-white/70 hover:bg-white/[0.06]' : 'border-gray-200 text-gray-600 hover:bg-gray-50')}
                   onClick={handleCopyLink}
                 >
-                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedLink ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                 </Button>
               </div>
               <div className={cn('pt-2 border-t space-y-2', isDark ? 'border-white/[0.06]' : 'border-gray-100')}>
@@ -204,7 +204,7 @@ export default function ReferralPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-end gap-2 h-32">
                 {MONTHLY_REFERRAL_DATA.map((d, i) => (
@@ -215,7 +215,7 @@ export default function ReferralPage() {
                         initial={{ height: 0 }}
                         animate={{ height: `${(d.count / maxBarValue) * 100}%` }}
                         transition={{ delay: 0.4 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full rounded-t-md bg-emerald-500"
+                        className="w-full rounded-t-[var(--app-radius-md)] bg-emerald-500"
                       />
                     </div>
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{d.month}</span>
@@ -230,7 +230,7 @@ export default function ReferralPage() {
       {/* Recent Activities */}
       <div>
         <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Recent Activities</h2>
-        <div className={cn('rounded-2xl border p-4 space-y-0', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <div className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-0', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           {RECENT_ACTIVITIES.map((activity, i) => (
             <motion.div
               key={i}
@@ -249,7 +249,7 @@ export default function ReferralPage() {
                     <span className={isDark ? 'text-white/50' : 'text-gray-500'}> {activity.action}</span>
                   </p>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <Clock className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                    <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{activity.time}</span>
                   </div>
                 </div>

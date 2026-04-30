@@ -74,7 +74,7 @@ function ResponsiveLayoutInner({
           >
             <Button
               size="icon"
-              className="size-14 rounded-full shadow-lg"
+              className="size-14 rounded-full shadow-[var(--app-shadow-md)]-lg"
               onClick={openSheet}
               aria-label="Open navigation menu"
             >

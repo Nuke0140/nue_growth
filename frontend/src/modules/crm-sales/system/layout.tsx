@@ -188,7 +188,7 @@ export default function CrmSalesLayout() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className={cn(
-        'h-screen flex flex-col overflow-hidden transition-colors duration-300',
+        'h-screen flex flex-col overflow-hidden transition-colors duration-200',
         isDark ? 'bg-[#0a0a0a] text-white' : 'bg-[#fafafa] text-black'
       )}>
         {/* Top Bar */}
@@ -200,7 +200,7 @@ export default function CrmSalesLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={closeModule}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg',
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]',
                     isDark ? 'hover:bg-white/[0.06] text-white/50 hover:text-white' : 'hover:bg-black/[0.06] text-black/50 hover:text-black'
                   )}>
                   <Home className="w-4 h-4" />
@@ -214,7 +214,7 @@ export default function CrmSalesLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={goBack} disabled={!canBack}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
                     !canBack && 'opacity-30 cursor-not-allowed',
                     canBack && isDark && 'hover:bg-white/[0.06]',
                     canBack && !isDark && 'hover:bg-black/[0.06]'
@@ -228,7 +228,7 @@ export default function CrmSalesLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={goForward} disabled={!canForward}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
                     !canForward && 'opacity-30 cursor-not-allowed',
                     canForward && isDark && 'hover:bg-white/[0.06]',
                     canForward && !isDark && 'hover:bg-black/[0.06]'
@@ -242,19 +242,19 @@ export default function CrmSalesLayout() {
             <div className={cn('w-px h-5 mx-1 hidden md:block', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')} />
 
             <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden shrink-0 h-8 w-8 rounded-lg">
+              className="md:hidden shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]">
               <Menu className="w-4 h-4" />
             </Button>
 
             <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-sm" />
+              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-[var(--app-radius-sm)]" />
               <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', isDark ? 'text-white/60' : 'text-black/60')}>
                 CRM & Sales
               </span>
               <span className={cn('text-[10px] font-mono hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')}>
                 v3.0 — Revenue Intelligence
               </span>
-              <ChevronRight className={cn('w-3 h-3 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
+              <ChevronRight className={cn('w-4 h-4 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
               <span className="text-sm font-medium">{currentLabel}</span>
             </div>
           </div>
@@ -263,7 +263,7 @@ export default function CrmSalesLayout() {
             <button
               onClick={() => setCommandPaletteOpen(true)}
               className={cn(
-                'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors cursor-pointer',
+                'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border w-64 transition-colors cursor-pointer',
                 isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]'
               )}
             >
@@ -279,7 +279,7 @@ export default function CrmSalesLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="hidden md:flex">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg"><SlidersHorizontal className="w-4 h-4" /></Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-[var(--app-radius-lg)]"><SlidersHorizontal className="w-4 h-4" /></Button>
                 </div>
               </TooltipTrigger>
               <TooltipContent>Filters</TooltipContent>
@@ -287,7 +287,7 @@ export default function CrmSalesLayout() {
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Bell className="w-4 h-4" />
                   <span className={cn('absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center',
                     isDark ? 'bg-white text-black' : 'bg-black text-white')}>5</span>
@@ -299,9 +299,9 @@ export default function CrmSalesLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="hidden md:flex">
-                  <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
+                  <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-[var(--app-radius-lg)]">
                     <Sparkles className="w-4 h-4" />
-                    <motion.div className="absolute inset-0 rounded-lg"
+                    <motion.div className="absolute inset-0 rounded-[var(--app-radius-lg)]"
                       animate={{ boxShadow: ['0 0 0 0 rgba(139,92,246,0)', '0 0 0 4px rgba(139,92,246,0.1)', '0 0 0 0 rgba(139,92,246,0)'] }}
                       transition={{ duration: 2, repeat: Infinity }} />
                   </Button>
@@ -312,27 +312,27 @@ export default function CrmSalesLayout() {
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={toggleDensity} className="h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" onClick={toggleDensity} className="h-8 w-8 rounded-[var(--app-radius-lg)]">
                   {density === 'compact' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{density === 'compact' ? 'Comfortable mode' : 'Compact mode'}</TooltipContent>
             </Tooltip>
 
-            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')} className="h-8 w-8 rounded-lg">
+            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')} className="h-8 w-8 rounded-[var(--app-radius-lg)]">
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
             <div className="relative">
               <Button variant="ghost" size="icon" onClick={() => setShowUserMenu(!showUserMenu)}
-                className={cn('h-8 w-8 rounded-lg font-bold text-xs',
+                className={cn('h-8 w-8 rounded-[var(--app-radius-lg)] font-bold text-xs',
                   isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
                 )}>
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </Button>
               {showUserMenu && (
                 <motion.div initial={{ opacity: 0, y: -5, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={cn('absolute right-0 top-11 w-56 rounded-xl border shadow-xl p-2 z-50',
+                  className={cn('absolute right-0 top-11 w-56 rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-xl p-2 z-50',
                     isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]'
                   )}>
                   <div className={cn('px-3 py-2 border-b mb-1', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
@@ -340,7 +340,7 @@ export default function CrmSalesLayout() {
                     <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{user?.email || ''}</p>
                   </div>
                   <button onClick={() => { logout(); setShowUserMenu(false); }}
-                    className={cn('w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
+                    className={cn('w-full flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors',
                       isDark ? 'text-white/60 hover:text-white hover:bg-white/[0.06]' : 'text-black/60 hover:text-black hover:bg-black/[0.06]'
                     )}>
                     <LogOut className="w-4 h-4" /> Sign Out
@@ -392,12 +392,12 @@ export default function CrmSalesLayout() {
                           <button key={item.id}
                             onClick={() => { navigateTo(item.id); if (isMobile) setSidebarOpen(false); }}
                             className={cn(
-                              'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group',
+                              'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors duration-200 group',
                               isActive
                                 ? isDark ? 'bg-white/[0.08] text-white font-medium' : 'bg-black/[0.06] text-black font-medium'
                                 : isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
                             )}>
-                            <item.icon className={cn('w-4.5 h-4.5 transition-colors',
+                            <item.icon className={cn('w-5 h-5 transition-colors',
                               isActive ? (isDark ? 'text-white' : 'text-black')
                                 : isDark ? 'text-white/30 group-hover:text-white/60' : 'text-black/30 group-hover:text-black/60'
                             )} />
@@ -417,7 +417,7 @@ export default function CrmSalesLayout() {
 
                 {/* Sidebar Footer */}
                 <div className={cn('p-3 border-t space-y-3', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  <div className={cn('rounded-xl p-3 border',
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-3 border',
                     isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
                   )}>
                     <div className="flex items-center gap-2 mb-2">

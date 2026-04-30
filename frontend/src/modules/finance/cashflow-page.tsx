@@ -92,11 +92,11 @@ export default function CashFlowPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Wallet className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -106,9 +106,9 @@ export default function CashFlowPage() {
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
-              <Calendar className="w-3.5 h-3.5" /> {today}
+              <Calendar className="w-4 h-4" /> {today}
             </Badge>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Download className="w-4 h-4" /> Export
             </Button>
           </div>
@@ -117,15 +117,15 @@ export default function CashFlowPage() {
         {/* KPI Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {kpis.map((kpi, i) => (
-            <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-4 h-4', kpi.color)} /></div>
               </div>
               <p className="text-xl font-bold tracking-tight">{kpi.value}</p>
               {kpi.label === 'Runway Months' && runwayMonths < 4 && (
                 <div className="flex items-center gap-1 mt-1.5">
-                  <AlertTriangle className="w-3 h-3 text-red-500" />
+                  <AlertTriangle className="w-4 h-4 text-red-500" />
                   <span className="text-[10px] text-red-500 font-medium">Below 4-month threshold</span>
                 </div>
               )}
@@ -134,15 +134,15 @@ export default function CashFlowPage() {
         </div>
 
         {/* Daily Inflow/Outflow Chart */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Daily Inflow / Outflow</span>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" /><span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Inflow</span></div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-rose-500" /><span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Outflow</span></div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500" /><span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Inflow</span></div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-rose-500" /><span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Outflow</span></div>
             </div>
           </div>
           <div className="flex items-end gap-2 h-40">
@@ -161,7 +161,7 @@ export default function CashFlowPage() {
         {/* Weekly Burn Curve & Projection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Weekly Burn Curve */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Flame className={cn('w-4 h-4 text-amber-400')} />
@@ -186,7 +186,7 @@ export default function CashFlowPage() {
           </motion.div>
 
           {/* Cash Projection */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -231,7 +231,7 @@ export default function CashFlowPage() {
         {/* Breakdowns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Inflow Breakdown */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp className="w-4 h-4 text-emerald-400" />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Inflow Breakdown</span>
@@ -244,7 +244,7 @@ export default function CashFlowPage() {
                   <div key={label}>
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
-                        <div className={cn('w-3 h-3 rounded-sm', inflowColors[i % inflowColors.length])} />
+                        <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', inflowColors[i % inflowColors.length])} />
                         <span className="text-xs font-medium">{label}</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -262,7 +262,7 @@ export default function CashFlowPage() {
           </motion.div>
 
           {/* Outflow Breakdown */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <TrendingDown className="w-4 h-4 text-rose-400" />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Outflow Breakdown</span>
@@ -275,7 +275,7 @@ export default function CashFlowPage() {
                   <div key={label}>
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
-                        <div className={cn('w-3 h-3 rounded-sm', outflowColors[i % outflowColors.length])} />
+                        <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', outflowColors[i % outflowColors.length])} />
                         <span className="text-xs font-medium">{label}</span>
                       </div>
                       <div className="flex items-center gap-2">

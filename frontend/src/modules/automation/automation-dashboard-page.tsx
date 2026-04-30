@@ -51,12 +51,12 @@ export default function AutomationDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Activity className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -70,10 +70,10 @@ export default function AutomationDashboardPage() {
           </div>
           <div className="flex items-center gap-3">
             <span className={cn(
-              'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
+              'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </span>
           </div>
@@ -84,15 +84,15 @@ export default function AutomationDashboardPage() {
           style={{ backgroundColor: isDark ? 'rgba(9,9,11,0.8)' : 'rgba(255,255,255,0.8)' }}>
           <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-none">
             <div className={cn(
-              'flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium shrink-0 cursor-pointer',
+              'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2 text-xs font-medium shrink-0 cursor-pointer',
               isDark ? 'bg-white/[0.06] text-white/60 hover:bg-white/[0.08]' : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.06]',
             )}>
-              <LayoutTemplate className="w-3.5 h-3.5" />
+              <LayoutTemplate className="w-4 h-4" />
               Last 30 Days
-              <ChevronDown className="w-3 h-3" />
+              <ChevronDown className="w-4 h-4" />
             </div>
             <div className="w-px h-6 shrink-0" style={{ backgroundColor: 'var(--app-border-strong)' }} />
-            <Filter className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-muted)]')} />
+            <Filter className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             {['All Workflows', 'Active', 'Paused', 'Draft', 'Failing'].map((f) => (
               <FilterChip
                 key={f}
@@ -133,11 +133,11 @@ export default function AutomationDashboardPage() {
             <div className="h-full flex flex-col justify-end pb-4">
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-500')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-emerald-500/50' : 'bg-emerald-500')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Success</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-red-500/50' : 'bg-red-500')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-red-500/50' : 'bg-red-500')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Failed</span>
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function AutomationDashboardPage() {
             </span>
           </div>
           <div className={cn(
-            'rounded-2xl border overflow-hidden shadow-sm',
+            'rounded-[var(--app-radius-xl)] border overflow-hidden shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className={cn(
@@ -274,7 +274,7 @@ export default function AutomationDashboardPage() {
                 </div>
                 <div className="col-span-2 text-right">
                   <span className={cn(
-                    'inline-flex rounded-lg px-1.5 py-0.5 text-[10px] font-medium',
+                    'inline-flex rounded-[var(--app-radius-lg)] px-1.5 py-0.5 text-[10px] font-medium',
                     'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
                   )}>
                     {wf.module}
@@ -339,14 +339,14 @@ export default function AutomationDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.55 + i * 0.05, duration: 0.3 }}
                   className={cn(
-                    'flex items-start gap-3 p-4 rounded-2xl border-l-4 shadow-sm cursor-pointer transition-all duration-200',
+                    'flex items-start gap-3 p-4 rounded-[var(--app-radius-xl)] border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] cursor-pointer transition-colors duration-200',
                     isDark
                       ? 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border border-black/[0.06] hover:bg-black/[0.04]',
                     config.border,
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -358,7 +358,7 @@ export default function AutomationDashboardPage() {
                     </p>
                     {alert.workflowName && (
                       <span className={cn(
-                        'inline-flex items-center rounded-lg px-1.5 py-0.5 text-[10px] font-medium mt-1.5',
+                        'inline-flex items-center rounded-[var(--app-radius-lg)] px-1.5 py-0.5 text-[10px] font-medium mt-1.5',
                         'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
                       )}>
                         {alert.workflowName}

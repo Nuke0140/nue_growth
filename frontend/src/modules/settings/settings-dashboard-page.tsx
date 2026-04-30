@@ -56,12 +56,12 @@ export default function SettingsDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Settings className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -148,14 +148,14 @@ export default function SettingsDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
                   className={cn(
-                    'flex items-start gap-3 p-4 rounded-2xl border-l-4 shadow-sm transition-all duration-200',
+                    'flex items-start gap-3 p-4 rounded-[var(--app-radius-xl)] border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors duration-200',
                     isDark
                       ? 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border border-black/[0.06] hover:bg-black/[0.04]',
                     config.border,
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -164,11 +164,11 @@ export default function SettingsDashboardPage() {
                       <button
                         onClick={() => handleDismiss(alert.id)}
                         className={cn(
-                          'shrink-0 h-6 w-6 rounded-lg flex items-center justify-center transition-colors',
+                          'shrink-0 h-6 w-6 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                           isDark ? 'hover:bg-white/[0.06] text-zinc-500 hover:text-white' : 'hover:bg-black/[0.06] text-zinc-400 hover:text-black',
                         )}
                       >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-4 h-4" />
                       </button>
                     </div>
                     <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>
@@ -180,7 +180,7 @@ export default function SettingsDashboardPage() {
                       </span>
                       {alert.actionUrl && (
                         <button className={cn(
-                          'text-[10px] font-medium px-2 py-0.5 rounded-md transition-colors',
+                          'text-[10px] font-medium px-2 py-0.5 rounded-[var(--app-radius-md)] transition-colors',
                           'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                         )}>
                           View
@@ -207,7 +207,7 @@ export default function SettingsDashboardPage() {
             </span>
           </div>
           <div className={cn(
-            'rounded-2xl border p-4',
+            'rounded-[var(--app-radius-xl)] border p-4',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="space-y-0">

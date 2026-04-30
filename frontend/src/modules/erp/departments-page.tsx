@@ -70,7 +70,7 @@ function DepartmentsPageInner() {
 
   return (
     <PageShell title="Departments" icon={Network}>
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Departments" value={stats.total} icon={Building2} color="accent" />
@@ -88,25 +88,25 @@ function DepartmentsPageInner() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06, duration: 0.35 }}
               className="app-card overflow-hidden"
-              style={{ borderRadius: '1rem' }}
+              style={{ borderRadius: 'var(--app-radius-md)' }}
             >
               {/* Color top bar */}
               <div className="h-1" style={{ backgroundColor: dept.color }} />
 
-              <div className="p-5 space-y-4">
+              <div className="p-app-xl space-y-4">
                 {/* Name + HOD */}
                 <div>
-                  <h3 className="text-base font-bold" style={{ color: 'var(--app-text)' }}>{dept.name}</h3>
+                  <h3 className="text-sm font-bold" style={{ color: 'var(--app-text)' }}>{dept.name}</h3>
                   <p className="text-xs mt-0.5" style={{ color: 'var(--app-text-muted)' }}>Head: {dept.hod}</p>
                 </div>
 
                 {/* Badges row */}
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="app-badge" style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}>
-                    <Users className="w-3 h-3" /> {dept.employees.length}
+                    <Users className="w-4 h-4" /> {dept.employees.length}
                   </span>
                   <span className="app-badge" style={{ backgroundColor: 'var(--app-info-bg)', color: '#60a5fa' }}>
-                    <FolderKanban className="w-3 h-3" /> {dept.projectCount} projects
+                    <FolderKanban className="w-4 h-4" /> {dept.projectCount} projects
                   </span>
                   <span className="app-badge" style={{ backgroundColor: 'var(--app-warning-bg)', color: '#fbbf24' }}>
                     KPI {dept.kpiScore}%

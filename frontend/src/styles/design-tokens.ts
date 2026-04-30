@@ -4,10 +4,11 @@
 // Single source of truth for all design constants.
 // All modules import from here.
 // CSS custom properties (--app-*) auto-switch via .dark class.
-// NO --ops-* references. NO hardcoded colors.
 // ============================================
 
-// ---- Spacing Scale (px) ----
+// ---- Spacing Scale ----
+// Maps to CSS vars: var(--app-space-xs) etc.
+// Also available as Tailwind: p-app-xs, gap-app-sm, etc.
 export const SPACING = {
   xs: 4,
   sm: 8,
@@ -17,17 +18,28 @@ export const SPACING = {
   '2xl': 24,
   '3xl': 32,
   '4xl': 40,
-  '5xl': 48,
-  '6xl': 64,
-  '7xl': 80,
-  '8xl': 96,
 } as const;
 
-// ---- Typography (Tailwind classes) ----
+// ---- Typography ----
+// Semantic typography tokens — use these instead of raw font classes.
+// Enforces visual hierarchy: page title > section title > body > caption.
 export const TYPOGRAPHY = {
+  // Page-level headings
+  headingLg: 'text-xl font-semibold text-[var(--app-text)]',
+  headingMd: 'text-lg font-semibold text-[var(--app-text)]',
+  headingSm: 'text-sm font-semibold text-[var(--app-text)]',
+  // Body text
+  body: 'text-sm text-[var(--app-text)]',
+  bodySecondary: 'text-sm text-[var(--app-text-secondary)]',
+  // Small / meta text
+  caption: 'text-xs text-[var(--app-text-muted)]',
+  captionStrong: 'text-xs font-medium text-[var(--app-text-secondary)]',
+  // Overlines / labels
+  overline: 'text-[11px] font-semibold tracking-wider uppercase text-[var(--app-text-muted)]',
+  // Legacy size aliases (for backward compat during migration)
   'text-xs': 'text-[11px]',
   'text-sm': 'text-[13px]',
-  'text-base': 'text-[15px]',
+  'text-sm': 'text-[15px]',
   'text-lg': 'text-[17px]',
   'text-xl': 'text-[20px]',
   'text-2xl': 'text-[24px]',
@@ -86,11 +98,26 @@ export const CSS = {
   warningBg: 'var(--app-warning-bg)',
   dangerBg: 'var(--app-danger-bg)',
   infoBg: 'var(--app-info-bg)',
+  shadowSm: 'var(--app-shadow-[var(--app-shadow-sm)])',
+  shadowMd: 'var(--app-shadow-[var(--app-shadow-md)])',
   shadowCard: 'var(--app-shadow-card)',
   shadowCardHover: 'var(--app-shadow-card-hover)',
   shadowDropdown: 'var(--app-shadow-dropdown)',
   shadowModal: 'var(--app-shadow-modal)',
   shadowAccent: 'var(--app-shadow-accent)',
+  radiusSm: 'var(--app-radius-sm)',
+  radiusMd: 'var(--app-radius-md)',
+  radiusLg: 'var(--app-radius-lg)',
+  radiusXl: 'var(--app-radius-xl)',
+  radiusFull: 'var(--app-radius-full)',
+  spaceXs: 'var(--app-space-xs)',
+  spaceSm: 'var(--app-space-sm)',
+  spaceMd: 'var(--app-space-md)',
+  spaceLg: 'var(--app-space-lg)',
+  spaceXl: 'var(--app-space-xl)',
+  space2xl: 'var(--app-space-2xl)',
+  space3xl: 'var(--app-space-3xl)',
+  space4xl: 'var(--app-space-4xl)',
   overlay: 'var(--app-overlay)',
   selectionBg: 'var(--app-selection-bg)',
   focusRing: 'var(--app-focus-ring)',
@@ -104,12 +131,11 @@ export const CSS = {
 } as const;
 
 // ---- Inline style helpers ----
-// Use these for style={{ }} props where Tailwind classes can't reach
 export const inlineStyles = {
   bg: { backgroundColor: CSS.bg },
-  card: { backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard },
-  elevated: { backgroundColor: CSS.elevated, border: `1px solid ${CSS.border}` },
-  input: { backgroundColor: CSS.inputBg, border: `1px solid ${CSS.border}`, color: CSS.text },
+  card: { backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard, borderRadius: CSS.radiusLg },
+  elevated: { backgroundColor: CSS.elevated, border: `1px solid ${CSS.border}`, borderRadius: CSS.radiusLg },
+  input: { backgroundColor: CSS.inputBg, border: `1px solid ${CSS.border}`, color: CSS.text, borderRadius: CSS.radiusMd },
   text: { color: CSS.text },
   textSecondary: { color: CSS.textSecondary },
   textMuted: { color: CSS.textMuted },
@@ -164,16 +190,17 @@ export const ANIMATION = {
 
 // ---- Border Radius ----
 export const RADIUS = {
-  sm: '0.5rem',
-  md: '0.75rem',
-  lg: '1rem',
-  xl: '1.25rem',
-  '2xl': '1.5rem',
-  full: '9999px',
+  sm: 'var(--app-radius-sm)',
+  md: 'var(--app-radius-md)',
+  lg: 'var(--app-radius-lg)',
+  xl: 'var(--app-radius-xl)',
+  full: 'var(--app-radius-full)',
 } as const;
 
 // ---- Shadows ----
 export const SHADOWS = {
+  sm: 'var(--app-shadow-[var(--app-shadow-sm)])',
+  md: 'var(--app-shadow-[var(--app-shadow-md)])',
   card: 'var(--app-shadow-card)',
   'card-hover': 'var(--app-shadow-card-hover)',
   dropdown: 'var(--app-shadow-dropdown)',
@@ -226,7 +253,6 @@ export const PRIORITY_COLORS = {
 } as const;
 
 // ---- COLORS export ----
-// All values reference CSS custom properties for theme-awareness.
 export const COLORS = {
   bg: { primary: CSS.bg, card: CSS.cardBg, 'card-hover': CSS.cardBgHover, elevated: CSS.elevated, input: CSS.inputBg },
   accent: { DEFAULT: CSS.accent, hover: CSS.accentHover, light: CSS.accentLight },
@@ -245,23 +271,17 @@ export const COLORS = {
 // ---- Helpers ----
 export function getStatusColor(status: string): { color: string; bg: string } {
   const key = status as keyof typeof STATUS_COLORS;
-  if (STATUS_COLORS[key]) {
-    return STATUS_COLORS[key];
-  }
+  if (STATUS_COLORS[key]) return STATUS_COLORS[key];
   return { color: CSS.textMuted, bg: CSS.hoverBg };
 }
 
 export function getPriorityColor(priority: string): { color: string; bg: string } {
   const key = priority as keyof typeof PRIORITY_COLORS;
-  if (PRIORITY_COLORS[key]) {
-    return PRIORITY_COLORS[key];
-  }
+  if (PRIORITY_COLORS[key]) return PRIORITY_COLORS[key];
   return { color: CSS.textMuted, bg: CSS.hoverBg };
 }
 
 // ---- Module accent colors ----
-// Each module can use its own primary/hover/light for module-specific UI.
-// Falls back to the global accent if no override is needed.
 export const MODULE_ACCENTS = {
   erp: { primary: 'var(--app-module-erp)', hover: 'var(--app-module-erp-hover)', light: 'var(--app-module-erp-light)' },
   crm: { primary: 'var(--app-module-crm)', hover: 'var(--app-module-crm-hover)', light: 'var(--app-module-crm-light)' },
@@ -275,19 +295,9 @@ export const MODULE_ACCENTS = {
 
 export type ModuleName = keyof typeof MODULE_ACCENTS;
 
-/**
- * Get accent colors for a specific module.
- * Returns the global defaults if no module override is specified.
- */
 export function getModuleAccent(module?: ModuleName) {
-  if (module && MODULE_ACCENTS[module]) {
-    return MODULE_ACCENTS[module];
-  }
-  return {
-    primary: CSS.accent,
-    hover: CSS.accentHover,
-    light: CSS.accentLight,
-  };
+  if (module && MODULE_ACCENTS[module]) return MODULE_ACCENTS[module];
+  return { primary: CSS.accent, hover: CSS.accentHover, light: CSS.accentLight };
 }
 
 // ---- Layout Constants ----

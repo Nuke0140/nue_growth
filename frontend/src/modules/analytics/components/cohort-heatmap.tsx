@@ -95,7 +95,7 @@ export default function CohortHeatmap({
       transition={{ duration: 0.3 }}
       ref={containerRef}
       className={cn(
-        'rounded-2xl border shadow-sm p-4 sm:p-5',
+        'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -114,7 +114,7 @@ export default function CohortHeatmap({
       )}
 
       {/* Heatmap Grid */}
-      <div className="overflow-x-auto -mx-4 sm:-mx-5 px-4 sm:px-5">
+      <div className="overflow-x-auto -mx-4 sm:-mx-5 px-4 sm:px-app-xl">
         <div className="min-w-[500px]">
           {/* Header Row */}
           <div
@@ -178,7 +178,7 @@ export default function CohortHeatmap({
                 <div
                   key={p.period}
                   className={cn(
-                    'relative rounded-md flex items-center justify-center py-1.5 text-xs font-semibold cursor-default transition-transform hover:scale-105',
+                    'relative rounded-[var(--app-radius-md)] flex items-center justify-center py-1.5 text-xs font-semibold cursor-default transition-transform hover:scale-105',
                     getTextColor(p.retention, isDark),
                   )}
                   style={{
@@ -200,7 +200,7 @@ export default function CohortHeatmap({
                   <div
                     key={`empty-${i}`}
                     className={cn(
-                      'rounded-md py-1.5',
+                      'rounded-[var(--app-radius-md)] py-1.5',
                       'bg-[var(--app-hover-bg)]',
                     )}
                   />
@@ -215,7 +215,7 @@ export default function CohortHeatmap({
       {tooltip && (
         <div
           className={cn(
-            'pointer-events-none absolute z-50 rounded-lg border px-3 py-2 text-xs shadow-lg',
+            'pointer-events-none absolute z-50 rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs shadow-[var(--app-shadow-md)]-lg',
             isDark
               ? 'bg-zinc-800 border-white/[0.1] text-zinc-200'
               : 'bg-white border-black/[0.08] text-zinc-800',
@@ -240,7 +240,7 @@ export default function CohortHeatmap({
         {legendSteps.map((step) => (
           <div
             key={step}
-            className="h-3 w-6 rounded-sm first:rounded-l-md last:rounded-r-md"
+            className="h-3 w-6 rounded-[var(--app-radius-sm)] first:rounded-l-md last:rounded-r-md"
             style={{
               backgroundColor: getHeatColor(step, metric, isDark),
             }}

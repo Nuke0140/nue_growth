@@ -73,7 +73,7 @@ export default function AIControlsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -82,7 +82,7 @@ export default function AIControlsPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-violet-500/15' : 'bg-violet-100')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-violet-500/15' : 'bg-violet-100')}>
               <ShieldCheck className={cn('w-5 h-5', 'text-violet-400')} />
             </div>
             <div>
@@ -104,7 +104,7 @@ export default function AIControlsPage() {
               key={kpi.label}
               variants={fadeUp}
               className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -169,9 +169,9 @@ export default function AIControlsPage() {
             <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Usage Analytics</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+          <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <h3 className="text-sm font-semibold mb-4">Token Usage by Module</h3>
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3 mb-app-2xl">
               {tokenUsageByModule.map((m) => {
                 const pct = (m.tokens / maxModuleTokens) * 100;
                 return (
@@ -197,15 +197,15 @@ export default function AIControlsPage() {
 
             {/* Simple stats row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>Total Tokens Used</span>
                 <p className="text-sm font-bold">{formatTokens(totalTokenUsed)}</p>
               </div>
-              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>Remaining</span>
                 <p className="text-sm font-bold">{formatTokens(totalTokenBudget - totalTokenUsed)}</p>
               </div>
-              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>% of Budget</span>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold">{((totalTokenUsed / totalTokenBudget) * 100).toFixed(1)}%</p>
@@ -233,8 +233,8 @@ export default function AIControlsPage() {
             <ShieldCheck className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Governance Settings</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-            <div className="space-y-5">
+          <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className="space-y-app-xl">
               {/* Global AI toggle */}
               <div className="flex items-center justify-between">
                 <div>
@@ -249,14 +249,14 @@ export default function AIControlsPage() {
                   className={cn('shrink-0 cursor-pointer transition-colors', globalAI ? 'text-violet-400' : 'text-[var(--app-text-secondary)]')}
                   aria-label="Toggle global AI"
                 >
-                  {globalAI ? <ToggleRight className="h-7 w-7" /> : <ToggleLeft className="h-7 w-7" />}
+                  {globalAI ? <ToggleRight className="h-8  w-7" /> : <ToggleLeft className="h-8  w-7" />}
                 </motion.button>
               </div>
 
               {/* Default AI mode */}
-              <div className={cn('rounded-xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <p className="text-xs font-semibold mb-2">Default AI Mode</p>
-                <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('inline-flex items-center rounded-[var(--app-radius-lg)] p-1 gap-0.5', 'bg-[var(--app-hover-bg)]')}>
                   {[
                     { value: 'full', label: 'Full' },
                     { value: 'approval-only', label: 'Approval Only' },
@@ -267,11 +267,11 @@ export default function AIControlsPage() {
                       type="button"
                       onClick={() => setDefaultMode(m.value)}
                       className={cn(
-                        'rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer',
+                        'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer',
                         defaultMode === m.value
                           ? isDark
-                            ? 'bg-violet-500/20 text-violet-300 shadow-sm'
-                            : 'bg-violet-100 text-violet-700 shadow-sm'
+                            ? 'bg-violet-500/20 text-violet-300 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
+                            : 'bg-violet-100 text-violet-700 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                           : isDark
                             ? 'text-zinc-500 hover:text-zinc-300'
                             : 'text-zinc-400 hover:text-zinc-600',
@@ -284,14 +284,14 @@ export default function AIControlsPage() {
               </div>
 
               {/* Max token budget */}
-              <div className={cn('rounded-xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+              <div className={cn('rounded-[var(--app-radius-lg)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <p className="text-xs font-semibold mb-2">Maximum Token Budget</p>
                 <input
                   type="text"
                   value={maxBudget}
                   onChange={(e) => setMaxBudget(e.target.value)}
                   className={cn(
-                    'w-full rounded-lg border px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
+                    'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
                     isDark
                       ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20'
                       : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
@@ -313,7 +313,7 @@ export default function AIControlsPage() {
                   className={cn('shrink-0 cursor-pointer transition-colors', auditPrompts ? 'text-violet-400' : 'text-[var(--app-text-secondary)]')}
                   aria-label="Toggle audit prompts"
                 >
-                  {auditPrompts ? <ToggleRight className="h-7 w-7" /> : <ToggleLeft className="h-7 w-7" />}
+                  {auditPrompts ? <ToggleRight className="h-8  w-7" /> : <ToggleLeft className="h-8  w-7" />}
                 </motion.button>
               </div>
             </div>

@@ -42,7 +42,7 @@ export default function ReportBuilderPage() {
   const [showExport, setShowExport] = useState(false);
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -63,7 +63,7 @@ export default function ReportBuilderPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -80,13 +80,13 @@ export default function ReportBuilderPage() {
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowPreview(!showPreview)}
               className={cn(
-                'inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium transition-colors',
+                'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2 text-xs font-medium transition-colors',
                 isDark
                   ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1] border border-white/[0.08]'
                   : 'bg-black/[0.03] text-zinc-600 hover:bg-black/[0.06] border border-black/[0.06]',
               )}
             >
-              <Eye className="w-3.5 h-3.5" />
+              <Eye className="w-4 h-4" />
               Preview
             </motion.button>
             <div className="relative">
@@ -95,22 +95,22 @@ export default function ReportBuilderPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowExport(!showExport)}
                 className={cn(
-                  'inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium transition-colors',
+                  'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2 text-xs font-medium transition-colors',
                   isDark
                     ? 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 border border-blue-500/30'
                     : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200',
                 )}
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-4 h-4" />
                 Export
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-4 h-4" />
               </motion.button>
               {showExport && (
                 <motion.div
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={cn(
-                    'absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded-xl border shadow-lg py-1',
+                    'absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-lg py-1',
                     isDark ? 'bg-zinc-800 border-white/[0.08]' : 'bg-white border-black/[0.08]',
                   )}
                 >
@@ -127,7 +127,7 @@ export default function ReportBuilderPage() {
                         isDark ? 'text-zinc-300 hover:bg-white/[0.06]' : 'text-zinc-700 hover:bg-black/[0.03]',
                       )}
                     >
-                      <opt.icon className="w-3.5 h-3.5" />
+                      <opt.icon className="w-4 h-4" />
                       {opt.label}
                     </button>
                   ))}
@@ -160,9 +160,9 @@ export default function ReportBuilderPage() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
           {/* Builder Area */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-app-2xl">
             {/* Report Title */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className={card}>
               <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
@@ -173,7 +173,7 @@ export default function ReportBuilderPage() {
                 value={reportTitle}
                 onChange={(e) => setReportTitle(e.target.value)}
                 className={cn(
-                  'w-full rounded-xl border px-3 py-2 text-sm font-medium outline-none transition-colors',
+                  'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-sm font-medium outline-none transition-colors',
                   isDark
                     ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder-zinc-600 focus:border-blue-500/40'
                     : 'bg-black/[0.02] border-black/[0.08] text-zinc-900 placeholder-zinc-400 focus:border-blue-500/40',
@@ -195,7 +195,7 @@ export default function ReportBuilderPage() {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setDataSource(src)}
                     className={cn(
-                      'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                      'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                       dataSource === src
                         ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
                         : isDark
@@ -225,7 +225,7 @@ export default function ReportBuilderPage() {
                       whileTap={{ scale: 0.95 }}
                       onClick={() => toggleWidget(wt.id)}
                       className={cn(
-                        'flex flex-col items-center gap-1.5 rounded-xl border p-3 transition-colors',
+                        'flex flex-col items-center gap-1.5 rounded-[var(--app-radius-lg)] border p-3 transition-colors',
                         isSelected
                           ? 'bg-blue-500/10 border-blue-500/30 text-blue-600'
                           : isDark
@@ -252,11 +252,11 @@ export default function ReportBuilderPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={addSection}
                   className={cn(
-                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-medium',
+                    'inline-flex items-center gap-1 rounded-[var(--app-radius-lg)] px-2 py-1 text-[10px] font-medium',
                     isDark ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100',
                   )}
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="w-4 h-4" />
                   Add
                 </motion.button>
               </div>
@@ -265,7 +265,7 @@ export default function ReportBuilderPage() {
                   <div
                     key={section.id}
                     className={cn(
-                      'flex items-center justify-between rounded-xl border p-3',
+                      'flex items-center justify-between rounded-[var(--app-radius-lg)] border p-3',
                       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
@@ -284,7 +284,7 @@ export default function ReportBuilderPage() {
                       onClick={() => removeSection(section.id)}
                       className="text-red-400 hover:text-red-300 transition-colors"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -306,7 +306,7 @@ export default function ReportBuilderPage() {
                   <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-secondary)]')}>Logo</p>
                   <div
                     className={cn(
-                      'flex items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 cursor-pointer transition-colors',
+                      'flex items-center justify-center gap-2 rounded-[var(--app-radius-lg)] border-2 border-dashed p-6 cursor-pointer transition-colors',
                       isDark
                         ? 'border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.02]'
                         : 'border-black/[0.08] hover:border-black/[0.15] hover:bg-black/[0.02]',
@@ -326,7 +326,7 @@ export default function ReportBuilderPage() {
                         key={color}
                         onClick={() => setBrandColor(color)}
                         className={cn(
-                          'h-8 w-8 rounded-lg transition-transform hover:scale-110',
+                          'h-8 w-8 rounded-[var(--app-radius-lg)] transition-transform hover:scale-110',
                           brandColor === color && 'ring-2 ring-offset-2 ring-blue-500 ring-offset-transparent scale-110',
                         )}
                         style={{ backgroundColor: color }}
@@ -348,7 +348,7 @@ export default function ReportBuilderPage() {
                 rows={3}
                 placeholder="Add custom notes to this report..."
                 className={cn(
-                  'w-full rounded-xl border px-3 py-2 text-sm outline-none transition-colors resize-none',
+                  'w-full rounded-[var(--app-radius-lg)] border px-3 py-2 text-sm outline-none transition-colors resize-none',
                   isDark
                     ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder-zinc-600 focus:border-blue-500/40'
                     : 'bg-black/[0.02] border-black/[0.08] text-zinc-900 placeholder-zinc-400 focus:border-blue-500/40',
@@ -365,14 +365,14 @@ export default function ReportBuilderPage() {
               </h2>
               <div
                 className={cn(
-                  'rounded-2xl border shadow-sm overflow-hidden',
+                  'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Brand Header */}
                 <div className="p-4" style={{ backgroundColor: brandColor }}>
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-[var(--app-radius-lg)] bg-white/20 flex items-center justify-center">
                       <FileText className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -392,7 +392,7 @@ export default function ReportBuilderPage() {
                       </div>
                       <div
                         className={cn(
-                          'rounded-lg border p-3',
+                          'rounded-[var(--app-radius-lg)] border p-3',
                           'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                         )}
                       >
@@ -407,7 +407,7 @@ export default function ReportBuilderPage() {
                           </div>
                           <div className={cn('h-4 w-16 rounded', 'bg-[var(--app-hover-bg)]')} />
                         </div>
-                        <div className={cn('h-20 rounded-lg', 'bg-[var(--app-hover-bg)]')} />
+                        <div className={cn('h-20 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')} />
                       </div>
                     </div>
                   ))}
@@ -418,7 +418,7 @@ export default function ReportBuilderPage() {
                       { label: 'Widgets', val: selectedWidgets.length.toString() },
                       { label: 'Sections', val: sections.length.toString() },
                     ].map((s) => (
-                      <div key={s.label} className={cn('rounded-lg border p-2 text-center', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                      <div key={s.label} className={cn('rounded-[var(--app-radius-lg)] border p-2 text-center', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                         <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{s.val}</p>
                         <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{s.label}</p>
                       </div>

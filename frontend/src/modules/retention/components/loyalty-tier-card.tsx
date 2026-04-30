@@ -27,7 +27,7 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 relative overflow-hidden',
+        'rounded-[var(--app-radius-xl)] border p-app-xl relative overflow-hidden',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -48,7 +48,7 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
       <div className="space-y-1.5 mb-4">
         {benefits.map((benefit, idx) => (
           <div key={idx} className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 shrink-0" style={{ color }} />
+            <Check className="w-4 h-4 shrink-0" style={{ color }} />
             <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{benefit}</span>
           </div>
         ))}
@@ -56,18 +56,18 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
 
       {/* Stats */}
       <div className={cn(
-        'grid grid-cols-2 gap-3 rounded-xl p-3 border',
+        'grid grid-cols-2 gap-3 rounded-[var(--app-radius-lg)] p-3 border',
         'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]'
       )}>
         <div className="flex items-center gap-2">
-          <Users className="w-3.5 h-3.5" style={{ color }} />
+          <Users className="w-4 h-4" style={{ color }} />
           <div>
             <p className="text-xs font-semibold">{memberCount.toLocaleString()}</p>
             <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Members</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Percent className="w-3.5 h-3.5" style={{ color }} />
+          <Percent className="w-4 h-4" style={{ color }} />
           <div>
             <p className="text-xs font-semibold">{discount}%</p>
             <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Discount</p>

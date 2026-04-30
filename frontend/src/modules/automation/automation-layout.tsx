@@ -155,7 +155,7 @@ export default function AutomationLayout() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className={cn(
-        'h-screen flex flex-col overflow-hidden transition-colors duration-300',
+        'h-screen flex flex-col overflow-hidden transition-colors duration-200',
         'bg-[var(--app-bg)] text-[var(--app-text)]'
       )}>
         {/* ========== Top Bar ========== */}
@@ -167,7 +167,7 @@ export default function AutomationLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={closeModule}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg', isDark ? 'hover:bg-white/[0.06] text-white/50 hover:text-white' : 'hover:bg-black/[0.06] text-black/50 hover:text-black')}
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]', isDark ? 'hover:bg-white/[0.06] text-white/50 hover:text-white' : 'hover:bg-black/[0.06] text-black/50 hover:text-black')}
                 >
                   <Home className="w-4 h-4" />
                 </Button>
@@ -180,7 +180,7 @@ export default function AutomationLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={goBack} disabled={!canBack}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg transition-opacity', !canBack && 'opacity-30 cursor-not-allowed', canBack && isDark && 'hover:bg-white/[0.06]', canBack && !isDark && 'hover:bg-black/[0.06]')}
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity', !canBack && 'opacity-30 cursor-not-allowed', canBack && isDark && 'hover:bg-white/[0.06]', canBack && !isDark && 'hover:bg-black/[0.06]')}
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
@@ -191,7 +191,7 @@ export default function AutomationLayout() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={goForward} disabled={!canForward}
-                  className={cn('shrink-0 h-8 w-8 rounded-lg transition-opacity', !canForward && 'opacity-30 cursor-not-allowed', canForward && isDark && 'hover:bg-white/[0.06]', canForward && !isDark && 'hover:bg-black/[0.06]')}
+                  className={cn('shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity', !canForward && 'opacity-30 cursor-not-allowed', canForward && isDark && 'hover:bg-white/[0.06]', canForward && !isDark && 'hover:bg-black/[0.06]')}
                 >
                   <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -201,23 +201,23 @@ export default function AutomationLayout() {
 
             <div className={cn('w-px h-5 mx-1 hidden md:block', 'bg-[var(--app-hover-bg)]')} />
 
-            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden shrink-0 h-8 w-8 rounded-lg">
+            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]">
               <Menu className="w-4 h-4" />
             </Button>
 
             <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-sm" />
+              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-[var(--app-radius-sm)]" />
               <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', 'text-[var(--app-text-secondary)]')}>
                 Automation
               </span>
-              <ChevronRight className={cn('w-3 h-3 hidden sm:block', 'text-[var(--app-text-disabled)]')} />
+              <ChevronRight className={cn('w-4 h-4 hidden sm:block', 'text-[var(--app-text-disabled)]')} />
               <span className="text-sm font-medium">{currentLabel}</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             {/* Search */}
-            <div className={cn('hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <div className={cn('hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border w-64 transition-colors', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
               <input type="text" placeholder="Search workflows... (⌘K)" className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
               <kbd className={cn('hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
@@ -228,7 +228,7 @@ export default function AutomationLayout() {
             {/* Date Filter */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Calendar className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -238,7 +238,7 @@ export default function AutomationLayout() {
             {/* Filters */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <SlidersHorizontal className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -248,7 +248,7 @@ export default function AutomationLayout() {
             {/* Quick Create */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={() => navigateTo('workflow-builder')} className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" onClick={() => navigateTo('workflow-builder')} className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Plus className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -258,7 +258,7 @@ export default function AutomationLayout() {
             {/* Run Test */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <TestTube className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -268,7 +268,7 @@ export default function AutomationLayout() {
             {/* Notifications */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Bell className="w-4 h-4" />
                   <span className={cn('absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center', 'bg-[var(--app-card-bg)] text-[var(--app-text)]')}>3</span>
                 </Button>
@@ -279,9 +279,9 @@ export default function AutomationLayout() {
             {/* AI Assistant */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={() => navigateTo('ai-autonomous-workflows')} className="relative hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" onClick={() => navigateTo('ai-autonomous-workflows')} className="relative hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Sparkles className="w-4 h-4" />
-                  <motion.div className="absolute inset-0 rounded-lg"
+                  <motion.div className="absolute inset-0 rounded-[var(--app-radius-lg)]"
                     animate={{ boxShadow: ['0 0 0 0 rgba(139,92,246,0)', '0 0 0 4px rgba(139,92,246,0.1)', '0 0 0 0 rgba(139,92,246,0)'] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
@@ -291,27 +291,27 @@ export default function AutomationLayout() {
             </Tooltip>
 
             {/* Theme Toggle */}
-            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')} className="h-8 w-8 rounded-lg">
+            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')} className="h-8 w-8 rounded-[var(--app-radius-lg)]">
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
             {/* User Avatar */}
             <div className="relative">
               <Button variant="ghost" size="icon" onClick={() => setShowUserMenu(!showUserMenu)}
-                className={cn('h-8 w-8 rounded-lg font-bold text-xs', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
+                className={cn('h-8 w-8 rounded-[var(--app-radius-lg)] font-bold text-xs', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </Button>
               {showUserMenu && (
                 <motion.div initial={{ opacity: 0, y: -5, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={cn('absolute right-0 top-11 w-56 rounded-xl border shadow-xl p-2 z-50', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                  className={cn('absolute right-0 top-11 w-56 rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-xl p-2 z-50', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
                 >
                   <div className={cn('px-3 py-2 border-b mb-1', 'border-[var(--app-border)]')}>
                     <p className="text-sm font-semibold">{user?.name || 'User'}</p>
                     <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{user?.email || ''}</p>
                   </div>
                   <button onClick={() => { logout(); setShowUserMenu(false); }}
-                    className={cn('w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors', 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]')}
+                    className={cn('w-full flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors', 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]')}
                   >
                     <LogOut className="w-4 h-4" />
                     Sign Out
@@ -359,14 +359,14 @@ export default function AutomationLayout() {
                             <button key={item.id}
                               onClick={() => { navigateTo(item.id); if (isMobile) setSidebarOpen(false); }}
                               className={cn(
-                                'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group',
+                                'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors duration-200 group',
                                 isActive
                                   ? isDark ? 'bg-white/[0.08] text-white font-medium' : 'bg-black/[0.06] text-black font-medium'
                                   : isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
                               )}
                             >
                               <item.icon className={cn(
-                                'w-4.5 h-4.5 transition-colors shrink-0',
+                                'w-5 h-5 transition-colors shrink-0',
                                 isActive ? 'text-[var(--app-text)]' : 'text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)]'
                               )} />
                               <span className="truncate">{item.label}</span>
@@ -387,7 +387,7 @@ export default function AutomationLayout() {
                 </nav>
 
                 <div className={cn('p-3 border-t space-y-3', 'border-[var(--app-border)]')}>
-                  <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <div className="flex items-center gap-2 mb-2">
                       <Zap className="w-4 h-4 text-amber-400" />
                       <span className="text-xs font-medium">Automation Alert</span>

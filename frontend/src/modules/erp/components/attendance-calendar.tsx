@@ -109,7 +109,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -121,7 +121,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={prevMonth}
-            className="w-7 h-7 hover:bg-[var(--app-hover-bg)]"
+            className="w-8 h-8 hover:bg-[var(--app-hover-bg)]"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -129,7 +129,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={nextMonth}
-            className="w-7 h-7 hover:bg-[var(--app-hover-bg)]"
+            className="w-8 h-8 hover:bg-[var(--app-hover-bg)]"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -167,7 +167,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.15, delay: index * 0.008 }}
               className={cn(
-                'aspect-square rounded-xl flex flex-col items-center justify-center relative cursor-default transition-colors',
+                'aspect-square rounded-[var(--app-radius-lg)] flex flex-col items-center justify-center relative cursor-default transition-colors',
                 isTodayCell && 'ring-2 ring-purple-500/50',
                 'hover:bg-[var(--app-hover-bg)]'
               )}

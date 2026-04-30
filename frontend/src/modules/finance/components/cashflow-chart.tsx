@@ -45,10 +45,10 @@ export default function CashflowChart({ data }: CashflowChartProps) {
   if (data.length === 0) {
     return (
       <div className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}>
-        <p className={cn('text-xs text-center py-8', 'text-[var(--app-text-muted)]')}>
+        <p className={cn('text-xs text-center py-app-3xl', 'text-[var(--app-text-muted)]')}>
           No cashflow data available
         </p>
       </div>
@@ -61,7 +61,7 @@ export default function CashflowChart({ data }: CashflowChartProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -104,13 +104,13 @@ export default function CashflowChart({ data }: CashflowChartProps) {
                 {/* Bar group */}
                 <div className="flex items-end gap-0.5 w-full flex-1">
                   <motion.div
-                    className="flex-1 rounded-t-md bg-emerald-500 min-h-[2px]"
+                    className="flex-1 rounded-t-[var(--app-radius-md)] bg-emerald-500 min-h-[2px]"
                     initial={{ height: 0 }}
                     animate={{ height: `${inflowH}%` }}
                     transition={{ duration: 0.5, delay: i * 0.03, ease: 'easeOut' }}
                   />
                   <motion.div
-                    className="flex-1 rounded-t-md bg-rose-500 min-h-[2px]"
+                    className="flex-1 rounded-t-[var(--app-radius-md)] bg-rose-500 min-h-[2px]"
                     initial={{ height: 0 }}
                     animate={{ height: `${outflowH}%` }}
                     transition={{ duration: 0.5, delay: i * 0.03 + 0.05, ease: 'easeOut' }}
@@ -131,11 +131,11 @@ export default function CashflowChart({ data }: CashflowChartProps) {
       <div className="flex items-center justify-center gap-4 mt-2 pt-3 border-t border-dashed"
         style={{ borderColor: 'var(--app-border)' }}>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-sm bg-emerald-500" />
+          <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" />
           <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Inflow</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-sm bg-rose-500" />
+          <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-rose-500" />
           <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Outflow</span>
         </div>
         <div className="flex items-center gap-1.5">

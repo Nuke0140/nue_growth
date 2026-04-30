@@ -39,7 +39,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'rounded-2xl border p-4 transition-all duration-200',
+        'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -70,7 +70,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
           <motion.div
             animate={{ x: flag.enabled ? 18 : 2 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className="absolute top-1 w-3.5 h-3.5 rounded-full bg-white shadow-sm"
+            className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]"
           />
         </button>
       </div>
@@ -143,7 +143,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
             <span
               key={role}
               className={cn(
-                'text-[9px] px-1.5 py-0.5 rounded-md capitalize',
+                'text-[9px] px-1.5 py-0.5 rounded-[var(--app-radius-md)] capitalize',
                 isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.04] text-black/40'
               )}
             >

@@ -36,7 +36,7 @@ export default function SettingsNavCard({
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onClick={() => navigateTo(page)}
       className={cn(
-        'relative cursor-pointer rounded-2xl border p-4 sm:p-5 shadow-sm hover:shadow-md transition-all',
+        'relative cursor-pointer rounded-[var(--app-radius-xl)] border p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] hover:shadow-[var(--app-shadow-md)]-md transition-colors',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -46,7 +46,7 @@ export default function SettingsNavCard({
         <div className="flex items-start gap-3 min-w-0">
           <div
             className={cn(
-              'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+              'flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)]',
             )}
           >

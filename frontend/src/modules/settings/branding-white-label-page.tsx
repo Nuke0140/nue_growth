@@ -72,12 +72,12 @@ export default function BrandingWhiteLabelPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Palette className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -96,7 +96,7 @@ export default function BrandingWhiteLabelPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
-            'rounded-2xl border p-5 md:p-6',
+            'rounded-[var(--app-radius-xl)] border p-app-xl md:p-6',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -104,7 +104,7 @@ export default function BrandingWhiteLabelPage() {
             Live Brand Preview
           </h3>
           <div
-            className="rounded-xl border overflow-hidden"
+            className="rounded-[var(--app-radius-lg)] border overflow-hidden"
             style={{ borderColor: config.primaryColor + '40' }}
           >
             {/* Preview Header */}
@@ -113,7 +113,7 @@ export default function BrandingWhiteLabelPage() {
               style={{ backgroundColor: config.primaryColor + '15' }}
             >
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-white font-bold text-sm"
                 style={{ backgroundColor: config.primaryColor }}
               >
                 A
@@ -130,19 +130,19 @@ export default function BrandingWhiteLabelPage() {
             {/* Preview Body */}
             <div className="p-4 space-y-3" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
               <div className="flex gap-2">
-                <div className="h-6 rounded-md px-3 flex items-center text-[10px] font-medium text-white" style={{ backgroundColor: config.primaryColor }}>
+                <div className="h-6 rounded-[var(--app-radius-md)] px-3 flex items-center text-[10px] font-medium text-white" style={{ backgroundColor: config.primaryColor }}>
                   Dashboard
                 </div>
-                <div className="h-6 rounded-md px-3 flex items-center text-[10px] font-medium" style={{ backgroundColor: config.accentColor + '20', color: config.accentColor }}>
+                <div className="h-6 rounded-[var(--app-radius-md)] px-3 flex items-center text-[10px] font-medium" style={{ backgroundColor: config.accentColor + '20', color: config.accentColor }}>
                   Reports
                 </div>
-                <div className="h-6 rounded-md px-3 flex items-center text-[10px] font-medium" style={{ backgroundColor: config.primaryColor + '15', color: config.primaryColor }}>
+                <div className="h-6 rounded-[var(--app-radius-md)] px-3 flex items-center text-[10px] font-medium" style={{ backgroundColor: config.primaryColor + '15', color: config.primaryColor }}>
                   Settings
                 </div>
               </div>
               <div className="flex gap-2">
-                <div className="flex-1 h-20 rounded-lg" style={{ backgroundColor: config.primaryColor + '10' }} />
-                <div className="flex-1 h-20 rounded-lg" style={{ backgroundColor: config.accentColor + '10' }} />
+                <div className="flex-1 h-20 rounded-[var(--app-radius-lg)]" style={{ backgroundColor: config.primaryColor + '10' }} />
+                <div className="flex-1 h-20 rounded-[var(--app-radius-lg)]" style={{ backgroundColor: config.accentColor + '10' }} />
               </div>
               <p className="text-[10px]" style={{ fontFamily: config.typography, color: 'var(--app-overlay)' }}>
                 Typography: {config.typography}
@@ -157,7 +157,7 @@ export default function BrandingWhiteLabelPage() {
           initial="hidden"
           animate="show"
           className={cn(
-            'rounded-2xl border p-5 md:p-6 space-y-6',
+            'rounded-[var(--app-radius-xl)] border p-app-xl md:p-6 space-y-app-2xl',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -165,12 +165,12 @@ export default function BrandingWhiteLabelPage() {
             Brand Assets
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-app-2xl">
             {/* Logo Upload */}
             <motion.div variants={fadeUp} className="space-y-1.5">
               <label className={labelClass}>Logo</label>
               <div className={cn(
-                'h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
+                'h-32 rounded-[var(--app-radius-lg)] border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
                 isDark ? 'border-white/[0.12] hover:border-white/[0.2] hover:bg-white/[0.02]' : 'border-black/[0.12] hover:border-black/[0.2] hover:bg-black/[0.02]',
               )}>
                 <Upload className={cn('w-6 h-6', 'text-[var(--app-text-muted)]')} />
@@ -187,7 +187,7 @@ export default function BrandingWhiteLabelPage() {
             <motion.div variants={fadeUp} className="space-y-1.5">
               <label className={labelClass}>Favicon</label>
               <div className={cn(
-                'h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
+                'h-32 rounded-[var(--app-radius-lg)] border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
                 isDark ? 'border-white/[0.12] hover:border-white/[0.2] hover:bg-white/[0.02]' : 'border-black/[0.12] hover:border-black/[0.2] hover:bg-black/[0.02]',
               )}>
                 <Image className={cn('w-6 h-6', 'text-[var(--app-text-muted)]')} />
@@ -210,7 +210,7 @@ export default function BrandingWhiteLabelPage() {
                   key={c.value}
                   onClick={() => updateConfig('primaryColor', c.value)}
                   className={cn(
-                    'h-9 w-9 rounded-xl transition-all relative',
+                    'h-10  w-9 rounded-[var(--app-radius-lg)] transition-colors relative',
                     config.primaryColor === c.value && 'ring-2 ring-offset-2',
                     isDark && 'ring-offset-[#0a0a0a]',
                   )}
@@ -234,13 +234,13 @@ export default function BrandingWhiteLabelPage() {
                     }
                   }}
                   className={cn(
-                    'w-24 rounded-lg border px-2 py-1 text-xs font-mono',
+                    'w-24 rounded-[var(--app-radius-lg)] border px-2 py-1 text-xs font-mono',
                     'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                   )}
                   placeholder="#6366f1"
                 />
                 <div
-                  className="h-7 w-7 rounded-lg border"
+                  className="h-8  w-7 rounded-[var(--app-radius-lg)] border"
                   style={{ backgroundColor: customPrimary }}
                 />
               </div>
@@ -256,7 +256,7 @@ export default function BrandingWhiteLabelPage() {
                   key={c.value}
                   onClick={() => updateConfig('accentColor', c.value)}
                   className={cn(
-                    'h-9 w-9 rounded-xl transition-all relative',
+                    'h-10  w-9 rounded-[var(--app-radius-lg)] transition-colors relative',
                     config.accentColor === c.value && 'ring-2 ring-offset-2',
                     isDark && 'ring-offset-[#0a0a0a]',
                   )}
@@ -280,13 +280,13 @@ export default function BrandingWhiteLabelPage() {
                     }
                   }}
                   className={cn(
-                    'w-24 rounded-lg border px-2 py-1 text-xs font-mono',
+                    'w-24 rounded-[var(--app-radius-lg)] border px-2 py-1 text-xs font-mono',
                     'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                   )}
                   placeholder="#f59e0b"
                 />
                 <div
-                  className="h-7 w-7 rounded-lg border"
+                  className="h-8  w-7 rounded-[var(--app-radius-lg)] border"
                   style={{ backgroundColor: customAccent }}
                 />
               </div>
@@ -302,7 +302,7 @@ export default function BrandingWhiteLabelPage() {
                   key={font}
                   onClick={() => updateConfig('typography', font)}
                   className={cn(
-                    'px-4 py-2 rounded-xl text-xs font-medium transition-colors',
+                    'px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                     config.typography === font
                       ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                       : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.08] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-600 border border-black/[0.06] hover:bg-black/[0.04]'),
@@ -322,7 +322,7 @@ export default function BrandingWhiteLabelPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5 md:p-6',
+            'rounded-[var(--app-radius-xl)] border p-app-xl md:p-6',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -337,13 +337,13 @@ export default function BrandingWhiteLabelPage() {
                 <div
                   key={section.key}
                   className={cn(
-                    'flex items-center justify-between gap-4 px-3 py-3 rounded-xl transition-colors',
+                    'flex items-center justify-between gap-4 px-3 py-3 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]',
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                       'bg-[var(--app-hover-bg)]',
                     )}>
                       <Icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -367,7 +367,7 @@ export default function BrandingWhiteLabelPage() {
                     <motion.div
                       animate={{ x: isOn ? 20 : 4 }}
                       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]"
                     />
                   </button>
                 </div>
@@ -382,7 +382,7 @@ export default function BrandingWhiteLabelPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5 md:p-6',
+            'rounded-[var(--app-radius-xl)] border p-app-xl md:p-6',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -396,17 +396,17 @@ export default function BrandingWhiteLabelPage() {
                 value={config.customDomain || ''}
                 onChange={(e) => updateConfig('customDomain', e.target.value)}
                 className={cn(
-                  'w-full rounded-xl border px-3 py-2.5 text-sm',
+                  'w-full rounded-[var(--app-radius-lg)] border px-3 py-2.5 text-sm',
                   'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
                 placeholder="app.yourcompany.com"
               />
             </div>
             <span className={cn(
-              'inline-flex items-center gap-1 rounded-xl px-3 py-2.5 text-xs font-medium shrink-0',
+              'inline-flex items-center gap-1 rounded-[var(--app-radius-lg)] px-3 py-2.5 text-xs font-medium shrink-0',
               'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
             )}>
-              <Globe className="w-3.5 h-3.5" />
+              <Globe className="w-4 h-4" />
               DNS Pending
             </span>
           </div>
@@ -425,7 +425,7 @@ export default function BrandingWhiteLabelPage() {
           <button
             onClick={() => setUnsavedChanges(true)}
             className={cn(
-              'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-colors',
+              'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-app-xl py-2.5 text-sm font-medium transition-colors',
               isDark
                 ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30'
                 : 'bg-blue-50 text-blue-700 hover:bg-blue-100',

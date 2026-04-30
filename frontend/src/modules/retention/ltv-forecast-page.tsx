@@ -88,12 +88,12 @@ export default function LTVForecastPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -107,7 +107,7 @@ export default function LTVForecastPage() {
             onClick={handleRunPrediction}
             disabled={isPredicting}
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
@@ -131,7 +131,7 @@ export default function LTVForecastPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4 transition-all duration-200',
+                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -139,15 +139,15 @@ export default function LTVForecastPage() {
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
                 {stat.change > 0 && (
                   <span className="flex items-center gap-0.5 text-[10px] font-medium text-emerald-500">
-                    <ArrowUpRight className="w-3 h-3" />{stat.change.toFixed(1)}%
+                    <ArrowUpRight className="w-4 h-4" />{stat.change.toFixed(1)}%
                   </span>
                 )}
               </div>
@@ -168,7 +168,7 @@ export default function LTVForecastPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-5 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
                   colorConfig.bg(isDark),
                   colorConfig.border(isDark)
                 )}
@@ -178,7 +178,7 @@ export default function LTVForecastPage() {
                   <div className="flex-1 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className={cn('w-3 h-3 rounded-full', isGrowing ? 'bg-emerald-500' : 'bg-red-500')} />
+                        <div className={cn('w-4 h-4 rounded-full', isGrowing ? 'bg-emerald-500' : 'bg-red-500')} />
                         <h3 className="text-sm font-semibold">{forecast.segment}</h3>
                       </div>
                       <Badge variant="secondary" className={cn('text-[10px]', isGrowing ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]') : ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]'))}>
@@ -255,7 +255,7 @@ export default function LTVForecastPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -268,11 +268,11 @@ export default function LTVForecastPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/30' : 'bg-black/30')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-white/30' : 'bg-black/30')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function LTVForecastPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -344,7 +344,7 @@ export default function LTVForecastPage() {
                       {item.churnRisk}%
                     </span>
                     {item.isDeclining && (
-                      <TrendingDown className="w-3.5 h-3.5 text-red-500" />
+                      <TrendingDown className="w-4 h-4 text-red-500" />
                     )}
                   </motion.div>
                 );
@@ -359,7 +359,7 @@ export default function LTVForecastPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -413,7 +413,7 @@ export default function LTVForecastPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

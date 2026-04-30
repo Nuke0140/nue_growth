@@ -67,7 +67,7 @@ export default function CompanyCard({ company }: CompanyCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => selectCompany(company.id)}
       className={cn(
-        'relative rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
+        'relative rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
           : 'bg-white border-black/[0.06] hover:bg-black/[0.02] hover:border-black/[0.1]'
@@ -97,8 +97,8 @@ export default function CompanyCard({ company }: CompanyCardProps) {
         </div>
 
         {/* Health Score Ring */}
-        <div className="relative w-11 h-11 shrink-0">
-          <svg className="w-11 h-11 -rotate-90" viewBox="0 0 44 44">
+        <div className="relative w-11 h-10  shrink-0">
+          <svg className="w-11 h-10  -rotate-90" viewBox="0 0 44 44">
             <circle
               cx="22" cy="22" r="20"
               className={cn('fill-none', isDark ? 'stroke-white/[0.06]' : 'stroke-black/[0.06]')}
@@ -106,7 +106,7 @@ export default function CompanyCard({ company }: CompanyCardProps) {
             />
             <circle
               cx="22" cy="22" r="20"
-              className={cn('fill-none transition-all duration-700', getHealthColor(company.healthScore, isDark))}
+              className={cn('fill-none transition-colors duration-200', getHealthColor(company.healthScore, isDark))}
               strokeWidth="3"
               strokeLinecap="round"
               strokeDasharray={circumference}
@@ -127,44 +127,44 @@ export default function CompanyCard({ company }: CompanyCardProps) {
       {/* Metrics Grid */}
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div className={cn(
-          'rounded-xl p-2.5',
+          'rounded-[var(--app-radius-lg)] p-2.5',
           'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <DollarSign className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <DollarSign className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>ARR</span>
           </div>
           <p className="text-sm font-bold">{formatARR(company.arr)}</p>
         </div>
 
         <div className={cn(
-          'rounded-xl p-2.5',
+          'rounded-[var(--app-radius-lg)] p-2.5',
           'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <Users className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Contacts</span>
           </div>
           <p className="text-sm font-bold">{company.linkedContacts}</p>
         </div>
 
         <div className={cn(
-          'rounded-xl p-2.5',
+          'rounded-[var(--app-radius-lg)] p-2.5',
           'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <TrendingUp className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Deals</span>
           </div>
           <p className="text-sm font-bold">{company.activeDeals}</p>
         </div>
 
         <div className={cn(
-          'rounded-xl p-2.5',
+          'rounded-[var(--app-radius-lg)] p-2.5',
           'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <Building2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Size</span>
           </div>
           <p className="text-sm font-bold">{company.employeeCount}</p>
@@ -183,12 +183,12 @@ export default function CompanyCard({ company }: CompanyCardProps) {
           'border-[var(--app-border-light)]'
         )}>
           <div className="flex items-center gap-2">
-            <User className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+            <User className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{company.owner}</span>
           </div>
           {company.website && (
             <div className="flex items-center gap-2">
-              <Globe className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+              <Globe className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-xs truncate', 'text-[var(--app-text-secondary)]')}>{company.website}</span>
             </div>
           )}

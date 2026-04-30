@@ -51,7 +51,7 @@ export default function WorkflowBuilderPage() {
       )}>
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center shrink-0',
+            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
             'bg-[var(--app-purple-light)]',
           )}>
             <Workflow className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
@@ -80,7 +80,7 @@ export default function WorkflowBuilderPage() {
                 key={opt}
                 onClick={() => setStatus(opt)}
                 className={cn(
-                  'rounded-lg px-2.5 py-1 text-[10px] font-semibold border transition-all',
+                  'rounded-[var(--app-radius-lg)] px-2.5 py-1 text-[10px] font-semibold border transition-colors',
                   status === opt
                     ? statusColors[opt]
                     : isDark
@@ -97,24 +97,24 @@ export default function WorkflowBuilderPage() {
 
           {/* Action Buttons */}
           <button className={cn(
-            'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-colors',
+            'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
             isDark ? 'bg-white/[0.06] text-white/60 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.06]',
           )}>
-            <Save className="w-3.5 h-3.5" />
+            <Save className="w-4 h-4" />
             <span className="hidden sm:inline">Save</span>
           </button>
           <button className={cn(
-            'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-colors',
+            'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
             isDark ? 'bg-white/[0.06] text-white/60 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.06]',
           )}>
-            <Send className="w-3.5 h-3.5" />
+            <Send className="w-4 h-4" />
             <span className="hidden sm:inline">Publish</span>
           </button>
           <button className={cn(
-            'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors',
+            'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-semibold transition-colors',
             isDark ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100',
           )}>
-            <Play className="w-3.5 h-3.5" />
+            <Play className="w-4 h-4" />
             <span className="hidden sm:inline">Run Test</span>
           </button>
         </div>
@@ -130,11 +130,11 @@ export default function WorkflowBuilderPage() {
             ) : (
               /* Empty State */
               <div className={cn(
-                'h-full min-h-[500px] rounded-2xl border flex flex-col items-center justify-center gap-4',
+                'h-full min-h-[500px] rounded-[var(--app-radius-xl)] border flex flex-col items-center justify-center gap-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}>
                 <div className={cn(
-                  'w-16 h-16 rounded-2xl flex items-center justify-center',
+                  'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center',
                   'bg-[var(--app-hover-bg)]',
                 )}>
                   <Plus className={cn('w-8 h-8', 'text-[var(--app-text-muted)]')} />
@@ -148,7 +148,7 @@ export default function WorkflowBuilderPage() {
                   </p>
                 </div>
                 <button className={cn(
-                  'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold transition-colors',
+                  'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2 text-xs font-semibold transition-colors',
                   isDark ? 'bg-violet-500/15 text-violet-300 hover:bg-violet-500/25' : 'bg-violet-50 text-violet-600 hover:bg-violet-100',
                 )}>
                   <Plus className="w-4 h-4" />
@@ -185,7 +185,7 @@ export default function WorkflowBuilderPage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className={cn(
-                          'flex flex-col items-center gap-1.5 rounded-xl border p-3 transition-colors cursor-pointer',
+                          'flex flex-col items-center gap-1.5 rounded-[var(--app-radius-lg)] border p-3 transition-colors cursor-pointer',
                           node.color,
                         )}
                       >
@@ -202,7 +202,7 @@ export default function WorkflowBuilderPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
-                      'rounded-xl border p-3 space-y-3',
+                      'rounded-[var(--app-radius-lg)] border p-3 space-y-3',
                       'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
@@ -211,10 +211,10 @@ export default function WorkflowBuilderPage() {
                         Node Configuration
                       </h3>
                       <button onClick={() => setSelectedNode(null)} className={cn(
-                        'w-6 h-6 rounded-lg flex items-center justify-center transition-colors',
+                        'w-6 h-6 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                         isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30',
                       )}>
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
 
@@ -227,7 +227,7 @@ export default function WorkflowBuilderPage() {
                           type="text"
                           defaultValue={selectedNodeData.label}
                           className={cn(
-                            'w-full mt-1 rounded-lg border px-2.5 py-1.5 text-xs focus:outline-none',
+                            'w-full mt-1 rounded-[var(--app-radius-lg)] border px-2.5 py-1.5 text-xs focus:outline-none',
                             isDark
                               ? 'bg-white/[0.04] border-white/[0.08] text-white/80 focus:border-violet-400/50'
                               : 'bg-black/[0.03] border-black/[0.08] text-black/80 focus:border-violet-400/50',
@@ -255,7 +255,7 @@ export default function WorkflowBuilderPage() {
                           Config
                         </label>
                         <pre className={cn(
-                          'mt-1 rounded-lg p-2 text-[10px] font-mono overflow-auto max-h-32',
+                          'mt-1 rounded-[var(--app-radius-lg)] p-2 text-[10px] font-mono overflow-auto max-h-32',
                           isDark ? 'bg-white/[0.02] text-white/40' : 'bg-black/[0.02] text-black/40',
                         )}>
                           {JSON.stringify(selectedNodeData.config, null, 2)}
@@ -268,7 +268,7 @@ export default function WorkflowBuilderPage() {
                 {/* Workflow Info */}
                 {currentWorkflow && (
                   <div className={cn(
-                    'rounded-xl border p-3 space-y-2',
+                    'rounded-[var(--app-radius-lg)] border p-3 space-y-2',
                     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}>
                     <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -309,11 +309,11 @@ export default function WorkflowBuilderPage() {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-medium transition-colors',
+              'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-2.5 py-1 text-[10px] font-medium transition-colors',
               isDark ? 'bg-white/[0.06] text-white/40 hover:text-white/60' : 'bg-black/[0.04] text-black/40 hover:text-black/60',
             )}
           >
-            {sidebarOpen ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelRightOpen className="w-3.5 h-3.5" />}
+            {sidebarOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
             Nodes Panel
           </button>
 
@@ -324,11 +324,11 @@ export default function WorkflowBuilderPage() {
             <button
               onClick={() => setZoom(Math.max(50, zoom - 10))}
               className={cn(
-                'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                 isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40',
               )}
             >
-              <ZoomOut className="w-3.5 h-3.5" />
+              <ZoomOut className="w-4 h-4" />
             </button>
             <span className={cn('text-[10px] font-mono w-10 text-center', 'text-[var(--app-text-muted)]')}>
               {zoom}%
@@ -336,20 +336,20 @@ export default function WorkflowBuilderPage() {
             <button
               onClick={() => setZoom(Math.min(150, zoom + 10))}
               className={cn(
-                'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                 isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40',
               )}
             >
-              <ZoomIn className="w-3.5 h-3.5" />
+              <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setZoom(100)}
               className={cn(
-                'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
+                'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                 isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40',
               )}
             >
-              <Maximize2 className="w-3 h-3" />
+              <Maximize2 className="w-4 h-4" />
             </button>
           </div>
         </div>

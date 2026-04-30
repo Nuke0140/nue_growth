@@ -64,7 +64,7 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -81,23 +81,23 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
-        <div className="p-2 rounded-lg text-center bg-[var(--app-hover-bg)]">
+        <div className="p-2 rounded-[var(--app-radius-lg)] text-center bg-[var(--app-hover-bg)]">
           <p className="text-[9px] mb-0.5 text-[var(--app-text-disabled)]">Avg Allocation</p>
           <p className="text-sm font-bold">{summaryStats.avgAllocation}%</p>
         </div>
-        <div className="p-2 rounded-lg text-center bg-red-50 dark:bg-red-500/[0.04]">
+        <div className="p-2 rounded-[var(--app-radius-lg)] text-center bg-red-50 dark:bg-red-500/[0.04]">
           <p className="text-[9px] mb-0.5 text-red-500">Overloaded</p>
           <p className="text-sm font-bold text-red-500">{summaryStats.overloaded}</p>
         </div>
-        <div className="p-2 rounded-lg text-center bg-amber-50 dark:bg-amber-500/[0.04]">
+        <div className="p-2 rounded-[var(--app-radius-lg)] text-center bg-amber-50 dark:bg-amber-500/[0.04]">
           <p className="text-[9px] mb-0.5 text-amber-500">Optimal</p>
           <p className="text-sm font-bold text-amber-500">{summaryStats.optimal}</p>
         </div>
-        <div className="p-2 rounded-lg text-center bg-emerald-50 dark:bg-emerald-500/[0.04]">
+        <div className="p-2 rounded-[var(--app-radius-lg)] text-center bg-emerald-50 dark:bg-emerald-500/[0.04]">
           <p className="text-[9px] mb-0.5 text-emerald-500">Under-util</p>
           <p className="text-sm font-bold text-emerald-500">{summaryStats.underutilized}</p>
         </div>
-        <div className="p-2 rounded-lg text-center bg-[var(--app-hover-bg)]">
+        <div className="p-2 rounded-[var(--app-radius-lg)] text-center bg-[var(--app-hover-bg)]">
           <p className="text-[9px] mb-0.5 text-[var(--app-text-disabled)]">Free</p>
           <p className="text-sm font-bold">{summaryStats.free}</p>
         </div>
@@ -109,7 +109,7 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
           {/* Column Headers (Projects) */}
           <div className="grid gap-1 mb-1" style={{ gridTemplateColumns: `140px repeat(${projectColumns.length}, 1fr)` }}>
             <div className="text-[10px] font-medium py-1 text-[var(--app-text-disabled)]">
-              <User className="w-3 h-3 inline mr-1" />
+              <User className="w-4 h-4 inline mr-1" />
               Employee
             </div>
             {projectColumns.map((proj) => (
@@ -132,7 +132,7 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
             >
               {/* Employee Name */}
               <div className={cn(
-                'flex items-center text-[11px] font-medium py-2 px-1 truncate rounded-lg',
+                'flex items-center text-[11px] font-medium py-2 px-1 truncate rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
               )}>
                 {item.name}
@@ -152,7 +152,7 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
                     onMouseEnter={() => setHoveredCell({ row: rowIndex, col: colIndex })}
                     onMouseLeave={() => setHoveredCell(null)}
                     className={cn(
-                      'flex items-center justify-center text-[10px] font-medium rounded-lg py-2 cursor-default transition-all',
+                      'flex items-center justify-center text-[10px] font-medium rounded-[var(--app-radius-lg)] py-2 cursor-default transition-colors',
                       getCellColor(cellAllocation),
                       getCellTextColor(cellAllocation),
                       'dark:hover:brightness-125 hover:brightness-95'
@@ -175,19 +175,19 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
       {/* Legend */}
       <div className="mt-4 flex items-center justify-center gap-4">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-[var(--app-hover-bg)]" />
+          <span className="w-4 h-4 rounded bg-[var(--app-hover-bg)]" />
           <span className="text-[10px] text-[var(--app-text-muted)]">0% (Free)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-emerald-200 dark:bg-emerald-500/20" />
+          <span className="w-4 h-4 rounded bg-emerald-200 dark:bg-emerald-500/20" />
           <span className="text-[10px] text-[var(--app-text-muted)]">1-50%</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-amber-200 dark:bg-amber-500/25" />
+          <span className="w-4 h-4 rounded bg-amber-200 dark:bg-amber-500/25" />
           <span className="text-[10px] text-[var(--app-text-muted)]">51-80%</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-red-200 dark:bg-red-500/25" />
+          <span className="w-4 h-4 rounded bg-red-200 dark:bg-red-500/25" />
           <span className="text-[10px] text-[var(--app-text-muted)]">81-100%</span>
         </div>
       </div>

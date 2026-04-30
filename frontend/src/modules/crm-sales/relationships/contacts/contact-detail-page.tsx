@@ -151,7 +151,7 @@ export default function ContactDetailPage() {
       <div className="h-full flex flex-col lg:flex-row gap-0">
         {/* Left Panel */}
         <div className={cn(
-          'w-full lg:w-80 shrink-0 border-b lg:border-b-0 lg:border-r overflow-y-auto p-5 space-y-5',
+          'w-full lg:w-80 shrink-0 border-b lg:border-b-0 lg:border-r overflow-y-auto p-app-xl space-y-app-xl',
           'border-[var(--app-border)]'
         )}>
           {/* Avatar & Identity */}
@@ -180,7 +180,7 @@ export default function ContactDetailPage() {
                 )}
               >
                 {contact.company}
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-4 h-4" />
               </button>
             )}
 
@@ -202,10 +202,10 @@ export default function ContactDetailPage() {
           </div>
 
           {/* Assigned Rep */}
-          <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
             <div className="flex items-center gap-2">
               <div className={cn(
-                'w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold',
+                'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-bold',
                 isDark ? 'bg-white/[0.08] text-white/70' : 'bg-black/[0.08] text-black/70'
               )}>
                 {contact.owner.split(' ').map(w => w.charAt(0)).join('')}
@@ -218,7 +218,7 @@ export default function ContactDetailPage() {
           </div>
 
           {/* Health Score */}
-          <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
             <div className="flex items-center justify-between mb-2">
               <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Health Score</span>
               <span className={cn('text-sm font-bold', getHealthColor(contact.healthScore, isDark))}>
@@ -227,7 +227,7 @@ export default function ContactDetailPage() {
             </div>
             <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
               <div
-                className={cn('h-full rounded-full transition-all duration-500', getHealthBarColor(contact.healthScore))}
+                className={cn('h-full rounded-full transition-colors duration-200', getHealthBarColor(contact.healthScore))}
                 style={{ width: `${contact.healthScore}%` }}
               />
             </div>
@@ -240,7 +240,7 @@ export default function ContactDetailPage() {
           {contact.tags.length > 0 && (
             <div>
               <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-muted)]')}>
-                <Tag className="w-3 h-3 inline mr-1" />
+                <Tag className="w-4 h-4 inline mr-1" />
                 Tags
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -248,7 +248,7 @@ export default function ContactDetailPage() {
                   <span
                     key={tag}
                     className={cn(
-                      'px-2 py-1 rounded-lg text-xs font-medium',
+                      'px-2 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium',
                       'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                     )}
                   >
@@ -271,14 +271,14 @@ export default function ContactDetailPage() {
                     key={profile.platform}
                     href={profile.url}
                     className={cn(
-                      'flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors',
+                      'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs transition-colors',
                       isDark
                         ? 'bg-white/[0.03] text-white/60 hover:bg-white/[0.06] hover:text-white/80'
                         : 'bg-black/[0.02] text-black/60 hover:bg-black/[0.06] hover:text-black/80'
                     )}
                   >
-                    {profile.platform === 'LinkedIn' && <Linkedin className="w-3.5 h-3.5" />}
-                    {profile.platform === 'Website' && <Globe className="w-3.5 h-3.5" />}
+                    {profile.platform === 'LinkedIn' && <Linkedin className="w-4 h-4" />}
+                    {profile.platform === 'Website' && <Globe className="w-4 h-4" />}
                     {profile.platform}
                   </a>
                 ))}
@@ -288,9 +288,9 @@ export default function ContactDetailPage() {
 
           {/* Address */}
           {contact.address && (
-            <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
               <div className="flex items-center gap-2 mb-1">
-                <MapPin className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                <MapPin className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Location</span>
               </div>
               <p className="text-sm">{contact.address.city}, {contact.address.state}</p>
@@ -313,13 +313,13 @@ export default function ContactDetailPage() {
                 <button
                   key={action.label}
                   className={cn(
-                    'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors',
+                    'flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                     isDark
                       ? 'bg-white/[0.04] text-white/60 hover:bg-white/[0.08] hover:text-white/90'
                       : 'bg-black/[0.04] text-black/60 hover:bg-black/[0.08] hover:text-black/90'
                   )}
                 >
-                  <action.icon className="w-3.5 h-3.5" />
+                  <action.icon className="w-4 h-4" />
                   {action.label}
                 </button>
               ))}
@@ -328,14 +328,14 @@ export default function ContactDetailPage() {
         </div>
 
         {/* Center Panel */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-app-xl">
           <Tabs defaultValue="activity" className="w-full">
             <TabsList className={cn(
-              'w-full justify-start rounded-xl p-1 mb-5',
+              'w-full justify-start rounded-[var(--app-radius-lg)] p-1 mb-app-xl',
               'bg-[var(--app-hover-bg)]'
             )}>
               <TabsTrigger value="activity" className={cn(
-                'rounded-lg text-xs gap-1.5 data-[state=active]:shadow-sm',
+                'rounded-[var(--app-radius-lg)] text-xs gap-1.5 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                 isDark
                   ? 'data-[state=active]:bg-white/[0.08] data-[state=active]:text-white'
                   : 'data-[state=active]:bg-black/[0.06] data-[state=active]:text-black'
@@ -349,7 +349,7 @@ export default function ContactDetailPage() {
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="deals" className={cn(
-                'rounded-lg text-xs gap-1.5 data-[state=active]:shadow-sm',
+                'rounded-[var(--app-radius-lg)] text-xs gap-1.5 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                 isDark
                   ? 'data-[state=active]:bg-white/[0.08] data-[state=active]:text-white'
                   : 'data-[state=active]:bg-black/[0.06] data-[state=active]:text-black'
@@ -363,7 +363,7 @@ export default function ContactDetailPage() {
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="tasks" className={cn(
-                'rounded-lg text-xs gap-1.5 data-[state=active]:shadow-sm',
+                'rounded-[var(--app-radius-lg)] text-xs gap-1.5 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                 isDark
                   ? 'data-[state=active]:bg-white/[0.08] data-[state=active]:text-white'
                   : 'data-[state=active]:bg-black/[0.06] data-[state=active]:text-black'
@@ -377,7 +377,7 @@ export default function ContactDetailPage() {
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="notes" className={cn(
-                'rounded-lg text-xs gap-1.5 data-[state=active]:shadow-sm',
+                'rounded-[var(--app-radius-lg)] text-xs gap-1.5 data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
                 isDark
                   ? 'data-[state=active]:bg-white/[0.08] data-[state=active]:text-white'
                   : 'data-[state=active]:bg-black/[0.06] data-[state=active]:text-black'
@@ -400,9 +400,9 @@ export default function ContactDetailPage() {
             {/* Deals Tab */}
             <TabsContent value="deals" className="mt-0 space-y-3">
               {contactDeals.length === 0 ? (
-                <div className="flex flex-col items-center py-12">
+                <div className="flex flex-col items-center py-app-4xl">
                   <div className={cn(
-                    'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
+                    'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <Handshake className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
@@ -414,7 +414,7 @@ export default function ContactDetailPage() {
                     Create a deal for this contact
                   </p>
                   <Button size="sm" className="mt-3 h-8 gap-1.5 text-xs">
-                    <Plus className="w-3.5 h-3.5" /> Create Deal
+                    <Plus className="w-4 h-4" /> Create Deal
                   </Button>
                 </div>
               ) : (
@@ -436,7 +436,7 @@ export default function ContactDetailPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
                       className={cn(
-                        'rounded-2xl border p-4 transition-colors',
+                        'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                         'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                       )}
                     >
@@ -448,7 +448,7 @@ export default function ContactDetailPage() {
                           </p>
                         </div>
                         <span className={cn(
-                          'px-2 py-0.5 rounded-md text-[11px] font-medium border capitalize',
+                          'px-2 py-0.5 rounded-[var(--app-radius-md)] text-[11px] font-medium border capitalize',
                           stageColors[deal.stage] || stageColors.new
                         )}>
                           {deal.stage}
@@ -477,9 +477,9 @@ export default function ContactDetailPage() {
             {/* Tasks Tab */}
             <TabsContent value="tasks" className="mt-0 space-y-2">
               {contactTasks.length === 0 ? (
-                <div className="flex flex-col items-center py-12">
+                <div className="flex flex-col items-center py-app-4xl">
                   <div className={cn(
-                    'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
+                    'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <CheckSquare className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
@@ -510,7 +510,7 @@ export default function ContactDetailPage() {
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={cn(
-                        'rounded-xl border p-3 transition-colors',
+                        'rounded-[var(--app-radius-lg)] border p-3 transition-colors',
                         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                       )}
                     >
@@ -549,9 +549,9 @@ export default function ContactDetailPage() {
             {/* Notes Tab */}
             <TabsContent value="notes" className="mt-0 space-y-3">
               {contactNotes.length === 0 ? (
-                <div className="flex flex-col items-center py-12">
+                <div className="flex flex-col items-center py-app-4xl">
                   <div className={cn(
-                    'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
+                    'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
                     'bg-[var(--app-hover-bg)]'
                   )}>
                     <FileText className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
@@ -568,7 +568,7 @@ export default function ContactDetailPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
                     className={cn(
-                      'rounded-2xl border p-4 transition-colors',
+                      'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                       'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                     )}
                   >
@@ -602,7 +602,7 @@ export default function ContactDetailPage() {
 
         {/* Right Panel - AI Insights */}
         <div className={cn(
-          'w-full lg:w-80 shrink-0 border-t lg:border-t-0 lg:border-l overflow-y-auto p-5 space-y-4',
+          'w-full lg:w-80 shrink-0 border-t lg:border-t-0 lg:border-l overflow-y-auto p-app-xl space-y-4',
           'border-[var(--app-border)]'
         )}>
           <div className="flex items-center gap-2 mb-1">
@@ -619,7 +619,7 @@ export default function ContactDetailPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             className={cn(
-              'rounded-2xl border p-5 text-center',
+              'rounded-[var(--app-radius-xl)] border p-app-xl text-center',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -635,7 +635,7 @@ export default function ContactDetailPage() {
                 />
                 <circle
                   cx="56" cy="56" r="48"
-                  className="fill-none transition-all duration-700"
+                  className="fill-none transition-colors duration-200"
                   stroke={
                     contact.aiIntent === 'high' ? '#f97316' :
                     contact.aiIntent === 'medium' ? '#10b981' :
@@ -655,7 +655,7 @@ export default function ContactDetailPage() {
               </div>
             </div>
             <span className={cn(
-              'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border',
+              'inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--app-radius-lg)] text-xs font-medium border',
               intent.className
             )}>
               <span>{intent.emoji}</span>
@@ -671,12 +671,12 @@ export default function ContactDetailPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + idx * 0.05, duration: 0.3 }}
               className={cn(
-                'rounded-xl border p-4',
+                'rounded-[var(--app-radius-lg)] border p-4',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', insight.bgColor)}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', insight.bgColor)}>
                   <insight.icon className={cn('w-4 h-4', insight.color)} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -690,7 +690,7 @@ export default function ContactDetailPage() {
               <div className="flex items-center gap-2">
                 <div className={cn('flex-1 h-1 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <div
-                    className={cn('h-full rounded-full transition-all duration-500', insight.bgColor.replace('/15', '/40'))}
+                    className={cn('h-full rounded-full transition-colors duration-200', insight.bgColor.replace('/15', '/40'))}
                     style={{ width: `${insight.confidence}%` }}
                   />
                 </div>

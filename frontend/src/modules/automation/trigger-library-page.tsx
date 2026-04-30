@@ -34,12 +34,12 @@ export default function TriggerLibraryPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Zap className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -52,7 +52,7 @@ export default function TriggerLibraryPage() {
             </div>
           </div>
           <span className={cn(
-            'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
+            'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium',
             'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
           )}>
             {allTriggers.length} triggers available
@@ -63,7 +63,7 @@ export default function TriggerLibraryPage() {
         <div className="space-y-3">
           {/* Search */}
           <div className={cn(
-            'flex items-center gap-2 px-3 py-2 rounded-xl border',
+            'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -105,7 +105,7 @@ export default function TriggerLibraryPage() {
         </div>
 
         {/* ── Content: Trigger Grid + Detail Panel ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
           {/* Trigger Cards Grid */}
           <div className={cn(selectedTriggerId ? 'lg:col-span-2' : 'lg:col-span-3')}>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -126,7 +126,7 @@ export default function TriggerLibraryPage() {
 
             {filteredTriggers.length === 0 && (
               <div className={cn(
-                'rounded-2xl border p-12 text-center',
+                'rounded-[var(--app-radius-xl)] border p-app-4xl text-center',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}>
                 <Zap className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
@@ -149,13 +149,13 @@ export default function TriggerLibraryPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.25 }}
                 className={cn(
-                  'rounded-2xl border p-4 space-y-4 h-fit sticky top-4',
+                  'rounded-[var(--app-radius-xl)] border p-4 space-y-4 h-fit sticky top-4',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 <div className="flex items-center gap-2.5">
                   <div className={cn(
-                    'w-9 h-9 rounded-xl flex items-center justify-center',
+                    'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
                     isDark ? 'bg-blue-500/15' : 'bg-blue-50',
                   )}>
                     <MousePointerClick className={cn('w-4 h-4', 'text-[var(--app-info)]')} />
@@ -177,13 +177,13 @@ export default function TriggerLibraryPage() {
                 {/* Payload Preview */}
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Code2 className={cn('w-3.5 h-3.5', 'text-[var(--app-purple)]')} />
+                    <Code2 className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
                     <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                       Payload Preview
                     </span>
                   </div>
                   <pre className={cn(
-                    'rounded-xl p-3 text-[10px] font-mono overflow-auto max-h-48 leading-relaxed',
+                    'rounded-[var(--app-radius-lg)] p-3 text-[10px] font-mono overflow-auto max-h-48 leading-relaxed',
                     isDark ? 'bg-black/40 text-emerald-300/70 border border-white/[0.04]' : 'bg-zinc-50 text-emerald-700 border border-black/[0.04]',
                   )}>
                     {JSON.stringify(selectedTrigger.payload, null, 2)}
@@ -200,11 +200,11 @@ export default function TriggerLibraryPage() {
                       <div
                         key={tpl}
                         className={cn(
-                          'flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs cursor-pointer transition-colors',
+                          'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-2.5 py-1.5 text-xs cursor-pointer transition-colors',
                           isDark ? 'bg-white/[0.03] hover:bg-white/[0.06] text-white/60' : 'bg-black/[0.02] hover:bg-black/[0.04] text-black/60',
                         )}
                       >
-                        <ChevronRight className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                        <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                         {tpl}
                       </div>
                     ))}

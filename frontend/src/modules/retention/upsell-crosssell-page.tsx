@@ -79,11 +79,11 @@ export default function UpsellCrosssellPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <TrendingUp className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -91,7 +91,7 @@ export default function UpsellCrosssellPage() {
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Expansion Revenue Cockpit</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Search className="w-4 h-4" />
             Find Opportunities
           </Button>
@@ -105,19 +105,19 @@ export default function UpsellCrosssellPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
                 {stat.change > 0 && (
                   <span className="flex items-center gap-0.5 text-[10px] font-medium text-emerald-500">
-                    <ArrowUpRight className="w-3 h-3" />{stat.change}%
+                    <ArrowUpRight className="w-4 h-4" />{stat.change}%
                   </span>
                 )}
               </div>
@@ -132,10 +132,10 @@ export default function UpsellCrosssellPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.4 }}
-            className={cn('rounded-2xl border p-4 flex items-start gap-3', isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-4 flex items-start gap-3', isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
           >
-            <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
-              <Sparkles className="w-4.5 h-4.5 text-emerald-500" />
+            <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
+              <Sparkles className="w-5 h-5 text-emerald-500" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Top Opportunity Insight</p>
@@ -155,7 +155,7 @@ export default function UpsellCrosssellPage() {
               key={status}
               onClick={() => setStatusFilter(status)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 statusFilter === status
                   ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : (isDark ? 'bg-white/[0.03] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.03] text-black/40 hover:bg-black/[0.06]')
@@ -179,14 +179,14 @@ export default function UpsellCrosssellPage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
+                  className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="text-base font-bold truncate">{opp.client}</p>
+                        <p className="text-sm font-bold truncate">{opp.client}</p>
                         <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 shrink-0', config.bg, config.color)}>
-                          <StatusIcon className="w-3 h-3 mr-1" />{config.label}
+                          <StatusIcon className="w-4 h-4 mr-1" />{config.label}
                         </Badge>
                       </div>
                       <div className="flex flex-wrap gap-1.5 mb-3">
@@ -250,7 +250,7 @@ export default function UpsellCrosssellPage() {
                   </div>
                   <div className={cn('flex items-center gap-4 mt-3 pt-3 border-t', 'border-[var(--app-border)]')}>
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                      <Clock className="w-3 h-3 inline mr-1" />Last: {opp.lastPurchase}
+                      <Clock className="w-4 h-4 inline mr-1" />Last: {opp.lastPurchase}
                     </span>
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       Manager: {opp.accountManager}
@@ -266,7 +266,7 @@ export default function UpsellCrosssellPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5 h-fit', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl h-fit', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />

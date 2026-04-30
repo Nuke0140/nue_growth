@@ -86,7 +86,7 @@ export default function RevenuePage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 space-y-6 max-w-[1400px] mx-auto">
+        <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -98,7 +98,7 @@ export default function RevenuePage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className={cn('flex items-center rounded-xl border overflow-hidden',
+              <div className={cn('flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 {(['monthly', 'quarterly', 'annual'] as Period[]).map(p => (
@@ -115,8 +115,8 @@ export default function RevenuePage() {
                   </button>
                 ))}
               </div>
-              <Button variant="outline" className="h-9 px-4 rounded-xl text-xs gap-1.5">
-                <Download className="w-3.5 h-3.5" />
+              <Button variant="outline" className="h-10  px-4 rounded-[var(--app-radius-lg)] text-xs gap-1.5">
+                <Download className="w-4 h-4" />
                 Export
               </Button>
             </div>
@@ -130,7 +130,7 @@ export default function RevenuePage() {
             className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3"
           >
             {kpiCards.map((kpi) => (
-              <div key={kpi.label} className={cn('rounded-2xl border p-4 transition-colors',
+              <div key={kpi.label} className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center justify-between mb-2">
@@ -142,7 +142,7 @@ export default function RevenuePage() {
                     {kpi.change}
                   </span>
                 </div>
-                <p className={cn('text-base font-bold tracking-tight', 'text-[var(--app-text)]')}>{kpi.value}</p>
+                <p className={cn('text-sm font-bold tracking-tight', 'text-[var(--app-text)]')}>{kpi.value}</p>
                 <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{kpi.label}</p>
               </div>
             ))}
@@ -155,12 +155,12 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>MRR Trend</h3>
                 <span className="text-emerald-500 text-xs font-medium flex items-center gap-0.5">
-                  <ArrowUpRight className="w-3 h-3" />
+                  <ArrowUpRight className="w-4 h-4" />
                   +31% since Nov
                 </span>
               </div>
@@ -193,13 +193,13 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue by Source</h3>
                 <PieChart className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-app-2xl">
                 {/* Visual Pie using conic-gradient */}
                 <div className="shrink-0 w-36 h-36 rounded-full relative"
                   style={{
@@ -226,7 +226,7 @@ export default function RevenuePage() {
                     const pct = ((s.revenue / totalSourceRevenue) * 100).toFixed(0);
                     return (
                       <div key={s.name} className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: s.color }} />
+                        <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] shrink-0" style={{ backgroundColor: s.color }} />
                         <span className={cn('text-xs flex-1', 'text-[var(--app-text-secondary)]')}>{s.name}</span>
                         <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{pct}%</span>
                       </div>
@@ -241,7 +241,7 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={cn('rounded-2xl border p-5 lg:col-span-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl lg:col-span-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Waterfall</h3>
@@ -287,9 +287,9 @@ export default function RevenuePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.25 }}
-            className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <div className={cn('px-5 py-4 border-b', 'border-[var(--app-border)]')}>
+            <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Source Breakdown</h3>
             </div>
             <div className="overflow-x-auto">
@@ -297,7 +297,7 @@ export default function RevenuePage() {
                 <thead>
                   <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Source', 'Leads', 'Revenue', '% of Total', 'Avg Deal Size'].map(col => (
-                      <th key={col} className={cn('px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
+                      <th key={col} className={cn('px-app-xl py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                         {col}
                       </th>
                     ))}
@@ -314,15 +314,15 @@ export default function RevenuePage() {
                         transition={{ delay: i * 0.04 }}
                         className={cn('border-b', 'border-[var(--app-border-light)]')}
                       >
-                        <td className="px-5 py-3">
+                        <td className="px-app-xl py-3">
                           <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: srcAttrib ? srcAttrib.color : (isDark ? '#666' : '#999') }} />
+                            <div className="w-2 h-2 rounded-[var(--app-radius-sm)] shrink-0" style={{ backgroundColor: srcAttrib ? srcAttrib.color : (isDark ? '#666' : '#999') }} />
                             <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{row.name}</span>
                           </div>
                         </td>
-                        <td className={cn('px-5 py-3 text-xs', 'text-[var(--app-text-secondary)]')}>{row.deals}</td>
-                        <td className={cn('px-5 py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(row.revenue)}</td>
-                        <td className="px-5 py-3">
+                        <td className={cn('px-app-xl py-3 text-xs', 'text-[var(--app-text-secondary)]')}>{row.deals}</td>
+                        <td className={cn('px-app-xl py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(row.revenue)}</td>
+                        <td className="px-app-xl py-3">
                           <div className="flex items-center gap-2">
                             <div className={cn('h-1.5 w-16 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                               <motion.div
@@ -335,7 +335,7 @@ export default function RevenuePage() {
                             <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{row.percentOfTotal}%</span>
                           </div>
                         </td>
-                        <td className={cn('px-5 py-3 text-xs', 'text-[var(--app-text-secondary)]')}>{formatCurrency(row.avgDealSize)}</td>
+                        <td className={cn('px-app-xl py-3 text-xs', 'text-[var(--app-text-secondary)]')}>{formatCurrency(row.avgDealSize)}</td>
                       </motion.tr>
                     );
                   })}
@@ -371,10 +371,10 @@ export default function RevenuePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
-                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+                className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <div className={cn('w-8 h-8 rounded-xl flex items-center justify-center',
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                     isDark ? 'bg-purple-500/15' : 'bg-purple-100'
                   )}>
                     <insight.icon className="w-4 h-4 text-purple-400" />

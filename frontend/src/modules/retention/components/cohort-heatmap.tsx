@@ -38,7 +38,7 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 overflow-x-auto',
+        'rounded-[var(--app-radius-xl)] border p-app-xl overflow-x-auto',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -74,7 +74,7 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
                     onMouseEnter={() => setHoveredCell({ row: rowIdx, col: colIdx })}
                     onMouseLeave={() => setHoveredCell(null)}
                     className={cn(
-                      'flex items-center justify-center h-8 rounded-lg text-[11px] font-medium cursor-default transition-colors relative',
+                      'flex items-center justify-center h-8 rounded-[var(--app-radius-lg)] text-[11px] font-medium cursor-default transition-colors relative',
                       getCellColor(val),
                       'text-[var(--app-text)]'
                     )}
@@ -85,7 +85,7 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
                         className={cn(
-                          'absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 rounded-md text-[10px] whitespace-nowrap z-10',
+                          'absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 rounded-[var(--app-radius-md)] text-[10px] whitespace-nowrap z-10',
                           'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                         )}
                       >

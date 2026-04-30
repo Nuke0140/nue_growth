@@ -19,7 +19,7 @@ export default function AttributionWidget({ channels, model = 'Multi-Touch' }: A
   const totalRevenue = useMemo(() => channels.reduce((s, c) => s + c.revenue, 0), [channels]);
 
   return (
-    <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+    <div className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Attribution</h3>

@@ -95,7 +95,7 @@ export function MiniCalendar({
         <div className="flex items-center gap-0.5">
           <button
             onClick={prevMonth}
-            className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
             style={{ color: 'var(--app-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -111,7 +111,7 @@ export function MiniCalendar({
           </button>
           <button
             onClick={nextMonth}
-            className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
             style={{ color: 'var(--app-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -158,7 +158,7 @@ export function MiniCalendar({
               key={dateStr}
               onClick={() => onDateClick?.(dateStr)}
               className={cn(
-                'relative flex flex-col items-center justify-center h-8 rounded-lg text-xs font-medium transition-colors'
+                'relative flex flex-col items-center justify-center h-8 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors'
               )}
               style={{
                 color: isSelected
@@ -217,7 +217,7 @@ export function MiniCalendar({
                 selectedEvents.map((ev, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-lg"
+                    className="flex items-center gap-2 px-2 py-1.5 rounded-[var(--app-radius-lg)]"
                     style={{ backgroundColor: 'var(--app-hover-bg)' }}
                   >
                     <span

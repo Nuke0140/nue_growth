@@ -91,7 +91,7 @@ export default function TaxSummaryCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-5',
+        'rounded-[var(--app-radius-xl)] border p-app-xl',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -99,7 +99,7 @@ export default function TaxSummaryCard({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className={cn(
-            'w-8 h-8 rounded-xl flex items-center justify-center',
+            'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
             isDark ? 'bg-violet-500/10' : 'bg-violet-100'
           )}>
             <Receipt className="w-4 h-4 text-violet-500" />
@@ -126,7 +126,7 @@ export default function TaxSummaryCard({
       {/* Tax Items */}
       <div className="grid grid-cols-2 gap-3 mb-4">
         {taxItems.map((item) => (
-          <div key={item.label} className={cn('p-3 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
+          <div key={item.label} className={cn('p-3 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
             <p className={cn('text-[10px] font-medium mb-1', 'text-[var(--app-text-muted)]')}>
               {item.label}
             </p>
@@ -139,20 +139,20 @@ export default function TaxSummaryCard({
 
       {/* Total Liability */}
       <div className={cn(
-        'flex items-center justify-between p-3 rounded-xl border',
+        'flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border',
         isDark
           ? 'bg-red-500/[0.04] border-red-500/[0.1]'
           : 'bg-red-50 border-red-100'
       )}>
         <div className="flex items-center gap-2">
-          {filingStatus === 'overdue' && <AlertTriangle className="w-3.5 h-3.5 text-red-500" />}
+          {filingStatus === 'overdue' && <AlertTriangle className="w-4 h-4 text-red-500" />}
           <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
             Total Tax Liability
           </span>
         </div>
         <div className="flex items-center gap-1">
           <span className="text-sm font-bold text-red-500 tabular-nums">{formatAmount(taxLiability)}</span>
-          <ChevronRight className={cn('w-3.5 h-3.5', 'text-[var(--app-text-disabled)]')} />
+          <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
         </div>
       </div>
     </motion.div>

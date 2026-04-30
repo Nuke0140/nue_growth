@@ -144,21 +144,21 @@ function buildSectionPageMap(sections: NavSection[]): Record<string, string[]> {
 // ---- Skeleton loader for lazy-loading mode ----
 function ModuleSkeleton() {
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-app-2xl p-6">
       <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-48 rounded-lg" />
+        <Skeleton className="h-8 w-48 rounded-[var(--app-radius-lg)]" />
         <div className="flex gap-2">
-          <Skeleton className="h-9 w-28 rounded-lg" />
-          <Skeleton className="h-9 w-9 rounded-lg" />
+          <Skeleton className="h-10  w-28 rounded-[var(--app-radius-lg)]" />
+          <Skeleton className="h-10  w-9 rounded-[var(--app-radius-lg)]" />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-32 rounded-xl" />
+          <Skeleton key={i} className="h-32 rounded-[var(--app-radius-lg)]" />
         ))}
       </div>
-      <Skeleton className="h-64 rounded-xl" />
-      <Skeleton className="h-48 rounded-xl" />
+      <Skeleton className="h-64 rounded-[var(--app-radius-lg)]" />
+      <Skeleton className="h-48 rounded-[var(--app-radius-lg)]" />
     </div>
   );
 }
@@ -180,10 +180,10 @@ function DefaultSidebarFooter({ accent }: { accent: { primary: string } }) {
     (user as Record<string, unknown>)?.role ?? 'Team Member';
 
   return (
-    <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-[var(--app-hover-bg)] transition-colors cursor-pointer">
-      <Avatar className="h-8 w-8 rounded-lg">
+    <div className="flex items-center gap-3 p-2 rounded-[var(--app-radius-lg)] hover:bg-[var(--app-hover-bg)] transition-colors cursor-pointer">
+      <Avatar className="h-8 w-8 rounded-[var(--app-radius-lg)]">
         <AvatarFallback
-          className="text-white text-xs font-semibold rounded-lg"
+          className="text-white text-xs font-semibold rounded-[var(--app-radius-lg)]"
           style={{ backgroundColor: accent.primary }}
         >
           {initials}
@@ -217,7 +217,7 @@ function FlatNavItem({
     <button
       onClick={onClick}
       className={cn(
-        'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group relative',
+        'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-[13px] transition-colors duration-200 group relative',
         isActive
           ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] font-medium'
           : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
@@ -243,7 +243,7 @@ function FlatNavItem({
       {item.isAI && (
         <Badge
           variant="secondary"
-          className="ml-auto text-[9px] px-1.5 py-0 rounded-md border-0 font-medium"
+          className="ml-auto text-[9px] px-1.5 py-0 rounded-[var(--app-radius-md)] border-0 font-medium"
           style={{ backgroundColor: accent.light, color: accent.primary }}
         >
           AI
@@ -298,7 +298,7 @@ function CollapsibleSection({
           onToggle();
           if (!isExpanded) onNavClick(firstPage);
         }}
-        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+        className="w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-[13px] transition-colors duration-200 group text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
       >
         <SectionIcon
           className={cn(
@@ -313,7 +313,7 @@ function CollapsibleSection({
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: ANIMATION.duration.normal }}
         >
-          <ChevronDown className="w-3.5 h-3.5 text-[var(--app-text-disabled)]" />
+          <ChevronDown className="w-4 h-4 text-[var(--app-text-disabled)]" />
         </motion.div>
       </button>
 
@@ -445,7 +445,7 @@ function ModuleSidebar({
                 style={{ borderColor: CSS.border }}
               >
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
                   style={{ backgroundColor: accent.primary }}
                 >
                   <ModuleIcon className="w-4 h-4 text-white" />
@@ -472,7 +472,7 @@ function ModuleSidebar({
                     variant="ghost"
                     size="icon"
                     onClick={() => setSidebarOpen(false)}
-                    className="ml-auto h-7 w-7 transition-colors"
+                    className="ml-auto h-8  w-7 transition-colors"
                     style={{ color: CSS.textSecondary }}
                   >
                     <X className="w-4 h-4" />
@@ -554,7 +554,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
   const handleBackToHome = config.onBackToHome ?? closeModule;
 
   // Shared button class
-  const iconBtnClass = 'shrink-0 h-8 w-8 rounded-lg transition-colors';
+  const iconBtnClass = 'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-colors';
 
   return (
     <header
@@ -650,7 +650,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
             {config.moduleName}
           </span>
           <ChevronRight
-            className="w-3 h-3 hidden sm:block shrink-0"
+            className="w-4 h-4 hidden sm:block shrink-0"
             style={{ color: CSS.textDisabled }}
           />
           <span
@@ -662,7 +662,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
           {isDetailPage && (
             <Badge
               variant="secondary"
-              className="ml-2 text-[10px] px-1.5 py-0 h-5 border-0 rounded-md"
+              className="ml-2 text-[10px] px-1.5 py-0 h-5 border-0 rounded-[var(--app-radius-md)]"
               style={{ backgroundColor: accent.light, color: accent.primary }}
             >
               Detail
@@ -678,7 +678,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
           role="button"
           tabIndex={0}
           className={cn(
-            'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-56 lg:w-64 transition-colors cursor-pointer',
+            'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border w-56 lg:w-64 transition-colors cursor-pointer',
           )}
           style={{
             backgroundColor: CSS.hoverBg,
@@ -743,7 +743,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
               <Button variant="ghost" size="icon" className={cn(iconBtnClass, 'relative')} style={{ color: CSS.textSecondary }}>
                 <Sparkles className="w-4 h-4" />
                 <motion.div
-                  className="absolute inset-0 rounded-lg"
+                  className="absolute inset-0 rounded-[var(--app-radius-lg)]"
                   animate={{
                     boxShadow: [
                       '0 0 0 0 rgba(139,92,246,0)',
@@ -784,10 +784,10 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
         {/* User avatar dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className={cn(iconBtnClass, 'rounded-lg')}>
-              <Avatar className="h-8 w-8 rounded-lg">
+            <Button variant="ghost" size="icon" className={cn(iconBtnClass, 'rounded-[var(--app-radius-lg)]')}>
+              <Avatar className="h-8 w-8 rounded-[var(--app-radius-lg)]">
                 <AvatarFallback
-                  className="text-white text-xs font-semibold rounded-lg"
+                  className="text-white text-xs font-semibold rounded-[var(--app-radius-lg)]"
                   style={{ backgroundColor: accent.primary }}
                 >
                   {user?.name
@@ -804,7 +804,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-56 rounded-xl"
+            className="w-56 rounded-[var(--app-radius-lg)]"
             style={{
               backgroundColor: CSS.cardBg,
               borderColor: CSS.borderStrong,
@@ -824,14 +824,14 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
               </p>
             </div>
             <DropdownMenuItem
-              className="rounded-lg cursor-pointer"
+              className="rounded-[var(--app-radius-lg)] cursor-pointer"
               style={{ color: CSS.textSecondary }}
             >
               <User className="w-4 h-4 mr-2" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="rounded-lg cursor-pointer"
+              className="rounded-[var(--app-radius-lg)] cursor-pointer"
               style={{ color: CSS.textSecondary }}
             >
               <Settings className="w-4 h-4 mr-2" />
@@ -840,7 +840,7 @@ function ModuleTopbar({ config, accent }: { config: ModuleConfig; accent: { prim
             <DropdownMenuSeparator style={{ backgroundColor: CSS.hoverBg }} />
             <DropdownMenuItem
               onClick={logout}
-              className="rounded-lg cursor-pointer text-red-400 hover:text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-400"
+              className="rounded-[var(--app-radius-lg)] cursor-pointer text-red-400 hover:text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-400"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
@@ -900,7 +900,7 @@ function ModulePageContent({ config, accent }: { config: ModuleConfig; accent: {
       {lazy && progressWidth > 0 && (
         <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-300 ease-out"
+            className="h-full rounded-full transition-colors duration-200 ease-out"
             style={{ width: `${progressWidth}%`, backgroundColor: accent.primary }}
           />
         </div>
@@ -960,7 +960,7 @@ function MobileFab({ accent }: { accent: { primary: string } }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
               transition={{ duration: ANIMATION.duration.fast }}
-              className="absolute bottom-16 right-0 rounded-2xl p-1.5 min-w-[180px] shadow-xl border"
+              className="absolute bottom-16 right-0 rounded-[var(--app-radius-xl)] p-1.5 min-w-[180px] shadow-[var(--app-shadow-md)]-xl border"
               style={{
                 backgroundColor: CSS.cardBg,
                 borderColor: CSS.borderStrong,
@@ -968,7 +968,7 @@ function MobileFab({ accent }: { accent: { primary: string } }) {
             >
               <button
                 onClick={() => setFabOpen(false)}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-[13px] transition-colors"
                 style={{ color: CSS.textSecondary }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = CSS.hoverBg;
@@ -984,7 +984,7 @@ function MobileFab({ accent }: { accent: { primary: string } }) {
               </button>
               <button
                 onClick={() => setFabOpen(false)}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-[13px] transition-colors"
                 style={{ color: CSS.textSecondary }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = CSS.hoverBg;
@@ -1032,7 +1032,7 @@ export function ModuleLayout({ config }: { config: ModuleConfig }) {
   return (
     <TooltipProvider delayDuration={300}>
       <div
-        className="h-screen flex flex-col overflow-hidden transition-colors duration-300"
+        className="h-screen flex flex-col overflow-hidden transition-colors duration-200"
         style={{
           backgroundColor: CSS.bg,
           color: CSS.text,

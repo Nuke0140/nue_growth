@@ -70,13 +70,13 @@ function ShiftsPageInner() {
 
   return (
     <PageShell title="Shifts" icon={CalendarClock}>
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Actions */}
         <div className="flex items-center justify-end gap-2">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className={cn('h-9 rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+                <Button className={cn('h-10  rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                   <Plus className="w-4 h-4" /> Create Shift
                 </Button>
               </TooltipTrigger>
@@ -98,12 +98,12 @@ function ShiftsPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -116,7 +116,7 @@ function ShiftsPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <h3 className="text-sm font-bold mb-4">24-Hour Timeline</h3>
           {/* Hour labels */}
@@ -132,7 +132,7 @@ function ShiftsPageInner() {
                 <div className="w-[140px] shrink-0 text-right">
                   <span className="text-xs font-medium">{td.shift.name}</span>
                 </div>
-                <div className={cn('flex-1 h-8 rounded-lg relative overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('flex-1 h-8 rounded-[var(--app-radius-lg)] relative overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   {/* Hour markers */}
                   {Array.from({ length: 24 }, (_, h) => h).filter(h => h % 3 === 0).map(h => (
                     <div
@@ -146,7 +146,7 @@ function ShiftsPageInner() {
                     initial={{ width: 0 }}
                     animate={{ width: `${td.widthPercent}%` }}
                     transition={{ delay: i * 0.1 + 0.2, duration: 0.5 }}
-                    className={cn('absolute top-1 bottom-1 rounded-md', deptColor(td.shift.department))}
+                    className={cn('absolute top-1 bottom-1 rounded-[var(--app-radius-md)]', deptColor(td.shift.department))}
                     style={{ left: `${td.leftPercent}%`, opacity: 0.7 }}
                   />
                   {/* Time labels on bar */}
@@ -191,15 +191,15 @@ function ShiftsPageInner() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.06 + 0.2, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border overflow-hidden transition-all duration-200',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:shadow-lg'
+                  'rounded-[var(--app-radius-xl)] border overflow-hidden transition-colors duration-200',
+                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:shadow-[var(--app-shadow-md)]-lg'
                 )}
               >
                 <div className={cn('h-1', getDeptColor(shift.department))} />
-                <div className="p-5">
+                <div className="p-app-xl">
                   {/* Name + Rotation */}
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-base font-bold">{shift.name}</h3>
+                    <h3 className="text-sm font-bold">{shift.name}</h3>
                     <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', rot.className)}>
                       <span className={cn('w-1.5 h-1.5 rounded-full', rot.dotClass)} />
                       {rot.label}
@@ -208,12 +208,12 @@ function ShiftsPageInner() {
 
                   {/* Department */}
                   <div className="flex items-center gap-2 mb-4">
-                    <Building2 className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                    <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>{shift.department}</span>
                   </div>
 
                   {/* Time Range */}
-                  <div className={cn('rounded-xl border p-3 mb-4', isDark ? 'border-white/[0.04] bg-white/[0.02]' : 'border-black/[0.04] bg-black/[0.01]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] border p-3 mb-4', isDark ? 'border-white/[0.04] bg-white/[0.02]' : 'border-black/[0.04] bg-black/[0.01]')}>
                     <div className="flex items-center justify-between">
                       <div className="text-center">
                         <p className={cn('text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Start</p>
@@ -221,7 +221,7 @@ function ShiftsPageInner() {
                       </div>
                       <div className="flex items-center">
                         <div className={cn('w-8 h-px', isDark ? 'bg-white/10' : 'bg-black/10')} />
-                        <ChevronRight className={cn('w-3 h-3 mx-1', 'text-[var(--app-text-disabled)]')} />
+                        <ChevronRight className={cn('w-4 h-4 mx-1', 'text-[var(--app-text-disabled)]')} />
                         <div className={cn('w-8 h-px', isDark ? 'bg-white/10' : 'bg-black/10')} />
                       </div>
                       <div className="text-center">
@@ -237,8 +237,8 @@ function ShiftsPageInner() {
 
                   {/* Night Allowance */}
                   {shift.nightAllowance && (
-                    <div className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg mb-4', 'bg-[var(--app-purple-light)]')}>
-                      <Moon className="w-3.5 h-3.5 text-purple-400" />
+                    <div className={cn('flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] mb-4', 'bg-[var(--app-purple-light)]')}>
+                      <Moon className="w-4 h-4 text-purple-400" />
                       <span className="text-xs text-purple-400 font-medium">Night allowance applicable</span>
                     </div>
                   )}

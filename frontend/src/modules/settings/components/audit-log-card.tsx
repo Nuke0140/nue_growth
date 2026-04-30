@@ -57,7 +57,7 @@ export default function AuditLogCard({ log }: AuditLogCardProps) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'rounded-xl border p-4 transition-colors',
+        'rounded-[var(--app-radius-lg)] border p-4 transition-colors',
         isDark ? style.dark : style.light
       )}
     >

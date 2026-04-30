@@ -87,12 +87,12 @@ export default function UsersRolesPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -107,7 +107,7 @@ export default function UsersRolesPage() {
           <button
             onClick={() => setShowInviteModal(true)}
             className={cn(
-              'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors',
+              'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-medium transition-colors',
               isDark
                 ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30'
                 : 'bg-blue-50 text-blue-700 hover:bg-blue-100',
@@ -124,7 +124,7 @@ export default function UsersRolesPage() {
             <div
               key={kpi.label}
               className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -162,7 +162,7 @@ export default function UsersRolesPage() {
         {/* ── Search + Bulk Actions ── */}
         <div className="flex items-center justify-between gap-4">
           <div className={cn(
-            'flex items-center gap-2 rounded-xl border px-3 py-2 flex-1 max-w-sm',
+            'flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2 flex-1 max-w-sm',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -183,16 +183,16 @@ export default function UsersRolesPage() {
                 {selectedUsers.size} selected
               </span>
               <button className={cn(
-                'inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                'inline-flex items-center gap-1 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                 isDark ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-red-50 text-red-600 hover:bg-red-100',
               )}>
-                <Power className="w-3 h-3" /> Deactivate
+                <Power className="w-4 h-4" /> Deactivate
               </button>
               <button className={cn(
-                'inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                'inline-flex items-center gap-1 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                 isDark ? 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25' : 'bg-amber-50 text-amber-600 hover:bg-amber-100',
               )}>
-                <Edit className="w-3 h-3" /> Change Role
+                <Edit className="w-4 h-4" /> Change Role
               </button>
             </div>
           )}
@@ -204,7 +204,7 @@ export default function UsersRolesPage() {
           initial="hidden"
           animate="show"
           className={cn(
-            'rounded-2xl border overflow-hidden hidden lg:block',
+            'rounded-[var(--app-radius-xl)] border overflow-hidden hidden lg:block',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
@@ -284,7 +284,7 @@ export default function UsersRolesPage() {
                           'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold',
                           'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                         )}>
-                          <ShieldCheck className="w-3 h-3" />
+                          <ShieldCheck className="w-4 h-4" />
                           On
                         </span>
                       ) : (
@@ -319,16 +319,16 @@ export default function UsersRolesPage() {
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <button className={cn(
-                          'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
+                          'h-8  w-7 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                           isDark ? 'hover:bg-white/[0.06] text-white/40 hover:text-white' : 'hover:bg-black/[0.06] text-black/40 hover:text-black',
                         )}>
-                          <Edit className="w-3.5 h-3.5" />
+                          <Edit className="w-4 h-4" />
                         </button>
                         <button className={cn(
-                          'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
+                          'h-8  w-7 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                           isDark ? 'hover:bg-red-500/10 text-white/40 hover:text-red-400' : 'hover:bg-red-50 text-black/40 hover:text-red-500',
                         )}>
-                          <Power className="w-3.5 h-3.5" />
+                          <Power className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -347,7 +347,7 @@ export default function UsersRolesPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               className={cn(
-                'rounded-2xl border p-4',
+                'rounded-[var(--app-radius-xl)] border p-4',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
@@ -373,9 +373,9 @@ export default function UsersRolesPage() {
               <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
                 <div className="flex items-center gap-1.5">
                   {user.mfaEnabled ? (
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   ) : (
-                    <ShieldOff className="w-3.5 h-3.5 text-zinc-400" />
+                    <ShieldOff className="w-4 h-4 text-zinc-400" />
                   )}
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>MFA</span>
                 </div>
@@ -411,7 +411,7 @@ export default function UsersRolesPage() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
                 className={cn(
-                  'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md rounded-2xl border shadow-xl p-5 z-50',
+                  'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-xl p-app-xl z-50',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]',
                 )}
               >
@@ -422,7 +422,7 @@ export default function UsersRolesPage() {
                   <button
                     onClick={() => setShowInviteModal(false)}
                     className={cn(
-                      'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
+                      'h-8  w-7 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                       isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40',
                     )}
                   >
@@ -433,7 +433,7 @@ export default function UsersRolesPage() {
                   <div className="space-y-1.5">
                     <label className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Email Address</label>
                     <div className={cn(
-                      'flex items-center gap-2 rounded-xl border px-3 py-2.5',
+                      'flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2.5',
                       isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-black/[0.02] border-black/[0.08]',
                     )}>
                       <Mail className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -457,7 +457,7 @@ export default function UsersRolesPage() {
                           key={role}
                           onClick={() => setInviteRole(role)}
                           className={cn(
-                            'rounded-xl px-3 py-1.5 text-xs font-medium transition-colors',
+                            'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                             inviteRole === role
                               ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                               : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.08]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.06]'),
@@ -469,7 +469,7 @@ export default function UsersRolesPage() {
                     </div>
                   </div>
                   <button className={cn(
-                    'w-full rounded-xl py-2.5 text-sm font-medium transition-colors',
+                    'w-full rounded-[var(--app-radius-lg)] py-2.5 text-sm font-medium transition-colors',
                     isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' : 'bg-blue-50 text-blue-700 hover:bg-blue-100',
                   )}>
                     <UserPlus className="w-4 h-4 inline mr-2" />

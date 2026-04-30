@@ -34,7 +34,7 @@ export default function BillingPlanCard({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'relative rounded-2xl border p-5 transition-all duration-200 flex flex-col',
+        'relative rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200 flex flex-col',
         highlighted
           ? isDark
             ? 'bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.05] border-violet-500/30'
@@ -47,7 +47,7 @@ export default function BillingPlanCard({
       {highlighted && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge className="px-3 py-1 text-[10px] font-semibold bg-gradient-to-r from-violet-500 to-purple-500 text-white border-0">
-            <Star className="w-3 h-3 mr-1" /> Current Plan
+            <Star className="w-4 h-4 mr-1" /> Current Plan
           </Badge>
         </div>
       )}
@@ -70,12 +70,12 @@ export default function BillingPlanCard({
         <span className={cn('text-sm ml-1', 'text-[var(--app-text-muted)]')}>/month</span>
       </div>
 
-      <div className="space-y-2 flex-1 mb-5">
+      <div className="space-y-2 flex-1 mb-app-xl">
         {features.map((feature, i) => (
           <div key={i} className="flex items-start gap-2">
             <Check
               className={cn(
-                'w-3.5 h-3.5 mt-0.5 shrink-0',
+                'w-4 h-4 mt-0.5 shrink-0',
                 highlighted ? 'text-violet-400' : 'text-[var(--app-text-muted)]'
               )}
             />
@@ -96,7 +96,7 @@ export default function BillingPlanCard({
           variant="outline"
           disabled
           className={cn(
-            'w-full rounded-xl text-sm font-medium',
+            'w-full rounded-[var(--app-radius-lg)] text-sm font-medium',
             isDark ? 'border-white/[0.08] text-white/30' : 'border-black/[0.08] text-black/30'
           )}
         >
@@ -106,7 +106,7 @@ export default function BillingPlanCard({
         <Button
           onClick={onUpgrade}
           className={cn(
-            'w-full rounded-xl text-sm font-medium transition-colors',
+            'w-full rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
             'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
           )}
         >

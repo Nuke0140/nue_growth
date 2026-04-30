@@ -59,11 +59,11 @@ export default function ChurnRiskPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
               <Brain className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
@@ -73,7 +73,7 @@ export default function ChurnRiskPage() {
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
               'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
@@ -94,12 +94,12 @@ export default function ChurnRiskPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', item.border, isDark ? `bg-white/[0.02] ${item.border}` : `bg-white ${item.border}`)}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', item.border, isDark ? `bg-white/[0.02] ${item.border}` : `bg-white ${item.border}`)}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
-                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-4 h-4', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.count}</p>
@@ -113,7 +113,7 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -142,7 +142,7 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-2 mb-4">
             <Zap className={cn('w-4 h-4 text-red-400')} />
@@ -241,12 +241,12 @@ export default function ChurnRiskPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.55 + i * 0.05, duration: 0.3 }}
                 className={cn(
-                  'flex items-center justify-between p-3 rounded-xl border',
+                  'flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border',
                   isDark ? 'border-red-500/15 bg-red-500/[0.03]' : 'border-red-200 bg-red-50/50'
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-red-500/15' : 'bg-red-100')}>
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', isDark ? 'bg-red-500/15' : 'bg-red-100')}>
                     <AlertTriangle className="w-4 h-4 text-red-500" />
                   </div>
                   <div>
@@ -255,14 +255,14 @@ export default function ChurnRiskPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-lg">
-                    <MessageSquare className="w-3 h-3" /> Send Win-back
+                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-[var(--app-radius-lg)]">
+                    <MessageSquare className="w-4 h-4" /> Send Win-back
                   </Button>
-                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-lg">
-                    <Phone className="w-3 h-3" /> Schedule Call
+                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-[var(--app-radius-lg)]">
+                    <Phone className="w-4 h-4" /> Schedule Call
                   </Button>
-                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-lg border-red-300 text-red-500 hover:bg-red-50">
-                    <AlertCircle className="w-3 h-3" /> Escalate
+                  <Button variant="outline" size="sm" className="text-[10px] gap-1 rounded-[var(--app-radius-lg)] border-red-300 text-red-500 hover:bg-red-50">
+                    <AlertCircle className="w-4 h-4" /> Escalate
                   </Button>
                 </div>
               </motion.div>
@@ -275,7 +275,7 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">

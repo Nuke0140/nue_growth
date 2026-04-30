@@ -85,7 +85,7 @@ export const KpiWidget = React.memo(function KpiWidget({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: ANIMATION.duration.slow }}
-      className={cn('relative overflow-hidden p-6 rounded-2xl', className)}
+      className={cn('relative overflow-hidden p-6 rounded-[var(--app-radius-xl)]', className)}
       style={{
         backgroundColor: CSS.cardBg,
         border: `1px solid ${CSS.border}`,
@@ -118,7 +118,7 @@ export const KpiWidget = React.memo(function KpiWidget({
           </p>
           {trend && trendValue && (
             <div className="flex items-center gap-1.5 mt-1">
-              <TrendIcon className="w-3.5 h-3.5" style={{ color: trendColor }} />
+              <TrendIcon className="w-4 h-4" style={{ color: trendColor }} />
               <span className="text-xs font-medium" style={{ color: trendColor }}>
                 {trendValue}
               </span>
@@ -126,7 +126,7 @@ export const KpiWidget = React.memo(function KpiWidget({
           )}
         </div>
         <div
-          className="flex items-center justify-center w-11 h-11 rounded-xl shrink-0"
+          className="flex items-center justify-center w-11 h-10  rounded-[var(--app-radius-lg)] shrink-0"
           style={{ backgroundColor: colors.iconBg }}
         >
           <Icon className="w-5 h-5" style={{ color: colors.text }} />

@@ -46,12 +46,12 @@ export default function ActionLibraryPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Play className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -65,7 +65,7 @@ export default function ActionLibraryPage() {
           </div>
           <div className="flex items-center gap-3">
             <div className={cn(
-              'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
+              'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               {allActions.length} actions
@@ -76,7 +76,7 @@ export default function ActionLibraryPage() {
         {/* ── Usage Stats Row ── */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className={cn(
-            'rounded-2xl border p-4',
+            'rounded-[var(--app-radius-xl)] border p-4',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -93,7 +93,7 @@ export default function ActionLibraryPage() {
             </p>
           </div>
           <div className={cn(
-            'rounded-2xl border p-4',
+            'rounded-[var(--app-radius-xl)] border p-4',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -110,7 +110,7 @@ export default function ActionLibraryPage() {
             </p>
           </div>
           <div className={cn(
-            'rounded-2xl border p-4',
+            'rounded-[var(--app-radius-xl)] border p-4',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -131,7 +131,7 @@ export default function ActionLibraryPage() {
         {/* ── Search + Category Tabs ── */}
         <div className="space-y-3">
           <div className={cn(
-            'flex items-center gap-2 px-3 py-2 rounded-xl border',
+            'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
@@ -187,7 +187,7 @@ export default function ActionLibraryPage() {
 
         {filteredActions.length === 0 && (
           <div className={cn(
-            'rounded-2xl border p-12 text-center',
+            'rounded-[var(--app-radius-xl)] border p-app-4xl text-center',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <Play className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />

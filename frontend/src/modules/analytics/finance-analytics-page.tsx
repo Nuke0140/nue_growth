@@ -60,12 +60,12 @@ export default function FinanceAnalyticsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
             )}>
               <Wallet className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -90,10 +90,10 @@ export default function FinanceAnalyticsPage() {
             </div>
             <ExportMenu />
             <span className={cn(
-              'px-3 py-1.5 text-xs font-medium rounded-xl',
+              'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
+              <Calendar className="w-4 h-4 inline mr-1.5" />
               {today}
             </span>
           </div>
@@ -150,7 +150,7 @@ export default function FinanceAnalyticsPage() {
               { color: 'bg-[var(--app-info)]', label: 'Profit' },
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
+                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', l.color)} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
               </div>
             ))}
@@ -200,7 +200,7 @@ export default function FinanceAnalyticsPage() {
                 { color: isDark ? 'bg-blue-500' : 'bg-blue-500', label: 'Net' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', l.color)} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}
@@ -324,7 +324,7 @@ export default function FinanceAnalyticsPage() {
                           'flex items-center gap-0.5 text-sm font-semibold',
                           isOver ? 'text-red-500' : 'text-emerald-500',
                         )}>
-                          {isOver ? <ArrowDownRight className="w-3.5 h-3.5" /> : <ArrowUpRight className="w-3.5 h-3.5" />}
+                          {isOver ? <ArrowDownRight className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                           {formatINR(Math.abs(item.variance))}
                         </span>
                       </td>
@@ -334,7 +334,7 @@ export default function FinanceAnalyticsPage() {
                             'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium',
                             'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
                           )}>
-                            <XCircle className="w-3 h-3" />
+                            <XCircle className="w-4 h-4" />
                             Over budget
                           </span>
                         ) : (
@@ -342,7 +342,7 @@ export default function FinanceAnalyticsPage() {
                             'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium',
                             'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                           )}>
-                            <CheckCircle2 className="w-3 h-3" />
+                            <CheckCircle2 className="w-4 h-4" />
                             Under budget
                           </span>
                         )}
@@ -365,7 +365,7 @@ export default function FinanceAnalyticsPage() {
                 { color: isDark ? 'bg-white/20' : 'bg-black/10', label: 'Budget' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', l.color)} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}

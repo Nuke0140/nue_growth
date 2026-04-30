@@ -62,12 +62,12 @@ interface ActivityTimelineProps {
 
 function EmptyState({ isDark }: { isDark: boolean }) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-6">
+    <div className="flex flex-col items-center justify-center py-app-4xl px-6">
       <div className={cn(
-        'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
+        'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-4',
         'bg-[var(--app-hover-bg)]'
       )}>
-        <ClipboardList className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
+        <ClipboardList className={cn('w-8 h-8', 'text-[var(--app-text-disabled)]')} />
       </div>
       <p className={cn('text-sm font-medium mb-1', 'text-[var(--app-text-secondary)]')}>
         No activities yet
@@ -107,7 +107,7 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {groupedActivities.map((group, groupIdx) => (
         <div key={group.group}>
           {/* Group Header */}
@@ -147,7 +147,7 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
                     ease: [0.22, 1, 0.36, 1]
                   }}
                   className={cn(
-                    'rounded-xl border-l-[3px] p-3 transition-colors duration-150',
+                    'rounded-[var(--app-radius-lg)] border-l-[3px] p-3 transition-colors duration-150',
                     getBorderColor(activity.type, isDark),
                     isDark
                       ? 'bg-white/[0.02] hover:bg-white/[0.04]'
@@ -157,10 +157,10 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
                   <div className="flex items-start gap-3">
                     {/* Icon */}
                     <div className={cn(
-                      'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border',
+                      'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 border',
                       isDark ? config.darkColor : config.color
                     )}>
-                      <Icon className="w-3.5 h-3.5" />
+                      <Icon className="w-4 h-4" />
                     </div>
 
                     {/* Content */}

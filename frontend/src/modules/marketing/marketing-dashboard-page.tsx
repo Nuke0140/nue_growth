@@ -103,12 +103,12 @@ export default function MarketingDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]'
             )}>
               <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
@@ -123,13 +123,13 @@ export default function MarketingDashboardPage() {
               'px-3 py-1.5 text-xs font-medium gap-1.5',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               {today}
             </Badge>
             <Button
               onClick={() => navigateTo('campaign-builder')}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
@@ -150,7 +150,7 @@ export default function MarketingDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
@@ -158,8 +158,8 @@ export default function MarketingDashboardPage() {
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -168,7 +168,7 @@ export default function MarketingDashboardPage() {
                     'flex items-center gap-0.5 text-[10px] font-medium',
                     isPositive ? 'text-emerald-500' : 'text-red-500'
                   )}>
-                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     {Math.abs(stat.change)}%
                   </span>
                 </div>
@@ -188,7 +188,7 @@ export default function MarketingDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -223,7 +223,7 @@ export default function MarketingDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
@@ -270,13 +270,13 @@ export default function MarketingDashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className={cn(
-                    'rounded-2xl border p-4 transition-all duration-200 cursor-pointer',
+                    'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200 cursor-pointer',
                     'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                   )}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                         <ChIcon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                       </div>
                       <span className="text-sm font-medium">{channel.channel}</span>
@@ -319,7 +319,7 @@ export default function MarketingDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -334,7 +334,7 @@ export default function MarketingDashboardPage() {
               onClick={() => navigateTo('campaigns')}
               className={cn('text-xs gap-1', isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.06]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.06]')}
             >
-              View All <ChevronRight className="w-3 h-3" />
+              View All <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
           <div className="overflow-x-auto">
@@ -413,7 +413,7 @@ export default function MarketingDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -434,11 +434,11 @@ export default function MarketingDashboardPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.75 + i * 0.05, duration: 0.3 }}
                 className={cn(
-                  'flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer',
+                  'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
                   'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                 )}
               >
-                <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', alert.bg)}>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', alert.bg)}>
                   <alert.icon className={cn('w-4 h-4', alert.color)} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -465,7 +465,7 @@ export default function MarketingDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5',
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
@@ -489,12 +489,12 @@ export default function MarketingDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.85 + i * 0.06, duration: 0.3 }}
                   className={cn(
-                    'p-4 rounded-xl border transition-colors cursor-pointer',
+                    'p-4 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
                     'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className="flex items-start gap-3">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', colors.bg)}>
+                    <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', colors.bg)}>
                       <Icon className={cn('w-4 h-4', colors.color)} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -514,7 +514,7 @@ export default function MarketingDashboardPage() {
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <div className={cn('flex items-center gap-1 text-[10px]', 'text-[var(--app-text-muted)]')}>
-                          <Sparkles className="w-3 h-3" />
+                          <Sparkles className="w-4 h-4" />
                           {insight.confidence}% confidence
                         </div>
                         <span className={cn('text-[10px] px-2 py-0.5 rounded-full capitalize', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
@@ -539,7 +539,7 @@ export default function MarketingDashboardPage() {
               transition={{ delay: 0.9 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >

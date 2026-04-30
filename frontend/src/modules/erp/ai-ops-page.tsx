@@ -141,7 +141,7 @@ function StatMiniCard({ label, value, icon: Icon, accent }: { label: string; val
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'app-card rounded-2xl p-4 border',
+        'app-card rounded-[var(--app-radius-xl)] p-4 border',
         accent ? 'border-red-500/20' : 'border-[var(--app-border)]'
       )}
     >
@@ -150,7 +150,7 @@ function StatMiniCard({ label, value, icon: Icon, accent }: { label: string; val
           {label}
         </span>
         <div className={cn(
-          'w-8 h-8 rounded-xl flex items-center justify-center',
+          'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
           accent ? 'bg-red-500/15' : 'bg-[var(--app-hover-bg)]'
         )}>
           <Icon className={cn('w-4 h-4', accent ? 'text-red-500 dark:text-red-400' : 'text-[var(--app-text-muted)]')} />
@@ -191,16 +191,16 @@ function AiOpsPageInner() {
 
   return (
     <PageShell title="AI Operations" icon={Brain} headerRight={
-      <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--app-hover-bg)] border border-[var(--app-border)]">
-        <Filter className="w-3.5 h-3.5 text-[var(--app-text-muted)] ml-2 mr-1" />
+      <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] border border-[var(--app-border)]">
+        <Filter className="w-4 h-4 text-[var(--app-text-muted)] ml-2 mr-1" />
         {filterOptions.map((f) => (
           <button
             key={f.key}
             onClick={() => setActiveFilter(f.key)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200',
               activeFilter === f.key
-                ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm'
+                ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                 : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
             )}
           >
@@ -215,7 +215,7 @@ function AiOpsPageInner() {
         ))}
       </div>
     }>
-      <div className="space-y-6 max-w-[1400px] mx-auto">
+      <div className="space-y-app-2xl max-w-[1400px] mx-auto">
         {/* ---- Stats Summary ---- */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
@@ -245,7 +245,7 @@ function AiOpsPageInner() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * idx, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'app-card rounded-2xl overflow-hidden border transition-all duration-200 hover:scale-[1.005]',
+                  'app-card rounded-[var(--app-radius-xl)] overflow-hidden border transition-colors duration-200 hover:scale-[1.005]',
                   insight.severity === 'critical' ? 'app-glow' : '',
                   sev.border
                 )}
@@ -253,11 +253,11 @@ function AiOpsPageInner() {
                 {/* Severity banner */}
                 <div className={cn('h-1.5 w-full', sev.gradient)} />
 
-                <div className="p-5 space-y-4">
+                <div className="p-app-xl space-y-4">
                   {/* Card header row */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[var(--app-hover-bg)] flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-[var(--app-radius-lg)] bg-[var(--app-hover-bg)] flex items-center justify-center shrink-0">
                         <TypeIcon className={cn('w-5 h-5', typeColorMap[insight.type])} />
                       </div>
                       <div className="min-w-0">
@@ -266,7 +266,7 @@ function AiOpsPageInner() {
                             {typeLabelMap[insight.type]}
                           </span>
                           <span className={cn(
-                            'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-bold border',
+                            'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[9px] font-bold border',
                             insight.severity === 'critical'
                               ? 'bg-red-500/15 text-red-300 border-red-500/20'
                               : insight.severity === 'high'
@@ -301,7 +301,7 @@ function AiOpsPageInner() {
                     {insight.affectedEntities.map((entity) => (
                       <span
                         key={entity}
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border border-[var(--app-border)]"
+                        className="px-2.5 py-1 rounded-[var(--app-radius-lg)] text-[11px] font-medium bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border border-[var(--app-border)]"
                       >
                         {entity}
                       </span>
@@ -309,9 +309,9 @@ function AiOpsPageInner() {
                   </div>
 
                   {/* Recommendation */}
-                  <div className="rounded-xl bg-[var(--app-accent-light)] border border-[rgba(204,92,55,0.12)] p-3 space-y-1">
+                  <div className="rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] border border-[rgba(204,92,55,0.12)] p-3 space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <Lightbulb className="w-3.5 h-3.5 text-[var(--app-accent)]" />
+                      <Lightbulb className="w-4 h-4 text-[var(--app-accent)]" />
                       <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-accent)]">
                         Recommendation
                       </span>
@@ -339,12 +339,12 @@ function AiOpsPageInner() {
                         if (target) navigateTo(target);
                       }}
                       className={cn(
-                        'h-8 px-4 rounded-lg flex items-center gap-1.5 text-[12px] font-medium transition-all duration-200',
-                        'bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 shadow-sm shadow-[var(--app-accent)]/20'
+                        'h-8 px-4 rounded-[var(--app-radius-lg)] flex items-center gap-1.5 text-[12px] font-medium transition-colors duration-200',
+                        'bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] shadow-[var(--app-shadow-md)]-[var(--app-accent)]/20'
                       )}
                     >
                       Take Action
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -358,9 +358,9 @@ function AiOpsPageInner() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="app-card rounded-2xl border border-[var(--app-border)] py-20 flex flex-col items-center justify-center"
+            className="app-card rounded-[var(--app-radius-xl)] border border-[var(--app-border)] py-20 flex flex-col items-center justify-center"
           >
-            <div className="w-14 h-14 rounded-2xl bg-[var(--app-hover-bg)] flex items-center justify-center mb-4">
+            <div className="w-14 h-14 rounded-[var(--app-radius-xl)] bg-[var(--app-hover-bg)] flex items-center justify-center mb-4">
               <Sparkles className="w-6 h-6 text-[var(--app-text-disabled)]" />
             </div>
             <p className="text-sm font-medium text-[var(--app-text-muted)]">No insights for this filter</p>

@@ -41,7 +41,7 @@ export default function RenewalTimeline({ renewals }: RenewalTimelineProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 overflow-x-auto',
+        'rounded-[var(--app-radius-xl)] border p-app-xl overflow-x-auto',
         'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
@@ -55,7 +55,7 @@ export default function RenewalTimeline({ renewals }: RenewalTimelineProps) {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className={cn(
-                    'rounded-xl border p-3 w-full text-center',
+                    'rounded-[var(--app-radius-lg)] border p-3 w-full text-center',
                     isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]'
                   )}
                 >
@@ -73,7 +73,7 @@ export default function RenewalTimeline({ renewals }: RenewalTimelineProps) {
               </div>
               {/* Connector line */}
               {idx < renewals.length - 1 && (
-                <div className={cn('w-8 h-0.5 rounded-full mb-8 shrink-0', config.line, idx === renewals.length - 1 ? 'opacity-0' : 'opacity-40')} />
+                <div className={cn('w-8 h-0.5 rounded-full mb-app-3xl shrink-0', config.line, idx === renewals.length - 1 ? 'opacity-0' : 'opacity-40')} />
               )}
             </div>
           );

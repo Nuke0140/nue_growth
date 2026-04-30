@@ -69,7 +69,7 @@ export default function ScheduledJobsPage() {
   }
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
@@ -89,7 +89,7 @@ export default function ScheduledJobsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -103,7 +103,7 @@ export default function ScheduledJobsPage() {
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors shrink-0"
+            className="flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors shrink-0"
           >
             <Plus className="h-4 w-4" />
             Create Job
@@ -140,7 +140,7 @@ export default function ScheduledJobsPage() {
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default function ScheduledJobsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
-                  'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
+                  'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-3',
                   'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
@@ -187,7 +187,7 @@ export default function ScheduledJobsPage() {
                 </div>
 
                 {/* Schedule Display */}
-                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
                     <Calendar className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
                     <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
@@ -198,7 +198,7 @@ export default function ScheduledJobsPage() {
                     {job.schedule}
                   </p>
                   <code className={cn(
-                    'inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-mono mt-1.5',
+                    'inline-flex items-center rounded-[var(--app-radius-md)] px-2 py-0.5 text-[10px] font-mono mt-1.5',
                     isDark ? 'bg-white/[0.06] text-zinc-400' : 'bg-black/[0.04] text-zinc-500',
                   )}>
                     {job.cron}
@@ -207,7 +207,7 @@ export default function ScheduledJobsPage() {
 
                 {/* Last & Next Run */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                     <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                       Last Run
                     </p>
@@ -230,7 +230,7 @@ export default function ScheduledJobsPage() {
                       <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>Never</p>
                     )}
                   </div>
-                  <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
                     <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                       Next Run
                     </p>
@@ -303,7 +303,7 @@ export default function ScheduledJobsPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                      'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                       'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25',
                     )}
                   >
@@ -314,7 +314,7 @@ export default function ScheduledJobsPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                      'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                       'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                     )}
                   >
