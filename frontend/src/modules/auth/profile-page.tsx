@@ -279,7 +279,7 @@ export default function ProfilePage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder="John Doe"
-                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"
                         />
                       </motion.div>
 
@@ -293,7 +293,7 @@ export default function ProfilePage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="john@example.com"
-                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"
                         />
                       </motion.div>
 
@@ -306,7 +306,7 @@ export default function ProfilePage() {
                           value={designation}
                           onChange={(e) => setDesignation(e.target.value)}
                           placeholder="Product Designer"
-                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"
                         />
                       </motion.div>
 
@@ -320,14 +320,14 @@ export default function ProfilePage() {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="+91 98765 43210"
-                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10""
+                          className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"
                         />
                       </motion.div>
 
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Timezone</Label>
                         <Select value={timezone} onValueChange={setTimezone}>
-                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10">
                             <SelectValue placeholder="Select timezone" />
                           </SelectTrigger>
                           <SelectContent className="rounded-[var(--app-radius-lg)]">
@@ -343,7 +343,7 @@ export default function ProfilePage() {
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Language</Label>
                         <Select value={language} onValueChange={setLanguage}>
-                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10">
                             <SelectValue placeholder="Select language" />
                           </SelectTrigger>
                           <SelectContent className="rounded-[var(--app-radius-lg)]">
@@ -645,7 +645,7 @@ export default function ProfilePage() {
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Date Format</Label>
                         <Select value={dateFormat} onValueChange={setDateFormat}>
-                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10">
                             <SelectValue placeholder="Select format" />
                           </SelectTrigger>
                           <SelectContent className="rounded-[var(--app-radius-lg)]">
@@ -661,7 +661,7 @@ export default function ProfilePage() {
                       <motion.div variants={staggerItem} className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">Currency</Label>
                         <Select value={currency} onValueChange={setCurrency}>
-                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10"">
+                          <SelectTrigger className="rounded-[var(--app-radius-lg)] border-gray-200 focus:border-gray-400 h-10">
                             <SelectValue placeholder="Select currency" />
                           </SelectTrigger>
                           <SelectContent className="rounded-[var(--app-radius-lg)]">

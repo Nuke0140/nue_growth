@@ -334,7 +334,7 @@ export default function RetentionPage() {
                       {alert.daysLeft} days left
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full text-[10px] h-8"">
+                  <Button variant="outline" size="sm" className="w-full text-[10px] h-8">
                     <Send className="w-4 h-4 mr-1.5" />
                     Send Reminder
                   </Button>

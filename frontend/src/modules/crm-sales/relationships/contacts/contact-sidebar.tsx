@@ -320,7 +320,7 @@ const AiInsightsTab = React.memo(function AiInsightsTab({ insights }: { insights
           </div>
           <p className="text-xs leading-relaxed" style={{ color: CSS.textSecondary }}>{insight.description}</p>
           {insight.actionText && (
-            <Button variant="outline" size="sm" className="mt-1 text-xs h-8"">
+            <Button variant="outline" size="sm" className="mt-1 text-xs h-8">
               {insight.actionText}
               <ChevronRight className="w-4 h-4" />
             </Button>
