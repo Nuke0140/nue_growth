@@ -9,6 +9,8 @@
    ============================================
    Shadcn/ui components consume --background, --card, etc.
    We map them to --app-* canonical tokens so there is ONE system.
+   Since --app-* tokens change in .dark (via tokens.css),
+   we only need :root definitions here — no duplicate .dark block.
    ============================================ */
 @theme inline {
   --color-background: var(--app-bg);
@@ -51,47 +53,11 @@
 }
 
 /* ============================================
-   Shadcn CSS Variable Definitions (Light)
+   Shadcn CSS Variable Definitions
+   Only :root needed — .dark inherits from tokens.css --app-* changes
    ============================================ */
 :root {
   --radius: 0.625rem;
-  --background: var(--app-bg);
-  --foreground: var(--app-text);
-  --card: var(--app-card-bg);
-  --card-foreground: var(--app-text);
-  --popover: var(--app-card-bg);
-  --popover-foreground: var(--app-text);
-  --primary: var(--app-accent);
-  --primary-foreground: #ffffff;
-  --secondary: var(--app-elevated);
-  --secondary-foreground: var(--app-text);
-  --muted: var(--app-elevated);
-  --muted-foreground: var(--app-text-muted);
-  --accent: var(--app-accent-light);
-  --accent-foreground: var(--app-accent);
-  --destructive: var(--app-danger);
-  --border: var(--app-border);
-  --input: var(--app-input-bg);
-  --ring: var(--app-structural);
-  --chart-1: var(--app-module-erp);
-  --chart-2: var(--app-module-crm);
-  --chart-3: var(--app-module-analytics);
-  --chart-4: var(--app-module-finance);
-  --chart-5: var(--app-module-marketing);
-  --sidebar: var(--app-sidebar-bg);
-  --sidebar-foreground: var(--app-text);
-  --sidebar-primary: var(--app-structural);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--app-structural-light);
-  --sidebar-accent-foreground: var(--app-structural);
-  --sidebar-border: var(--app-border);
-  --sidebar-ring: var(--app-structural);
-}
-
-/* ============================================
-   Shadcn CSS Variable Definitions (Dark)
-   ============================================ */
-.dark {
   --background: var(--app-bg);
   --foreground: var(--app-text);
   --card: var(--app-card-bg);
@@ -415,24 +381,6 @@
   background: var(--app-scrollbar-thumb-hover);
 }
 
-/* Legacy alias */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: var(--app-scrollbar-track);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--app-scrollbar-thumb);
-  border-radius: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--app-scrollbar-thumb-hover);
-}
-
 /* ---- Surface Level Classes ---- */
 .app-surface-0 { background-color: var(--app-surface-0); }
 .app-surface-1 { background-color: var(--app-surface-1); }
@@ -526,8 +474,7 @@ html {
 
 /* 5. Print styles */
 @media print {
-  .app-scrollbar::-webkit-scrollbar,
-  .custom-scrollbar::-webkit-scrollbar {
+  .app-scrollbar::-webkit-scrollbar {
     display: none;
   }
   [data-motion] {

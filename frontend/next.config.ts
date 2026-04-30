@@ -20,6 +20,19 @@ const nextConfig: NextConfig = {
       ),
     },
   },
+  /* Webpack resolve aliases — same fix for non-Turbopack builds. */
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      tailwindcss: path.resolve(__dirname, "node_modules/tailwindcss"),
+      "tw-animate-css": path.resolve(__dirname, "node_modules/tw-animate-css"),
+      "@tailwindcss/postcss": path.resolve(
+        __dirname,
+        "node_modules/@tailwindcss/postcss"
+      ),
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
