@@ -160,7 +160,7 @@ export default function DealsPage() {
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'table')}>
               <TabsList className={cn(
-                'rounded-[var(--app-radius-lg)] p-0.5 h-10'',
+                'rounded-[var(--app-radius-lg)] p-0.5 h-10',
                 'bg-[var(--app-hover-bg)]'
               )}>
                 <TabsTrigger value="kanban" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">

@@ -228,7 +228,7 @@ export default function SegmentsPage() {
                 onChange={(e) => setSegmentName(e.target.value)}
                 placeholder="e.g., High-Value Enterprise"
                 className={cn(
-                  'rounded-[var(--app-radius-lg)] text-sm h-10'',
+                  'rounded-[var(--app-radius-lg)] text-sm h-10',
                   isDark
                     ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/25 focus:border-white/20'
                     : 'bg-black/[0.02] border-black/[0.08] text-black placeholder:text-black/25 focus:border-black/20'

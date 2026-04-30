@@ -253,7 +253,7 @@ export default function CompanyDetailPage() {
           >
             <Tabs defaultValue="contacts" className="space-y-4">
               <TabsList className={cn(
-                'rounded-[var(--app-radius-lg)] p-0.5 h-10'',
+                'rounded-[var(--app-radius-lg)] p-0.5 h-10',
                 'bg-[var(--app-hover-bg)]'
               )}>
                 <TabsTrigger value="contacts" className="rounded-[var(--app-radius-lg)] text-xs gap-1.5">

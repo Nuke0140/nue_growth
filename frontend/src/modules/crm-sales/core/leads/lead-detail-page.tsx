@@ -216,7 +216,7 @@ export default function LeadDetailPage() {
           >
             <Tabs defaultValue="activity" className="space-y-4">
               <TabsList className={cn(
-                'rounded-[var(--app-radius-lg)] p-0.5 h-10'',
+                'rounded-[var(--app-radius-lg)] p-0.5 h-10',
                 'bg-[var(--app-hover-bg)]'
               )}>
                 <TabsTrigger value="activity" className="rounded-[var(--app-radius-lg)] text-xs">Activity</TabsTrigger>
