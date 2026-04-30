@@ -23,7 +23,7 @@ import {
 import { useErpStore } from '@/modules/erp/erp-store';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import { PageShell } from './components/ops/page-shell';
-import { OpsCard } from '@/modules/erp/components/ops/app-card';
+import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 import { Timeline } from '@/modules/erp/components/ops/timeline';
 import type { TimelineItem as TimelineItemType } from '@/modules/erp/components/ops/timeline';
 
