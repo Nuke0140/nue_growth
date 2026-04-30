@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -30,6 +30,7 @@ import TeamPerformancePage from './team-performance-page';
 import FollowupsPage from './followups-page';
 import ProposalsPage from './proposals-page';
 import WinLossPage from './win-loss-analysis-page';
+import CrmCommandPalette from './components/crm-command-palette';
 import {
   Search, Bell, Moon, Sun, Bot,
   Users, Building2, TrendingUp, Handshake, Activity,
@@ -37,6 +38,7 @@ import {
   Menu, ChevronRight, Command, Sparkles, SlidersHorizontal,
   LogOut, Home, ArrowLeft, ArrowRight,
   Radio, Shield, BarChart3, DollarSign, Trophy, Clock,
+  Maximize2, Minimize2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -162,10 +164,22 @@ function PageContent() {
 export default function CrmSalesLayout() {
   const { theme, setTheme } = useTheme();
   const { user, logout, closeModule } = useAuthStore();
-  const { currentPage, sidebarOpen, setSidebarOpen, goBack, goForward, canGoBack, canGoForward, navigateTo } = useCrmSalesStore();
+  const { currentPage, sidebarOpen, setSidebarOpen, goBack, goForward, canGoBack, canGoForward, navigateTo, commandPaletteOpen, setCommandPaletteOpen, toggleDensity, density } = useCrmSalesStore();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const isDark = theme === 'dark';
   const isMobile = useIsMobile();
+
+  // CMD+K / Ctrl+K shortcut to open command palette
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCommandPaletteOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [setCommandPaletteOpen]);
 
   const currentLabel = allPageLabels[currentPage] || 'CRM & Sales';
   const canBack = canGoBack();
@@ -237,25 +251,30 @@ export default function CrmSalesLayout() {
               <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', isDark ? 'text-white/60' : 'text-black/60')}>
                 CRM & Sales
               </span>
+              <span className={cn('text-[10px] font-mono hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')}>
+                v3.0 — Revenue Intelligence
+              </span>
               <ChevronRight className={cn('w-3 h-3 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
               <span className="text-sm font-medium">{currentLabel}</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className={cn(
-              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-            )}>
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              className={cn(
+                'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors cursor-pointer',
+                isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]'
+              )}
+            >
               <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search... (⌘K)"
-                className={cn('bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
-                )} />
+              <span className={cn('text-sm flex-1 text-left',
+                isDark ? 'text-white/30 placeholder:text-white/25' : 'text-black/30 placeholder:text-black/25'
+              )}>Search...</span>
               <kbd className={cn('hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono',
                 isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
               )}><Command className="w-2.5 h-2.5" />K</kbd>
-            </div>
+            </button>
 
             <Tooltip>
               <TooltipTrigger asChild>
@@ -289,6 +308,15 @@ export default function CrmSalesLayout() {
                 </div>
               </TooltipTrigger>
               <TooltipContent>AI Assistant</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={toggleDensity} className="h-8 w-8 rounded-lg">
+                  {density === 'compact' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{density === 'compact' ? 'Comfortable mode' : 'Compact mode'}</TooltipContent>
             </Tooltip>
 
             <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')} className="h-8 w-8 rounded-lg">
@@ -411,6 +439,8 @@ export default function CrmSalesLayout() {
           </main>
         </div>
       </div>
+
+      <CrmCommandPalette />
     </TooltipProvider>
   );
 }

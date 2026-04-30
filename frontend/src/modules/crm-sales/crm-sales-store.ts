@@ -40,6 +40,25 @@ interface CrmSalesState {
   searchQuery: string;
   density: DensityMode;
 
+  // Inline editing state
+  editingField: string | null;
+  startEditing: (field: string) => void;
+  stopEditing: () => void;
+
+  // Quick follow-up creator
+  showFollowUpCreator: boolean;
+  followUpCreatorEntity: string | null;
+  openFollowUpCreator: (entityId: string) => void;
+  closeFollowUpCreator: () => void;
+
+  // Recent commands
+  recentCommands: Array<{ id: string; label: string; timestamp: number }>;
+  addRecentCommand: (command: { id: string; label: string }) => void;
+
+  // AI dismiss state
+  dismissedAiInsights: string[];
+  dismissAiInsight: (insightId: string) => void;
+
   // Notifications
   notifications: CrmSalesNotification[];
 
@@ -103,6 +122,32 @@ export const useCrmSalesStore = create<CrmSalesState>((set, get) => ({
   quickCreateOpen: false,
   searchQuery: '',
   density: 'comfortable',
+
+  // Inline editing state
+  editingField: null,
+  startEditing: (field: string) => set({ editingField: field }),
+  stopEditing: () => set({ editingField: null }),
+
+  // Quick follow-up creator
+  showFollowUpCreator: false,
+  followUpCreatorEntity: null,
+  openFollowUpCreator: (entityId: string) => set({ showFollowUpCreator: true, followUpCreatorEntity: entityId }),
+  closeFollowUpCreator: () => set({ showFollowUpCreator: false, followUpCreatorEntity: null }),
+
+  // Recent commands
+  recentCommands: [],
+  addRecentCommand: (command: { id: string; label: string }) => set(s => ({
+    recentCommands: [
+      { id: command.id, label: command.label, timestamp: Date.now() },
+      ...s.recentCommands.filter(c => c.id !== command.id).slice(0, 9),
+    ],
+  })),
+
+  // AI dismiss state
+  dismissedAiInsights: [],
+  dismissAiInsight: (insightId: string) => set(s => ({
+    dismissedAiInsights: [...new Set([...s.dismissedAiInsights, insightId])],
+  })),
 
   // Notifications
   notifications: [

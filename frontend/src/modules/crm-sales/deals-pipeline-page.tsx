@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import {
   Plus, Search, LayoutGrid, List, DollarSign, TrendingUp, BarChart3,
   AlertTriangle, Target, ArrowUpRight, ArrowDownRight, Handshake,
-  Calendar, Clock, User, Eye,
+  Calendar, Clock, User, Eye, Zap, Timer, ShieldAlert,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -210,6 +210,11 @@ export default function DealsPipelinePage() {
     return active.length > 0 ? Math.round((active.filter(d => d.stage === 'won').length / active.length) * 100) : 0;
   }, []);
   const stuckDeals = useMemo(() => mockSalesDeals.filter(d => d.daysInStage > 15).length, []);
+  const avgDealAge = useMemo(() => {
+    if (mockSalesDeals.length === 0) return 0;
+    const totalDays = mockSalesDeals.reduce((s, d) => s + (d.daysInStage ?? 0), 0);
+    return Math.round(totalDays / mockSalesDeals.length);
+  }, []);
 
   const filteredDeals = useMemo(() => {
     return mockSalesDeals.filter(d => {
@@ -285,6 +290,66 @@ export default function DealsPipelinePage() {
               </Button>
             </div>
           </div>
+
+          {/* Pipeline Intelligence Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            className="flex flex-wrap gap-4"
+          >
+            <div className={cn(
+              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            )}>
+              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
+                <Zap className={cn('w-5 h-5', isDark ? 'text-emerald-400' : 'text-emerald-600')} />
+              </div>
+              <div>
+                <p className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Total Pipeline</p>
+                <p className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{formatCurrency(totalPipeline)}</p>
+              </div>
+            </div>
+
+            <div className={cn(
+              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            )}>
+              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-blue-500/10' : 'bg-blue-50')}>
+                <BarChart3 className={cn('w-5 h-5', isDark ? 'text-blue-400' : 'text-blue-600')} />
+              </div>
+              <div>
+                <p className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Weighted Pipeline</p>
+                <p className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{formatCurrency(weightedPipeline)}</p>
+              </div>
+            </div>
+
+            <div className={cn(
+              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            )}>
+              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-amber-500/10' : 'bg-amber-50')}>
+                <Timer className={cn('w-5 h-5', isDark ? 'text-amber-400' : 'text-amber-600')} />
+              </div>
+              <div>
+                <p className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Avg Deal Age</p>
+                <p className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{avgDealAge} days</p>
+              </div>
+            </div>
+
+            <div className={cn(
+              'flex items-center gap-3 rounded-xl border p-4 flex-1 min-w-[200px]',
+              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            )}>
+              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', stuckDeals > 0 ? (isDark ? 'bg-red-500/10' : 'bg-red-50') : (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'))}>
+                <ShieldAlert className={cn('w-5 h-5', stuckDeals > 0 ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-emerald-400' : 'text-emerald-600'))} />
+              </div>
+              <div>
+                <p className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Deals at Risk</p>
+                <p className={cn('text-lg font-bold tracking-tight', stuckDeals > 0 ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-white' : 'text-black'))}>{stuckDeals}</p>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Revenue Stats Cards */}
           <motion.div

@@ -54,7 +54,7 @@ export const crmSalesConfig: ModuleConfig = {
   moduleShortName: 'CRM',
   moduleIcon: Users,
   collapsibleSections: false,
-  lazyLoading: false,
+  lazyLoading: true,
 
   navSections: [
     {

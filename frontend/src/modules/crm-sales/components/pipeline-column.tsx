@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { memo, useState, useMemo } from 'react';
 import { useTheme } from 'next-themes';
 import {
   DndContext,
@@ -13,15 +13,14 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import DealCard from './deal-card';
-import type { SalesDeal, DealStage } from '../types';
+import type { Deal, DealStage } from '../types';
 
 const STAGE_LABELS: Record<DealStage, string> = {
   new: 'New',
-  qualified: 'Qualified',
   discovery: 'Discovery',
+  qualified: 'Qualified',
   demo: 'Demo',
   proposal: 'Proposal',
   negotiation: 'Negotiation',
@@ -46,7 +45,7 @@ function formatCurrency(value: number): string {
   return `$${value.toLocaleString()}`;
 }
 
-function DraggableDealCard({ deal }: { deal: SalesDeal }) {
+const DraggableDealCard = memo(function DraggableDealCard({ deal }: { deal: Deal }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: deal.id,
     data: { deal },
@@ -57,15 +56,15 @@ function DraggableDealCard({ deal }: { deal: SalesDeal }) {
       <DealCard deal={deal} isDragging={isDragging} />
     </div>
   );
-}
+});
 
-function DroppableColumn({
+const DroppableColumn = memo(function DroppableColumn({
   stage,
   deals,
   isDark,
 }: {
   stage: DealStage;
-  deals: SalesDeal[];
+  deals: Deal[];
   isDark: boolean;
 }) {
   const { setNodeRef, isOver } = useDroppable({
@@ -151,17 +150,17 @@ function DroppableColumn({
       )}
     </div>
   );
-}
+});
 
 interface PipelineColumnProps {
   stage: DealStage;
-  deals: SalesDeal[];
+  deals: Deal[];
 }
 
-export default function PipelineColumn({ stage, deals }: PipelineColumnProps) {
+const PipelineColumn = memo(function PipelineColumn({ stage, deals }: PipelineColumnProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [activeDeal, setActiveDeal] = useState<SalesDeal | null>(null);
+  const [activeDeal, setActiveDeal] = useState<Deal | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -179,7 +178,9 @@ export default function PipelineColumn({ stage, deals }: PipelineColumnProps) {
   return (
     <DroppableColumn stage={stage} deals={deals} isDark={isDark} />
   );
-}
+});
+
+export default PipelineColumn;
 
 // Export the DndContext wrapper for the pipeline board usage
 export function PipelineBoardDndContext({
@@ -187,7 +188,7 @@ export function PipelineBoardDndContext({
 }: {
   children: React.ReactNode;
 }) {
-  const [activeDeal, setActiveDeal] = useState<SalesDeal | null>(null);
+  const [activeDeal, setActiveDeal] = useState<Deal | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -196,7 +197,7 @@ export function PipelineBoardDndContext({
   const handleDragStart = (event: DragStartEvent) => {
     // Find deal from active drag
     const data = event.active.data.current;
-    if (data?.deal) setActiveDeal(data.deal as SalesDeal);
+    if (data?.deal) setActiveDeal(data.deal as Deal);
   };
 
   const handleDragEnd = () => {

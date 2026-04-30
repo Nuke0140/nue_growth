@@ -1,12 +1,13 @@
 'use client';
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { GripVertical, Calendar, AlertTriangle, Shield } from 'lucide-react';
+import { GripVertical, Calendar, AlertTriangle, Shield, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import type { SalesDeal } from '../types';
+import { useCrmSalesStore } from '../crm-sales-store';
+import type { Deal } from '../types';
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -24,28 +25,39 @@ function getProbabilityColor(probability: number, isDark: boolean): string {
   return isDark ? 'bg-red-500/15 text-red-300 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200';
 }
 
-function getRiskLevel(probability: number, daysInStage: number): { label: string; color: string; darkColor: string } {
-  const risk = daysInStage > 15 || probability < 40 ? 'high' : daysInStage > 10 || probability < 60 ? 'medium' : 'low';
-  switch (risk) {
-    case 'high': return { label: 'High Risk', color: 'bg-red-500/15 text-red-600 border-red-200', darkColor: 'bg-red-500/15 text-red-300 border-red-500/20' };
-    case 'medium': return { label: 'Medium', color: 'bg-amber-500/15 text-amber-600 border-amber-200', darkColor: 'bg-amber-500/15 text-amber-300 border-amber-500/20' };
-    case 'low': return { label: 'Low Risk', color: 'bg-emerald-500/15 text-emerald-600 border-emerald-200', darkColor: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' };
-  }
+function getRiskLevel(probability: number): { label: string; color: string; darkColor: string } {
+  if (probability < 30) return { label: 'High Risk', color: 'bg-red-500/15 text-red-600 border-red-200', darkColor: 'bg-red-500/15 text-red-300 border-red-500/20' };
+  if (probability <= 60) return { label: 'Medium Risk', color: 'bg-amber-500/15 text-amber-600 border-amber-200', darkColor: 'bg-amber-500/15 text-amber-300 border-amber-500/20' };
+  return { label: 'Low Risk', color: 'bg-emerald-500/15 text-emerald-600 border-emerald-200', darkColor: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' };
 }
 
-export default function DealCard({ deal, isDragging }: { deal: SalesDeal; isDragging?: boolean }) {
+function getActivityIndicator(daysInStage: number) {
+  if (daysInStage <= 3) return { color: 'bg-emerald-500', text: 'Active', darkText: 'text-emerald-400', lightText: 'text-emerald-600' };
+  if (daysInStage <= 10) return { color: 'bg-amber-500', text: 'Needs attention', darkText: 'text-amber-400', lightText: 'text-amber-600' };
+  return { color: 'bg-red-500', text: 'At risk', darkText: 'text-red-400', lightText: 'text-red-600' };
+}
+
+const DealCard = memo(function DealCard({ deal, onSelect, isDragging }: { deal: Deal; onSelect?: (deal: Deal) => void; isDragging?: boolean }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const selectDeal = useCrmSalesStore((s) => s.selectDeal);
 
-  const isStuck = deal.daysInStage > 15;
-  const risk = getRiskLevel(deal.probability, deal.daysInStage);
+  const daysInStage = deal.daysInStage || 0;
+  const weightedValue = Math.round(deal.value * deal.probability / 100);
+  const risk = getRiskLevel(deal.probability);
+  const activity = getActivityIndicator(daysInStage);
+  const isStuck = daysInStage > 15;
+  const isSlow = daysInStage > 10;
+
+  // AI Insight conditions
+  const showHighChance = deal.probability >= 70;
+  const showNoActivity = daysInStage > 10 && deal.probability < 40;
 
   return (
     <motion.div
       layout
       whileHover={{ y: -2 }}
-      onClick={() => selectDeal(deal.id)}
+      onClick={() => onSelect ? onSelect(deal) : selectDeal(deal.id)}
       className={cn(
         'relative rounded-xl border p-3.5 cursor-pointer transition-all duration-200 group',
         isDragging && 'opacity-50 shadow-2xl scale-105',
@@ -89,20 +101,20 @@ export default function DealCard({ deal, isDragging }: { deal: SalesDeal; isDrag
           </p>
         </div>
 
-        {/* Value */}
-        <div className="mb-3">
+        {/* Value + Weighted Value */}
+        <div className="mb-2">
           <span className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
             {formatCurrency(deal.value)}
           </span>
           {deal.probability > 0 && deal.probability < 100 && (
-            <span className={cn('text-[10px] ml-2', isDark ? 'text-white/30' : 'text-black/30')}>
-              weighted {formatCurrency(deal.weightedValue)}
+            <span className={cn('text-[10px] ml-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
+              wt: {formatCurrency(weightedValue)}
             </span>
           )}
         </div>
 
         {/* Risk Badge */}
-        <div className="mb-2">
+        <div className="mb-2 flex items-center gap-1.5 flex-wrap">
           <Badge variant="outline" className={cn(
             'text-[9px] px-1.5 py-0 h-4 gap-1',
             isDark ? risk.darkColor : risk.color
@@ -110,6 +122,49 @@ export default function DealCard({ deal, isDragging }: { deal: SalesDeal; isDrag
             <Shield className="w-2.5 h-2.5" />
             {risk.label}
           </Badge>
+
+          {/* AI Insight Badge */}
+          {showHighChance && (
+            <Badge variant="outline" className={cn(
+              'text-[9px] px-1.5 py-0 h-4 gap-1',
+              isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            )}>
+              <Sparkles className="w-2.5 h-2.5" />
+              High chance to close
+            </Badge>
+          )}
+          {showNoActivity && (
+            <Badge variant="outline" className={cn(
+              'text-[9px] px-1.5 py-0 h-4 gap-1',
+              isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200'
+            )}>
+              <AlertTriangle className="w-2.5 h-2.5" />
+              No activity — follow up
+            </Badge>
+          )}
+        </div>
+
+        {/* Aging Indicator */}
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+            {daysInStage}d in stage
+          </span>
+          {isSlow && (
+            <Badge variant="outline" className={cn(
+              'text-[9px] px-1.5 py-0 h-4',
+              isDark ? 'bg-red-500/15 text-red-300 border-red-500/20' : 'bg-red-50 text-red-600 border-red-200'
+            )}>
+              Slow
+            </Badge>
+          )}
+        </div>
+
+        {/* Activity Indicator */}
+        <div className="flex items-center gap-1.5 mb-3">
+          <div className={cn('w-1.5 h-1.5 rounded-full', activity.color)} />
+          <span className={cn('text-[10px]', isDark ? activity.darkText : activity.lightText)}>
+            {activity.text}
+          </span>
         </div>
 
         {/* Footer: Date, Owner */}
@@ -140,10 +195,12 @@ export default function DealCard({ deal, isDragging }: { deal: SalesDeal; isDrag
             isDark ? 'text-amber-400/70' : 'text-amber-600'
           )}>
             <AlertTriangle className="w-3 h-3" />
-            <span className="text-[10px] font-medium">Stuck {deal.daysInStage}d in stage</span>
+            <span className="text-[10px] font-medium">Stuck {daysInStage}d in stage</span>
           </div>
         )}
       </div>
     </motion.div>
   );
-}
+});
+
+export default DealCard;

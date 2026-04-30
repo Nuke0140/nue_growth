@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
+import { useCrmSalesStore } from '../crm-sales-store';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

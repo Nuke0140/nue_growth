@@ -1,17 +1,17 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { memo, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Phone, MessageCircle, Mail, ArrowRightLeft,
-  AlertTriangle, Rocket, Copy
+  AlertTriangle, Rocket, Copy, Flame, Sun, Snowflake
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import type { SalesLead } from '../types';
+import { useCrmSalesStore } from '../crm-sales-store';
+import type { Lead } from '../types';
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -23,16 +23,16 @@ function getInitials(first: string, last: string): string {
   return `${first[0]}${last[0]}`.toUpperCase();
 }
 
-function getIntentConfig(intent: SalesLead['intent']) {
+function getIntentConfig(intent: Lead['intent']) {
   switch (intent) {
-    case 'hot': return { emoji: '🔥', label: 'Hot', bgDark: 'bg-red-500/15 text-red-300', bgLight: 'bg-red-50 text-red-700', glow: true };
-    case 'warm': return { emoji: '🟡', label: 'Warm', bgDark: 'bg-amber-500/15 text-amber-300', bgLight: 'bg-amber-50 text-amber-700', glow: false };
-    case 'cold': return { emoji: '⚪', label: 'Cold', bgDark: 'bg-zinc-500/15 text-zinc-400', bgLight: 'bg-zinc-50 text-zinc-600', glow: false };
-    case 'stale': return { emoji: '⚠️', label: 'Stale', bgDark: 'bg-orange-500/15 text-orange-400', bgLight: 'bg-orange-50 text-orange-700', glow: false };
+    case 'hot': return { icon: Flame, label: 'Hot', bgDark: 'bg-red-500/15 text-red-300 border-red-500/20', bgLight: 'bg-red-50 text-red-700 border-red-200', glow: true, iconColorDark: 'text-red-400', iconColorLight: 'text-red-600' };
+    case 'warm': return { icon: Sun, label: 'Warm', bgDark: 'bg-amber-500/15 text-amber-300 border-amber-500/20', bgLight: 'bg-amber-50 text-amber-700 border-amber-200', glow: false, iconColorDark: 'text-amber-400', iconColorLight: 'text-amber-600' };
+    case 'cold': return { icon: Snowflake, label: 'Cold', bgDark: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20', bgLight: 'bg-zinc-50 text-zinc-600 border-zinc-200', glow: false, iconColorDark: 'text-zinc-400', iconColorLight: 'text-zinc-600' };
+    case 'stale': return { icon: AlertTriangle, label: 'Stale', bgDark: 'bg-orange-500/15 text-orange-400 border-orange-500/20', bgLight: 'bg-orange-50 text-orange-700 border-orange-200', glow: false, iconColorDark: 'text-orange-400', iconColorLight: 'text-orange-600' };
   }
 }
 
-function getAvatarColor(intent: SalesLead['intent']) {
+function getAvatarColor(intent: Lead['intent']) {
   switch (intent) {
     case 'hot': return 'bg-red-500/20 text-red-400 border-red-500/20';
     case 'warm': return 'bg-amber-500/20 text-amber-400 border-amber-500/20';
@@ -51,7 +51,8 @@ function getSourceLabel(source: string): string {
   return map[source] || source;
 }
 
-function getDaysSince(dateStr: string): number {
+function getDaysSince(dateStr: string | undefined): number {
+  if (!dateStr) return 0;
   const created = new Date(dateStr);
   const now = new Date();
   return Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
@@ -69,7 +70,44 @@ function getScoreBarColor(score: number) {
   return 'bg-red-500';
 }
 
-export default function LeadCard({ lead }: { lead: SalesLead }) {
+function getScoreBadgeClasses(score: number, isDark: boolean) {
+  if (score >= 70) return isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+  if (score >= 40) return isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
+  return isDark ? 'bg-red-500/15 text-red-300 border-red-500/20' : 'bg-red-50 text-red-600 border-red-200';
+}
+
+function getActivityStatus(lastActivity: string | undefined, daysInStage: number) {
+  if (!lastActivity) {
+    return daysInStage <= 3
+      ? { dotColor: 'bg-emerald-500', text: 'Active now', textColorDark: 'text-emerald-400', textColorLight: 'text-emerald-600' }
+      : daysInStage <= 7
+        ? { dotColor: 'bg-amber-500', text: 'Recent', textColorDark: 'text-amber-400', textColorLight: 'text-amber-600' }
+        : { dotColor: 'bg-red-500', text: 'Inactive', textColorDark: 'text-red-400', textColorLight: 'text-red-600' };
+  }
+  const lower = lastActivity.toLowerCase();
+  if (lower.includes('min') || lower.includes('hour') || lower.includes('just now')) {
+    return { dotColor: 'bg-emerald-500', text: 'Active now', textColorDark: 'text-emerald-400', textColorLight: 'text-emerald-600' };
+  }
+  if (lower.includes('day') && !lower.includes('week') && !lower.includes('2 week') && !lower.includes('3 week')) {
+    return { dotColor: 'bg-amber-500', text: 'Recent', textColorDark: 'text-amber-400', textColorLight: 'text-amber-600' };
+  }
+  return { dotColor: 'bg-red-500', text: 'Inactive', textColorDark: 'text-red-400', textColorLight: 'text-red-600' };
+}
+
+function getQualificationSuggestion(score: number, intent: Lead['intent']): { label: string; classes: string; darkClasses: string } | null {
+  if (score >= 80 && (intent === 'warm' || intent === 'hot')) {
+    return { label: 'Strong BANT fit', classes: 'bg-emerald-50 text-emerald-700 border-emerald-200', darkClasses: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' };
+  }
+  if (score >= 50 && score < 80) {
+    return { label: 'Needs budget confirmation', classes: 'bg-amber-50 text-amber-700 border-amber-200', darkClasses: 'bg-amber-500/15 text-amber-300 border-amber-500/20' };
+  }
+  if (score < 50 && intent === 'stale') {
+    return { label: 'Re-engage or disqualify', classes: 'bg-red-50 text-red-600 border-red-200', darkClasses: 'bg-red-500/15 text-red-300 border-red-500/20' };
+  }
+  return null;
+}
+
+const LeadCard = memo(function LeadCard({ lead }: { lead: Lead }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const selectLead = useCrmSalesStore((s) => s.selectLead);
@@ -78,6 +116,14 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
   const intentConfig = getIntentConfig(lead.intent);
   const avatarColor = getAvatarColor(lead.intent);
   const daysSince = getDaysSince(lead.createdDate);
+  const activityStatus = getActivityStatus(lead.lastActivity, daysSince);
+  const qualificationSuggestion = getQualificationSuggestion(lead.score, lead.intent);
+  const IntentIcon = intentConfig.icon;
+
+  // AI Score breakdown
+  const engagementScore = Math.round(lead.score * 0.4);
+  const fitScore = Math.round(lead.score * 0.35);
+  const timingScore = Math.round(lead.score * 0.25);
 
   // Check SLA within 2h
   const isSlaUrgent = useMemo(() => {
@@ -133,12 +179,19 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
             {getInitials(lead.firstName, lead.lastName)}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-0.5">
+            <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
               <h4 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-black')}>
                 {lead.firstName} {lead.lastName}
               </h4>
+              {/* Score Badge */}
+              <Badge variant="outline" className={cn(
+                'text-[9px] px-1.5 py-0 h-4 font-bold',
+                isDark ? getScoreBadgeClasses(lead.score, true) : getScoreBadgeClasses(lead.score, false)
+              )}>
+                {lead.score}
+              </Badge>
               {lead.isHighValue && (
-                <span className="text-sm" title="High Value Lead">🚀</span>
+                <span title="High Value Lead"><Rocket className={cn('w-3.5 h-3.5', isDark ? 'text-purple-400' : 'text-purple-600')} /></span>
               )}
               {lead.isDuplicate && (
                 <Badge variant="outline" className={cn(
@@ -156,7 +209,7 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
           </div>
         </div>
 
-        {/* Source + Campaign */}
+        {/* Source + Campaign + Activity Status */}
         <div className="flex items-center gap-1.5 mb-3 flex-wrap">
           <Badge variant="outline" className={cn(
             'text-[10px] px-2 py-0 h-5 font-medium',
@@ -169,6 +222,13 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
               {lead.campaign}
             </Badge>
           )}
+          {/* Activity Status Dot */}
+          <div className="flex items-center gap-1 ml-auto">
+            <div className={cn('w-1.5 h-1.5 rounded-full', activityStatus.dotColor)} />
+            <span className={cn('text-[10px]', isDark ? activityStatus.textColorDark : activityStatus.textColorLight)}>
+              {activityStatus.text}
+            </span>
+          </div>
         </div>
 
         {/* Score Progress Bar */}
@@ -189,15 +249,47 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
           </div>
         </div>
 
+        {/* AI Score Breakdown Panel */}
+        <div className="mb-3">
+          <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
+            AI Score Breakdown
+          </p>
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Engagement</span>
+              <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(engagementScore))} style={{ width: `${engagementScore}%` }} />
+              </div>
+              <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{engagementScore}%</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Fit</span>
+              <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(fitScore))} style={{ width: `${fitScore}%` }} />
+              </div>
+              <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{fitScore}%</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={cn('text-[10px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Timing</span>
+              <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-full rounded-full transition-all', getScoreBarColor(timingScore))} style={{ width: `${timingScore}%` }} />
+              </div>
+              <span className={cn('text-[10px] w-7 text-right', isDark ? 'text-white/30' : 'text-black/30')}>{timingScore}%</span>
+            </div>
+          </div>
+        </div>
+
         {/* Intent + Revenue + SLA */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Badge className={cn(
-              'text-[10px] px-2 py-0 h-5 font-medium border-0',
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
+            {/* Intent Badge (redesigned with icon) */}
+            <Badge variant="outline" className={cn(
+              'text-[10px] px-2 py-0 h-5 font-medium gap-1',
               isDark ? intentConfig.bgDark : intentConfig.bgLight,
               intentConfig.glow && (isDark ? 'shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'shadow-[0_0_10px_rgba(239,68,68,0.15)]')
             )}>
-              {intentConfig.emoji} {intentConfig.label}
+              <IntentIcon className={cn('w-3 h-3', isDark ? intentConfig.iconColorDark : intentConfig.iconColorLight)} />
+              {intentConfig.label}
             </Badge>
             {isSlaUrgent && (
               <motion.div
@@ -219,6 +311,18 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
             {formatCurrency(lead.expectedRevenue)}
           </span>
         </div>
+
+        {/* Qualification Suggestion Badge */}
+        {qualificationSuggestion && (
+          <div className="mt-2">
+            <Badge variant="outline" className={cn(
+              'text-[9px] px-1.5 py-0 h-4 font-medium',
+              isDark ? qualificationSuggestion.darkClasses : qualificationSuggestion.classes
+            )}>
+              {qualificationSuggestion.label}
+            </Badge>
+          </div>
+        )}
 
         {/* Aging indicator */}
         <div className={cn(
@@ -265,4 +369,6 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
       )}
     </motion.div>
   );
-}
+});
+
+export default LeadCard;
