@@ -3,7 +3,7 @@
 import { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Building2, Users, Target, DollarSign, FolderKanban } from 'lucide-react';
+import { Building2, Users, Target, DollarSign, FolderKanban, Network } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { KpiWidget } from './components/ops/kpi-widget';
