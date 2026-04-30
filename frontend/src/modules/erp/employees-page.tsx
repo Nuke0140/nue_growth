@@ -28,7 +28,7 @@ import { FilterBar } from '@/modules/erp/components/ops/filter-bar';
 import { SearchInput } from '@/modules/erp/components/ops/search-input';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import { DrawerForm } from '@/modules/erp/components/ops/drawer-form';
-import { OpsCard } from '@/modules/erp/components/ops/app-card';
+import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 import { BulkActionBar } from '@/modules/erp/components/ops/bulk-action-bar';
 import {
   ArrowUpDown, ChevronLeft, ChevronRight,

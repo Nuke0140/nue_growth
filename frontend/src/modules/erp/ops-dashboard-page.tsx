@@ -44,7 +44,7 @@ import {
 
 import { KpiWidget } from '@/modules/erp/components/ops/kpi-widget';
 import { ActivityFeed } from '@/modules/erp/components/ops/activity-feed';
-import { OpsCard } from '@/modules/erp/components/ops/app-card';
+import { OpsCard } from '@/modules/erp/components/ops/ops-card';
 
 import { mockProjects, mockAiInsights } from '@/modules/erp/data/mock-data';
 import { useErpStore } from '@/modules/erp/erp-store';
