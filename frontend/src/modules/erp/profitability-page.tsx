@@ -92,9 +92,9 @@ function ProfitabilityPageInner() {
           <Target className="w-3 h-3 mr-1" />
           Founder View
         </Badge>
-        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-          <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-          <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
+          <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
         </div>
       </div>
     }>
@@ -106,10 +106,10 @@ function ProfitabilityPageInner() {
             { label: 'Net Margin', value: `${kpis.netMargin}%`, icon: Target, change: kpis.netMargin, up: Number(kpis.netMargin) > 0, color: Number(kpis.netMargin) >= 10 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400' },
             { label: 'Burn Rate', value: `${formatCurrency(kpis.burnRate)}/mo`, icon: Flame, change: 'per month', up: false, color: 'text-orange-400' },
           ].map((kpi, i) => (
-            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}><kpi.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} /></div>
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><kpi.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} /></div>
               </div>
               <p className="text-xl font-bold">{kpi.value}</p>
               <div className="flex items-center gap-1 mt-1">
@@ -123,12 +123,12 @@ function ProfitabilityPageInner() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
           {/* Client Profitability Table */}
           <div className="xl:col-span-2 space-y-3">
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>Client Profitability</h2>
-            <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text-secondary)]')}>Client Profitability</h2>
+            <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+                    <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
                       <th className="text-left px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Client</th>
                       <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Revenue (₹)</th>
                       <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Cost (₹)</th>
@@ -159,13 +159,13 @@ function ProfitabilityPageInner() {
                           <td className="text-right px-4 py-3">
                             <div className="flex items-center justify-end gap-2">
                               <span className={cn('text-xs font-bold', marginColor.text)}>{client.margin > 0 ? '+' : ''}{client.margin}%</span>
-                              <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                              <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                                 <div className={cn('h-full rounded-full transition-all', marginColor.bar)} style={{ width: `${Math.min(Math.abs(client.margin) * 2, 100)}%` }} />
                               </div>
                             </div>
                           </td>
                           <td className="text-right px-4 py-3">
-                            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{client.burnRate > 0 ? formatCurrency(client.burnRate) : '—'}</span>
+                            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{client.burnRate > 0 ? formatCurrency(client.burnRate) : '—'}</span>
                           </td>
                           <td className="text-center px-4 py-3">
                             {hasAlerts ? (
@@ -173,7 +173,7 @@ function ProfitabilityPageInner() {
                                 {client.alerts.length}
                               </Badge>
                             ) : (
-                              <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>—</span>
+                              <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>—</span>
                             )}
                           </td>
                         </motion.tr>
@@ -188,18 +188,18 @@ function ProfitabilityPageInner() {
           {/* Right Column */}
           <div className="space-y-4">
             {/* Profit by Service Type */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <h3 className="text-sm font-semibold flex items-center gap-2">
-                <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/60' : 'text-black/60')} />
+                <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 Profit by Service
               </h3>
               {serviceTypeRevenue.map((s, i) => (
                 <div key={s.service} className="space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-medium">{s.service}</span>
-                    <span className={cn('text-[11px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>{formatCurrency(s.revenue)}</span>
+                    <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(s.revenue)}</span>
                   </div>
-                  <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(s.revenue / maxRevenue) * 100}%` }}
@@ -212,15 +212,15 @@ function ProfitabilityPageInner() {
             </motion.div>
 
             {/* Burn vs Revenue Chart */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Zap className={cn('w-4 h-4', isDark ? 'text-white/60' : 'text-black/60')} />
+                  <Zap className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                   Burn vs Revenue
                 </h3>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-400" /><span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>Burn</span></div>
-                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-400" /><span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>Revenue</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-400" /><span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Burn</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-400" /><span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Revenue</span></div>
                 </div>
               </div>
               <div className="flex items-end gap-2 h-32">
@@ -240,7 +240,7 @@ function ProfitabilityPageInner() {
                         className="flex-1 bg-emerald-400/60 rounded-t-sm"
                       />
                     </div>
-                    <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>{d.month}</span>
+                    <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{d.month}</span>
                   </div>
                 ))}
               </div>
@@ -251,8 +251,8 @@ function ProfitabilityPageInner() {
         {/* Alerts Section */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Bell className={cn('w-4 h-4', isDark ? 'text-white/60' : 'text-black/60')} />
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>Profitability Alerts</h2>
+            <Bell className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text-secondary)]')}>Profitability Alerts</h2>
             <Badge className={cn('text-[9px] px-1.5 py-0 bg-red-500/15 text-red-300 border border-red-500/20')}>{allAlerts.length}</Badge>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -263,7 +263,7 @@ function ProfitabilityPageInner() {
                 <motion.div key={alert.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.03 }} className={cn('rounded-2xl border p-3 flex items-start gap-3', severity.bg(isDark))}>
                   <SeverityIcon className={cn('w-4 h-4 shrink-0 mt-0.5', severity.color)} />
                   <div className="flex-1 min-w-0">
-                    <p className={cn('text-[10px] font-medium mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{alert.clientName}</p>
+                    <p className={cn('text-[10px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>{alert.clientName}</p>
                     <p className="text-xs">{alert.message}</p>
                     <span className={cn('text-[9px] uppercase tracking-wider font-bold mt-1 inline-block', severity.color)}>{alert.type.replace('-', ' ')}</span>
                   </div>

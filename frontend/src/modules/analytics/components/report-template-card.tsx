@@ -87,7 +87,7 @@ export default function ReportTemplateCard({
           <DisplayIcon
             className={cn(
               'h-5 w-5',
-              isDark ? 'text-zinc-400' : 'text-zinc-500',
+              'text-[var(--app-text-muted)]',
             )}
           />
         </div>
@@ -109,7 +109,7 @@ export default function ReportTemplateCard({
         <h4
           className={cn(
             'text-sm font-semibold truncate mb-1',
-            isDark ? 'text-white' : 'text-zinc-900',
+            'text-[var(--app-text)]',
           )}
         >
           {name}
@@ -117,7 +117,7 @@ export default function ReportTemplateCard({
         <p
           className={cn(
             'text-xs leading-relaxed line-clamp-2',
-            isDark ? 'text-zinc-400' : 'text-zinc-500',
+            'text-[var(--app-text-muted)]',
           )}
         >
           {description}
@@ -129,7 +129,7 @@ export default function ReportTemplateCard({
         <span
           className={cn(
             'text-[10px] font-medium uppercase tracking-wider',
-            isDark ? 'text-zinc-500' : 'text-zinc-400',
+            'text-[var(--app-text-muted)]',
           )}
         >
           Widgets

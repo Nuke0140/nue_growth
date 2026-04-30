@@ -16,7 +16,7 @@ export default function WhiteLabelClientReportsPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
@@ -25,10 +25,10 @@ export default function WhiteLabelClientReportsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               White Label Reports
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Branded client dashboards
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function WhiteLabelClientReportsPage() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                        <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                           {client.clientName}
                         </h3>
                         {client.isLive && (
@@ -82,8 +82,8 @@ export default function WhiteLabelClientReportsPage() {
                         )}
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <Share2 className={cn('w-3 h-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                        <span className={cn('text-[10px] truncate', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                        <Share2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <span className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                           {client.shareableLink}
                         </span>
                       </div>
@@ -98,14 +98,14 @@ export default function WhiteLabelClientReportsPage() {
                       key={kpi.label}
                       className={cn(
                         'rounded-lg border p-2',
-                        isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                        'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                       )}
                     >
-                      <p className={cn('text-[10px] truncate', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <p className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                         {kpi.label}
                       </p>
                       <div className="flex items-center gap-1 mt-0.5">
-                        <span className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                        <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                           {kpi.value}
                         </span>
                         <span
@@ -127,32 +127,32 @@ export default function WhiteLabelClientReportsPage() {
                 <div
                   className={cn(
                     'rounded-xl border p-3 mb-4',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                     ROI Summary
                   </p>
                   <div className="grid grid-cols-3 gap-2">
                     <div>
-                      <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Invested</p>
-                      <p className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Invested</p>
+                      <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                         ₹{(client.roiSummary.invested / 100000).toFixed(1)}L
                       </p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Generated</p>
-                      <p className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Generated</p>
+                      <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                         ₹{(client.roiSummary.generated / 100000).toFixed(1)}L
                       </p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>ROI</p>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>ROI</p>
                       <p className="text-xs font-bold text-emerald-400">{client.roiSummary.roi}%</p>
                     </div>
                   </div>
                   {/* ROI Progress bar */}
-                  <div className={cn('mt-2 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('mt-2 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(client.roiSummary.roi / 4, 100)}%` }}
@@ -165,8 +165,8 @@ export default function WhiteLabelClientReportsPage() {
                 {/* Access Permissions */}
                 <div className="mb-4">
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Lock className={cn('w-3 h-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <Lock className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Access
                     </p>
                   </div>
@@ -192,8 +192,8 @@ export default function WhiteLabelClientReportsPage() {
                 {/* Comments */}
                 <div className="mb-4">
                   <div className="flex items-center gap-1.5 mb-2">
-                    <MessageSquare className={cn('w-3 h-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <MessageSquare className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Recent Comments
                     </p>
                   </div>
@@ -203,18 +203,18 @@ export default function WhiteLabelClientReportsPage() {
                         key={ci}
                         className={cn(
                           'rounded-lg border p-2',
-                          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                          'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                         )}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className={cn('text-[10px] font-semibold', isDark ? 'text-zinc-300' : 'text-zinc-700')}>
+                          <span className={cn('text-[10px] font-semibold', 'text-[var(--app-text-secondary)]')}>
                             {comment.author}
                           </span>
-                          <span className={cn('text-[10px]', isDark ? 'text-zinc-600' : 'text-zinc-400')}>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                             {comment.date}
                           </span>
                         </div>
-                        <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                        <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                           {comment.text}
                         </p>
                       </div>
@@ -223,7 +223,7 @@ export default function WhiteLabelClientReportsPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+                <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
@@ -278,13 +278,13 @@ export default function WhiteLabelClientReportsPage() {
               isDark ? 'border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.02]' : 'border-black/[0.08] hover:border-black/[0.15] hover:bg-black/[0.02]',
             )}
           >
-            <div className={cn('flex h-14 w-14 items-center justify-center rounded-2xl mb-3', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]')}>
-              <Plus className={cn('w-6 h-6', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
+            <div className={cn('flex h-14 w-14 items-center justify-center rounded-2xl mb-3', 'bg-[var(--app-hover-bg)]')}>
+              <Plus className={cn('w-6 h-6', 'text-[var(--app-text-muted)]')} />
             </div>
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Create New Client Report
             </h3>
-            <p className={cn('text-xs mt-1 text-center max-w-[200px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <p className={cn('text-xs mt-1 text-center max-w-[200px]', 'text-[var(--app-text-muted)]')}>
               Set up a white-label report for a new client with custom branding
             </p>
           </motion.div>

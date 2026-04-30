@@ -41,15 +41,15 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
         <div className="flex items-center gap-2.5">
           <div className={cn(
             'w-9 h-9 rounded-xl flex items-center justify-center',
-            isDark ? 'bg-amber-500/15' : 'bg-amber-50',
+            'bg-[var(--app-warning-bg)]',
           )}>
             <GitBranch className={cn('w-4 h-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
           </div>
           <div>
-            <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               {rule.name}
             </h4>
-            <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
               {rule.description}
             </p>
           </div>
@@ -63,9 +63,9 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       </div>
 
       {/* Conditions */}
-      <div className={cn('rounded-xl p-3 mb-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+      <div className={cn('rounded-xl p-3 mb-3', 'bg-[var(--app-hover-bg)]')}>
         <div className="flex items-center gap-1.5 mb-2">
-          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
             IF
           </span>
         </div>
@@ -80,7 +80,7 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
                   {cond.logic || 'AND'}
                 </span>
               )}
-              <span className={cn('font-mono text-[11px]', isDark ? 'text-white/60' : 'text-black/60')}>
+              <span className={cn('font-mono text-[11px]', 'text-[var(--app-text-secondary)]')}>
                 {cond.field} {cond.operator} {String(cond.value)}
               </span>
             </div>
@@ -91,21 +91,21 @@ export default function ConditionNode({ rule }: ConditionNodeProps) {
       {/* Then / Else */}
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
-          <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
-          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-emerald-400' : 'text-emerald-500')}>
+          <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-success)]')} />
+          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-success)]')}>
             THEN
           </span>
-          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+          <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
             {rule.thenAction}
           </span>
         </div>
         {rule.elseAction && (
           <div className="flex items-center gap-2">
-            <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-red-400' : 'text-red-500')} />
-            <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-red-400' : 'text-red-500')}>
+            <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-danger)]')} />
+            <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-danger)]')}>
               ELSE
             </span>
-            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
               {rule.elseAction}
             </span>
           </div>

@@ -136,7 +136,7 @@ export default function CompaniesPage() {
             <h1 className="text-xl md:text-2xl font-bold">Companies</h1>
             <Badge variant="secondary" className={cn(
               'text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               {filtered.length}
             </Badge>
@@ -145,9 +145,9 @@ export default function CompaniesPage() {
             {/* Search */}
             <div className={cn(
               'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-56 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search companies..."
@@ -155,7 +155,7 @@ export default function CompaniesPage() {
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -180,7 +180,7 @@ export default function CompaniesPage() {
             {/* View Toggle */}
             <div className={cn(
               'flex items-center rounded-xl border p-0.5',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
               <button
                 onClick={() => setViewMode('grid')}
@@ -211,7 +211,7 @@ export default function CompaniesPage() {
               size="icon"
               className={cn(
                 'h-9 w-9 rounded-xl shrink-0',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <Plus className="w-4 h-4" />
@@ -234,18 +234,18 @@ export default function CompaniesPage() {
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
                 <div className={cn(
                   'w-7 h-7 rounded-lg flex items-center justify-center',
-                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+                  'bg-[var(--app-hover-bg)]'
                 )}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+                  <stat.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                 </div>
               </div>
               <p className="text-xl font-bold">
@@ -262,14 +262,14 @@ export default function CompaniesPage() {
               <div className="col-span-full flex flex-col items-center py-16">
                 <div className={cn(
                   'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
-                  isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                  'bg-[var(--app-hover-bg)]'
                 )}>
-                  <Building2 className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
+                  <Building2 className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                 </div>
-                <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                   No companies found
                 </p>
-                <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                   Try adjusting your search or filters
                 </p>
               </div>
@@ -292,14 +292,14 @@ export default function CompaniesPage() {
         {viewMode === 'table' && (
           <div className={cn(
             'rounded-2xl border overflow-hidden',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className={cn(
                     'border-b hover:bg-transparent',
-                    isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+                    'border-[var(--app-border-light)]'
                   )}>
                     <TableHead className="w-[40px]">
                       <input type="checkbox" className="rounded" />
@@ -341,11 +341,11 @@ export default function CompaniesPage() {
                         <div className="flex flex-col items-center gap-3">
                           <div className={cn(
                             'w-14 h-14 rounded-2xl flex items-center justify-center',
-                            isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                            'bg-[var(--app-hover-bg)]'
                           )}>
-                            <Building2 className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
+                            <Building2 className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                           </div>
-                          <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                             No companies found
                           </p>
                         </div>
@@ -385,14 +385,14 @@ export default function CompaniesPage() {
                               </Avatar>
                               <div className="min-w-0">
                                 <p className="text-sm font-medium truncate">{company.name}</p>
-                                <p className={cn('text-xs truncate', isDark ? 'text-white/30' : 'text-black/30')}>
+                                <p className={cn('text-xs truncate', 'text-[var(--app-text-muted)]')}>
                                   {company.website}
                                 </p>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell className="hidden md:table-cell px-3">
-                            <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
+                            <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                               {company.industry}
                             </span>
                           </TableCell>
@@ -400,18 +400,18 @@ export default function CompaniesPage() {
                             <span className="text-sm font-semibold">{formatARR(company.arr)}</span>
                           </TableCell>
                           <TableCell className="hidden lg:table-cell px-3">
-                            <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
+                            <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                               {company.linkedContacts}
                             </span>
                           </TableCell>
                           <TableCell className="hidden lg:table-cell px-3">
-                            <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
+                            <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                               {company.activeDeals}
                             </span>
                           </TableCell>
                           <TableCell className="px-3">
                             <div className="flex items-center gap-2 min-w-[80px]">
-                              <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                              <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                                 <div
                                   className={cn('h-full rounded-full transition-all', getHealthBarColor(company.healthScore))}
                                   style={{ width: `${company.healthScore}%` }}
@@ -423,7 +423,7 @@ export default function CompaniesPage() {
                             </div>
                           </TableCell>
                           <TableCell className="hidden md:table-cell px-3">
-                            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                               {company.owner}
                             </span>
                           </TableCell>
@@ -434,10 +434,10 @@ export default function CompaniesPage() {
                                   onClick={(e) => e.stopPropagation()}
                                   className={cn(
                                     'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
-                                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                                    'hover:bg-[var(--app-hover-bg)]'
                                   )}
                                 >
-                                  <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+                                  <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                                 </button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
@@ -460,9 +460,9 @@ export default function CompaniesPage() {
             {filtered.length > 0 && (
               <div className={cn(
                 'flex items-center justify-between px-4 py-3 border-t',
-                isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+                'border-[var(--app-border-light)]'
               )}>
-                <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
                 </p>
                 <div className="flex items-center gap-1">
@@ -471,7 +471,7 @@ export default function CompaniesPage() {
                     disabled={currentPage === 1}
                     className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <ChevronsLeft className="w-4 h-4" />
@@ -481,7 +481,7 @@ export default function CompaniesPage() {
                     disabled={currentPage === 1}
                     className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <ChevronLeft className="w-4 h-4" />
@@ -521,7 +521,7 @@ export default function CompaniesPage() {
                     disabled={currentPage === totalPages}
                     className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <ChevronRight className="w-4 h-4" />
@@ -531,7 +531,7 @@ export default function CompaniesPage() {
                     disabled={currentPage === totalPages}
                     className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <ChevronsRight className="w-4 h-4" />
@@ -545,7 +545,7 @@ export default function CompaniesPage() {
         {/* Pagination for Grid */}
         {viewMode === 'grid' && filtered.length > 0 && (
           <div className="flex items-center justify-between">
-            <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
               Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
             </p>
             <div className="flex items-center gap-1">
@@ -554,7 +554,7 @@ export default function CompaniesPage() {
                 disabled={currentPage === 1}
                 className={cn(
                   'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                  'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
                 <ChevronsLeft className="w-4 h-4" />
@@ -564,7 +564,7 @@ export default function CompaniesPage() {
                 disabled={currentPage === 1}
                 className={cn(
                   'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                  'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -604,7 +604,7 @@ export default function CompaniesPage() {
                 disabled={currentPage === totalPages}
                 className={cn(
                   'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                  'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
                 <ChevronRight className="w-4 h-4" />
@@ -614,7 +614,7 @@ export default function CompaniesPage() {
                 disabled={currentPage === totalPages}
                 className={cn(
                   'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                  'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
                 <ChevronsRight className="w-4 h-4" />

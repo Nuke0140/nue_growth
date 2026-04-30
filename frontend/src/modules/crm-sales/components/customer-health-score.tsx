@@ -29,7 +29,7 @@ function getHealthBgColor(isDark: boolean, score: number): string {
   if (score > 75) return isDark ? 'rgba(34,197,94,0.1)' : 'rgba(34,197,94,0.08)';
   if (score > 50) return isDark ? 'rgba(234,179,8,0.1)' : 'rgba(234,179,8,0.08)';
   if (score > 25) return isDark ? 'rgba(249,115,22,0.1)' : 'rgba(249,115,22,0.08)';
-  return isDark ? 'rgba(239,68,68,0.1)' : 'rgba(239,68,68,0.08)';
+  return isDark ? 'var(--app-danger-bg)' : 'rgba(239,68,68,0.08)';
 }
 
 const sizeConfig = {
@@ -79,7 +79,7 @@ export default function CustomerHealthScore({ score, name, size = 'md', showLabe
             cy="50"
             r={config.radius}
             fill={getHealthBgColor(isDark, score)}
-            stroke={isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}
+            stroke={'var(--app-hover-bg)'}
             strokeWidth={config.stroke}
           />
           {/* Progress circle */}
@@ -115,7 +115,7 @@ export default function CustomerHealthScore({ score, name, size = 'md', showLabe
           {name && (
             <p className={cn(
               'text-[11px] font-medium truncate max-w-[100px]',
-              isDark ? 'text-white/60' : 'text-black/60'
+              'text-[var(--app-text-secondary)]'
             )}>
               {name}
             </p>

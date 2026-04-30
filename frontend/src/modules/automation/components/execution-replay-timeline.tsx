@@ -123,14 +123,14 @@ export default function ExecutionReplayTimeline({
       <div
         className={cn(
           'flex items-center justify-between border-b px-4 py-3 sm:px-5',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
+          'border-[var(--app-border)]',
         )}
       >
         <div className="flex items-center gap-2">
           <h4
             className={cn(
               'text-sm font-semibold',
-              isDark ? 'text-white' : 'text-zinc-900',
+              'text-[var(--app-text)]',
             )}
           >
             Execution Replay
@@ -217,7 +217,7 @@ export default function ExecutionReplayTimeline({
                     className={cn(
                       'w-0.5 flex-1 min-h-[24px]',
                       (statusLineColor[step.status]?.(isDark) ||
-                        (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')),
+                        ('bg-[var(--app-hover-bg)]')),
                     )}
                   />
                 )}
@@ -241,13 +241,13 @@ export default function ExecutionReplayTimeline({
                       <TypeIcon
                         className={cn(
                           'h-3.5 w-3.5 shrink-0',
-                          isDark ? 'text-zinc-500' : 'text-zinc-400',
+                          'text-[var(--app-text-muted)]',
                         )}
                       />
                       <span
                         className={cn(
                           'text-xs font-semibold truncate',
-                          isDark ? 'text-white' : 'text-zinc-900',
+                          'text-[var(--app-text)]',
                         )}
                       >
                         {step.nodeName}
@@ -255,13 +255,13 @@ export default function ExecutionReplayTimeline({
                     </div>
 
                     <div className="flex items-center gap-3 text-[10px]">
-                      <span className={cn('uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
                         {step.nodeType}
                       </span>
-                      <span className={cn('font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>
                         {formatDuration(step.duration)}
                       </span>
-                      <span className={cn(isDark ? 'text-zinc-600' : 'text-zinc-400')}>
+                      <span className={cn('text-[var(--app-text-muted)]')}>
                         {step.timestamp}
                       </span>
                     </div>
@@ -271,7 +271,7 @@ export default function ExecutionReplayTimeline({
                   <ChevronRight
                     className={cn(
                       'h-4 w-4 shrink-0 mt-0.5 transition-transform',
-                      isDark ? 'text-zinc-600' : 'text-zinc-300',
+                      'text-[var(--app-text-secondary)]',
                     )}
                   />
                 </div>

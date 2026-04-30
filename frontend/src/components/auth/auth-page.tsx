@@ -52,11 +52,11 @@ export default function AuthPage() {
   const isDark = theme === 'dark';
 
   return (
-    <div className={`relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#f5f5f5]'}`}>
+    <div className={`relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-colors duration-500 ${'bg-[var(--app-bg)]'}`}>
       {/* Animated gradient orbs - black/white only */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className={`absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-3xl ${isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'}`}
+          className={`absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-3xl ${'bg-[var(--app-hover-bg)]'}`}
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 80, 0],
@@ -65,7 +65,7 @@ export default function AuthPage() {
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className={`absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full blur-3xl ${isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'}`}
+          className={`absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full blur-3xl ${'bg-[var(--app-hover-bg)]'}`}
           animate={{
             scale: [1.1, 1, 1.1],
             x: [0, -60, 0],
@@ -74,7 +74,7 @@ export default function AuthPage() {
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-3xl ${isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'}`}
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-3xl ${'bg-[var(--app-hover-bg)]'}`}
           animate={{
             scale: [1, 1.3, 1],
             rotate: [0, 180, 360],
@@ -168,10 +168,10 @@ export default function AuthPage() {
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </div>
-            <h1 className={`text-2xl md:text-3xl font-bold tracking-tight transition-colors duration-500 ${isDark ? 'text-white' : 'text-black'}`}>
+            <h1 className={`text-2xl md:text-3xl font-bold tracking-tight transition-colors duration-500 ${'text-[var(--app-text)]'}`}>
               DigiNue
             </h1>
-            <p className={`text-sm mt-1.5 tracking-wide transition-colors duration-500 ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+            <p className={`text-sm mt-1.5 tracking-wide transition-colors duration-500 ${'text-[var(--app-text-muted)]'}`}>
               Enterprise Business Suite
             </p>
           </motion.div>
@@ -261,7 +261,7 @@ export default function AuthPage() {
               {/* Extra row */}
               {isAuthView && (
                 <div className="flex items-center justify-between text-xs">
-                  <label className={`flex items-center gap-2 cursor-pointer transition-colors ${isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'}`}>
+                  <label className={`flex items-center gap-2 cursor-pointer transition-colors ${'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'}`}>
                     <input
                       type="checkbox"
                       className={`w-3.5 h-3.5 rounded border ${isDark ? 'border-white/20 bg-white/5 accent-white' : 'border-black/20 bg-black/5 accent-black'}`}
@@ -312,7 +312,7 @@ export default function AuthPage() {
           {/* Divider */}
           <div className="flex items-center gap-3 my-6">
             <div className={`flex-1 h-px ${isDark ? 'bg-white/10' : 'bg-black/10'}`} />
-            <span className={`text-xs uppercase tracking-wider ${isDark ? 'text-white/25' : 'text-black/25'}`}>or</span>
+            <span className={`text-xs uppercase tracking-wider ${'text-[var(--app-text-muted)]'}`}>or</span>
             <div className={`flex-1 h-px ${isDark ? 'bg-white/10' : 'bg-black/10'}`} />
           </div>
 
@@ -335,7 +335,7 @@ export default function AuthPage() {
 
           {/* Toggle auth view */}
           <div className="mt-6 text-center">
-            <p className={`text-sm ${isDark ? 'text-white/35' : 'text-black/35'}`}>
+            <p className={`text-sm ${'text-[var(--app-text-muted)]'}`}>
               {isAuthView ? "Don't have an account?" : 'Already have an account?'}
               <button
                 onClick={toggleAuthView}
@@ -353,7 +353,7 @@ export default function AuthPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className={`flex items-center justify-center gap-1.5 mt-6 text-xs ${isDark ? 'text-white/20' : 'text-black/20'}`}
+          className={`flex items-center justify-center gap-1.5 mt-6 text-xs ${'text-[var(--app-text-disabled)]'}`}
         >
           <Zap className="w-3.5 h-3.5" />
           <span>Powered by DigiNue Platform</span>

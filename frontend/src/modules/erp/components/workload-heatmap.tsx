@@ -8,14 +8,14 @@ import type { WorkloadItem } from '../types';
 
 // ─── Helpers ──────────────────────────────────────────────
 function getCellColor(allocation: number) {
-  if (allocation === 0) return 'bg-[var(--ops-hover-bg)]';
+  if (allocation === 0) return 'bg-[var(--app-hover-bg)]';
   if (allocation <= 50) return 'bg-emerald-200 dark:bg-emerald-500/20';
   if (allocation <= 80) return 'bg-amber-200 dark:bg-amber-500/25';
   return 'bg-red-200 dark:bg-red-500/25';
 }
 
 function getCellTextColor(allocation: number) {
-  if (allocation === 0) return 'text-[var(--ops-text-disabled)]';
+  if (allocation === 0) return 'text-[var(--app-text-disabled)]';
   if (allocation <= 50) return 'text-emerald-800 dark:text-emerald-300';
   if (allocation <= 80) return 'text-amber-800 dark:text-amber-300';
   return 'text-red-800 dark:text-red-300';
@@ -65,24 +65,24 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
       transition={{ duration: 0.3 }}
       className={cn(
         'rounded-2xl border p-5 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Flame className="w-4 h-4 text-[var(--ops-text-secondary)]" />
+          <Flame className="w-4 h-4 text-[var(--app-text-secondary)]" />
           <h3 className="text-sm font-semibold">Workload Heatmap</h3>
         </div>
-        <span className="text-[10px] font-medium text-[var(--ops-text-disabled)]">
+        <span className="text-[10px] font-medium text-[var(--app-text-disabled)]">
           {items.length} employees · {projectColumns.length} projects
         </span>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
-        <div className="p-2 rounded-lg text-center bg-[var(--ops-hover-bg)]">
-          <p className="text-[9px] mb-0.5 text-[var(--ops-text-disabled)]">Avg Allocation</p>
+        <div className="p-2 rounded-lg text-center bg-[var(--app-hover-bg)]">
+          <p className="text-[9px] mb-0.5 text-[var(--app-text-disabled)]">Avg Allocation</p>
           <p className="text-sm font-bold">{summaryStats.avgAllocation}%</p>
         </div>
         <div className="p-2 rounded-lg text-center bg-red-50 dark:bg-red-500/[0.04]">
@@ -97,8 +97,8 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
           <p className="text-[9px] mb-0.5 text-emerald-500">Under-util</p>
           <p className="text-sm font-bold text-emerald-500">{summaryStats.underutilized}</p>
         </div>
-        <div className="p-2 rounded-lg text-center bg-[var(--ops-hover-bg)]">
-          <p className="text-[9px] mb-0.5 text-[var(--ops-text-disabled)]">Free</p>
+        <div className="p-2 rounded-lg text-center bg-[var(--app-hover-bg)]">
+          <p className="text-[9px] mb-0.5 text-[var(--app-text-disabled)]">Free</p>
           <p className="text-sm font-bold">{summaryStats.free}</p>
         </div>
       </div>
@@ -108,14 +108,14 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
         <div className="min-w-fit">
           {/* Column Headers (Projects) */}
           <div className="grid gap-1 mb-1" style={{ gridTemplateColumns: `140px repeat(${projectColumns.length}, 1fr)` }}>
-            <div className="text-[10px] font-medium py-1 text-[var(--ops-text-disabled)]">
+            <div className="text-[10px] font-medium py-1 text-[var(--app-text-disabled)]">
               <User className="w-3 h-3 inline mr-1" />
               Employee
             </div>
             {projectColumns.map((proj) => (
               <div
                 key={proj}
-                className="text-[9px] font-medium py-1 text-center truncate px-1 text-[var(--ops-text-disabled)]"
+                className="text-[9px] font-medium py-1 text-center truncate px-1 text-[var(--app-text-disabled)]"
                 title={proj}
               >
                 {proj.length > 12 ? proj.slice(0, 12) + '…' : proj}
@@ -133,7 +133,7 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
               {/* Employee Name */}
               <div className={cn(
                 'flex items-center text-[11px] font-medium py-2 px-1 truncate rounded-lg',
-                'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)]'
+                'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
               )}>
                 {item.name}
               </div>
@@ -175,20 +175,20 @@ export default function WorkloadHeatmap({ items }: WorkloadHeatmapProps) {
       {/* Legend */}
       <div className="mt-4 flex items-center justify-center gap-4">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-[var(--ops-hover-bg)]" />
-          <span className="text-[10px] text-[var(--ops-text-muted)]">0% (Free)</span>
+          <span className="w-3 h-3 rounded bg-[var(--app-hover-bg)]" />
+          <span className="text-[10px] text-[var(--app-text-muted)]">0% (Free)</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-emerald-200 dark:bg-emerald-500/20" />
-          <span className="text-[10px] text-[var(--ops-text-muted)]">1-50%</span>
+          <span className="text-[10px] text-[var(--app-text-muted)]">1-50%</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-amber-200 dark:bg-amber-500/25" />
-          <span className="text-[10px] text-[var(--ops-text-muted)]">51-80%</span>
+          <span className="text-[10px] text-[var(--app-text-muted)]">51-80%</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-red-200 dark:bg-red-500/25" />
-          <span className="text-[10px] text-[var(--ops-text-muted)]">81-100%</span>
+          <span className="text-[10px] text-[var(--app-text-muted)]">81-100%</span>
         </div>
       </div>
     </motion.div>

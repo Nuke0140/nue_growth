@@ -70,7 +70,7 @@ export default function LeadCapturePage() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+            <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
               Lead Capture
             </h1>
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10">
@@ -109,9 +109,9 @@ export default function LeadCapturePage() {
                 <div className="flex items-start justify-between mb-4">
                   <div className={cn(
                     'w-10 h-10 rounded-xl flex items-center justify-center',
-                    isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
-                    <SourceIcon className={cn('w-5 h-5', isDark ? 'text-white/50' : 'text-black/50')} />
+                    <SourceIcon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
                   </div>
                   <Badge className={cn(
                     'text-[9px] px-2 py-0 h-4 border-0 font-medium',
@@ -123,26 +123,26 @@ export default function LeadCapturePage() {
                   </Badge>
                 </div>
 
-                <h3 className={cn('text-sm font-semibold mb-1', isDark ? 'text-white' : 'text-black')}>
+                <h3 className={cn('text-sm font-semibold mb-1', 'text-[var(--app-text)]')}>
                   {source.name}
                 </h3>
 
                 <div className="flex items-end gap-2 mb-3">
-                  <span className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+                  <span className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                     {source.leadCount}
                   </span>
-                  <span className={cn('text-xs mb-1', isDark ? 'text-white/40' : 'text-black/40')}>leads</span>
+                  <span className={cn('text-xs mb-1', 'text-[var(--app-text-muted)]')}>leads</span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                     {source.conversionRate}% conversion
                   </span>
                   <div className={cn(
                     'flex items-center gap-0.5 text-xs font-medium',
                     source.trend >= 0
-                      ? isDark ? 'text-emerald-400' : 'text-emerald-600'
-                      : isDark ? 'text-red-400' : 'text-red-600'
+                      ? 'text-[var(--app-success)]'
+                      : 'text-[var(--app-danger)]'
                   )}>
                     {source.trend >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                     {source.trend >= 0 ? '+' : ''}{source.trend}%
@@ -160,16 +160,16 @@ export default function LeadCapturePage() {
             'lg:col-span-2 rounded-2xl border p-6',
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
           )}>
-            <h3 className={cn('text-sm font-semibold mb-4', isDark ? 'text-white' : 'text-black')}>
+            <h3 className={cn('text-sm font-semibold mb-4', 'text-[var(--app-text)]')}>
               Source Conversion Rates
             </h3>
             <div className="space-y-3">
               {mockLeadSources.map((source) => (
                 <div key={source.id} className="flex items-center gap-3">
-                  <span className={cn('text-xs w-28 truncate shrink-0', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className={cn('text-xs w-28 truncate shrink-0', 'text-[var(--app-text-secondary)]')}>
                     {source.name}
                   </span>
-                  <div className={cn('flex-1 h-6 rounded-lg overflow-hidden', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.03]')}>
+                  <div className={cn('flex-1 h-6 rounded-lg overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(source.conversionRate / maxConversion) * 100}%` }}
@@ -220,7 +220,7 @@ export default function LeadCapturePage() {
                   transition={{ duration: 0.25, delay: i * 0.08 }}
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-xl transition-colors',
-                    isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
@@ -233,10 +233,10 @@ export default function LeadCapturePage() {
                     {lead.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={cn('text-xs font-medium truncate', isDark ? 'text-white/80' : 'text-black/80')}>
+                    <p className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
                       {lead.name}
                     </p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       via {lead.source} · {lead.time}
                     </p>
                   </div>
@@ -255,7 +255,7 @@ export default function LeadCapturePage() {
           )}>
             <div className="flex items-center gap-2 mb-3">
               <AlertCircle className="w-4 h-4 text-red-400" />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Webhook Alerts
               </h3>
               <Badge className="ml-auto text-[9px] px-1.5 py-0 h-4 bg-red-500/10 text-red-400 border-0">
@@ -265,7 +265,7 @@ export default function LeadCapturePage() {
             {webhookErrors.length === 0 ? (
               <div className="flex items-center gap-2 py-4 justify-center">
                 <span className="text-emerald-400 text-lg">✓</span>
-                <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>All webhooks active</p>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>All webhooks active</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -285,23 +285,23 @@ export default function LeadCapturePage() {
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
           )}>
             <div className="flex items-center gap-2 mb-3">
-              <Filter className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+              <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Deduplication
               </h3>
             </div>
             <div className={cn(
               'rounded-xl p-4 text-center',
-              isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <p className={cn('text-3xl font-bold', isDark ? 'text-white' : 'text-black')}>
+              <p className={cn('text-3xl font-bold', 'text-[var(--app-text)]')}>
                 {duplicateCount}
               </p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 potential duplicates found
               </p>
             </div>
-            <p className={cn('text-[10px] mt-3 leading-relaxed', isDark ? 'text-white/30' : 'text-black/30')}>
+            <p className={cn('text-[10px] mt-3 leading-relaxed', 'text-[var(--app-text-muted)]')}>
               AI scans leads by email, phone, and company name similarity to detect potential duplicates.
             </p>
           </div>
@@ -312,8 +312,8 @@ export default function LeadCapturePage() {
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06] shadow-sm'
           )}>
             <div className="flex items-center gap-2 mb-3">
-              <ArrowRight className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+              <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Auto Routing
               </h3>
             </div>
@@ -323,13 +323,13 @@ export default function LeadCapturePage() {
                   key={rule.id}
                   className={cn(
                     'rounded-xl p-3 border transition-colors',
-                    isDark ? 'border-white/[0.04]' : 'border-black/[0.04]',
-                    rule.status === 'active' && (isDark ? 'bg-white/[0.02]' : 'bg-black/[0.01]')
+                    'border-[var(--app-border-light)]',
+                    rule.status === 'active' && ('bg-[var(--app-hover-bg)]')
                   )}
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm">{rule.icon}</span>
-                    <span className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                    <span className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
                       {rule.action}
                     </span>
                     <Badge className={cn(
@@ -339,7 +339,7 @@ export default function LeadCapturePage() {
                       {rule.status === 'active' ? 'Active' : 'Paused'}
                     </Badge>
                   </div>
-                  <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     When: {rule.condition}
                   </p>
                 </div>

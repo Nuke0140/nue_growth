@@ -65,7 +65,7 @@ export default function NotificationsPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   function formatTimestamp(ts: string) {
@@ -81,10 +81,10 @@ export default function NotificationsPage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               Notifications
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Manage delivery channels and templates
             </p>
           </div>
@@ -129,7 +129,7 @@ export default function NotificationsPage() {
                 {tab}
                 <span className={cn(
                   'text-[10px] rounded-full px-1.5 py-0.5',
-                  activeTab === tab ? 'bg-blue-500/20' : isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]',
+                  activeTab === tab ? 'bg-blue-500/20' : 'bg-[var(--app-hover-bg)]',
                 )}>
                   {count}
                 </span>
@@ -155,7 +155,7 @@ export default function NotificationsPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
@@ -186,14 +186,14 @@ export default function NotificationsPage() {
                 transition={{ delay: i * 0.06 }}
                 className={cn(
                   'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Header Row */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                         {rule.name}
                       </h3>
                       <span className={cn(
@@ -204,7 +204,7 @@ export default function NotificationsPage() {
                         {rule.channel}
                       </span>
                     </div>
-                    <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                    <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                       {rule.trigger}
                     </p>
                   </div>
@@ -218,18 +218,18 @@ export default function NotificationsPage() {
                 </div>
 
                 {/* Template */}
-                <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                     Template
                   </p>
-                  <p className={cn('text-xs font-mono', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                  <p className={cn('text-xs font-mono', 'text-[var(--app-text-secondary)]')}>
                     {rule.template}
                   </p>
                 </div>
 
                 {/* Recipients */}
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                     Recipients
                   </p>
                   <div className="flex items-center gap-1.5 flex-wrap">
@@ -245,31 +245,31 @@ export default function NotificationsPage() {
                         {recipient.split(' ').map((n) => n[0]).join('')}
                       </div>
                     ))}
-                    <span className={cn('text-[10px] ml-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <span className={cn('text-[10px] ml-1', 'text-[var(--app-text-muted)]')}>
                       {rule.recipients.length} recipients
                     </span>
                   </div>
                 </div>
 
                 {/* Retry Logic */}
-                <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <RotateCcw className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <RotateCcw className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Retry Logic
                     </p>
                   </div>
                   <div className="flex items-center gap-3 text-xs">
-                    <span className={cn(isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                    <span className={cn('text-[var(--app-text-secondary)]')}>
                       Max {rule.retryLogic.maxAttempts} attempts
                     </span>
-                    <span className={cn(isDark ? 'text-zinc-500' : 'text-zinc-400')}>·</span>
-                    <span className={cn(isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                    <span className={cn('text-[var(--app-text-muted)]')}>·</span>
+                    <span className={cn('text-[var(--app-text-secondary)]')}>
                       {rule.retryLogic.delay}s delay
                     </span>
                     {rule.retryLogic.fallbackChannel && (
                       <>
-                        <span className={cn(isDark ? 'text-zinc-500' : 'text-zinc-400')}>·</span>
+                        <span className={cn('text-[var(--app-text-muted)]')}>·</span>
                         <span className={cn(
                           'inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold',
                           CHANNEL_CONFIG[rule.retryLogic.fallbackChannel].bgColor,
@@ -285,14 +285,14 @@ export default function NotificationsPage() {
                 {/* Success Rate Bar */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Success Rate
                     </p>
                     <span className={cn('text-xs font-bold', rule.successRate >= 95 ? 'text-emerald-400' : rule.successRate >= 90 ? 'text-amber-400' : 'text-red-400')}>
                       {rule.successRate}%
                     </span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${rule.successRate}%` }}
@@ -308,8 +308,8 @@ export default function NotificationsPage() {
                 {/* Footer: Last Sent + Failure Count */}
                 <div className="flex items-center justify-between text-[10px]">
                   <div className="flex items-center gap-1.5">
-                    <Clock className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <span className={cn(isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <Clock className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                    <span className={cn('text-[var(--app-text-muted)]')}>
                       {rule.lastSent ? formatTimestamp(rule.lastSent) : 'Never sent'}
                     </span>
                   </div>

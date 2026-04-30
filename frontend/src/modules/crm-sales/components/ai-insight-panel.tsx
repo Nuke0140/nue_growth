@@ -89,13 +89,13 @@ export default function AiInsightPanel({ insight, index = 0 }: AiInsightPanelPro
           <div className="flex-1 min-w-0">
             <h3 className={cn(
               'text-sm font-semibold mb-1 leading-tight',
-              isDark ? 'text-white' : 'text-black'
+              'text-[var(--app-text)]'
             )}>
               {insight.title}
             </h3>
             <p className={cn(
               'text-xs leading-relaxed line-clamp-2',
-              isDark ? 'text-white/50' : 'text-black/50'
+              'text-[var(--app-text-secondary)]'
             )}>
               {insight.description}
             </p>
@@ -112,7 +112,7 @@ export default function AiInsightPanel({ insight, index = 0 }: AiInsightPanelPro
         {/* Confidence Bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-1.5">
-            <span className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+            <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>
               Confidence
             </span>
             <span className={cn('text-[11px] font-bold', confidenceColor)}>
@@ -123,7 +123,7 @@ export default function AiInsightPanel({ insight, index = 0 }: AiInsightPanelPro
             value={insight.confidence}
             className={cn(
               'h-1.5 rounded-full',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}
           />
         </div>

@@ -49,13 +49,13 @@ export default function RevenuePage() {
   const totalRevenue = revenueMonthly.reduce((s: number, r: RevenueEntry) => s + r.revenue, 0);
 
   const kpiStats = useMemo(() => [
-    { label: 'MRR', value: formatINR(latest.mrr), icon: Repeat, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 5.7, changeLabel: 'month-over-month' },
-    { label: 'ARR', value: formatINR(latest.arr), icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 5.7, changeLabel: 'annualized revenue' },
-    { label: 'Retainer Revenue', value: formatINR(latest.retainer), icon: RefreshCw, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 6.1, changeLabel: 'recurring retainer' },
-    { label: 'Upsell Revenue', value: formatINR(latest.upsell), icon: Zap, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 15.5, changeLabel: 'upsell this month' },
-    { label: 'Renewal Revenue', value: formatINR(latest.renewal), icon: ArrowUpRight, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 14.9, changeLabel: 'contracts renewed' },
+    { label: 'MRR', value: formatINR(latest.mrr), icon: Repeat, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 5.7, changeLabel: 'month-over-month' },
+    { label: 'ARR', value: formatINR(latest.arr), icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 5.7, changeLabel: 'annualized revenue' },
+    { label: 'Retainer Revenue', value: formatINR(latest.retainer), icon: RefreshCw, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 6.1, changeLabel: 'recurring retainer' },
+    { label: 'Upsell Revenue', value: formatINR(latest.upsell), icon: Zap, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 15.5, changeLabel: 'upsell this month' },
+    { label: 'Renewal Revenue', value: formatINR(latest.renewal), icon: ArrowUpRight, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 14.9, changeLabel: 'contracts renewed' },
     { label: 'One-time Revenue', value: formatINR(latest.oneTime), icon: DollarSign, color: 'text-pink-400', bg: isDark ? 'bg-pink-500/10' : 'bg-pink-50', change: 0, changeLabel: 'project-based' },
-    { label: 'Total Revenue', value: formatINR(latest.revenue), icon: BarChart3, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 8.3, changeLabel: 'this month' },
+    { label: 'Total Revenue', value: formatINR(latest.revenue), icon: BarChart3, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 8.3, changeLabel: 'this month' },
   ], [isDark, latest]);
 
   const topClients = useMemo(() =>
@@ -73,13 +73,13 @@ export default function RevenuePage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <BarChart3 className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Revenue Intelligence</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Total Revenue: {formatINR(totalRevenue)}
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function RevenuePage() {
                   className={cn(
                     'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
                     selectedRange === dr.value
-                      ? (isDark ? 'bg-white/10 text-white/80' : 'bg-black/10 text-black/80')
+                      ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                       : (isDark ? 'text-white/30 hover:text-white/50' : 'text-black/30 hover:text-black/50')
                   )}
                 >
@@ -106,7 +106,7 @@ export default function RevenuePage() {
             </div>
             <Badge variant="secondary" className={cn(
               'px-3 py-1.5 text-xs font-medium gap-1.5',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               <Calendar className="w-3.5 h-3.5" />
               {today}
@@ -126,11 +126,11 @@ export default function RevenuePage() {
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
                   <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
@@ -149,7 +149,7 @@ export default function RevenuePage() {
                     </span>
                   )}
                 </div>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                   {stat.changeLabel}
                 </p>
               </motion.div>
@@ -164,24 +164,24 @@ export default function RevenuePage() {
           transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Activity className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Monthly Revenue — Target vs Actual
               </span>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Actual</span>
+                <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Actual</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/20' : 'bg-black/15')} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Target</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</span>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function RevenuePage() {
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.target / maxVal) * 100}%` }}
                       transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('flex-1 rounded-t-sm max-w-[40%]', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')}
+                      className={cn('flex-1 rounded-t-sm max-w-[40%]', 'bg-[var(--app-hover-bg)]')}
                     />
                     <motion.div
                       initial={{ height: 0 }}
@@ -208,7 +208,7 @@ export default function RevenuePage() {
                       className={cn('flex-1 rounded-t-sm max-w-[40%]', achieved ? (isDark ? 'bg-emerald-500/40' : 'bg-emerald-400') : (isDark ? 'bg-red-500/40' : 'bg-red-400'))}
                     />
                   </div>
-                  <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{months[j]}</span>
+                  <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{months[j]}</span>
                 </div>
               );
             })}
@@ -222,13 +222,13 @@ export default function RevenuePage() {
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Users className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Revenue by Client
               </span>
             </div>
@@ -236,9 +236,9 @@ export default function RevenuePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Client', 'Revenue', 'MRR', 'Growth', 'Services'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -253,7 +253,7 @@ export default function RevenuePage() {
                     transition={{ delay: 0.55 + i * 0.05 }}
                     className={cn(
                       'border-b cursor-pointer transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
+                      'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <td className="py-3 px-3">
@@ -273,7 +273,7 @@ export default function RevenuePage() {
                     <td className="py-3 px-3">
                       <div className="flex gap-1 flex-wrap">
                         {client.services.map(svc => (
-                          <Badge key={svc} variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+                          <Badge key={svc} variant="secondary" className={cn('text-[9px] px-1.5 py-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                             {svc}
                           </Badge>
                         ))}
@@ -293,13 +293,13 @@ export default function RevenuePage() {
           transition={{ delay: 0.6, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Layers className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Layers className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Revenue by Service
               </span>
             </div>
@@ -317,18 +317,18 @@ export default function RevenuePage() {
                     <span className="text-sm font-medium">{svc.service}</span>
                     <Badge variant="secondary" className={cn(
                       'text-[9px] px-1.5 py-0',
-                      svc.growth > 0 ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
-                        : (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')
+                      svc.growth > 0 ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
+                        : ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]')
                     )}>
                       {svc.growth > 0 ? '+' : ''}{svc.growth}%
                     </Badge>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{svc.projects} projects</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{svc.projects} projects</span>
                     <span className="text-sm font-semibold">{formatINR(svc.revenue)}</span>
                   </div>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(svc.revenue / maxServiceRevenue) * 100}%` }}

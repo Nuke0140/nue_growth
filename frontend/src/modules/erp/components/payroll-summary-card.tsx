@@ -76,7 +76,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-4 shadow-sm transition-colors duration-200',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
       )}
     >
       {/* Top: Avatar + Name + Department + Status */}
@@ -90,7 +90,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
           </div>
           <div className="min-w-0">
             <h4 className="text-xs font-semibold truncate">{record.employeeName}</h4>
-            <p className="text-[10px] text-[var(--ops-text-muted)]">
+            <p className="text-[10px] text-[var(--app-text-muted)]">
               {record.department}
             </p>
           </div>
@@ -110,10 +110,10 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         {/* Base Salary */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Wallet className="w-3 h-3 text-[var(--ops-text-muted)]" />
-            <span className="text-[11px] text-[var(--ops-text-secondary)]">Base Salary</span>
+            <Wallet className="w-3 h-3 text-[var(--app-text-muted)]" />
+            <span className="text-[11px] text-[var(--app-text-secondary)]">Base Salary</span>
           </div>
-          <span className="text-[11px] font-medium text-[var(--ops-text)]">
+          <span className="text-[11px] font-medium text-[var(--app-text)]">
             {formatCurrency(record.baseSalary)}
           </span>
         </div>
@@ -122,7 +122,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <ArrowUpRight className="w-3 h-3 text-emerald-500" />
-            <span className="text-[11px] text-[var(--ops-text-secondary)]">Incentives</span>
+            <span className="text-[11px] text-[var(--app-text-secondary)]">Incentives</span>
           </div>
           <span className="text-[11px] font-medium text-emerald-500">
             +{formatCurrency(record.incentives)}
@@ -133,7 +133,7 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <ArrowDownRight className="w-3 h-3 text-red-500" />
-            <span className="text-[11px] text-[var(--ops-text-secondary)]">Deductions</span>
+            <span className="text-[11px] text-[var(--app-text-secondary)]">Deductions</span>
           </div>
           <span className="text-[11px] font-medium text-red-500">
             -{formatCurrency(record.deductions)}
@@ -145,13 +145,13 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
       <div
         className={cn(
           'pt-3 border-t',
-          'border-[var(--ops-border)]'
+          'border-[var(--app-border)]'
         )}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Banknote className="w-3.5 h-3.5 text-[var(--ops-text-secondary)]" />
-            <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+            <Banknote className="w-3.5 h-3.5 text-[var(--app-text-secondary)]" />
+            <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
               Net Pay
             </span>
           </div>
@@ -163,10 +163,10 @@ export default function PayrollSummaryCard({ record }: PayrollSummaryCardProps) 
 
       {/* Month footer */}
       <div className="mt-2 flex items-center justify-between">
-        <span className="text-[9px] text-[var(--ops-text-disabled)]">
+        <span className="text-[9px] text-[var(--app-text-disabled)]">
           {record.month}
         </span>
-        <span className="text-[9px] text-[var(--ops-text-disabled)]">
+        <span className="text-[9px] text-[var(--app-text-disabled)]">
           ID: {record.employeeId}
         </span>
       </div>

@@ -81,12 +81,12 @@ export default function BackupRecoveryPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Shield className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Backup & Recovery</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage backups and restore points</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage backups and restore points</p>
             </div>
           </div>
         </motion.div>
@@ -102,11 +102,11 @@ export default function BackupRecoveryPage() {
             <motion.div
               key={kpi.label}
               variants={fadeUp}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-2">
                 <kpi.icon className={cn('w-4 h-4', kpi.color)} />
-                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
               </div>
               <p className="text-lg md:text-xl font-bold">{kpi.value}</p>
             </motion.div>
@@ -120,17 +120,17 @@ export default function BackupRecoveryPage() {
           transition={{ delay: 0.15, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Backup Schedule</span>
+            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Backup Schedule</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold">Automated Daily Backup</p>
                   <span className={cn('h-2 w-2 rounded-full', autoBackupEnabled ? 'bg-emerald-400' : 'bg-red-400')} />
                 </div>
-                <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   Runs daily at 2:00 AM IST &middot; Retention: 30 days &middot; {autoBackupEnabled ? 'Enabled' : 'Disabled'}
                 </p>
               </div>
@@ -164,7 +164,7 @@ export default function BackupRecoveryPage() {
                 <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-red-400">Automated backups are disabled</p>
-                  <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                     Your data is not being backed up automatically. Enable daily backups to protect against data loss.
                   </p>
                 </div>
@@ -180,8 +180,8 @@ export default function BackupRecoveryPage() {
           transition={{ delay: 0.25, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Archive className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Recent Backups</span>
+            <Archive className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Recent Backups</span>
           </div>
           <div className="space-y-3">
             {backups.map((backup, i) => {
@@ -211,15 +211,15 @@ export default function BackupRecoveryPage() {
                         <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold', isDark ? sConf.dark : sConf.light)}>
                           {sConf.label}
                         </span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           {new Date(backup.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                         </span>
-                        <span className={cn('text-[10px] font-mono', isDark ? 'text-white/30' : 'text-black/30')}>{backup.size}</span>
+                        <span className={cn('text-[10px] font-mono', 'text-[var(--app-text-muted)]')}>{backup.size}</span>
                       </div>
                       {/* Module badges */}
                       <div className="flex flex-wrap gap-1 mt-2">
                         {backup.modules.map((mod) => (
-                          <span key={mod} className={cn('rounded-full px-2 py-0.5 text-[9px] font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                          <span key={mod} className={cn('rounded-full px-2 py-0.5 text-[9px] font-medium', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                             {mod}
                           </span>
                         ))}
@@ -264,19 +264,19 @@ export default function BackupRecoveryPage() {
           transition={{ delay: 0.55, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <RotateCcw className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Point-in-Time Restore</span>
+            <RotateCcw className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Point-in-Time Restore</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <p className="text-xs font-semibold mb-1">Select Restore Point</p>
-            <p className={cn('text-[10px] mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-[10px] mb-3', 'text-[var(--app-text-muted)]')}>
               Choose a date and time to restore the system state to a specific point in time.
             </p>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
               <div className="flex-1">
-                <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Date & Time</label>
+                <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Date & Time</label>
                 <div className="relative">
-                  <Calendar className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                  <Calendar className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                   <input
                     type="datetime-local"
                     value={restoreDate}
@@ -308,7 +308,7 @@ export default function BackupRecoveryPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Shield className={cn('w-4 h-4 text-red-400')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Disaster Recovery</span>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Disaster Recovery</span>
           </div>
           <div className={cn(
             'rounded-2xl border-l-4 border-l-red-500 p-5',
@@ -321,20 +321,20 @@ export default function BackupRecoveryPage() {
                 { label: 'RTO Target', value: '4 hours' },
                 { label: 'Last DR Test', value: '28 Dec 2024' },
               ].map((item) => (
-                <div key={item.label} className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                  <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
+                <div key={item.label} className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                  <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                   <p className="text-xs font-bold">{item.value}</p>
                 </div>
               ))}
             </div>
-            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-white/40' : 'text-black/40')}>Recovery Steps</p>
+            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>Recovery Steps</p>
             <div className="space-y-2">
               {drSteps.map((step, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5', isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600')}>
                     {i + 1}
                   </div>
-                  <p className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{step}</p>
+                  <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{step}</p>
                 </div>
               ))}
             </div>

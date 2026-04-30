@@ -41,20 +41,20 @@ export default function WorkflowTemplateCard({ template, featured = false }: Wor
         <div className="flex items-center gap-2.5 flex-1">
           <div className={cn(
             'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
-            isDark ? 'bg-violet-500/15' : 'bg-violet-50',
+            'bg-[var(--app-purple-light)]',
           )}>
-            <GitBranch className={cn('w-5 h-5', isDark ? 'text-violet-400' : 'text-violet-500')} />
+            <GitBranch className={cn('w-5 h-5', 'text-[var(--app-purple)]')} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h4 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h4 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                 {template.name}
               </h4>
               {template.isFavorite && (
                 <Star className={cn('w-3.5 h-3.5 shrink-0 fill-amber-400 text-amber-400')} />
               )}
             </div>
-            <p className={cn('text-xs mt-0.5 line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs mt-0.5 line-clamp-2', 'text-[var(--app-text-muted)]')}>
               {template.description}
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function WorkflowTemplateCard({ template, featured = false }: Wor
         </span>
         <span className={cn(
           'text-[10px]',
-          isDark ? 'text-white/30' : 'text-black/30',
+          'text-[var(--app-text-muted)]',
         )}>
           {template.nodeCount} nodes · v{template.version}
         </span>
@@ -78,7 +78,7 @@ export default function WorkflowTemplateCard({ template, featured = false }: Wor
 
       {/* Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <Tag className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
+        <Tag className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
         {template.tags.slice(0, 4).map((tag) => (
           <span key={tag} className={cn(
             'rounded-md px-1.5 py-0.5 text-[10px]',
@@ -88,23 +88,23 @@ export default function WorkflowTemplateCard({ template, featured = false }: Wor
           </span>
         ))}
         {template.tags.length > 4 && (
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
             +{template.tags.length - 4}
           </span>
         )}
       </div>
 
       {/* Footer */}
-      <div className={cn('flex items-center justify-between pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+      <div className={cn('flex items-center justify-between pt-2 border-t', 'border-[var(--app-border)]')}>
         <div className="flex items-center gap-1.5">
-          <Copy className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+          <Copy className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
             {template.useCount.toLocaleString()} uses
           </span>
         </div>
         <div className="flex items-center gap-1">
           <Star className={cn('w-3 h-3 text-amber-400')} />
-          <span className={cn('text-[10px] font-semibold', isDark ? 'text-amber-300' : 'text-amber-600')}>
+          <span className={cn('text-[10px] font-semibold', 'text-[var(--app-warning)]')}>
             {template.popularity}
           </span>
         </div>

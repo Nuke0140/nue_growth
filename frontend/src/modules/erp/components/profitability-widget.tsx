@@ -64,13 +64,13 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <BarChart3 className="w-4 h-4 text-[var(--ops-text-secondary)]" />
+          <BarChart3 className="w-4 h-4 text-[var(--app-text-secondary)]" />
           <h3 className="text-sm font-semibold">Profitability Overview</h3>
         </div>
         {summary.totalAlerts > 0 && (
@@ -86,8 +86,8 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
 
       {/* Summary Stats */}
       <div className="grid grid-cols-3 gap-3 mb-5">
-        <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
-          <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">
+        <div className="p-3 rounded-xl bg-[var(--app-hover-bg)]">
+          <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">
             Total Revenue
           </p>
           <div className="flex items-center gap-1">
@@ -97,8 +97,8 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
             </p>
           </div>
         </div>
-        <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
-          <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">
+        <div className="p-3 rounded-xl bg-[var(--app-hover-bg)]">
+          <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">
             Total Cost
           </p>
           <div className="flex items-center gap-1">
@@ -108,8 +108,8 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
             </p>
           </div>
         </div>
-        <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
-          <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">
+        <div className="p-3 rounded-xl bg-[var(--app-hover-bg)]">
+          <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">
             Net Margin
           </p>
           <div className="flex items-center gap-1">
@@ -127,7 +127,7 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
 
       {/* Client Profitability Bars */}
       <div className="space-y-3">
-        <p className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+        <p className="text-[11px] font-medium text-[var(--app-text-secondary)]">
           Profitability by Client
         </p>
         {data.map((client, index) => (
@@ -139,7 +139,7 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
           >
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2 min-w-0 flex-1">
-                <span className="text-[11px] font-medium truncate text-[var(--ops-text-secondary)]">
+                <span className="text-[11px] font-medium truncate text-[var(--app-text-secondary)]">
                   {client.clientName}
                 </span>
                 {client.alerts.length > 0 && (
@@ -159,14 +159,14 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
                   transition={{ duration: 0.6, delay: index * 0.04, ease: 'easeOut' }}
                 />
               </div>
-              <span className="text-[10px] shrink-0 w-16 text-right text-[var(--ops-text-disabled)]">
+              <span className="text-[10px] shrink-0 w-16 text-right text-[var(--app-text-disabled)]">
                 {formatCurrency(client.revenue)}
               </span>
             </div>
             {/* Burn rate indicator */}
             {client.burnRate > 0 && (
               <div className="flex items-center justify-between mt-0.5">
-                <span className="text-[9px] text-[var(--ops-text-disabled)]">
+                <span className="text-[9px] text-[var(--app-text-disabled)]">
                   Burn: {formatCurrency(client.burnRate)}/mo
                 </span>
               </div>
@@ -177,7 +177,7 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
 
       {/* Empty state */}
       {data.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-8 text-[var(--ops-text-disabled)]">
+        <div className="flex flex-col items-center justify-center py-8 text-[var(--app-text-disabled)]">
           <BarChart3 className="w-8 h-8 mb-2" />
           <p className="text-xs">No profitability data</p>
         </div>

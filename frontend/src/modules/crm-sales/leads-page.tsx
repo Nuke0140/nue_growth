@@ -95,19 +95,19 @@ export default function LeadsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+              <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Leads
               </h1>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                 {stats.total} leads · {formatCurrency(stats.totalRevenue)} pipeline
               </p>
             </div>
             <div className="flex items-center gap-2">
               <div className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
-                <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+                <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
                 <input
                   type="text"
                   placeholder="Search leads..."
@@ -115,13 +115,13 @@ export default function LeadsPage() {
                   onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                   className={cn(
                     'bg-transparent text-sm focus:outline-none w-full',
-                    isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                    'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                   )}
                 />
               </div>
               <Button className={cn(
                 'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
                 <Plus className="w-3.5 h-3.5 mr-1.5" />
                 Add Lead
@@ -147,14 +147,14 @@ export default function LeadsPage() {
                 key={stat.label}
                 className={cn(
                   'rounded-2xl border p-4 transition-colors',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <stat.icon className={cn('w-4 h-4', stat.color || (isDark ? 'text-white/30' : 'text-black/30'))} />
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                  <stat.icon className={cn('w-4 h-4', stat.color || ('text-[var(--app-text-muted)]'))} />
+                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 </div>
-                <p className={cn('text-xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
+                <p className={cn('text-xl font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
               </div>
             ))}
           </motion.div>
@@ -188,7 +188,7 @@ export default function LeadsPage() {
             <Select value={sourceFilter} onValueChange={(v) => { setSourceFilter(v as ContactSource | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
                 'w-[130px] h-8 text-xs rounded-lg',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <SelectValue placeholder="Source" />
               </SelectTrigger>
@@ -208,7 +208,7 @@ export default function LeadsPage() {
             <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v as LeadStatus | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
                 'w-[130px] h-8 text-xs rounded-lg',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
@@ -231,19 +231,19 @@ export default function LeadsPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className={cn(
               'rounded-2xl border overflow-hidden',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Name', 'Company', 'Source', 'Score', 'Intent', 'Status', 'Revenue', 'Next Action', 'Assigned', 'Actions'].map(col => (
                       <th
                         key={col}
                         className={cn(
                           'px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap',
-                          isDark ? 'text-white/30' : 'text-black/30'
+                          'text-[var(--app-text-muted)]'
                         )}
                       >
                         {col}
@@ -264,7 +264,7 @@ export default function LeadsPage() {
                         onClick={() => selectLead(lead.id)}
                         className={cn(
                           'border-b cursor-pointer transition-colors group',
-                          isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]'
+                          'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                         )}
                       >
                         {/* Name */}
@@ -272,21 +272,21 @@ export default function LeadsPage() {
                           <div className="flex items-center gap-2.5">
                             <div className={cn(
                               'w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0',
-                              isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
+                              'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                             )}>
                               {lead.firstName[0]}{lead.lastName[0]}
                             </div>
                             <div>
-                              <p className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>
+                              <p className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>
                                 {lead.firstName} {lead.lastName}
                               </p>
-                              <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{lead.email}</p>
+                              <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>{lead.email}</p>
                             </div>
                           </div>
                         </td>
 
                         {/* Company */}
-                        <td className={cn('px-4 py-3 text-xs whitespace-nowrap', isDark ? 'text-white/50' : 'text-black/50')}>
+                        <td className={cn('px-4 py-3 text-xs whitespace-nowrap', 'text-[var(--app-text-secondary)]')}>
                           {lead.company}
                         </td>
 
@@ -305,9 +305,9 @@ export default function LeadsPage() {
                           <div className="flex items-center gap-2 min-w-[100px]">
                             <Progress
                               value={lead.score}
-                              className={cn('h-1.5 w-16', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}
+                              className={cn('h-1.5 w-16', 'bg-[var(--app-hover-bg)]')}
                             />
-                            <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+                            <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                               {lead.score}
                             </span>
                           </div>
@@ -332,20 +332,20 @@ export default function LeadsPage() {
                         </td>
 
                         {/* Revenue */}
-                        <td className={cn('px-4 py-3 text-xs font-medium whitespace-nowrap', isDark ? 'text-white/70' : 'text-black/70')}>
+                        <td className={cn('px-4 py-3 text-xs font-medium whitespace-nowrap', 'text-[var(--app-text)]')}>
                           {formatCurrency(lead.expectedRevenue)}
                         </td>
 
                         {/* Next Action */}
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <p className={cn('text-xs max-w-[140px] truncate', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <p className={cn('text-xs max-w-[140px] truncate', 'text-[var(--app-text-muted)]')}>
                             {lead.nextAction || '—'}
                           </p>
                         </td>
 
                         {/* Assigned */}
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{lead.assignedRep}</p>
+                          <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{lead.assignedRep}</p>
                         </td>
 
                         {/* Quick Actions */}
@@ -355,7 +355,7 @@ export default function LeadsPage() {
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
                                 'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+                                'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
                               <ArrowRightLeft className="w-3.5 h-3.5" />
@@ -364,7 +364,7 @@ export default function LeadsPage() {
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
                                 'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+                                'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
                               <Mail className="w-3.5 h-3.5" />
@@ -373,7 +373,7 @@ export default function LeadsPage() {
                               onClick={(e) => { e.stopPropagation(); }}
                               className={cn(
                                 'p-1.5 rounded-lg transition-colors',
-                                isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+                                'hover:bg-[var(--app-hover-bg)]'
                               )}
                             >
                               <Phone className="w-3.5 h-3.5" />
@@ -388,7 +388,7 @@ export default function LeadsPage() {
             </div>
 
             {filtered.length === 0 && (
-              <div className={cn('flex flex-col items-center justify-center py-16', isDark ? 'text-white/20' : 'text-black/20')}>
+              <div className={cn('flex flex-col items-center justify-center py-16', 'text-[var(--app-text-disabled)]')}>
                 <Search className="w-8 h-8 mb-3" />
                 <p className="text-sm">No leads match your filters</p>
               </div>
@@ -398,7 +398,7 @@ export default function LeadsPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
               </p>
               <div className="flex items-center gap-1">
@@ -419,7 +419,7 @@ export default function LeadsPage() {
                     className={cn(
                       'w-8 h-8 rounded-lg text-xs font-medium transition-colors',
                       p === page
-                        ? isDark ? 'bg-white text-black' : 'bg-black text-white'
+                        ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                         : isDark ? 'text-white/40 hover:bg-white/[0.04]' : 'text-black/40 hover:bg-black/[0.04]'
                     )}
                   >
@@ -471,22 +471,22 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
   return (
     <div className="space-y-5">
       <DialogHeader>
-        <DialogTitle className={cn('text-lg', isDark ? 'text-white' : 'text-black')}>
+        <DialogTitle className={cn('text-lg', 'text-[var(--app-text)]')}>
           Lead Qualification
         </DialogTitle>
       </DialogHeader>
 
-      <div className={cn('rounded-xl p-4 border', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+      <div className={cn('rounded-xl p-4 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
         <div className="flex items-center gap-3 mb-4">
           <div className={cn(
             'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold',
-            isDark ? 'bg-white/[0.06] text-white' : 'bg-black/[0.06] text-black'
+            'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
           )}>
             {lead.firstName[0]}{lead.lastName[0]}
           </div>
           <div>
-            <p className={cn('font-semibold', isDark ? 'text-white' : 'text-black')}>{lead.firstName} {lead.lastName}</p>
-            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{lead.company} · {lead.email}</p>
+            <p className={cn('font-semibold', 'text-[var(--app-text)]')}>{lead.firstName} {lead.lastName}</p>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{lead.company} · {lead.email}</p>
           </div>
           <span className={cn(
             'ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold',
@@ -500,13 +500,13 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
         {/* Score */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className={cn('text-xs font-medium', isDark ? 'text-white/50' : 'text-black/50')}>Lead Score</span>
-            <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>{lead.score}/100</span>
+            <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>Lead Score</span>
+            <span className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{lead.score}/100</span>
           </div>
           <div className="space-y-2">
             {scoreBreakdown.map(item => (
               <div key={item.label} className="flex items-center gap-3">
-                <span className={cn('text-[11px] w-24', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
+                <span className={cn('text-[11px] w-24', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                 <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-black/[0.06]">
                   <motion.div
                     initial={{ width: 0 }}
@@ -518,7 +518,7 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
                     )}
                   />
                 </div>
-                <span className={cn('text-[10px] font-medium w-8 text-right', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[10px] font-medium w-8 text-right', 'text-[var(--app-text-muted)]')}>
                   {item.value}
                 </span>
               </div>
@@ -526,23 +526,23 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
           </div>
         </div>
 
-        <div className={cn('grid grid-cols-2 gap-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+        <div className={cn('grid grid-cols-2 gap-3 text-xs', 'text-[var(--app-text-secondary)]')}>
           <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Source</span>
+            <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Source</span>
             <span className="capitalize">{lead.source.replace('_', ' ')}</span>
           </div>
           <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Status</span>
+            <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Status</span>
             <span className="capitalize">{lead.status}</span>
           </div>
           <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Expected Revenue</span>
-            <span className={cn('font-semibold', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
+            <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Expected Revenue</span>
+            <span className={cn('font-semibold', 'text-[var(--app-success)]')}>
               {formatCurrency(lead.expectedRevenue)}
             </span>
           </div>
           <div>
-            <span className={cn('block text-[10px] mb-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Campaign</span>
+            <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Campaign</span>
             <span>{lead.campaign || '—'}</span>
           </div>
         </div>
@@ -553,7 +553,7 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
         <Button
           className={cn(
             'flex-1 h-9 rounded-xl text-xs font-semibold',
-            isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+            'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
           )}
           onClick={onClose}
         >
@@ -563,7 +563,7 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
         <Select>
           <SelectTrigger className={cn(
             'h-9 w-36 text-xs rounded-xl',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
           )}>
             <SelectValue placeholder="Assign Rep" />
           </SelectTrigger>

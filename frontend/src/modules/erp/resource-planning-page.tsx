@@ -81,18 +81,18 @@ function ResourcePlanningPageInner() {
 
   return (
     <PageShell title="Resource Planning" icon={GitBranch} headerRight={
-      <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-        <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-        <input type="text" placeholder="Search resources..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+      <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
+        <input type="text" placeholder="Search resources..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
       </div>
     }>
 
         {/* View Toggle */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {views.map((view) => {
             const isActive = activeView === view.key;
             return (
-              <button key={view.key} onClick={() => setActiveView(view.key)} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200', isActive ? (isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-black/[0.06] text-black shadow-sm') : (isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'))}>
+              <button key={view.key} onClick={() => setActiveView(view.key)} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200', isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'))}>
                 <view.icon className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">{view.label}</span>
               </button>
@@ -108,11 +108,11 @@ function ResourcePlanningPageInner() {
             { label: 'Overbooked', value: stats.overbooked, icon: AlertTriangle, warn: stats.overbooked > 0 },
             { label: 'Available', value: stats.available, icon: UserCheck },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.warn ? (isDark ? 'bg-red-500/15' : 'bg-red-50') : (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'))}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))} />
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.warn ? ('bg-[var(--app-danger-bg)]') : ('bg-[var(--app-hover-bg)]'))}>
+                  <stat.icon className={cn('w-3.5 h-3.5', stat.warn ? 'text-red-500 dark:text-red-400' : ('text-[var(--app-text-muted)]'))} />
                 </div>
               </div>
               <p className={cn('text-xl font-bold', stat.warn && 'text-red-500 dark:text-red-400')}>{stat.value}</p>
@@ -158,14 +158,14 @@ function ResourcePlanningPageInner() {
                           </Badge>
                         )}
                       </div>
-                      <p className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>{resource.role}</p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{resource.department}</p>
+                      <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>{resource.role}</p>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{resource.department}</p>
                     </div>
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                        <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+                      <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+                        <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -179,13 +179,13 @@ function ResourcePlanningPageInner() {
                 {/* Utilization Bar */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Utilization</span>
+                    <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Utilization</span>
                     <div className="flex items-center gap-2">
                       <span className={cn('text-xs font-bold', utilColor.text)}>{resource.utilization}%</span>
                       <span className={cn('text-[10px] font-medium', utilColor.text)}>{utilColor.label}</span>
                     </div>
                   </div>
-                  <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${resource.utilization}%` }}
@@ -197,8 +197,8 @@ function ResourcePlanningPageInner() {
 
                 {/* Allocation */}
                 <div className="flex items-center justify-between">
-                  <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Allocation</span>
-                  <span className={cn('text-xs font-medium', resource.allocation >= 95 ? 'text-red-500 dark:text-red-400' : (isDark ? 'text-white/60' : 'text-black/60'))}>
+                  <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Allocation</span>
+                  <span className={cn('text-xs font-medium', resource.allocation >= 95 ? 'text-red-500 dark:text-red-400' : ('text-[var(--app-text-secondary)]'))}>
                     {resource.allocation}% · {resource.availability} free
                   </span>
                 </div>
@@ -214,15 +214,15 @@ function ResourcePlanningPageInner() {
 
                 {/* Active Projects */}
                 {resource.projects.length > 0 && (
-                  <div className="space-y-1.5 pt-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
-                    <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Active Projects</span>
+                  <div className="space-y-1.5 pt-2 border-t" style={{ borderColor: 'var(--app-hover-bg)' }}>
+                    <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>Active Projects</span>
                     {resource.projects.map(proj => (
                       <div key={proj.projectId} className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5 min-w-0">
-                          <Briefcase className={cn('w-3 h-3 shrink-0', isDark ? 'text-white/25' : 'text-black/25')} />
+                          <Briefcase className={cn('w-3 h-3 shrink-0', 'text-[var(--app-text-muted)]')} />
                           <span className="text-[11px] truncate">{proj.projectName}</span>
                         </div>
-                        <span className={cn('text-[10px] font-medium shrink-0 ml-2', isDark ? 'text-white/40' : 'text-black/40')}>{proj.allocation}%</span>
+                        <span className={cn('text-[10px] font-medium shrink-0 ml-2', 'text-[var(--app-text-muted)]')}>{proj.allocation}%</span>
                       </div>
                     ))}
                   </div>
@@ -234,24 +234,24 @@ function ResourcePlanningPageInner() {
 
         {/* Empty State */}
         {paginated.length === 0 && (
-          <div className={cn('rounded-2xl border py-16 flex flex-col items-center justify-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center mb-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
-              <Users className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
+          <div className={cn('rounded-2xl border py-16 flex flex-col items-center justify-center', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center mb-3', 'bg-[var(--app-hover-bg)]')}>
+              <Users className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
             </div>
-            <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>No resources found</p>
-            <p className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>Try adjusting your search</p>
+            <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>No resources found</p>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Try adjusting your search</p>
           </div>
         )}
 
         {/* Pagination */}
         {filtered.length > ITEMS_PER_PAGE && (
-          <div className={cn('flex items-center justify-between px-4 py-3 rounded-2xl border', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}</p>
+          <div className={cn('flex items-center justify-between px-4 py-3 rounded-2xl border', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}</p>
             <div className="flex items-center gap-1">
-              <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronsLeft className="w-4 h-4" /></button>
-              <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronLeft className="w-4 h-4" /></button>
-              <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronRight className="w-4 h-4" /></button>
-              <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronsRight className="w-4 h-4" /></button>
+              <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsLeft className="w-4 h-4" /></button>
+              <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronLeft className="w-4 h-4" /></button>
+              <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronRight className="w-4 h-4" /></button>
+              <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsRight className="w-4 h-4" /></button>
             </div>
           </div>
         )}

@@ -52,20 +52,20 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
         transition={{ duration: 0.3 }}
         className={cn(
           'rounded-2xl border p-4 shadow-sm',
-          'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+          'bg-[var(--app-card-bg)] border-[var(--app-border)]'
         )}
       >
         <div className="flex items-center gap-2 mb-3">
-          <Gauge className="w-4 h-4 text-[var(--ops-text-secondary)]" />
+          <Gauge className="w-4 h-4 text-[var(--app-text-secondary)]" />
           <h3 className="text-sm font-semibold">Resource Utilization Summary</h3>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
-            <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">Total Resources</p>
+          <div className="p-3 rounded-xl bg-[var(--app-hover-bg)]">
+            <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">Total Resources</p>
             <p className="text-lg font-bold">{summaryStats.total}</p>
           </div>
-          <div className="p-3 rounded-xl bg-[var(--ops-hover-bg)]">
-            <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">Avg. Utilization</p>
+          <div className="p-3 rounded-xl bg-[var(--app-hover-bg)]">
+            <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">Avg. Utilization</p>
             <p className="text-lg font-bold">{summaryStats.avgUtilization}%</p>
           </div>
           <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/[0.04]">
@@ -94,7 +94,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               transition={{ duration: 0.25, delay: index * 0.04 }}
               className={cn(
                 'rounded-2xl border p-4 shadow-sm transition-colors duration-200',
-                'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
               )}
             >
               {/* Name + Role */}
@@ -102,13 +102,13 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                 <div className="flex items-center gap-2.5">
                   <div className={cn(
                     'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold',
-                    'bg-[var(--ops-elevated)] text-[var(--ops-text)]'
+                    'bg-[var(--app-elevated)] text-[var(--app-text)]'
                   )}>
                     {resource.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                   </div>
                   <div>
                     <h4 className="text-xs font-semibold">{resource.name}</h4>
-                    <p className="text-[10px] text-[var(--ops-text-muted)]">
+                    <p className="text-[10px] text-[var(--app-text-muted)]">
                       {resource.role}
                     </p>
                   </div>
@@ -124,14 +124,14 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Utilization Bar */}
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
+                  <span className="text-[10px] font-medium text-[var(--app-text-secondary)]">
                     Utilization
                   </span>
                   <span className={cn('text-[11px] font-bold', utilColor.text)}>
                     {resource.utilization}%
                   </span>
                 </div>
-                <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
+                <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
                   <motion.div
                     className={cn('h-full rounded-full', utilColor.bar)}
                     initial={{ width: 0 }}
@@ -144,10 +144,10 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Allocation */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-1">
-                  <UserCheck className="w-3 h-3 text-[var(--ops-text-muted)]" />
-                  <span className="text-[10px] text-[var(--ops-text-muted)]">Allocation</span>
+                  <UserCheck className="w-3 h-3 text-[var(--app-text-muted)]" />
+                  <span className="text-[10px] text-[var(--app-text-muted)]">Allocation</span>
                 </div>
-                <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+                <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
                   {resource.allocation}% · {resource.availability} free
                 </span>
               </div>
@@ -160,7 +160,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                       key={skill}
                       className={cn(
                         'px-1.5 py-0.5 rounded text-[9px] font-medium',
-                        'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)]'
+                        'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                       )}
                     >
                       {skill}
@@ -169,7 +169,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
                   {extraSkills > 0 && (
                     <span className={cn(
                       'px-1.5 py-0.5 rounded text-[9px] font-medium',
-                      'bg-[var(--ops-hover-bg)] text-[var(--ops-text-disabled)]'
+                      'bg-[var(--app-hover-bg)] text-[var(--app-text-disabled)]'
                     )}>
                       +{extraSkills}
                     </span>
@@ -180,16 +180,16 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               {/* Projects */}
               {resource.projects.length > 0 && (
                 <div>
-                  <p className="text-[10px] font-medium mb-1 text-[var(--ops-text-muted)]">
+                  <p className="text-[10px] font-medium mb-1 text-[var(--app-text-muted)]">
                     Active Projects ({resource.projects.length})
                   </p>
                   <div className="space-y-1">
                     {resource.projects.map((project) => (
                       <div key={project.projectId} className="flex items-center justify-between">
-                        <span className="text-[10px] truncate max-w-[140px] text-[var(--ops-text-muted)]">
+                        <span className="text-[10px] truncate max-w-[140px] text-[var(--app-text-muted)]">
                           {project.projectName}
                         </span>
-                        <span className="text-[9px] shrink-0 text-[var(--ops-text-disabled)]">
+                        <span className="text-[9px] shrink-0 text-[var(--app-text-disabled)]">
                           {project.allocation}%
                         </span>
                       </div>
@@ -199,9 +199,9 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
               )}
 
               {/* Department */}
-              <div className="mt-3 pt-2 border-t flex items-center gap-1 border-[var(--ops-border)]">
-                <Clock className="w-2.5 h-2.5 text-[var(--ops-text-disabled)]" />
-                <span className="text-[9px] text-[var(--ops-text-disabled)]">
+              <div className="mt-3 pt-2 border-t flex items-center gap-1 border-[var(--app-border)]">
+                <Clock className="w-2.5 h-2.5 text-[var(--app-text-disabled)]" />
+                <span className="text-[9px] text-[var(--app-text-disabled)]">
                   {resource.department}
                 </span>
               </div>
@@ -214,7 +214,7 @@ export default function ResourceUtilization({ resources }: ResourceUtilizationPr
       {resources.length === 0 && (
         <div className={cn(
           'flex flex-col items-center justify-center py-12 rounded-2xl border',
-          'bg-[var(--ops-card-bg)] border-[var(--ops-border)] text-[var(--ops-text-disabled)]'
+          'bg-[var(--app-card-bg)] border-[var(--app-border)] text-[var(--app-text-disabled)]'
         )}>
           <Users className="w-8 h-8 mb-2" />
           <p className="text-xs">No resource data available</p>

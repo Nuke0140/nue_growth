@@ -102,13 +102,13 @@ export default function CustomDashboardBuilderPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <LayoutDashboard className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <LayoutDashboard className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Custom Dashboard Builder</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Create your perfect dashboard
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function CustomDashboardBuilderPage() {
         {/* ── Tab Switcher ── */}
         <div className={cn(
           'inline-flex rounded-2xl border p-1',
-          isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+          'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
         )}>
           {([
             { key: 'personal' as TabType, label: 'Personal', icon: User },
@@ -160,7 +160,7 @@ export default function CustomDashboardBuilderPage() {
               <div>
                 <h2 className={cn(
                   'text-sm font-semibold uppercase tracking-wider mb-4',
-                  isDark ? 'text-white/40' : 'text-black/40',
+                  'text-[var(--app-text-muted)]',
                 )}>
                   Template Gallery
                 </h2>
@@ -189,9 +189,9 @@ export default function CustomDashboardBuilderPage() {
                         <div className="flex items-start justify-between mb-3">
                           <div className={cn(
                             'w-10 h-10 rounded-xl flex items-center justify-center',
-                            isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+                            'bg-[var(--app-hover-bg)]',
                           )}>
-                            <TemplateIcon className={cn('w-5 h-5', isDark ? 'text-white/50' : 'text-black/50')} />
+                            <TemplateIcon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
                           </div>
                           {tpl.isDefault && (
                             <span className={cn(
@@ -204,20 +204,20 @@ export default function CustomDashboardBuilderPage() {
                         </div>
                         <h3 className={cn(
                           'text-sm font-semibold mb-1 group-hover:underline underline-offset-2',
-                          isDark ? 'text-white' : 'text-zinc-900',
+                          'text-[var(--app-text)]',
                         )}>
                           {tpl.name}
                         </h3>
-                        <p className={cn('text-xs leading-relaxed mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className={cn('text-xs leading-relaxed mb-3', 'text-[var(--app-text-muted)]')}>
                           {tpl.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                             {tpl.widgetCount} widgets included
                           </span>
                           <span className={cn(
                             'inline-flex items-center gap-1 text-[10px] font-semibold',
-                            isDark ? 'text-blue-400' : 'text-blue-600',
+                            'text-[var(--app-info)]',
                           )}>
                             Use Template <ArrowRight className="w-3 h-3" />
                           </span>
@@ -237,19 +237,19 @@ export default function CustomDashboardBuilderPage() {
               )}>
                 <div className={cn(
                   'w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4',
-                  isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]',
+                  'bg-[var(--app-hover-bg)]',
                 )}>
-                  <Sparkles className={cn('w-8 h-8', isDark ? 'text-white/20' : 'text-black/20')} />
+                  <Sparkles className={cn('w-8 h-8', 'text-[var(--app-text-disabled)]')} />
                 </div>
                 <h3 className={cn(
                   'text-lg font-semibold mb-2',
-                  isDark ? 'text-white/60' : 'text-black/60',
+                  'text-[var(--app-text-secondary)]',
                 )}>
                   Or Start From Scratch
                 </h3>
                 <p className={cn(
                   'text-sm mb-4 max-w-md mx-auto',
-                  isDark ? 'text-white/30' : 'text-black/30',
+                  'text-[var(--app-text-muted)]',
                 )}>
                   Select a template above or create a completely custom dashboard by adding widgets one by one.
                 </p>
@@ -285,7 +285,7 @@ export default function CustomDashboardBuilderPage() {
                   onClick={() => setSelectedTemplate(null)}
                   className={cn(
                     'inline-flex items-center gap-1 text-xs font-medium transition-colors',
-                    isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60',
+                    'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]',
                   )}
                 >
                   <ChevronRight className="w-3.5 h-3.5 -rotate-180" />
@@ -311,14 +311,14 @@ export default function CustomDashboardBuilderPage() {
                 {/* ── Widget Palette Sidebar ── */}
                 <div className={cn(
                   'shrink-0 rounded-2xl border overflow-hidden transition-all duration-300',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   paletteOpen ? 'w-56' : 'w-12',
                 )}>
                   <button
                     onClick={() => setPaletteOpen(!paletteOpen)}
                     className={cn(
                       'flex items-center justify-between w-full px-3 py-3 text-left transition-colors',
-                      isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]',
+                      'hover:bg-[var(--app-hover-bg)]',
                     )}
                   >
                     <AnimatePresence mode="wait">
@@ -327,7 +327,7 @@ export default function CustomDashboardBuilderPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}
+                          className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}
                         >
                           Widgets
                         </motion.span>
@@ -337,7 +337,7 @@ export default function CustomDashboardBuilderPage() {
                       animate={{ rotate: paletteOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                      <ChevronDown className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     </motion.div>
                   </button>
                   <AnimatePresence>
@@ -366,12 +366,12 @@ export default function CustomDashboardBuilderPage() {
                               >
                                 <div className={cn(
                                   'w-7 h-7 rounded-lg flex items-center justify-center shrink-0',
-                                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+                                  'bg-[var(--app-hover-bg)]',
                                 )}>
                                   <WtIcon className="w-3.5 h-3.5" />
                                 </div>
                                 <span className="text-xs font-medium">{wt.label}</span>
-                                <GripVertical className={cn('w-3 h-3 ml-auto opacity-0 group-hover:opacity-50', isDark ? 'text-white' : 'text-black')} />
+                                <GripVertical className={cn('w-3 h-3 ml-auto opacity-0 group-hover:opacity-50', 'text-[var(--app-text)]')} />
                               </motion.button>
                             );
                           })}
@@ -409,7 +409,7 @@ export default function CustomDashboardBuilderPage() {
                           <div className={cn(
                             'absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity',
                           )}>
-                            <GripVertical className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
+                            <GripVertical className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                           </div>
 
                           {/* Widget preview content */}
@@ -430,11 +430,11 @@ export default function CustomDashboardBuilderPage() {
                             <div className="text-center">
                               <p className={cn(
                                 'text-xs font-semibold',
-                                isDark ? 'text-white/50' : 'text-black/50',
+                                'text-[var(--app-text-secondary)]',
                               )}>
                                 {cw.title}
                               </p>
-                              <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/20' : 'text-black/20')}>
+                              <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-disabled)]')}>
                                 {cw.type.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                               </p>
                             </div>
@@ -478,7 +478,7 @@ export default function CustomDashboardBuilderPage() {
 
                           {/* Status indicator */}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t"
-                            style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
+                            style={{ borderColor: 'var(--app-hover-bg)' }}>
                             <span className={cn(
                               'flex items-center gap-1 text-[10px]',
                               isDark ? 'text-emerald-400/60' : 'text-emerald-600',
@@ -486,7 +486,7 @@ export default function CustomDashboardBuilderPage() {
                               <Eye className="w-3 h-3" />
                               Active
                             </span>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                               {cw.type}
                             </span>
                           </div>
@@ -547,17 +547,17 @@ export default function CustomDashboardBuilderPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   {/* Theme Selector */}
                   <div className="flex items-center gap-3">
-                    <Palette className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                    <Palette className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <div className={cn(
                       'flex items-center gap-2 rounded-xl border px-3 py-2',
-                      isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]',
+                      'border-[var(--app-border)] bg-[var(--app-hover-bg)]',
                     )}>
                       <select
                         value={themeOption}
                         onChange={(e) => setThemeOption(e.target.value)}
                         className={cn(
                           'bg-transparent text-xs font-medium outline-none appearance-none cursor-pointer pr-4',
-                          isDark ? 'text-white/70' : 'text-black/70',
+                          'text-[var(--app-text)]',
                         )}
                       >
                         <option value="white-label" className="bg-white text-black">White Label</option>
@@ -567,7 +567,7 @@ export default function CustomDashboardBuilderPage() {
                       </select>
                       <ChevronDown className={cn(
                         'absolute right-2 w-3 h-3 pointer-events-none',
-                        isDark ? 'text-white/40' : 'text-black/40',
+                        'text-[var(--app-text-muted)]',
                       )} />
                     </div>
                   </div>

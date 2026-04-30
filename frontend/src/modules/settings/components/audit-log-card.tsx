@@ -73,32 +73,32 @@ export default function AuditLogCard({ log }: AuditLogCardProps) {
                 </Badge>
                 <Badge
                   variant="secondary"
-                  className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}
+                  className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}
                 >
                   {log.module}
                 </Badge>
               </div>
             </div>
           </div>
-          <span className={cn('text-[10px] shrink-0', isDark ? 'text-white/25' : 'text-black/25')}>
+          <span className={cn('text-[10px] shrink-0', 'text-[var(--app-text-muted)]')}>
             {time.toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
 
         {/* Action Description */}
-        <p className={cn('text-sm leading-relaxed', isDark ? 'text-white/70' : 'text-black/70')}>
+        <p className={cn('text-sm leading-relaxed', 'text-[var(--app-text)]')}>
           {log.action}
         </p>
 
         {/* Details */}
-        <p className={cn('text-xs', isDark ? 'text-white/35' : 'text-black/35')}>
+        <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
           {log.details}
         </p>
 
         {/* Bottom Row: Actor + IP + Value Changes */}
-        <div className={cn('flex items-center gap-4 pt-2 border-t flex-wrap', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+        <div className={cn('flex items-center gap-4 pt-2 border-t flex-wrap', 'border-[var(--app-border)]')}>
           <div className="flex items-center gap-1.5">
-            <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Actor:</span>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Actor:</span>
             <span className="text-xs font-medium">{log.actor}</span>
             <Badge
               variant="secondary"
@@ -108,14 +108,14 @@ export default function AuditLogCard({ log }: AuditLogCardProps) {
             </Badge>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>IP:</span>
-            <span className={cn('text-[11px] font-mono', isDark ? 'text-white/40' : 'text-black/40')}>{log.ip}</span>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>IP:</span>
+            <span className={cn('text-[11px] font-mono', 'text-[var(--app-text-muted)]')}>{log.ip}</span>
           </div>
           {log.previousValue && log.newValue && (
             <div className="flex items-center gap-1.5">
-              <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Change:</span>
-              <span className={cn('text-[11px] line-through', isDark ? 'text-white/30' : 'text-black/30')}>{log.previousValue}</span>
-              <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>→</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Change:</span>
+              <span className={cn('text-[11px] line-through', 'text-[var(--app-text-muted)]')}>{log.previousValue}</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>→</span>
               <span className="text-[11px] font-medium text-emerald-500">{log.newValue}</span>
             </div>
           )}

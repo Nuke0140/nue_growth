@@ -82,7 +82,7 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
         whileHover={{ scale: 1.03, y: -4 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        className={`relative h-36 md:h-44 rounded-2xl ${module.shade} overflow-hidden transition-colors duration-300 border ${isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'}`}
+        className={`relative h-36 md:h-44 rounded-2xl ${module.shade} overflow-hidden transition-colors duration-300 border ${'border-[var(--app-border)]'}`}
       >
         {/* Dot pattern */}
         <motion.div
@@ -117,7 +117,7 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
               }}
               transition={{ duration: 0.4 }}
             >
-              <module.icon className={`w-8 h-8 md:w-10 md:h-10 drop-shadow-lg ${isDark ? 'text-white' : 'text-black'}`} />
+              <module.icon className={`w-8 h-8 md:w-10 md:h-10 drop-shadow-lg ${'text-[var(--app-text)]'}`} />
             </motion.div>
             {isWide && (
               <motion.div
@@ -126,15 +126,15 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
                 transition={{ duration: 0.2 }}
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-black/10'}`}
               >
-                <ChevronDown className={`w-4 h-4 -rotate-90 ${isDark ? 'text-white' : 'text-black'}`} />
+                <ChevronDown className={`w-4 h-4 -rotate-90 ${'text-[var(--app-text)]'}`} />
               </motion.div>
             )}
           </div>
           <div>
-            <h3 className={`font-bold text-base md:text-lg tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+            <h3 className={`font-bold text-base md:text-lg tracking-tight ${'text-[var(--app-text)]'}`}>
               {module.name}
             </h3>
-            <p className={`text-xs md:text-sm mt-0.5 ${isDark ? 'text-white/50' : 'text-black/50'}`}>
+            <p className={`text-xs md:text-sm mt-0.5 ${'text-[var(--app-text-secondary)]'}`}>
               {module.description}
             </p>
           </div>
@@ -157,7 +157,7 @@ export default function WindowsDesktop() {
     currentHour < 12 ? 'Good Morning' : currentHour < 18 ? 'Good Afternoon' : 'Good Evening';
 
   return (
-    <div className={`min-h-screen flex flex-col transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#f5f5f5]'}`}>
+    <div className={`min-h-screen flex flex-col transition-colors duration-500 ${'bg-[var(--app-bg)]'}`}>
       {/* Top bar */}
       <header className={`h-8 border-b flex items-center justify-between px-4 transition-colors duration-500 ${isDark ? 'bg-[#050505] border-white/[0.05]' : 'bg-[#f5f5f5] border-black/[0.05]'}`}>
         {/* Left: brand */}
@@ -165,7 +165,7 @@ export default function WindowsDesktop() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className={`flex items-center gap-1.5 cursor-pointer transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'}`}
+            className={`flex items-center gap-1.5 cursor-pointer transition-colors ${'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'}`}
           >
             <Image
               src="/logo.png"
@@ -184,11 +184,11 @@ export default function WindowsDesktop() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'}`}
+            className={`transition-colors ${'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'}`}
           >
             {isDark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
           </motion.button>
-          <div className={`hidden sm:flex items-center gap-3 ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+          <div className={`hidden sm:flex items-center gap-3 ${'text-[var(--app-text-muted)]'}`}>
             <Wifi className="w-3 h-3" />
             <Battery className="w-3.5 h-3.5" />
             <Volume2 className="w-3 h-3" />
@@ -209,10 +209,10 @@ export default function WindowsDesktop() {
           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 px-6 md:px-10 pt-6 pb-4"
         >
           <div>
-            <h2 className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-500 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
-              {greeting}, <span className={isDark ? 'text-white' : 'text-black'}>{displayName}</span>
+            <h2 className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-500 ${'text-[var(--app-text)]'}`}>
+              {greeting}, <span className={'text-[var(--app-text)]'}>{displayName}</span>
             </h2>
-            <p className={`text-sm mt-0.5 transition-colors duration-500 ${isDark ? 'text-white/30' : 'text-black/30'}`}>
+            <p className={`text-sm mt-0.5 transition-colors duration-500 ${'text-[var(--app-text-muted)]'}`}>
               Welcome to your enterprise command center
             </p>
           </div>
@@ -226,7 +226,7 @@ export default function WindowsDesktop() {
                 : 'bg-white/60 border-black/[0.08]'
                 }`}
             >
-              <Search className={`w-4 h-4 ${isDark ? 'text-white/30' : 'text-black/30'}`} />
+              <Search className={`w-4 h-4 ${'text-[var(--app-text-muted)]'}`} />
               <input
                 type="text"
                 placeholder="Search modules..."
@@ -276,11 +276,11 @@ export default function WindowsDesktop() {
                     : 'bg-white border-black/[0.08]'
                     }`}
                 >
-                  <div className={`px-3 py-2 border-b mb-1 ${isDark ? 'border-white/[0.08]' : 'border-black/[0.08]'}`}>
-                    <p className={`text-sm font-semibold ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+                  <div className={`px-3 py-2 border-b mb-1 ${'border-[var(--app-border)]'}`}>
+                    <p className={`text-sm font-semibold ${'text-[var(--app-text)]'}`}>
                       {displayName}
                     </p>
-                    <p className={`text-xs ${isDark ? 'text-white/40' : 'text-black/40'}`}>{user?.email || 'user@example.com'}</p>
+                    <p className={`text-xs ${'text-[var(--app-text-muted)]'}`}>{user?.email || 'user@example.com'}</p>
                   </div>
                   <button
                     onClick={logout}

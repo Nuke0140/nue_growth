@@ -71,10 +71,10 @@ export default function IntegrationsPage() {
   }), []);
 
   const kpiCards = [
-    { label: 'Connected', value: summaryStats.connected, color: 'text-emerald-400', bgColor: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+    { label: 'Connected', value: summaryStats.connected, color: 'text-emerald-400', bgColor: 'bg-[var(--app-success-bg)]' },
     { label: 'Disconnected', value: summaryStats.disconnected, color: 'text-zinc-400', bgColor: isDark ? 'bg-zinc-500/10' : 'bg-zinc-100' },
-    { label: 'Errors', value: summaryStats.errors, color: 'text-red-400', bgColor: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-    { label: 'Pending', value: summaryStats.pending, color: 'text-amber-400', bgColor: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+    { label: 'Errors', value: summaryStats.errors, color: 'text-red-400', bgColor: 'bg-[var(--app-danger-bg)]' },
+    { label: 'Pending', value: summaryStats.pending, color: 'text-amber-400', bgColor: 'bg-[var(--app-warning-bg)]' },
   ];
 
   return (
@@ -85,13 +85,13 @@ export default function IntegrationsPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Puzzle className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Puzzle className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Integrations</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Connect and manage your tools
               </p>
             </div>
@@ -105,13 +105,13 @@ export default function IntegrationsPage() {
               key={kpi.label}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <p className={cn('text-2xl font-bold', kpi.color)}>
                 {kpi.value}
               </p>
-              <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 {kpi.label}
               </p>
             </div>
@@ -128,7 +128,7 @@ export default function IntegrationsPage() {
                 className={cn(
                   'inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors shrink-0',
                   activeCategory === cat
-                    ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                    ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                     : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.04] hover:bg-black/[0.04]'),
                 )}
               >
@@ -138,9 +138,9 @@ export default function IntegrationsPage() {
           </div>
           <div className={cn(
             'flex items-center gap-2 rounded-xl border px-3 py-2 max-w-sm',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
-            <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             <input
               type="text"
               value={searchQuery}
@@ -148,7 +148,7 @@ export default function IntegrationsPage() {
               placeholder="Search integrations..."
               className={cn(
                 'bg-transparent text-sm focus:outline-none w-full',
-                isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25',
+                'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
               )}
             />
           </div>
@@ -187,7 +187,7 @@ export default function IntegrationsPage() {
                       {integ.icon}
                     </div>
                     <div className="min-w-0">
-                      <p className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <p className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                         {integ.name}
                       </p>
                       <span className={cn('inline-flex rounded-full px-2 py-0.5 text-[9px] font-medium', catColor)}>
@@ -206,7 +206,7 @@ export default function IntegrationsPage() {
                 </div>
 
                 {/* Description */}
-                <p className={cn('text-xs leading-relaxed line-clamp-2 mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-xs leading-relaxed line-clamp-2 mb-3', 'text-[var(--app-text-muted)]')}>
                   {integ.description}
                 </p>
 
@@ -214,20 +214,20 @@ export default function IntegrationsPage() {
                 <div className="space-y-1.5 mb-3">
                   {integ.connectedAt && (
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Connected</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Connected</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {new Date(integ.connectedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                     </div>
                   )}
                   {integ.tokenExpiry && (
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Token Expiry</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Token Expiry</span>
                       <span className={cn(
                         'text-[10px]',
                         new Date(integ.tokenExpiry) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-                          ? (isDark ? 'text-amber-400' : 'text-amber-600')
-                          : (isDark ? 'text-white/40' : 'text-black/40'),
+                          ? ('text-[var(--app-warning)]')
+                          : ('text-[var(--app-text-muted)]'),
                       )}>
                         {new Date(integ.tokenExpiry).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
@@ -235,16 +235,16 @@ export default function IntegrationsPage() {
                   )}
                   {integ.lastSync && (
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Last Sync</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last Sync</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {new Date(integ.lastSync).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                   )}
                   {integ.fieldMappings.length > 0 && (
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Field Mappings</span>
-                      <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Field Mappings</span>
+                      <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>
                         {integ.fieldMappings.length} fields
                       </span>
                     </div>
@@ -253,8 +253,8 @@ export default function IntegrationsPage() {
 
                 {/* Sync Logs Mini-Timeline */}
                 {integ.syncLogs.length > 0 && (
-                  <div className={cn('rounded-lg p-2.5 mb-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
-                    <p className={cn('text-[10px] font-medium mb-1.5', isDark ? 'text-white/30' : 'text-black/30')}>Recent Sync Logs</p>
+                  <div className={cn('rounded-lg p-2.5 mb-3', 'bg-[var(--app-hover-bg)]')}>
+                    <p className={cn('text-[10px] font-medium mb-1.5', 'text-[var(--app-text-muted)]')}>Recent Sync Logs</p>
                     <div className="space-y-1">
                       {integ.syncLogs.slice(0, 3).map((log, logIdx) => (
                         <div key={logIdx} className="flex items-center justify-between gap-2">
@@ -264,12 +264,12 @@ export default function IntegrationsPage() {
                             ) : (
                               <XCircle className="w-3 h-3 text-red-400 shrink-0" />
                             )}
-                            <span className={cn('text-[10px] truncate', isDark ? 'text-white/40' : 'text-black/40')}>
+                            <span className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                               {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
                           {log.records > 0 && (
-                            <span className={cn('text-[9px] font-medium shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>
+                            <span className={cn('text-[9px] font-medium shrink-0', 'text-[var(--app-text-muted)]')}>
                               {log.records} records
                             </span>
                           )}
@@ -280,7 +280,7 @@ export default function IntegrationsPage() {
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+                <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
                   {integ.status === 'connected' || integ.status === 'error' ? (
                     <>
                       <button className={cn(
@@ -332,14 +332,14 @@ export default function IntegrationsPage() {
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-6 flex flex-col sm:flex-row items-center justify-between gap-4',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div>
-            <h3 className={cn('text-sm font-semibold mb-1', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h3 className={cn('text-sm font-semibold mb-1', 'text-[var(--app-text)]')}>
               Need more integrations?
             </h3>
-            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
               Browse 200+ integrations in our marketplace — CRM, ERP, Analytics, Communication, and more.
             </p>
           </div>

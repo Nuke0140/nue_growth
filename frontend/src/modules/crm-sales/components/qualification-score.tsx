@@ -14,9 +14,9 @@ function getScoreColor(score: number, maxScore: number): string {
 
 function getScoreTextColor(score: number, maxScore: number, isDark: boolean): string {
   const pct = (score / maxScore) * 100;
-  if (pct >= 80) return isDark ? 'text-emerald-400' : 'text-emerald-600';
-  if (pct >= 50) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+  if (pct >= 80) return 'text-[var(--app-success)]';
+  if (pct >= 50) return 'text-[var(--app-warning)]';
+  return 'text-[var(--app-danger)]';
 }
 
 export default function QualificationScoreDisplay({
@@ -52,12 +52,12 @@ export default function QualificationScoreDisplay({
         {Icon && (
           <div className={cn(
             'w-7 h-7 rounded-lg flex items-center justify-center',
-            isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]'
+            'bg-[var(--app-hover-bg)]'
           )}>
-            <Icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/50' : 'text-black/50')} />
+            <Icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-secondary)]')} />
           </div>
         )}
-        <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+        <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
           {label}
         </span>
         <span className={cn('ml-auto text-xs font-bold', textColor)}>
@@ -66,7 +66,7 @@ export default function QualificationScoreDisplay({
       </div>
 
       {/* Progress Bar */}
-      <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+      <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
@@ -76,13 +76,13 @@ export default function QualificationScoreDisplay({
       </div>
 
       {/* Score / Max */}
-      <div className={cn('text-[10px] mt-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
+      <div className={cn('text-[10px] mt-1.5', 'text-[var(--app-text-muted)]')}>
         {score.score} / {score.maxScore}
       </div>
 
       {/* Notes */}
       {score.notes && (
-        <p className={cn('text-[11px] mt-2 leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+        <p className={cn('text-[11px] mt-2 leading-relaxed', 'text-[var(--app-text-muted)]')}>
           {score.notes}
         </p>
       )}

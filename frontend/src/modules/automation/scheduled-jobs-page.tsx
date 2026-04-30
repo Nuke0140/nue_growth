@@ -70,7 +70,7 @@ export default function ScheduledJobsPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   // Convert first execution log to timeline steps for the replay component
@@ -93,10 +93,10 @@ export default function ScheduledJobsPage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               Scheduled Jobs
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Time-based automation center
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function ScheduledJobsPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
@@ -162,14 +162,14 @@ export default function ScheduledJobsPage() {
                 transition={{ delay: i * 0.06 }}
                 className={cn(
                   'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                         {job.name}
                       </h3>
                       <span className={cn(
@@ -180,17 +180,17 @@ export default function ScheduledJobsPage() {
                         {statusConf.label}
                       </span>
                     </div>
-                    <p className={cn('text-xs line-clamp-2', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                    <p className={cn('text-xs line-clamp-2', 'text-[var(--app-text-muted)]')}>
                       {job.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Schedule Display */}
-                <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <Calendar className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <Calendar className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Schedule
                     </p>
                   </div>
@@ -207,13 +207,13 @@ export default function ScheduledJobsPage() {
 
                 {/* Last & Next Run */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                       Last Run
                     </p>
                     {job.lastRun ? (
                       <>
-                        <p className={cn('text-[11px]', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                        <p className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>
                           {formatTimestamp(job.lastRun)}
                         </p>
                         <div className="flex items-center gap-1 mt-1">
@@ -227,14 +227,14 @@ export default function ScheduledJobsPage() {
                         </div>
                       </>
                     ) : (
-                      <p className={cn('text-[11px]', isDark ? 'text-zinc-600' : 'text-zinc-400')}>Never</p>
+                      <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>Never</p>
                     )}
                   </div>
-                  <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                       Next Run
                     </p>
-                    <p className={cn('text-[11px]', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                    <p className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>
                       {formatTimestamp(job.nextRun)}
                     </p>
                     <div className="flex items-center gap-1 mt-1">
@@ -249,19 +249,19 @@ export default function ScheduledJobsPage() {
                 {/* Duration + Success Rate */}
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
-                    <Zap className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <span className={cn('text-[10px]', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                    <Zap className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       {formatDuration(job.duration)}
                     </span>
                   </div>
-                  <span className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>·</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>·</span>
                   <span className={cn('text-[10px] font-bold', job.successRate >= 95 ? 'text-emerald-400' : job.successRate >= 90 ? 'text-amber-400' : 'text-red-400')}>
                     {job.successRate}% success
                   </span>
                 </div>
 
                 {/* Success Rate Bar */}
-                <div className={cn('w-full h-1 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('w-full h-1 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${job.successRate}%` }}
@@ -275,15 +275,15 @@ export default function ScheduledJobsPage() {
 
                 {/* Created By */}
                 <div className="flex items-center gap-1.5">
-                  <User className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                  <User className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     Created by {job.createdBy}
                   </span>
                 </div>
 
                 {/* Tags */}
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <Tag className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+                  <Tag className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
                   {job.tags.map((tag, ti) => (
                     <span
                       key={tag}
@@ -315,7 +315,7 @@ export default function ScheduledJobsPage() {
                     whileTap={{ scale: 0.95 }}
                     className={cn(
                       'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
-                      isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
+                      'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                     )}
                   >
                     <Pencil className="h-3 w-3" />
@@ -331,8 +331,8 @@ export default function ScheduledJobsPage() {
         {timelineSteps.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <ArrowRight className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Recent Execution
               </h2>
             </div>

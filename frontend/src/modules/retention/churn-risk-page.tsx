@@ -46,9 +46,9 @@ export default function ChurnRiskPage() {
   const maxTrend = Math.max(...churnTrend.map((c) => c.value));
 
   const getRiskBadge = (level: string) => {
-    if (level === 'high') return { bg: isDark ? 'bg-red-500/15' : 'bg-red-50', text: 'text-red-500', label: 'High' };
-    if (level === 'medium') return { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'Medium' };
-    return { bg: isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', label: 'Safe' };
+    if (level === 'high') return { bg: 'bg-[var(--app-danger-bg)]', text: 'text-red-500', label: 'High' };
+    if (level === 'medium') return { bg: 'bg-[var(--app-warning-bg)]', text: 'text-amber-500', label: 'Medium' };
+    return { bg: 'bg-[var(--app-success-bg)]', text: 'text-emerald-500', label: 'Safe' };
   };
 
   const getRiskBarColor = (score: number) => {
@@ -63,18 +63,18 @@ export default function ChurnRiskPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Brain className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Brain className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Churn Risk</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>AI Churn Prevention</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>AI Churn Prevention</p>
             </div>
           </div>
           <Button
             className={cn(
               'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
             <Play className="w-4 h-4" />
@@ -85,9 +85,9 @@ export default function ChurnRiskPage() {
         {/* Summary Cards */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: 'High Risk', count: summary.high, icon: ShieldAlert, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', border: isDark ? 'border-red-500/20' : 'border-red-200' },
-            { label: 'Medium Risk', count: summary.medium, icon: Shield, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', border: isDark ? 'border-amber-500/20' : 'border-amber-200' },
-            { label: 'Safe', count: summary.safe, icon: ShieldCheck, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', border: isDark ? 'border-emerald-500/20' : 'border-emerald-200' },
+            { label: 'High Risk', count: summary.high, icon: ShieldAlert, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', border: isDark ? 'border-red-500/20' : 'border-red-200' },
+            { label: 'Medium Risk', count: summary.medium, icon: Shield, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', border: isDark ? 'border-amber-500/20' : 'border-amber-200' },
+            { label: 'Safe', count: summary.safe, icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', border: isDark ? 'border-emerald-500/20' : 'border-emerald-200' },
           ].map((item, i) => (
             <motion.div
               key={item.label}
@@ -97,13 +97,13 @@ export default function ChurnRiskPage() {
               className={cn('rounded-2xl border p-4', item.border, isDark ? `bg-white/[0.02] ${item.border}` : `bg-white ${item.border}`)}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{item.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
                   <item.icon className={cn('w-3.5 h-3.5', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.count}</p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>of {churnRiskData.length} tracked</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>of {churnRiskData.length} tracked</p>
             </motion.div>
           ))}
         </div>
@@ -113,25 +113,25 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Risk Score Distribution</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Risk Score Distribution</span>
             </div>
           </div>
           <div className="flex items-end gap-2 h-32">
             {churnRiskData.map((entry, j) => (
               <div key={entry.id} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.riskScore}</span>
+                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.riskScore}</span>
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.riskScore / 100) * 100}%` }}
                   transition={{ delay: 0.3 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', getRiskBarColor(entry.riskScore))}
                 />
-                <span className={cn('text-[7px] text-center truncate w-full', isDark ? 'text-white/20' : 'text-black/20')}>{entry.client}</span>
+                <span className={cn('text-[7px] text-center truncate w-full', 'text-[var(--app-text-disabled)]')}>{entry.client}</span>
               </div>
             ))}
           </div>
@@ -142,20 +142,20 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <AlertTriangle className={cn('w-4 h-4 text-red-400')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Churn Risk Details</span>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Risk Details</span>
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Client', 'Industry', 'Risk Score', 'Level', 'Inactive Days', 'Eng Drop', 'Feedback', 'Escalations', 'Value', 'Churn Date', 'Manager', 'Action'].map((h) => (
-                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-3 px-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-3 px-2', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -181,7 +181,7 @@ export default function ChurnRiskPage() {
                       <td className="py-3 px-2 text-xs">{entry.industry}</td>
                       <td className="py-3 px-2">
                         <div className="flex items-center gap-2">
-                          <div className={cn('w-16 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                          <div className={cn('w-16 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${entry.riskScore}%` }}
@@ -227,11 +227,11 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-2 mb-4">
             <Zap className={cn('w-4 h-4 text-red-400')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>High Risk — Immediate Actions</span>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>High Risk — Immediate Actions</span>
           </div>
           <div className="space-y-2">
             {churnRiskData.filter((c) => c.riskLevel === 'high').map((entry, i) => (
@@ -251,7 +251,7 @@ export default function ChurnRiskPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium">{entry.client}</p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>{entry.recommendedAction}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{entry.recommendedAction}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -275,28 +275,28 @@ export default function ChurnRiskPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Churn Trend Over Time</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Trend Over Time</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
               Improving ↓
             </Badge>
           </div>
           <div className="flex items-end gap-2 h-32">
             {churnTrend.map((entry, j) => (
               <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.value}</span>
+                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.value}</span>
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.value / maxTrend) * 100}%` }}
                   transition={{ delay: 0.65 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                 />
-                <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
+                <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.month}</span>
               </div>
             ))}
           </div>

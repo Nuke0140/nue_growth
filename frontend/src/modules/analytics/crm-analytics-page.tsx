@@ -82,13 +82,13 @@ export default function CRMAnalyticsPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Users className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">CRM Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Lead sources, lifecycle stages &amp; contact engagement
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function CRMAnalyticsPage() {
             <ExportMenu />
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
@@ -168,18 +168,18 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {src.conversion}% conv
                       </span>
                       <span className="text-sm font-semibold">{formatNum(src.leads)}</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.leads / maxLeadSource) * 100}%` }}
                       transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
+                      className={cn('h-full rounded-full', 'bg-[var(--app-info)]')}
                     />
                   </div>
                 </motion.div>
@@ -198,7 +198,7 @@ export default function CRMAnalyticsPage() {
                       <span className="text-sm font-medium">{stage.stage}</span>
                       <span className={cn(
                         'text-xs px-2 py-0.5 rounded-full font-medium',
-                        isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
+                        'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                       )}>
                         {stage.rate}%
                       </span>
@@ -209,15 +209,15 @@ export default function CRMAnalyticsPage() {
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-10 rounded-xl flex items-center justify-center',
-                        isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+                        'bg-[var(--app-hover-bg)]',
                       )}
                       style={{ maxWidth: '100%' }}
                     >
                       <div className="text-center">
-                        <p className={cn('text-base font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
+                        <p className={cn('text-base font-bold', 'text-[var(--app-text)]')}>
                           {formatNum(stage.converted)}
                         </p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           of {formatNum(stage.total)}
                         </p>
                       </div>
@@ -225,7 +225,7 @@ export default function CRMAnalyticsPage() {
                     {i < data.lifecycleConversion.length - 1 && (
                       <ChevronRight className={cn(
                         'w-4 h-4 my-0.5 rotate-90',
-                        isDark ? 'text-white/20' : 'text-black/20',
+                        'text-[var(--app-text-disabled)]',
                       )} />
                     )}
                   </div>
@@ -262,11 +262,11 @@ export default function CRMAnalyticsPage() {
                 >
                   <div className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center mb-3',
-                    isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+                    'bg-[var(--app-hover-bg)]',
                   )}>
-                    <item.icon className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                    <item.icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                   </div>
-                  <p className={cn('text-[10px] uppercase tracking-wider mb-1', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <p className={cn('text-[10px] uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
                     {item.metric}
                   </p>
                   <div className="flex items-baseline gap-1.5">
@@ -302,13 +302,13 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{stage.stage}</span>
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {stage.deals} deals
                       </span>
                       <span className="text-sm font-semibold">{stage.avgDays}d</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(stage.avgDays / maxPipelineDays) * 100}%` }}
@@ -326,13 +326,13 @@ export default function CRMAnalyticsPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Rep', 'Avg Response', 'Meetings', 'Conversion'].map((h) => (
                       <th
                         key={h}
                         className={cn(
                           'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                          isDark ? 'text-white/40' : 'text-black/40',
+                          'text-[var(--app-text-muted)]',
                         )}
                       >
                         {h}
@@ -349,14 +349,14 @@ export default function CRMAnalyticsPage() {
                       transition={{ delay: 0.3 + i * 0.06 }}
                       className={cn(
                         'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                        'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                       )}
                     >
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
                           <div className={cn(
                             'w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold',
-                            isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60',
+                            'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
                           )}>
                             {rep.rep.split(' ').map((n) => n[0]).join('')}
                           </div>
@@ -369,7 +369,7 @@ export default function CRMAnalyticsPage() {
                           {i === 0 && (
                             <span className={cn(
                               'text-[9px] px-1.5 py-0.5 rounded-full font-medium',
-                              isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
+                              'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                             )}>
                               Fastest
                             </span>
@@ -379,9 +379,9 @@ export default function CRMAnalyticsPage() {
                       <td className="py-3 px-3 text-sm">{rep.meetings}</td>
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
-                          <div className={cn('w-14 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                          <div className={cn('w-14 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                             <div
-                              className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
+                              className={cn('h-full rounded-full', 'bg-[var(--app-info)]')}
                               style={{ width: `${rep.conversion}%` }}
                             />
                           </div>

@@ -43,7 +43,7 @@ export default function ReportBuilderPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   function addSection() {
@@ -67,10 +67,10 @@ export default function ReportBuilderPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               Report Builder
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Create custom reports
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function ReportBuilderPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <h2 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h2 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>
             Start from Template
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
@@ -165,7 +165,7 @@ export default function ReportBuilderPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Report Title */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className={card}>
-              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                 Report Title
               </label>
               <input
@@ -184,7 +184,7 @@ export default function ReportBuilderPage() {
 
             {/* Data Source Selector */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }} className={card}>
-              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                 Data Source
               </label>
               <div className="flex flex-wrap gap-2">
@@ -211,7 +211,7 @@ export default function ReportBuilderPage() {
 
             {/* Widget Selector */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={card}>
-              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                 Widgets
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -244,7 +244,7 @@ export default function ReportBuilderPage() {
             {/* Sections List */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }} className={card}>
               <div className="flex items-center justify-between mb-3">
-                <label className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                <label className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   Sections
                 </label>
                 <motion.button
@@ -266,17 +266,17 @@ export default function ReportBuilderPage() {
                     key={section.id}
                     className={cn(
                       'flex items-center justify-between rounded-xl border p-3',
-                      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-[10px] font-mono', isDark ? 'text-zinc-600' : 'text-zinc-400')}>
+                      <span className={cn('text-[10px] font-mono', 'text-[var(--app-text-muted)]')}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                      <span className={cn('text-xs font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>
                         {section.title}
                       </span>
-                      <span className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         ({section.widgets.length} widgets)
                       </span>
                     </div>
@@ -294,8 +294,8 @@ export default function ReportBuilderPage() {
             {/* Brand Header Section */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} className={card}>
               <div className="flex items-center gap-2 mb-3">
-                <Palette className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-                <label className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                <Palette className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <label className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   Branding
                 </label>
               </div>
@@ -303,7 +303,7 @@ export default function ReportBuilderPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Logo Upload */}
                 <div>
-                  <p className={cn('text-xs font-medium mb-2', isDark ? 'text-zinc-300' : 'text-zinc-700')}>Logo</p>
+                  <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-secondary)]')}>Logo</p>
                   <div
                     className={cn(
                       'flex items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 cursor-pointer transition-colors',
@@ -312,14 +312,14 @@ export default function ReportBuilderPage() {
                         : 'border-black/[0.08] hover:border-black/[0.15] hover:bg-black/[0.02]',
                     )}
                   >
-                    <Upload className={cn('w-4 h-4', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <span className={cn('text-xs', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Upload logo</span>
+                    <Upload className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Upload logo</span>
                   </div>
                 </div>
 
                 {/* Color Picker */}
                 <div>
-                  <p className={cn('text-xs font-medium mb-2', isDark ? 'text-zinc-300' : 'text-zinc-700')}>Primary Color</p>
+                  <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-secondary)]')}>Primary Color</p>
                   <div className="flex flex-wrap gap-2">
                     {PRESET_COLORS.map((color) => (
                       <button
@@ -339,7 +339,7 @@ export default function ReportBuilderPage() {
 
             {/* Notes Section */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }} className={card}>
-              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                 Notes
               </label>
               <textarea
@@ -360,13 +360,13 @@ export default function ReportBuilderPage() {
           {/* Preview Section */}
           <div className="space-y-4">
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-              <h2 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h2 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>
                 Preview
               </h2>
               <div
                 className={cn(
                   'rounded-2xl border shadow-sm overflow-hidden',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Brand Header */}
@@ -386,14 +386,14 @@ export default function ReportBuilderPage() {
                 <div className="p-4 space-y-3">
                   {sections.map((section) => (
                     <div key={section.id}>
-                      <div className={cn('flex items-center gap-2 mb-2', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                      <div className={cn('flex items-center gap-2 mb-2', 'text-[var(--app-text-muted)]')}>
                         <div className="h-0.5 w-4 rounded-full" style={{ backgroundColor: brandColor }} />
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{section.title}</span>
                       </div>
                       <div
                         className={cn(
                           'rounded-lg border p-3',
-                          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                          'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                         )}
                       >
                         <div className="flex items-center justify-between mb-2">
@@ -405,9 +405,9 @@ export default function ReportBuilderPage() {
                               />
                             ))}
                           </div>
-                          <div className={cn('h-4 w-16 rounded', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
+                          <div className={cn('h-4 w-16 rounded', 'bg-[var(--app-hover-bg)]')} />
                         </div>
-                        <div className={cn('h-20 rounded-lg', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')} />
+                        <div className={cn('h-20 rounded-lg', 'bg-[var(--app-hover-bg)]')} />
                       </div>
                     </div>
                   ))}
@@ -418,9 +418,9 @@ export default function ReportBuilderPage() {
                       { label: 'Widgets', val: selectedWidgets.length.toString() },
                       { label: 'Sections', val: sections.length.toString() },
                     ].map((s) => (
-                      <div key={s.label} className={cn('rounded-lg border p-2 text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                        <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>{s.val}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>{s.label}</p>
+                      <div key={s.label} className={cn('rounded-lg border p-2 text-center', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                        <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{s.val}</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{s.label}</p>
                       </div>
                     ))}
                   </div>

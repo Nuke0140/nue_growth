@@ -101,7 +101,7 @@ export default function FinanceKpiCard({
         )}
       </div>
 
-      <p className={cn('text-[11px] font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>
+      <p className={cn('text-[11px] font-medium mb-1', 'text-[var(--app-text-muted)]')}>
         {label}
       </p>
       <p className="text-lg font-bold tracking-tight mb-1.5">
@@ -114,8 +114,8 @@ export default function FinanceKpiCard({
             className={cn(
               'flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-semibold',
               isPositive
-                ? isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'
-                : isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600'
+                ? 'bg-[var(--app-success-bg)] text-[var(--app-success)]'
+                : 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]'
             )}
           >
             {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
@@ -123,7 +123,7 @@ export default function FinanceKpiCard({
             {typeof change === 'number' ? change.toFixed(1) : change}%
           </div>
           {changeLabel && (
-            <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
               {changeLabel}
             </span>
           )}

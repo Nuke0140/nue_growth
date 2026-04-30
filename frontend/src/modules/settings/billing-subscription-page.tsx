@@ -46,12 +46,12 @@ export default function BillingSubscriptionPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <CreditCard className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <CreditCard className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Billing & Subscription</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage your plan and billing</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage your plan and billing</p>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function BillingSubscriptionPage() {
 
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-bold tracking-tight">₹{billingPlan.price.toLocaleString('en-IN')}</span>
-                  <span className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>/month</span>
+                  <span className={cn('text-sm', 'text-[var(--app-text-muted)]')}>/month</span>
                 </div>
 
                 {/* Usage Bars */}
@@ -90,12 +90,12 @@ export default function BillingSubscriptionPage() {
                   {usageBars.map((bar) => (
                     <div key={bar.label} className="space-y-1">
                       <div className="flex items-center justify-between text-xs">
-                        <span className={cn('font-medium', isDark ? 'text-white/50' : 'text-black/50')}>{bar.label}</span>
-                        <span className={cn('font-mono', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <span className={cn('font-medium', 'text-[var(--app-text-secondary)]')}>{bar.label}</span>
+                        <span className={cn('font-mono', 'text-[var(--app-text-muted)]')}>
                           {bar.format ? formatAPI(bar.current) : bar.current}{bar.unit} / {bar.format ? formatAPI(bar.limit) : bar.limit}{bar.unit}
                         </span>
                       </div>
-                      <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${bar.percent}%` }}
@@ -111,23 +111,23 @@ export default function BillingSubscriptionPage() {
               {/* Right: Details */}
               <div className={cn('space-y-4 lg:w-72 p-4 rounded-xl border shrink-0', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white/60 border-black/[0.06]')}>
                 <div className="flex items-center gap-2">
-                  <Calendar className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Next Billing</span>
+                  <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                  <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Next Billing</span>
                 </div>
                 <p className="text-sm font-semibold">
                   {new Date(billingPlan.nextBillingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </p>
 
-                <div className={cn('border-t pt-3', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <div className={cn('border-t pt-3', 'border-[var(--app-border)]')}>
                   <div className="flex items-center gap-2">
-                    <Wallet className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Payment Method</span>
+                    <Wallet className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Payment Method</span>
                   </div>
                   <p className="text-sm font-semibold mt-1">{billingPlan.paymentMethod}</p>
                 </div>
 
                 <Button
-                  className={cn('w-full rounded-xl text-sm font-medium gap-2 mt-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}
+                  className={cn('w-full rounded-xl text-sm font-medium gap-2 mt-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
                 >
                   Manage Subscription <ChevronRight className="w-4 h-4" />
                 </Button>
@@ -135,11 +135,11 @@ export default function BillingSubscriptionPage() {
             </div>
 
             {/* Features List */}
-            <div className={cn('mt-5 pt-4 border-t', isDark ? 'border-white/[0.08]' : 'border-black/[0.08]')}>
-              <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-3', isDark ? 'text-white/30' : 'text-black/30')}>Plan Features</p>
+            <div className={cn('mt-5 pt-4 border-t', 'border-[var(--app-border)]')}>
+              <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>Plan Features</p>
               <div className="flex flex-wrap gap-2">
                 {billingPlan.features.map((f) => (
-                  <span key={f} className={cn('flex items-center gap-1.5 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span key={f} className={cn('flex items-center gap-1.5 text-xs', 'text-[var(--app-text-secondary)]')}>
                     <Check className="w-3 h-3 text-emerald-500 shrink-0" /> {f}
                   </span>
                 ))}
@@ -150,8 +150,8 @@ export default function BillingSubscriptionPage() {
 
         {/* Plan Comparison Grid */}
         <div>
-          <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/70' : 'text-black/70')}>
-            <Star className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+          <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
+            <Star className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             Plan Comparison
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -180,39 +180,39 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className={cn('text-sm font-semibold flex items-center gap-2', isDark ? 'text-white/70' : 'text-black/70')}>
-              <Download className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+            <h3 className={cn('text-sm font-semibold flex items-center gap-2', 'text-[var(--app-text)]')}>
+              <Download className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               Invoice History
             </h3>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               {billingPlan.invoiceHistory.length} invoices
             </Badge>
           </div>
-          <div className={cn('rounded-xl border overflow-hidden', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+          <div className={cn('rounded-xl border overflow-hidden', 'border-[var(--app-border-light)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className={cn(isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                    <th className={cn('text-left px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Invoice No</th>
-                    <th className={cn('text-left px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Date</th>
-                    <th className={cn('text-right px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Amount</th>
-                    <th className={cn('text-center px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status</th>
-                    <th className={cn('text-right px-4 py-3 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Action</th>
+                  <tr className={cn('bg-[var(--app-hover-bg)]')}>
+                    <th className={cn('text-left px-4 py-3 font-medium', 'text-[var(--app-text-muted)]')}>Invoice No</th>
+                    <th className={cn('text-left px-4 py-3 font-medium', 'text-[var(--app-text-muted)]')}>Date</th>
+                    <th className={cn('text-right px-4 py-3 font-medium', 'text-[var(--app-text-muted)]')}>Amount</th>
+                    <th className={cn('text-center px-4 py-3 font-medium', 'text-[var(--app-text-muted)]')}>Status</th>
+                    <th className={cn('text-right px-4 py-3 font-medium', 'text-[var(--app-text-muted)]')}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {billingPlan.invoiceHistory.map((inv, i) => {
                     const sConf = invoiceStatusConfig[inv.status] || invoiceStatusConfig.pending;
                     return (
-                      <tr key={i} className={cn('border-t transition-colors', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                        <td className={cn('px-4 py-3 font-mono font-medium', isDark ? 'text-white/70' : 'text-black/70')}>{inv.invoiceNo}</td>
-                        <td className={cn('px-4 py-3', isDark ? 'text-white/50' : 'text-black/50')}>
+                      <tr key={i} className={cn('border-t transition-colors', 'border-[var(--app-border-light)]')}>
+                        <td className={cn('px-4 py-3 font-mono font-medium', 'text-[var(--app-text)]')}>{inv.invoiceNo}</td>
+                        <td className={cn('px-4 py-3', 'text-[var(--app-text-secondary)]')}>
                           {new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </td>
-                        <td className={cn('px-4 py-3 text-right font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                        <td className={cn('px-4 py-3 text-right font-semibold', 'text-[var(--app-text)]')}>
                           ₹{inv.amount.toLocaleString('en-IN')}
                         </td>
                         <td className="px-4 py-3 text-center">
@@ -239,24 +239,24 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className={cn('text-sm font-semibold flex items-center gap-2', isDark ? 'text-white/70' : 'text-black/70')}>
-              <Shield className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+            <h3 className={cn('text-sm font-semibold flex items-center gap-2', 'text-[var(--app-text)]')}>
+              <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               Payment Methods
             </h3>
             <Button variant="outline" size="sm" className={cn('rounded-lg text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
               <Plus className="w-3 h-3" /> Add Payment Method
             </Button>
           </div>
-          <div className={cn('flex items-center gap-4 p-4 rounded-xl border', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+          <div className={cn('flex items-center gap-4 p-4 rounded-xl border', 'border-[var(--app-border-light)]')}>
             <div className={cn('w-12 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-blue-500/15' : 'bg-blue-50')}>
               <span className="text-blue-500 font-bold text-[10px]">VISA</span>
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium">Visa ending 4242</p>
-              <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>Expires 12/2027</p>
+              <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>Expires 12/2027</p>
             </div>
             <Badge variant="secondary" className={cn('text-[9px] px-2 py-0.5 border-0 bg-emerald-500/15 text-emerald-400')}>Default</Badge>
           </div>
@@ -267,21 +267,21 @@ export default function BillingSubscriptionPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
-          <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/70' : 'text-black/70')}>
-            <Plus className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+          <h3 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text)]')}>
+            <Plus className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             Add-ons
           </h3>
           <div className="space-y-2">
             {billingPlan.addOns.map((addon) => (
-              <div key={addon.name} className={cn('flex items-center justify-between p-3 rounded-xl border transition-colors', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+              <div key={addon.name} className={cn('flex items-center justify-between p-3 rounded-xl border transition-colors', 'border-[var(--app-border-light)]')}>
                 <div className="flex items-center gap-3">
                   <div
                     onClick={() => {}}
                     className={cn(
                       'relative w-10 h-5.5 rounded-full transition-colors duration-200 cursor-pointer',
-                      addon.active ? 'bg-emerald-500' : isDark ? 'bg-white/[0.15]' : 'bg-black/[0.15]'
+                      addon.active ? 'bg-emerald-500' : 'bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <div
@@ -294,7 +294,7 @@ export default function BillingSubscriptionPage() {
                   </div>
                   <div>
                     <p className="text-xs font-medium">{addon.name}</p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>₹{addon.price.toLocaleString('en-IN')}/month</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>₹{addon.price.toLocaleString('en-IN')}/month</p>
                   </div>
                 </div>
                 <Badge

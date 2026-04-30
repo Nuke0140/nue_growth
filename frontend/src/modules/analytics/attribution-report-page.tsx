@@ -45,7 +45,7 @@ export default function AttributionReportPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   const maxRevenue = Math.max(...data.revenueBySource.map((s) => s.revenue));
@@ -57,10 +57,10 @@ export default function AttributionReportPage() {
       <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Attribution Reports
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
             Multi-model revenue attribution
           </p>
         </div>
@@ -98,10 +98,10 @@ export default function AttributionReportPage() {
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             'rounded-xl border p-3',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
-          <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+          <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
             <span className="font-semibold">{MODEL_DESCRIPTIONS[currentModel]}</span>
           </p>
         </motion.div>
@@ -115,12 +115,12 @@ export default function AttributionReportPage() {
         >
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Revenue by Source
               </h3>
             </div>
-            <span className={cn('text-xs', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
               Total: {formatCurrency(totalRevenue)}
             </span>
           </div>
@@ -135,20 +135,20 @@ export default function AttributionReportPage() {
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: SOURCE_COLORS[i % SOURCE_COLORS.length] }}
                       />
-                      <span className={cn('text-xs font-medium', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                         {source.source}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                         {formatCurrency(source.revenue)}
                       </span>
-                      <span className={cn('text-[10px] tabular-nums', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
                         {source.percentage}%
                       </span>
                     </div>
                   </div>
-                  <div className={cn('h-2.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('h-2.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
@@ -172,10 +172,10 @@ export default function AttributionReportPage() {
             transition={{ delay: 0.15, duration: 0.3 }}
             className={cn(card, 'overflow-hidden')}
           >
-            <div className="p-4 sm:p-5 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+            <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
               <div className="flex items-center gap-2">
-                <IndianRupee className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                <IndianRupee className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   CAC by Channel
                 </h3>
               </div>
@@ -183,9 +183,9 @@ export default function AttributionReportPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
                     {['Channel', 'CAC', 'Leads', 'Spend'].map((h) => (
-                      <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <th key={h} className={cn('px-4 py-2.5 text-left font-medium', 'text-[var(--app-text-muted)]')}>
                         {h}
                       </th>
                     ))}
@@ -193,17 +193,17 @@ export default function AttributionReportPage() {
                 </thead>
                 <tbody>
                   {data.cacByChannel.map((row) => (
-                    <tr key={row.channel} className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}>
-                      <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <tr key={row.channel} className={cn('border-b last:border-0', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}>
+                      <td className={cn('px-4 py-3 font-medium', 'text-[var(--app-text)]')}>
                         {row.channel}
                       </td>
-                      <td className={cn('px-4 py-3 font-semibold tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                      <td className={cn('px-4 py-3 font-semibold tabular-nums', 'text-[var(--app-text-secondary)]')}>
                         ₹{row.cac.toLocaleString()}
                       </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                      <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                         {formatNumber(row.leads)}
                       </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                      <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                         {formatCurrency(row.spend)}
                       </td>
                     </tr>
@@ -221,8 +221,8 @@ export default function AttributionReportPage() {
             className={cn(card, 'p-4 sm:p-5')}
           >
             <div className="flex items-center gap-2 mb-5">
-              <GitBranch className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <GitBranch className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Touchpoint Contribution
               </h3>
             </div>
@@ -232,19 +232,19 @@ export default function AttributionReportPage() {
                 return (
                   <div key={tp.touchpoint}>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className={cn('text-xs font-medium', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                         {tp.touchpoint}
                       </span>
                       <div className="flex items-center gap-2">
-                        <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                        <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                           {tp.contribution}%
                         </span>
-                        <span className={cn('text-[10px] tabular-nums', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                        <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
                           {tp.conversions} conv
                         </span>
                       </div>
                     </div>
-                    <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${width}%` }}
@@ -266,10 +266,10 @@ export default function AttributionReportPage() {
           transition={{ delay: 0.25, duration: 0.3 }}
           className={cn(card, 'overflow-hidden')}
         >
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+          <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-2">
-              <Users className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Assisted Conversions
               </h3>
             </div>
@@ -277,9 +277,9 @@ export default function AttributionReportPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
                   {['Channel', 'Assisted', 'Last-Touch', 'Overlap'].map((h) => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -287,17 +287,17 @@ export default function AttributionReportPage() {
               </thead>
               <tbody>
                 {data.assistedConversions.map((row) => (
-                  <tr key={row.channel} className={cn('border-b last:border-0', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}>
-                    <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <tr key={row.channel} className={cn('border-b last:border-0', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}>
+                    <td className={cn('px-4 py-3 font-medium', 'text-[var(--app-text)]')}>
                       {row.channel}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {row.assisted.toLocaleString()}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {row.lastTouch.toLocaleString()}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {row.overlap.toLocaleString()}
                     </td>
                   </tr>
@@ -315,8 +315,8 @@ export default function AttributionReportPage() {
           className={cn(card, 'p-4 sm:p-5')}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Layers className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <Layers className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Model Comparison
             </h3>
           </div>
@@ -339,17 +339,17 @@ export default function AttributionReportPage() {
                   )}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                       {MODEL_LABELS[model.model]}
                     </span>
                     {i === selectedModelIndex && (
                       <span className="inline-flex h-2 w-2 rounded-full bg-blue-500" />
                     )}
                   </div>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                     {formatCurrency(modelTotal)}
                   </p>
-                  <p className={cn('text-[10px] mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                     Top: {topSource.source} ({topSource.percentage}%)
                   </p>
                 </motion.div>

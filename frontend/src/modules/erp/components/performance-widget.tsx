@@ -68,7 +68,7 @@ function CircularProgress({ value, size = 56, strokeWidth = 4 }: { value: number
           cy={size / 2}
           r={radius}
           fill="none"
-          className="stroke-[var(--ops-hover-bg)]"
+          className="stroke-[var(--app-hover-bg)]"
           strokeWidth={strokeWidth}
         />
         <motion.circle
@@ -127,7 +127,7 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header: Employee + Period */}
@@ -135,13 +135,13 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
         <div className="flex items-center gap-2.5">
           <div className={cn(
             'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold',
-            'bg-[var(--ops-elevated)] text-[var(--ops-text)]'
+            'bg-[var(--app-elevated)] text-[var(--app-text)]'
           )}>
             {employeeName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
           </div>
           <div>
             <h3 className="text-sm font-semibold">{employeeName}</h3>
-            <p className="text-[10px] text-[var(--ops-text-muted)]">
+            <p className="text-[10px] text-[var(--app-text-muted)]">
               {review.period}
             </p>
           </div>
@@ -177,8 +177,8 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1.5">
-                  <Icon className="w-3 h-3 text-[var(--ops-text-muted)]" />
-                  <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+                  <Icon className="w-3 h-3 text-[var(--app-text-muted)]" />
+                  <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
                     {metric.label}
                   </span>
                 </div>
@@ -186,7 +186,7 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
                   {metric.value}%
                 </span>
               </div>
-              <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
+              <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
                 <motion.div
                   className={cn(
                     'h-full rounded-full transition-all duration-500',
@@ -208,16 +208,16 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       <div
         className={cn(
           'mt-4 pt-3 border-t flex items-center justify-between',
-          'border-[var(--ops-border)]'
+          'border-[var(--app-border)]'
         )}
       >
         <div className="flex items-center gap-1.5">
-          <Star className="w-3 h-3 text-[var(--ops-text-disabled)]" />
+          <Star className="w-3 h-3 text-[var(--app-text-disabled)]" />
           <span className={cn('text-[10px] font-medium', getScoreColor(overallScore))}>
             Overall: {overallScore}%
           </span>
         </div>
-        <span className="text-[9px] text-[var(--ops-text-disabled)]">
+        <span className="text-[9px] text-[var(--app-text-disabled)]">
           ID: {review.employeeId}
         </span>
       </div>

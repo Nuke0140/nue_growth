@@ -35,7 +35,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
   return (
     <div className={cn(
       'h-full min-h-[400px] rounded-2xl border overflow-hidden relative',
-      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
     )}>
       {/* Grid background */}
       <div className="absolute inset-0" style={{
@@ -62,7 +62,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                 key={conn.id}
                 d={`M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`}
                 fill="none"
-                stroke={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
+                stroke={'var(--app-border-strong)'}
                 strokeWidth="2"
                 strokeDasharray={conn.condition ? '6 4' : 'none'}
               />

@@ -92,10 +92,10 @@ export default function SegmentsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+              <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                 Segments
               </h1>
-              <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
                 <Users className="w-3.5 h-3.5 inline mr-1" />
                 {totalCustomers.toLocaleString()} customers in {mockSegments.length} segments
               </p>
@@ -104,9 +104,9 @@ export default function SegmentsPage() {
           <div className="flex items-center gap-2">
             <div className={cn(
               'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search segments..."
@@ -114,7 +114,7 @@ export default function SegmentsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-40',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -123,7 +123,7 @@ export default function SegmentsPage() {
               onClick={() => setShowBuilder(true)}
               className={cn(
                 'rounded-xl text-xs h-9 px-4',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -134,7 +134,7 @@ export default function SegmentsPage() {
 
         {/* Type filter tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <BarChart3 className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+          <BarChart3 className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
           {typeFilters.map((tf) => (
             <button
               key={tf.key}
@@ -178,10 +178,10 @@ export default function SegmentsPage() {
               )}
             >
               <div className="flex items-center gap-2 mb-1">
-                <stat.icon className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
-                <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{stat.label}</span>
+                <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
+                <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
               </div>
-              <p className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-black')}>
+              <p className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                 {stat.value}
               </p>
             </motion.div>
@@ -197,8 +197,8 @@ export default function SegmentsPage() {
 
         {filtered.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20">
-            <Zap className={cn('w-8 h-8 mb-3', isDark ? 'text-white/10' : 'text-black/10')} />
-            <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No segments found</p>
+            <Zap className={cn('w-8 h-8 mb-3', 'text-[var(--app-text-disabled)]')} />
+            <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No segments found</p>
           </div>
         )}
       </ScrollArea>
@@ -210,17 +210,17 @@ export default function SegmentsPage() {
           isDark ? 'bg-[#111] border-white/[0.06]' : 'bg-white border-black/[0.06]'
         )}>
           <DialogHeader>
-            <DialogTitle className={cn(isDark ? 'text-white' : 'text-black')}>
+            <DialogTitle className={cn('text-[var(--app-text)]')}>
               Create Segment
             </DialogTitle>
-            <DialogDescription className={cn(isDark ? 'text-white/40' : 'text-black/40')}>
+            <DialogDescription className={cn('text-[var(--app-text-muted)]')}>
               Define rules to segment your customers
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 mt-2">
             <div>
-              <Label className={cn('text-xs mb-1.5 block', isDark ? 'text-white/50' : 'text-black/50')}>
+              <Label className={cn('text-xs mb-1.5 block', 'text-[var(--app-text-secondary)]')}>
                 Segment Name
               </Label>
               <Input
@@ -238,7 +238,7 @@ export default function SegmentsPage() {
 
             {/* Rules */}
             <div>
-              <Label className={cn('text-xs mb-2 block', isDark ? 'text-white/50' : 'text-black/50')}>
+              <Label className={cn('text-xs mb-2 block', 'text-[var(--app-text-secondary)]')}>
                 Rules
               </Label>
               <div className="space-y-2">
@@ -346,16 +346,16 @@ export default function SegmentsPage() {
               isDark ? 'bg-white/[0.03] border border-white/[0.04]' : 'bg-black/[0.02] border border-black/[0.04]'
             )}>
               <div className="flex items-center justify-between">
-                <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   Estimated Customers
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>
+                  <span className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                     ~{(Math.random() * 200 + 50).toFixed(0)}
                   </span>
                   <Badge className={cn(
                     'text-[10px] px-2 py-0 h-4',
-                    isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
+                    'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                   )}>
                     Preview
                   </Badge>
@@ -366,7 +366,7 @@ export default function SegmentsPage() {
             <Button
               className={cn(
                 'w-full rounded-xl h-10',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
               onClick={() => setShowBuilder(false)}
             >

@@ -118,14 +118,14 @@ function InvoicesPageInner() {
         {/* Search + Actions */}
         <div className="flex items-center justify-end gap-2">
           <div className="flex items-center gap-2">
-            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <input type="text" placeholder="Search invoices..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25')} />
+            <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
+              <input type="text" placeholder="Search invoices..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
             </div>
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button size="icon" className={cn('h-9 w-9 rounded-xl shrink-0', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                  <Button size="icon" className={cn('h-9 w-9 rounded-xl shrink-0', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </TooltipTrigger>
@@ -136,13 +136,13 @@ function InvoicesPageInner() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((f) => {
             const isActive = activeFilter === f.key;
             return (
-              <button key={f.key} onClick={() => { setActiveFilter(f.key); setCurrentPage(1); }} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200', isActive ? (isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-black/[0.06] text-black shadow-sm') : (isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'))}>
+              <button key={f.key} onClick={() => { setActiveFilter(f.key); setCurrentPage(1); }} className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200', isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'))}>
                 <span className="hidden sm:inline">{f.label}</span>
-                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? (isDark ? 'bg-white/[0.15]' : 'bg-black/[0.1]') : (isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'))}>{f.count}</span>
+                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? ('bg-[var(--app-hover-bg)]') : ('bg-[var(--app-hover-bg)]'))}>{f.count}</span>
               </button>
             );
           })}
@@ -156,11 +156,11 @@ function InvoicesPageInner() {
             { label: 'Overdue', value: formatINR(stats.overdue), icon: AlertTriangle },
             { label: 'Receivable', value: formatINR(stats.receivable), icon: Clock },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -169,11 +169,11 @@ function InvoicesPageInner() {
         </div>
 
         {/* Table */}
-        <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
                   <th className="text-left px-4 py-3"><button onClick={() => handleSort('invoiceNo')} className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider">Invoice {renderSortIcon('invoiceNo')}</button></th>
                   <th className="text-left px-3 py-3 hidden md:table-cell"><span className="text-[11px] font-semibold uppercase tracking-wider">Client</span></th>
                   <th className="text-left px-3 py-3 hidden lg:table-cell"><span className="text-[11px] font-semibold uppercase tracking-wider">Project</span></th>
@@ -190,10 +190,10 @@ function InvoicesPageInner() {
                   <tr>
                     <td colSpan={9} className="h-48 text-center">
                       <div className="flex flex-col items-center gap-3">
-                        <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
-                          <FileText className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
+                        <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                          <FileText className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                         </div>
-                        <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>No invoices found</p>
+                        <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No invoices found</p>
                       </div>
                     </td>
                   </tr>
@@ -212,8 +212,8 @@ function InvoicesPageInner() {
                       >
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                              <FileText className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                            <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0', 'bg-[var(--app-hover-bg)]')}>
+                              <FileText className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                             </div>
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5">
@@ -227,22 +227,22 @@ function InvoicesPageInner() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-3 py-3 hidden md:table-cell"><span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{inv.client}</span></td>
-                        <td className="px-3 py-3 hidden lg:table-cell"><span className={cn('text-xs truncate block max-w-[180px]', isDark ? 'text-white/40' : 'text-black/40')}>{inv.project}</span></td>
-                        <td className="px-3 py-3 text-right hidden sm:table-cell"><span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{formatINR(inv.gst)}</span></td>
-                        <td className="px-3 py-3 text-right"><span className="text-sm font-semibold">{formatINR(inv.amount)}</span><span className={cn('text-[10px] block', isDark ? 'text-white/25' : 'text-black/25')}>+ {formatINR(inv.gst)} GST</span></td>
-                        <td className="px-3 py-3 hidden md:table-cell"><span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{new Date(inv.dueDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span></td>
+                        <td className="px-3 py-3 hidden md:table-cell"><span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{inv.client}</span></td>
+                        <td className="px-3 py-3 hidden lg:table-cell"><span className={cn('text-xs truncate block max-w-[180px]', 'text-[var(--app-text-muted)]')}>{inv.project}</span></td>
+                        <td className="px-3 py-3 text-right hidden sm:table-cell"><span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{formatINR(inv.gst)}</span></td>
+                        <td className="px-3 py-3 text-right"><span className="text-sm font-semibold">{formatINR(inv.amount)}</span><span className={cn('text-[10px] block', 'text-[var(--app-text-muted)]')}>+ {formatINR(inv.gst)} GST</span></td>
+                        <td className="px-3 py-3 hidden md:table-cell"><span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{new Date(inv.dueDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span></td>
                         <td className="px-3 py-3 text-right hidden lg:table-cell">
                           {inv.status === 'partial' ? (
                             <div className="space-y-1">
                               <span className="text-xs font-medium">{formatINR(inv.paidAmount)}</span>
-                              <div className={cn('h-1 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                              <div className={cn('h-1 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                                 <div className="h-full rounded-full bg-amber-500" style={{ width: `${paidPct}%` }} />
                               </div>
-                              <span className={cn('text-[9px] block', isDark ? 'text-white/25' : 'text-black/25')}>{paidPct}% paid</span>
+                              <span className={cn('text-[9px] block', 'text-[var(--app-text-muted)]')}>{paidPct}% paid</span>
                             </div>
                           ) : (
-                            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{inv.paidAmount > 0 ? formatINR(inv.paidAmount) : '—'}</span>
+                            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{inv.paidAmount > 0 ? formatINR(inv.paidAmount) : '—'}</span>
                           )}
                         </td>
                         <td className="px-3 py-3 text-center">
@@ -262,8 +262,8 @@ function InvoicesPageInner() {
                               <TooltipProvider delayDuration={0}>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                      <ExternalLink className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
+                                      <ExternalLink className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                                     </button>
                                   </TooltipTrigger>
                                   <TooltipContent><p>Payment Link</p></TooltipContent>
@@ -273,8 +273,8 @@ function InvoicesPageInner() {
                             <TooltipProvider delayDuration={0}>
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                    <FileDown className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                                  <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
+                                    <FileDown className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                                   </button>
                                 </TooltipTrigger>
                                 <TooltipContent><p>PDF Preview</p></TooltipContent>
@@ -284,8 +284,8 @@ function InvoicesPageInner() {
                               <TooltipProvider delayDuration={0}>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                      <Send className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
+                                      <Send className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                                     </button>
                                   </TooltipTrigger>
                                   <TooltipContent><p>Resend</p></TooltipContent>
@@ -296,7 +296,7 @@ function InvoicesPageInner() {
                               <TooltipProvider delayDuration={0}>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
+                                    <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
                                       <Bell className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                                     </button>
                                   </TooltipTrigger>
@@ -316,13 +316,13 @@ function InvoicesPageInner() {
 
           {/* Pagination */}
           {filtered.length > 0 && (
-            <div className={cn('flex items-center justify-between px-4 py-3 border-t', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+            <div className={cn('flex items-center justify-between px-4 py-3 border-t', 'border-[var(--app-border-light)]')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
               </p>
               <div className="flex items-center gap-1">
-                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronsLeft className="w-4 h-4" /></button>
-                <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronLeft className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsLeft className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronLeft className="w-4 h-4" /></button>
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                   let pageNum: number;
                   if (totalPages <= 5) pageNum = i + 1;
@@ -330,11 +330,11 @@ function InvoicesPageInner() {
                   else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
                   else pageNum = currentPage - 2 + i;
                   return (
-                    <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors', currentPage === pageNum ? (isDark ? 'bg-white text-black' : 'bg-black text-white') : (isDark ? 'text-white/50 hover:bg-white/[0.06]' : 'text-black/50 hover:bg-black/[0.06]'))}>{pageNum}</button>
+                    <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={cn('w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-colors', currentPage === pageNum ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]') : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]'))}>{pageNum}</button>
                   );
                 })}
-                <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronRight className="w-4 h-4" /></button>
-                <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}><ChevronsRight className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronRight className="w-4 h-4" /></button>
+                <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className={cn('w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30', 'hover:bg-[var(--app-hover-bg)]')}><ChevronsRight className="w-4 h-4" /></button>
               </div>
             </div>
           )}

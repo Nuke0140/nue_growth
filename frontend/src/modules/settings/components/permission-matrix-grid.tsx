@@ -67,17 +67,17 @@ export default function PermissionMatrixGrid({
   return (
     <div className={cn(
       'rounded-2xl border overflow-hidden',
-      isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
     )}>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[800px]">
           <thead>
-            <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-              <th className={cn('text-left px-4 py-3 text-xs font-semibold w-48', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <tr className={cn('border-b', 'border-[var(--app-border)]')}>
+              <th className={cn('text-left px-4 py-3 text-xs font-semibold w-48', 'text-[var(--app-text-muted)]')}>
                 Module
               </th>
               {roles.map((role) => (
-                <th key={role} className={cn('text-center px-2 py-3 text-[10px] font-semibold', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                <th key={role} className={cn('text-center px-2 py-3 text-[10px] font-semibold', 'text-[var(--app-text-muted)]')}>
                   <div className="flex flex-col items-center gap-0.5">
                     <span className="truncate max-w-[80px]">{roleLabels[role]}</span>
                   </div>
@@ -94,10 +94,10 @@ export default function PermissionMatrixGrid({
                 transition={{ delay: idx * 0.03 }}
                 className={cn(
                   'border-b last:border-b-0 transition-colors',
-                  isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                  'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                 )}
               >
-                <td className={cn('px-4 py-3 text-xs font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                <td className={cn('px-4 py-3 text-xs font-medium', 'text-[var(--app-text)]')}>
                   {row.module}
                 </td>
                 {roles.map((role) => {
@@ -123,8 +123,8 @@ export default function PermissionMatrixGrid({
                               className={cn(
                                 'inline-flex items-center justify-center h-6 min-w-[24px] rounded-md text-[9px] font-bold',
                                 hasFull
-                                  ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
-                                  : (isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600'),
+                                  ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
+                                  : ('bg-[var(--app-warning-bg)] text-[var(--app-warning)]'),
                               )}
                             >
                               {permLabels[perm]}

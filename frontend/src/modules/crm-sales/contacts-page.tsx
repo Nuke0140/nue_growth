@@ -63,12 +63,12 @@ function getStageColor(stage: string, isDark: boolean) {
   switch (stage) {
     case 'lead': return isDark ? 'bg-blue-500/15 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200';
     case 'mql': return isDark ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200';
-    case 'sql': return isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
-    case 'opportunity': return isDark ? 'bg-orange-500/15 text-orange-300 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'customer': return isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+    case 'sql': return 'bg-[var(--app-warning-bg)] text-[var(--app-warning)] border-[var(--app-warning)]/30';
+    case 'opportunity': return 'bg-[var(--app-accent-light)] text-[var(--app-accent)] border-[var(--app-accent)]/30';
+    case 'customer': return 'bg-[var(--app-success-bg)] text-[var(--app-success)] border-[var(--app-success)]/30';
     case 'retained': return isDark ? 'bg-teal-500/15 text-teal-300 border-teal-500/20' : 'bg-teal-50 text-teal-700 border-teal-200';
     case 'advocate': return isDark ? 'bg-pink-500/15 text-pink-300 border-pink-500/20' : 'bg-pink-50 text-pink-700 border-pink-200';
-    default: return isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200';
+    default: return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
   }
 }
 
@@ -204,7 +204,7 @@ export default function ContactsPage() {
             <h1 className="text-xl md:text-2xl font-bold">Contacts</h1>
             <Badge variant="secondary" className={cn(
               'text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               {filtered.length}
             </Badge>
@@ -212,9 +212,9 @@ export default function ContactsPage() {
           <div className="flex items-center gap-2">
             <div className={cn(
               'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search contacts..."
@@ -222,7 +222,7 @@ export default function ContactsPage() {
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -233,7 +233,7 @@ export default function ContactsPage() {
                     size="icon"
                     className={cn(
                       'h-9 w-9 rounded-xl shrink-0',
-                      isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                      'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
                     )}
                   >
                     <Plus className="w-4 h-4" />
@@ -251,7 +251,7 @@ export default function ContactsPage() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className={cn(
                 'h-8 gap-1.5 text-xs',
-                isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]'
+                'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
               )}>
                 <Upload className="w-3.5 h-3.5" />
                 Import CSV
@@ -265,7 +265,7 @@ export default function ContactsPage() {
 
           <Button variant="ghost" size="sm" className={cn(
             'h-8 gap-1.5 text-xs',
-            isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]'
+            'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
           )}>
             <Download className="w-3.5 h-3.5" />
             Export
@@ -273,7 +273,7 @@ export default function ContactsPage() {
 
           <Button variant="ghost" size="sm" className={cn(
             'h-8 gap-1.5 text-xs',
-            isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]'
+            'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
           )}>
             <SlidersHorizontal className="w-3.5 h-3.5" />
             Bulk Actions
@@ -283,7 +283,7 @@ export default function ContactsPage() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className={cn(
                 'h-8 gap-1.5 text-xs',
-                isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]'
+                'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
               )}>
                 <Eye className="w-3.5 h-3.5" />
                 Columns
@@ -309,7 +309,7 @@ export default function ContactsPage() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className={cn(
                 'h-8 gap-1.5 text-xs',
-                isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.06]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.06]'
+                'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
               )}>
                 <Bookmark className="w-3.5 h-3.5" />
                 Saved Views
@@ -326,7 +326,7 @@ export default function ContactsPage() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
             return (
@@ -349,8 +349,8 @@ export default function ContactsPage() {
                 <span className={cn(
                   'px-1.5 py-0.5 rounded text-[10px] font-bold',
                   isActive
-                    ? isDark ? 'bg-white/[0.15]' : 'bg-black/[0.1]'
-                    : isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                    ? 'bg-[var(--app-hover-bg)]'
+                    : 'bg-[var(--app-hover-bg)]'
                 )}>
                   {filter.count}
                 </span>
@@ -374,18 +374,18 @@ export default function ContactsPage() {
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
                 <div className={cn(
                   'w-7 h-7 rounded-lg flex items-center justify-center',
-                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+                  'bg-[var(--app-hover-bg)]'
                 )}>
-                  <stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+                  <stat.icon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -396,14 +396,14 @@ export default function ContactsPage() {
         {/* Table */}
         <div className={cn(
           'rounded-2xl border overflow-hidden',
-          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+          'bg-[var(--app-card-bg)] border-[var(--app-border)]'
         )}>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className={cn(
                   'border-b hover:bg-transparent',
-                  isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+                  'border-[var(--app-border-light)]'
                 )}>
                   <TableHead className={cn('w-[40px]')}>
                     <input type="checkbox" className="rounded" />
@@ -448,14 +448,14 @@ export default function ContactsPage() {
                       <div className="flex flex-col items-center gap-3">
                         <div className={cn(
                           'w-14 h-14 rounded-2xl flex items-center justify-center',
-                          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                          'bg-[var(--app-hover-bg)]'
                         )}>
-                          <Users className={cn('w-6 h-6', isDark ? 'text-white/15' : 'text-black/15')} />
+                          <Users className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                         </div>
-                        <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                           No contacts found
                         </p>
-                        <p className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                           Try adjusting your search or filters
                         </p>
                       </div>
@@ -499,24 +499,24 @@ export default function ContactsPage() {
                             </Avatar>
                             <div className="min-w-0">
                               <p className="text-sm font-medium truncate">{fullName}</p>
-                              <p className={cn('text-xs truncate', isDark ? 'text-white/40' : 'text-black/40')}>
+                              <p className={cn('text-xs truncate', 'text-[var(--app-text-muted)]')}>
                                 {contact.title}
                               </p>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell className="hidden md:table-cell px-3">
-                          <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
+                          <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                             {contact.company || '—'}
                           </span>
                         </TableCell>
                         <TableCell className="hidden lg:table-cell px-3">
-                          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                             {contact.email}
                           </span>
                         </TableCell>
                         <TableCell className="hidden xl:table-cell px-3">
-                          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                             {contact.phone}
                           </span>
                         </TableCell>
@@ -537,13 +537,13 @@ export default function ContactsPage() {
                           </span>
                         </TableCell>
                         <TableCell className="hidden lg:table-cell px-3">
-                          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                             {contact.owner}
                           </span>
                         </TableCell>
                         <TableCell className="px-3">
                           <div className="flex items-center gap-2 min-w-[80px]">
-                            <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                            <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                               <div
                                 className={cn('h-full rounded-full transition-all', getHealthBarColor(contact.healthScore))}
                                 style={{ width: `${contact.healthScore}%` }}
@@ -564,7 +564,7 @@ export default function ContactsPage() {
                           </span>
                         </TableCell>
                         <TableCell className="hidden xl:table-cell px-3">
-                          <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                             {contact.lastInteraction}
                           </span>
                         </TableCell>
@@ -575,10 +575,10 @@ export default function ContactsPage() {
                                 onClick={(e) => e.stopPropagation()}
                                 className={cn(
                                   'w-7 h-7 rounded-lg flex items-center justify-center transition-colors',
-                                  isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                                  'hover:bg-[var(--app-hover-bg)]'
                                 )}
                               >
-                                <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+                                <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                               </button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
@@ -603,9 +603,9 @@ export default function ContactsPage() {
           {filtered.length > 0 && (
             <div className={cn(
               'flex items-center justify-between px-4 py-3 border-t',
-              isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+              'border-[var(--app-border-light)]'
             )}>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
               </p>
               <div className="flex items-center gap-1">
@@ -614,7 +614,7 @@ export default function ContactsPage() {
                   disabled={currentPage === 1}
                   className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <ChevronsLeft className="w-4 h-4" />
@@ -624,7 +624,7 @@ export default function ContactsPage() {
                   disabled={currentPage === 1}
                   className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -664,7 +664,7 @@ export default function ContactsPage() {
                   disabled={currentPage === totalPages}
                   className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -674,7 +674,7 @@ export default function ContactsPage() {
                   disabled={currentPage === totalPages}
                   className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <ChevronsRight className="w-4 h-4" />

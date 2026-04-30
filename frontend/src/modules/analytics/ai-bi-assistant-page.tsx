@@ -119,7 +119,7 @@ export default function AIBIAssistantPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
@@ -127,10 +127,10 @@ export default function AIBIAssistantPage() {
       <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             AI BI Assistant
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
             Your AI business analyst
           </p>
         </div>
@@ -145,15 +145,15 @@ export default function AIBIAssistantPage() {
             className="lg:col-span-2 space-y-4"
           >
             {/* Chat Messages Area */}
-            <div className={cn('rounded-2xl border shadow-sm overflow-hidden flex flex-col', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <div className={cn('rounded-2xl border shadow-sm overflow-hidden flex flex-col', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               {/* Chat Header */}
-              <div className={cn('flex items-center gap-2 px-4 py-3 border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', isDark ? 'bg-purple-500/15' : 'bg-purple-50')}>
+              <div className={cn('flex items-center gap-2 px-4 py-3 border-b', 'border-[var(--app-border)]')}>
+                <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', 'bg-[var(--app-purple-light)]')}>
                   <Bot className="w-4 h-4 text-purple-400" />
                 </div>
                 <div>
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>Chat</h3>
-                  <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Ask anything about your data</p>
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Chat</h3>
+                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Ask anything about your data</p>
                 </div>
                 <div className="ml-auto flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-medium text-emerald-400 bg-emerald-500/15">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -192,7 +192,7 @@ export default function AIBIAssistantPage() {
 
                       {/* Mini chart visualization */}
                       {msg.chartData && (
-                        <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                        <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                           <div className="flex items-end gap-1.5 h-16">
                             {msg.chartData.labels.map((label, ci) => {
                               const maxVal = Math.max(...msg.chartData!.values);
@@ -200,7 +200,7 @@ export default function AIBIAssistantPage() {
                               return (
                                 <div key={label} className="flex-1 flex flex-col items-center gap-1">
                                   <div className={cn('w-full rounded-t-md bg-blue-500/40 transition-all', isDark ? 'hover:bg-blue-500/60' : 'hover:bg-blue-500/30')} style={{ height: `${height}%` }} />
-                                  <span className={cn('text-[9px]', isDark ? 'text-zinc-600' : 'text-zinc-400')}>{label}</span>
+                                  <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{label}</span>
                                 </div>
                               );
                             })}
@@ -215,13 +215,13 @@ export default function AIBIAssistantPage() {
                             <Lightbulb className="w-3 h-3 text-emerald-400" />
                             <span className={cn('text-[10px] font-semibold text-emerald-400 uppercase tracking-wider')}>Recommendation</span>
                           </div>
-                          <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                          <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                             {msg.recommendation}
                           </p>
                         </div>
                       )}
 
-                      <p className={cn('text-[9px]', isDark ? 'text-zinc-600' : 'text-zinc-400')}>
+                      <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                         {msg.timestamp}
                       </p>
                     </div>
@@ -234,7 +234,7 @@ export default function AIBIAssistantPage() {
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-purple-500/15 text-purple-400">
                       <Sparkles className="w-4 h-4 animate-pulse" />
                     </div>
-                    <div className={cn('rounded-2xl px-4 py-3', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.03]')}>
+                    <div className={cn('rounded-2xl px-4 py-3', 'bg-[var(--app-hover-bg)]')}>
                       <div className="flex gap-1">
                         {[0, 1, 2].map((i) => (
                           <motion.div
@@ -276,7 +276,7 @@ export default function AIBIAssistantPage() {
               </div>
 
               {/* Input Area */}
-              <div className={cn('border-t p-3', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+              <div className={cn('border-t p-3', 'border-[var(--app-border)]')}>
                 <div className={cn('flex items-center gap-2 rounded-xl border px-3 py-2', isDark ? 'border-white/[0.08] bg-white/[0.02]' : 'border-black/[0.08] bg-black/[0.01]')}>
                   <input
                     type="text"
@@ -328,14 +328,14 @@ export default function AIBIAssistantPage() {
                   transition={{ delay: i * 0.05 + 0.25, duration: 0.3 }}
                   className={cn(card, 'flex items-center gap-3')}
                 >
-                  <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl', isDark ? 'bg-purple-500/15' : 'bg-purple-50')}>
+                  <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl', 'bg-[var(--app-purple-light)]')}>
                     <stat.icon className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                       {stat.value}
                     </p>
-                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       {stat.label}
                     </p>
                   </div>
@@ -360,7 +360,7 @@ export default function AIBIAssistantPage() {
             >
               <div className="flex items-center gap-2">
                 <Brain className={cn('w-4 h-4', isDark ? 'text-purple-400' : 'text-purple-500')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   AI Capabilities
                 </h3>
               </div>
@@ -375,13 +375,13 @@ export default function AIBIAssistantPage() {
                     key={cap.title}
                     className={cn(
                       'rounded-xl border p-3',
-                      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
-                    <h4 className={cn('text-xs font-semibold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                    <h4 className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                       {cap.title}
                     </h4>
-                    <p className={cn('text-[10px] mt-0.5 leading-relaxed', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <p className={cn('text-[10px] mt-0.5 leading-relaxed', 'text-[var(--app-text-muted)]')}>
                       {cap.desc}
                     </p>
                   </div>

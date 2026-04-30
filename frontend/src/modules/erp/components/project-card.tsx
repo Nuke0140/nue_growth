@@ -122,14 +122,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       onClick={() => onClick?.(project.id)}
       className={cn(
         'relative rounded-2xl border p-5 cursor-pointer transition-colors duration-200 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)]'
       )}
     >
       {/* Header: Name + Priority + Health */}
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold truncate mb-1">{project.name}</h3>
-          <p className="text-xs truncate text-[var(--ops-text-secondary)]">
+          <p className="text-xs truncate text-[var(--app-text-secondary)]">
             {project.client}
           </p>
         </div>
@@ -156,8 +156,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Account Manager */}
       <div className="flex items-center gap-1.5 mb-3">
-        <User className="w-3 h-3 shrink-0 text-[var(--ops-text-muted)]" />
-        <span className="text-xs text-[var(--ops-text-muted)]">
+        <User className="w-3 h-3 shrink-0 text-[var(--app-text-muted)]" />
+        <span className="text-xs text-[var(--app-text-muted)]">
           {project.accountManager}
         </span>
       </div>
@@ -165,27 +165,27 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       {/* Budget / Spend */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-1.5">
-          <DollarSign className="w-3 h-3 text-[var(--ops-text-muted)]" />
-          <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+          <DollarSign className="w-3 h-3 text-[var(--app-text-muted)]" />
+          <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
             Budget
           </span>
         </div>
-        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+        <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
           {formatCurrency(project.actualSpend)} / {formatCurrency(project.budget)}
         </span>
       </div>
       <div className="mb-3">
-        <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
+        <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
           <div
             className={cn('h-full rounded-full transition-all duration-500', budgetUsed > 90 ? 'bg-red-500' : budgetUsed > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
             style={{ width: `${Math.min(budgetUsed, 100)}%` }}
           />
         </div>
         <div className="flex justify-between mt-0.5">
-          <span className="text-[10px] text-[var(--ops-text-disabled)]">
+          <span className="text-[10px] text-[var(--app-text-disabled)]">
             {budgetUsed}% used
           </span>
-          <span className="text-[10px] text-[var(--ops-text-disabled)]">
+          <span className="text-[10px] text-[var(--app-text-disabled)]">
             {project.isRecurring && '🔄 Recurring'}
           </span>
         </div>
@@ -193,14 +193,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Progress */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+        <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
           Progress
         </span>
-        <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+        <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
           {project.progress}%
         </span>
       </div>
-      <div className="h-1.5 rounded-full overflow-hidden mb-3 bg-[var(--ops-hover-bg)]">
+      <div className="h-1.5 rounded-full overflow-hidden mb-3 bg-[var(--app-hover-bg)]">
         <div
           className={cn('h-full rounded-full transition-all duration-500', getProgressColor(project.progress))}
           style={{ width: `${project.progress}%` }}
@@ -211,7 +211,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div
         className={cn(
           'flex items-center justify-between pt-3 border-t',
-          'border-[var(--ops-border)]'
+          'border-[var(--app-border)]'
         )}
       >
         <div className="flex items-center gap-1.5">
@@ -225,8 +225,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Clock className="w-3 h-3 text-[var(--ops-text-muted)]" />
-          <span className="text-[11px] text-[var(--ops-text-muted)]">
+          <Clock className="w-3 h-3 text-[var(--app-text-muted)]" />
+          <span className="text-[11px] text-[var(--app-text-muted)]">
             {formatDate(project.dueDate)}
           </span>
         </div>
@@ -234,7 +234,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* SLA */}
       <div className="mt-2 flex items-center justify-between">
-        <span className="text-[10px] text-[var(--ops-text-disabled)]">
+        <span className="text-[10px] text-[var(--app-text-disabled)]">
           SLA Compliance
         </span>
         <span className={cn(

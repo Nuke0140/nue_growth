@@ -79,14 +79,14 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       </div>
 
       {/* Description */}
-      <p className={cn('text-xs leading-relaxed mb-3', isDark ? 'text-white/50' : 'text-black/50')}>
+      <p className={cn('text-xs leading-relaxed mb-3', 'text-[var(--app-text-secondary)]')}>
         {insight.description}
       </p>
 
       {/* Confidence progress bar */}
       <div className="flex items-center gap-2 mb-3">
-        <span className={cn('text-[10px] w-16', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
-        <div className={cn('flex-1 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+        <span className={cn('text-[10px] w-16', 'text-[var(--app-text-muted)]')}>Confidence</span>
+        <div className={cn('flex-1 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
           <motion.div
             className={cn('h-full rounded-full', insight.confidence >= 70 ? 'bg-emerald-400' : insight.confidence >= 40 ? 'bg-amber-400' : 'bg-red-400')}
             initial={{ width: 0 }}
@@ -100,7 +100,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
       {/* Recommendation */}
       <div className={cn('rounded-lg p-2.5 border mb-3', isDark ? 'bg-violet-400/5 border-violet-400/10' : 'bg-violet-50 border-violet-100')}>
         <p className={cn('text-[10px] font-medium mb-0.5', isDark ? 'text-violet-300' : 'text-violet-600')}>Recommendation</p>
-        <p className={cn('text-xs leading-snug', isDark ? 'text-white/60' : 'text-black/60')}>{insight.recommendation}</p>
+        <p className={cn('text-xs leading-snug', 'text-[var(--app-text-secondary)]')}>{insight.recommendation}</p>
       </div>
 
       {/* Action items */}
@@ -108,16 +108,16 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
         {insight.actionItems.map((item, idx) => (
           <div key={idx} className="flex items-start gap-2">
             <CheckCircle2 className={cn('w-3.5 h-3.5 shrink-0 mt-0.5', typeConfig.color)} />
-            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{item}</span>
+            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{item}</span>
           </div>
         ))}
       </div>
 
       {/* Potential impact */}
-      <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+      <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
         <div className="flex items-center gap-1.5">
           <Target className="w-3.5 h-3.5 text-violet-400" />
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Potential Impact</span>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Potential Impact</span>
         </div>
         <span className="text-sm font-bold text-violet-400">{formatImpact(insight.potentialImpact)}</span>
       </div>

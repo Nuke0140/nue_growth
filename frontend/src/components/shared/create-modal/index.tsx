@@ -74,10 +74,10 @@ export interface CreateModalProps {
 // ── Priority config (reusable) ─────────────────────────
 
 export const PRIORITY_CONFIG = [
-  { value: 'low', label: 'Low', color: '#10b981', bg: 'rgba(16,185,129,0.12)' },
+  { value: 'low', label: 'Low', color: '#10b981', bg: 'var(--app-success-bg)' },
   { value: 'medium', label: 'Medium', color: '#3b82f6', bg: 'rgba(59,130,246,0.12)' },
   { value: 'high', label: 'High', color: '#f59e0b', bg: 'rgba(245,158,11,0.12)' },
-  { value: 'critical', label: 'Critical', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+  { value: 'critical', label: 'Critical', color: '#ef4444', bg: 'var(--app-danger-bg)' },
 ];
 
 // ── Date quick options ─────────────────────────────────

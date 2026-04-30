@@ -74,10 +74,10 @@ export default function LifecyclePage() {
       <div className="shrink-0 px-6 pt-6 pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
           <div>
-            <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+            <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
               Lifecycle
             </h1>
-            <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
               Customer journey stages &amp; conversion analysis
             </p>
           </div>
@@ -107,9 +107,9 @@ export default function LifecyclePage() {
             >
               <div className="flex items-center gap-2 mb-1">
                 <stat.icon className={cn('w-4 h-4', stat.color)} />
-                <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{stat.label}</span>
+                <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
               </div>
-              <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>
+              <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                 {stat.value}
               </p>
             </motion.div>
@@ -118,7 +118,7 @@ export default function LifecyclePage() {
 
         {/* Horizontal Funnel */}
         <div className="mb-8">
-          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <GitBranch className="w-4 h-4" />
             Stage Funnel
           </h2>
@@ -144,7 +144,7 @@ export default function LifecyclePage() {
                         {stageLabels[stage.stage]}
                       </span>
                     </div>
-                    <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>
+                    <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                       {stage.count}
                     </p>
                     {stage.conversionRate > 0 && (
@@ -170,7 +170,7 @@ export default function LifecyclePage() {
               const widthPercent = Math.max(15, (mockLifecycleStages[i].count / maxCount) * 100);
               return (
                 <div key={i} style={{ width: `${widthPercent}%` }} className="shrink-0 flex justify-center">
-                  <ArrowRight className={cn('w-3 h-3', isDark ? 'text-white/10' : 'text-black/10')} />
+                  <ArrowRight className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
                 </div>
               );
             })}
@@ -179,7 +179,7 @@ export default function LifecyclePage() {
 
         {/* Stage Detail Cards */}
         <div className="mb-8">
-          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <BarChart3 className="w-4 h-4" />
             Stage Details
           </h2>
@@ -207,10 +207,10 @@ export default function LifecyclePage() {
                       <GitBranch className={cn('w-4 h-4', stageColors[stage.stage])} />
                     </div>
                     <div>
-                      <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                      <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                         {stageLabels[stage.stage]}
                       </h3>
-                      <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                         {stage.count} contacts
                       </span>
                     </div>
@@ -228,7 +228,7 @@ export default function LifecyclePage() {
                       isDark ? 'bg-emerald-500/5' : 'bg-emerald-500/5'
                     )}>
                       <p className="text-[10px] text-emerald-400 mb-0.5">Conv.</p>
-                      <p className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-black')}>
+                      <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>
                         {stage.conversionRate}%
                       </p>
                     </div>
@@ -239,7 +239,7 @@ export default function LifecyclePage() {
                       isDark ? 'bg-red-500/5' : 'bg-red-500/5'
                     )}>
                       <p className="text-[10px] text-red-400 mb-0.5">Drop-off</p>
-                      <p className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-black')}>
+                      <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>
                         {stage.dropOffRate}%
                       </p>
                     </div>
@@ -250,7 +250,7 @@ export default function LifecyclePage() {
                       isDark ? 'bg-amber-500/5' : 'bg-amber-500/5'
                     )}>
                       <p className="text-[10px] text-amber-400 mb-0.5">Avg Days</p>
-                      <p className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-black')}>
+                      <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>
                         {stage.avgDaysInStage}
                       </p>
                     </div>
@@ -269,7 +269,7 @@ export default function LifecyclePage() {
                           'flex-1 rounded-sm min-h-[3px] transition-all',
                           isActive
                             ? stageBgColors[s.stage].replace('/10', '/40')
-                            : isDark ? 'bg-white/[0.05]' : 'bg-black/[0.05]'
+                            : 'bg-[var(--app-hover-bg)]'
                         )}
                         style={{ height: `${h}%` }}
                       />
@@ -284,7 +284,7 @@ export default function LifecyclePage() {
                     isDark ? 'bg-purple-500/5 border border-purple-500/10' : 'bg-purple-500/5 border border-purple-500/10'
                   )}>
                     <Zap className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
-                    <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                       {stage.aiInsight}
                     </p>
                   </div>
@@ -296,7 +296,7 @@ export default function LifecyclePage() {
 
         {/* AI Bottleneck Insights */}
         <div>
-          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <Zap className="w-4 h-4 text-purple-400" />
             AI Bottleneck Insights
           </h2>
@@ -319,14 +319,14 @@ export default function LifecyclePage() {
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <AlertTriangle className="w-4 h-4 text-red-400" />
-                    <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                    <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                       {stageLabels[stage.stage]} → {stageLabels[mockLifecycleStages[i + 1]?.stage || 'retained']}
                     </span>
                     <Badge className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0 h-5 border-0">
                       {stage.dropOffRate}% drop
                     </Badge>
                   </div>
-                  <p className={cn('text-xs leading-relaxed mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-xs leading-relaxed mb-3', 'text-[var(--app-text-muted)]')}>
                     {stage.aiInsight}
                   </p>
                   <div className={cn(

@@ -72,9 +72,9 @@ export default function LoyaltyPage() {
 
   const couponStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600';
-      case 'expired': return isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600';
-      case 'redeemed': return isDark ? 'bg-blue-500/15 text-blue-400' : 'bg-blue-50 text-blue-600';
+      case 'active': return 'bg-[var(--app-success-bg)] text-[var(--app-success)]';
+      case 'expired': return 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]';
+      case 'redeemed': return 'bg-[var(--app-info-bg)] text-[var(--app-info)]';
       default: return '';
     }
   };
@@ -89,11 +89,11 @@ export default function LoyaltyPage() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-amber-500/15' : 'bg-amber-50')}>
+          <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-warning-bg)]')}>
             <Crown className="w-5 h-5 text-amber-500" />
           </div>
           <div>
-            <h1 className={cn('text-xl font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Loyalty Program</h1>
+            <h1 className={cn('text-xl font-semibold', 'text-[var(--app-text)]')}>Loyalty Program</h1>
             <p className={cn('text-sm', isDark ? 'text-white/50' : 'text-gray-500')}>Manage rewards, tiers, and member engagement</p>
           </div>
         </div>
@@ -111,21 +111,21 @@ export default function LoyaltyPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-3">
               <kpi.icon className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-gray-400')} />
               <span className={cn('text-xs font-medium text-emerald-500')}>{kpi.change}</span>
             </div>
-            <p className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-gray-900')}>{kpi.value}</p>
-            <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-gray-500')}>{kpi.label}</p>
+            <p className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>{kpi.value}</p>
+            <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{kpi.label}</p>
           </motion.div>
         ))}
       </div>
 
       {/* Tier Distribution */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Tier Distribution</h2>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Tier Distribution</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {tierDistribution.map((tier, i) => (
             <motion.div
@@ -133,21 +133,21 @@ export default function LoyaltyPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: tier.color }} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{tier.label}</span>
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{tier.label}</span>
               </div>
-              <p className={cn('text-2xl font-bold mb-1', isDark ? 'text-white' : 'text-gray-900')}>{tier.count}</p>
-              <p className={cn('text-xs mb-2', isDark ? 'text-white/40' : 'text-gray-500')}>Min {tier.minPoints.toLocaleString()} pts</p>
-              <div className={cn('w-full h-1.5 rounded-full mb-2', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+              <p className={cn('text-2xl font-bold mb-1', 'text-[var(--app-text)]')}>{tier.count}</p>
+              <p className={cn('text-xs mb-2', 'text-[var(--app-text-muted)]')}>Min {tier.minPoints.toLocaleString()} pts</p>
+              <div className={cn('w-full h-1.5 rounded-full mb-2', 'bg-[var(--app-hover-bg)]')}>
                 <div
                   className="h-full rounded-full transition-all duration-500"
                   style={{ backgroundColor: tier.color, width: `${Math.min(100, (tier.count / mockLoyaltyMembers.length) * 100)}%` }}
                 />
               </div>
-              <p className={cn('text-[10px] leading-tight', isDark ? 'text-white/30' : 'text-gray-400')}>{tier.benefits}</p>
+              <p className={cn('text-[10px] leading-tight', 'text-[var(--app-text-muted)]')}>{tier.benefits}</p>
             </motion.div>
           ))}
         </div>
@@ -155,14 +155,14 @@ export default function LoyaltyPage() {
 
       {/* Top Members Table */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Top Members</h2>
-        <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Top Members</h2>
+        <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Name', 'Email', 'Points', 'Tier', 'Coupons', 'Total Spent', 'Join Date'].map(h => (
-                    <th key={h} className={cn('text-left px-4 py-3 text-xs font-medium', isDark ? 'text-white/40' : 'text-gray-500')}>{h}</th>
+                    <th key={h} className={cn('text-left px-4 py-3 text-xs font-medium', 'text-[var(--app-text-muted)]')}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -204,7 +204,7 @@ export default function LoyaltyPage() {
 
       {/* Coupons Grid */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Coupons</h2>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Coupons</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {mockCoupons.map((coupon, i) => {
             const usagePct = Math.round((coupon.usageCount / coupon.maxUsage) * 100);
@@ -214,7 +214,7 @@ export default function LoyaltyPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+                className={cn('rounded-2xl border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
@@ -229,26 +229,26 @@ export default function LoyaltyPage() {
                     onClick={() => handleCopyCode(coupon.code)}
                     className={cn('p-1 rounded-md transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-gray-100')}
                   >
-                    {copiedCode === coupon.code ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-gray-400')} />}
+                    {copiedCode === coupon.code ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />}
                   </button>
                 </div>
                 <div>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>{coupon.discount}</p>
-                  <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-gray-500')}>{coupon.type === 'percentage' ? 'Percentage off' : coupon.type === 'flat' ? 'Flat discount' : coupon.type}</p>
+                  <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{coupon.discount}</p>
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{coupon.type === 'percentage' ? 'Percentage off' : coupon.type === 'flat' ? 'Flat discount' : coupon.type}</p>
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Usage</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Usage</span>
                     <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-gray-600')}>{coupon.usageCount}/{coupon.maxUsage}</span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+                  <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <div
                       className={cn('h-full rounded-full', usagePct > 90 ? 'bg-red-500' : usagePct > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
                       style={{ width: `${usagePct}%` }}
                     />
                   </div>
                 </div>
-                <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>Expires: {coupon.expiry}</p>
+                <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Expires: {coupon.expiry}</p>
               </motion.div>
             );
           })}
@@ -257,7 +257,7 @@ export default function LoyaltyPage() {
 
       {/* Milestones */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Milestones</h2>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Milestones</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {MILESTONES.map((ms, i) => {
             const maxPoints = 5000;
@@ -269,20 +269,20 @@ export default function LoyaltyPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]', achieved && (isDark ? 'ring-1 ring-amber-500/30' : 'ring-1 ring-amber-200'))}
+                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]', achieved && (isDark ? 'ring-1 ring-amber-500/30' : 'ring-1 ring-amber-200'))}
               >
                 <div className="flex items-center gap-2 mb-2">
                   {achieved ? <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> : <Star className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-gray-300')} />}
-                  <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{ms.label}</span>
+                  <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{ms.label}</span>
                 </div>
-                <p className={cn('text-xs mb-2', isDark ? 'text-white/40' : 'text-gray-500')}>{ms.target.toLocaleString()} points</p>
-                <div className={cn('w-full h-2 rounded-full mb-2', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+                <p className={cn('text-xs mb-2', 'text-[var(--app-text-muted)]')}>{ms.target.toLocaleString()} points</p>
+                <div className={cn('w-full h-2 rounded-full mb-2', 'bg-[var(--app-hover-bg)]')}>
                   <div
                     className={cn('h-full rounded-full', achieved ? 'bg-amber-500' : isDark ? 'bg-white/20' : 'bg-gray-300')}
                     style={{ width: `${Math.min(100, pct)}%` }}
                   />
                 </div>
-                <p className={cn('text-[10px] font-medium', achieved ? 'text-amber-500' : isDark ? 'text-white/30' : 'text-gray-400')}>
+                <p className={cn('text-[10px] font-medium', achieved ? 'text-amber-500' : 'text-[var(--app-text-muted)]')}>
                   {ms.reward}
                 </p>
               </motion.div>

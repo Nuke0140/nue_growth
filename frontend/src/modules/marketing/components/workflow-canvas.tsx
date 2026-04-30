@@ -65,7 +65,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
           y1={from.y * scaleY + 24}
           x2={to.x * scaleX + 70}
           y2={to.y * scaleY + 24}
-          stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}
+          stroke={'var(--app-border-strong)'}
           strokeWidth="1.5"
           strokeDasharray="4 4"
         />
@@ -74,7 +74,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
   }
 
   return (
-    <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+    <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
       <div
         className="relative w-full overflow-auto"
         style={{ minHeight: `${Math.max(canvasH, 200)}px` }}
@@ -82,7 +82,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
         {/* Dot grid background */}
         <div className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: `radial-gradient(circle, ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'} 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(circle, ${'var(--app-border-strong)'} 1px, transparent 1px)`,
             backgroundSize: '20px 20px',
           }}
         />
@@ -114,10 +114,10 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                   <span className="text-sm">{icon}</span>
                   <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
                 </div>
-                <p className={cn('text-[10px] font-medium leading-tight line-clamp-2', isDark ? 'text-white/70' : 'text-gray-700')}>
+                <p className={cn('text-[10px] font-medium leading-tight line-clamp-2', 'text-[var(--app-text-secondary)]')}>
                   {node.title}
                 </p>
-                <p className={cn('text-[8px] mt-0.5 truncate', isDark ? 'text-white/25' : 'text-gray-400')}>
+                <p className={cn('text-[8px] mt-0.5 truncate', 'text-[var(--app-text-muted)]')}>
                   {node.type.replace(/-/g, ' ')}
                 </p>
               </motion.div>

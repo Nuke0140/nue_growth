@@ -41,7 +41,7 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
       )}
     >
       <div className="flex items-start justify-between gap-2 mb-3">
-        <h3 className={cn('text-sm font-semibold line-clamp-1', isDark ? 'text-white' : 'text-gray-900')}>{campaign.name}</h3>
+        <h3 className={cn('text-sm font-semibold line-clamp-1', 'text-[var(--app-text)]')}>{campaign.name}</h3>
         <span className={cn('text-[10px] font-medium shrink-0', STATUS_COLORS[campaign.status] || 'text-gray-500')}>
           {campaign.status}
         </span>
@@ -52,9 +52,9 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
           {campaign.type}
         </Badge>
         {campaign.channels.map(ch => (
-          <div key={ch} className={cn('w-5 h-5 rounded flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}
+          <div key={ch} className={cn('w-5 h-5 rounded flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}
             title={ch}>
-            <span className={isDark ? 'text-white/40' : 'text-gray-500'}>{CHANNEL_ICONS[ch] || <Megaphone className="w-3 h-3" />}</span>
+            <span className={'text-[var(--app-text-muted)]'}>{CHANNEL_ICONS[ch] || <Megaphone className="w-3 h-3" />}</span>
           </div>
         ))}
       </div>
@@ -68,16 +68,16 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
 
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Budget Utilization</span>
-          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/60' : 'text-gray-600')}>{spendPct}%</span>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Budget Utilization</span>
+          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{spendPct}%</span>
         </div>
-        <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+        <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
           <div
             className={cn('h-full rounded-full', spendPct > 90 ? 'bg-red-500' : spendPct > 70 ? 'bg-amber-500' : 'bg-emerald-500')}
             style={{ width: `${spendPct}%` }}
           />
         </div>
-        <div className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>
+        <div className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
           ₹{(campaign.spend / 100000).toFixed(1)}L / ₹{(campaign.budget / 100000).toFixed(1)}L
         </div>
       </div>

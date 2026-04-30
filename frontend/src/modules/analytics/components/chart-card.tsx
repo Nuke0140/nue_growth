@@ -46,14 +46,14 @@ export default function ChartCard({
       <div
         className={cn(
           'flex items-center justify-between gap-2 border-b px-4 py-3 sm:px-5 sm:py-4',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
+          'border-[var(--app-border)]',
         )}
       >
         <div className="min-w-0">
           <h3
             className={cn(
               'text-sm font-semibold truncate',
-              isDark ? 'text-white' : 'text-zinc-900',
+              'text-[var(--app-text)]',
             )}
           >
             {title}
@@ -62,7 +62,7 @@ export default function ChartCard({
             <p
               className={cn(
                 'text-xs mt-0.5 truncate',
-                isDark ? 'text-zinc-400' : 'text-zinc-500',
+                'text-[var(--app-text-muted)]',
               )}
             >
               {subtitle}

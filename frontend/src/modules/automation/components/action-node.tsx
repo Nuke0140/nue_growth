@@ -44,20 +44,20 @@ export default function ActionNode({ action, onClick }: ActionNodeProps) {
         <div className="flex items-center gap-2.5">
           <div className={cn(
             'w-9 h-9 rounded-xl flex items-center justify-center',
-            isDark ? 'bg-emerald-500/15' : 'bg-emerald-50',
+            'bg-[var(--app-success-bg)]',
           )}>
-            <Play className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
+            <Play className={cn('w-4 h-4', 'text-[var(--app-success)]')} />
           </div>
           <div>
-            <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               {action.name}
             </h4>
-            <p className={cn('text-xs mt-0.5 line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs mt-0.5 line-clamp-2', 'text-[var(--app-text-muted)]')}>
               {action.description}
             </p>
           </div>
         </div>
-        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-white/20' : 'text-black/20')} />
+        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-disabled)]')} />
       </div>
 
       <div className="flex items-center gap-2 flex-wrap">
@@ -69,11 +69,11 @@ export default function ActionNode({ action, onClick }: ActionNodeProps) {
         </span>
       </div>
 
-      <div className={cn('flex items-center gap-2 pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+      <div className={cn('flex items-center gap-2 pt-2 border-t', 'border-[var(--app-border)]')}>
+        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
           Used in {action.usageCount.toLocaleString()} workflows
         </span>
-        <span className={cn('text-[10px] ml-auto', isDark ? 'text-white/20' : 'text-black/20')}>
+        <span className={cn('text-[10px] ml-auto', 'text-[var(--app-text-disabled)]')}>
           {action.configFields.length} fields
         </span>
       </div>

@@ -66,13 +66,13 @@ export default function MarketingAnalyticsPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Megaphone className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Megaphone className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Marketing Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Channel ROI, campaign performance &amp; content engagement
               </p>
             </div>
@@ -91,7 +91,7 @@ export default function MarketingAnalyticsPage() {
             <ExportMenu />
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
@@ -153,7 +153,7 @@ export default function MarketingAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{ch.channel}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {formatINR(ch.revenue)} rev
                       </span>
                       <span className={cn(
@@ -164,15 +164,15 @@ export default function MarketingAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(ch.roi / maxChannelROI) * 100}%` }}
                       transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
-                        ch.roi >= 8 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
-                          : ch.roi >= 5 ? (isDark ? 'bg-blue-500/50' : 'bg-blue-400')
+                        ch.roi >= 8 ? ('bg-[var(--app-success)]')
+                          : ch.roi >= 5 ? ('bg-[var(--app-info)]')
                             : (isDark ? 'bg-amber-500/50' : 'bg-amber-400'),
                       )}
                     />
@@ -187,13 +187,13 @@ export default function MarketingAnalyticsPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Campaign', 'Fatigue', 'Impressions', 'CTR'].map((h) => (
                       <th
                         key={h}
                         className={cn(
                           'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                          isDark ? 'text-white/40' : 'text-black/40',
+                          'text-[var(--app-text-muted)]',
                         )}
                       >
                         {h}
@@ -210,7 +210,7 @@ export default function MarketingAnalyticsPage() {
                       transition={{ delay: 0.3 + i * 0.06 }}
                       className={cn(
                         'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                        'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                       )}
                     >
                       <td className="py-3 px-3">
@@ -218,7 +218,7 @@ export default function MarketingAnalyticsPage() {
                       </td>
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
-                          <div className={cn('w-20 h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                          <div className={cn('w-20 h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${ad.fatigue}%` }}
@@ -229,7 +229,7 @@ export default function MarketingAnalyticsPage() {
                                   ? (isDark ? 'bg-red-500/50' : 'bg-red-400')
                                   : ad.fatigue >= 50
                                     ? (isDark ? 'bg-amber-500/50' : 'bg-amber-400')
-                                    : (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400'),
+                                    : ('bg-[var(--app-success)]'),
                               )}
                             />
                           </div>
@@ -283,27 +283,27 @@ export default function MarketingAnalyticsPage() {
                   <div className="flex items-center gap-2 mb-2.5">
                     <div className={cn(
                       'w-7 h-7 rounded-lg flex items-center justify-center',
-                      isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+                      'bg-[var(--app-hover-bg)]',
                     )}>
-                      <ContentIcon className={cn('w-3.5 h-3.5', isDark ? 'text-white/50' : 'text-black/50')} />
+                      <ContentIcon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-secondary)]')} />
                     </div>
                     <span className="text-sm font-semibold truncate">{content.type}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Views</p>
+                      <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Views</p>
                       <p className="text-sm font-semibold">{formatNum(content.views)}</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>CTR</p>
+                      <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>CTR</p>
                       <p className="text-sm font-semibold text-blue-500">{content.ctr}%</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Likes</p>
+                      <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Likes</p>
                       <p className="text-sm font-medium">{formatNum(content.likes)}</p>
                     </div>
                     <div>
-                      <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Shares</p>
+                      <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Shares</p>
                       <p className="text-sm font-medium">{formatNum(content.shares)}</p>
                     </div>
                   </div>
@@ -322,7 +322,7 @@ export default function MarketingAnalyticsPage() {
                 <div key={stage.stage} className="w-full flex flex-col items-center">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">{stage.stage}</span>
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                       {stage.conversion}% conv
                     </span>
                   </div>
@@ -332,15 +332,15 @@ export default function MarketingAnalyticsPage() {
                     transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className={cn(
                       'h-10 rounded-xl flex items-center justify-center',
-                      isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+                      'bg-[var(--app-hover-bg)]',
                     )}
                     style={{ maxWidth: '100%' }}
                   >
                     <div className="text-center">
-                      <p className={cn('text-base font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
+                      <p className={cn('text-base font-bold', 'text-[var(--app-text)]')}>
                         {formatNum(stage.visitors)}
                       </p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         visitors
                       </p>
                     </div>
@@ -348,7 +348,7 @@ export default function MarketingAnalyticsPage() {
                   {i < data.funnelConversion.length - 1 && (
                     <ChevronRight className={cn(
                       'w-4 h-4 my-0.5 rotate-90',
-                      isDark ? 'text-white/20' : 'text-black/20',
+                      'text-[var(--app-text-disabled)]',
                     )} />
                   )}
                 </div>
@@ -366,27 +366,27 @@ export default function MarketingAnalyticsPage() {
             transition={{ delay: 0.4, duration: 0.4 }}
             className={cn(
               'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
             )}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Mail className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Mail className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Email Campaigns
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Email CTR</span>
+                  <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Email CTR</span>
                   <span className="text-lg font-bold">{data.emailCTR}%</span>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(data.emailCTR / 10) * 100}%` }}
                     transition={{ delay: 0.5, duration: 0.6 }}
-                    className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
+                    className={cn('h-full rounded-full', 'bg-[var(--app-info)]')}
                   />
                 </div>
               </div>
@@ -398,7 +398,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Unsub Rate', value: '0.4%', change: '-0.1%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-                    <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">
@@ -423,27 +423,27 @@ export default function MarketingAnalyticsPage() {
             transition={{ delay: 0.5, duration: 0.4 }}
             className={cn(
               'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
             )}
           >
             <div className="flex items-center gap-2 mb-4">
-              <MessageCircle className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <MessageCircle className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 WhatsApp Business
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Reply Rate</span>
+                  <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Reply Rate</span>
                   <span className="text-lg font-bold">{data.whatsappReplyRate}%</span>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${data.whatsappReplyRate}%` }}
                     transition={{ delay: 0.6, duration: 0.6 }}
-                    className={cn('h-full rounded-full', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')}
+                    className={cn('h-full rounded-full', 'bg-[var(--app-success)]')}
                   />
                 </div>
               </div>
@@ -455,7 +455,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Response Time', value: '1.8h', change: '-15.0%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-                    <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">

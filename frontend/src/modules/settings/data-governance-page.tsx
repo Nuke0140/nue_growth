@@ -52,12 +52,12 @@ export default function DataGovernancePage() {
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Database className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Database className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Data Governance</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage data retention, privacy, and compliance</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage data retention, privacy, and compliance</p>
             </div>
           </div>
         </div>
@@ -69,9 +69,9 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.1, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Retention Policies</span>
-            <Badge variant="secondary" className={cn('text-[10px] px-1.5 py-0 border-0', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
+            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Retention Policies</span>
+            <Badge variant="secondary" className={cn('text-[10px] px-1.5 py-0 border-0', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
               {retentionPolicies.length} policies
             </Badge>
           </div>
@@ -96,7 +96,7 @@ export default function DataGovernancePage() {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="text-sm font-semibold">{policy.module}</h3>
-                      <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>
                         {policy.purgeSchedule}
                       </p>
                     </div>
@@ -108,10 +108,10 @@ export default function DataGovernancePage() {
                   {/* Retention progress bar */}
                   <div className="mb-3">
                     <div className="flex items-center justify-between mb-1">
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>Retention Period</span>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Retention Period</span>
                       <span className="text-xs font-semibold">{formatRetentionDays(policy.retentionDays)}</span>
                     </div>
-                    <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
@@ -122,7 +122,7 @@ export default function DataGovernancePage() {
                   </div>
 
                   {/* Soft Delete toggle indicator */}
-                  <div className={cn('flex items-center gap-2 mb-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <div className={cn('flex items-center gap-2 mb-3 text-xs', 'text-[var(--app-text-secondary)]')}>
                     <span className={cn(
                       'h-2 w-2 rounded-full',
                       policy.softDelete ? 'bg-emerald-400' : 'bg-red-400',
@@ -133,7 +133,7 @@ export default function DataGovernancePage() {
                   {/* Archive rules */}
                   <div className="space-y-1 mb-4">
                     {policy.archiveRules.map((rule, i) => (
-                      <div key={i} className={cn('flex items-start gap-2 text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <div key={i} className={cn('flex items-start gap-2 text-[11px]', 'text-[var(--app-text-muted)]')}>
                         <Archive className="w-3 h-3 shrink-0 mt-0.5" />
                         <span>{rule}</span>
                       </div>
@@ -161,16 +161,16 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.3, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Download className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Data Export Requests</span>
+            <Download className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Data Export Requests</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Request ID', 'Requested By', 'Module', 'Status', 'Requested', 'Completed', 'Format', 'Size', 'Action'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', 'text-[var(--app-text-muted)]')}>
                         {h}
                       </th>
                     ))}
@@ -185,7 +185,7 @@ export default function DataGovernancePage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.35 + i * 0.04 }}
-                        className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                        className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                       >
                         <td className="px-4 py-3 font-mono text-xs">{req.id}</td>
                         <td className="px-4 py-3 text-xs">{req.requestedBy}</td>
@@ -200,7 +200,7 @@ export default function DataGovernancePage() {
                         </td>
                         <td className="px-4 py-3 text-xs">{req.completedAt ? new Date(req.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}</td>
                         <td className="px-4 py-3">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600')}>
+                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-info-bg)] text-[var(--app-info)]')}>
                             {req.format}
                           </Badge>
                         </td>
@@ -215,7 +215,7 @@ export default function DataGovernancePage() {
                               <XCircle className="w-3 h-3" /> Cancel
                             </button>
                           ) : (
-                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>—</span>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>—</span>
                           )}
                         </td>
                       </motion.tr>
@@ -234,16 +234,16 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.5, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Shield className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Consent Logs</span>
+            <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Consent Logs</span>
           </div>
-          <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['User', 'Consent Type', 'Granted', 'Timestamp', 'IP'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', 'text-[var(--app-text-muted)]')}>
                         {h}
                       </th>
                     ))}
@@ -256,17 +256,17 @@ export default function DataGovernancePage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.55 + i * 0.04 }}
-                      className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                      className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                     >
                       <td className="px-4 py-3 text-xs font-medium">{log.user}</td>
                       <td className="px-4 py-3 text-xs">{log.consentType}</td>
                       <td className="px-4 py-3">
                         {log.granted ? (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
                             <CheckCircle2 className="w-2.5 h-2.5 mr-0.5" /> Yes
                           </Badge>
                         ) : (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>
+                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
                             <XCircle className="w-2.5 h-2.5 mr-0.5" /> No
                           </Badge>
                         )}
@@ -291,14 +291,14 @@ export default function DataGovernancePage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Trash2 className="w-4 h-4 text-red-400" />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>GDPR / Delete Workflow</span>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>GDPR / Delete Workflow</span>
           </div>
           <div className={cn(
             'rounded-2xl border-l-4 border-l-red-500 p-5',
             isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-black/[0.02] border border-black/[0.06]',
           )}>
             <h3 className="text-sm font-semibold mb-2">GDPR Data Deletion Workflow</h3>
-            <p className={cn('text-xs mb-4', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs mb-4', 'text-[var(--app-text-muted)]')}>
               When a deletion request is received, the following steps are executed automatically:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
@@ -309,12 +309,12 @@ export default function DataGovernancePage() {
                 { step: 4, label: 'Soft Delete', desc: 'Mark records for deletion (30-day grace)' },
                 { step: 5, label: 'Hard Purge', desc: 'Permanently remove from all systems' },
               ].map((s) => (
-                <div key={s.step} className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                <div key={s.step} className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                   <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mb-2', isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600')}>
                     {s.step}
                   </div>
                   <p className="text-xs font-semibold">{s.label}</p>
-                  <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{s.desc}</p>
+                  <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -337,15 +337,15 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.75, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Building2 className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Tenant Isolation</span>
+            <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Tenant Isolation</span>
           </div>
           <div className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="flex items-start gap-4">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/15' : 'bg-emerald-50')}>
+              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0', 'bg-[var(--app-success-bg)]')}>
                 <Shield className="w-5 h-5 text-emerald-400" />
               </div>
               <div className="flex-1">
@@ -353,7 +353,7 @@ export default function DataGovernancePage() {
                   <h3 className="text-sm font-semibold">Tenant Isolation Active</h3>
                   <span className={cn('h-2 w-2 rounded-full bg-emerald-400', isDark ? 'bg-emerald-400' : 'bg-emerald-500')} />
                 </div>
-                <p className={cn('text-xs mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-xs mb-3', 'text-[var(--app-text-muted)]')}>
                   Data is fully isolated across tenants with row-level security policies, separate encryption keys, and independent backup schedules.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -362,8 +362,8 @@ export default function DataGovernancePage() {
                     { label: 'Encryption', value: 'AES-256 per tenant' },
                     { label: 'Isolation Level', value: 'Row-Level + Encryption' },
                   ].map((item) => (
-                    <div key={item.label} className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
+                    <div key={item.label} className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                       <p className="text-xs font-semibold">{item.value}</p>
                     </div>
                   ))}

@@ -59,10 +59,10 @@ export default function BudgetsPage() {
   const maxTrend = Math.max(maxAllocated, maxSpent);
 
   const kpiStats = [
-    { label: 'Total Allocated', value: formatINR(totalAllocated), icon: Wallet, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-    { label: 'Total Spent', value: formatINR(totalSpent), icon: TrendingUp, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-    { label: 'Remaining', value: formatINR(totalRemaining), icon: Target, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-    { label: 'At Risk', value: atRiskCount.toString(), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
+    { label: 'Total Allocated', value: formatINR(totalAllocated), icon: Wallet, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+    { label: 'Total Spent', value: formatINR(totalSpent), icon: TrendingUp, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+    { label: 'Remaining', value: formatINR(totalRemaining), icon: Target, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
+    { label: 'At Risk', value: atRiskCount.toString(), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
   ];
 
   return (
@@ -71,15 +71,15 @@ export default function BudgetsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Wallet className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Wallet className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Budgets</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Budget Planning Cockpit</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Budget Planning Cockpit</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Plus className="w-4 h-4" /> Create Budget
           </Button>
         </div>
@@ -92,10 +92,10 @@ export default function BudgetsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
@@ -110,21 +110,21 @@ export default function BudgetsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Budget Trend</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Budget Trend</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Allocated</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Allocated</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Spent</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Spent</span>
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function BudgetsPage() {
                     className="flex-1 rounded-t-sm bg-amber-500/40"
                   />
                 </div>
-                <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>{trend.month}</span>
+                <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{trend.month}</span>
               </div>
             ))}
           </div>
@@ -153,20 +153,20 @@ export default function BudgetsPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className={cn('flex items-center gap-2', isDark ? 'text-white/40' : 'text-black/40')}>
+          <div className={cn('flex items-center gap-2', 'text-[var(--app-text-muted)]')}>
             <Filter className="w-4 h-4" />
             <span className="text-xs font-medium uppercase tracking-wider">Filters</span>
           </div>
           <div className="flex gap-2">
             {(['all', 'department', 'campaign', 'client', 'delivery'] as const).map((type) => (
-              <button key={type} onClick={() => setTypeFilter(type)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', typeFilter === type ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
+              <button key={type} onClick={() => setTypeFilter(type)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', typeFilter === type ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {type === 'all' ? 'All Types' : type}
               </button>
             ))}
           </div>
           <div className="flex gap-2 ml-4">
             {(['all', 'on-track', 'at-risk', 'overspent', 'locked'] as const).map((status) => (
-              <button key={status} onClick={() => setStatusFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', statusFilter === status ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
+              <button key={status} onClick={() => setStatusFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', statusFilter === status ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {status === 'all' ? 'All Status' : status.replace('-', ' ')}
               </button>
             ))}
@@ -178,13 +178,13 @@ export default function BudgetsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Target className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Budget Details</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+              <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Budget Details</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {filteredBudgets.length} budgets
               </Badge>
             </div>
@@ -200,7 +200,7 @@ export default function BudgetsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.04, duration: 0.3 }}
-                  className={cn('p-4 rounded-xl border transition-colors cursor-pointer', isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                  className={cn('p-4 rounded-xl border transition-colors cursor-pointer', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -213,27 +213,27 @@ export default function BudgetsPage() {
                           {sConf.label}
                         </Badge>
                       </div>
-                      <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>{budget.period}</p>
+                      <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{budget.period}</p>
                     </div>
                     <div className="flex items-center gap-4 text-xs shrink-0">
                       <div className="text-center">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Allocated</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Allocated</p>
                         <p className="font-semibold">{formatINR(budget.allocated)}</p>
                       </div>
                       <div className="text-center">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Spent</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Spent</p>
                         <p className="font-semibold">{formatINR(budget.spent)}</p>
                       </div>
                       <div className="text-center">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Remaining</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Remaining</p>
                         <p className={cn('font-semibold', budget.remaining < 0 ? 'text-red-500' : '')}>{formatINR(budget.remaining)}</p>
                       </div>
                       <div className="text-center">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Monthly Cap</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Monthly Cap</p>
                         <p className="font-semibold">{formatINR(budget.monthlyCap)}</p>
                       </div>
                       <div className="text-center">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Variance</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Variance</p>
                         <p className={cn('font-semibold', budget.variancePercent < 0 ? 'text-red-500' : 'text-emerald-500')}>
                           {budget.variancePercent > 0 ? '+' : ''}{budget.variancePercent}%
                         </p>
@@ -241,7 +241,7 @@ export default function BudgetsPage() {
                     </div>
                   </div>
                   <div className="mt-3">
-                    <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
@@ -250,8 +250,8 @@ export default function BudgetsPage() {
                       />
                     </div>
                     <div className="flex justify-between mt-1">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>{progress.toFixed(0)}% utilized</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>{formatINR(budget.remaining)} left</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>{progress.toFixed(0)}% utilized</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>{formatINR(budget.remaining)} left</span>
                     </div>
                   </div>
                 </motion.div>
@@ -286,12 +286,12 @@ export default function BudgetsPage() {
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
                     <div>
                       <p className="text-sm font-medium">{b.name}</p>
-                      <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{b.period} • Overspent by {formatINR(Math.abs(b.remaining))}</p>
+                      <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{b.period} • Overspent by {formatINR(Math.abs(b.remaining))}</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold text-red-500">{formatINR(b.spent)} / {formatINR(b.allocated)}</p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{b.variancePercent}% over</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{b.variancePercent}% over</p>
                   </div>
                 </motion.div>
               ))}

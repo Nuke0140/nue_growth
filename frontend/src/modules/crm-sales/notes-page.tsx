@@ -100,19 +100,19 @@ export default function NotesPage() {
       <div className="shrink-0 px-6 pt-6 pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
-            <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+            <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
               Notes
             </h1>
-            <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
               {filtered.length} notes • {mockNotes.filter((n) => n.isPinned).length} pinned
             </p>
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
               'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search notes..."
@@ -120,7 +120,7 @@ export default function NotesPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-40',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -128,7 +128,7 @@ export default function NotesPage() {
               size="sm"
               className={cn(
                 'rounded-xl text-xs h-9 px-4',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -171,14 +171,14 @@ export default function NotesPage() {
           >
             <div className={cn(
               'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
-              isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <StickyNote className={cn('w-7 h-7', isDark ? 'text-white/20' : 'text-black/20')} />
+              <StickyNote className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
             </div>
-            <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
               No notes yet
             </p>
-            <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+            <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
               Create your first note to get started
             </p>
           </motion.div>
@@ -214,14 +214,14 @@ export default function NotesPage() {
                   <div className="flex items-start gap-2 mb-2 pr-6">
                     <h3 className={cn(
                       'text-sm font-semibold leading-tight flex-1',
-                      isDark ? 'text-white/90' : 'text-black/90'
+                      'text-[var(--app-text)]'
                     )}>
                       {note.title}
                     </h3>
                     {note.isPrivate && (
                       <Lock className={cn(
                         'w-3.5 h-3.5 shrink-0',
-                        isDark ? 'text-white/20' : 'text-black/20'
+                        'text-[var(--app-text-disabled)]'
                       )} />
                     )}
                   </div>
@@ -229,7 +229,7 @@ export default function NotesPage() {
                   {/* Content preview */}
                   <p className={cn(
                     'text-xs leading-relaxed mb-3 line-clamp-3',
-                    isDark ? 'text-white/40' : 'text-black/40'
+                    'text-[var(--app-text-muted)]'
                   )}>
                     {note.content}
                   </p>
@@ -241,21 +241,21 @@ export default function NotesPage() {
                         {typeConfig.label}
                       </Badge>
                       {note.version > 1 && (
-                        <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                           v{note.version}
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Clock className={cn('w-3 h-3', isDark ? 'text-white/15' : 'text-black/15')} />
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                      <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {formatRelative(note.updatedAt)}
                       </span>
                     </div>
                   </div>
 
                   {/* Footer */}
-                  <Separator className={cn('my-3', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')} />
+                  <Separator className={cn('my-3', 'bg-[var(--app-hover-bg)]')} />
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className={cn(
@@ -264,7 +264,7 @@ export default function NotesPage() {
                       )}>
                         {note.author.charAt(0)}
                       </div>
-                      <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                         {note.author}
                       </span>
                     </div>
@@ -310,7 +310,7 @@ export default function NotesPage() {
                     {noteTypeConfig[selectedNote.type].label}
                   </Badge>
                   {selectedNote.isPinned && <Pin className={cn('w-3.5 h-3.5 text-amber-400 fill-current')} />}
-                  {selectedNote.isPrivate && <Lock className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />}
+                  {selectedNote.isPrivate && <Lock className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />}
                   {selectedNote.version > 1 && (
                     <Badge variant="outline" className={cn(
                       'text-[10px] px-1.5 py-0 h-5',
@@ -320,10 +320,10 @@ export default function NotesPage() {
                     </Badge>
                   )}
                 </div>
-                <DialogTitle className={cn(isDark ? 'text-white' : 'text-black')}>
+                <DialogTitle className={cn('text-[var(--app-text)]')}>
                   {selectedNote.title}
                 </DialogTitle>
-                <DialogDescription className={cn(isDark ? 'text-white/40' : 'text-black/40')}>
+                <DialogDescription className={cn('text-[var(--app-text-muted)]')}>
                   By {selectedNote.author} • Updated {formatRelative(selectedNote.updatedAt)}
                 </DialogDescription>
               </DialogHeader>

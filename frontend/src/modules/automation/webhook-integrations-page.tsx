@@ -41,7 +41,7 @@ export default function WebhookIntegrationsPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   function truncateUrl(url: string, maxLen = 45) {
@@ -67,10 +67,10 @@ export default function WebhookIntegrationsPage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               Webhooks
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Manage external integrations
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function WebhookIntegrationsPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
@@ -131,14 +131,14 @@ export default function WebhookIntegrationsPage() {
                 transition={{ delay: i * 0.06 }}
                 className={cn(
                   'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-3',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                         {webhook.name}
                       </h3>
                       <span className={cn(
@@ -159,9 +159,9 @@ export default function WebhookIntegrationsPage() {
                     {/* URL with copy */}
                     <div className={cn(
                       'flex items-center gap-2 rounded-lg px-2.5 py-1.5 mt-1',
-                      isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
+                      'bg-[var(--app-hover-bg)]',
                     )}>
-                      <code className={cn('text-[11px] font-mono flex-1 truncate', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                      <code className={cn('text-[11px] font-mono flex-1 truncate', 'text-[var(--app-text-muted)]')}>
                         {truncateUrl(webhook.url)}
                       </code>
                       <button
@@ -187,7 +187,7 @@ export default function WebhookIntegrationsPage() {
                       whileTap={{ scale: 0.95 }}
                       className={cn(
                         'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
-                        isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
+                        'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                       )}
                     >
                       <Play className="h-3 w-3" />
@@ -198,7 +198,7 @@ export default function WebhookIntegrationsPage() {
                       whileTap={{ scale: 0.95 }}
                       className={cn(
                         'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
-                        isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
+                        'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                       )}
                     >
                       <Pencil className="h-3 w-3" />
@@ -208,11 +208,11 @@ export default function WebhookIntegrationsPage() {
                 </div>
 
                 {/* Event Mapping */}
-                <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1.5', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-1.5', 'text-[var(--app-text-muted)]')}>
                     Events
                   </p>
-                  <p className={cn('text-xs', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                  <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                     {webhook.event}
                   </p>
                   <div className="flex flex-wrap gap-1.5 mt-2">
@@ -233,11 +233,11 @@ export default function WebhookIntegrationsPage() {
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-1.5">
                     <Shield className={cn('h-3 w-3', webhook.authToken ? 'text-emerald-400' : 'text-zinc-400')} />
-                    <span className={cn('text-[10px] font-medium', webhook.authToken ? 'text-emerald-400' : isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <span className={cn('text-[10px] font-medium', webhook.authToken ? 'text-emerald-400' : 'text-[var(--app-text-muted)]')}>
                       {webhook.authToken ? 'Auth Token Present' : 'No Auth'}
                     </span>
                   </div>
-                  <span className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     Retry: {webhook.retryAttempts} attempts
                   </span>
                 </div>
@@ -245,14 +245,14 @@ export default function WebhookIntegrationsPage() {
                 {/* Failure Rate Bar */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Failure Rate
                     </p>
                     <span className={cn('text-xs font-bold', webhook.failureRate === 0 ? 'text-emerald-400' : webhook.failureRate < 5 ? 'text-amber-400' : 'text-red-400')}>
                       {webhook.failureRate}%
                     </span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(webhook.failureRate * 5, 100)}%` }}
@@ -267,7 +267,7 @@ export default function WebhookIntegrationsPage() {
 
                 {/* Response Logs Mini-Table */}
                 {webhook.responseLogs.length > 0 && (
-                  <div className={cn('rounded-xl border overflow-hidden', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <div className={cn('rounded-xl border overflow-hidden', 'border-[var(--app-border)]')}>
                     <div className={cn(
                       'grid grid-cols-4 gap-2 px-3 py-2 text-[10px] font-medium uppercase tracking-wider',
                       isDark ? 'bg-white/[0.03] text-zinc-500' : 'bg-black/[0.02] text-zinc-400',
@@ -282,10 +282,10 @@ export default function WebhookIntegrationsPage() {
                         key={li}
                         className={cn(
                           'grid grid-cols-4 gap-2 px-3 py-2 text-xs border-t',
-                          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]',
+                          'border-[var(--app-border-light)]',
                         )}
                       >
-                        <span className={cn('text-[11px]', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                        <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                           {formatTimestamp(log.timestamp)}
                         </span>
                         <span className={cn(
@@ -296,7 +296,7 @@ export default function WebhookIntegrationsPage() {
                         )}>
                           {log.statusCode === 0 ? 'TMO' : log.statusCode}
                         </span>
-                        <span className={cn('text-[11px] font-mono', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                        <span className={cn('text-[11px] font-mono', 'text-[var(--app-text-muted)]')}>
                           {log.duration >= 1000 ? `${(log.duration / 1000).toFixed(1)}s` : `${log.duration}ms`}
                         </span>
                         <div className="flex justify-end">
@@ -322,12 +322,12 @@ export default function WebhookIntegrationsPage() {
           transition={{ delay: 0.4 }}
           className={cn(
             'rounded-2xl border shadow-sm p-4 sm:p-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center gap-2 mb-4">
-            <ArrowRight className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <ArrowRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Event Mapping Configuration
             </h3>
           </div>
@@ -342,8 +342,8 @@ export default function WebhookIntegrationsPage() {
             ].map((mapping) => (
               <div key={mapping.source} className={cn(
                 'rounded-xl border p-3 flex items-center justify-between gap-2',
-                isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
-                mapping.active && (isDark ? 'bg-white/[0.02]' : 'bg-black/[0.01]'),
+                'border-[var(--app-border)]',
+                mapping.active && ('bg-[var(--app-hover-bg)]'),
               )}>
                 <div className="flex items-center gap-2 min-w-0">
                   <div className={cn(

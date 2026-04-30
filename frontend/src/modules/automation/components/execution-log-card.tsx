@@ -42,10 +42,10 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
             <StatusIcon className={cn('w-4 h-4', config.color)} />
           </div>
           <div>
-            <p className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <p className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               {log.workflowName}
             </p>
-            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
               {log.triggeredBy === 'auto' ? 'Auto-triggered' : log.triggeredBy === 'webhook' ? 'Webhook' : 'Scheduled'}
             </p>
           </div>
@@ -66,10 +66,10 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
           return (
             <div key={node.nodeId} className="flex items-center gap-2">
               <NI className={cn('w-3 h-3 shrink-0', nc.color)} />
-              <span className={cn('text-xs flex-1 truncate', isDark ? 'text-white/60' : 'text-black/60')}>
+              <span className={cn('text-xs flex-1 truncate', 'text-[var(--app-text-secondary)]')}>
                 {node.nodeName}
               </span>
-              <span className={cn('text-[10px] shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>
+              <span className={cn('text-[10px] shrink-0', 'text-[var(--app-text-muted)]')}>
                 {node.duration}s
               </span>
             </div>
@@ -78,10 +78,10 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
       </div>
 
       {/* Footer */}
-      <div className={cn('flex items-center justify-between pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+      <div className={cn('flex items-center justify-between pt-2 border-t', 'border-[var(--app-border)]')}>
         <div className="flex items-center gap-1.5">
-          <Clock className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+          <Clock className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
             Total: {log.duration}s
           </span>
           {log.retryCount > 0 && (
@@ -90,7 +90,7 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
             </span>
           )}
         </div>
-        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
           {new Date(log.startedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
         </span>
       </div>

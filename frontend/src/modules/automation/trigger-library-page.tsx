@@ -40,20 +40,20 @@ export default function TriggerLibraryPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Zap className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Zap className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Trigger Library</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Browse all available triggers
               </p>
             </div>
           </div>
           <span className={cn(
             'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
-            isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+            'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
           )}>
             {allTriggers.length} triggers available
           </span>
@@ -64,9 +64,9 @@ export default function TriggerLibraryPage() {
           {/* Search */}
           <div className={cn(
             'flex items-center gap-2 px-3 py-2 rounded-xl border',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
-            <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             <input
               type="text"
               value={searchQuery}
@@ -74,7 +74,7 @@ export default function TriggerLibraryPage() {
               placeholder="Search triggers by name, description, or event..."
               className={cn(
                 'bg-transparent text-sm focus:outline-none w-full',
-                isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25',
+                'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
               )}
             />
           </div>
@@ -127,13 +127,13 @@ export default function TriggerLibraryPage() {
             {filteredTriggers.length === 0 && (
               <div className={cn(
                 'rounded-2xl border p-12 text-center',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}>
-                <Zap className={cn('w-8 h-8 mx-auto mb-3', isDark ? 'text-white/20' : 'text-black/20')} />
-                <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                <Zap className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
+                <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                   No triggers found
                 </p>
-                <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                   Try adjusting your search or category filter
                 </p>
               </div>
@@ -150,7 +150,7 @@ export default function TriggerLibraryPage() {
                 transition={{ duration: 0.25 }}
                 className={cn(
                   'rounded-2xl border p-4 space-y-4 h-fit sticky top-4',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 <div className="flex items-center gap-2.5">
@@ -158,27 +158,27 @@ export default function TriggerLibraryPage() {
                     'w-9 h-9 rounded-xl flex items-center justify-center',
                     isDark ? 'bg-blue-500/15' : 'bg-blue-50',
                   )}>
-                    <MousePointerClick className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
+                    <MousePointerClick className={cn('w-4 h-4', 'text-[var(--app-info)]')} />
                   </div>
                   <div>
-                    <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                       {selectedTrigger.name}
                     </h3>
-                    <p className={cn('text-[10px] font-mono', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px] font-mono', 'text-[var(--app-text-muted)]')}>
                       {selectedTrigger.event}
                     </p>
                   </div>
                 </div>
 
-                <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
+                <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                   {selectedTrigger.description}
                 </p>
 
                 {/* Payload Preview */}
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Code2 className={cn('w-3.5 h-3.5', isDark ? 'text-violet-400' : 'text-violet-500')} />
-                    <span className={cn('text-xs font-semibold', isDark ? 'text-white/50' : 'text-black/50')}>
+                    <Code2 className={cn('w-3.5 h-3.5', 'text-[var(--app-purple)]')} />
+                    <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                       Payload Preview
                     </span>
                   </div>
@@ -192,7 +192,7 @@ export default function TriggerLibraryPage() {
 
                 {/* Example Templates */}
                 <div>
-                  <span className={cn('text-xs font-semibold', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                     Used In Workflows
                   </span>
                   <div className="mt-2 space-y-1.5">
@@ -204,7 +204,7 @@ export default function TriggerLibraryPage() {
                           isDark ? 'bg-white/[0.03] hover:bg-white/[0.06] text-white/60' : 'bg-black/[0.02] hover:bg-black/[0.04] text-black/60',
                         )}
                       >
-                        <ChevronRight className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
+                        <ChevronRight className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
                         {tpl}
                       </div>
                     ))}
@@ -213,12 +213,12 @@ export default function TriggerLibraryPage() {
 
                 <div className={cn(
                   'flex items-center justify-between pt-2 border-t text-xs',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
+                  'border-[var(--app-border)]',
                 )}>
-                  <span className={cn(isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[var(--app-text-muted)]')}>
                     Usage Count
                   </span>
-                  <span className={cn('font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+                  <span className={cn('font-semibold', 'text-[var(--app-text-secondary)]')}>
                     {selectedTrigger.usageCount.toLocaleString()}
                   </span>
                 </div>

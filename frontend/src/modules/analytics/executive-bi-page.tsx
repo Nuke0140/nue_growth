@@ -78,7 +78,7 @@ function CircularProgress({ score, maxScore, size = 96, strokeWidth = 6, isDark 
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+        <span className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
           {score}
         </span>
       </div>
@@ -114,15 +114,15 @@ export default function ExecutiveBIPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Crown className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Crown className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className={cn('font-bold', isBoardMode ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl')}>
                 Executive BI
               </h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Board-ready business overview
               </p>
             </div>
@@ -131,7 +131,7 @@ export default function ExecutiveBIPage() {
           {/* Mode Toggle */}
           <div className={cn(
             'inline-flex rounded-2xl border p-1',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             {(['standard', 'board'] as const).map((m) => (
               <button
@@ -158,7 +158,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            isDark ? 'text-white/40' : 'text-black/40',
+            'text-[var(--app-text-muted)]',
           )}>
             Business Health Scores
           </h2>
@@ -182,7 +182,7 @@ export default function ExecutiveBIPage() {
                     <div className="flex-1 min-w-0 space-y-3">
                       <p className={cn(
                         'text-xs font-medium uppercase tracking-wider',
-                        isDark ? 'text-white/40' : 'text-black/40',
+                        'text-[var(--app-text-muted)]',
                       )}>
                         {score.label}
                       </p>
@@ -209,8 +209,8 @@ export default function ExecutiveBIPage() {
                       <span className={cn(
                         'flex items-center gap-1 text-xs font-semibold',
                         isPositive
-                          ? (isDark ? 'text-emerald-400' : 'text-emerald-600')
-                          : (isDark ? 'text-red-400' : 'text-red-600'),
+                          ? ('text-[var(--app-success)]')
+                          : ('text-[var(--app-danger)]'),
                       )}>
                         {isPositive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                         {Math.abs(score.trend)}%
@@ -227,7 +227,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            isDark ? 'text-white/40' : 'text-black/40',
+            'text-[var(--app-text-muted)]',
           )}>
             Quarterly Performance
           </h2>
@@ -251,7 +251,7 @@ export default function ExecutiveBIPage() {
                   <div className="flex items-center justify-between mb-4">
                     <span className={cn(
                       'text-sm font-bold',
-                      isDark ? 'text-white' : 'text-zinc-900',
+                      'text-[var(--app-text)]',
                     )}>
                       {q.quarter}
                     </span>
@@ -272,19 +272,19 @@ export default function ExecutiveBIPage() {
                       { label: 'Team', value: `${q.team}`, change: changes.teamChange },
                     ].map((metric) => (
                       <div key={metric.label} className="flex items-center justify-between">
-                        <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                           {metric.label}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className={cn('text-sm font-semibold', isDark ? 'text-white/90' : 'text-black/90')}>
+                          <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                             {metric.value}
                           </span>
                           {i > 0 && (
                             <span className={cn(
                               'flex items-center gap-0.5 text-[10px] font-semibold',
                               metric.change >= 0
-                                ? (isDark ? 'text-emerald-400' : 'text-emerald-600')
-                                : (isDark ? 'text-red-400' : 'text-red-600'),
+                                ? ('text-[var(--app-success)]')
+                                : ('text-[var(--app-danger)]'),
                             )}>
                               {metric.change >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                               {Math.abs(metric.change).toFixed(1)}%
@@ -318,17 +318,17 @@ export default function ExecutiveBIPage() {
               'w-8 h-8 rounded-lg flex items-center justify-center',
               isDark ? 'bg-violet-500/15' : 'bg-violet-100',
             )}>
-              <Award className={cn('w-4 h-4', isDark ? 'text-violet-400' : 'text-violet-600')} />
+              <Award className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
             </div>
             <div>
               <h2 className={cn(
                 'font-bold',
                 isBoardMode ? 'text-xl' : 'text-lg',
-                isDark ? 'text-white' : 'text-zinc-900',
+                'text-[var(--app-text)]',
               )}>
                 Board Summary — FY 2024
               </h2>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Annual performance overview for board review
               </p>
             </div>
@@ -345,14 +345,14 @@ export default function ExecutiveBIPage() {
               <div key={m.label} className="space-y-2">
                 <div className="flex items-center gap-2">
                   <m.icon className={cn('w-4 h-4', m.color)} />
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
                     {m.label}
                   </span>
                 </div>
                 <p className={cn(
                   'font-bold tracking-tight',
                   isBoardMode ? 'text-3xl' : 'text-2xl',
-                  isDark ? 'text-white' : 'text-zinc-900',
+                  'text-[var(--app-text)]',
                 )}>
                   {m.value}
                 </p>
@@ -369,19 +369,19 @@ export default function ExecutiveBIPage() {
             ].map((m) => (
               <div key={m.label} className={cn(
                 'rounded-xl p-4',
-                isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
+                'bg-[var(--app-hover-bg)]',
               )}>
-                <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
                   {m.label}
                 </span>
                 <div className="flex items-center gap-2 mt-1">
                   <span className={cn(
                     'text-xl font-bold',
-                    m.positive ? (isDark ? 'text-emerald-400' : 'text-emerald-600') : (isDark ? 'text-amber-400' : 'text-amber-600'),
+                    m.positive ? ('text-[var(--app-success)]') : ('text-[var(--app-warning)]'),
                   )}>
                     {m.value}
                   </span>
-                  {m.positive && <ArrowUpRight className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-600')} />}
+                  {m.positive && <ArrowUpRight className={cn('w-4 h-4', 'text-[var(--app-success)]')} />}
                 </div>
               </div>
             ))}
@@ -392,12 +392,12 @@ export default function ExecutiveBIPage() {
             'rounded-xl p-4 flex items-start gap-3',
             isDark ? 'bg-violet-500/[0.06] border border-violet-500/10' : 'bg-violet-50 border border-violet-200',
           )}>
-            <Award className={cn('w-5 h-5 shrink-0 mt-0.5', isDark ? 'text-violet-400' : 'text-violet-600')} />
+            <Award className={cn('w-5 h-5 shrink-0 mt-0.5', 'text-[var(--app-purple)]')} />
             <div>
               <p className={cn('text-[10px] uppercase tracking-wider font-semibold mb-1', isDark ? 'text-violet-300/60' : 'text-violet-600')}>
                 Top Achievement
               </p>
-              <p className={cn('text-sm font-medium leading-relaxed', isDark ? 'text-white/80' : 'text-black/80')}>
+              <p className={cn('text-sm font-medium leading-relaxed', 'text-[var(--app-text)]')}>
                 {boardSummary.topAchievement}
               </p>
             </div>
@@ -408,7 +408,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            isDark ? 'text-white/40' : 'text-black/40',
+            'text-[var(--app-text-muted)]',
           )}>
             Presentation Highlights
           </h2>
@@ -456,19 +456,19 @@ export default function ExecutiveBIPage() {
                 )}
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <card.icon className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <card.icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     {card.title}
                   </h3>
                 </div>
-                <p className={cn('text-xs leading-relaxed mb-4', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-xs leading-relaxed mb-4', 'text-[var(--app-text-muted)]')}>
                   {card.description}
                 </p>
                 <div className="grid grid-cols-3 gap-2">
                   {card.metrics.map((m) => (
-                    <div key={m.label} className={cn('rounded-lg p-2 text-center', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
-                      <p className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-zinc-900')}>{m.value}</p>
-                      <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>{m.label}</p>
+                    <div key={m.label} className={cn('rounded-lg p-2 text-center', 'bg-[var(--app-hover-bg)]')}>
+                      <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>{m.value}</p>
+                      <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -491,10 +491,10 @@ export default function ExecutiveBIPage() {
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Export Board Pack
               </h3>
-              <p className={cn('text-xs mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                 Download presentation-ready reports for the board meeting
               </p>
             </div>

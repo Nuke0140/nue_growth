@@ -91,17 +91,17 @@ export default function WinLossAnalysisPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   Win / Loss Analysis
                 </h1>
-                <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                   Optimization intelligence dashboard
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <div className={cn(
                   'flex items-center rounded-xl border overflow-hidden',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+                  'border-[var(--app-border)]'
                 )}>
                   {PERIODS.map((p) => (
                     <button
@@ -110,7 +110,7 @@ export default function WinLossAnalysisPage() {
                       className={cn(
                         'px-3 py-1.5 text-xs font-medium transition-all',
                         period === p
-                          ? isDark ? 'bg-white text-black' : 'bg-black text-white'
+                          ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                           : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
                       )}
                     >
@@ -143,13 +143,13 @@ export default function WinLossAnalysisPage() {
               ].map((kpi) => (
                 <div key={kpi.label} className={cn(
                   'rounded-2xl border p-4',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}>
                   <div className="flex items-center gap-2 mb-2">
                     <kpi.icon className={cn('w-4 h-4', kpi.color)} />
-                    <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                    <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
                   </div>
-                  <p className={cn('font-bold tracking-tight', kpi.large ? 'text-3xl' : 'text-xl', isDark ? 'text-white' : 'text-black')}>
+                  <p className={cn('font-bold tracking-tight', kpi.large ? 'text-3xl' : 'text-xl', 'text-[var(--app-text)]')}>
                     {kpi.value}
                   </p>
                 </div>
@@ -163,22 +163,22 @@ export default function WinLossAnalysisPage() {
               transition={{ duration: 0.4, delay: 0.1 }}
               className={cn(
                 'rounded-2xl border p-5',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center gap-2 mb-5">
-                <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Monthly Win vs Loss
                 </h3>
                 <div className="ml-auto flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Won</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Won</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Lost</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Lost</span>
                   </div>
                 </div>
               </div>
@@ -200,7 +200,7 @@ export default function WinLossAnalysisPage() {
                         >
                           <div className={cn(
                             'absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap',
-                            isDark ? 'text-white/60' : 'text-black/60'
+                            'text-[var(--app-text-secondary)]'
                           )}>
                             {m.won}
                           </div>
@@ -214,13 +214,13 @@ export default function WinLossAnalysisPage() {
                         >
                           <div className={cn(
                             'absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap',
-                            isDark ? 'text-white/60' : 'text-black/60'
+                            'text-[var(--app-text-secondary)]'
                           )}>
                             {m.lost}
                           </div>
                         </motion.div>
                       </div>
-                      <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                         {m.month}
                       </span>
                     </div>
@@ -237,12 +237,12 @@ export default function WinLossAnalysisPage() {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className={cn(
                   'rounded-2xl border p-5',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <AlertTriangle className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                  <AlertTriangle className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     Competitor Analysis
                   </h3>
                 </div>
@@ -258,12 +258,12 @@ export default function WinLossAnalysisPage() {
                           'rounded-xl p-3',
                           isTop
                             ? (isDark ? 'bg-red-500/[0.06]' : 'bg-red-50/50')
-                            : (isDark ? 'bg-white/[0.02]' : 'bg-black/[0.01]')
+                            : ('bg-[var(--app-hover-bg)]')
                         )}
                       >
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2">
-                            <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-black')}>
+                            <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                               {comp.competitor}
                             </span>
                             {isTop && (
@@ -272,11 +272,11 @@ export default function WinLossAnalysisPage() {
                               </Badge>
                             )}
                           </div>
-                          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                             {comp.count} deals · {formatCurrency(comp.revenue)}
                           </span>
                         </div>
-                        <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${lossPercent}%` }}
@@ -287,7 +287,7 @@ export default function WinLossAnalysisPage() {
                             )}
                           />
                         </div>
-                        <p className={cn('text-[9px] mt-1 text-right', isDark ? 'text-white/20' : 'text-black/20')}>
+                        <p className={cn('text-[9px] mt-1 text-right', 'text-[var(--app-text-disabled)]')}>
                           {lossPercent}% of competitive losses
                         </p>
                       </div>
@@ -303,12 +303,12 @@ export default function WinLossAnalysisPage() {
                 transition={{ duration: 0.4, delay: 0.25 }}
                 className={cn(
                   'rounded-2xl border p-5',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <Target className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                  <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     Loss Reasons Breakdown
                   </h3>
                 </div>
@@ -327,10 +327,10 @@ export default function WinLossAnalysisPage() {
                       isDark ? 'bg-[#0a0a0a]' : 'bg-white'
                     )}>
                       <div className="text-center">
-                        <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>
+                        <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                           {data.lostDeals}
                         </p>
-                        <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>Lost Deals</p>
+                        <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Lost Deals</p>
                       </div>
                     </div>
                   </div>
@@ -342,17 +342,17 @@ export default function WinLossAnalysisPage() {
                         key={reason.reason}
                         className={cn(
                           'flex items-center gap-2 px-2.5 py-1.5 rounded-lg',
-                          isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'
+                          'bg-[var(--app-hover-bg)]'
                         )}
                       >
                         <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: LOSS_REASON_COLORS[i] }} />
-                        <span className={cn('text-xs flex-1 truncate', isDark ? 'text-white/60' : 'text-black/60')}>
+                        <span className={cn('text-xs flex-1 truncate', 'text-[var(--app-text-secondary)]')}>
                           {reason.reason}
                         </span>
-                        <span className={cn('text-xs font-bold', isDark ? 'text-white/80' : 'text-black/80')}>
+                        <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                           {reason.count}
                         </span>
-                        <span className={cn('text-[10px] w-10 text-right', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('text-[10px] w-10 text-right', 'text-[var(--app-text-muted)]')}>
                           {reason.percentage}%
                         </span>
                       </div>
@@ -369,12 +369,12 @@ export default function WinLossAnalysisPage() {
               transition={{ duration: 0.4, delay: 0.3 }}
               className={cn(
                 'rounded-2xl border p-5',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center gap-2 mb-5">
-                <Zap className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Stage Drop-off Funnel
                 </h3>
               </div>
@@ -393,7 +393,7 @@ export default function WinLossAnalysisPage() {
                   return (
                     <div key={stage.stage} className="flex items-center gap-3">
                       <div className="w-24 sm:w-28 shrink-0 text-right">
-                        <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+                        <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                           {stage.stage}
                         </span>
                       </div>
@@ -424,7 +424,7 @@ export default function WinLossAnalysisPage() {
                       </div>
 
                       <div className="w-14 sm:w-20 shrink-0 text-right">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           {stage.exited} exited
                         </span>
                       </div>
@@ -438,7 +438,7 @@ export default function WinLossAnalysisPage() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-4 h-4 text-violet-400" />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   AI Bottleneck Insights
                 </h3>
               </div>
@@ -455,7 +455,7 @@ export default function WinLossAnalysisPage() {
                       transition={{ delay: 0.5 + i * 0.1 }}
                       className={cn(
                         'rounded-2xl border p-4',
-                        isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                       )}
                     >
                       <div className="flex items-center gap-2 mb-2">
@@ -463,25 +463,25 @@ export default function WinLossAnalysisPage() {
                         <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded', severityColor)}>
                           {insight.severity === 'high' ? 'HIGH IMPACT' : 'MEDIUM'}
                         </span>
-                        <span className={cn('ml-auto text-[9px] font-bold', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('ml-auto text-[9px] font-bold', 'text-[var(--app-text-muted)]')}>
                           {insight.metric}
                         </span>
                       </div>
-                      <h4 className={cn('text-sm font-semibold mb-1.5', isDark ? 'text-white' : 'text-black')}>
+                      <h4 className={cn('text-sm font-semibold mb-1.5', 'text-[var(--app-text)]')}>
                         {insight.title}
                       </h4>
-                      <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                         {insight.desc}
                       </p>
                       <div className={cn(
                         'mt-3 pt-3 border-t flex items-center gap-1',
-                        isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+                        'border-[var(--app-border)]'
                       )}>
                         <Lightbulb className="w-3 h-3 text-amber-400" />
-                        <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                           AI Recommendation available
                         </span>
-                        <ChevronRight className={cn('w-3 h-3 ml-auto', isDark ? 'text-white/20' : 'text-black/20')} />
+                        <ChevronRight className={cn('w-3 h-3 ml-auto', 'text-[var(--app-text-disabled)]')} />
                       </div>
                     </motion.div>
                   );
@@ -496,12 +496,12 @@ export default function WinLossAnalysisPage() {
               transition={{ duration: 0.4, delay: 0.6 }}
               className={cn(
                 'rounded-2xl border p-5',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center gap-2 mb-5">
-                <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Average Days per Stage
                 </h3>
                 <Badge variant="secondary" className={cn(
@@ -525,16 +525,16 @@ export default function WinLossAnalysisPage() {
                     key={s.stage}
                     className={cn(
                       'rounded-xl p-3 text-center',
-                      isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'
+                      'bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <div className={cn('w-10 h-10 mx-auto rounded-full flex items-center justify-center mb-2', s.color)}>
                       <span className="text-white text-xs font-bold">{s.days}d</span>
                     </div>
-                    <p className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+                    <p className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                       {s.stage}
                     </p>
-                    <p className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                    <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                       avg days
                     </p>
                   </div>

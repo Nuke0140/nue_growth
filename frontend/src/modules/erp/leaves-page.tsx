@@ -81,13 +81,13 @@ function LeavesPageInner() {
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{emp?.name || row.employeeId}</p>
-              <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{emp?.department}</p>
+              <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>{emp?.name || row.employeeId}</p>
+              <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>{emp?.department}</p>
             </div>
           </div>
         );
@@ -98,7 +98,7 @@ function LeavesPageInner() {
       label: 'Type',
       sortable: true,
       render: (row) => (
-        <span className="ops-badge capitalize">{leaveTypeLabels[(row.type as string)] || row.type}</span>
+        <span className="app-badge capitalize">{leaveTypeLabels[(row.type as string)] || row.type}</span>
       ),
     },
     {
@@ -107,10 +107,10 @@ function LeavesPageInner() {
       sortable: true,
       render: (row) => (
         <div>
-          <p className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+          <p className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
             {row.startDate} → {row.endDate}
           </p>
-          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{row.days} day{Number(row.days) > 1 ? 's' : ''}</p>
+          <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>{row.days} day{Number(row.days) > 1 ? 's' : ''}</p>
         </div>
       ),
     },
@@ -128,8 +128,8 @@ function LeavesPageInner() {
         <div className="flex items-center gap-1">
           {row.status === 'pending' && (
             <>
-              <button className="ops-btn-ghost text-[11px] px-2 py-1" style={{ color: 'var(--ops-success)' }} onClick={(e) => { e.stopPropagation(); }}>Approve</button>
-              <button className="ops-btn-ghost text-[11px] px-2 py-1" style={{ color: 'var(--ops-danger)' }} onClick={(e) => { e.stopPropagation(); }}>Reject</button>
+              <button className="app-btn-ghost text-[11px] px-2 py-1" style={{ color: 'var(--app-success)' }} onClick={(e) => { e.stopPropagation(); }}>Approve</button>
+              <button className="app-btn-ghost text-[11px] px-2 py-1" style={{ color: 'var(--app-danger)' }} onClick={(e) => { e.stopPropagation(); }}>Reject</button>
             </>
           )}
         </div>
@@ -210,8 +210,8 @@ function LeavesPageInner() {
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Leave Type</label>
-          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-secondary)' }}>Leave Type</label>
+          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="app-input w-full px-3 py-2 text-sm">
             {['casual', 'sick', 'earned', 'maternity', 'paternity', 'comp-off', 'loss-of-pay'].map(t => (
               <option key={t} value={t}>{leaveTypeLabels[t]}</option>
             ))}
@@ -219,21 +219,21 @@ function LeavesPageInner() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Start Date</label>
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-secondary)' }}>Start Date</label>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="app-input w-full px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>End Date</label>
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="ops-input w-full px-3 py-2 text-sm" />
+            <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-secondary)' }}>End Date</label>
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="app-input w-full px-3 py-2 text-sm" />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Reason</label>
-          <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Enter reason..." rows={3} className="ops-input w-full px-3 py-2 text-sm resize-none" />
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-secondary)' }}>Reason</label>
+          <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Enter reason..." rows={3} className="app-input w-full px-3 py-2 text-sm resize-none" />
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--ops-text-secondary)' }}>Approver</label>
-          <select value={approver} onChange={(e) => setApprover(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
+          <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--app-text-secondary)' }}>Approver</label>
+          <select value={approver} onChange={(e) => setApprover(e.target.value)} className="app-input w-full px-3 py-2 text-sm">
             <option value="">Select approver</option>
             {mockEmployees.filter(e => ['E4', 'E5'].includes(e.salaryBand)).map(e => (
               <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>

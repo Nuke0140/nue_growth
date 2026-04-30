@@ -101,7 +101,7 @@ export default function FollowupsPage() {
             <div className="flex items-center gap-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                  <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                     Follow-ups
                   </h1>
                   {overdueCount > 0 && (
@@ -110,14 +110,14 @@ export default function FollowupsPage() {
                     </Badge>
                   )}
                 </div>
-                <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                   {mockFollowUps.length} follow-ups scheduled
                 </p>
               </div>
             </div>
             <Button className={cn(
               'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
               <Plus className="w-3.5 h-3.5 mr-1.5" />
               Add Follow-up
@@ -127,7 +127,7 @@ export default function FollowupsPage() {
           {/* View Tabs */}
           <div className={cn(
             'flex items-center gap-1 p-1 rounded-xl overflow-x-auto',
-            isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+            'bg-[var(--app-hover-bg)]'
           )}>
             {VIEW_TABS.map((tab) => {
               const TabIcon = tab.icon;
@@ -140,7 +140,7 @@ export default function FollowupsPage() {
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
                     isActive
-                      ? isDark ? 'bg-white text-black' : 'bg-black text-white'
+                      ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                       : isDark ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]' : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
                   )}
                 >
@@ -260,16 +260,16 @@ export default function FollowupsPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className={cn(
                     'rounded-2xl border p-12 text-center',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                    'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                   )}
                 >
                   <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-emerald-500/15">
                     <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                   </div>
-                  <h3 className={cn('text-lg font-semibold mb-1', isDark ? 'text-white' : 'text-black')}>
+                  <h3 className={cn('text-lg font-semibold mb-1', 'text-[var(--app-text)]')}>
                     All caught up! 🎉
                   </h3>
-                  <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
                     No pending follow-ups right now. Enjoy the moment.
                   </p>
                 </motion.div>
@@ -280,11 +280,11 @@ export default function FollowupsPage() {
             <div className="lg:w-80 shrink-0">
               <div className={cn(
                 'rounded-2xl border p-4 lg:sticky lg:top-4',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center gap-2 mb-4">
                   <Sparkles className="w-4 h-4 text-violet-400" />
-                  <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                  <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     AI Recommended Actions
                   </span>
                 </div>
@@ -307,10 +307,10 @@ export default function FollowupsPage() {
                             {priCfg.label}
                           </span>
                         </div>
-                        <p className={cn('text-xs font-medium mb-1', isDark ? 'text-white' : 'text-black')}>
+                        <p className={cn('text-xs font-medium mb-1', 'text-[var(--app-text)]')}>
                           {rec.title}
                         </p>
-                        <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                           {rec.desc}
                         </p>
                         <button className={cn(
@@ -362,7 +362,7 @@ function FollowUpCard({
         'rounded-2xl border p-4 transition-colors',
         isOverdue
           ? (isDark ? 'bg-red-500/[0.03] border-red-500/15' : 'bg-red-50/40 border-red-200/40')
-          : (isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')
+          : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
       )}
     >
       <div className="flex flex-col sm:flex-row sm:items-start gap-3">
@@ -370,18 +370,18 @@ function FollowUpCard({
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <div className={cn(
             'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
-            isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]'
+            'bg-[var(--app-hover-bg)]'
           )}>
             <TypeIcon className={cn('w-5 h-5', typeCfg.color)} />
           </div>
           <div className="flex-1 min-w-0">
             {/* Name + Company */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-black')}>
+              <span className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                 {followUp.leadName}
               </span>
               {followUp.company && (
-                <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                   · {followUp.company}
                 </span>
               )}
@@ -390,8 +390,8 @@ function FollowUpCard({
             {/* Date + Time */}
             <div className="flex items-center gap-3 mt-1">
               <div className="flex items-center gap-1">
-                <Clock className={cn('w-3 h-3', isOverdue ? 'text-red-400' : (isDark ? 'text-white/25' : 'text-black/25'))} />
-                <span className={cn('text-[11px] font-medium', isOverdue ? 'text-red-400' : (isDark ? 'text-white/40' : 'text-black/40'))}>
+                <Clock className={cn('w-3 h-3', isOverdue ? 'text-red-400' : ('text-[var(--app-text-muted)]'))} />
+                <span className={cn('text-[11px] font-medium', isOverdue ? 'text-red-400' : ('text-[var(--app-text-muted)]'))}>
                   {followUp.scheduledDate}
                   {followUp.scheduledTime && ` · ${followUp.scheduledTime}`}
                 </span>
@@ -413,7 +413,7 @@ function FollowUpCard({
                 >
                   <Sparkles className="w-3 h-3 text-violet-400" />
                   <span className={cn('text-[11px] group-hover:text-violet-400 transition-colors',
-                    isDark ? 'text-white/40' : 'text-black/40'
+                    'text-[var(--app-text-muted)]'
                   )}>
                     AI Suggestion
                   </span>
@@ -428,7 +428,7 @@ function FollowUpCard({
                       className="overflow-hidden"
                     >
                       <p className={cn('text-[11px] mt-1 leading-relaxed pl-5',
-                        isDark ? 'text-white/50' : 'text-black/50'
+                        'text-[var(--app-text-secondary)]'
                       )}>
                         {followUp.aiSuggestion}
                       </p>
@@ -454,19 +454,19 @@ function FollowUpCard({
             {/* Action Buttons */}
             <button className={cn(
               'p-1.5 rounded-lg transition-colors',
-              isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+              'hover:bg-[var(--app-hover-bg)]'
             )} title="Mark Done">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             </button>
             <button className={cn(
               'p-1.5 rounded-lg transition-colors',
-              isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+              'hover:bg-[var(--app-hover-bg)]'
             )} title="Snooze">
               <Bell className="w-3.5 h-3.5" />
             </button>
             <button className={cn(
               'p-1.5 rounded-lg transition-colors',
-              isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+              'hover:bg-[var(--app-hover-bg)]'
             )} title="Reschedule">
               <Calendar className="w-3.5 h-3.5" />
             </button>
@@ -479,13 +479,13 @@ function FollowUpCard({
             </button>
             <button className={cn(
               'p-1.5 rounded-lg transition-colors',
-              isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+              'hover:bg-[var(--app-hover-bg)]'
             )} title="Email">
               <Mail className="w-3.5 h-3.5 text-blue-500" />
             </button>
             <button className={cn(
               'p-1.5 rounded-lg transition-colors',
-              isDark ? 'hover:bg-white/[0.08]' : 'hover:bg-black/[0.06]'
+              'hover:bg-[var(--app-hover-bg)]'
             )} title="Call">
               <Phone className="w-3.5 h-3.5 text-emerald-500" />
             </button>

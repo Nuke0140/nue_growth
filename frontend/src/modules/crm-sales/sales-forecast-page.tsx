@@ -77,22 +77,22 @@ export default function SalesForecastPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+              <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Sales Forecast
               </h1>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                 AI-powered revenue predictions · Updated 2 hours ago
               </p>
             </div>
             <div className="flex items-center gap-2">
               <div className={cn('flex items-center gap-1 px-3 py-2 rounded-xl border',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
-                <Calendar className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-                <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>Apr 1 – Jun 30, 2026</span>
+                <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Apr 1 – Jun 30, 2026</span>
               </div>
               <div className={cn('flex items-center rounded-xl border overflow-hidden',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 {QUARTERS.map(q => (
                   <button
@@ -100,8 +100,8 @@ export default function SalesForecastPage() {
                     onClick={() => setSelectedQuarter(q)}
                     className={cn('px-3 py-2 text-xs font-medium transition-colors',
                       selectedQuarter === q
-                        ? isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black'
-                        : isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+                        ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
+                        : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
                     )}
                   >
                     {q}
@@ -127,10 +127,10 @@ export default function SalesForecastPage() {
               { label: 'Monthly Close', value: formatCurrency(expectedMonthlyClose), icon: Calendar, change: 'avg', up: true },
             ].map((stat) => (
               <div key={stat.label} className={cn('rounded-2xl border p-4 transition-colors',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center justify-between mb-2">
-                  <stat.icon className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+                  <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   {stat.change !== 'avg' && (
                     <span className={cn('text-[10px] font-medium flex items-center gap-0.5',
                       stat.up ? 'text-emerald-500' : 'text-red-500'
@@ -140,8 +140,8 @@ export default function SalesForecastPage() {
                     </span>
                   )}
                 </div>
-                <p className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{stat.label}</p>
+                <p className={cn('text-lg font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
+                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.label}</p>
               </div>
             ))}
           </motion.div>
@@ -153,10 +153,10 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Monthly Forecast vs Actual</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Monthly Forecast vs Actual</h3>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.6)' : '#a855f7' }} /> Forecast
@@ -193,7 +193,7 @@ export default function SalesForecastPage() {
                           </div>
                         )}
                       </div>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{item.month}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
                     </div>
                   );
                 })}
@@ -205,10 +205,10 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Rep Forecast Comparison</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Rep Forecast Comparison</h3>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-white/30" /> Pipeline</span>
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-purple-500" /> Weighted</span>
@@ -223,15 +223,15 @@ export default function SalesForecastPage() {
                   return (
                     <div key={rep.id} className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className={cn('text-xs font-medium', isDark ? 'text-white/70' : 'text-black/70')}>{rep.repName}</span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{formatCurrency(rep.weightedForecast)}</span>
+                        <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{rep.repName}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{formatCurrency(rep.weightedForecast)}</span>
                       </div>
                       <div className="flex gap-1 h-4">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pipelineW}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut' }}
-                          className={cn('h-full rounded-sm', isDark ? 'bg-white/[0.12]' : 'bg-black/[0.08]')}
+                          className={cn('h-full rounded-sm', 'bg-[var(--app-hover-bg)]')}
                         />
                         <motion.div
                           initial={{ width: 0 }}
@@ -257,15 +257,15 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Stage Revenue Trend</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Stage Revenue Trend</h3>
                 <div className="flex items-center gap-2 text-[10px] flex-wrap">
                   {['New', 'Qualified', 'Discovery', 'Demo', 'Proposal', 'Negotiation'].map((label, i) => (
                     <span key={label} className="flex items-center gap-1">
                       <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: STAGE_COLORS_ARR[i] }} />
-                      <span className={cn(isDark ? 'text-white/30' : 'text-black/30')}>{label}</span>
+                      <span className={cn('text-[var(--app-text-muted)]')}>{label}</span>
                     </span>
                   ))}
                 </div>
@@ -298,7 +298,7 @@ export default function SalesForecastPage() {
                           );
                         })}
                       </div>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{item.month}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
                     </div>
                   );
                 })}
@@ -310,19 +310,19 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.25 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Confidence Trend</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Confidence Trend</h3>
                 <Badge variant="outline" className="text-[10px]">6 months</Badge>
               </div>
               <div className="relative h-44">
                 {/* Grid lines */}
                 {[0, 25, 50, 75, 100].map(val => (
                   <div key={val} className={cn('absolute w-full border-t border-dashed',
-                    isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+                    'border-[var(--app-border-light)]'
                   )} style={{ bottom: `${val}%` }}>
-                    <span className={cn('absolute -top-2 -left-1 text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{val}%</span>
+                    <span className={cn('absolute -top-2 -left-1 text-[9px]', 'text-[var(--app-text-disabled)]')}>{val}%</span>
                   </div>
                 ))}
                 {/* Line + dots */}
@@ -359,7 +359,7 @@ export default function SalesForecastPage() {
                             )}
                           />
                         </div>
-                        <span className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{item.month}</span>
+                        <span className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{item.month}</span>
                       </div>
                     );
                   })}
@@ -373,17 +373,17 @@ export default function SalesForecastPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-            className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <div className={cn('px-5 py-4 border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Rep Breakdown</h3>
+            <div className={cn('px-5 py-4 border-b', 'border-[var(--app-border)]')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Rep Breakdown</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                     {['Rep Name', 'Pipeline', 'Weighted', 'Committed', 'Best Case', 'Worst Case', 'Gap to Target'].map(col => (
-                      <th key={col} className={cn('px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <th key={col} className={cn('px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                         {col}
                       </th>
                     ))}
@@ -399,26 +399,26 @@ export default function SalesForecastPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: i * 0.05 }}
-                        className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}
+                        className={cn('border-b', 'border-[var(--app-border-light)]')}
                       >
                         <td className="px-5 py-3">
                           <div className="flex items-center gap-2">
                             <div className={cn('w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold',
-                              isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
+                              'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                             )}>
                               {rep.repName.split(' ').map(n => n[0]).join('')}
                             </div>
                             <div>
-                              <p className={cn('text-xs font-medium', isDark ? 'text-white' : 'text-black')}>{rep.repName}</p>
-                              <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                              <p className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{rep.repName}</p>
+                              <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                                 Rank #{perf?.rank || '-'} · {perf?.closeRate || 0}% close rate
                               </p>
                             </div>
                           </div>
                         </td>
-                        <td className={cn('px-5 py-3 text-xs font-semibold', isDark ? 'text-white/80' : 'text-black/80')}>{formatCurrency(rep.pipelineValue)}</td>
+                        <td className={cn('px-5 py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(rep.pipelineValue)}</td>
                         <td className={cn('px-5 py-3 text-xs font-medium text-purple-400')}>{formatCurrency(rep.weightedForecast)}</td>
-                        <td className={cn('px-5 py-3 text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{formatCurrency(rep.committed)}</td>
+                        <td className={cn('px-5 py-3 text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(rep.committed)}</td>
                         <td className={cn('px-5 py-3 text-xs', isDark ? 'text-emerald-400/70' : 'text-emerald-600/70')}>{formatCurrency(rep.bestCase)}</td>
                         <td className={cn('px-5 py-3 text-xs', isDark ? 'text-red-400/70' : 'text-red-600/70')}>{formatCurrency(rep.worstCase)}</td>
                         <td className="px-5 py-3">
@@ -449,14 +449,14 @@ export default function SalesForecastPage() {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>AI Recommendation</h3>
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Recommendation</h3>
                   <Badge variant="outline" className={cn('text-[9px] px-1.5 py-0', isDark ? 'border-purple-500/30 text-purple-300' : 'border-purple-300 text-purple-700')}>
                     <Sparkles className="w-2.5 h-2.5 mr-1" /> AI
                   </Badge>
                 </div>
-                <p className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
-                  Focus on <span className={cn('font-semibold', isDark ? 'text-white/80' : 'text-black/80')}>Shanghai Tech</span> ($320K, 80% probability) and{' '}
-                  <span className={cn('font-semibold', isDark ? 'text-white/80' : 'text-black/80')}>USA Tech Solutions</span> ($520K, 60% probability) deals to exceed Q2 target by 15%.
+                <p className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
+                  Focus on <span className={cn('font-semibold', 'text-[var(--app-text)]')}>Shanghai Tech</span> ($320K, 80% probability) and{' '}
+                  <span className={cn('font-semibold', 'text-[var(--app-text)]')}>USA Tech Solutions</span> ($520K, 60% probability) deals to exceed Q2 target by 15%.
                   Both deals have strong buyer signals and budget approval. Prioritize the Shanghai Tech negotiation closing by Apr 25.
                 </p>
               </div>

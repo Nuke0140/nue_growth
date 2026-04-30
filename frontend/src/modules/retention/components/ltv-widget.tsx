@@ -41,7 +41,7 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       transition={{ duration: 0.3 }}
       className={cn(
         'rounded-2xl border p-5',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       <div className="flex items-center justify-between mb-4">
@@ -54,12 +54,12 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
 
       {/* Current vs Predicted */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
-          <p className={cn('text-[10px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Current LTV</p>
+        <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+          <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>Current LTV</p>
           <p className="text-lg font-bold">{formatLTV(currentLTV)}</p>
         </div>
-        <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
-          <p className={cn('text-[10px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Predicted LTV</p>
+        <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+          <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>Predicted LTV</p>
           <p className="text-lg font-bold">{formatLTV(predictedLTV)}</p>
         </div>
       </div>
@@ -67,8 +67,8 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       {/* Range bar */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-1.5">
-          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Worst case</span>
-          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Best case</span>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Worst case</span>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Best case</span>
         </div>
         <div className="relative h-2 rounded-full bg-gradient-to-r from-red-400/30 via-amber-400/30 to-emerald-400/30">
           <motion.div
@@ -89,11 +89,11 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
         <div className="flex items-center gap-4 mt-1.5">
           <div className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-white border border-black/30" />
-            <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Current</span>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-violet-400" />
-            <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Predicted</span>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       <div className="flex items-center justify-between">
         {/* Confidence meter */}
         <div className="flex items-center gap-2">
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Confidence</span>
           <div className="w-20 h-1.5 rounded-full overflow-hidden bg-black/10">
             <motion.div
               className={cn('h-full rounded-full', confidence >= 70 ? 'bg-emerald-400' : confidence >= 40 ? 'bg-amber-400' : 'bg-red-400')}

@@ -57,12 +57,12 @@ export default function CohortReportPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   const statCard = cn(
     'rounded-2xl border shadow-sm p-4',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
@@ -70,10 +70,10 @@ export default function CohortReportPage() {
       <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Cohort Reports
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
             Customer cohort analysis
           </p>
         </div>
@@ -148,10 +148,10 @@ export default function CohortReportPage() {
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className={statCard}
               >
-                <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </p>
-                <p className={cn('text-lg font-bold mt-1', isDark ? 'text-white' : 'text-zinc-900')}>
+                <p className={cn('text-lg font-bold mt-1', 'text-[var(--app-text)]')}>
                   {stat.value}
                 </p>
                 <div className={cn('flex items-center gap-1 mt-1', stat.trend === 'up' ? 'text-emerald-500' : stat.trend === 'down' ? 'text-red-500' : 'text-zinc-500')}>
@@ -180,19 +180,19 @@ export default function CohortReportPage() {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]')}>
-                      <Calendar className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
+                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', 'bg-[var(--app-hover-bg)]')}>
+                      <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     </div>
                     <div>
-                      <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                         {cohort.cohortLabel}
                       </h4>
-                      <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {cohort.size} customers
                       </p>
                     </div>
                   </div>
-                  <span className={cn('text-xs font-bold', isDark ? 'text-zinc-300' : 'text-zinc-700')}>
+                  <span className={cn('text-xs font-bold', 'text-[var(--app-text-secondary)]')}>
                     {lastPeriod.retention.toFixed(1)}%
                   </span>
                 </div>
@@ -201,30 +201,30 @@ export default function CohortReportPage() {
                 <div className="space-y-1.5 mb-3">
                   {cohort.periods.slice(0, 4).map((period) => (
                     <div key={period.period} className="flex items-center gap-2">
-                      <span className={cn('text-[10px] w-6 text-right', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('text-[10px] w-6 text-right', 'text-[var(--app-text-muted)]')}>
                         P{period.period}
                       </span>
-                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                         <div
                           className="h-full rounded-full bg-emerald-500 transition-all"
                           style={{ width: `${period.retention}%` }}
                         />
                       </div>
-                      <span className={cn('text-[10px] w-10 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                      <span className={cn('text-[10px] w-10 tabular-nums', 'text-[var(--app-text-muted)]')}>
                         {period.retention.toFixed(1)}%
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className={cn('grid grid-cols-2 gap-2 pt-3 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <div className={cn('grid grid-cols-2 gap-2 pt-3 border-t', 'border-[var(--app-border)]')}>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>M2 Drop</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>-{retentionDrop}%</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>M2 Drop</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>-{retentionDrop}%</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>LTV (P6)</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>LTV (P6)</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                       ₹{(lastPeriod.ltv / 1000).toFixed(0)}K
                     </p>
                   </div>

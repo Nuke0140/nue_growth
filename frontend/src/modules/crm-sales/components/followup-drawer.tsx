@@ -53,18 +53,18 @@ export default function FollowupDrawer({
         side="right"
         className={cn(
           'w-[400px] sm:w-[440px] sm:max-w-[440px] p-0 overflow-y-auto',
-          isDark ? 'bg-[#0a0a0a] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+          'bg-[var(--app-bg)] border-[var(--app-border)]'
         )}
       >
         {/* Header */}
         <SheetHeader className={cn(
           'p-6 pb-4 border-b',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+          'border-[var(--app-border)]'
         )}>
-          <SheetTitle className={cn('text-lg font-semibold', isDark ? 'text-white' : 'text-black')}>
+          <SheetTitle className={cn('text-lg font-semibold', 'text-[var(--app-text)]')}>
             Quick Actions
             {leadName && (
-              <span className={cn(' font-normal text-sm ml-2', isDark ? 'text-white/50' : 'text-black/50')}>
+              <span className={cn(' font-normal text-sm ml-2', 'text-[var(--app-text-secondary)]')}>
                 — {leadName}
               </span>
             )}
@@ -74,7 +74,7 @@ export default function FollowupDrawer({
         <div className="p-6 space-y-6">
           {/* Quick Actions Grid */}
           <div>
-            <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+            <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
               Take Action
             </h3>
             <div className="grid grid-cols-4 gap-2">
@@ -89,7 +89,7 @@ export default function FollowupDrawer({
                     isDark
                       ? `hover:${action.hoverBg} hover:bg-white/[0.06]`
                       : `hover:${action.hoverBg} hover:bg-black/[0.04]`,
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
@@ -98,7 +98,7 @@ export default function FollowupDrawer({
                   )}>
                     <action.icon className={cn('w-5 h-5', action.color)} />
                   </div>
-                  <span className={cn('text-[10px] font-medium leading-tight text-center', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className={cn('text-[10px] font-medium leading-tight text-center', 'text-[var(--app-text-secondary)]')}>
                     {action.label}
                   </span>
                 </motion.button>
@@ -113,7 +113,7 @@ export default function FollowupDrawer({
           )}>
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-amber-400" />
-              <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+              <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                 AI Suggestion
               </span>
             </div>
@@ -135,7 +135,7 @@ export default function FollowupDrawer({
 
           {/* Recent Follow-ups */}
           <div>
-            <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+            <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
               Recent Follow-ups
             </h3>
             <div className="space-y-2">
@@ -147,20 +147,20 @@ export default function FollowupDrawer({
                   transition={{ duration: 0.25, delay: i * 0.05 }}
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-xl transition-colors',
-                    isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
-                    isDark ? 'bg-white/[0.04]' : 'bg-black/[0.03]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
-                    <item.icon className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                    <item.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                    <p className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
                       {item.text}
                     </p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       {item.time}
                     </p>
                   </div>

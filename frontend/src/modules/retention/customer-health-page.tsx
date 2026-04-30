@@ -32,7 +32,7 @@ function HealthRing({ score }: { score: number }) {
   return (
     <div className="relative w-16 h-16 shrink-0">
       <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r={radius} fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} strokeWidth="5" />
+        <circle cx="32" cy="32" r={radius} fill="none" stroke={'var(--app-border)'} strokeWidth="5" />
         <motion.circle
           cx="32" cy="32" r={radius} fill="none" stroke={color} strokeWidth="5"
           strokeLinecap="round"
@@ -54,8 +54,8 @@ function FactorBar({ label, value }: { label: string; value: number }) {
   const isDark = theme === 'dark';
   return (
     <div className="flex items-center gap-2">
-      <span className={cn('text-[9px] w-16 shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>{label}</span>
-      <div className={cn('flex-1 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+      <span className={cn('text-[9px] w-16 shrink-0', 'text-[var(--app-text-muted)]')}>{label}</span>
+      <div className={cn('flex-1 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
@@ -63,15 +63,15 @@ function FactorBar({ label, value }: { label: string; value: number }) {
           className={cn('h-full rounded-full', value >= 75 ? 'bg-emerald-500' : value >= 50 ? 'bg-amber-500' : 'bg-red-500')}
         />
       </div>
-      <span className={cn('text-[9px] w-6 text-right font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{value}</span>
+      <span className={cn('text-[9px] w-6 text-right font-medium', 'text-[var(--app-text-muted)]')}>{value}</span>
     </div>
   );
 }
 
 const riskConfig: Record<string, { bg: string; text: string; label: string }> = {
-  safe: { bg: isDark => isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', label: 'Safe' },
-  medium: { bg: isDark => isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'Medium' },
-  high: { bg: isDark => isDark ? 'bg-red-500/15' : 'bg-red-50', text: 'text-red-500', label: 'High Risk' },
+  safe: { bg: isDark => 'bg-[var(--app-success-bg)]', text: 'text-emerald-500', label: 'Safe' },
+  medium: { bg: isDark => 'bg-[var(--app-warning-bg)]', text: 'text-amber-500', label: 'Medium' },
+  high: { bg: isDark => 'bg-[var(--app-danger-bg)]', text: 'text-red-500', label: 'High Risk' },
 };
 
 export default function CustomerHealthPage() {
@@ -104,9 +104,9 @@ export default function CustomerHealthPage() {
   const maxTrend = Math.max(...scoreTrend.map((s) => s.avg));
 
   const getRiskStyle = (risk: string) => {
-    if (risk === 'safe') return { bg: isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', label: 'Safe' };
-    if (risk === 'medium') return { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'Medium' };
-    return { bg: isDark ? 'bg-red-500/15' : 'bg-red-50', text: 'text-red-500', label: 'High Risk' };
+    if (risk === 'safe') return { bg: 'bg-[var(--app-success-bg)]', text: 'text-emerald-500', label: 'Safe' };
+    if (risk === 'medium') return { bg: 'bg-[var(--app-warning-bg)]', text: 'text-amber-500', label: 'Medium' };
+    return { bg: 'bg-[var(--app-danger-bg)]', text: 'text-red-500', label: 'High Risk' };
   };
 
   return (
@@ -115,12 +115,12 @@ export default function CustomerHealthPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Heart className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Heart className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Customer Health</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Health Intelligence Cockpit</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Health Intelligence Cockpit</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -131,8 +131,8 @@ export default function CustomerHealthPage() {
                 className={cn(
                   'px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors capitalize',
                   filterRisk === f
-                    ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
-                    : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+                    ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
+                    : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
                 )}
               >
                 {f === 'all' ? 'All' : f === 'high' ? 'High Risk' : f}
@@ -144,25 +144,25 @@ export default function CustomerHealthPage() {
         {/* Summary Cards */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: 'Safe', count: summary.safe, icon: ShieldCheck, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-            { label: 'Medium', count: summary.medium, icon: Shield, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-            { label: 'High Risk', count: summary.high, icon: ShieldAlert, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
+            { label: 'Safe', count: summary.safe, icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+            { label: 'Medium', count: summary.medium, icon: Shield, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+            { label: 'High Risk', count: summary.high, icon: ShieldAlert, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
           ].map((item, i) => (
             <motion.div
               key={item.label}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{item.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
                   <item.icon className={cn('w-3.5 h-3.5', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.count}</p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>of {customerHealthData.length} accounts</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>of {customerHealthData.length} accounts</p>
             </motion.div>
           ))}
         </div>
@@ -172,26 +172,26 @@ export default function CustomerHealthPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Health Score Trend</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Health Score Trend</span>
             </div>
-            <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Portfolio avg</span>
+            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Portfolio avg</span>
           </div>
           <div className="flex items-end gap-2 h-28">
             {scoreTrend.map((entry, j) => (
               <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.avg}</span>
+                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.avg}</span>
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.avg / maxTrend) * 100}%` }}
                   transition={{ delay: 0.3 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
+                  className={cn('w-full rounded-t-sm', 'bg-[var(--app-success)]')}
                 />
-                <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
+                <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.month}</span>
               </div>
             ))}
           </div>
@@ -214,7 +214,7 @@ export default function CustomerHealthPage() {
                   'rounded-2xl border p-5 transition-colors cursor-pointer',
                   customer.riskTag === 'high'
                     ? (isDark ? 'bg-red-500/[0.03] border-red-500/15 hover:bg-red-500/[0.06]' : 'bg-red-50/50 border-red-200 hover:bg-red-50')
-                    : (isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')
+                    : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
                 )}
               >
                 <div className="flex gap-4">
@@ -226,7 +226,7 @@ export default function CustomerHealthPage() {
                         {riskStyle.label}
                       </Badge>
                       <TrendIcon className={cn('w-3.5 h-3.5 shrink-0', trendColor)} />
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{customer.industry}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{customer.industry}</span>
                     </div>
 
                     {/* Factor Bars */}
@@ -242,19 +242,19 @@ export default function CustomerHealthPage() {
 
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="flex items-center gap-1.5">
-                        <User className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
-                        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>{customer.accountManager}</span>
+                        <User className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{customer.accountManager}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <IndianRupee className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
-                        <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>{formatINR(customer.value)}</span>
+                        <IndianRupee className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{formatINR(customer.value)}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Calendar className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
-                        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Last: {customer.lastActiveDate}</span>
+                        <Calendar className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last: {customer.lastActiveDate}</span>
                       </div>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>•</span>
-                      <span className={cn('text-[10px] font-medium', isDark ? 'text-violet-400' : 'text-violet-600')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>•</span>
+                      <span className={cn('text-[10px] font-medium', 'text-[var(--app-purple)]')}>
                         {customer.nextBestAction}
                       </span>
                     </div>

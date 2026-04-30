@@ -70,7 +70,7 @@ export default function KPICard({
           <p
             className={cn(
               'text-xs font-medium uppercase tracking-wider truncate',
-              isDark ? 'text-zinc-400' : 'text-zinc-500',
+              'text-[var(--app-text-muted)]',
             )}
           >
             {label}
@@ -78,7 +78,7 @@ export default function KPICard({
           <p
             className={cn(
               'text-2xl sm:text-3xl font-bold tracking-tight truncate',
-              isDark ? 'text-white' : 'text-zinc-900',
+              'text-[var(--app-text)]',
             )}
           >
             {value}
@@ -87,8 +87,8 @@ export default function KPICard({
             <span
               className={cn(
                 'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold',
-                isPositive && (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'),
-                isNegative && (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600'),
+                isPositive && ('bg-[var(--app-success-bg)] text-[var(--app-success)]'),
+                isNegative && ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]'),
                 resolvedTrend === 'stable' && (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-600'),
               )}
             >
@@ -99,7 +99,7 @@ export default function KPICard({
             <span
               className={cn(
                 'text-xs',
-                isDark ? 'text-zinc-500' : 'text-zinc-400',
+                'text-[var(--app-text-muted)]',
               )}
             >
               {changeLabel}
@@ -110,13 +110,13 @@ export default function KPICard({
           <div
             className={cn(
               'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+              'bg-[var(--app-hover-bg)]',
             )}
           >
             <Icon
               className={cn(
                 'h-6 w-6',
-                isDark ? 'text-zinc-400' : 'text-zinc-500',
+                'text-[var(--app-text-muted)]',
               )}
             />
           </div>

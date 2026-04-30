@@ -55,13 +55,13 @@ export default function ERPProductivityPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Zap className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Zap className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">ERP Productivity</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Project completion, task throughput &amp; employee efficiency
               </p>
             </div>
@@ -80,7 +80,7 @@ export default function ERPProductivityPage() {
             <ExportMenu />
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
@@ -132,12 +132,12 @@ export default function ERPProductivityPage() {
           <ChartCard title="Task Throughput" subtitle="Completed vs created tasks per week" className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-3">
               {[
-                { color: isDark ? 'bg-emerald-500/50' : 'bg-emerald-400', label: 'Completed' },
-                { color: isDark ? 'bg-blue-500/50' : 'bg-blue-400', label: 'Created' },
+                { color: 'bg-[var(--app-success)]', label: 'Completed' },
+                { color: 'bg-[var(--app-info)]', label: 'Created' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}
             </div>
@@ -164,10 +164,10 @@ export default function ERPProductivityPage() {
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.completed / maxThroughput) * 100}%` }}
                         transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
+                        className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
                       />
                     </div>
-                    <span className={cn('text-[8px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                    <span className={cn('text-[8px] mt-1', 'text-[var(--app-text-disabled)]')}>
                       {entry.week.replace('Week ', 'W')}
                     </span>
                   </div>
@@ -196,17 +196,17 @@ export default function ERPProductivityPage() {
               </div>
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-3xl font-bold text-red-600">{data.blockedTasks}</span>
-                <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   tasks blocked
                 </span>
               </div>
-              <p className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-medium text-red-500">4 critical</span> — awaiting client feedback
               </p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-medium text-amber-500">5 medium</span> — internal review pending
               </p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-medium text-blue-500">3 low</span> — dependency blocked
               </p>
             </motion.div>
@@ -218,20 +218,20 @@ export default function ERPProductivityPage() {
               transition={{ delay: 0.4, duration: 0.4 }}
               className={cn(
                 'rounded-2xl border p-4 flex-1',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center gap-2 mb-3">
-                <RotateCcw className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                <RotateCcw className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Revision Rounds
                 </span>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
-                <span className={cn('text-3xl font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                <span className={cn('text-3xl font-bold', 'text-[var(--app-text)]')}>
                   {data.revisionRounds}
                 </span>
-                <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   avg rounds / project
                 </span>
               </div>
@@ -243,12 +243,12 @@ export default function ERPProductivityPage() {
                 ].map((rev) => (
                   <div key={rev.label}>
                     <div className="flex items-center justify-between mb-0.5">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {rev.label}
                       </span>
                       <span className="text-xs font-medium">{rev.value}</span>
                     </div>
-                    <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                       <div
                         className={cn('h-full rounded-full', isDark ? 'bg-amber-500/40' : 'bg-amber-400')}
                         style={{ width: `${(rev.value / 4) * 100}%` }}
@@ -266,13 +266,13 @@ export default function ERPProductivityPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Employee', 'Tasks', 'Hours', 'Efficiency'].map((h) => (
                     <th
                       key={h}
                       className={cn(
                         'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
-                        isDark ? 'text-white/40' : 'text-black/40',
+                        'text-[var(--app-text-muted)]',
                       )}
                     >
                       {h}
@@ -289,14 +289,14 @@ export default function ERPProductivityPage() {
                     transition={{ delay: 0.3 + i * 0.06 }}
                     className={cn(
                       'border-b transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                      'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                     )}
                   >
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
                         <div className={cn(
                           'w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold',
-                          isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60',
+                          'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
                         )}>
                           {emp.employee.split(' ').slice(0, 2).map((n) => n[0]).join('')}
                         </div>
@@ -309,7 +309,7 @@ export default function ERPProductivityPage() {
                         {i === 0 && (
                           <span className={cn(
                             'text-[9px] px-1.5 py-0.5 rounded-full font-medium',
-                            isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
+                            'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
                           )}>
                             Top
                           </span>
@@ -318,13 +318,13 @@ export default function ERPProductivityPage() {
                     </td>
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-1">
-                        <Clock className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
+                        <Clock className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
                         <span className="text-sm">{emp.hours}h</span>
                       </div>
                     </td>
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
-                        <div className={cn('w-20 h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <div className={cn('w-20 h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${emp.efficiency}%` }}
@@ -332,9 +332,9 @@ export default function ERPProductivityPage() {
                             className={cn(
                               'h-full rounded-full',
                               emp.efficiency >= 90
-                                ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
+                                ? ('bg-[var(--app-success)]')
                                 : emp.efficiency >= 85
-                                  ? (isDark ? 'bg-blue-500/50' : 'bg-blue-400')
+                                  ? ('bg-[var(--app-info)]')
                                   : (isDark ? 'bg-amber-500/50' : 'bg-amber-400'),
                             )}
                           />
@@ -360,12 +360,12 @@ export default function ERPProductivityPage() {
         <ChartCard title="Department-wise Productivity" subtitle="Utilization & efficiency by department">
           <div className="flex items-center gap-4 mb-3">
             {[
-              { color: isDark ? 'bg-blue-500/50' : 'bg-blue-400', label: 'Utilization %' },
+              { color: 'bg-[var(--app-info)]', label: 'Utilization %' },
               { color: isDark ? 'bg-violet-500/50' : 'bg-violet-400', label: 'Efficiency %' },
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-1.5">
                 <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
               </div>
             ))}
           </div>
@@ -393,16 +393,16 @@ export default function ERPProductivityPage() {
                 </div>
                 <div className="relative space-y-1">
                   {/* Utilization bar */}
-                  <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.utilization}%` }}
                       transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
+                      className={cn('h-full rounded-full', 'bg-[var(--app-info)]')}
                     />
                   </div>
                   {/* Efficiency bar */}
-                  <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.efficiency}%` }}

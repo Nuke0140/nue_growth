@@ -21,21 +21,21 @@ function getStatusConfig(status: BudgetStatus, isDark: boolean) {
       return {
         barColor: 'bg-emerald-500',
         barBg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-100',
-        textColor: isDark ? 'text-emerald-400' : 'text-emerald-600',
+        textColor: 'text-[var(--app-success)]',
         icon: null,
       };
     case 'at-risk':
       return {
         barColor: 'bg-amber-500',
         barBg: isDark ? 'bg-amber-500/10' : 'bg-amber-100',
-        textColor: isDark ? 'text-amber-400' : 'text-amber-600',
+        textColor: 'text-[var(--app-warning)]',
         icon: <AlertTriangle className="w-3 h-3 text-amber-500" />,
       };
     case 'overspent':
       return {
         barColor: 'bg-red-500',
         barBg: isDark ? 'bg-red-500/10' : 'bg-red-100',
-        textColor: isDark ? 'text-red-400' : 'text-red-600',
+        textColor: 'text-[var(--app-danger)]',
         icon: <AlertTriangle className="w-3 h-3 text-red-500" />,
       };
     case 'locked':
@@ -80,13 +80,13 @@ export default function BudgetProgress({
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-4',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-2.5">
         <div className="flex items-center gap-2 min-w-0">
-          <span className={cn('text-sm font-semibold truncate', isDark ? 'text-white/90' : 'text-black/90')}>
+          <span className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
             {name}
           </span>
           <span className={cn(
@@ -110,7 +110,7 @@ export default function BudgetProgress({
           />
         </div>
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-black/40')}>
+          <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
             {formatAmount(spent)} spent
           </span>
           <span className={cn('text-[10px] font-semibold tabular-nums', config.textColor)}>
@@ -121,15 +121,15 @@ export default function BudgetProgress({
 
       {/* Footer details */}
       <div className="flex items-center justify-between pt-2 border-t border-dashed"
-        style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
-        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+        style={{ borderColor: 'var(--app-border)' }}>
+        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
           Remaining: <span className={cn('font-semibold', config.textColor)}>{formatAmount(remaining)}</span>
         </span>
         <span className={cn(
           'text-[10px] font-medium',
           variancePercent < 0
-            ? isDark ? 'text-red-400' : 'text-red-600'
-            : isDark ? 'text-white/50' : 'text-black/50'
+            ? 'text-[var(--app-danger)]'
+            : 'text-[var(--app-text-secondary)]'
         )}>
           Variance: {variancePercent > 0 ? '+' : ''}{variancePercent.toFixed(1)}%
         </span>

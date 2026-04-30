@@ -40,12 +40,12 @@ function getStageColor(stage: string, isDark: boolean) {
   switch (stage) {
     case 'lead': return isDark ? 'bg-blue-500/15 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200';
     case 'mql': return isDark ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200';
-    case 'sql': return isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
-    case 'opportunity': return isDark ? 'bg-orange-500/15 text-orange-300 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'customer': return isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+    case 'sql': return 'bg-[var(--app-warning-bg)] text-[var(--app-warning)] border-[var(--app-warning)]/30';
+    case 'opportunity': return 'bg-[var(--app-accent-light)] text-[var(--app-accent)] border-[var(--app-accent)]/30';
+    case 'customer': return 'bg-[var(--app-success-bg)] text-[var(--app-success)] border-[var(--app-success)]/30';
     case 'retained': return isDark ? 'bg-teal-500/15 text-teal-300 border-teal-500/20' : 'bg-teal-50 text-teal-700 border-teal-200';
     case 'advocate': return isDark ? 'bg-pink-500/15 text-pink-300 border-pink-500/20' : 'bg-pink-50 text-pink-700 border-pink-200';
-    default: return isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200';
+    default: return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
   }
 }
 
@@ -59,9 +59,9 @@ function getSourceLabel(source: string) {
 }
 
 function getHealthColor(score: number, isDark: boolean) {
-  if (score > 75) return isDark ? 'text-emerald-400' : 'text-emerald-600';
+  if (score > 75) return 'text-[var(--app-success)]';
   if (score > 50) return isDark ? 'text-yellow-400' : 'text-yellow-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+  return 'text-[var(--app-danger)]';
 }
 
 function getHealthBarColor(score: number) {
@@ -80,7 +80,7 @@ export default function ContactDetailPage() {
   if (!contact) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>Contact not found</p>
+        <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>Contact not found</p>
       </div>
     );
   }
@@ -152,7 +152,7 @@ export default function ContactDetailPage() {
         {/* Left Panel */}
         <div className={cn(
           'w-full lg:w-80 shrink-0 border-b lg:border-b-0 lg:border-r overflow-y-auto p-5 space-y-5',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+          'border-[var(--app-border)]'
         )}>
           {/* Avatar & Identity */}
           <div className="flex flex-col items-center text-center">
@@ -168,7 +168,7 @@ export default function ContactDetailPage() {
               </AvatarFallback>
             </Avatar>
             <h2 className="text-lg font-bold">{fullName}</h2>
-            <p className={cn('text-sm', isDark ? 'text-white/50' : 'text-black/50')}>
+            <p className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
               {contact.title}
             </p>
             {contact.company && (
@@ -202,7 +202,7 @@ export default function ContactDetailPage() {
           </div>
 
           {/* Assigned Rep */}
-          <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+          <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
             <div className="flex items-center gap-2">
               <div className={cn(
                 'w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold',
@@ -211,27 +211,27 @@ export default function ContactDetailPage() {
                 {contact.owner.split(' ').map(w => w.charAt(0)).join('')}
               </div>
               <div>
-                <p className={cn('text-[11px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Assigned Rep</p>
+                <p className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>Assigned Rep</p>
                 <p className="text-sm font-medium">{contact.owner}</p>
               </div>
             </div>
           </div>
 
           {/* Health Score */}
-          <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+          <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
             <div className="flex items-center justify-between mb-2">
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Health Score</span>
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Health Score</span>
               <span className={cn('text-sm font-bold', getHealthColor(contact.healthScore, isDark))}>
                 {contact.healthScore}%
               </span>
             </div>
-            <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+            <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
               <div
                 className={cn('h-full rounded-full transition-all duration-500', getHealthBarColor(contact.healthScore))}
                 style={{ width: `${contact.healthScore}%` }}
               />
             </div>
-            <p className={cn('text-[11px] mt-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
+            <p className={cn('text-[11px] mt-1.5', 'text-[var(--app-text-muted)]')}>
               AI Intent: <span className="font-medium">{intent.emoji} {intent.label}</span>
             </p>
           </div>
@@ -239,7 +239,7 @@ export default function ContactDetailPage() {
           {/* Tags */}
           {contact.tags.length > 0 && (
             <div>
-              <p className={cn('text-xs font-medium mb-2', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-muted)]')}>
                 <Tag className="w-3 h-3 inline mr-1" />
                 Tags
               </p>
@@ -249,7 +249,7 @@ export default function ContactDetailPage() {
                     key={tag}
                     className={cn(
                       'px-2 py-1 rounded-lg text-xs font-medium',
-                      isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
+                      'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                     )}
                   >
                     {tag}
@@ -262,7 +262,7 @@ export default function ContactDetailPage() {
           {/* Social Profiles */}
           {contact.socialProfiles && contact.socialProfiles.length > 0 && (
             <div>
-              <p className={cn('text-xs font-medium mb-2', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs font-medium mb-2', 'text-[var(--app-text-muted)]')}>
                 Social Profiles
               </p>
               <div className="space-y-1.5">
@@ -288,19 +288,19 @@ export default function ContactDetailPage() {
 
           {/* Address */}
           {contact.address && (
-            <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+            <div className={cn('rounded-xl p-3', 'bg-[var(--app-hover-bg)]')}>
               <div className="flex items-center gap-2 mb-1">
-                <MapPin className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Location</span>
+                <MapPin className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Location</span>
               </div>
               <p className="text-sm">{contact.address.city}, {contact.address.state}</p>
-              <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{contact.address.country}</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{contact.address.country}</p>
             </div>
           )}
 
           {/* Quick Actions */}
           <div className="pt-3 space-y-2">
-            <p className={cn('text-xs font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs font-medium mb-1', 'text-[var(--app-text-muted)]')}>
               Quick Actions
             </p>
             <div className="grid grid-cols-2 gap-2">
@@ -332,7 +332,7 @@ export default function ContactDetailPage() {
           <Tabs defaultValue="activity" className="w-full">
             <TabsList className={cn(
               'w-full justify-start rounded-xl p-1 mb-5',
-              isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+              'bg-[var(--app-hover-bg)]'
             )}>
               <TabsTrigger value="activity" className={cn(
                 'rounded-lg text-xs gap-1.5 data-[state=active]:shadow-sm',
@@ -343,7 +343,7 @@ export default function ContactDetailPage() {
                 Activity
                 <Badge variant="secondary" className={cn(
                   'text-[10px] px-1.5 py-0 h-4',
-                  isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {contactActivities.length}
                 </Badge>
@@ -357,7 +357,7 @@ export default function ContactDetailPage() {
                 Deals
                 <Badge variant="secondary" className={cn(
                   'text-[10px] px-1.5 py-0 h-4',
-                  isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {contactDeals.length}
                 </Badge>
@@ -371,7 +371,7 @@ export default function ContactDetailPage() {
                 Tasks
                 <Badge variant="secondary" className={cn(
                   'text-[10px] px-1.5 py-0 h-4',
-                  isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {contactTasks.length}
                 </Badge>
@@ -385,7 +385,7 @@ export default function ContactDetailPage() {
                 Notes
                 <Badge variant="secondary" className={cn(
                   'text-[10px] px-1.5 py-0 h-4',
-                  isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {contactNotes.length}
                 </Badge>
@@ -403,14 +403,14 @@ export default function ContactDetailPage() {
                 <div className="flex flex-col items-center py-12">
                   <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
-                    isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
-                    <Handshake className={cn('w-6 h-6', isDark ? 'text-white/20' : 'text-black/20')} />
+                    <Handshake className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                   </div>
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                     No deals yet
                   </p>
-                  <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                  <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                     Create a deal for this contact
                   </p>
                   <Button size="sm" className="mt-3 h-8 gap-1.5 text-xs">
@@ -422,11 +422,11 @@ export default function ContactDetailPage() {
                   const stageColors: Record<string, string> = {
                     new: isDark ? 'bg-blue-500/15 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200',
                     qualified: isDark ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200',
-                    demo: isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200',
-                    proposal: isDark ? 'bg-orange-500/15 text-orange-300 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200',
+                    demo: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)] border-[var(--app-warning)]/30',
+                    proposal: 'bg-[var(--app-accent-light)] text-[var(--app-accent)] border-[var(--app-accent)]/30',
                     negotiation: isDark ? 'bg-rose-500/15 text-rose-300 border-rose-500/20' : 'bg-rose-50 text-rose-700 border-rose-200',
-                    won: isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                    lost: isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200',
+                    won: 'bg-[var(--app-success-bg)] text-[var(--app-success)] border-[var(--app-success)]/30',
+                    lost: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]',
                   };
 
                   return (
@@ -437,13 +437,13 @@ export default function ContactDetailPage() {
                       transition={{ delay: idx * 0.05 }}
                       className={cn(
                         'rounded-2xl border p-4 transition-colors',
-                        isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                        'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                       )}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h4 className="text-sm font-semibold">{deal.name}</h4>
-                          <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                             {deal.company}
                           </p>
                         </div>
@@ -456,15 +456,15 @@ export default function ContactDetailPage() {
                       </div>
                       <div className="flex items-center gap-4">
                         <div>
-                          <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Value</p>
+                          <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Value</p>
                           <p className="text-sm font-bold">${deal.value.toLocaleString()}</p>
                         </div>
                         <div>
-                          <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Probability</p>
+                          <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Probability</p>
                           <p className="text-sm font-bold">{deal.probability}%</p>
                         </div>
                         <div>
-                          <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Close Date</p>
+                          <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Close Date</p>
                           <p className="text-sm">{deal.expectedClose}</p>
                         </div>
                       </div>
@@ -480,11 +480,11 @@ export default function ContactDetailPage() {
                 <div className="flex flex-col items-center py-12">
                   <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
-                    isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
-                    <CheckSquare className={cn('w-6 h-6', isDark ? 'text-white/20' : 'text-black/20')} />
+                    <CheckSquare className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                   </div>
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                     No tasks
                   </p>
                 </div>
@@ -492,15 +492,15 @@ export default function ContactDetailPage() {
                 contactTasks.map((task) => {
                   const priorityColors: Record<string, string> = {
                     urgent: isDark ? 'bg-red-500/15 text-red-300 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200',
-                    high: isDark ? 'bg-orange-500/15 text-orange-300 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200',
+                    high: 'bg-[var(--app-accent-light)] text-[var(--app-accent)] border-[var(--app-accent)]/30',
                     medium: isDark ? 'bg-yellow-500/15 text-yellow-300 border-yellow-500/20' : 'bg-yellow-50 text-yellow-700 border-yellow-200',
-                    low: isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200',
+                    low: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]',
                   };
 
                   const statusColors: Record<string, string> = {
-                    todo: isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40',
-                    in_progress: isDark ? 'bg-blue-500/15 text-blue-300' : 'bg-blue-50 text-blue-700',
-                    done: isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-50 text-emerald-700',
+                    todo: 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
+                    in_progress: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
+                    done: 'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                     cancelled: isDark ? 'bg-zinc-500/15 text-zinc-300' : 'bg-zinc-50 text-zinc-700',
                   };
 
@@ -511,7 +511,7 @@ export default function ContactDetailPage() {
                       animate={{ opacity: 1, y: 0 }}
                       className={cn(
                         'rounded-xl border p-3 transition-colors',
-                        isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                       )}
                     >
                       <div className="flex items-start justify-between mb-1.5">
@@ -536,7 +536,7 @@ export default function ContactDetailPage() {
                         <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-medium capitalize', statusColors[task.status])}>
                           {task.status.replace('_', ' ')}
                         </span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           Due: {task.dueDate}
                         </span>
                       </div>
@@ -552,11 +552,11 @@ export default function ContactDetailPage() {
                 <div className="flex flex-col items-center py-12">
                   <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center mb-3',
-                    isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
-                    <FileText className={cn('w-6 h-6', isDark ? 'text-white/20' : 'text-black/20')} />
+                    <FileText className={cn('w-6 h-6', 'text-[var(--app-text-disabled)]')} />
                   </div>
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
                     No notes
                   </p>
                 </div>
@@ -569,7 +569,7 @@ export default function ContactDetailPage() {
                     transition={{ delay: idx * 0.05 }}
                     className={cn(
                       'rounded-2xl border p-4 transition-colors',
-                      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                      'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                     )}
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -579,18 +579,18 @@ export default function ContactDetailPage() {
                           {note.isPinned && <span className="text-xs">📌</span>}
                           {note.isPrivate && <Badge variant="secondary" className="text-[10px] h-4 px-1.5 py-0">Private</Badge>}
                         </div>
-                        <p className={cn('text-[11px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <p className={cn('text-[11px] mt-0.5', 'text-[var(--app-text-muted)]')}>
                           {note.author} · {new Date(note.updatedAt).toLocaleDateString()}
                         </p>
                       </div>
                       <span className={cn(
                         'px-1.5 py-0.5 rounded text-[10px] font-medium capitalize',
-                        isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                        'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                       )}>
                         {note.type.replace('_', ' ')}
                       </span>
                     </div>
-                    <p className={cn('text-sm leading-relaxed', isDark ? 'text-white/60' : 'text-black/60')}>
+                    <p className={cn('text-sm leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                       {note.content}
                     </p>
                   </motion.div>
@@ -603,13 +603,13 @@ export default function ContactDetailPage() {
         {/* Right Panel - AI Insights */}
         <div className={cn(
           'w-full lg:w-80 shrink-0 border-t lg:border-t-0 lg:border-l overflow-y-auto p-5 space-y-4',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+          'border-[var(--app-border)]'
         )}>
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4 text-purple-400" />
             <h3 className="text-sm font-semibold">AI Insights</h3>
           </div>
-          <p className={cn('text-xs mb-4', isDark ? 'text-white/30' : 'text-black/30')}>
+          <p className={cn('text-xs mb-4', 'text-[var(--app-text-muted)]')}>
             Powered by AI analysis of {fullName}&apos;s behavior and data
           </p>
 
@@ -620,10 +620,10 @@ export default function ContactDetailPage() {
             transition={{ duration: 0.5 }}
             className={cn(
               'rounded-2xl border p-5 text-center',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
-            <p className={cn('text-xs font-medium uppercase tracking-wider mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs font-medium uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
               Buying Intent Score
             </p>
             <div className="relative w-28 h-28 mx-auto mb-3">
@@ -651,7 +651,7 @@ export default function ContactDetailPage() {
                 <span className="text-2xl font-bold">
                   {contact.aiIntent === 'high' ? '92' : contact.aiIntent === 'medium' ? '65' : '35'}
                 </span>
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>out of 100</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>out of 100</span>
               </div>
             </div>
             <span className={cn(
@@ -672,7 +672,7 @@ export default function ContactDetailPage() {
               transition={{ delay: 0.1 + idx * 0.05, duration: 0.3 }}
               className={cn(
                 'rounded-xl border p-4',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -680,7 +680,7 @@ export default function ContactDetailPage() {
                   <insight.icon className={cn('w-4 h-4', insight.color)} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>
                     {insight.title}
                   </p>
                   <p className="text-sm font-semibold">{insight.value}</p>
@@ -688,13 +688,13 @@ export default function ContactDetailPage() {
               </div>
               {/* Confidence bar */}
               <div className="flex items-center gap-2">
-                <div className={cn('flex-1 h-1 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('flex-1 h-1 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <div
                     className={cn('h-full rounded-full transition-all duration-500', insight.bgColor.replace('/15', '/40'))}
                     style={{ width: `${insight.confidence}%` }}
                   />
                 </div>
-                <span className={cn('text-[10px] w-8 text-right', isDark ? 'text-white/25' : 'text-black/25')}>
+                <span className={cn('text-[10px] w-8 text-right', 'text-[var(--app-text-muted)]')}>
                   {insight.confidence}%
                 </span>
               </div>

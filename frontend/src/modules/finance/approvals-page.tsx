@@ -23,17 +23,17 @@ function formatINR(num: number): string {
 type FilterTab = 'all' | 'pending' | 'approved' | 'rejected' | 'escalated';
 
 const statusConfig = {
-  pending: { icon: Clock, color: 'text-amber-400', badge: (isDark: boolean) => isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600' },
-  approved: { icon: CheckCircle, color: 'text-emerald-400', badge: (isDark: boolean) => isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600' },
-  rejected: { icon: XCircle, color: 'text-red-400', badge: (isDark: boolean) => isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600' },
-  escalated: { icon: AlertTriangle, color: 'text-red-400', badge: (isDark: boolean) => isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600' },
+  pending: { icon: Clock, color: 'text-amber-400', badge: (isDark: boolean) => 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]' },
+  approved: { icon: CheckCircle, color: 'text-emerald-400', badge: (isDark: boolean) => 'bg-[var(--app-success-bg)] text-[var(--app-success)]' },
+  rejected: { icon: XCircle, color: 'text-red-400', badge: (isDark: boolean) => 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]' },
+  escalated: { icon: AlertTriangle, color: 'text-red-400', badge: (isDark: boolean) => 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]' },
 };
 
 const priorityConfig = {
-  low: { badge: (isDark: boolean) => isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40' },
-  medium: { badge: (isDark: boolean) => isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600' },
-  high: { badge: (isDark: boolean) => isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600' },
-  urgent: { badge: (isDark: boolean) => isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600' },
+  low: { badge: (isDark: boolean) => 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]' },
+  medium: { badge: (isDark: boolean) => 'bg-[var(--app-info-bg)] text-[var(--app-info)]' },
+  high: { badge: (isDark: boolean) => 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]' },
+  urgent: { badge: (isDark: boolean) => 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]' },
 };
 
 const typeConfig: Record<string, string> = {
@@ -75,10 +75,10 @@ export default function ApprovalsPage() {
   ];
 
   const summaryCards = [
-    { label: 'Pending', value: pendingCount, icon: Clock, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-    { label: 'Approved Today', value: approvedToday, icon: CheckCircle, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-    { label: 'Urgent', value: urgentCount, icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-    { label: 'Escalated', value: escalatedCount, icon: Shield, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
+    { label: 'Pending', value: pendingCount, icon: Clock, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+    { label: 'Approved Today', value: approvedToday, icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+    { label: 'Urgent', value: urgentCount, icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
+    { label: 'Escalated', value: escalatedCount, icon: Shield, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
   ];
 
   return (
@@ -87,16 +87,16 @@ export default function ApprovalsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <CheckCircle className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <CheckCircle className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Approvals</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Finance Governance</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Finance Governance</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               <Calendar className="w-3.5 h-3.5" /> {today}
             </Badge>
           </div>
@@ -105,9 +105,9 @@ export default function ApprovalsPage() {
         {/* Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {summaryCards.map((card, i) => (
-            <motion.div key={card.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={card.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{card.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{card.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', card.bg)}><card.icon className={cn('w-3.5 h-3.5', card.color)} /></div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{card.value}</p>
@@ -133,7 +133,7 @@ export default function ApprovalsPage() {
               {tab.label}
               <span className={cn(
                 'text-[10px] px-1.5 py-0 rounded-full',
-                activeTab === tab.value ? (isDark ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/60') : (isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')
+                activeTab === tab.value ? (isDark ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/60') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')
               )}>{tab.count}</span>
             </Button>
           ))}
@@ -155,19 +155,19 @@ export default function ApprovalsPage() {
                 transition={{ delay: 0.2 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 transition-all duration-200',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]',
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]',
                   approval.priority === 'urgent' && (isDark ? 'border-red-500/20' : 'border-red-200')
                 )}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', 'bg-[var(--app-hover-bg)]')}>
                       <StatusIcon className={cn('w-4 h-4', sConfig.color)} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="text-sm font-medium">{approval.title}</span>
-                        <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 capitalize', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+                        <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 capitalize', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                           {typeConfig[approval.type] || approval.type}
                         </Badge>
                         <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', pConfig.badge(isDark))}>
@@ -177,11 +177,11 @@ export default function ApprovalsPage() {
                           {approval.status}
                         </Badge>
                       </div>
-                      <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>{approval.description}</p>
+                      <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>{approval.description}</p>
                       <div className="flex flex-wrap items-center gap-3 mt-2">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Amount: <span className="font-medium">{formatINR(approval.amount)}</span></span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>By: {approval.requestedBy}</span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{approval.requestedDate}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Amount: <span className="font-medium">{formatINR(approval.amount)}</span></span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>By: {approval.requestedBy}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{approval.requestedDate}</span>
                       </div>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function ApprovalsPage() {
                       </>
                     )}
                     {approval.comments.length > 0 && (
-                      <Button size="sm" variant="ghost" onClick={() => setExpandedId(isExpanded ? null : approval.id)} className={cn('px-2 py-1.5 text-xs rounded-lg gap-1', isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')}>
+                      <Button size="sm" variant="ghost" onClick={() => setExpandedId(isExpanded ? null : approval.id)} className={cn('px-2 py-1.5 text-xs rounded-lg gap-1', 'text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')}>
                         <MessageSquare className="w-3.5 h-3.5" /> {approval.comments.length}
                       </Button>
                     )}
@@ -207,14 +207,14 @@ export default function ApprovalsPage() {
 
                 {/* Expanded Comments */}
                 {isExpanded && approval.comments.length > 0 && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-3 pt-3 border-t space-y-2" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-3 pt-3 border-t space-y-2" style={{ borderColor: 'var(--app-border)' }}>
                     {approval.comments.map((comment) => (
-                      <div key={comment.id} className={cn('p-2.5 rounded-lg', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                      <div key={comment.id} className={cn('p-2.5 rounded-lg', 'bg-[var(--app-hover-bg)]')}>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-xs font-medium">{comment.author}</span>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{new Date(comment.timestamp).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{new Date(comment.timestamp).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
                         </div>
-                        <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>{comment.content}</p>
+                        <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-secondary)]')}>{comment.content}</p>
                       </div>
                     ))}
                   </motion.div>
@@ -229,15 +229,15 @@ export default function ApprovalsPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')}>
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle className="w-4 h-4 text-red-400" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Escalated Items</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>{escalatedCount} items need attention</Badge>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Escalated Items</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>{escalatedCount} items need attention</Badge>
             </div>
             <div className="space-y-2">
               {financeApprovals.filter(a => a.status === 'escalated').map((a, i) => (
                 <motion.div key={a.id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55 + i * 0.05 }} className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-red-500/10' : 'border-red-200/50')}>
                   <div>
                     <p className="text-xs font-medium">{a.title}</p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>{formatINR(a.amount)} · Approver: {a.approver}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{formatINR(a.amount)} · Approver: {a.approver}</p>
                   </div>
                   <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', priorityConfig[a.priority].badge(isDark))}>{a.priority}</Badge>
                 </motion.div>

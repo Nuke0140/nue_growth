@@ -68,7 +68,7 @@ export default function BrandingWhiteLabelPage() {
     setUnsavedChanges(true);
   };
 
-  const labelClass = cn('text-xs font-medium', isDark ? 'text-zinc-400' : 'text-zinc-500');
+  const labelClass = cn('text-xs font-medium', 'text-[var(--app-text-muted)]');
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
@@ -78,13 +78,13 @@ export default function BrandingWhiteLabelPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Palette className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Palette className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Branding & White Label</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Customize your brand presence
               </p>
             </div>
@@ -97,10 +97,10 @@ export default function BrandingWhiteLabelPage() {
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
-          <h3 className={cn('text-sm font-semibold mb-4', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h3 className={cn('text-sm font-semibold mb-4', 'text-[var(--app-text)]')}>
             Live Brand Preview
           </h3>
           <div
@@ -128,7 +128,7 @@ export default function BrandingWhiteLabelPage() {
               </div>
             </div>
             {/* Preview Body */}
-            <div className="p-4 space-y-3" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)' }}>
+            <div className="p-4 space-y-3" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
               <div className="flex gap-2">
                 <div className="h-6 rounded-md px-3 flex items-center text-[10px] font-medium text-white" style={{ backgroundColor: config.primaryColor }}>
                   Dashboard
@@ -144,7 +144,7 @@ export default function BrandingWhiteLabelPage() {
                 <div className="flex-1 h-20 rounded-lg" style={{ backgroundColor: config.primaryColor + '10' }} />
                 <div className="flex-1 h-20 rounded-lg" style={{ backgroundColor: config.accentColor + '10' }} />
               </div>
-              <p className="text-[10px]" style={{ fontFamily: config.typography, color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }}>
+              <p className="text-[10px]" style={{ fontFamily: config.typography, color: 'var(--app-overlay)' }}>
                 Typography: {config.typography}
               </p>
             </div>
@@ -158,10 +158,10 @@ export default function BrandingWhiteLabelPage() {
           animate="show"
           className={cn(
             'rounded-2xl border p-5 md:p-6 space-y-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
             Brand Assets
           </h3>
 
@@ -173,11 +173,11 @@ export default function BrandingWhiteLabelPage() {
                 'h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
                 isDark ? 'border-white/[0.12] hover:border-white/[0.2] hover:bg-white/[0.02]' : 'border-black/[0.12] hover:border-black/[0.2] hover:bg-black/[0.02]',
               )}>
-                <Upload className={cn('w-6 h-6', isDark ? 'text-white/30' : 'text-black/30')} />
-                <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <Upload className={cn('w-6 h-6', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   Click to upload logo
                 </span>
-                <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                   SVG, PNG, or JPG (max 2MB)
                 </span>
               </div>
@@ -190,11 +190,11 @@ export default function BrandingWhiteLabelPage() {
                 'h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors',
                 isDark ? 'border-white/[0.12] hover:border-white/[0.2] hover:bg-white/[0.02]' : 'border-black/[0.12] hover:border-black/[0.2] hover:bg-black/[0.02]',
               )}>
-                <Image className={cn('w-6 h-6', isDark ? 'text-white/30' : 'text-black/30')} />
-                <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                <Image className={cn('w-6 h-6', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   Click to upload favicon
                 </span>
-                <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                   ICO or PNG (32×32, 64×64)
                 </span>
               </div>
@@ -223,7 +223,7 @@ export default function BrandingWhiteLabelPage() {
                 </button>
               ))}
               <div className="flex items-center gap-2 ml-2">
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Custom:</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Custom:</span>
                 <input
                   type="text"
                   value={customPrimary}
@@ -235,7 +235,7 @@ export default function BrandingWhiteLabelPage() {
                   }}
                   className={cn(
                     'w-24 rounded-lg border px-2 py-1 text-xs font-mono',
-                    isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                    'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                   )}
                   placeholder="#6366f1"
                 />
@@ -269,7 +269,7 @@ export default function BrandingWhiteLabelPage() {
                 </button>
               ))}
               <div className="flex items-center gap-2 ml-2">
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Custom:</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Custom:</span>
                 <input
                   type="text"
                   value={customAccent}
@@ -281,7 +281,7 @@ export default function BrandingWhiteLabelPage() {
                   }}
                   className={cn(
                     'w-24 rounded-lg border px-2 py-1 text-xs font-mono',
-                    isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                    'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                   )}
                   placeholder="#f59e0b"
                 />
@@ -304,7 +304,7 @@ export default function BrandingWhiteLabelPage() {
                   className={cn(
                     'px-4 py-2 rounded-xl text-xs font-medium transition-colors',
                     config.typography === font
-                      ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                      ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                       : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.08] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-600 border border-black/[0.06] hover:bg-black/[0.04]'),
                   )}
                   style={{ fontFamily: font }}
@@ -323,10 +323,10 @@ export default function BrandingWhiteLabelPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
-          <h3 className={cn('text-sm font-semibold mb-4', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h3 className={cn('text-sm font-semibold mb-4', 'text-[var(--app-text)]')}>
             Branding Toggles
           </h3>
           <div className="space-y-1">
@@ -338,21 +338,21 @@ export default function BrandingWhiteLabelPage() {
                   key={section.key}
                   className={cn(
                     'flex items-center justify-between gap-4 px-3 py-3 rounded-xl transition-colors',
-                    isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.03]',
+                    'hover:bg-[var(--app-hover-bg)]',
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
-                      isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+                      'bg-[var(--app-hover-bg)]',
                     )}>
-                      <Icon className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                      <Icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     </div>
                     <div className="min-w-0">
-                      <p className={cn('text-xs font-medium', isDark ? 'text-white/80' : 'text-black/80')}>
+                      <p className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>
                         {section.label}
                       </p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {section.description}
                       </p>
                     </div>
@@ -361,7 +361,7 @@ export default function BrandingWhiteLabelPage() {
                     onClick={() => toggleBranding(section.key)}
                     className={cn(
                       'relative w-10 h-6 rounded-full transition-colors shrink-0',
-                      isOn ? 'bg-emerald-500' : (isDark ? 'bg-white/[0.12]' : 'bg-black/[0.12]'),
+                      isOn ? 'bg-emerald-500' : ('bg-[var(--app-hover-bg)]'),
                     )}
                   >
                     <motion.div
@@ -383,10 +383,10 @@ export default function BrandingWhiteLabelPage() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
-          <h3 className={cn('text-sm font-semibold mb-4', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h3 className={cn('text-sm font-semibold mb-4', 'text-[var(--app-text)]')}>
             Custom Domain
           </h3>
           <div className="flex items-center gap-3">
@@ -397,20 +397,20 @@ export default function BrandingWhiteLabelPage() {
                 onChange={(e) => updateConfig('customDomain', e.target.value)}
                 className={cn(
                   'w-full rounded-xl border px-3 py-2.5 text-sm',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                  'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
                 placeholder="app.yourcompany.com"
               />
             </div>
             <span className={cn(
               'inline-flex items-center gap-1 rounded-xl px-3 py-2.5 text-xs font-medium shrink-0',
-              isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
+              'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
             )}>
               <Globe className="w-3.5 h-3.5" />
               DNS Pending
             </span>
           </div>
-          <p className={cn('text-[10px] mt-2', isDark ? 'text-white/25' : 'text-black/25')}>
+          <p className={cn('text-[10px] mt-2', 'text-[var(--app-text-muted)]')}>
             Add a CNAME record pointing to cname.agencyos.io. Verification may take up to 48 hours.
           </p>
         </motion.div>

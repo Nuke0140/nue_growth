@@ -28,7 +28,7 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
       transition={{ duration: 0.3 }}
       className={cn(
         'rounded-2xl border p-5 relative overflow-hidden',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Color accent bar */}
@@ -49,7 +49,7 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
         {benefits.map((benefit, idx) => (
           <div key={idx} className="flex items-center gap-2">
             <Check className="w-3.5 h-3.5 shrink-0" style={{ color }} />
-            <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{benefit}</span>
+            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{benefit}</span>
           </div>
         ))}
       </div>
@@ -57,25 +57,25 @@ export default function LoyaltyTierCard({ tier, minSpent, benefits, discount, me
       {/* Stats */}
       <div className={cn(
         'grid grid-cols-2 gap-3 rounded-xl p-3 border',
-        isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]'
+        'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]'
       )}>
         <div className="flex items-center gap-2">
           <Users className="w-3.5 h-3.5" style={{ color }} />
           <div>
             <p className="text-xs font-semibold">{memberCount.toLocaleString()}</p>
-            <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Members</p>
+            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Members</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Percent className="w-3.5 h-3.5" style={{ color }} />
           <div>
             <p className="text-xs font-semibold">{discount}%</p>
-            <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Discount</p>
+            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Discount</p>
           </div>
         </div>
       </div>
 
-      <p className={cn('text-[10px] mt-3 text-center', isDark ? 'text-white/25' : 'text-black/25')}>
+      <p className={cn('text-[10px] mt-3 text-center', 'text-[var(--app-text-muted)]')}>
         Min. spend: ₹{(minSpent / 100000).toFixed(0)}L
       </p>
     </motion.div>

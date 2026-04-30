@@ -45,9 +45,9 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
     return (
       <div className={cn(
         'rounded-2xl border p-5',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}>
-        <p className={cn('text-xs text-center py-8', isDark ? 'text-white/30' : 'text-black/30')}>
+        <p className={cn('text-xs text-center py-8', 'text-[var(--app-text-muted)]')}>
           No aging data available
         </p>
       </div>
@@ -61,17 +61,17 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold">Aging Buckets</h3>
         <div className="flex items-center gap-3">
-          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
             {totalCount} invoices
           </span>
-          <span className={cn('text-[11px] font-bold', isDark ? 'text-white/60' : 'text-black/60')}>
+          <span className={cn('text-[11px] font-bold', 'text-[var(--app-text-secondary)]')}>
             {formatAmount(totalAmount)}
           </span>
         </div>
@@ -95,22 +95,22 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
                   <span
                     className={cn('w-2 h-2 rounded-sm shrink-0', bucket.color)}
                   />
-                  <span className={cn('text-[11px] font-medium truncate', isDark ? 'text-white/60' : 'text-black/60')}>
+                  <span className={cn('text-[11px] font-medium truncate', 'text-[var(--app-text-secondary)]')}>
                     {bucket.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-2">
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     {bucket.count} inv
                   </span>
-                  <span className={cn('text-[11px] font-bold tabular-nums', isDark ? 'text-white/70' : 'text-black/70')}>
+                  <span className={cn('text-[11px] font-bold tabular-nums', 'text-[var(--app-text)]')}>
                     {formatAmount(bucket.amount)}
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <div className={cn('flex-1 h-2.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+                <div className={cn('flex-1 h-2.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     className={cn('h-full rounded-full', bucket.color)}
                     initial={{ width: 0 }}
@@ -118,7 +118,7 @@ export default function AgingBucketChart({ buckets }: AgingBucketChartProps) {
                     transition={{ duration: 0.6, delay: index * 0.05, ease: 'easeOut' }}
                   />
                 </div>
-                <span className={cn('text-[10px] w-10 text-right tabular-nums shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[10px] w-10 text-right tabular-nums shrink-0', 'text-[var(--app-text-muted)]')}>
                   {amountPct}%
                 </span>
               </div>

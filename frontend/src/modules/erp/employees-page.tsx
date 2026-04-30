@@ -28,7 +28,7 @@ import { FilterBar } from '@/modules/erp/components/ops/filter-bar';
 import { SearchInput } from '@/modules/erp/components/ops/search-input';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
 import { DrawerForm } from '@/modules/erp/components/ops/drawer-form';
-import { OpsCard } from '@/modules/erp/components/ops/ops-card';
+import { OpsCard } from '@/modules/erp/components/ops/app-card';
 import { BulkActionBar } from '@/modules/erp/components/ops/bulk-action-bar';
 import {
   ArrowUpDown, ChevronLeft, ChevronRight,
@@ -104,9 +104,9 @@ function getBarColor(score: number) {
 }
 
 function getBarTextColor(score: number) {
-  if (score >= 85) return 'var(--ops-success)';
-  if (score >= 70) return 'var(--ops-warning)';
-  return 'var(--ops-danger)';
+  if (score >= 85) return 'var(--app-success)';
+  if (score >= 70) return 'var(--app-warning)';
+  return 'var(--app-danger)';
 }
 
 function formatStatusLabel(status: EmployeeStatus): string {
@@ -362,7 +362,7 @@ function EmployeesPageInner() {
                   onClick={clearAllFilters}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium shrink-0 transition-colors"
                   style={{
-                    color: 'var(--ops-danger)',
+                    color: 'var(--app-danger)',
                     backgroundColor: 'rgba(248, 113, 113, 0.08)',
                     border: '1px solid rgba(248, 113, 113, 0.15)',
                   }}
@@ -377,25 +377,25 @@ function EmployeesPageInner() {
           {/* Department filter row */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4" style={{ color: 'var(--ops-text-muted)' }} />
+              <Building2 className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
               <Select
                 value={departmentFilter}
                 onValueChange={(v) => setDepartmentFilter(v)}
               >
                 <SelectTrigger
-                  className="ops-input w-[180px] h-8 text-xs"
+                  className="app-input w-[180px] h-8 text-xs"
                   style={{
-                    backgroundColor: 'var(--ops-elevated)',
-                    border: '1px solid var(--ops-border)',
-                    color: departmentFilter !== 'all' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                    backgroundColor: 'var(--app-elevated)',
+                    border: '1px solid var(--app-border)',
+                    color: departmentFilter !== 'all' ? 'var(--app-text)' : 'var(--app-text-muted)',
                   }}
                 >
                   <SelectValue placeholder="All Departments" />
                 </SelectTrigger>
                 <SelectContent
                   style={{
-                    backgroundColor: 'var(--ops-card-bg)',
-                    borderColor: 'var(--ops-border)',
+                    backgroundColor: 'var(--app-card-bg)',
+                    borderColor: 'var(--app-border)',
                   }}
                 >
                   <SelectItem value="all">All Departments</SelectItem>
@@ -406,13 +406,13 @@ function EmployeesPageInner() {
               </Select>
             </div>
             {/* View mode toggle */}
-            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
               <button
                 onClick={() => setViewMode('table')}
                 className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                 style={{
-                  backgroundColor: viewMode === 'table' ? 'var(--ops-hover-bg)' : 'transparent',
-                  color: viewMode === 'table' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                  backgroundColor: viewMode === 'table' ? 'var(--app-hover-bg)' : 'transparent',
+                  color: viewMode === 'table' ? 'var(--app-text)' : 'var(--app-text-muted)',
                 }}
                 title="Table view"
               >
@@ -422,8 +422,8 @@ function EmployeesPageInner() {
                 onClick={() => setViewMode('grid')}
                 className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                 style={{
-                  backgroundColor: viewMode === 'grid' ? 'var(--ops-hover-bg)' : 'transparent',
-                  color: viewMode === 'grid' ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                  backgroundColor: viewMode === 'grid' ? 'var(--app-hover-bg)' : 'transparent',
+                  color: viewMode === 'grid' ? 'var(--app-text)' : 'var(--app-text-muted)',
                 }}
                 title="Grid view"
               >
@@ -440,25 +440,25 @@ function EmployeesPageInner() {
               label: 'Total Employees',
               value: stats.total,
               icon: Users,
-              color: 'var(--ops-text)',
+              color: 'var(--app-text)',
             },
             {
               label: 'Active',
               value: stats.active,
               icon: UserCheck,
-              color: 'var(--ops-success)',
+              color: 'var(--app-success)',
             },
             {
               label: 'On Leave',
               value: stats.onLeave,
               icon: Clock,
-              color: 'var(--ops-warning)',
+              color: 'var(--app-warning)',
             },
             {
               label: 'Avg Productivity',
               value: `${stats.avgProductivity}%`,
               icon: AlertTriangle,
-              color: 'var(--ops-info)',
+              color: 'var(--app-info)',
             },
           ].map((stat, i) => (
             <motion.div
@@ -475,13 +475,13 @@ function EmployeesPageInner() {
                 <div className="flex items-center justify-between mb-2">
                   <span
                     className="text-xs font-medium"
-                    style={{ color: 'var(--ops-text-muted)' }}
+                    style={{ color: 'var(--app-text-muted)' }}
                   >
                     {stat.label}
                   </span>
                   <div
                     className="w-7 h-7 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+                    style={{ backgroundColor: 'var(--app-hover-bg)' }}
                   >
                     <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
                   </div>
@@ -504,11 +504,11 @@ function EmployeesPageInner() {
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="ops-card overflow-hidden !p-0">
+              <div className="app-card overflow-hidden !p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr style={{ borderBottom: '1px solid var(--ops-border)' }}>
+                      <tr style={{ borderBottom: '1px solid var(--app-border)' }}>
                         {/* Checkbox column */}
                         <th className="w-10 px-3 py-3">
                           <input
@@ -516,80 +516,80 @@ function EmployeesPageInner() {
                             checked={allPageSelected}
                             onChange={handleToggleAll}
                             className="rounded border-gray-600 cursor-pointer"
-                            style={{ accentColor: 'var(--ops-accent)' }}
+                            style={{ accentColor: 'var(--app-accent)' }}
                           />
                         </th>
                         {/* Name */}
                         <th
                           className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                           onClick={() => handleSort('name')}
                         >
                           <div className="flex items-center gap-1.5">
                             Name
                             <ArrowUpDown
                               className="w-3.5 h-3.5"
-                              style={{ opacity: sortKey === 'name' ? 1 : 0.3, color: 'var(--ops-text-muted)' }}
+                              style={{ opacity: sortKey === 'name' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
                         </th>
                         {/* Skills */}
-                        <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--ops-text-muted)' }}>
+                        <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--app-text-muted)' }}>
                           Skills
                         </th>
                         {/* Email */}
                         <th
                           className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden md:table-cell"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                           onClick={() => handleSort('email')}
                         >
                           <div className="flex items-center gap-1.5">
                             Email
                             <ArrowUpDown
                               className="w-3.5 h-3.5"
-                              style={{ opacity: sortKey === 'email' ? 1 : 0.3, color: 'var(--ops-text-muted)' }}
+                              style={{ opacity: sortKey === 'email' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
                         </th>
                         {/* Department */}
                         <th
                           className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden md:table-cell"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                           onClick={() => handleSort('department')}
                         >
                           <div className="flex items-center gap-1.5">
                             Department
                             <ArrowUpDown
                               className="w-3.5 h-3.5"
-                              style={{ opacity: sortKey === 'department' ? 1 : 0.3, color: 'var(--ops-text-muted)' }}
+                              style={{ opacity: sortKey === 'department' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
                         </th>
                         {/* Role */}
                         <th
                           className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden lg:table-cell"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                           onClick={() => handleSort('designation')}
                         >
                           <div className="flex items-center gap-1.5">
                             Role
                             <ArrowUpDown
                               className="w-3.5 h-3.5"
-                              style={{ opacity: sortKey === 'designation' ? 1 : 0.3, color: 'var(--ops-text-muted)' }}
+                              style={{ opacity: sortKey === 'designation' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
                         </th>
                         {/* Status */}
                         <th
                           className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                           onClick={() => handleSort('status')}
                         >
                           <div className="flex items-center gap-1.5">
                             Status
                             <ArrowUpDown
                               className="w-3.5 h-3.5"
-                              style={{ opacity: sortKey === 'status' ? 1 : 0.3, color: 'var(--ops-text-muted)' }}
+                              style={{ opacity: sortKey === 'status' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
                             />
                           </div>
                         </th>
@@ -600,7 +600,7 @@ function EmployeesPageInner() {
                     <tbody>
                       {paged.length === 0 ? (
                         <tr>
-                          <td colSpan={8} className="h-32 text-center text-sm" style={{ color: 'var(--ops-text-muted)' }}>
+                          <td colSpan={8} className="h-32 text-center text-sm" style={{ color: 'var(--app-text-muted)' }}>
                             No employees found. Try adjusting your search or filters.
                           </td>
                         </tr>
@@ -615,22 +615,22 @@ function EmployeesPageInner() {
                               key={emp.id}
                               className="border-b transition-colors"
                               style={{
-                                borderColor: 'var(--ops-border)',
+                                borderColor: 'var(--app-border)',
                                 cursor: 'pointer',
                                 backgroundColor: isSelected
-                                  ? 'rgba(204, 92, 55, 0.06)'
+                                  ? 'var(--app-active-bg)'
                                   : 'transparent',
                               }}
                               onClick={() => selectEmployee(emp.id)}
                               onMouseEnter={(e) => {
                                 if (!isSelected) {
                                   (e.currentTarget as HTMLElement).style.backgroundColor =
-                                    'var(--ops-hover-bg)';
+                                    'var(--app-hover-bg)';
                                 }
                               }}
                               onMouseLeave={(e) => {
                                 (e.currentTarget as HTMLElement).style.backgroundColor =
-                                  isSelected ? 'rgba(204, 92, 55, 0.06)' : 'transparent';
+                                  isSelected ? 'var(--app-active-bg)' : 'transparent';
                               }}
                             >
                               {/* Checkbox */}
@@ -640,7 +640,7 @@ function EmployeesPageInner() {
                                   checked={isSelected}
                                   onChange={() => toggleBulkSelection(emp.id)}
                                   className="rounded border-gray-600 cursor-pointer"
-                                  style={{ accentColor: 'var(--ops-accent)' }}
+                                  style={{ accentColor: 'var(--app-accent)' }}
                                 />
                               </td>
                               {/* Name — inline editable */}
@@ -656,16 +656,16 @@ function EmployeesPageInner() {
                                       onKeyDown={handleInlineKeyDown}
                                       className="text-sm font-medium px-2 py-1 rounded-md w-full max-w-[200px]"
                                       style={{
-                                        backgroundColor: 'var(--ops-hover-bg)',
-                                        border: '1px solid var(--ops-accent)',
-                                        color: 'var(--ops-text)',
+                                        backgroundColor: 'var(--app-hover-bg)',
+                                        border: '1px solid var(--app-accent)',
+                                        color: 'var(--app-text)',
                                         outline: 'none',
                                       }}
                                     />
                                     <button
                                       onClick={saveInlineEdit}
                                       className="flex items-center justify-center w-6 h-6 rounded"
-                                      style={{ backgroundColor: 'var(--ops-success)', color: '#fff' }}
+                                      style={{ backgroundColor: 'var(--app-success)', color: '#fff' }}
                                     >
                                       <Check className="w-3.5 h-3.5" />
                                     </button>
@@ -679,8 +679,8 @@ function EmployeesPageInner() {
                                       <AvatarFallback
                                         className="text-xs font-semibold"
                                         style={{
-                                          backgroundColor: 'var(--ops-accent-light)',
-                                          color: 'var(--ops-accent)',
+                                          backgroundColor: 'var(--app-accent-light)',
+                                          color: 'var(--app-accent)',
                                         }}
                                       >
                                         {emp.avatar}
@@ -689,14 +689,14 @@ function EmployeesPageInner() {
                                     <div className="min-w-0">
                                       <p
                                         className="text-sm font-medium truncate"
-                                        style={{ color: 'var(--ops-text)' }}
+                                        style={{ color: 'var(--app-text)' }}
                                         title="Double-click to edit"
                                       >
                                         {emp.name}
                                       </p>
                                       <p
                                         className="text-xs truncate"
-                                        style={{ color: 'var(--ops-text-muted)' }}
+                                        style={{ color: 'var(--app-text-muted)' }}
                                       >
                                         {emp.designation}
                                       </p>
@@ -714,8 +714,8 @@ function EmployeesPageInner() {
                                     <span
                                       className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
                                       style={{
-                                        backgroundColor: 'var(--ops-hover-bg)',
-                                        color: 'var(--ops-text-muted)',
+                                        backgroundColor: 'var(--app-hover-bg)',
+                                        color: 'var(--app-text-muted)',
                                       }}
                                     >
                                       +{skills.length - 3}
@@ -725,19 +725,19 @@ function EmployeesPageInner() {
                               </td>
                               {/* Email */}
                               <td className="px-3 py-3 hidden md:table-cell">
-                                <span className="text-sm truncate block max-w-[200px]" style={{ color: 'var(--ops-text-secondary)' }}>
+                                <span className="text-sm truncate block max-w-[200px]" style={{ color: 'var(--app-text-secondary)' }}>
                                   {emp.email}
                                 </span>
                               </td>
                               {/* Department */}
                               <td className="px-3 py-3 hidden md:table-cell">
-                                <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+                                <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
                                   {emp.department}
                                 </span>
                               </td>
                               {/* Role */}
                               <td className="px-3 py-3 hidden lg:table-cell">
-                                <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+                                <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
                                   {emp.designation}
                                 </span>
                               </td>
@@ -751,9 +751,9 @@ function EmployeesPageInner() {
                                   <DropdownMenuTrigger asChild>
                                     <button
                                       className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
-                                      style={{ color: 'var(--ops-text-muted)' }}
+                                      style={{ color: 'var(--app-text-muted)' }}
                                       onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)';
+                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)';
                                       }}
                                       onMouseLeave={(e) => {
                                         (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
@@ -765,8 +765,8 @@ function EmployeesPageInner() {
                                   <DropdownMenuContent
                                     align="end"
                                     style={{
-                                      backgroundColor: 'var(--ops-card-bg)',
-                                      borderColor: 'var(--ops-border)',
+                                      backgroundColor: 'var(--app-card-bg)',
+                                      borderColor: 'var(--app-border)',
                                     }}
                                   >
                                     <DropdownMenuItem onClick={() => selectEmployee(emp.id)}>
@@ -797,7 +797,7 @@ function EmployeesPageInner() {
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between px-1 mt-3">
-                  <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
+                  <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
                     Showing {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, sorted.length)} of {sorted.length}
                   </p>
                   <div className="flex items-center gap-1">
@@ -805,20 +805,20 @@ function EmployeesPageInner() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      style={{ color: 'var(--ops-text-secondary)' }}
+                      style={{ color: 'var(--app-text-secondary)' }}
                       onClick={() => setPage(Math.max(0, safePage - 1))}
                       disabled={safePage === 0}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
-                    <span className="text-xs px-2" style={{ color: 'var(--ops-text-secondary)' }}>
+                    <span className="text-xs px-2" style={{ color: 'var(--app-text-secondary)' }}>
                       {safePage + 1} / {totalPages}
                     </span>
                     <Button
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      style={{ color: 'var(--ops-text-secondary)' }}
+                      style={{ color: 'var(--app-text-secondary)' }}
                       onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
                       disabled={safePage >= totalPages - 1}
                     >
@@ -838,9 +838,9 @@ function EmployeesPageInner() {
               transition={{ duration: 0.2 }}
             >
               {paged.length === 0 ? (
-                <div className="ops-card p-12 text-center">
-                  <Users className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)' }} />
-                  <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>
+                <div className="app-card p-12 text-center">
+                  <Users className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--app-text-muted)' }} />
+                  <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
                     No employees found. Try adjusting your search or filters.
                   </p>
                 </div>
@@ -857,9 +857,9 @@ function EmployeesPageInner() {
                         transition={{ delay: idx * 0.03, duration: 0.25 }}
                       >
                         <div
-                          className="ops-card ops-glow p-5 cursor-pointer transition-all"
+                          className="app-card app-glow p-5 cursor-pointer transition-all"
                           style={{
-                            border: isSelected ? '1px solid var(--ops-accent)' : undefined,
+                            border: isSelected ? '1px solid var(--app-accent)' : undefined,
                             backgroundColor: isSelected
                               ? 'rgba(204, 92, 55, 0.04)'
                               : undefined,
@@ -874,8 +874,8 @@ function EmployeesPageInner() {
                                   <AvatarFallback
                                     className="text-sm font-bold"
                                     style={{
-                                      backgroundColor: 'var(--ops-accent-light)',
-                                      color: 'var(--ops-accent)',
+                                      backgroundColor: 'var(--app-accent-light)',
+                                      color: 'var(--app-accent)',
                                     }}
                                   >
                                     {emp.avatar}
@@ -886,20 +886,20 @@ function EmployeesPageInner() {
                                   className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"
                                   style={{
                                     backgroundColor: getStatusDotColor(emp.status),
-                                    borderColor: 'var(--ops-card-bg)',
+                                    borderColor: 'var(--app-card-bg)',
                                   }}
                                 />
                               </div>
                               <div className="min-w-0">
                                 <p
                                   className="text-sm font-semibold truncate"
-                                  style={{ color: 'var(--ops-text)' }}
+                                  style={{ color: 'var(--app-text)' }}
                                 >
                                   {emp.name}
                                 </p>
                                 <p
                                   className="text-xs truncate"
-                                  style={{ color: 'var(--ops-text-muted)' }}
+                                  style={{ color: 'var(--app-text-muted)' }}
                                 >
                                   {emp.designation}
                                 </p>
@@ -914,7 +914,7 @@ function EmployeesPageInner() {
                               }}
                               onClick={(e) => e.stopPropagation()}
                               className="rounded border-gray-600 cursor-pointer mt-1"
-                              style={{ accentColor: 'var(--ops-accent)' }}
+                              style={{ accentColor: 'var(--app-accent)' }}
                             />
                           </div>
 
@@ -922,13 +922,13 @@ function EmployeesPageInner() {
                           <div className="flex items-center gap-2 mb-3">
                             <span
                               className="text-xs font-medium"
-                              style={{ color: 'var(--ops-text-secondary)' }}
+                              style={{ color: 'var(--app-text-secondary)' }}
                             >
                               {emp.department}
                             </span>
                             <span
                               className="w-1 h-1 rounded-full"
-                              style={{ backgroundColor: 'var(--ops-text-muted)' }}
+                              style={{ backgroundColor: 'var(--app-text-muted)' }}
                             />
                             <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />
                           </div>
@@ -941,17 +941,17 @@ function EmployeesPageInner() {
                           </div>
 
                           {/* Bottom row: projects + productivity */}
-                          <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                          <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--app-border)' }}>
                             <div className="flex items-center gap-1.5">
-                              <FolderKanban className="w-3.5 h-3.5" style={{ color: 'var(--ops-accent)' }} />
-                              <span className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                              <FolderKanban className="w-3.5 h-3.5" style={{ color: 'var(--app-accent)' }} />
+                              <span className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                                 {emp.activeProjects} Projects
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <div
                                 className="h-1.5 rounded-full overflow-hidden"
-                                style={{ backgroundColor: 'var(--ops-hover-bg)', width: '60px' }}
+                                style={{ backgroundColor: 'var(--app-hover-bg)', width: '60px' }}
                               >
                                 <div
                                   className="h-full rounded-full transition-all"
@@ -979,7 +979,7 @@ function EmployeesPageInner() {
               {/* Grid pagination */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between px-1 mt-3">
-                  <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
+                  <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
                     Showing {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, sorted.length)} of {sorted.length}
                   </p>
                   <div className="flex items-center gap-1">
@@ -987,20 +987,20 @@ function EmployeesPageInner() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      style={{ color: 'var(--ops-text-secondary)' }}
+                      style={{ color: 'var(--app-text-secondary)' }}
                       onClick={() => setPage(Math.max(0, safePage - 1))}
                       disabled={safePage === 0}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
-                    <span className="text-xs px-2" style={{ color: 'var(--ops-text-secondary)' }}>
+                    <span className="text-xs px-2" style={{ color: 'var(--app-text-secondary)' }}>
                       {safePage + 1} / {totalPages}
                     </span>
                     <Button
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      style={{ color: 'var(--ops-text-secondary)' }}
+                      style={{ color: 'var(--app-text-secondary)' }}
                       onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
                       disabled={safePage >= totalPages - 1}
                     >
@@ -1023,19 +1023,19 @@ function EmployeesPageInner() {
         >
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Full Name
               </Label>
               <Input
                 value={formData.name}
                 onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
                 placeholder="Enter full name"
-                className="ops-input"
-                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                className="app-input"
+                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Email
               </Label>
               <Input
@@ -1043,24 +1043,24 @@ function EmployeesPageInner() {
                 value={formData.email}
                 onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
                 placeholder="name@company.com"
-                className="ops-input"
-                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                className="app-input"
+                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Phone
               </Label>
               <Input
                 value={formData.phone}
                 onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
                 placeholder="+91 XXXXX XXXXX"
-                className="ops-input"
-                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                className="app-input"
+                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Department
               </Label>
               <Select
@@ -1068,16 +1068,16 @@ function EmployeesPageInner() {
                 onValueChange={(v) => setFormData((f) => ({ ...f, department: v }))}
               >
                 <SelectTrigger
-                  className="ops-input"
+                  className="app-input"
                   style={{
-                    backgroundColor: 'var(--ops-elevated)',
-                    border: '1px solid var(--ops-border)',
-                    color: formData.department ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                    backgroundColor: 'var(--app-elevated)',
+                    border: '1px solid var(--app-border)',
+                    color: formData.department ? 'var(--app-text)' : 'var(--app-text-muted)',
                   }}
                 >
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
-                <SelectContent style={{ backgroundColor: 'var(--ops-card-bg)', borderColor: 'var(--ops-border)' }}>
+                <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
                   {['Engineering', 'Design', 'QA', 'Operations', 'HR', 'Sales', 'Finance'].map(
                     (dept) => (
                       <SelectItem key={dept} value={dept}>{dept}</SelectItem>
@@ -1087,31 +1087,31 @@ function EmployeesPageInner() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Role / Designation
               </Label>
               <Input
                 value={formData.designation}
                 onChange={(e) => setFormData((f) => ({ ...f, designation: e.target.value }))}
                 placeholder="e.g. Senior Developer"
-                className="ops-input"
-                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                className="app-input"
+                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Joining Date
               </Label>
               <Input
                 type="date"
                 value={formData.joinDate}
                 onChange={(e) => setFormData((f) => ({ ...f, joinDate: e.target.value }))}
-                className="ops-input"
-                style={{ backgroundColor: 'var(--ops-elevated)', border: '1px solid var(--ops-border)', color: 'var(--ops-text)' }}
+                className="app-input"
+                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Salary Band
               </Label>
               <Select
@@ -1119,16 +1119,16 @@ function EmployeesPageInner() {
                 onValueChange={(v) => setFormData((f) => ({ ...f, salaryBand: v }))}
               >
                 <SelectTrigger
-                  className="ops-input"
+                  className="app-input"
                   style={{
-                    backgroundColor: 'var(--ops-elevated)',
-                    border: '1px solid var(--ops-border)',
-                    color: formData.salaryBand ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                    backgroundColor: 'var(--app-elevated)',
+                    border: '1px solid var(--app-border)',
+                    color: formData.salaryBand ? 'var(--app-text)' : 'var(--app-text-muted)',
                   }}
                 >
                   <SelectValue placeholder="Select salary band" />
                 </SelectTrigger>
-                <SelectContent style={{ backgroundColor: 'var(--ops-card-bg)', borderColor: 'var(--ops-border)' }}>
+                <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
                   {['E1', 'E2', 'E3', 'E4', 'E5', 'E6'].map((band) => (
                     <SelectItem key={band} value={band}>{band}</SelectItem>
                   ))}

@@ -123,19 +123,19 @@ export default function ActivitiesPage() {
       <div className="shrink-0 px-6 pt-6 pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
-            <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+            <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
               Activities
             </h1>
-            <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
               {filtered.length} activities tracked
             </p>
           </div>
           <div className="flex items-center gap-2">
             <div className={cn(
               'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search activities..."
@@ -143,7 +143,7 @@ export default function ActivitiesPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-40',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -151,7 +151,7 @@ export default function ActivitiesPage() {
               size="sm"
               className={cn(
                 'rounded-xl text-xs h-9 px-4',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -162,7 +162,7 @@ export default function ActivitiesPage() {
 
         {/* Date filter */}
         <div className="flex items-center gap-2 mb-4">
-          <Calendar className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           {dateFilters.map((f) => (
             <button
               key={f}
@@ -185,7 +185,7 @@ export default function ActivitiesPage() {
 
         {/* Type filter chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <Filter className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Filter className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           {filterTypes.map((ft) => (
             <button
               key={ft.key}
@@ -217,14 +217,14 @@ export default function ActivitiesPage() {
           >
             <div className={cn(
               'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
-              isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <Inbox className={cn('w-7 h-7', isDark ? 'text-white/20' : 'text-black/20')} />
+              <Inbox className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
             </div>
-            <p className={cn('text-sm font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm font-medium', 'text-[var(--app-text-muted)]')}>
               No activities found
             </p>
-            <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+            <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
               Try adjusting your filters or add a new activity
             </p>
           </motion.div>
@@ -236,7 +236,7 @@ export default function ActivitiesPage() {
                 <div className="flex items-center gap-3 mb-3">
                   <span className={cn(
                     'text-xs font-semibold uppercase tracking-wider',
-                    isDark ? 'text-white/30' : 'text-black/30'
+                    'text-[var(--app-text-muted)]'
                   )}>
                     {group.label}
                   </span>
@@ -248,7 +248,7 @@ export default function ActivitiesPage() {
                   </Badge>
                   <div className={cn(
                     'flex-1 h-px',
-                    isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                    'bg-[var(--app-hover-bg)]'
                   )} />
                 </div>
 
@@ -284,7 +284,7 @@ export default function ActivitiesPage() {
                             <div>
                               <p className={cn(
                                 'text-sm font-medium leading-snug',
-                                isDark ? 'text-white/90' : 'text-black/90'
+                                'text-[var(--app-text)]'
                               )}>
                                 {activity.subject}
                               </p>
@@ -303,20 +303,20 @@ export default function ActivitiesPage() {
                                   </button>
                                 )}
                                 {activity.contactName && activity.companyName && (
-                                  <span className={cn('text-[10px]', isDark ? 'text-white/15' : 'text-black/15')}>
+                                  <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                                     •
                                   </span>
                                 )}
                                 {activity.companyName && (
-                                  <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                                  <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                                     {activity.companyName}
                                   </span>
                                 )}
                               </div>
                             </div>
                             <div className="flex items-center gap-1.5 shrink-0">
-                              <Clock className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
-                              <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                              <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                              <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                                 {formatTime(activity.date)}
                               </span>
                             </div>
@@ -324,20 +324,20 @@ export default function ActivitiesPage() {
 
                           {/* Meta row */}
                           <div className="flex items-center gap-3 mt-2">
-                            <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                            <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                               {activity.userName}
                             </span>
                             {activity.duration && (
                               <>
-                                <span className={cn('text-[10px]', isDark ? 'text-white/15' : 'text-black/15')}>•</span>
-                                <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                                <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>•</span>
+                                <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                                   {activity.duration}
                                 </span>
                               </>
                             )}
                             {activity.outcome && (
                               <>
-                                <span className={cn('text-[10px]', isDark ? 'text-white/15' : 'text-black/15')}>•</span>
+                                <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>•</span>
                                 <Badge variant="outline" className={cn(
                                   'text-[10px] px-1.5 py-0 h-4 font-normal',
                                   isDark ? 'border-white/8 text-white/40' : 'border-black/8 text-black/40'

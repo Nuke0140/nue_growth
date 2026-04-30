@@ -44,12 +44,12 @@ const STAGE_COLORS: Record<DealStage, { header: string; dot: string; isDarkHeade
 
 function getStageColor(stage: DealStage, isDark: boolean): string {
   const map: Record<DealStage, string> = {
-    new: isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60',
-    qualified: isDark ? 'bg-blue-500/15 text-blue-300' : 'bg-blue-50 text-blue-700',
+    new: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
+    qualified: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
     discovery: isDark ? 'bg-cyan-500/15 text-cyan-300' : 'bg-cyan-50 text-cyan-700',
     demo: isDark ? 'bg-purple-500/15 text-purple-300' : 'bg-purple-50 text-purple-700',
     proposal: isDark ? 'bg-amber-500/15 text-amber-300' : 'bg-amber-50 text-amber-700',
-    negotiation: isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-50 text-emerald-700',
+    negotiation: 'bg-[var(--app-success-bg)] text-[var(--app-success)]',
     won: isDark ? 'bg-emerald-500/20 text-emerald-300' : 'bg-emerald-100 text-emerald-700',
     lost: isDark ? 'bg-red-500/15 text-red-300' : 'bg-red-50 text-red-700',
   };
@@ -89,28 +89,28 @@ function PipelineColumn({
       )}>
         <div className="flex items-center gap-2 mb-1">
           <div className={cn('w-2 h-2 rounded-full', isDark ? colors.isDarkDot : colors.dot)} />
-          <h3 className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/70' : 'text-black/70')}>
+          <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text)]')}>
             {STAGE_LABELS[stage]}
           </h3>
           <span className={cn(
             'ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-md',
-            isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+            'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}>
             {deals.length}
           </span>
         </div>
-        <p className={cn('text-[11px] font-medium pl-4', isDark ? 'text-white/40' : 'text-black/40')}>
+        <p className={cn('text-[11px] font-medium pl-4', 'text-[var(--app-text-muted)]')}>
           {formatCurrency(totalValue)}
         </p>
       </div>
 
       <div className={cn(
         'flex-1 p-2 space-y-2 rounded-b-2xl min-h-[120px] max-h-[calc(100vh-380px)] overflow-y-auto',
-        isDark ? 'bg-white/[0.01]' : 'bg-black/[0.005]'
+        'bg-[var(--app-hover-bg)]'
       )}>
         {deals.length === 0 ? (
-          <div className={cn('flex flex-col items-center justify-center py-8 text-center', isDark ? 'text-white/20' : 'text-black/20')}>
-            <div className={cn('w-10 h-10 rounded-full flex items-center justify-center mb-2', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
+          <div className={cn('flex flex-col items-center justify-center py-8 text-center', 'text-[var(--app-text-disabled)]')}>
+            <div className={cn('w-10 h-10 rounded-full flex items-center justify-center mb-2', 'bg-[var(--app-hover-bg)]')}>
               <span className="text-lg">📋</span>
             </div>
             <p className="text-xs">No deals</p>
@@ -132,7 +132,7 @@ function PipelineColumn({
               )}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h4 className={cn('text-sm font-semibold leading-tight line-clamp-2', isDark ? 'text-white' : 'text-black')}>
+                <h4 className={cn('text-sm font-semibold leading-tight line-clamp-2', 'text-[var(--app-text)]')}>
                   {deal.name}
                 </h4>
                 <span className={cn(
@@ -142,14 +142,14 @@ function PipelineColumn({
                   {deal.probability}%
                 </span>
               </div>
-              <p className={cn('text-xs truncate mb-1', isDark ? 'text-white/50' : 'text-black/50')}>{deal.company}</p>
-              <p className={cn('text-xs truncate mb-3', isDark ? 'text-white/40' : 'text-black/40')}>{deal.contactName}</p>
+              <p className={cn('text-xs truncate mb-1', 'text-[var(--app-text-secondary)]')}>{deal.company}</p>
+              <p className={cn('text-xs truncate mb-3', 'text-[var(--app-text-muted)]')}>{deal.contactName}</p>
               <div className="mb-3">
-                <span className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <span className={cn('text-lg font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   {formatCurrency(deal.value)}
                 </span>
               </div>
-              <div className={cn('flex items-center justify-between pt-2 border-t', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+              <div className={cn('flex items-center justify-between pt-2 border-t', 'border-[var(--app-border-light)]')}>
                 <div className="flex items-center gap-1.5">
                   <div className={cn(
                     'w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold',
@@ -157,13 +157,13 @@ function PipelineColumn({
                   )}>
                     {getInitials(deal.owner)}
                   </div>
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     {deal.owner.split(' ')[0]}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Clock className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
-                  <span className={cn('text-[10px]', deal.daysInStage > 15 ? 'text-amber-500 font-medium' : (isDark ? 'text-white/30' : 'text-black/30'))}>
+                  <Clock className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+                  <span className={cn('text-[10px]', deal.daysInStage > 15 ? 'text-amber-500 font-medium' : ('text-[var(--app-text-muted)]'))}>
                     {deal.daysInStage}d
                   </span>
                 </div>
@@ -251,39 +251,39 @@ export default function DealsPipelinePage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   Deals Pipeline
                 </h1>
                 <Badge variant="secondary" className={cn(
                   'text-[10px] font-semibold px-2 py-0.5 rounded-lg',
-                  isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                 )}>
                   {formatCurrency(totalPipeline)}
                 </Badge>
               </div>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                 {mockSalesDeals.length} deals · {formatCurrency(weightedPipeline)} weighted
               </p>
             </div>
             <div className="flex items-center gap-2">
               <div className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-xl border w-full sm:w-64',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
-                <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+                <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
                 <input
                   type="text"
                   placeholder="Search deals..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className={cn('bg-transparent text-sm focus:outline-none w-full',
-                    isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                    'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                   )}
                 />
               </div>
               <Button className={cn(
                 'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
                 <Plus className="w-3.5 h-3.5 mr-1.5" />
                 Add Deal
@@ -369,11 +369,11 @@ export default function DealsPipelinePage() {
               <div
                 key={stat.label}
                 className={cn('rounded-2xl border p-4 transition-colors',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <stat.icon className={cn('w-4 h-4', stat.label === 'Stuck Deals' ? 'text-amber-500' : (isDark ? 'text-white/30' : 'text-black/30'))} />
+                  <stat.icon className={cn('w-4 h-4', stat.label === 'Stuck Deals' ? 'text-amber-500' : ('text-[var(--app-text-muted)]'))} />
                   {stat.change !== 'alert' && (
                     <span className={cn('text-[10px] font-medium flex items-center gap-0.5', stat.up ? 'text-emerald-500' : 'text-red-500')}>
                       {stat.up ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
@@ -381,8 +381,8 @@ export default function DealsPipelinePage() {
                     </span>
                   )}
                 </div>
-                <p className={cn('text-lg font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{stat.label}</p>
+                <p className={cn('text-lg font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
+                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.label}</p>
               </div>
             ))}
           </motion.div>
@@ -390,7 +390,7 @@ export default function DealsPipelinePage() {
           {/* View Toggle + Stage Filters */}
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'table')}>
-              <TabsList className={cn('rounded-xl p-0.5 h-9', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+              <TabsList className={cn('rounded-xl p-0.5 h-9', 'bg-[var(--app-hover-bg)]')}>
                 <TabsTrigger value="kanban" className="rounded-lg text-xs gap-1.5">
                   <LayoutGrid className="w-3.5 h-3.5" />
                   Kanban
@@ -409,7 +409,7 @@ export default function DealsPipelinePage() {
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors',
                   stageFilter === 'all'
-                    ? isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black'
+                    ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                     : isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.04]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
                 )}
               >
@@ -459,15 +459,15 @@ export default function DealsPipelinePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
               className={cn('rounded-2xl border overflow-hidden',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                    <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                       {['Deal Name', 'Company', 'Contact', 'Value', 'Probability', 'Weighted', 'Expected Close', 'Owner', 'Stage', 'Days', 'Aging'].map(col => (
-                        <th key={col} className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <th key={col} className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                           {col}
                         </th>
                       ))}
@@ -482,15 +482,15 @@ export default function DealsPipelinePage() {
                         transition={{ delay: i * 0.03 }}
                         onClick={() => handleSelect(deal)}
                         className={cn('border-b cursor-pointer transition-colors group',
-                          isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]'
+                          'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                         )}
                       >
                         <td className="px-4 py-3">
-                          <p className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>{deal.name}</p>
+                          <p className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>{deal.name}</p>
                         </td>
-                        <td className={cn('px-4 py-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{deal.company}</td>
-                        <td className={cn('px-4 py-3 text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{deal.contactName}</td>
-                        <td className={cn('px-4 py-3 text-xs font-semibold', isDark ? 'text-white/80' : 'text-black/80')}>
+                        <td className={cn('px-4 py-3 text-xs', 'text-[var(--app-text-secondary)]')}>{deal.company}</td>
+                        <td className={cn('px-4 py-3 text-xs', 'text-[var(--app-text-muted)]')}>{deal.contactName}</td>
+                        <td className={cn('px-4 py-3 text-xs font-semibold', 'text-[var(--app-text)]')}>
                           {formatCurrency(deal.value)}
                         </td>
                         <td className="px-4 py-3">
@@ -498,20 +498,20 @@ export default function DealsPipelinePage() {
                             {deal.probability}%
                           </span>
                         </td>
-                        <td className={cn('px-4 py-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                        <td className={cn('px-4 py-3 text-xs', 'text-[var(--app-text-secondary)]')}>
                           {formatCurrency(deal.weightedValue)}
                         </td>
-                        <td className={cn('px-4 py-3 text-xs whitespace-nowrap', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <td className={cn('px-4 py-3 text-xs whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                           {new Date(deal.expectedClose).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
                             <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold',
-                              isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60'
+                              'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
                             )}>
                               {getInitials(deal.owner)}
                             </div>
-                            <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{deal.owner.split(' ')[0]}</span>
+                            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{deal.owner.split(' ')[0]}</span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
@@ -520,7 +520,7 @@ export default function DealsPipelinePage() {
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{deal.daysInStage}d</span>
+                          <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{deal.daysInStage}d</span>
                         </td>
                         <td className="px-4 py-3">
                           {deal.daysInStage > 15 ? (
@@ -529,7 +529,7 @@ export default function DealsPipelinePage() {
                               Stuck
                             </span>
                           ) : (
-                            <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>—</span>
+                            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>—</span>
                           )}
                         </td>
                       </motion.tr>
@@ -538,7 +538,7 @@ export default function DealsPipelinePage() {
                 </table>
               </div>
               {filteredDeals.length === 0 && (
-                <div className={cn('flex flex-col items-center justify-center py-16', isDark ? 'text-white/20' : 'text-black/20')}>
+                <div className={cn('flex flex-col items-center justify-center py-16', 'text-[var(--app-text-disabled)]')}>
                   <Handshake className="w-8 h-8 mb-3" />
                   <p className="text-sm">No deals match your filters</p>
                 </div>
@@ -553,14 +553,14 @@ export default function DealsPipelinePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Q2 Forecast</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Q2 Forecast</h3>
                 <Badge variant="outline" className="text-[10px]">Confidence: 76%</Badge>
               </div>
               <div className="flex items-end gap-3 mb-4">
-                <span className={cn('text-3xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <span className={cn('text-3xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   $1.26M
                 </span>
                 <span className="text-emerald-500 text-xs font-medium mb-1 flex items-center gap-0.5">
@@ -570,17 +570,17 @@ export default function DealsPipelinePage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[10px]">
-                  <span className={cn(isDark ? 'text-white/25' : 'text-black/25')}>Pessimistic</span>
-                  <span className={cn('font-medium', isDark ? 'text-white/40' : 'text-black/40')}>$885K</span>
+                  <span className={cn('text-[var(--app-text-muted)]')}>Pessimistic</span>
+                  <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>$885K</span>
                 </div>
-                <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <div className="h-full bg-gradient-to-r from-red-400/50 via-amber-400/50 to-emerald-400/50 rounded-full w-full" />
                 </div>
                 <div className="flex items-center justify-between text-[10px]">
-                  <span className={cn(isDark ? 'text-white/25' : 'text-black/25')}>Most Likely</span>
-                  <span className={cn('font-medium', isDark ? 'text-white/60' : 'text-black/60')}>$1.26M</span>
+                  <span className={cn('text-[var(--app-text-muted)]')}>Most Likely</span>
+                  <span className={cn('font-medium', 'text-[var(--app-text-secondary)]')}>$1.26M</span>
                 </div>
-                <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: '76%' }}
@@ -589,8 +589,8 @@ export default function DealsPipelinePage() {
                   />
                 </div>
                 <div className="flex items-center justify-between text-[10px]">
-                  <span className={cn(isDark ? 'text-white/25' : 'text-black/25')}>Optimistic</span>
-                  <span className={cn('font-medium', isDark ? 'text-white/40' : 'text-black/40')}>$1.64M</span>
+                  <span className={cn('text-[var(--app-text-muted)]')}>Optimistic</span>
+                  <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>$1.64M</span>
                 </div>
               </div>
             </motion.div>
@@ -600,10 +600,10 @@ export default function DealsPipelinePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Won vs Lost by Month</h3>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Won vs Lost by Month</h3>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Won</span>
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-red-400" /> Lost</span>
@@ -633,7 +633,7 @@ export default function DealsPipelinePage() {
                           />
                         </div>
                       </div>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{item.month}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
                     </div>
                   );
                 })}

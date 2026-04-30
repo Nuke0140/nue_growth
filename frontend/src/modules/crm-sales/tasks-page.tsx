@@ -129,7 +129,7 @@ export default function TasksPage() {
           <div className="flex items-center gap-3">
             <div>
               <div className="flex items-center gap-2">
-                <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                   Tasks
                 </h1>
                 {overdueCount > 0 && (
@@ -138,7 +138,7 @@ export default function TasksPage() {
                   </Badge>
                 )}
               </div>
-              <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
                 {filtered.length} tasks • {mockTasks.filter((t) => t.status === 'done').length} completed
               </p>
             </div>
@@ -146,9 +146,9 @@ export default function TasksPage() {
           <div className="flex items-center gap-2">
             <div className={cn(
               'flex items-center gap-2 px-3 py-1.5 rounded-xl border',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search tasks..."
@@ -156,7 +156,7 @@ export default function TasksPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-40',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
             </div>
@@ -164,7 +164,7 @@ export default function TasksPage() {
               size="sm"
               className={cn(
                 'rounded-xl text-xs h-9 px-4',
-                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -177,7 +177,7 @@ export default function TasksPage() {
         <div className="flex items-center gap-2 mb-4">
           <div className={cn(
             'flex items-center gap-1 p-1 rounded-xl',
-            isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+            'bg-[var(--app-hover-bg)]'
           )}>
             {[
               { key: 'list' as ViewMode, icon: LayoutList, label: 'List' },
@@ -207,7 +207,7 @@ export default function TasksPage() {
 
         {/* Task templates */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <Zap className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+          <Zap className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
           {taskTemplates.map((tmpl) => (
             <button
               key={tmpl.label}
@@ -266,12 +266,12 @@ export default function TasksPage() {
                         <span className={cn(
                           'text-sm font-medium truncate',
                           task.status === 'done' && 'line-through',
-                          isDark ? 'text-white/90' : 'text-black/90'
+                          'text-[var(--app-text)]'
                         )}>
                           {task.title}
                         </span>
                         {task.isRecurring && (
-                          <Repeat className={cn('w-3.5 h-3.5 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+                          <Repeat className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-disabled)]')} />
                         )}
                         {(task.priority === 'urgent' || task.priority === 'high') && (
                           <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-400" />
@@ -293,12 +293,12 @@ export default function TasksPage() {
                           </button>
                         )}
                         {task.dealName && (
-                          <span className={cn('text-xs flex items-center gap-1', isDark ? 'text-white/30' : 'text-black/30')}>
+                          <span className={cn('text-xs flex items-center gap-1', 'text-[var(--app-text-muted)]')}>
                             <Briefcase className="w-3 h-3" />
                             {task.dealName}
                           </span>
                         )}
-                        <span className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                           {task.assignee}
                         </span>
                       </div>
@@ -339,22 +339,22 @@ export default function TasksPage() {
                   onClick={() => setCalendarMonth(Math.max(0, calendarMonth - 1))}
                   className={cn(
                     'p-1.5 rounded-lg transition-colors',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
-                  <ChevronLeft className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                  <ChevronLeft className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 </button>
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   {monthName} {calendarYear}
                 </h3>
                 <button
                   onClick={() => setCalendarMonth(Math.min(11, calendarMonth + 1))}
                   className={cn(
                     'p-1.5 rounded-lg transition-colors',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
-                  <ChevronRight className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                  <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 </button>
               </div>
 
@@ -363,7 +363,7 @@ export default function TasksPage() {
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
                   <div key={d} className={cn(
                     'text-center text-[10px] font-medium py-2',
-                    isDark ? 'text-white/25' : 'text-black/25'
+                    'text-[var(--app-text-muted)]'
                   )}>
                     {d}
                   </div>
@@ -387,8 +387,8 @@ export default function TasksPage() {
                       <span className={cn(
                         'text-[11px] font-medium block mb-1',
                         isToday
-                          ? isDark ? 'text-white' : 'text-black'
-                          : isDark ? 'text-white/40' : 'text-black/40',
+                          ? 'text-[var(--app-text)]'
+                          : 'text-[var(--app-text-muted)]',
                         hasOverdue && 'text-red-400'
                       )}>
                         {cell.day}
@@ -409,7 +409,7 @@ export default function TasksPage() {
                         </div>
                       ))}
                       {cell.tasks.length > 2 && (
-                        <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                           +{cell.tasks.length - 2} more
                         </span>
                       )}
@@ -437,13 +437,13 @@ export default function TasksPage() {
                         'bg-blue-400': col.status === 'in_progress',
                         'bg-emerald-400': col.status === 'done',
                       })} />
-                      <span className={cn('text-xs font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                      <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                         {col.label}
                       </span>
                     </div>
                     <Badge className={cn(
                       'text-[10px] px-1.5 py-0 h-5',
-                      isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
+                      'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                     )}>
                       {kanbanTasks[col.status]?.length || 0}
                     </Badge>
@@ -465,19 +465,19 @@ export default function TasksPage() {
                             task.isOverdue && 'border-l-2 border-l-red-500'
                           )}
                         >
-                          <p className={cn('text-sm font-medium mb-2', isDark ? 'text-white/90' : 'text-black/90')}>
+                          <p className={cn('text-sm font-medium mb-2', 'text-[var(--app-text)]')}>
                             {task.title}
                           </p>
                           <div className="flex items-center justify-between">
                             <Badge className={cn('text-[10px] px-2 py-0 h-4 font-medium', pri.bg, pri.color)}>
                               {pri.label}
                             </Badge>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                               {formatDueDate(task.dueDate)}
                             </span>
                           </div>
                           {task.contactName && (
-                            <p className={cn('text-[11px] mt-2', isDark ? 'text-white/30' : 'text-black/30')}>
+                            <p className={cn('text-[11px] mt-2', 'text-[var(--app-text-muted)]')}>
                               {task.contactName}
                             </p>
                           )}

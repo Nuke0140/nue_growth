@@ -72,7 +72,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               {segment.name}
             </h3>
             <Badge
@@ -82,7 +82,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
               {segmentTypeLabels[segment.type] || segment.type}
             </Badge>
           </div>
-          <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+          <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-muted)]')}>
             {segment.description}
           </p>
         </div>
@@ -91,8 +91,8 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
       {/* Customer Count + Trend */}
       <div className="flex items-center gap-3 mb-4">
         <div className="flex items-center gap-1.5">
-          <Users className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-          <span className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+          <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+          <span className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
             {segment.customerCount}
           </span>
         </div>
@@ -123,7 +123,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
                 'flex-1 rounded-md min-h-[4px] transition-colors',
                 isLast
                   ? isDark ? 'bg-white/30' : 'bg-black/30'
-                  : isDark ? 'bg-white/[0.08]' : 'bg-black/[0.06]'
+                  : 'bg-[var(--app-hover-bg)]'
               )}
             />
           );
@@ -145,7 +145,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
                 {rule.logic}
               </Badge>
             )}
-            <span className={cn('text-[11px] font-mono', isDark ? 'text-white/50' : 'text-black/50')}>
+            <span className={cn('text-[11px] font-mono', 'text-[var(--app-text-secondary)]')}>
               {rule.field.replace(/_/g, ' ')}
             </span>
             <span className={cn(
@@ -154,7 +154,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
             )}>
               {operatorLabels[rule.operator] || rule.operator}
             </span>
-            <span className={cn('text-[11px] font-mono', isDark ? 'text-white/60' : 'text-black/60')}>
+            <span className={cn('text-[11px] font-mono', 'text-[var(--app-text-secondary)]')}>
               {typeof rule.value === 'number' && rule.value > 1000
                 ? `${(rule.value / 1000).toFixed(0)}K`
                 : String(rule.value)}
@@ -170,13 +170,13 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
             'w-3 h-3',
             segment.isSyncedToCampaign
               ? 'text-emerald-400'
-              : isDark ? 'text-white/20' : 'text-black/20'
+              : 'text-[var(--app-text-disabled)]'
           )} />
           <span className={cn(
             'text-[11px]',
             segment.isSyncedToCampaign
               ? 'text-emerald-400'
-              : isDark ? 'text-white/30' : 'text-black/30'
+              : 'text-[var(--app-text-muted)]'
           )}>
             {segment.isSyncedToCampaign
               ? `Synced ${segment.lastSynced || ''}`

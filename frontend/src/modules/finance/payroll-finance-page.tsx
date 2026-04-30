@@ -70,12 +70,12 @@ export default function PayrollFinancePage() {
   ];
 
   const kpiStats = [
-    { label: 'Total Salary Due', value: formatINR(totalSalary), icon: DollarSign, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-    { label: 'Reimbursements', value: formatINR(totalReimbursements), icon: Wallet, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-    { label: 'Incentives', value: formatINR(totalIncentives), icon: TrendingUp, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
-    { label: 'Deductions', value: formatINR(totalDeductions), icon: TrendingDown, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-    { label: 'TDS', value: formatINR(totalTDS), icon: Shield, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-    { label: 'Total Processed', value: formatINR(totalNet), icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+    { label: 'Total Salary Due', value: formatINR(totalSalary), icon: DollarSign, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+    { label: 'Reimbursements', value: formatINR(totalReimbursements), icon: Wallet, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
+    { label: 'Incentives', value: formatINR(totalIncentives), icon: TrendingUp, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]' },
+    { label: 'Deductions', value: formatINR(totalDeductions), icon: TrendingDown, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
+    { label: 'TDS', value: formatINR(totalTDS), icon: Shield, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+    { label: 'Total Processed', value: formatINR(totalNet), icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
     { label: 'Pending', value: `${pendingApprovals} entries`, icon: Clock, color: 'text-orange-400', bg: isDark ? 'bg-orange-500/10' : 'bg-orange-50' },
   ];
 
@@ -85,19 +85,19 @@ export default function PayrollFinancePage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Users className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Payroll Finance</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Payroll Finance Cockpit</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Payroll Finance Cockpit</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               Apr 2026
             </Badge>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <CheckCircle2 className="w-4 h-4" /> Process Payroll
             </Button>
           </div>
@@ -111,10 +111,10 @@ export default function PayrollFinancePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
@@ -149,12 +149,12 @@ export default function PayrollFinancePage() {
                     className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-amber-500/10 bg-amber-500/[0.02]' : 'border-amber-200/40 bg-white/60')}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                        <Briefcase className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                        <Briefcase className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                       </div>
                       <div>
                         <p className="text-sm font-medium">{rec.employee}</p>
-                        <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{rec.designation} • {rec.department}</p>
+                        <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{rec.designation} • {rec.department}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ export default function PayrollFinancePage() {
                       <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? sConf.bgDark : sConf.bgLight)}>
                         {sConf.label}
                       </Badge>
-                      <Button size="sm" className={cn('text-xs px-3 py-1.5 rounded-lg', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                      <Button size="sm" className={cn('text-xs px-3 py-1.5 rounded-lg', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                         Approve
                       </Button>
                     </div>
@@ -178,14 +178,14 @@ export default function PayrollFinancePage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <TrendingUp className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Month-over-Month Variance</span>
+              <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Month-over-Month Variance</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               Mar → Apr 2026
             </Badge>
           </div>
@@ -198,9 +198,9 @@ export default function PayrollFinancePage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.45 + i * 0.06, duration: 0.3 }}
-                  className={cn('p-4 rounded-xl border', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}
+                  className={cn('p-4 rounded-xl border', 'border-[var(--app-border-light)]')}
                 >
-                  <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{v.label}</p>
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{v.label}</p>
                   <div className="flex items-baseline gap-2 mt-1">
                     <p className="text-lg font-bold">{formatINR(v.current)}</p>
                     <span className={cn('flex items-center gap-0.5 text-[10px] font-medium', isPositive ? 'text-emerald-500' : 'text-red-500')}>
@@ -208,7 +208,7 @@ export default function PayrollFinancePage() {
                       {Math.abs(v.change)}%
                     </span>
                   </div>
-                  <p className={cn('text-[10px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>vs {formatINR(v.previous)} last month</p>
+                  <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-disabled)]')}>vs {formatINR(v.previous)} last month</p>
                 </motion.div>
               );
             })}
@@ -220,12 +220,12 @@ export default function PayrollFinancePage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Building2 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Department Payroll Breakdown</span>
+              <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Department Payroll Breakdown</span>
             </div>
           </div>
           <div className="space-y-4">
@@ -233,14 +233,14 @@ export default function PayrollFinancePage() {
               <div key={dept.department}>
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', deptColors[dept.department] || (isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'))}>
+                    <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', deptColors[dept.department] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'))}>
                       {dept.department}
                     </Badge>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{dept.count} employees</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{dept.count} employees</span>
                   </div>
                   <span className="text-sm font-semibold">{formatINR(dept.totalNet)}</span>
                 </div>
-                <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(dept.totalNet / maxDeptNet) * 100}%` }}
@@ -258,27 +258,27 @@ export default function PayrollFinancePage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Payroll Ledger</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Payroll Ledger</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {payrollRecords.length} employees
               </Badge>
             </div>
             <div className="flex items-center gap-2">
-              <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Total Net: </span>
+              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Total Net: </span>
               <span className="text-sm font-bold">{formatINR(totalNet)}</span>
             </div>
           </div>
           <div className="overflow-x-auto max-h-[450px] overflow-y-auto">
             <table className="w-full">
               <thead className={cn('sticky top-0 z-10', isDark ? 'bg-[#1a1a1a]' : 'bg-white')}>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Employee', 'Designation', 'Dept', 'Basic', 'HRA', 'Allow.', 'Reimb.', 'Incent.', 'Deduct.', 'TDS', 'PF', 'ESI', 'Gross', 'Net Pay', 'Status'].map(h => (
-                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-3 px-2 whitespace-nowrap', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-3 px-2 whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -293,12 +293,12 @@ export default function PayrollFinancePage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.65 + i * 0.04 }}
-                      className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                      className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                     >
                       <td className="py-3 px-2 text-sm font-medium whitespace-nowrap">{rec.employee}</td>
                       <td className="py-3 px-2 text-xs whitespace-nowrap">{rec.designation}</td>
                       <td className="py-3 px-2">
-                        <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', deptColors[rec.department] || (isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'))}>
+                        <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', deptColors[rec.department] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'))}>
                           {rec.department}
                         </Badge>
                       </td>
@@ -323,7 +323,7 @@ export default function PayrollFinancePage() {
                 })}
               </tbody>
               <tfoot>
-                <tr className={cn('border-t-2', isDark ? 'border-white/[0.1]' : 'border-black/[0.1]')}>
+                <tr className={cn('border-t-2', 'border-[var(--app-border-strong)]')}>
                   <td colSpan={3} className="py-3 px-2 text-xs font-bold">Total</td>
                   <td className="py-3 px-2 text-xs font-bold whitespace-nowrap">{formatINR(totalSalary)}</td>
                   <td className="py-3 px-2 text-xs font-bold whitespace-nowrap">{formatINR(payrollRecords.reduce((s, p) => s + p.hra, 0))}</td>

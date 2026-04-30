@@ -65,10 +65,10 @@ export default function SecurityAlertChip({ severity, title, description, timest
             {config.label}
           </span>
         </div>
-        <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+        <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
           {description}
         </p>
-        <span className={cn('text-[9px] mt-1 block', isDark ? 'text-white/20' : 'text-black/20')}>
+        <span className={cn('text-[9px] mt-1 block', 'text-[var(--app-text-disabled)]')}>
           {timestamp}
         </span>
       </div>

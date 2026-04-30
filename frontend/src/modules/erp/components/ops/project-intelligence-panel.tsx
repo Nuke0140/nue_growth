@@ -62,7 +62,7 @@ const HEALTH_CONFIG: Record<
   },
   good: {
     color: '#3b82f6',
-    bg: 'rgba(59,130,246,0.1)',
+    bg: 'var(--app-info-bg)',
     glow: 'rgba(59,130,246,0.3)',
     label: 'Good',
     icon: ShieldCheck,
@@ -78,7 +78,7 @@ const HEALTH_CONFIG: Record<
   },
   critical: {
     color: '#ef4444',
-    bg: 'rgba(239,68,68,0.12)',
+    bg: 'var(--app-danger-bg)',
     glow: 'rgba(239,68,68,0.4)',
     label: 'Critical',
     icon: ShieldX,
@@ -169,8 +169,8 @@ function BudgetBar({ budget, actualSpend }: { budget: number; actualSpend: numbe
     <div>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <DollarSign className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-          <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+          <DollarSign className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+          <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
             Budget vs Actual
           </span>
         </div>
@@ -188,7 +188,7 @@ function BudgetBar({ budget, actualSpend }: { budget: number; actualSpend: numbe
       {/* Budget bar */}
       <div
         className="h-3 rounded-full overflow-hidden"
-        style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+        style={{ backgroundColor: 'var(--app-hover-bg)' }}
       >
         <motion.div
           initial={{ width: 0 }}
@@ -205,15 +205,15 @@ function BudgetBar({ budget, actualSpend }: { budget: number; actualSpend: numbe
       {/* Labels */}
       <div className="flex items-center justify-between mt-2">
         <div>
-          <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+          <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
             Budget
           </span>
-          <p className="text-xs font-semibold" style={{ color: 'var(--ops-text)' }}>
+          <p className="text-xs font-semibold" style={{ color: 'var(--app-text)' }}>
             {formatCurrency(budget)}
           </p>
         </div>
         <div className="text-right">
-          <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+          <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
             Actual Spend
           </span>
           <p className="text-xs font-semibold" style={{ color: barColor }}>
@@ -253,8 +253,8 @@ function DelayPrediction({
     <div>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-          <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+          <Calendar className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+          <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
             Timeline
           </span>
         </div>
@@ -281,7 +281,7 @@ function DelayPrediction({
         {/* Track */}
         <div
           className="h-2 rounded-full overflow-hidden"
-          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+          style={{ backgroundColor: 'var(--app-hover-bg)' }}
         >
           <motion.div
             initial={{ width: 0 }}
@@ -337,7 +337,7 @@ function DelayPrediction({
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backgroundColor: 'var(--app-border-strong)',
                       border: '1.5px solid rgba(255,255,255,0.2)',
                     }}
                   />
@@ -350,7 +350,7 @@ function DelayPrediction({
 
       {/* Progress label */}
       <div className="flex items-center justify-between mt-1">
-        <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+        <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
           Progress
         </span>
         <span className="text-[10px] font-semibold" style={{ color: isOnTime ? '#22c55e' : '#f59e0b' }}>
@@ -366,12 +366,12 @@ function DelayPrediction({
           className="mt-3 p-2.5 rounded-lg flex items-center gap-3"
           style={{
             backgroundColor: 'rgba(239,68,68,0.06)',
-            border: '1px solid rgba(239,68,68,0.15)',
+            border: '1px solid var(--app-danger-bg)',
           }}
         >
           <div
             className="flex items-center justify-center w-8 h-8 rounded-lg"
-            style={{ backgroundColor: 'rgba(239,68,68,0.12)' }}
+            style={{ backgroundColor: 'var(--app-danger-bg)' }}
           >
             <AlertCircle className="w-4 h-4" style={{ color: '#ef4444' }} />
           </div>
@@ -379,7 +379,7 @@ function DelayPrediction({
             <p className="text-[11px] font-medium" style={{ color: '#ef4444' }}>
               Delay Prediction
             </p>
-            <p className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+            <p className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
               AI predicts {delayDays} day delay. Consider resource reallocation.
             </p>
           </div>
@@ -396,15 +396,15 @@ function RiskFactors({ risks }: { risks: string[] }) {
     <div>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-          <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+          <AlertTriangle className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+          <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
             Risk Factors
           </span>
         </div>
         <span
           className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
           style={{
-            backgroundColor: 'rgba(239,68,68,0.1)',
+            backgroundColor: 'var(--app-danger-bg)',
             color: '#ef4444',
           }}
         >
@@ -421,9 +421,9 @@ function RiskFactors({ risks }: { risks: string[] }) {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors hover:bg-[var(--ops-hover-bg)] w-full"
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors hover:bg-[var(--app-hover-bg)] w-full"
               style={{
-                border: '1px solid var(--ops-border)',
+                border: '1px solid var(--app-border)',
               }}
             >
               <div
@@ -437,12 +437,12 @@ function RiskFactors({ risks }: { risks: string[] }) {
                       : '0 0 6px rgba(245,158,11,0.4)',
                 }}
               />
-              <span className="text-[11px] flex-1" style={{ color: 'var(--ops-text-secondary)' }}>
+              <span className="text-[11px] flex-1" style={{ color: 'var(--app-text-secondary)' }}>
                 {risk}
               </span>
               <ChevronRight
                 className="w-3 h-3 shrink-0"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               />
             </motion.button>
           );
@@ -460,11 +460,11 @@ export function ProjectIntelligencePanel({
   const config = HEALTH_CONFIG[data.health] || HEALTH_CONFIG.good;
 
   return (
-    <div className="ops-card p-0 overflow-hidden">
+    <div className="app-card p-0 overflow-hidden">
       {/* Header */}
       <div
         className="flex items-center gap-3 px-5 py-4"
-        style={{ borderBottom: '1px solid var(--ops-border)' }}
+        style={{ borderBottom: '1px solid var(--app-border)' }}
       >
         <div
           className="flex items-center justify-center w-9 h-9 rounded-xl"
@@ -473,16 +473,16 @@ export function ProjectIntelligencePanel({
           <Activity className="w-4.5 h-4.5" style={{ color: config.color }} />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--ops-text)' }}>
+          <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--app-text)' }}>
             Project Intelligence
           </h3>
-          <p className="text-[11px] truncate" style={{ color: 'var(--ops-text-muted)' }}>
+          <p className="text-[11px] truncate" style={{ color: 'var(--app-text-muted)' }}>
             {data.name}
           </p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          <Users className="w-3.5 h-3.5" style={{ color: 'var(--ops-text-muted)' }} />
-          <span className="text-[11px]" style={{ color: 'var(--ops-text-secondary)' }}>
+          <Users className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+          <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>
             {data.teamSize} members
           </span>
         </div>

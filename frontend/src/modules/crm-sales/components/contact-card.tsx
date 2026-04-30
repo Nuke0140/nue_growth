@@ -42,9 +42,9 @@ function getHealthColor(score: number) {
 }
 
 function getHealthColorFg(score: number, isDark: boolean) {
-  if (score > 75) return isDark ? 'text-emerald-400' : 'text-emerald-600';
+  if (score > 75) return 'text-[var(--app-success)]';
   if (score > 50) return isDark ? 'text-yellow-400' : 'text-yellow-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+  return 'text-[var(--app-danger)]';
 }
 
 function getHealthLabel(score: number) {
@@ -70,12 +70,12 @@ function getStageColor(stage: string, isDark: boolean) {
   switch (stage) {
     case 'lead': return isDark ? 'bg-blue-500/15 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200';
     case 'mql': return isDark ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200';
-    case 'sql': return isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
-    case 'opportunity': return isDark ? 'bg-orange-500/15 text-orange-300 border-orange-500/20' : 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'customer': return isDark ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+    case 'sql': return 'bg-[var(--app-warning-bg)] text-[var(--app-warning)] border-[var(--app-warning)]/30';
+    case 'opportunity': return 'bg-[var(--app-accent-light)] text-[var(--app-accent)] border-[var(--app-accent)]/30';
+    case 'customer': return 'bg-[var(--app-success-bg)] text-[var(--app-success)] border-[var(--app-success)]/30';
     case 'retained': return isDark ? 'bg-teal-500/15 text-teal-300 border-teal-500/20' : 'bg-teal-50 text-teal-700 border-teal-200';
     case 'advocate': return isDark ? 'bg-pink-500/15 text-pink-300 border-pink-500/20' : 'bg-pink-50 text-pink-700 border-pink-200';
-    default: return isDark ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/20' : 'bg-zinc-50 text-zinc-700 border-zinc-200';
+    default: return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
   }
 }
 
@@ -195,10 +195,10 @@ export default function ContactCard({ contact }: ContactCardProps) {
 
         <div className="flex-1 min-w-0 pr-16">
           <h3 className="text-sm font-semibold truncate">{fullName}</h3>
-          <p className={cn('text-xs truncate', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className={cn('text-xs truncate', 'text-[var(--app-text-secondary)]')}>
             {contact.title}{contact.company ? ` at ${contact.company}` : ''}
           </p>
-          <p className={cn('text-xs truncate mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+          <p className={cn('text-xs truncate mt-0.5', 'text-[var(--app-text-muted)]')}>
             {contact.owner}
           </p>
         </div>
@@ -226,7 +226,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
             {contact.healthScore}%
           </span>
         </div>
-        <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+        <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
           <div
             className={cn('h-full rounded-full transition-all duration-500', getHealthColor(contact.healthScore))}
             style={{ width: `${contact.healthScore}%` }}
@@ -253,7 +253,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
               key={tag}
               className={cn(
                 'px-1.5 py-0.5 rounded text-[10px] font-medium',
-                isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+                'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
               )}
             >
               {tag}
@@ -262,7 +262,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
           {extraTags > 0 && (
             <span className={cn(
               'px-1.5 py-0.5 rounded text-[10px] font-medium',
-              isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               +{extraTags}
             </span>
@@ -273,9 +273,9 @@ export default function ContactCard({ contact }: ContactCardProps) {
       {/* Last Interaction */}
       <div className={cn(
         'pt-2 border-t',
-        isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+        'border-[var(--app-border-light)]'
       )}>
-        <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+        <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
           Last active: {contact.lastInteraction}
         </p>
       </div>

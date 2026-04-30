@@ -42,7 +42,7 @@ export default function RenewalTimeline({ renewals }: RenewalTimelineProps) {
       transition={{ duration: 0.3 }}
       className={cn(
         'rounded-2xl border p-5 overflow-x-auto',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       <div className="flex items-center gap-3 pb-4 min-w-max">
@@ -62,12 +62,12 @@ export default function RenewalTimeline({ renewals }: RenewalTimelineProps) {
                   <p className="text-xs font-semibold truncate mb-1">{item.client}</p>
                   <p className={cn('text-[10px] font-medium mb-2', config.textColor)}>{config.label}</p>
                   <p className="text-sm font-bold">{formatValue(item.contractValue)}</p>
-                  <p className={cn('text-[10px] mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                     {item.probability}% likely
                   </p>
                 </motion.div>
                 <div className={cn('w-2.5 h-2.5 rounded-full', config.dot)} />
-                <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                   {new Date(item.renewalDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
                 </p>
               </div>

@@ -73,12 +73,12 @@ export default function EnvironmentConfigPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Server className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Server className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Environment Config</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage deployment environments</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage deployment environments</p>
             </div>
           </div>
         </motion.div>
@@ -99,7 +99,7 @@ export default function EnvironmentConfigPage() {
                 variants={fadeUp}
                 className={cn(
                   'rounded-2xl border p-5',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Header */}
@@ -115,11 +115,11 @@ export default function EnvironmentConfigPage() {
 
                 {/* API Base URL */}
                 <div className="mb-4">
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>
                     API Base URL
                   </label>
                   <div className="relative">
-                    <Globe className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                    <Globe className={cn('absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                     <input
                       type="text"
                       value={apiUrls[env.id] ?? ''}
@@ -136,10 +136,10 @@ export default function EnvironmentConfigPage() {
 
                 {/* Debug Mode + Log Verbosity */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
-                  <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                  <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
-                        <Bug className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+                        <Bug className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                         <span className="text-[10px] font-semibold">Debug</span>
                       </div>
                       <span className={cn('h-2 w-2 rounded-full', debugModes[env.id] ? 'bg-amber-400' : isDark ? 'bg-zinc-600' : 'bg-zinc-300')} />
@@ -155,9 +155,9 @@ export default function EnvironmentConfigPage() {
                     </button>
                   </div>
 
-                  <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                  <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Terminal className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} />
+                      <Terminal className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                       <span className="text-[10px] font-semibold">Verbosity</span>
                     </div>
                     <div className="relative">
@@ -175,14 +175,14 @@ export default function EnvironmentConfigPage() {
                           <option key={level} value={level}>{level}</option>
                         ))}
                       </select>
-                      <ChevronDown className={cn('absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none', isDark ? 'text-white/30' : 'text-black/30')} />
+                      <ChevronDown className={cn('absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none', 'text-[var(--app-text-muted)]')} />
                     </div>
                   </div>
                 </div>
 
                 {/* Feature Overrides */}
                 <div className="mb-4">
-                  <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                     Feature Overrides
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -209,7 +209,7 @@ export default function EnvironmentConfigPage() {
 
                 {/* Last Deployed */}
                 {env.lastDeployed && (
-                  <div className={cn('text-[10px] mb-4', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <div className={cn('text-[10px] mb-4', 'text-[var(--app-text-muted)]')}>
                     Last Deployed: {new Date(env.lastDeployed).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </div>
                 )}
@@ -249,12 +249,12 @@ export default function EnvironmentConfigPage() {
           transition={{ delay: 0.3, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Layers className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Global Config</span>
+            <Layers className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Global Config</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Default environment */}
-            <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-2">Default Environment</p>
               <div className="relative">
                 <select
@@ -271,12 +271,12 @@ export default function EnvironmentConfigPage() {
                     <option key={e.id} value={e.type}>{e.name}</option>
                   ))}
                 </select>
-                <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none', isDark ? 'text-white/30' : 'text-black/30')} />
+                <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none', 'text-[var(--app-text-muted)]')} />
               </div>
             </div>
 
             {/* Deployment checklist */}
-            <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-3">Deployment Checklist</p>
               <div className="space-y-2">
                 {deploymentChecklist.map((item, i) => (
@@ -286,14 +286,14 @@ export default function EnvironmentConfigPage() {
                     ) : (
                       <XCircle className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                     )}
-                    <span className={cn('text-[11px]', isDark ? 'text-white/60' : 'text-black/60')}>{item.label}</span>
+                    <span className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>{item.label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Health check */}
-            <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <p className="text-xs font-semibold mb-3">Health Check</p>
               <div className="space-y-2">
                 {[
@@ -302,8 +302,8 @@ export default function EnvironmentConfigPage() {
                   { service: 'Cache', status: 'healthy' },
                 ].map((h) => (
                   <div key={h.service} className="flex items-center justify-between">
-                    <span className={cn('text-[11px]', isDark ? 'text-white/60' : 'text-black/60')}>{h.service}</span>
-                    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+                    <span className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>{h.service}</span>
+                    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                       {h.status}
                     </span>

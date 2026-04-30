@@ -47,16 +47,16 @@ export default function SettingsNavCard({
           <div
             className={cn(
               'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+              'bg-[var(--app-hover-bg)]',
             )}
           >
             <Icon
-              className={cn('h-5 w-5', isDark ? 'text-zinc-400' : 'text-zinc-500')}
+              className={cn('h-5 w-5', 'text-[var(--app-text-muted)]')}
             />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <p className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+              <p className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                 {title}
               </p>
               {badge && (
@@ -68,12 +68,12 @@ export default function SettingsNavCard({
                 </span>
               )}
             </div>
-            <p className={cn('text-xs mt-1 line-clamp-2', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-xs mt-1 line-clamp-2', 'text-[var(--app-text-muted)]')}>
               {description}
             </p>
           </div>
         </div>
-        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-muted)]')} />
       </div>
     </motion.div>
   );

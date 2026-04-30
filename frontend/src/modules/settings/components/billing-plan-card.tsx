@@ -67,7 +67,7 @@ export default function BillingPlanCard({
 
       <div className="mb-4">
         <span className="text-3xl font-bold tracking-tight">₹{price.toLocaleString('en-IN')}</span>
-        <span className={cn('text-sm ml-1', isDark ? 'text-white/40' : 'text-black/40')}>/month</span>
+        <span className={cn('text-sm ml-1', 'text-[var(--app-text-muted)]')}>/month</span>
       </div>
 
       <div className="space-y-2 flex-1 mb-5">
@@ -76,13 +76,13 @@ export default function BillingPlanCard({
             <Check
               className={cn(
                 'w-3.5 h-3.5 mt-0.5 shrink-0',
-                highlighted ? 'text-violet-400' : isDark ? 'text-white/30' : 'text-black/30'
+                highlighted ? 'text-violet-400' : 'text-[var(--app-text-muted)]'
               )}
             />
             <span
               className={cn(
                 'text-xs leading-relaxed',
-                isDark ? 'text-white/60' : 'text-black/60'
+                'text-[var(--app-text-secondary)]'
               )}
             >
               {feature}
@@ -107,7 +107,7 @@ export default function BillingPlanCard({
           onClick={onUpgrade}
           className={cn(
             'w-full rounded-xl text-sm font-medium transition-colors',
-            isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+            'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
           )}
         >
           {price < 24999 ? 'Upgrade' : 'Contact Sales'}

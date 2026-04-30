@@ -59,13 +59,13 @@ export default function ConditionsPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <GitBranch className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <GitBranch className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Conditions</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Build smart automation rules
               </p>
             </div>
@@ -83,12 +83,12 @@ export default function ConditionsPage() {
         <div>
           <div className="flex items-center gap-2 mb-4">
             <GitBranch className={cn('w-4 h-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Active Rules
             </span>
             <span className={cn(
               'rounded-full px-2 py-0.5 text-[10px] font-semibold',
-              isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
+              'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
             )}>
               {conditionRules.length}
             </span>
@@ -115,19 +115,19 @@ export default function ConditionsPage() {
           transition={{ delay: 0.3, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Code2 className={cn('w-4 h-4', isDark ? 'text-violet-400' : 'text-violet-500')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <Code2 className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Visual Rule Builder
             </span>
           </div>
 
           <div className={cn(
             'rounded-2xl border p-5 space-y-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             {/* Conditions */}
             <div className="space-y-3">
-              <span className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+              <span className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 IF Conditions
               </span>
               {builderConditions.map((cond, i) => (
@@ -210,10 +210,10 @@ export default function ConditionsPage() {
             </div>
 
             {/* Then / Else Actions */}
-            <div className={cn('border-t pt-4 space-y-3', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+            <div className={cn('border-t pt-4 space-y-3', 'border-[var(--app-border)]')}>
               <div className="flex items-center gap-2">
-                <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
-                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-emerald-400' : 'text-emerald-500')}>
+                <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-success)]')} />
+                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-success)]')}>
                   THEN
                 </span>
                 <input
@@ -230,8 +230,8 @@ export default function ConditionsPage() {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <ArrowRight className={cn('w-3.5 h-3.5', isDark ? 'text-red-400' : 'text-red-500')} />
-                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-red-400' : 'text-red-500')}>
+                <ArrowRight className={cn('w-3.5 h-3.5', 'text-[var(--app-danger)]')} />
+                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-danger)]')}>
                   ELSE
                 </span>
                 <input
@@ -254,28 +254,28 @@ export default function ConditionsPage() {
               'rounded-xl p-3',
               isDark ? 'bg-white/[0.02] border border-white/[0.06]' : 'bg-black/[0.02] border border-black/[0.06]',
             )}>
-              <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+              <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 Rule Preview
               </span>
-              <p className={cn('text-xs mt-1.5 font-mono leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
+              <p className={cn('text-xs mt-1.5 font-mono leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                 <span className={cn(isDark ? 'text-violet-300' : 'text-violet-600')}>IF</span>{' '}
                 {builderConditions.map((c, i) => (
                   <span key={i}>
                     {i > 0 && (
                       <span className={cn('mx-1 font-bold', isDark ? 'text-violet-300' : 'text-violet-600')}>{c.logic}</span>
                     )}
-                    <span className={cn('text-emerald-300 dark:text-emerald-300', isDark ? 'text-emerald-300' : 'text-emerald-600')}>
+                    <span className={cn('text-emerald-300 dark:text-emerald-300', 'text-[var(--app-success)]')}>
                       {c.field}
                     </span>{' '}
                     <span className="opacity-50">{c.operator}</span>{' '}
-                    <span className={cn(isDark ? 'text-amber-300' : 'text-amber-600')}>&quot;{c.value || '...'}&quot;</span>
+                    <span className={cn('text-[var(--app-warning)]')}>&quot;{c.value || '...'}&quot;</span>
                   </span>
                 ))}{' '}
-                <span className={cn(isDark ? 'text-emerald-300' : 'text-emerald-600')}>→</span>{' '}
+                <span className={cn('text-[var(--app-success)]')}>→</span>{' '}
                 <span className={cn(isDark ? 'text-sky-300' : 'text-sky-600')}>{thenAction || '...'}</span>
                 {elseAction && (
                   <span>
-                    {' '}<span className={cn(isDark ? 'text-red-300' : 'text-red-600')}>ELSE</span>{' '}
+                    {' '}<span className={cn('text-[var(--app-danger)]')}>ELSE</span>{' '}
                     <span className={cn(isDark ? 'text-sky-300' : 'text-sky-600')}>{elseAction}</span>
                   </span>
                 )}
@@ -285,12 +285,12 @@ export default function ConditionsPage() {
             {/* Example Rule */}
             <div className={cn(
               'rounded-xl p-3 border border-dashed',
-              isDark ? 'border-white/[0.08]' : 'border-black/[0.08]',
+              'border-[var(--app-border)]',
             )}>
-              <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/25' : 'text-black/25')}>
+              <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 Example Rule
               </span>
-              <p className={cn('text-xs mt-1 font-mono leading-relaxed', isDark ? 'text-white/35' : 'text-black/35')}>
+              <p className={cn('text-xs mt-1 font-mono leading-relaxed', 'text-[var(--app-text-muted)]')}>
                 <span className={cn(isDark ? 'text-violet-300/60' : 'text-violet-600/60')}>IF</span>{' '}
                 <span>lead.score</span>{' '}
                 <span className="opacity-40">&gt;</span>{' '}

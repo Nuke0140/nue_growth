@@ -94,16 +94,16 @@ export default function NotificationsPreferencesPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <BellRing className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <BellRing className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Notification Preferences</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Configure how you receive notifications</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Configure how you receive notifications</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
               {enabledPrefs}/{totalPrefs} active
             </span>
             <Button
@@ -112,7 +112,7 @@ export default function NotificationsPreferencesPage() {
                 'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
                 saved
                   ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
-                  : isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                  : 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               {saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
@@ -154,15 +154,15 @@ export default function NotificationsPreferencesPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: catIdx * 0.06, duration: 0.35 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-1">
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>{category}</h3>
-              <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{category}</h3>
+              <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {prefs.filter((p) => preferences.get(p.id)).length}/{prefs.length} active
               </Badge>
             </div>
-            <p className={cn('text-[11px] mb-4', isDark ? 'text-white/25' : 'text-black/25')}>
+            <p className={cn('text-[11px] mb-4', 'text-[var(--app-text-muted)]')}>
               {categoryDescriptions[category]}
             </p>
             <div className="space-y-2">
@@ -175,7 +175,7 @@ export default function NotificationsPreferencesPage() {
                     key={pref.id}
                     className={cn(
                       'flex items-center justify-between p-3 rounded-xl border transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
+                      'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -183,7 +183,7 @@ export default function NotificationsPreferencesPage() {
                         onClick={() => togglePreference(pref.id)}
                         className={cn(
                           'relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0',
-                          isEnabled ? 'bg-emerald-500' : isDark ? 'bg-white/[0.15]' : 'bg-black/[0.15]'
+                          isEnabled ? 'bg-emerald-500' : 'bg-[var(--app-hover-bg)]'
                         )}
                       >
                         <motion.div
@@ -193,7 +193,7 @@ export default function NotificationsPreferencesPage() {
                         />
                       </button>
                       <div className="min-w-0 flex-1">
-                        <p className={cn('text-xs font-medium truncate', isEnabled ? '' : isDark ? 'text-white/40' : 'text-black/40')}>
+                        <p className={cn('text-xs font-medium truncate', isEnabled ? '' : 'text-[var(--app-text-muted)]')}>
                           {pref.description}
                         </p>
                       </div>
@@ -213,9 +213,9 @@ export default function NotificationsPreferencesPage() {
         ))}
 
         {filteredPrefs.length === 0 && (
-          <div className={cn('text-center py-12 rounded-2xl border', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
-            <Bell className={cn('w-8 h-8 mx-auto mb-3', isDark ? 'text-white/10' : 'text-black/10')} />
-            <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No notifications configured for this channel</p>
+          <div className={cn('text-center py-12 rounded-2xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+            <Bell className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
+            <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No notifications configured for this channel</p>
           </div>
         )}
 
@@ -224,13 +224,13 @@ export default function NotificationsPreferencesPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
-          <h3 className={cn('text-sm font-semibold mb-1 flex items-center gap-2', isDark ? 'text-white/70' : 'text-black/70')}>
-            <Send className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+          <h3 className={cn('text-sm font-semibold mb-1 flex items-center gap-2', 'text-[var(--app-text)]')}>
+            <Send className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             Send Test Notification
           </h3>
-          <p className={cn('text-[11px] mb-4', isDark ? 'text-white/25' : 'text-black/25')}>
+          <p className={cn('text-[11px] mb-4', 'text-[var(--app-text-muted)]')}>
             Verify your notification channels are working correctly
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
@@ -253,7 +253,7 @@ export default function NotificationsPreferencesPage() {
                   <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? chColor.dark : chColor.light)}>
                     {isTested ? <Check className="w-4 h-4 text-emerald-500" /> : <Icon className="w-4 h-4" />}
                   </div>
-                  <span className={cn('text-[10px] font-medium capitalize', isTested ? 'text-emerald-500' : isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className={cn('text-[10px] font-medium capitalize', isTested ? 'text-emerald-500' : 'text-[var(--app-text-secondary)]')}>
                     {isTested ? 'Sent!' : channel === 'in-app' ? 'In-App' : channel}
                   </span>
                 </button>

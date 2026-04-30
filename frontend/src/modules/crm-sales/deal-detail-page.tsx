@@ -34,11 +34,11 @@ const STAGES: DealStage[] = ['new', 'qualified', 'demo', 'proposal', 'negotiatio
 
 function getStageColor(stage: DealStage, isDark: boolean): string {
   const map: Record<DealStage, string> = {
-    new: isDark ? 'bg-white/[0.06] text-white/60' : 'bg-black/[0.06] text-black/60',
-    qualified: isDark ? 'bg-blue-500/15 text-blue-300' : 'bg-blue-50 text-blue-700',
+    new: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
+    qualified: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
     demo: isDark ? 'bg-purple-500/15 text-purple-300' : 'bg-purple-50 text-purple-700',
     proposal: isDark ? 'bg-amber-500/15 text-amber-300' : 'bg-amber-50 text-amber-700',
-    negotiation: isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-50 text-emerald-700',
+    negotiation: 'bg-[var(--app-success-bg)] text-[var(--app-success)]',
     won: isDark ? 'bg-emerald-500/20 text-emerald-300' : 'bg-emerald-100 text-emerald-700',
     lost: isDark ? 'bg-red-500/15 text-red-300' : 'bg-red-50 text-red-700',
   };
@@ -67,7 +67,7 @@ export default function DealDetailPage() {
 
   if (!deal) {
     return (
-      <div className={cn('flex items-center justify-center h-full', isDark ? 'text-white/30' : 'text-black/30')}>
+      <div className={cn('flex items-center justify-center h-full', 'text-[var(--app-text-muted)]')}>
         <p className="text-sm">Deal not found</p>
       </div>
     );
@@ -95,7 +95,7 @@ export default function DealDetailPage() {
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   {deal.name}
                 </h1>
                 <span className={cn(
@@ -106,15 +106,15 @@ export default function DealDetailPage() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-xs">
-                <span className={cn('flex items-center gap-1.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
                   <Building2 className="w-3.5 h-3.5" />
                   {deal.company}
                 </span>
-                <span className={cn('flex items-center gap-1.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
                   <User className="w-3.5 h-3.5" />
                   {deal.contactName}
                 </span>
-                <span className={cn('flex items-center gap-1.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('flex items-center gap-1.5', 'text-[var(--app-text-muted)]')}>
                   <Calendar className="w-3.5 h-3.5" />
                   Expected Close: {new Date(deal.expectedClose).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 </span>
@@ -123,10 +123,10 @@ export default function DealDetailPage() {
 
             {/* Value Display */}
             <div className="text-right">
-              <p className={cn('text-3xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+              <p className={cn('text-3xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 {formatCurrency(deal.value)}
               </p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 Weighted: {formatCurrency(deal.weightedValue)}
               </p>
             </div>
@@ -135,15 +135,15 @@ export default function DealDetailPage() {
           {/* Probability Bar */}
           <div className={cn(
             'rounded-2xl border p-4 mt-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
             <div className="flex items-center justify-between mb-2">
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Win Probability</span>
-              <span className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-black')}>{deal.probability}%</span>
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Win Probability</span>
+              <span className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>{deal.probability}%</span>
             </div>
             <Progress
               value={deal.probability}
-              className={cn('h-2', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}
+              className={cn('h-2', 'bg-[var(--app-hover-bg)]')}
             />
             {/* Stage Pipeline */}
             <div className="flex items-center gap-1 mt-4">
@@ -153,14 +153,14 @@ export default function DealDetailPage() {
                     'h-1.5 flex-1 rounded-full transition-colors',
                     i <= currentStageIndex
                       ? isDark ? 'bg-white/20' : 'bg-black/20'
-                      : isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                      : 'bg-[var(--app-hover-bg)]'
                   )} />
                   {i < STAGES.length - 1 && (
                     <ArrowRight className={cn(
                       'w-2.5 h-2.5 shrink-0',
                       i < currentStageIndex
-                        ? isDark ? 'text-white/30' : 'text-black/30'
-                        : isDark ? 'text-white/10' : 'text-black/10'
+                        ? 'text-[var(--app-text-muted)]'
+                        : 'text-[var(--app-text-disabled)]'
                     )} />
                   )}
                 </div>
@@ -171,8 +171,8 @@ export default function DealDetailPage() {
                 <span key={stage} className={cn(
                   'text-[8px] flex-1 text-center',
                   idx <= currentStageIndex
-                    ? isDark ? 'text-white/40' : 'text-black/40'
-                    : isDark ? 'text-white/15' : 'text-black/15'
+                    ? 'text-[var(--app-text-muted)]'
+                    : 'text-[var(--app-text-disabled)]'
                 )}>
                   {STAGE_LABELS[stage].charAt(0)}
                 </span>
@@ -192,34 +192,34 @@ export default function DealDetailPage() {
           >
             <div className={cn(
               'rounded-2xl border overflow-hidden',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <div className={cn('p-4 border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>Activity History</h3>
+              <div className={cn('p-4 border-b', 'border-[var(--app-border)]')}>
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Activity History</h3>
               </div>
               {activities.length > 0 ? (
-                <div className="divide-y" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
+                <div className="divide-y" style={{ borderColor: 'var(--app-hover-bg)' }}>
                   {activities.map((activity, i) => (
                     <motion.div
                       key={activity.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: i * 0.05 }}
-                      className={cn('p-4 transition-colors', isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.01]')}
+                      className={cn('p-4 transition-colors', 'hover:bg-[var(--app-hover-bg)]')}
                     >
                       <div className="flex items-start gap-3">
                         <div className={cn(
                           'w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0',
-                          isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                          'bg-[var(--app-hover-bg)]'
                         )}>
                           {ACTIVITY_ICONS[activity.type] || '📋'}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>
+                          <p className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>
                             {activity.subject}
                           </p>
                           {activity.description && (
-                            <p className={cn('text-xs mt-0.5 line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                            <p className={cn('text-xs mt-0.5 line-clamp-2', 'text-[var(--app-text-muted)]')}>
                               {activity.description}
                             </p>
                           )}
@@ -228,7 +228,7 @@ export default function DealDetailPage() {
                               {activity.outcome}
                             </p>
                           )}
-                          <div className={cn('flex items-center gap-2 mt-1.5 text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                          <div className={cn('flex items-center gap-2 mt-1.5 text-[10px]', 'text-[var(--app-text-disabled)]')}>
                             <span>{activity.userName}</span>
                             <span>·</span>
                             <span>{new Date(activity.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
@@ -240,7 +240,7 @@ export default function DealDetailPage() {
                   ))}
                 </div>
               ) : (
-                <div className={cn('flex flex-col items-center justify-center py-12', isDark ? 'text-white/20' : 'text-black/20')}>
+                <div className={cn('flex flex-col items-center justify-center py-12', 'text-[var(--app-text-disabled)]')}>
                   <Clock className="w-8 h-8 mb-2" />
                   <p className="text-xs">No activity recorded yet</p>
                 </div>
@@ -258,9 +258,9 @@ export default function DealDetailPage() {
             {/* Deal Info Cards */}
             <div className={cn(
               'rounded-2xl border p-4 space-y-3',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <h3 className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+              <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 Deal Details
               </h3>
               {[
@@ -273,18 +273,18 @@ export default function DealDetailPage() {
                 <div key={label} className="flex items-center gap-3">
                   <div className={cn(
                     'w-7 h-7 rounded-lg flex items-center justify-center shrink-0',
-                    isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                    'bg-[var(--app-hover-bg)]'
                   )}>
                     <Icon className={cn(
                       'w-3.5 h-3.5',
-                      alert ? 'text-amber-500' : (isDark ? 'text-white/30' : 'text-black/30')
+                      alert ? 'text-amber-500' : ('text-[var(--app-text-muted)]')
                     )} />
                   </div>
                   <div className="flex-1">
-                    <span className={cn('text-[10px] uppercase tracking-wider block', isDark ? 'text-white/20' : 'text-black/20')}>{label}</span>
+                    <span className={cn('text-[10px] uppercase tracking-wider block', 'text-[var(--app-text-disabled)]')}>{label}</span>
                     <span className={cn(
                       'text-xs font-medium',
-                      alert ? 'text-amber-500' : (isDark ? 'text-white/70' : 'text-black/70')
+                      alert ? 'text-amber-500' : ('text-[var(--app-text)]')
                     )}>{value}</span>
                   </div>
                   {alert && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
@@ -295,9 +295,9 @@ export default function DealDetailPage() {
             {/* Contact Info */}
             <div className={cn(
               'rounded-2xl border p-4',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', isDark ? 'text-white/30' : 'text-black/30')}>
+              <h3 className={cn('text-xs font-semibold uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
                 Linked Contact
               </h3>
               <div className={cn(
@@ -306,13 +306,13 @@ export default function DealDetailPage() {
               )}>
                 <div className={cn(
                   'w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold',
-                  isDark ? 'bg-white/[0.06] text-white' : 'bg-black/[0.06] text-black'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                 )}>
                   {deal.contactName.split(' ').map(n => n[0]).join('')}
                 </div>
                 <div>
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-black')}>{deal.contactName}</p>
-                  <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{deal.company}</p>
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>{deal.contactName}</p>
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{deal.company}</p>
                 </div>
               </div>
             </div>
@@ -320,37 +320,37 @@ export default function DealDetailPage() {
             {/* AI Insights */}
             <div className={cn(
               'rounded-2xl border p-4 space-y-4',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
               <div className="flex items-center gap-2">
                 <BrainCircuit className="w-4 h-4 text-purple-400" />
-                <h3 className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                <h3 className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   AI Insights
                 </h3>
               </div>
 
               {/* Win Probability Analysis */}
-              <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
-                <span className={cn('text-[10px] uppercase tracking-wider block mb-2', isDark ? 'text-white/25' : 'text-black/25')}>
+              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+                <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Win Probability
                 </span>
                 <div className="flex items-end gap-2 mb-2">
-                  <span className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+                  <span className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                     {deal.probability > 0 ? Math.round(deal.probability * 1.12) : 0}%
                   </span>
-                  <span className={cn('text-[10px] mb-1', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
+                  <span className={cn('text-[10px] mb-1', 'text-[var(--app-success)]')}>
                     AI adjusted
                   </span>
                 </div>
                 <Progress
                   value={deal.probability > 0 ? deal.probability * 1.12 : 0}
-                  className={cn('h-1.5', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}
+                  className={cn('h-1.5', 'bg-[var(--app-hover-bg)]')}
                 />
               </div>
 
               {/* Recommended Next Steps */}
-              <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
-                <span className={cn('text-[10px] uppercase tracking-wider block mb-2', isDark ? 'text-white/25' : 'text-black/25')}>
+              <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+                <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                   Recommended Next Steps
                 </span>
                 <div className="space-y-2">
@@ -358,11 +358,11 @@ export default function DealDetailPage() {
                     <>
                       <div className="flex items-start gap-2">
                         <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Schedule pricing discussion meeting</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Schedule pricing discussion meeting</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Handshake className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Prepare negotiation talking points</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Prepare negotiation talking points</span>
                       </div>
                     </>
                   )}
@@ -370,11 +370,11 @@ export default function DealDetailPage() {
                     <>
                       <div className="flex items-start gap-2">
                         <Video className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Follow up with technical deep-dive</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Follow up with technical deep-dive</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Edit3 className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Send personalized demo recap</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send personalized demo recap</span>
                       </div>
                     </>
                   )}
@@ -382,11 +382,11 @@ export default function DealDetailPage() {
                     <>
                       <div className="flex items-start gap-2">
                         <TrendingUp className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Create urgency with limited-time offer</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Create urgency with limited-time offer</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Target className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Align final terms with decision maker</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Align final terms with decision maker</span>
                       </div>
                     </>
                   )}
@@ -394,18 +394,18 @@ export default function DealDetailPage() {
                     <>
                       <div className="flex items-start gap-2">
                         <Video className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Schedule product demo call</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Schedule product demo call</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Send case study from similar industry</span>
+                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Send case study from similar industry</span>
                       </div>
                     </>
                   )}
                   {(deal.stage === 'new' || deal.stage === 'won' || deal.stage === 'lost') && (
                     <div className="flex items-start gap-2">
                       <ArrowLeftRight className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                      <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>Continue building relationship</span>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>Continue building relationship</span>
                     </div>
                   )}
                 </div>
@@ -413,21 +413,21 @@ export default function DealDetailPage() {
 
               {/* Similar Deals */}
               {similarDeals.length > 0 && (
-                <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
-                  <span className={cn('text-[10px] uppercase tracking-wider block mb-2', isDark ? 'text-white/25' : 'text-black/25')}>
+                <div className={cn('rounded-xl p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
+                  <span className={cn('text-[10px] uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                     Similar Deals
                   </span>
                   <div className="space-y-2">
                     {similarDeals.map(sd => (
                       <div key={sd.id} className={cn(
                         'flex items-center gap-2 p-2 rounded-lg',
-                        isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-black/[0.04]'
+                        'hover:bg-[var(--app-hover-bg)]'
                       )}>
                         <div className="flex-1 min-w-0">
-                          <p className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>{sd.name}</p>
-                          <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{sd.company}</p>
+                          <p className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>{sd.name}</p>
+                          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{sd.company}</p>
                         </div>
-                        <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
                           {formatCurrency(sd.value)}
                         </span>
                       </div>
@@ -453,7 +453,7 @@ export default function DealDetailPage() {
             <Select>
               <SelectTrigger className={cn(
                 'h-9 w-44 text-xs rounded-xl',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
                 <ArrowLeftRight className="w-3.5 h-3.5 mr-1.5" />
                 <SelectValue placeholder="Move Stage" />

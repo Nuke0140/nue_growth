@@ -35,7 +35,7 @@ function AiCircularWidget({ label, value, isDark }: { label: string; value: numb
     >
       <div className="relative w-18 h-18 mx-auto mb-2" style={{ width: 72, height: 72 }}>
         <svg className="w-full h-full -rotate-90" viewBox="0 0 80 80">
-          <circle cx="40" cy="40" r={radius} fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} strokeWidth="5" />
+          <circle cx="40" cy="40" r={radius} fill="none" stroke={'var(--app-border)'} strokeWidth="5" />
           <motion.circle
             cx="40" cy="40" r={radius} fill="none"
             stroke={color} strokeWidth="5" strokeLinecap="round"
@@ -46,10 +46,10 @@ function AiCircularWidget({ label, value, isDark }: { label: string; value: numb
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className={cn('text-base font-bold', isDark ? 'text-white' : 'text-black')}>{value}%</span>
+          <span className={cn('text-base font-bold', 'text-[var(--app-text)]')}>{value}%</span>
         </div>
       </div>
-      <p className={cn('text-[10px] font-medium leading-tight', isDark ? 'text-white/50' : 'text-black/50')}>{label}</p>
+      <p className={cn('text-[10px] font-medium leading-tight', 'text-[var(--app-text-secondary)]')}>{label}</p>
     </motion.div>
   );
 }
@@ -74,10 +74,10 @@ function BantCard({
   const pct = Math.round((score / maxScore) * 100);
   const barColor = pct >= 80 ? 'bg-emerald-500' : pct >= 50 ? 'bg-amber-500' : 'bg-red-500';
   const textColor = pct >= 80
-    ? isDark ? 'text-emerald-400' : 'text-emerald-600'
+    ? 'text-[var(--app-success)]'
     : pct >= 50
-      ? isDark ? 'text-amber-400' : 'text-amber-600'
-      : isDark ? 'text-red-400' : 'text-red-600';
+      ? 'text-[var(--app-warning)]'
+      : 'text-[var(--app-danger)]';
 
   return (
     <motion.div
@@ -91,16 +91,16 @@ function BantCard({
       <div className="flex items-center gap-2 mb-3">
         <div className={cn(
           'w-8 h-8 rounded-lg flex items-center justify-center',
-          isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <Icon className={cn('w-4 h-4', textColor)} />
         </div>
-        <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>{label}</span>
+        <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{label}</span>
         <span className={cn('ml-auto text-sm font-bold', textColor)}>{pct}%</span>
       </div>
 
       {/* Progress Bar */}
-      <div className={cn('h-2 rounded-full overflow-hidden mb-2', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+      <div className={cn('h-2 rounded-full overflow-hidden mb-2', 'bg-[var(--app-hover-bg)]')}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
@@ -109,13 +109,13 @@ function BantCard({
         />
       </div>
 
-      <div className={cn('text-[10px] mb-3', isDark ? 'text-white/30' : 'text-black/30')}>
+      <div className={cn('text-[10px] mb-3', 'text-[var(--app-text-muted)]')}>
         {score} / {maxScore}
       </div>
 
       {/* Notes */}
       {notes && (
-        <p className={cn('text-xs mb-3 leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
+        <p className={cn('text-xs mb-3 leading-relaxed', 'text-[var(--app-text-secondary)]')}>
           {notes}
         </p>
       )}
@@ -129,13 +129,13 @@ function BantCard({
                 'w-4 h-4 rounded border flex items-center justify-center',
                 i < Math.round((score / maxScore) * checklist.length)
                   ? isDark ? 'bg-emerald-500/20 border-emerald-500/30' : 'bg-emerald-100 border-emerald-300'
-                  : isDark ? 'border-white/[0.1]' : 'border-black/[0.1]'
+                  : 'border-[var(--app-border-strong)]'
               )}>
                 {i < Math.round((score / maxScore) * checklist.length) && (
                   <span className="text-[8px] text-emerald-500">✓</span>
                 )}
               </div>
-              <span className={cn('text-[11px]', isDark ? 'text-white/50' : 'text-black/50')}>{item}</span>
+              <span className={cn('text-[11px]', 'text-[var(--app-text-secondary)]')}>{item}</span>
             </div>
           ))}
         </div>
@@ -177,7 +177,7 @@ export default function QualificationPage() {
   if (!qualification) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>Select a lead to qualify</p>
+        <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>Select a lead to qualify</p>
       </div>
     );
   }
@@ -188,7 +188,7 @@ export default function QualificationPage() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
-            <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+            <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
               Lead Qualification
             </h1>
             <Badge variant="outline" className={cn(
@@ -225,7 +225,7 @@ export default function QualificationPage() {
           {/* Large Score Circle */}
           <div className="relative" style={{ width: 160, height: 160 }}>
             <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r={64} fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} strokeWidth="10" />
+              <circle cx="80" cy="80" r={64} fill="none" stroke={'var(--app-border)'} strokeWidth="10" />
               <motion.circle
                 cx="80" cy="80" r={64} fill="none"
                 stroke={qualification.overallScore >= 80 ? '#10b981' : qualification.overallScore >= 50 ? '#f59e0b' : '#ef4444'}
@@ -237,21 +237,21 @@ export default function QualificationPage() {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className={cn('text-3xl font-bold', isDark ? 'text-white' : 'text-black')}>
+              <span className={cn('text-3xl font-bold', 'text-[var(--app-text)]')}>
                 {qualification.overallScore}
               </span>
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>/ 100</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>/ 100</span>
             </div>
           </div>
 
           <div className="flex-1 text-center sm:text-left">
-            <p className={cn('text-sm mb-1', isDark ? 'text-white/50' : 'text-black/50')}>
+            <p className={cn('text-sm mb-1', 'text-[var(--app-text-secondary)]')}>
               Lead Score for
             </p>
-            <h2 className={cn('text-xl font-bold mb-1', isDark ? 'text-white' : 'text-black')}>
+            <h2 className={cn('text-xl font-bold mb-1', 'text-[var(--app-text)]')}>
               {qualification.leadName}
             </h2>
-            <p className={cn('text-sm', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
               Confidence: <span className={cn('font-bold', qualification.confidence >= 85 ? 'text-emerald-400' : 'text-amber-400')}>
                 {qualification.confidence}%
               </span>
@@ -312,8 +312,8 @@ export default function QualificationPage() {
         {/* AI Widgets Row */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Brain className={cn('w-4 h-4', isDark ? 'text-amber-400' : 'text-amber-600')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>
+            <Brain className={cn('w-4 h-4', 'text-[var(--app-warning)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               AI-Powered Scoring
             </h3>
           </div>
@@ -340,14 +340,14 @@ export default function QualificationPage() {
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <UserCheck className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+                <UserCheck className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                   Decision Maker
                 </span>
               </div>
               <Switch checked={decisionMaker} onCheckedChange={setDecisionMaker} />
             </div>
-            <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
               {decisionMaker ? 'Confirmed as decision maker' : 'Not confirmed'}
             </p>
           </motion.div>
@@ -363,8 +363,8 @@ export default function QualificationPage() {
             )}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Zap className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+              <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                 Pain Points
               </span>
             </div>
@@ -393,12 +393,12 @@ export default function QualificationPage() {
           >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Activity className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+                <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                   Urgency
                 </span>
               </div>
-              <span className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-black')}>
+              <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                 {urgency}/10
               </span>
             </div>
@@ -423,15 +423,15 @@ export default function QualificationPage() {
             )}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Gauge className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>
+              <Gauge className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
                 Confidence
               </span>
               <span className={cn('ml-auto text-xs font-bold', qualification.confidence >= 85 ? 'text-emerald-400' : 'text-amber-400')}>
                 {qualification.confidence}%
               </span>
             </div>
-            <div className={cn('h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+            <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${qualification.confidence}%` }}

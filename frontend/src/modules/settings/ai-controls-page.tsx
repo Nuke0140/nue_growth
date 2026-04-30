@@ -87,7 +87,7 @@ export default function AIControlsPage() {
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">AI Controls</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage AI access, limits, and governance</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage AI access, limits, and governance</p>
             </div>
           </div>
         </motion.div>
@@ -105,12 +105,12 @@ export default function AIControlsPage() {
               variants={fadeUp}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center gap-2 mb-2">
                 <kpi.icon className={cn('w-4 h-4', kpi.color)} />
-                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {kpi.label}
                 </span>
               </div>
@@ -126,8 +126,8 @@ export default function AIControlsPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <BrainCircuit className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>AI Control Panels</span>
+            <BrainCircuit className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Control Panels</span>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {aiControls.map((control, i) => (
@@ -166,20 +166,20 @@ export default function AIControlsPage() {
           transition={{ delay: 0.5, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Activity className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>AI Usage Analytics</span>
+            <Activity className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Usage Analytics</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <h3 className="text-sm font-semibold mb-4">Token Usage by Module</h3>
             <div className="space-y-3 mb-6">
               {tokenUsageByModule.map((m) => {
                 const pct = (m.tokens / maxModuleTokens) * 100;
                 return (
                   <div key={m.module} className="flex items-center gap-3">
-                    <span className={cn('text-xs font-medium w-20 shrink-0', isDark ? 'text-white/60' : 'text-black/60')}>
+                    <span className={cn('text-xs font-medium w-20 shrink-0', 'text-[var(--app-text-secondary)]')}>
                       {m.module}
                     </span>
-                    <div className={cn('flex-1 h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('flex-1 h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
@@ -187,7 +187,7 @@ export default function AIControlsPage() {
                         className={cn('h-full rounded-full', m.color)}
                       />
                     </div>
-                    <span className={cn('text-xs font-mono tabular-nums font-semibold w-12 text-right shrink-0', isDark ? 'text-white/70' : 'text-black/70')}>
+                    <span className={cn('text-xs font-mono tabular-nums font-semibold w-12 text-right shrink-0', 'text-[var(--app-text)]')}>
                       {formatTokens(m.tokens)}
                     </span>
                   </div>
@@ -197,19 +197,19 @@ export default function AIControlsPage() {
 
             {/* Simple stats row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Total Tokens Used</span>
+              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>Total Tokens Used</span>
                 <p className="text-sm font-bold">{formatTokens(totalTokenUsed)}</p>
               </div>
-              <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Remaining</span>
+              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>Remaining</span>
                 <p className="text-sm font-bold">{formatTokens(totalTokenBudget - totalTokenUsed)}</p>
               </div>
-              <div className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
-                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>% of Budget</span>
+              <div className={cn('rounded-xl border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>% of Budget</span>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold">{((totalTokenUsed / totalTokenBudget) * 100).toFixed(1)}%</p>
-                  <div className={cn('flex-1 h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('flex-1 h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(totalTokenUsed / totalTokenBudget) * 100}%` }}
@@ -230,23 +230,23 @@ export default function AIControlsPage() {
           transition={{ delay: 0.6, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <ShieldCheck className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>AI Governance Settings</span>
+            <ShieldCheck className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Governance Settings</span>
           </div>
-          <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+          <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="space-y-5">
               {/* Global AI toggle */}
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold">Global AI Enable</p>
-                  <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                     Enable or disable all AI features across the platform
                   </p>
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setGlobalAI(!globalAI)}
-                  className={cn('shrink-0 cursor-pointer transition-colors', globalAI ? 'text-violet-400' : isDark ? 'text-zinc-600' : 'text-zinc-300')}
+                  className={cn('shrink-0 cursor-pointer transition-colors', globalAI ? 'text-violet-400' : 'text-[var(--app-text-secondary)]')}
                   aria-label="Toggle global AI"
                 >
                   {globalAI ? <ToggleRight className="h-7 w-7" /> : <ToggleLeft className="h-7 w-7" />}
@@ -254,9 +254,9 @@ export default function AIControlsPage() {
               </div>
 
               {/* Default AI mode */}
-              <div className={cn('rounded-xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+              <div className={cn('rounded-xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <p className="text-xs font-semibold mb-2">Default AI Mode</p>
-                <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+                <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5', 'bg-[var(--app-hover-bg)]')}>
                   {[
                     { value: 'full', label: 'Full' },
                     { value: 'approval-only', label: 'Approval Only' },
@@ -284,7 +284,7 @@ export default function AIControlsPage() {
               </div>
 
               {/* Max token budget */}
-              <div className={cn('rounded-xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+              <div className={cn('rounded-xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                 <p className="text-xs font-semibold mb-2">Maximum Token Budget</p>
                 <input
                   type="text"
@@ -303,14 +303,14 @@ export default function AIControlsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold">Audit AI Prompts</p>
-                  <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                     Log all AI prompts for compliance and review
                   </p>
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setAuditPrompts(!auditPrompts)}
-                  className={cn('shrink-0 cursor-pointer transition-colors', auditPrompts ? 'text-violet-400' : isDark ? 'text-zinc-600' : 'text-zinc-300')}
+                  className={cn('shrink-0 cursor-pointer transition-colors', auditPrompts ? 'text-violet-400' : 'text-[var(--app-text-secondary)]')}
                   aria-label="Toggle audit prompts"
                 >
                   {auditPrompts ? <ToggleRight className="h-7 w-7" /> : <ToggleLeft className="h-7 w-7" />}

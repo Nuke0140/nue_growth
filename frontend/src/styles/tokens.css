@@ -1,10 +1,10 @@
 /* ============================================
-   NueEra Growth OS — Global Design Tokens
+   NueEra Growth OS — Canonical Design Tokens
    ============================================
-   CSS custom properties (--app-*) for both light and dark mode.
-   Imported separately from globals.css.
-   The --ops-* variables in globals.css remain as aliases
-   pointing to these same values during migration.
+   SINGLE SOURCE OF TRUTH for all design tokens.
+   Uses ONLY the --app-* namespace.
+   Dark mode handled exclusively via .dark class.
+   No --ops-*, no runtime theme logic, no hardcoded colors.
    ============================================ */
 
 :root {
@@ -12,7 +12,8 @@
   --app-bg: #fafafa;
   --app-accent: #cc5c37;
   --app-accent-hover: #b8512f;
-  --app-accent-light: rgba(204, 92, 55, 0.08);
+  --app-accent-light: var(--app-accent-light);
+  --app-accent-gradient-to: #e8825e;
   --app-card-bg: #ffffff;
   --app-card-bg-hover: #f5f5f5;
   --app-elevated: #f5f5f5;
@@ -20,18 +21,18 @@
 
   /* ---- Text ---- */
   --app-text: #0a0a0a;
-  --app-text-secondary: rgba(0, 0, 0, 0.6);
+  --app-text-secondary: var(--app-overlay);
   --app-text-muted: rgba(0, 0, 0, 0.35);
   --app-text-disabled: rgba(0, 0, 0, 0.2);
 
   /* ---- Borders ---- */
-  --app-border: rgba(0, 0, 0, 0.08);
-  --app-border-light: rgba(0, 0, 0, 0.05);
-  --app-border-strong: rgba(0, 0, 0, 0.12);
+  --app-border: var(--app-border);
+  --app-border-light: var(--app-border-light);
+  --app-border-strong: var(--app-border-strong);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(0, 0, 0, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.06);
+  --app-hover-bg: var(--app-hover-bg);
+  --app-active-bg: var(--app-active-bg);
 
   /* ---- Semantic ---- */
   --app-success: #059669;
@@ -39,36 +40,84 @@
   --app-danger: #dc2626;
   --app-info: #2563eb;
 
+  /* ---- Semantic light backgrounds ---- */
+  --app-success-bg: rgba(5, 150, 105, 0.10);
+  --app-warning-bg: rgba(217, 119, 6, 0.10);
+  --app-danger-bg: rgba(220, 38, 38, 0.10);
+  --app-info-bg: rgba(37, 99, 235, 0.10);
+
   /* ---- Shadows ---- */
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --app-shadow-card: 0 1px 3px var(--app-border), 0 1px 2px var(--app-hover-bg);
+  --app-shadow-card-hover: 0 4px 12px var(--app-border-strong);
+  --app-shadow-dropdown: 0 8px 24px var(--app-border-strong);
+  --app-shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.2);
+  --app-shadow-accent: 0 2px 8px var(--app-selection-bg);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(0, 0, 0, 0.15);
+  --app-scrollbar-thumb: var(--app-border-strong);
   --app-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(0, 0, 0, 0.4);
+  --app-overlay: var(--app-overlay);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(0, 0, 0, 0.04);
-  --app-skeleton-to: rgba(0, 0, 0, 0.08);
+  --app-skeleton-from: var(--app-hover-bg);
+  --app-skeleton-to: var(--app-border);
 
   /* ---- Layout ---- */
   --app-sidebar-bg: #ffffff;
   --app-topbar-bg: #ffffff;
-  --app-topbar-border: rgba(0, 0, 0, 0.08);
+  --app-topbar-border: var(--app-border);
+
+  /* ---- Selection ---- */
+  --app-selection-bg: var(--app-selection-bg);
+
+  /* ---- Focus ---- */
+  --app-focus-ring: rgba(204, 92, 55, 0.4);
+
+  /* ---- Module accents ---- */
+  --app-module-erp: #cc5c37;
+  --app-module-erp-hover: #b8512f;
+  --app-module-erp-light: var(--app-accent-light);
+  --app-module-crm: #6366f1;
+  --app-module-crm-hover: #5558e6;
+  --app-module-crm-light: var(--app-module-crm-light);
+  --app-module-finance: #059669;
+  --app-module-finance-hover: #047857;
+  --app-module-finance-light: var(--app-success-bg);
+  --app-module-marketing: #d946ef;
+  --app-module-marketing-hover: #c026d3;
+  --app-module-marketing-light: rgba(217, 70, 239, 0.08);
+  --app-module-analytics: #0ea5e9;
+  --app-module-analytics-hover: #0284c7;
+  --app-module-analytics-light: rgba(14, 165, 233, 0.08);
+  --app-module-automation: #f59e0b;
+  --app-module-automation-hover: #d97706;
+  --app-module-automation-light: var(--app-warning-bg);
+  --app-module-retention: #10b981;
+  --app-module-retention-hover: #059669;
+  --app-module-retention-light: rgba(16, 185, 129, 0.08);
+  --app-module-settings: #64748b;
+  --app-module-settings-hover: #475569;
+  --app-module-settings-light: rgba(100, 116, 139, 0.08);
+
+  /* ---- Extra status colors ---- */
+  --app-purple: #8b5cf6;
+  --app-purple-light: rgba(139, 92, 246, 0.10);
+  --app-emerald: #10b981;
+  --app-emerald-light: rgba(16, 185, 129, 0.10);
 }
 
 /* ============================================
-   Dark Mode
+   Dark Mode — .dark class only
    ============================================ */
 .dark {
   /* ---- Core surfaces ---- */
   --app-bg: #1b1c1e;
   --app-accent: #cc5c37;
   --app-accent-hover: #d46a44;
-  --app-accent-light: rgba(204, 92, 55, 0.1);
+  --app-accent-light: rgba(204, 92, 55, 0.10);
+  --app-accent-gradient-to: #e8825e;
   --app-card-bg: #222325;
   --app-card-bg-hover: #2a2b2e;
   --app-elevated: #2a2b2e;
@@ -81,13 +130,13 @@
   --app-text-disabled: rgba(245, 245, 245, 0.2);
 
   /* ---- Borders ---- */
-  --app-border: rgba(255, 255, 255, 0.06);
-  --app-border-light: rgba(255, 255, 255, 0.04);
-  --app-border-strong: rgba(255, 255, 255, 0.12);
+  --app-border: var(--app-border);
+  --app-border-light: var(--app-hover-bg);
+  --app-border-strong: var(--app-border-strong);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(255, 255, 255, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.08);
+  --app-hover-bg: var(--app-hover-bg);
+  --app-active-bg: var(--app-accent-light);
 
   /* ---- Semantic ---- */
   --app-success: #34d399;
@@ -95,23 +144,54 @@
   --app-danger: #f87171;
   --app-info: #60a5fa;
 
+  /* ---- Semantic light backgrounds ---- */
+  --app-success-bg: rgba(52, 211, 153, 0.10);
+  --app-warning-bg: rgba(251, 191, 36, 0.10);
+  --app-danger-bg: rgba(248, 113, 113, 0.10);
+  --app-info-bg: rgba(96, 165, 250, 0.10);
+
   /* ---- Shadows ---- */
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --app-shadow-card: 0 1px 3px var(--app-border-strong), 0 1px 2px var(--app-border);
+  --app-shadow-card-hover: 0 4px 12px var(--app-border-strong);
+  --app-shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --app-shadow-modal: 0 20px 60px var(--app-overlay);
+  --app-shadow-accent: 0 2px 8px rgba(204, 92, 55, 0.25);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(255, 255, 255, 0.1);
-  --app-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --app-scrollbar-thumb: rgba(255, 255, 255, 0.10);
+  --app-scrollbar-thumb-hover: rgba(255, 255, 255, 0.20);
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(0, 0, 0, 0.6);
+  --app-overlay: var(--app-overlay);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(255, 255, 255, 0.04);
-  --app-skeleton-to: rgba(255, 255, 255, 0.08);
+  --app-skeleton-from: var(--app-hover-bg);
+  --app-skeleton-to: var(--app-border);
 
   /* ---- Layout ---- */
   --app-sidebar-bg: #1b1c1e;
   --app-topbar-bg: #1b1c1e;
-  --app-topbar-border: rgba(255, 255, 255, 0.06);
+  --app-topbar-border: var(--app-border);
+
+  /* ---- Selection ---- */
+  --app-selection-bg: var(--app-shadow-accent);
+
+  /* ---- Focus ---- */
+  --app-focus-ring: rgba(204, 92, 55, 0.5);
+
+  /* ---- Module accents (light variants shift for dark mode) ---- */
+  --app-module-erp-light: rgba(204, 92, 55, 0.12);
+  --app-module-crm-light: rgba(99, 102, 241, 0.12);
+  --app-module-finance-light: rgba(5, 150, 105, 0.12);
+  --app-module-marketing-light: rgba(217, 70, 239, 0.12);
+  --app-module-analytics-light: rgba(14, 165, 233, 0.12);
+  --app-module-automation-light: rgba(245, 158, 11, 0.12);
+  --app-module-retention-light: var(--app-success-bg);
+  --app-module-settings-light: rgba(100, 116, 139, 0.12);
+
+  /* ---- Extra status colors ---- */
+  --app-purple: #a78bfa;
+  --app-purple-light: rgba(167, 139, 250, 0.12);
+  --app-emerald: #34d399;
+  --app-emerald-light: var(--app-success-bg);
 }

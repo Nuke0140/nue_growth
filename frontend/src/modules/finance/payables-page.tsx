@@ -43,9 +43,9 @@ export default function PayablesPage() {
   const totalUrgent = urgentPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
 
   const summaryCards = useMemo(() => [
-    { label: 'Total Pending', value: formatINR(totalPending), icon: Clock, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', count: pendingPayables.length },
-    { label: 'Approved', value: formatINR(totalApproved), icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', count: approvedPayables.length },
-    { label: 'Urgent', value: formatINR(totalUrgent), icon: Zap, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', count: urgentPayables.length },
+    { label: 'Total Pending', value: formatINR(totalPending), icon: Clock, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', count: pendingPayables.length },
+    { label: 'Approved', value: formatINR(totalApproved), icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', count: approvedPayables.length },
+    { label: 'Urgent', value: formatINR(totalUrgent), icon: Zap, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', count: urgentPayables.length },
   ], [isDark, totalPending, totalApproved, totalUrgent, pendingPayables.length, approvedPayables.length, urgentPayables.length]);
 
   const filteredPayables = useMemo(() =>
@@ -59,22 +59,22 @@ export default function PayablesPage() {
 
   const statusBadge = (status: string) => {
     const configs: Record<string, string> = {
-      pending: isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
-      approved: isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
-      rejected: isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
-      paid: isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600',
+      pending: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
+      approved: 'bg-[var(--app-success-bg)] text-[var(--app-success)]',
+      rejected: 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
+      paid: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
       overdue: isDark ? 'bg-red-500/20 text-red-500' : 'bg-red-100 text-red-700',
     };
-    return configs[status] || (isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40');
+    return configs[status] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]');
   };
 
   const priorityBadge = (priority: string) => {
     const configs: Record<string, string> = {
-      high: isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
-      medium: isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
-      low: isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600',
+      high: 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
+      medium: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
+      low: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
     };
-    return configs[priority] || (isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40');
+    return configs[priority] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]');
   };
 
   const statusFilters: { label: string; value: StatusFilter }[] = [
@@ -100,26 +100,26 @@ export default function PayablesPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <HandCoins className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <HandCoins className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Payables</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Vendor Payout Workspace</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Vendor Payout Workspace</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className={cn(
               'px-3 py-1.5 text-xs font-medium gap-1.5',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               <Calendar className="w-3.5 h-3.5" />
               {today}
             </Badge>
             <Button className={cn(
               'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
               <CalendarClock className="w-4 h-4" />
               Schedule Payout
@@ -137,11 +137,11 @@ export default function PayablesPage() {
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-5 cursor-pointer transition-all duration-200',
-                isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {card.label}
                 </span>
                 <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', card.bg)}>
@@ -149,7 +149,7 @@ export default function PayablesPage() {
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{card.value}</p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 {card.count} items
               </p>
             </motion.div>
@@ -159,8 +159,8 @@ export default function PayablesPage() {
         {/* Filters */}
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <Filter className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-            <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status:</span>
+            <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Status:</span>
             {statusFilters.map((f) => (
               <button
                 key={f.value}
@@ -168,17 +168,17 @@ export default function PayablesPage() {
                 className={cn(
                   'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
                   statusFilter === f.value
-                    ? (isDark ? 'bg-white/10 text-white/80' : 'bg-black/10 text-black/80')
-                    : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+                    ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
+                    : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
                 )}
               >
                 {f.label}
               </button>
             ))}
           </div>
-          <div className={cn('w-px h-5', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
+          <div className={cn('w-px h-5', 'bg-[var(--app-hover-bg)]')} />
           <div className="flex items-center gap-2">
-            <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Priority:</span>
+            <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Priority:</span>
             {priorityFilters.map((f) => (
               <button
                 key={f.value}
@@ -186,8 +186,8 @@ export default function PayablesPage() {
                 className={cn(
                   'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
                   priorityFilter === f.value
-                    ? (isDark ? 'bg-white/10 text-white/80' : 'bg-black/10 text-black/80')
-                    : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+                    ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
+                    : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
                 )}
               >
                 {f.label}
@@ -203,15 +203,15 @@ export default function PayablesPage() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Vendor / Freelancer', 'Amount', 'Due Date', 'Status', 'Priority', 'Penalty Risk', 'Category', 'Actions'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -220,7 +220,7 @@ export default function PayablesPage() {
               <tbody>
                 {filteredPayables.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className={cn('py-8 text-center text-sm', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <td colSpan={8} className={cn('py-8 text-center text-sm', 'text-[var(--app-text-muted)]')}>
                       No payables match the selected filters
                     </td>
                   </tr>
@@ -233,12 +233,12 @@ export default function PayablesPage() {
                       transition={{ delay: 0.35 + i * 0.04 }}
                       className={cn(
                         'border-b cursor-pointer transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]'
+                        'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
                       )}
                     >
                       <td className="py-3 px-3">
                         <p className="text-sm font-medium">{p.vendor || p.freelancer}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           {p.linkedInvoice || '—'}
                         </p>
                       </td>
@@ -270,11 +270,11 @@ export default function PayablesPage() {
                             <span className="text-[10px] text-red-500 font-medium">Yes</span>
                           </div>
                         ) : (
-                          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>None</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>None</span>
                         )}
                       </td>
                       <td className="py-3 px-3">
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                           {p.category}
                         </Badge>
                       </td>
@@ -293,13 +293,13 @@ export default function PayablesPage() {
                             </>
                           )}
                           {p.approvalStatus === 'approved' && (
-                            <Button className={cn('h-7 px-3 text-[10px] gap-1 rounded-lg', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                            <Button className={cn('h-7 px-3 text-[10px] gap-1 rounded-lg', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                               <CalendarClock className="w-3 h-3" />
                               Pay Now
                             </Button>
                           )}
                           {p.approvalStatus === 'paid' && (
-                            <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600')}>
+                            <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-info-bg)] text-[var(--app-info)]')}>
                               <CheckCircle2 className="w-3 h-3 mr-0.5" />
                               Completed
                             </Badge>

@@ -53,19 +53,19 @@ export default function ForecastWidget({
           {Icon && (
             <div className={cn(
               'w-8 h-8 rounded-lg flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <Icon className={cn('w-4 h-4', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
             </div>
           )}
-          <span className={cn('text-xs font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+          <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
             {label}
           </span>
         </div>
 
         {/* Value */}
         <div className="flex items-end gap-2">
-          <span className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+          <span className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             {formatCurrency(value)}
           </span>
           {change !== undefined && (
@@ -75,8 +75,8 @@ export default function ForecastWidget({
               transition={{ duration: 0.3, delay: 0.2 }}
               className={cn(
                 'flex items-center gap-0.5 text-xs font-semibold mb-0.5',
-                isPositive && (isDark ? 'text-emerald-400' : 'text-emerald-600'),
-                isNegative && (isDark ? 'text-red-400' : 'text-red-600'),
+                isPositive && ('text-[var(--app-success)]'),
+                isNegative && ('text-[var(--app-danger)]'),
               )}
             >
               {isPositive ? (

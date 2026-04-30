@@ -17,18 +17,18 @@ export default function RoiWidget({ roi, trend, label = 'Return on Investment' }
 
   const colorClass = roi > 200 ? 'text-emerald-500' : roi >= 100 ? 'text-amber-500' : 'text-red-500';
   const bgAccent = roi > 200
-    ? (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')
+    ? ('bg-[var(--app-success-bg)]')
     : roi >= 100
-      ? (isDark ? 'bg-amber-500/10' : 'bg-amber-50')
-      : (isDark ? 'bg-red-500/10' : 'bg-red-50');
+      ? ('bg-[var(--app-warning-bg)]')
+      : ('bg-[var(--app-danger-bg)]');
 
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.15 }}
-      className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
-      <p className={cn('text-[10px] mb-1', isDark ? 'text-white/40' : 'text-gray-500')}>{label}</p>
+      <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>{label}</p>
       <div className="flex items-end gap-2">
         <span className={cn('text-3xl font-bold tabular-nums', colorClass)}>{roi}x</span>
         {trend !== undefined && (

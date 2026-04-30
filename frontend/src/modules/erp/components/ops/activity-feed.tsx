@@ -36,14 +36,14 @@ export function ActivityFeed({
       {items.length === 0 && (
         <p
           className="text-sm text-center py-8"
-          style={{ color: 'var(--ops-text-muted)' }}
+          style={{ color: 'var(--app-text-muted)' }}
         >
           No recent activity
         </p>
       )}
       {items.map((activity, idx) => {
         const Icon = activity.icon;
-        const accentColor = activity.color || 'var(--ops-accent)';
+        const accentColor = activity.color || 'var(--app-accent)';
 
         return (
           <motion.div
@@ -57,7 +57,7 @@ export function ActivityFeed({
             {idx < items.length - 1 && (
               <div
                 className="absolute left-[15px] top-8 bottom-0 w-px"
-                style={{ backgroundColor: 'var(--ops-border)' }}
+                style={{ backgroundColor: 'var(--app-border)' }}
               />
             )}
 
@@ -73,21 +73,21 @@ export function ActivityFeed({
             <div className="flex-1 min-w-0 pt-0.5">
               <p
                 className="text-sm font-medium leading-snug"
-                style={{ color: 'var(--ops-text)' }}
+                style={{ color: 'var(--app-text)' }}
               >
                 {activity.title}
               </p>
               {activity.description && (
                 <p
                   className="text-xs mt-0.5 leading-relaxed"
-                  style={{ color: 'var(--ops-text-muted)' }}
+                  style={{ color: 'var(--app-text-muted)' }}
                 >
                   {activity.description}
                 </p>
               )}
               <p
                 className="text-[11px] mt-1"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               >
                 {relativeTimeLabel(activity.time)}
               </p>

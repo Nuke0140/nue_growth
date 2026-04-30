@@ -108,7 +108,7 @@ function IncentivesPageInner() {
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className={cn('h-9 rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                <Button className={cn('h-9 rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                   <Plus className="w-4 h-4" /> Add Incentive
                 </Button>
               </TooltipTrigger>
@@ -118,7 +118,7 @@ function IncentivesPageInner() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit overflow-x-auto" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit overflow-x-auto" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
             return (
@@ -127,11 +127,11 @@ function IncentivesPageInner() {
                 onClick={() => setActiveFilter(filter.key)}
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap',
-                  isActive ? (isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-black/[0.06] text-black shadow-sm') : (isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70')
+                  isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-sm') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
                 )}
               >
                 <span>{filter.label}</span>
-                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? (isDark ? 'bg-white/[0.15]' : 'bg-black/[0.1]') : (isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'))}>
+                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? ('bg-[var(--app-hover-bg)]') : ('bg-[var(--app-hover-bg)]'))}>
                   {filter.count}
                 </span>
               </button>
@@ -152,11 +152,11 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
               </div>
@@ -172,18 +172,18 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.3 }}
-              className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                      <th className={cn('text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Employee</th>
-                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Type</th>
-                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Amount</th>
-                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden md:table-cell', isDark ? 'text-white/30' : 'text-black/30')}>Month</th>
-                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell', isDark ? 'text-white/30' : 'text-black/30')}>Description</th>
-                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Status</th>
+                    <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
+                      <th className={cn('text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Employee</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Type</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Amount</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden md:table-cell', 'text-[var(--app-text-muted)]')}>Month</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell', 'text-[var(--app-text-muted)]')}>Description</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Status</th>
                       <th className="w-[40px]" />
                     </tr>
                   </thead>
@@ -198,12 +198,12 @@ function IncentivesPageInner() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: idx * 0.03 }}
-                          className={cn('border-b last:border-0', isDark ? 'border-white/[0.03]' : 'border-black/[0.03]')}
+                          className={cn('border-b last:border-0', 'border-[var(--app-border-strong)]')}
                         >
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               <Avatar className="h-7 w-7">
-                                <AvatarFallback className={cn('text-[10px] font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
+                                <AvatarFallback className={cn('text-[10px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
                                   {emp?.avatar || '??'}
                                 </AvatarFallback>
                               </Avatar>
@@ -219,12 +219,12 @@ function IncentivesPageInner() {
                             <span className="text-sm font-semibold">{formatCurrency(inc.amount)}</span>
                           </td>
                           <td className="hidden md:table-cell px-3 py-3">
-                            <span className={cn('text-sm', isDark ? 'text-white/60' : 'text-black/60')}>
+                            <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                               {new Date(inc.month + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
                             </span>
                           </td>
                           <td className="hidden lg:table-cell px-3 py-3">
-                            <span className={cn('text-xs max-w-[200px] truncate block', isDark ? 'text-white/40' : 'text-black/40')}>
+                            <span className={cn('text-xs max-w-[200px] truncate block', 'text-[var(--app-text-muted)]')}>
                               {inc.description}
                             </span>
                           </td>
@@ -237,8 +237,8 @@ function IncentivesPageInner() {
                           <td className="px-3">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                                  <MoreHorizontal className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+                                <button className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+                                  <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                                 </button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
@@ -265,7 +265,7 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" /> Type Distribution
@@ -274,10 +274,10 @@ function IncentivesPageInner() {
                 {typeDistribution.map((d, i) => (
                   <div key={i}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{d.type.label}</span>
-                      <span className={cn('text-xs font-medium', isDark ? 'text-white/70' : 'text-black/70')}>{formatCurrency(d.amount)}</span>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{d.type.label}</span>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{formatCurrency(d.amount)}</span>
                     </div>
-                    <div className={cn('h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(d.amount / maxTypeAmount) * 100}%` }}

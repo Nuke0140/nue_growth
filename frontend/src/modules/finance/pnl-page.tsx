@@ -35,7 +35,7 @@ export default function PnLPage() {
       return isDark ? 'bg-white/[0.04] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]';
     }
     if (highlightedRows.includes(category)) {
-      return isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]';
+      return 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]';
     }
     return '';
   };
@@ -56,11 +56,11 @@ export default function PnLPage() {
     const margin = pnlData.find(d => d.category === 'Net Margin %');
     const cogs = pnlData.find(d => d.category === 'Total COGS');
     return [
-      { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-      { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-      { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: ArrowUpRight, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-      { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
-      { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: ArrowDownRight, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+      { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+      { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
+      { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+      { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]' },
+      { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: ArrowDownRight, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
     ];
   }, [isDark]);
 
@@ -70,30 +70,30 @@ export default function PnLPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <FileText className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <FileText className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Profit & Loss Statement</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Executive P&L</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Executive P&L</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+            <Badge variant="secondary" className={cn('px-3 py-1.5 text-xs font-medium gap-1.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               <Calendar className="w-3.5 h-3.5" /> {today}
             </Badge>
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.max(0, selectedMonth - 1))} disabled={selectedMonth === 0} className={cn('w-8 h-8', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
+              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.max(0, selectedMonth - 1))} disabled={selectedMonth === 0} className={cn('w-8 h-8', 'hover:bg-[var(--app-hover-bg)]')}>
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <Badge variant="secondary" className={cn('px-3 py-1 text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+              <Badge variant="secondary" className={cn('px-3 py-1 text-xs font-medium', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {months[selectedMonth]}
               </Badge>
-              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.min(months.length - 1, selectedMonth + 1))} disabled={selectedMonth === months.length - 1} className={cn('w-8 h-8', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
+              <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(Math.min(months.length - 1, selectedMonth + 1))} disabled={selectedMonth === months.length - 1} className={cn('w-8 h-8', 'hover:bg-[var(--app-hover-bg)]')}>
                 <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <Download className="w-4 h-4" /> Export
             </Button>
           </div>
@@ -104,9 +104,9 @@ export default function PnLPage() {
           {kpis.map((kpi, i) => {
             const isPositive = kpi.label === 'Total COGS' ? kpi.change <= 0 : kpi.change >= 0;
             return (
-              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+              <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
                   <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -116,23 +116,23 @@ export default function PnLPage() {
                     {Math.abs(kpi.change)}%
                   </span>
                 </div>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>vs previous month</p>
+                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>vs previous month</p>
               </motion.div>
             );
           })}
         </div>
 
         {/* P&L Table */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>P&L Statement — {months[selectedMonth]}</span>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>P&L Statement — {months[selectedMonth]}</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Category', 'Current Month', 'Previous Month', 'YTD', 'Variance (₹)', 'Variance (%)'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', h === 'Category' ? 'min-w-[180px]' : 'min-w-[110px]', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', h === 'Category' ? 'min-w-[180px]' : 'min-w-[110px]', 'text-[var(--app-text-muted)]')}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -151,16 +151,16 @@ export default function PnLPage() {
                       transition={{ delay: 0.3 + i * 0.03 }}
                       className={cn(
                         'border-b transition-colors',
-                        rowStyle || (isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'),
-                        isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'
+                        rowStyle || ('border-[var(--app-border-light)]'),
+                        'hover:bg-[var(--app-hover-bg)]'
                       )}
                     >
                       <td className={cn('py-3 px-3', bold ? 'font-bold text-sm' : 'text-xs font-medium')}>
-                        <span className={accent ? (isDark ? 'text-emerald-400' : 'text-emerald-600') : ''}>{entry.category}</span>
+                        <span className={accent ? ('text-[var(--app-success)]') : ''}>{entry.category}</span>
                       </td>
                       <td className={cn('py-3 px-3', bold ? 'font-bold text-sm' : 'text-xs')}>{isPercent ? `${entry.currentMonth}%` : formatINR(entry.currentMonth)}</td>
-                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{isPercent ? `${entry.previousMonth}%` : formatINR(entry.previousMonth)}</td>
-                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{isPercent ? `${entry.ytd}%` : formatINR(entry.ytd)}</td>
+                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', 'text-[var(--app-text-secondary)]')}>{isPercent ? `${entry.previousMonth}%` : formatINR(entry.previousMonth)}</td>
+                      <td className={cn('py-3 px-3', bold ? 'text-sm' : 'text-xs', 'text-[var(--app-text-secondary)]')}>{isPercent ? `${entry.ytd}%` : formatINR(entry.ytd)}</td>
                       <td className={cn('py-3 px-3 text-xs font-medium', positive ? 'text-emerald-500' : 'text-red-500')}>
                         <div className="flex items-center gap-1">
                           {positive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
@@ -170,7 +170,7 @@ export default function PnLPage() {
                       <td className="py-3 px-3">
                         <Badge variant="secondary" className={cn(
                           'text-[10px] px-2 py-0.5 font-medium',
-                          positive ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600') : (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')
+                          positive ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]') : ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]')
                         )}>
                           {positive ? '+' : ''}{entry.variancePercent}%
                         </Badge>
@@ -184,9 +184,9 @@ export default function PnLPage() {
         </motion.div>
 
         {/* Waterfall Visual */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Revenue to Net Profit Waterfall</span>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue to Net Profit Waterfall</span>
           </div>
           <div className="flex items-end gap-3 h-40">
             {[
@@ -202,9 +202,9 @@ export default function PnLPage() {
               const h = (item.value / maxVal) * 100;
               return (
                 <div key={item.label} className="flex-1 flex flex-col items-center justify-end gap-1">
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{formatINR(item.value)}</span>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{formatINR(item.value)}</span>
                   <motion.div initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ delay: 0.65 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className={cn('w-full rounded-t-sm', item.color)} />
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{item.label}</span>
                 </div>
               );
             })}

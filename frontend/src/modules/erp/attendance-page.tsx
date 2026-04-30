@@ -91,13 +91,13 @@ function AttendancePageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--ops-accent)',
+                  color: 'var(--app-accent)',
                 }}
               >
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+            <span className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
               {name}
             </span>
           </div>
@@ -110,7 +110,7 @@ function AttendancePageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
           {row.checkIn || '—'}
         </span>
       ),
@@ -121,7 +121,7 @@ function AttendancePageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
           {row.checkOut || '—'}
         </span>
       ),
@@ -134,10 +134,10 @@ function AttendancePageInner() {
         const hours = row.hours as number;
         const style: React.CSSProperties =
           hours >= 9
-            ? { color: 'var(--ops-success)' }
+            ? { color: 'var(--app-success)' }
             : hours === 0
-              ? { color: 'var(--ops-text-muted)' }
-              : { color: 'var(--ops-warning)' };
+              ? { color: 'var(--app-text-muted)' }
+              : { color: 'var(--app-warning)' };
         return <span className="text-sm font-medium" style={style}>{hours > 0 ? `${hours}h` : '—'}</span>;
       },
     },
@@ -151,7 +151,7 @@ function AttendancePageInner() {
         return (
           <span
             className="text-sm"
-            style={{ color: ot > 0 ? 'var(--ops-warning)' : 'var(--ops-text-muted)' }}
+            style={{ color: ot > 0 ? 'var(--app-warning)' : 'var(--app-text-muted)' }}
           >
             {ot > 0 ? `+${ot}h` : '—'}
           </span>
@@ -176,7 +176,7 @@ function AttendancePageInner() {
             <span className="text-xs font-medium text-red-500 dark:text-red-400">Flag</span>
           </span>
         ) : (
-          <span style={{ color: 'var(--ops-text-muted)' }}>—</span>
+          <span style={{ color: 'var(--app-text-muted)' }}>—</span>
         ),
     },
   ];
@@ -190,17 +190,17 @@ function AttendancePageInner() {
           <button
             onClick={() => setDateIdx(i => Math.max(0, i - 1))}
             disabled={dateIdx === 0}
-            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+            className="app-btn-ghost p-1.5 disabled:opacity-30"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--ops-text)' }}>
+          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--app-text)' }}>
             {formatDateLabel(selectedDate)}
           </span>
           <button
             onClick={() => setDateIdx(i => Math.min(AVAILABLE_DATES.length - 1, i + 1))}
             disabled={dateIdx === AVAILABLE_DATES.length - 1}
-            className="ops-btn-ghost p-1.5 disabled:opacity-30"
+            className="app-btn-ghost p-1.5 disabled:opacity-30"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -231,12 +231,12 @@ function AttendancePageInner() {
         {dayData.some(a => a.isAnomaly) && (
           <motion.div
             variants={fadeUp}
-            className="ops-card p-4"
+            className="app-card p-4"
             style={{ border: '1px solid rgba(248, 113, 113, 0.2)', backgroundColor: 'rgba(248, 113, 113, 0.04)' }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="w-4 h-4" style={{ color: 'var(--ops-warning)' }} />
-              <span className="text-sm font-semibold" style={{ color: 'var(--ops-warning)' }}>
+              <AlertTriangle className="w-4 h-4" style={{ color: 'var(--app-warning)' }} />
+              <span className="text-sm font-semibold" style={{ color: 'var(--app-warning)' }}>
                 Anomaly Summary
               </span>
             </div>
@@ -246,8 +246,8 @@ function AttendancePageInner() {
                 .map(a => {
                   const name = getEmployeeName(a.employeeId);
                   return (
-                    <p key={a.id} className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>
-                      <span className="font-medium" style={{ color: 'var(--ops-text)' }}>{name}</span>
+                    <p key={a.id} className="text-xs" style={{ color: 'var(--app-text-secondary)' }}>
+                      <span className="font-medium" style={{ color: 'var(--app-text)' }}>{name}</span>
                       {' — '}
                       {a.status === 'absent'
                         ? 'No check-in recorded today'

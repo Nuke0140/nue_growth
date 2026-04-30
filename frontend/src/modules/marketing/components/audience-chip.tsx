@@ -31,7 +31,7 @@ export default function AudienceChip({ name, count, operator }: AudienceChipProp
         </span>
       )}
       <span className="font-medium truncate">{name}</span>
-      <span className={cn('text-[10px] font-semibold tabular-nums', isDark ? 'text-white/30' : 'text-gray-400')}>
+      <span className={cn('text-[10px] font-semibold tabular-nums', 'text-[var(--app-text-muted)]')}>
         {count.toLocaleString()}
       </span>
     </motion.div>

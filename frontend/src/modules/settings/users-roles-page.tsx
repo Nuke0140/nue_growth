@@ -93,13 +93,13 @@ export default function UsersRolesPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Users className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Users & Roles</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Manage users and their access
               </p>
             </div>
@@ -125,16 +125,16 @@ export default function UsersRolesPage() {
               key={kpi.label}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center justify-between mb-2">
                 <kpi.icon className={cn('w-4 h-4', kpi.color)} />
               </div>
-              <p className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <p className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                 {kpi.value}
               </p>
-              <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 {kpi.label}
               </p>
             </div>
@@ -150,7 +150,7 @@ export default function UsersRolesPage() {
               className={cn(
                 'inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors shrink-0',
                 activeRole === role
-                  ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                  ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                   : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.04] hover:bg-black/[0.04]'),
               )}
             >
@@ -163,9 +163,9 @@ export default function UsersRolesPage() {
         <div className="flex items-center justify-between gap-4">
           <div className={cn(
             'flex items-center gap-2 rounded-xl border px-3 py-2 flex-1 max-w-sm',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
-            <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             <input
               type="text"
               value={searchQuery}
@@ -173,13 +173,13 @@ export default function UsersRolesPage() {
               placeholder="Search users..."
               className={cn(
                 'bg-transparent text-sm focus:outline-none w-full',
-                isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25',
+                'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
               )}
             />
           </div>
           {selectedUsers.size > 0 && (
             <div className="flex items-center gap-2">
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                 {selectedUsers.size} selected
               </span>
               <button className={cn(
@@ -205,31 +205,31 @@ export default function UsersRolesPage() {
           animate="show"
           className={cn(
             'rounded-2xl border overflow-hidden hidden lg:block',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   <th className="px-4 py-3 text-left">
                     <button onClick={toggleSelectAll}>
                       {selectedUsers.size === filteredUsers.length && filteredUsers.length > 0 ? (
-                        <CheckSquare className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
+                        <CheckSquare className={cn('w-4 h-4', 'text-[var(--app-info)]')} />
                       ) : (
-                        <Square className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
+                        <Square className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                       )}
                     </button>
                   </th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Name</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Email</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Role</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Department</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>MFA</th>
-                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Last Login</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Status</th>
-                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Sessions</th>
-                  <th className={cn('px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Actions</th>
+                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Name</th>
+                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Email</th>
+                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Role</th>
+                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Department</th>
+                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>MFA</th>
+                  <th className={cn('px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Last Login</th>
+                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Status</th>
+                  <th className={cn('px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Sessions</th>
+                  <th className={cn('px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -239,16 +239,16 @@ export default function UsersRolesPage() {
                     variants={fadeUp}
                     className={cn(
                       'border-b last:border-b-0 transition-colors',
-                      isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                      'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                       selectedUsers.has(user.id) && (isDark ? 'bg-blue-500/5' : 'bg-blue-50/50'),
                     )}
                   >
                     <td className="px-4 py-3">
                       <button onClick={() => toggleUser(user.id)}>
                         {selectedUsers.has(user.id) ? (
-                          <CheckSquare className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
+                          <CheckSquare className={cn('w-4 h-4', 'text-[var(--app-info)]')} />
                         ) : (
-                          <Square className={cn('w-4 h-4', isDark ? 'text-white/15' : 'text-black/15')} />
+                          <Square className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                         )}
                       </button>
                     </td>
@@ -260,13 +260,13 @@ export default function UsersRolesPage() {
                         )}>
                           {user.name.charAt(0)}
                         </div>
-                        <span className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                        <span className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>
                           {user.name}
                         </span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                         {user.email}
                       </span>
                     </td>
@@ -274,7 +274,7 @@ export default function UsersRolesPage() {
                       <RoleChip role={user.role} />
                     </td>
                     <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                         {user.department || '—'}
                       </span>
                     </td>
@@ -282,7 +282,7 @@ export default function UsersRolesPage() {
                       {user.mfaEnabled ? (
                         <span className={cn(
                           'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold',
-                          isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
+                          'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                         )}>
                           <ShieldCheck className="w-3 h-3" />
                           On
@@ -297,7 +297,7 @@ export default function UsersRolesPage() {
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {new Date(user.lastLogin).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                       </span>
                     </td>
@@ -305,14 +305,14 @@ export default function UsersRolesPage() {
                       <span className={cn(
                         'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold',
                         user.status === 'active'
-                          ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
+                          ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
                           : (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-500'),
                       )}>
                         {user.status}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                         {user.activeSessions}
                       </span>
                     </td>
@@ -348,7 +348,7 @@ export default function UsersRolesPage() {
               animate={{ opacity: 1, y: 0 }}
               className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-start justify-between gap-3">
@@ -360,34 +360,34 @@ export default function UsersRolesPage() {
                     {user.name.charAt(0)}
                   </div>
                   <div className="min-w-0">
-                    <p className={cn('text-sm font-medium truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <p className={cn('text-sm font-medium truncate', 'text-[var(--app-text)]')}>
                       {user.name}
                     </p>
-                    <p className={cn('text-xs truncate', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-xs truncate', 'text-[var(--app-text-muted)]')}>
                       {user.email}
                     </p>
                   </div>
                 </div>
                 <RoleChip role={user.role} />
               </div>
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+              <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
                 <div className="flex items-center gap-1.5">
                   {user.mfaEnabled ? (
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                   ) : (
                     <ShieldOff className="w-3.5 h-3.5 text-zinc-400" />
                   )}
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>MFA</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>MFA</span>
                 </div>
                 <span className={cn(
                   'rounded-full px-2 py-0.5 text-[10px] font-semibold',
                   user.status === 'active'
-                    ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')
+                    ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
                     : (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-500'),
                 )}>
                   {user.status}
                 </span>
-                <span className={cn('text-[10px] ml-auto', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[10px] ml-auto', 'text-[var(--app-text-muted)]')}>
                   {user.activeSessions} sessions
                 </span>
               </div>
@@ -412,11 +412,11 @@ export default function UsersRolesPage() {
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
                 className={cn(
                   'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md rounded-2xl border shadow-xl p-5 z-50',
-                  isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]',
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]',
                 )}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     Invite User
                   </h3>
                   <button
@@ -431,12 +431,12 @@ export default function UsersRolesPage() {
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className={cn('text-xs font-medium', isDark ? 'text-zinc-400' : 'text-zinc-500')}>Email Address</label>
+                    <label className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Email Address</label>
                     <div className={cn(
                       'flex items-center gap-2 rounded-xl border px-3 py-2.5',
                       isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-black/[0.02] border-black/[0.08]',
                     )}>
-                      <Mail className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+                      <Mail className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
                       <input
                         type="email"
                         value={inviteEmail}
@@ -444,13 +444,13 @@ export default function UsersRolesPage() {
                         placeholder="user@company.com"
                         className={cn(
                           'bg-transparent text-sm focus:outline-none w-full',
-                          isDark ? 'text-white placeholder:text-white/25' : 'text-black placeholder:text-black/25',
+                          'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                         )}
                       />
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className={cn('text-xs font-medium', isDark ? 'text-zinc-400' : 'text-zinc-500')}>Role</label>
+                    <label className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Role</label>
                     <div className="flex flex-wrap gap-2">
                       {(['admin', 'sales', 'marketing', 'finance', 'hr', 'viewer'] as UserRole[]).map((role) => (
                         <button
@@ -459,7 +459,7 @@ export default function UsersRolesPage() {
                           className={cn(
                             'rounded-xl px-3 py-1.5 text-xs font-medium transition-colors',
                             inviteRole === role
-                              ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                              ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                               : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.08]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.06]'),
                           )}
                         >

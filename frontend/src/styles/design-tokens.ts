@@ -1,12 +1,11 @@
 // ============================================
-// NueEra Growth OS — Global Design Tokens
+// NueEra Growth OS — Canonical Design Tokens
 // ============================================
 // Single source of truth for all design constants.
 // All modules import from here.
 // CSS custom properties (--app-*) auto-switch via .dark class.
-//
-// Migration note: --ops-* references are kept as aliases pointing
-// to the same --app-* variables for backward compatibility.
+// NO --ops-* references. NO hardcoded colors.
+// ============================================
 
 // ---- Spacing Scale (px) ----
 export const SPACING = {
@@ -69,6 +68,7 @@ export const CSS = {
   accent: 'var(--app-accent)',
   accentHover: 'var(--app-accent-hover)',
   accentLight: 'var(--app-accent-light)',
+  accentGradientTo: 'var(--app-accent-gradient-to)',
   text: 'var(--app-text)',
   textSecondary: 'var(--app-text-secondary)',
   textMuted: 'var(--app-text-muted)',
@@ -82,42 +82,25 @@ export const CSS = {
   warning: 'var(--app-warning)',
   danger: 'var(--app-danger)',
   info: 'var(--app-info)',
+  successBg: 'var(--app-success-bg)',
+  warningBg: 'var(--app-warning-bg)',
+  dangerBg: 'var(--app-danger-bg)',
+  infoBg: 'var(--app-info-bg)',
   shadowCard: 'var(--app-shadow-card)',
   shadowCardHover: 'var(--app-shadow-card-hover)',
+  shadowDropdown: 'var(--app-shadow-dropdown)',
+  shadowModal: 'var(--app-shadow-modal)',
+  shadowAccent: 'var(--app-shadow-accent)',
   overlay: 'var(--app-overlay)',
+  selectionBg: 'var(--app-selection-bg)',
+  focusRing: 'var(--app-focus-ring)',
   sidebarBg: 'var(--app-sidebar-bg)',
   topbarBg: 'var(--app-topbar-bg)',
   topbarBorder: 'var(--app-topbar-border)',
-} as const;
-
-// ---- Backward-compat alias: --ops-* maps to same --app-* vars ----
-// During migration, existing code referencing CSS legacy can use this.
-// Once migration is complete, remove this object and all --ops-* refs.
-export const CSS_LEGACY = {
-  bg: 'var(--ops-bg)',
-  cardBg: 'var(--ops-card-bg)',
-  cardBgHover: 'var(--ops-card-bg-hover)',
-  elevated: 'var(--ops-elevated)',
-  inputBg: 'var(--ops-input-bg)',
-  accent: 'var(--ops-accent)',
-  accentHover: 'var(--ops-accent-hover)',
-  accentLight: 'var(--ops-accent-light)',
-  text: 'var(--ops-text)',
-  textSecondary: 'var(--ops-text-secondary)',
-  textMuted: 'var(--ops-text-muted)',
-  textDisabled: 'var(--ops-text-disabled)',
-  border: 'var(--ops-border)',
-  borderLight: 'var(--ops-border-light)',
-  borderStrong: 'var(--ops-border-strong)',
-  hoverBg: 'var(--ops-hover-bg)',
-  activeBg: 'var(--ops-active-bg)',
-  success: 'var(--ops-success)',
-  warning: 'var(--ops-warning)',
-  danger: 'var(--ops-danger)',
-  info: 'var(--ops-info)',
-  shadowCard: 'var(--ops-shadow-card)',
-  shadowCardHover: 'var(--ops-shadow-card-hover)',
-  overlay: 'var(--ops-overlay)',
+  purple: 'var(--app-purple)',
+  purpleLight: 'var(--app-purple-light)',
+  emerald: 'var(--app-emerald)',
+  emeraldLight: 'var(--app-emerald-light)',
 } as const;
 
 // ---- Inline style helpers ----
@@ -138,11 +121,16 @@ export const inlineStyles = {
   accentBg: { backgroundColor: CSS.accent },
   accentLight: { backgroundColor: CSS.accentLight },
   success: { color: CSS.success },
+  successBg: { backgroundColor: CSS.successBg, color: CSS.success },
   warning: { color: CSS.warning },
+  warningBg: { backgroundColor: CSS.warningBg, color: CSS.warning },
   danger: { color: CSS.danger },
+  dangerBg: { backgroundColor: CSS.dangerBg, color: CSS.danger },
   info: { color: CSS.info },
+  infoBg: { backgroundColor: CSS.infoBg, color: CSS.info },
   hoverBg: { backgroundColor: CSS.hoverBg },
   activeBg: { backgroundColor: CSS.activeBg },
+  overlay: { backgroundColor: CSS.overlay },
   sidebar: { backgroundColor: CSS.sidebarBg },
   topbar: { backgroundColor: CSS.topbarBg, borderBottom: `1px solid ${CSS.topbarBorder}` },
 } as const;
@@ -188,9 +176,9 @@ export const RADIUS = {
 export const SHADOWS = {
   card: 'var(--app-shadow-card)',
   'card-hover': 'var(--app-shadow-card-hover)',
-  dropdown: '0 8px 24px rgba(0, 0, 0, 0.2)',
-  modal: '0 20px 60px rgba(0, 0, 0, 0.3)',
-  accent: '0 2px 8px rgba(204, 92, 55, 0.3)',
+  dropdown: 'var(--app-shadow-dropdown)',
+  modal: 'var(--app-shadow-modal)',
+  accent: 'var(--app-shadow-accent)',
 } as const;
 
 // ---- Z-index layers ----
@@ -207,51 +195,49 @@ export const Z_INDEX = {
 
 // ---- Status colors (theme-aware via CSS vars) ----
 export const STATUS_COLORS = {
-  active: { color: 'var(--app-success)', bg: 'color-mix(in srgb, var(--app-success) 10%, transparent)' },
-  pending: { color: 'var(--app-warning)', bg: 'color-mix(in srgb, var(--app-warning) 10%, transparent)' },
-  completed: { color: 'var(--app-info)', bg: 'color-mix(in srgb, var(--app-info) 10%, transparent)' },
-  cancelled: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  'on-hold': { color: '#a78bfa', bg: 'rgba(167, 139, 250, 0.1)' },
+  active: { color: 'var(--app-success)', bg: 'var(--app-success-bg)' },
+  pending: { color: 'var(--app-warning)', bg: 'var(--app-warning-bg)' },
+  completed: { color: 'var(--app-info)', bg: 'var(--app-info-bg)' },
+  cancelled: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  'on-hold': { color: 'var(--app-purple)', bg: 'var(--app-purple-light)' },
   draft: { color: 'var(--app-text-muted)', bg: 'var(--app-hover-bg)' },
-  sent: { color: 'var(--app-info)', bg: 'color-mix(in srgb, var(--app-info) 10%, transparent)' },
-  paid: { color: 'var(--app-success)', bg: 'color-mix(in srgb, var(--app-success) 10%, transparent)' },
-  overdue: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  partial: { color: 'var(--app-warning)', bg: 'color-mix(in srgb, var(--app-warning) 10%, transparent)' },
-  approved: { color: 'var(--app-success)', bg: 'color-mix(in srgb, var(--app-success) 10%, transparent)' },
-  rejected: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  escalated: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  'in-progress': { color: 'var(--app-warning)', bg: 'color-mix(in srgb, var(--app-warning) 10%, transparent)' },
+  sent: { color: 'var(--app-info)', bg: 'var(--app-info-bg)' },
+  paid: { color: 'var(--app-success)', bg: 'var(--app-success-bg)' },
+  overdue: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  partial: { color: 'var(--app-warning)', bg: 'var(--app-warning-bg)' },
+  approved: { color: 'var(--app-success)', bg: 'var(--app-success-bg)' },
+  rejected: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  escalated: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  'in-progress': { color: 'var(--app-warning)', bg: 'var(--app-warning-bg)' },
   review: { color: 'var(--app-accent)', bg: 'var(--app-accent-light)' },
-  blocked: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  'at-risk': { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-  critical: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' },
-  good: { color: 'var(--app-success)', bg: 'color-mix(in srgb, var(--app-success) 10%, transparent)' },
-  excellent: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' },
+  blocked: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  'at-risk': { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  critical: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
+  good: { color: 'var(--app-success)', bg: 'var(--app-success-bg)' },
+  excellent: { color: 'var(--app-emerald)', bg: 'var(--app-emerald-light)' },
 } as const;
 
 // ---- Priority colors ----
 export const PRIORITY_COLORS = {
-  low: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.12)' },
-  medium: { color: 'var(--app-info)', bg: 'color-mix(in srgb, var(--app-info) 12%, transparent)' },
-  high: { color: 'var(--app-warning)', bg: 'color-mix(in srgb, var(--app-warning) 12%, transparent)' },
-  critical: { color: 'var(--app-danger)', bg: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' },
+  low: { color: 'var(--app-emerald)', bg: 'var(--app-emerald-light)' },
+  medium: { color: 'var(--app-info)', bg: 'var(--app-info-bg)' },
+  high: { color: 'var(--app-warning)', bg: 'var(--app-warning-bg)' },
+  critical: { color: 'var(--app-danger)', bg: 'var(--app-danger-bg)' },
 } as const;
 
-// ---- Legacy COLORS export (backward compat) ----
-// Maps to CSS custom properties. Components using COLORS.searchIcon etc.
-// will automatically get theme-aware colors.
+// ---- COLORS export ----
+// All values reference CSS custom properties for theme-awareness.
 export const COLORS = {
   bg: { primary: CSS.bg, card: CSS.cardBg, 'card-hover': CSS.cardBgHover, elevated: CSS.elevated, input: CSS.inputBg },
   accent: { DEFAULT: CSS.accent, hover: CSS.accentHover, light: CSS.accentLight },
   text: { primary: CSS.text, secondary: CSS.textSecondary, muted: CSS.textMuted, disabled: CSS.textDisabled },
   border: { DEFAULT: CSS.border, light: CSS.borderLight, medium: CSS.border, strong: CSS.borderStrong },
   semantic: {
-    success: { DEFAULT: CSS.success, bg: 'color-mix(in srgb, var(--app-success) 10%, transparent)' },
-    warning: { DEFAULT: CSS.warning, bg: 'color-mix(in srgb, var(--app-warning) 10%, transparent)' },
-    danger: { DEFAULT: CSS.danger, bg: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' },
-    info: { DEFAULT: CSS.info, bg: 'color-mix(in srgb, var(--app-info) 10%, transparent)' },
+    success: { DEFAULT: CSS.success, bg: CSS.successBg },
+    warning: { DEFAULT: CSS.warning, bg: CSS.warningBg },
+    danger: { DEFAULT: CSS.danger, bg: CSS.dangerBg },
+    info: { DEFAULT: CSS.info, bg: CSS.infoBg },
   },
-  // Convenience aliases used by data-table and smart-data-table
   searchIcon: CSS.textDisabled,
   overlayHover: CSS.hoverBg,
 } as const;
@@ -273,26 +259,25 @@ export function getPriorityColor(priority: string): { color: string; bg: string 
   return { color: CSS.textMuted, bg: CSS.hoverBg };
 }
 
-// ---- Module accent colors (optional per-module override) ----
+// ---- Module accent colors ----
 // Each module can use its own primary/hover/light for module-specific UI.
 // Falls back to the global accent if no override is needed.
 export const MODULE_ACCENTS = {
-  erp: { primary: '#cc5c37', hover: '#b8512f', light: 'rgba(204, 92, 55, 0.08)' },
-  crm: { primary: '#6366f1', hover: '#5558e6', light: 'rgba(99, 102, 241, 0.08)' },
-  finance: { primary: '#059669', hover: '#047857', light: 'rgba(5, 150, 105, 0.08)' },
-  marketing: { primary: '#d946ef', hover: '#c026d3', light: 'rgba(217, 70, 239, 0.08)' },
-  analytics: { primary: '#0ea5e9', hover: '#0284c7', light: 'rgba(14, 165, 233, 0.08)' },
-  automation: { primary: '#f59e0b', hover: '#d97706', light: 'rgba(245, 158, 11, 0.08)' },
-  retention: { primary: '#10b981', hover: '#059669', light: 'rgba(16, 185, 129, 0.08)' },
-  settings: { primary: '#64748b', hover: '#475569', light: 'rgba(100, 116, 139, 0.08)' },
+  erp: { primary: 'var(--app-module-erp)', hover: 'var(--app-module-erp-hover)', light: 'var(--app-module-erp-light)' },
+  crm: { primary: 'var(--app-module-crm)', hover: 'var(--app-module-crm-hover)', light: 'var(--app-module-crm-light)' },
+  finance: { primary: 'var(--app-module-finance)', hover: 'var(--app-module-finance-hover)', light: 'var(--app-module-finance-light)' },
+  marketing: { primary: 'var(--app-module-marketing)', hover: 'var(--app-module-marketing-hover)', light: 'var(--app-module-marketing-light)' },
+  analytics: { primary: 'var(--app-module-analytics)', hover: 'var(--app-module-analytics-hover)', light: 'var(--app-module-analytics-light)' },
+  automation: { primary: 'var(--app-module-automation)', hover: 'var(--app-module-automation-hover)', light: 'var(--app-module-automation-light)' },
+  retention: { primary: 'var(--app-module-retention)', hover: 'var(--app-module-retention-hover)', light: 'var(--app-module-retention-light)' },
+  settings: { primary: 'var(--app-module-settings)', hover: 'var(--app-module-settings-hover)', light: 'var(--app-module-settings-light)' },
 } as const;
 
 export type ModuleName = keyof typeof MODULE_ACCENTS;
 
 /**
  * Get accent colors for a specific module.
- * Returns the global defaults (CSS.accent / CSS.accentHover / CSS.accentLight) if
- * no module override is specified or the module name is unrecognized.
+ * Returns the global defaults if no module override is specified.
  */
 export function getModuleAccent(module?: ModuleName) {
   if (module && MODULE_ACCENTS[module]) {

@@ -131,7 +131,7 @@ export default function AIControlPanel({
 
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 {title}
               </h3>
               <span
@@ -144,7 +144,7 @@ export default function AIControlPanel({
                 AI
               </span>
             </div>
-            <p className={cn('text-xs mt-0.5', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
               {description}
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function AIControlPanel({
           onClick={onToggle}
           className={cn(
             'shrink-0 cursor-pointer transition-colors',
-            enabled ? 'text-violet-400' : isDark ? 'text-zinc-600' : 'text-zinc-300',
+            enabled ? 'text-violet-400' : 'text-[var(--app-text-secondary)]',
           )}
           aria-label={`Toggle ${title}`}
         >
@@ -177,13 +177,13 @@ export default function AIControlPanel({
         >
           {/* Mode selector tabs */}
           <div>
-            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
               Mode
             </p>
             <div
               className={cn(
                 'inline-flex items-center rounded-xl p-1 gap-0.5',
-                isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]',
+                'bg-[var(--app-hover-bg)]',
               )}
             >
               {modes.map((m) => (
@@ -211,14 +211,14 @@ export default function AIControlPanel({
           {/* Token usage */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <p className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <p className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                 Token Usage
               </p>
-              <span className={cn('text-xs font-mono tabular-nums font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <span className={cn('text-xs font-mono tabular-nums font-bold', 'text-[var(--app-text)]')}>
                 {formatTokens(tokenUsed)} / {formatTokens(tokenLimit)}
               </span>
             </div>
-            <div className={cn('h-2 w-full rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+            <div className={cn('h-2 w-full rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${tokenPercent}%` }}
@@ -238,7 +238,7 @@ export default function AIControlPanel({
 
           {/* Module access */}
           <div>
-            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-1.5', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-1.5', 'text-[var(--app-text-muted)]')}>
               Module Access
             </p>
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -262,16 +262,16 @@ export default function AIControlPanel({
             <div
               className={cn(
                 'flex items-center justify-between rounded-xl p-3 border',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center gap-2">
-                <FileText className={cn('h-4 w-4', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+                <FileText className={cn('h-4 w-4', 'text-[var(--app-text-muted)]')} />
                 <div>
-                  <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                     Prompt Logging
                   </p>
-                  <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     {promptLogging ? 'Enabled' : 'Disabled'}
                   </p>
                 </div>
@@ -288,16 +288,16 @@ export default function AIControlPanel({
             <div
               className={cn(
                 'flex items-center justify-between rounded-xl p-3 border',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center gap-2">
-                <Lock className={cn('h-4 w-4', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+                <Lock className={cn('h-4 w-4', 'text-[var(--app-text-muted)]')} />
                 <div>
-                  <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                     Safe Action Confirmation
                   </p>
-                  <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     {safeActionConfirmation ? 'Enabled' : 'Disabled'}
                   </p>
                 </div>
@@ -314,7 +314,7 @@ export default function AIControlPanel({
           {/* Role quotas */}
           {roleQuotas.length > 0 && (
             <div>
-              <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+              <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                 Role Quotas
               </p>
               <div className="space-y-2">
@@ -324,12 +324,12 @@ export default function AIControlPanel({
                   return (
                     <div key={rq.role} className="flex items-center gap-3">
                       <div className="flex items-center gap-1.5 w-24 shrink-0">
-                        <Users className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                        <span className={cn('text-[10px] font-medium truncate capitalize', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
+                        <Users className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                        <span className={cn('text-[10px] font-medium truncate capitalize', 'text-[var(--app-text-secondary)]')}>
                           {rq.role}
                         </span>
                       </div>
-                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
@@ -340,7 +340,7 @@ export default function AIControlPanel({
                           )}
                         />
                       </div>
-                      <span className={cn('text-[10px] font-mono tabular-nums shrink-0', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('text-[10px] font-mono tabular-nums shrink-0', 'text-[var(--app-text-muted)]')}>
                         {rq.used}/{rq.quota}
                       </span>
                     </div>

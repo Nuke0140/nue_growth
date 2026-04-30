@@ -141,10 +141,10 @@ export default function PayoutCard({
             <Banknote className="w-4 h-4 text-emerald-500" />
           </div>
           <div className="min-w-0">
-            <p className={cn('text-sm font-semibold truncate', isDark ? 'text-white/90' : 'text-black/90')}>
+            <p className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
               {beneficiary}
             </p>
-            <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
               {type} &middot; {initiatedDate}
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function PayoutCard({
           )}
         >
           <AlertCircle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
-          <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-red-400' : 'text-red-600')}>
+          <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-danger)]')}>
             {failureReason}
           </p>
         </motion.div>

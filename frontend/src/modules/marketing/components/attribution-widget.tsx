@@ -19,11 +19,11 @@ export default function AttributionWidget({ channels, model = 'Multi-Touch' }: A
   const totalRevenue = useMemo(() => channels.reduce((s, c) => s + c.revenue, 0), [channels]);
 
   return (
-    <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+    <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Revenue Attribution</h3>
-          <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Model: {model} • Total: ₹{(totalRevenue / 1000000).toFixed(1)}Cr</p>
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Attribution</h3>
+          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Model: {model} • Total: ₹{(totalRevenue / 1000000).toFixed(1)}Cr</p>
         </div>
       </div>
       <div className="space-y-3">
@@ -40,18 +40,18 @@ export default function AttributionWidget({ channels, model = 'Multi-Touch' }: A
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: channel.color }} />
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/70' : 'text-gray-700')}>{channel.channel}</span>
+                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{channel.channel}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={cn('text-[10px] font-medium tabular-nums', isDark ? 'text-white/50' : 'text-gray-600')}>
                     ₹{(channel.revenue / 100000).toFixed(1)}L
                   </span>
-                  <span className={cn('text-[10px] font-semibold tabular-nums', isDark ? 'text-white/30' : 'text-gray-400')}>
+                  <span className={cn('text-[10px] font-semibold tabular-nums', 'text-[var(--app-text-muted)]')}>
                     {channel.contribution}%
                   </span>
                 </div>
               </div>
-              <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+              <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${widthPct}%` }}

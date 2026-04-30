@@ -96,7 +96,7 @@ export default function AiGrowthIntelligencePage() {
       case 'critical': return isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600';
       case 'warning': return isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-50 text-amber-600';
       case 'normal': return isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-50 text-blue-600';
-      case 'healthy': return isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-50 text-emerald-600';
+      case 'healthy': return 'bg-[var(--app-success-bg)] text-[var(--app-success)]';
       default: return '';
     }
   };
@@ -115,7 +115,7 @@ export default function AiGrowthIntelligencePage() {
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className={cn('text-xl font-semibold', isDark ? 'text-white' : 'text-gray-900')}>AI Growth Intelligence</h1>
+            <h1 className={cn('text-xl font-semibold', 'text-[var(--app-text)]')}>AI Growth Intelligence</h1>
             <p className={cn('text-sm', isDark ? 'text-white/50' : 'text-gray-500')}>AI-powered insights and predictions for growth optimization</p>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function AiGrowthIntelligencePage() {
           </div>
           <div className="space-y-1">
             <h2 className="text-sm font-semibold text-purple-300">AI Growth Summary</h2>
-            <p className={cn('text-sm leading-relaxed', isDark ? 'text-white/60' : 'text-gray-600')}>
+            <p className={cn('text-sm leading-relaxed', 'text-[var(--app-text-secondary)]')}>
               Analysis of 90-day data reveals <span className="font-medium text-purple-300">8 actionable insights</span> with a combined potential ROI of{' '}
               <span className="font-medium text-purple-300">₹21.5L/month</span>. Key opportunities include YouTube budget reallocation, WhatsApp Commerce expansion in Tier-2 cities, and cart abandonment flow optimization.{' '}
               <span className="text-red-400 font-medium">89 accounts flagged for churn risk</span> — immediate retention action recommended.
@@ -164,7 +164,7 @@ export default function AiGrowthIntelligencePage() {
 
       {/* Insight Cards Grid */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Growth Insights</h2>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Growth Insights</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {mockAIGrowthInsights.map((insight, i) => {
             const color = INSIGHT_COLORS[insight.type] || '#6b7280';
@@ -177,7 +177,7 @@ export default function AiGrowthIntelligencePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className={cn('rounded-2xl border p-5 space-y-3',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]',
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)]',
                   isApplied && 'ring-1 ring-emerald-500/30'
                 )}
               >
@@ -187,7 +187,7 @@ export default function AiGrowthIntelligencePage() {
                       <div style={{ color }}>{INSIGHT_ICONS[insight.type] || <Search className="w-5 h-5" />}</div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-gray-900')}>{insight.title}</h3>
+                      <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>{insight.title}</h3>
                     </div>
                   </div>
                   <span className={cn('text-[10px] font-medium px-2 py-0.5 rounded-full shrink-0', impactCfg.color, impactCfg.bg)}>
@@ -202,10 +202,10 @@ export default function AiGrowthIntelligencePage() {
                 {/* Confidence Bar */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Confidence</span>
-                    <span className={cn('text-[10px] font-medium', isDark ? 'text-white/60' : 'text-gray-600')}>{insight.confidence}%</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Confidence</span>
+                    <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{insight.confidence}%</span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+                  <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <div className="h-full rounded-full transition-all duration-700" style={{ backgroundColor: color, width: `${insight.confidence}%` }} />
                   </div>
                 </div>
@@ -218,7 +218,7 @@ export default function AiGrowthIntelligencePage() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-gray-500')}>
+                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
                     Potential ROI: <span className="text-emerald-500">₹{(insight.potentialROI / 1000).toFixed(0)}K</span>
                   </span>
                   <Button
@@ -238,21 +238,21 @@ export default function AiGrowthIntelligencePage() {
 
       {/* Budget Optimization Panel */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Budget Optimization — Channel Allocation</h2>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Budget Optimization — Channel Allocation</h2>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-4 mb-4">
             <div className="flex items-center gap-1.5">
               <div className={cn('w-3 h-1.5 rounded-full', isDark ? 'bg-white/20' : 'bg-gray-300')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Current</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-3 h-1.5 rounded-full bg-emerald-500" />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Recommended</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Recommended</span>
             </div>
           </div>
           <div className="space-y-3">
@@ -261,16 +261,16 @@ export default function AiGrowthIntelligencePage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: ch.color }} />
-                    <span className={cn('text-xs font-medium', isDark ? 'text-white/70' : 'text-gray-700')}>{ch.channel}</span>
+                    <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{ch.channel}</span>
                   </div>
                   <div className="flex items-center gap-2 text-[10px]">
-                    <span className={isDark ? 'text-white/40' : 'text-gray-500'}>{ch.current}%</span>
+                    <span className={'text-[var(--app-text-muted)]'}>{ch.current}%</span>
                     <ArrowRight className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-gray-300')} />
                     <span className="font-medium text-emerald-500">{ch.recommended}%</span>
                   </div>
                 </div>
                 <div className="relative h-2">
-                  <div className={cn('absolute inset-0 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')} />
+                  <div className={cn('absolute inset-0 rounded-full', 'bg-[var(--app-hover-bg)]')} />
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${ch.current}%` }}
@@ -293,7 +293,7 @@ export default function AiGrowthIntelligencePage() {
 
       {/* Churn Prediction */}
       <div>
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>
+        <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>
           <AlertTriangle className="w-4 h-4 inline-block mr-1 text-red-400" />
           Churn Prediction — Flagged Accounts
         </h2>
@@ -301,7 +301,7 @@ export default function AiGrowthIntelligencePage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           {CHURN_ACCOUNTS.map((acc, i) => (
             <motion.div
@@ -313,9 +313,9 @@ export default function AiGrowthIntelligencePage() {
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <p className={cn('text-sm font-medium truncate', isDark ? 'text-white' : 'text-gray-900')}>{acc.account}</p>
+                  <p className={cn('text-sm font-medium truncate', 'text-[var(--app-text)]')}>{acc.account}</p>
                 </div>
-                <p className={cn('text-[11px] truncate', isDark ? 'text-white/40' : 'text-gray-500')}>{acc.reason}</p>
+                <p className={cn('text-[11px] truncate', 'text-[var(--app-text-muted)]')}>{acc.reason}</p>
               </div>
               <div className="flex items-center gap-3 shrink-0">
                 <div className="text-right">
@@ -323,7 +323,7 @@ export default function AiGrowthIntelligencePage() {
                     <span className={cn('text-xs font-bold', acc.risk > 90 ? 'text-red-500' : acc.risk > 85 ? 'text-orange-500' : 'text-amber-500')}>
                       {acc.risk}%
                     </span>
-                    <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-gray-400')}>risk</span>
+                    <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>risk</span>
                   </div>
                 </div>
                 <div className={cn('hidden sm:block text-[10px] px-2 py-1 rounded-lg max-w-[140px]', isDark ? 'bg-white/[0.04] text-white/50' : 'bg-gray-50 text-gray-600')}>
@@ -338,7 +338,7 @@ export default function AiGrowthIntelligencePage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Content Trend Predictions */}
         <div>
-          <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Content Trend Predictions</h2>
+          <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Content Trend Predictions</h2>
           <div className="space-y-3">
             {TREND_PREDICTIONS.map((trend, i) => (
               <motion.div
@@ -346,12 +346,12 @@ export default function AiGrowthIntelligencePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+                className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h3 className={cn('text-sm font-medium', isDark ? 'text-white' : 'text-gray-900')}>{trend.topic}</h3>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>{trend.category}</span>
+                    <h3 className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>{trend.topic}</h3>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{trend.category}</span>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-1">
@@ -362,7 +362,7 @@ export default function AiGrowthIntelligencePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
-                    <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
+                    <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${trend.engagement}%` }}
@@ -380,8 +380,8 @@ export default function AiGrowthIntelligencePage() {
 
         {/* Audience Fatigue Map */}
         <div>
-          <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Audience Fatigue Map</h2>
-          <div className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+          <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Audience Fatigue Map</h2>
+          <div className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="grid grid-cols-2 gap-3">
               {FATIGUE_MAP.map((item, i) => (
                 <motion.div
@@ -398,8 +398,8 @@ export default function AiGrowthIntelligencePage() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>Freq: {item.frequency}</span>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>Max: {item.threshold}</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Freq: {item.frequency}</span>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Max: {item.threshold}</span>
                   </div>
                 </motion.div>
               ))}

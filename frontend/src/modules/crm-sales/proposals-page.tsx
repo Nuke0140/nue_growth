@@ -93,7 +93,7 @@ export default function ProposalsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   Proposals
                 </h1>
                 <Badge variant="secondary" className={cn(
@@ -103,13 +103,13 @@ export default function ProposalsPage() {
                   {mockProposals.length} documents
                 </Badge>
               </div>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
                 Sales document workspace &amp; client engagement tracking
               </p>
             </div>
             <Button className={cn(
               'shrink-0 h-9 px-4 rounded-xl text-xs font-semibold',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
               <Plus className="w-3.5 h-3.5 mr-1.5" />
               Create Proposal
@@ -162,20 +162,20 @@ export default function ProposalsPage() {
             ].map((stat) => (
               <div key={stat.label} className={cn(
                 'rounded-2xl border p-4',
-                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center gap-2 mb-2">
-                  <stat.icon className={cn('w-4 h-4', stat.color || (isDark ? 'text-white/30' : 'text-black/30'))} />
-                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                  <stat.icon className={cn('w-4 h-4', stat.color || ('text-[var(--app-text-muted)]'))} />
+                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 </div>
-                <p className={cn('text-xl font-bold', isDark ? 'text-white' : 'text-black')}>{stat.value}</p>
+                <p className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{stat.value}</p>
               </div>
             ))}
           </motion.div>
 
           {/* Templates Quick-Create */}
           <div>
-            <h3 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white/60' : 'text-black/60')}>
+            <h3 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text-secondary)]')}>
               Quick Create from Template
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -197,15 +197,15 @@ export default function ProposalsPage() {
                       'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
                       isDark ? 'bg-white/[0.06] group-hover:bg-white/[0.1]' : 'bg-black/[0.04] group-hover:bg-black/[0.08]'
                     )}>
-                      <tpl.icon className={cn('w-5 h-5', isDark ? 'text-white/50' : 'text-black/50')} />
+                      <tpl.icon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
                     </div>
                     <div>
-                      <p className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-black')}>{tpl.name}</p>
-                      <p className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>{tpl.desc}</p>
+                      <p className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>{tpl.name}</p>
+                      <p className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>{tpl.desc}</p>
                     </div>
                     <ChevronRight className={cn(
                       'w-4 h-4 ml-auto transition-transform group-hover:translate-x-0.5',
-                      isDark ? 'text-white/20' : 'text-black/20'
+                      'text-[var(--app-text-disabled)]'
                     )} />
                   </div>
                 </motion.button>
@@ -223,10 +223,10 @@ export default function ProposalsPage() {
           {filtered.length === 0 && (
             <div className={cn(
               'rounded-2xl border p-12 text-center',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}>
-              <FileText className={cn('w-8 h-8 mx-auto mb-3', isDark ? 'text-white/15' : 'text-black/15')} />
-              <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>
+              <FileText className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
+              <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
                 No proposals in this category
               </p>
             </div>
@@ -267,16 +267,16 @@ function ProposalCard({
       transition={{ delay: 0.15 + index * 0.05 }}
       className={cn(
         'rounded-2xl border p-5 transition-colors',
-        isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-black')}>
+          <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
             {proposal.title}
           </h3>
-          <p className={cn('text-[11px] mt-0.5 truncate', isDark ? 'text-white/30' : 'text-black/30')}>
+          <p className={cn('text-[11px] mt-0.5 truncate', 'text-[var(--app-text-muted)]')}>
             {proposal.dealName}
           </p>
         </div>
@@ -292,16 +292,16 @@ function ProposalCard({
 
       {/* Contact + Company + Template */}
       <div className="flex flex-wrap items-center gap-2 mb-3">
-        <span className={cn('text-xs font-medium', isDark ? 'text-white/70' : 'text-black/70')}>
+        <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>
           {proposal.contactName}
         </span>
-        <span className={cn('text-[11px]', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
-        <span className={cn('text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+        <span className={cn('text-[11px]', 'text-[var(--app-text-disabled)]')}>·</span>
+        <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
           {proposal.company}
         </span>
         {proposal.template && (
           <>
-            <span className={cn('text-[11px]', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
+            <span className={cn('text-[11px]', 'text-[var(--app-text-disabled)]')}>·</span>
             <span className={cn('text-[10px] px-1.5 py-0.5 rounded font-medium',
               isDark ? 'bg-white/[0.04] text-white/30' : 'bg-black/[0.04] text-black/30'
             )}>
@@ -313,10 +313,10 @@ function ProposalCard({
 
       {/* Value */}
       <div className="mb-3">
-        <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-black')}>
+        <span className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
           {formatCurrency(proposal.totalValue)}
         </span>
-        <span className={cn('text-[10px] ml-1', isDark ? 'text-white/25' : 'text-black/25')}>{proposal.currency}</span>
+        <span className={cn('text-[10px] ml-1', 'text-[var(--app-text-muted)]')}>{proposal.currency}</span>
       </div>
 
       {/* Client Engagement */}
@@ -325,12 +325,12 @@ function ProposalCard({
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
               <Eye className="w-3.5 h-3.5 text-violet-400" />
-              <span className={cn('text-[10px] font-semibold', isDark ? 'text-white/50' : 'text-black/50')}>
+              <span className={cn('text-[10px] font-semibold', 'text-[var(--app-text-secondary)]')}>
                 Client Engagement
               </span>
             </div>
             {proposal.lastViewedAt && (
-              <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+              <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                 Last viewed: {formatDate(proposal.lastViewedAt)}
               </span>
             )}
@@ -338,14 +338,14 @@ function ProposalCard({
           {proposal.totalPages > 0 && (
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                   Pages Read
                 </span>
-                <span className={cn('text-[10px] font-medium', isDark ? 'text-white/50' : 'text-black/50')}>
+                <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>
                   {proposal.pagesRead}/{proposal.totalPages} pages ({pagesPercent}%)
                 </span>
               </div>
-              <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${pagesPercent}%` }}
@@ -377,7 +377,7 @@ function ProposalCard({
       {/* Version History */}
       {proposal.version > 1 && (
         <div className="mb-3">
-          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/25' : 'text-black/25')}>
+          <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
             Version History
           </span>
           <div className="flex items-center gap-1 mt-1.5">
@@ -401,7 +401,7 @@ function ProposalCard({
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-1.5 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+      <div className="flex items-center gap-1.5 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
         <ActionButton icon={Eye} label="View" isDark={isDark} />
         <ActionButton icon={Edit3} label="Edit" isDark={isDark} />
         <ActionButton icon={Send} label="Reminder" isDark={isDark} />

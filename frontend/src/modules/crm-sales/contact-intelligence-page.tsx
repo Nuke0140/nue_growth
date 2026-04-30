@@ -87,7 +87,7 @@ export default function ContactIntelligencePage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+                <h1 className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                   AI Intelligence
                 </h1>
                 <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] px-2 h-5 gap-1">
@@ -95,7 +95,7 @@ export default function ContactIntelligencePage() {
                   Powered by AI
                 </Badge>
               </div>
-              <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
                 AI-driven insights and recommendations
               </p>
             </div>
@@ -158,13 +158,13 @@ export default function ContactIntelligencePage() {
               )}>
                 <widget.icon className={cn('w-4.5 h-4.5', widget.color)} />
               </div>
-              <p className={cn('text-[11px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[11px] mb-1', 'text-[var(--app-text-muted)]')}>
                 {widget.label}
               </p>
-              <p className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-black')}>
+              <p className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>
                 {widget.value}
               </p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                 {widget.subtext}
               </p>
             </motion.div>
@@ -175,7 +175,7 @@ export default function ContactIntelligencePage() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
           {/* AI Insights grid - takes 2 columns */}
           <div className="xl:col-span-2">
-            <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+            <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
               <Sparkles className="w-4 h-4 text-purple-400" />
               AI Insights
             </h2>
@@ -190,7 +190,7 @@ export default function ContactIntelligencePage() {
           <div className="space-y-6">
             {/* Customer Health Distribution */}
             <div>
-              <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+              <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
                 <Heart className="w-4 h-4 text-pink-400" />
                 Health Distribution
               </h2>
@@ -205,13 +205,13 @@ export default function ContactIntelligencePage() {
                     <div key={bar.label}>
                       <div className="flex items-center justify-between mb-1">
                         <span className={cn('text-xs font-medium', bar.textColor)}>{bar.label}</span>
-                        <span className={cn('text-xs font-bold', isDark ? 'text-white/70' : 'text-black/70')}>
+                        <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
                           {bar.count}
                         </span>
                       </div>
                       <div className={cn(
                         'h-2 rounded-full overflow-hidden',
-                        isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+                        'bg-[var(--app-hover-bg)]'
                       )}>
                         <motion.div
                           initial={{ width: 0 }}
@@ -235,7 +235,7 @@ export default function ContactIntelligencePage() {
 
             {/* Next Best Actions */}
             <div>
-              <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+              <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
                 <Zap className="w-4 h-4 text-amber-400" />
                 Next Best Actions
               </h2>
@@ -258,17 +258,17 @@ export default function ContactIntelligencePage() {
                     <div className="flex-1 min-w-0">
                       <p className={cn(
                         'text-xs font-medium truncate',
-                        isDark ? 'text-white/80' : 'text-black/80'
+                        'text-[var(--app-text)]'
                       )}>
                         {action.actionText}
                       </p>
-                      <p className={cn('text-[10px] truncate', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <p className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                         {action.contactName}
                       </p>
                     </div>
                     <ArrowRight className={cn(
                       'w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity',
-                      isDark ? 'text-white/20' : 'text-black/20'
+                      'text-[var(--app-text-disabled)]'
                     )} />
                   </motion.div>
                 ))}
@@ -279,7 +279,7 @@ export default function ContactIntelligencePage() {
 
         {/* Relationship Strength */}
         <div>
-          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', isDark ? 'text-white/60' : 'text-black/60')}>
+          <h2 className={cn('text-sm font-semibold mb-4 flex items-center gap-2', 'text-[var(--app-text-secondary)]')}>
             <Users className="w-4 h-4 text-cyan-400" />
             Relationship Strength — Top Contacts
           </h2>
@@ -310,10 +310,10 @@ export default function ContactIntelligencePage() {
                     size="sm"
                     showLabel={false}
                   />
-                  <p className={cn('text-xs font-medium mt-2 truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                  <p className={cn('text-xs font-medium mt-2 truncate', 'text-[var(--app-text)]')}>
                     {contact.firstName} {contact.lastName}
                   </p>
-                  <p className={cn('text-[10px] truncate', isDark ? 'text-white/25' : 'text-black/25')}>
+                  <p className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>
                     {contact.company}
                   </p>
                   <Badge className={cn(

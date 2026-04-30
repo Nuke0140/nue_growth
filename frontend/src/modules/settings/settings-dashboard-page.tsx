@@ -62,13 +62,13 @@ export default function SettingsDashboardPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Settings className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Settings className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Settings Dashboard</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Your admin command center
               </p>
             </div>
@@ -100,8 +100,8 @@ export default function SettingsDashboardPage() {
         {/* ── Quick Navigation ── */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <ChevronRight className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Quick Navigation
             </span>
           </div>
@@ -127,12 +127,12 @@ export default function SettingsDashboardPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-400" />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Active Alerts
             </span>
             <span className={cn(
               'rounded-full px-2 py-0.5 text-[10px] font-semibold',
-              isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
+              'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
             )}>
               {activeAlerts.length}
             </span>
@@ -171,17 +171,17 @@ export default function SettingsDashboardPage() {
                         <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>
                       {alert.description}
                     </p>
                     <div className="flex items-center justify-between mt-2">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {new Date(alert.detectedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       </span>
                       {alert.actionUrl && (
                         <button className={cn(
                           'text-[10px] font-medium px-2 py-0.5 rounded-md transition-colors',
-                          isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
+                          'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                         )}>
                           View
                         </button>
@@ -201,14 +201,14 @@ export default function SettingsDashboardPage() {
           transition={{ delay: 0.6, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Recent Activity
             </span>
           </div>
           <div className={cn(
             'rounded-2xl border p-4',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}>
             <div className="space-y-0">
               {recentLogs.map((log, i) => (
@@ -231,22 +231,22 @@ export default function SettingsDashboardPage() {
                         : 'bg-emerald-500',
                   )} />
                   <div className="min-w-0 flex-1">
-                    <p className={cn('text-xs', isDark ? 'text-white/80' : 'text-black/80')}>
+                    <p className={cn('text-xs', 'text-[var(--app-text)]')}>
                       <span className="font-semibold">{log.actor}</span>
                       <span className="mx-1.5">→</span>
                       <span>{log.action}</span>
                     </p>
-                    <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>
                       {log.module} · {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
                   <span className={cn(
                     'shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-medium capitalize',
                     log.severity === 'critical'
-                      ? (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')
+                      ? ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]')
                       : log.severity === 'warning'
-                        ? (isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600')
-                        : (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'),
+                        ? ('bg-[var(--app-warning-bg)] text-[var(--app-warning)]')
+                        : ('bg-[var(--app-success-bg)] text-[var(--app-success)]'),
                   )}>
                     {log.severity}
                   </span>

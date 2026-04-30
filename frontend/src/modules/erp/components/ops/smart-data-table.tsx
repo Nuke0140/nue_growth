@@ -3,7 +3,7 @@
 import React, { memo, useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { COLORS, ANIMATION } from '../../design-tokens';
+import { COLORS, ANIMATION } from '@/styles/design-tokens';
 import {
   Table,
   TableBody,
@@ -284,7 +284,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   setPage(0);
                 }}
                 placeholder={searchPlaceholder}
-                className="ops-input w-full pl-9 pr-4 py-2 text-sm"
+                className="app-input w-full pl-9 pr-4 py-2 text-sm"
                 aria-label="Search table"
               />
             </div>
@@ -299,7 +299,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
+                  className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                 >
                   <Eye className="w-3.5 h-3.5 mr-1.5" />
                   Views
@@ -308,12 +308,12 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl"
+                className="w-52 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-xl"
               >
-                <DropdownMenuLabel className="text-[var(--ops-text-muted)] text-xs">
+                <DropdownMenuLabel className="text-[var(--app-text-muted)] text-xs">
                   Saved Views
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
+                <DropdownMenuSeparator className="bg-[var(--app-border)]" />
                 {savedViews.map((view) => (
                   <DropdownMenuItem
                     key={view.id}
@@ -321,8 +321,8 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                     className={cn(
                       'text-[13px] cursor-pointer',
                       view.id === activeViewId
-                        ? 'text-[var(--ops-accent)] bg-[var(--ops-active-bg)]'
-                        : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
+                        ? 'text-[var(--app-accent)] bg-[var(--app-active-bg)]'
+                        : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     {view.name}
@@ -338,7 +338,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
+                className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
               >
                 <Settings2 className="w-3.5 h-3.5 mr-1.5" />
                 Columns
@@ -347,30 +347,30 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-48 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl"
+              className="w-48 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-xl"
             >
-              <DropdownMenuLabel className="text-[var(--ops-text-muted)] text-xs">
+              <DropdownMenuLabel className="text-[var(--app-text-muted)] text-xs">
                 Toggle Columns
               </DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
+              <DropdownMenuSeparator className="bg-[var(--app-border)]" />
               {columns.map((col) => (
                 <DropdownMenuItem
                   key={col.key}
                   onClick={() => toggleColumn(col.key)}
-                  className="flex items-center gap-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] cursor-pointer"
+                  className="flex items-center gap-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] cursor-pointer"
                 >
                   {hiddenCols.has(col.key) ? (
-                    <EyeOff className="w-3.5 h-3.5 text-[var(--ops-text-disabled)]" />
+                    <EyeOff className="w-3.5 h-3.5 text-[var(--app-text-disabled)]" />
                   ) : (
-                    <Eye className="w-3.5 h-3.5 text-[var(--ops-accent)]" />
+                    <Eye className="w-3.5 h-3.5 text-[var(--app-accent)]" />
                   )}
                   {col.label}
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuSeparator className="bg-[var(--ops-border)]" />
+              <DropdownMenuSeparator className="bg-[var(--app-border)]" />
               <DropdownMenuItem
                 onClick={handleSaveView}
-                className="text-[13px] text-[var(--ops-accent)] hover:bg-[var(--ops-active-bg)] cursor-pointer"
+                className="text-[13px] text-[var(--app-accent)] hover:bg-[var(--app-active-bg)] cursor-pointer"
               >
                 <Save className="w-3.5 h-3.5 mr-2" />
                 Save Current View
@@ -384,7 +384,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               variant="ghost"
               size="sm"
               onClick={handleExport}
-              className="h-8 px-2.5 text-xs text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
+              className="h-8 px-2.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
             >
               <Download className="w-3.5 h-3.5 mr-1.5" />
               Export
@@ -394,24 +394,24 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
       </div>
 
       {/* Table */}
-      <div className="ops-card overflow-hidden !p-0" role="grid" aria-label="Data table" onKeyDown={handleTableKeyDown} tabIndex={0}>
+      <div className="app-card overflow-hidden !p-0" role="grid" aria-label="Data table" onKeyDown={handleTableKeyDown} tabIndex={0}>
         <Table ref={tableRef}>
           <TableHeader>
             <TableRow
               className="border-b"
-              style={{ borderColor: 'var(--ops-border)' }}
+              style={{ borderColor: 'var(--app-border)' }}
             >
               {/* Bulk select checkbox */}
               {(selectAll || selectedIds.size > 0) && (
                 <TableHead
                   className="w-10"
-                  style={{ color: 'var(--ops-text-muted)' }}
+                  style={{ color: 'var(--app-text-muted)' }}
                 >
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={toggleSelectAll}
-                    className="rounded border-[var(--ops-border-strong)] bg-transparent accent-[var(--ops-accent)]"
+                    className="rounded border-[var(--app-border-strong)] bg-transparent accent-[var(--app-accent)]"
                   />
                 </TableHead>
               )}
@@ -450,7 +450,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 <TableCell
                   colSpan={visibleColumns.length + (selectAll || selectedIds.size > 0 ? 1 : 0)}
                   className="h-32 text-center"
-                  style={{ color: 'var(--ops-text-muted)' }}
+                  style={{ color: 'var(--app-text-muted)' }}
                 >
                   {emptyMessage}
                 </TableCell>
@@ -501,7 +501,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                           type="checkbox"
                           checked={selectedIds.has(rowId)}
                           onChange={() => toggleRowSelect(rowId)}
-                          className="rounded border-[var(--ops-border-strong)] bg-transparent accent-[var(--ops-accent)]"
+                          className="rounded border-[var(--app-border-strong)] bg-transparent accent-[var(--app-accent)]"
                           aria-label={`Select row ${idx + 1}`}
                         />
                       </TableCell>
@@ -538,7 +538,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                   }
                                 }}
                                 onBlur={() => commitEdit(idx)}
-                                className="ops-input text-sm px-2 py-1 w-full bg-[var(--ops-hover-bg)] border-[rgba(204,92,55,0.4)]"
+                                className="app-input text-sm px-2 py-1 w-full bg-[var(--app-hover-bg)] border-[rgba(204,92,55,0.4)]"
                                 autoFocus
                                 aria-label={`Edit ${col.label}`}
                               />
@@ -556,7 +556,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                             <div
                               className={cn(
                                 isEditable &&
-                                  'cursor-text hover:bg-[var(--ops-hover-bg)] rounded px-1 -mx-1 py-0.5 transition-colors'
+                                  'cursor-text hover:bg-[var(--app-hover-bg)] rounded px-1 -mx-1 py-0.5 transition-colors'
                               )}
                             >
                               {(row[col.key] as React.ReactNode) ?? '—'}
@@ -576,7 +576,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-1">
-          <p className="text-xs text-[var(--ops-text-muted)]">
+          <p className="text-xs text-[var(--app-text-muted)]">
             Showing {safePage * pageSize + 1}–
             {Math.min((safePage + 1) * pageSize, sorted.length)} of{' '}
             {sorted.length}
@@ -586,15 +586,15 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               <button
                 key={size}
                 disabled={size === pageSize}
-                className="ops-badge text-xs cursor-pointer disabled:opacity-60"
+                className="app-badge text-xs cursor-pointer disabled:opacity-60"
                 style={{
                   color:
                     size === pageSize
-                      ? 'var(--ops-accent)'
-                      : 'var(--ops-text-muted)',
+                      ? 'var(--app-accent)'
+                      : 'var(--app-text-muted)',
                   backgroundColor:
                     size === pageSize
-                      ? 'var(--ops-accent-light)'
+                      ? 'var(--app-accent-light)'
                       : 'transparent',
                 }}
               >
@@ -606,19 +606,19 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-[var(--ops-text-secondary)]"
+              className="h-8 w-8 text-[var(--app-text-secondary)]"
               onClick={() => setPage(Math.max(0, safePage - 1))}
               disabled={safePage === 0}
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-xs px-2 text-[var(--ops-text-secondary)]">
+            <span className="text-xs px-2 text-[var(--app-text-secondary)]">
               {safePage + 1} / {totalPages}
             </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-[var(--ops-text-secondary)]"
+              className="h-8 w-8 text-[var(--app-text-secondary)]"
               onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
               disabled={safePage >= totalPages - 1}
             >

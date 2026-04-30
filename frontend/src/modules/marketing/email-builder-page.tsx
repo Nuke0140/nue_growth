@@ -46,11 +46,11 @@ function KPIStat({ label, value, sub, isDark }: { label: string; value: string; 
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
-      <p className={cn('text-xs font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>{label}</p>
+      <p className={cn('text-xs font-medium mb-1', 'text-[var(--app-text-muted)]')}>{label}</p>
       <p className="text-2xl font-bold tracking-tight">{value}</p>
-      <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{sub}</p>
+      <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{sub}</p>
     </motion.div>
   );
 }
@@ -87,7 +87,7 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -107,7 +107,7 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
       <div className="grid grid-cols-12 gap-4">
         {/* Left: Block Types */}
         <div className="col-span-3 space-y-1.5">
-          <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>
+          <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
             Blocks
           </p>
           {blocks.map(block => (
@@ -117,7 +117,7 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
               className={cn(
                 'w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs transition-all',
                 activeBlock === block.type
-                  ? isDark ? 'bg-white/[0.06] text-white' : 'bg-black/[0.06] text-black'
+                  ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                   : isDark ? 'text-white/40 hover:bg-white/[0.03]' : 'text-black/40 hover:bg-black/[0.02]'
               )}
             >
@@ -129,11 +129,11 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
 
         {/* Center: Preview */}
         <div className={cn('col-span-6 rounded-xl p-4 min-h-[280px] space-y-2',
-          isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-2 mb-3">
-            <Mail className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
-            <span className={cn('text-[10px] font-medium', isDark ? 'text-white/25' : 'text-black/25')}>
+            <Mail className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
+            <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
               Email Preview
             </span>
           </div>
@@ -151,7 +151,7 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
             >
               <span className="text-xs">{block.content}</span>
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <GripVertical className={cn('w-3 h-3', isDark ? 'text-white/20' : 'text-black/20')} />
+                <GripVertical className={cn('w-3 h-3', 'text-[var(--app-text-disabled)]')} />
                 <button onClick={() => removeBlock(block.id)} className="p-0.5 text-red-400 hover:bg-red-400/10 rounded">
                   <Trash2 className="w-3 h-3" />
                 </button>
@@ -170,7 +170,7 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
 
         {/* Right: Settings */}
         <div className="col-span-3 space-y-3">
-          <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-white/30' : 'text-black/30')}>
+          <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
             Settings
           </p>
           {[
@@ -180,15 +180,15 @@ function EmailBuilderPanel({ isDark }: { isDark: boolean }) {
             { label: 'Preview Text', value: 'AI Analytics...' },
           ].map((s, i) => (
             <div key={i}>
-              <p className={cn('text-[10px] mb-1', isDark ? 'text-white/25' : 'text-black/25')}>{s.label}</p>
+              <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>{s.label}</p>
               <div className={cn('text-xs px-2 py-1.5 rounded-lg border',
                 isDark ? 'border-white/[0.06] text-white/70' : 'border-black/[0.06] text-black/70'
               )}>{s.value}</div>
             </div>
           ))}
           <div className="flex items-center gap-2 pt-2">
-            <Settings className={cn('w-3.5 h-3.5', isDark ? 'text-white/25' : 'text-black/25')} />
-            <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Advanced settings</span>
+            <Settings className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Advanced settings</span>
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@ function AICopySuggestions({ isDark }: { isDark: boolean }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-4 h-4 text-purple-400" />
@@ -224,12 +224,12 @@ function AICopySuggestions({ isDark }: { isDark: boolean }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 + i * 0.06, duration: 0.2 }}
             className={cn('flex items-center justify-between p-3 rounded-xl transition-colors cursor-pointer',
-              isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+              'hover:bg-[var(--app-hover-bg)]'
             )}
           >
             <div className="flex-1 min-w-0 mr-3">
               <p className="text-xs font-medium truncate">{s.subject}</p>
-              <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/25' : 'text-black/25')}>
+              <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>
                 AI confidence score
               </p>
             </div>
@@ -240,7 +240,7 @@ function AICopySuggestions({ isDark }: { isDark: boolean }) {
                 {s.score}%
               </div>
               <button className={cn('p-1 rounded-lg transition-colors',
-                isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                'hover:bg-[var(--app-hover-bg)]'
               )}>
                 <Copy className="w-3.5 h-3.5" />
               </button>
@@ -292,7 +292,7 @@ export default function EmailBuilderPage() {
         >
           <div>
             <h1 className="text-xl font-bold tracking-tight">Email Campaigns</h1>
-            <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
               Build, send, and analyse email campaigns
             </p>
           </div>
@@ -317,14 +317,14 @@ export default function EmailBuilderPage() {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
           <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border flex-1 max-w-sm',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
-            <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
             <input
               type="text" placeholder="Search campaigns..." value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={cn('bg-transparent text-sm focus:outline-none w-full',
-                isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
               )}
             />
           </div>
@@ -336,7 +336,7 @@ export default function EmailBuilderPage() {
                 className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize',
                   statusFilter === f
                     ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.06] text-black'
-                    : isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+                    : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
                 )}
               >
                 {f}
@@ -350,7 +350,7 @@ export default function EmailBuilderPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           {/* Table Header */}
           <div className={cn('grid grid-cols-12 gap-2 px-5 py-3 text-xs font-medium border-b',
@@ -382,7 +382,7 @@ export default function EmailBuilderPage() {
                 {/* Campaign Name + Subject */}
                 <div className="col-span-3 min-w-0">
                   <p className="text-sm font-medium truncate">{campaign.name}</p>
-                  <p className={cn('text-[10px] truncate mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <p className={cn('text-[10px] truncate mt-0.5', 'text-[var(--app-text-muted)]')}>
                     {campaign.subject}
                   </p>
                 </div>
@@ -438,7 +438,7 @@ export default function EmailBuilderPage() {
 
                 {/* Sent Date */}
                 <div className="col-span-1 text-right">
-                  <span className={cn('tabular-nums', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <span className={cn('tabular-nums', 'text-[var(--app-text-muted)]')}>
                     {campaign.sentAt ? new Date(campaign.sentAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : '—'}
                   </span>
                 </div>
@@ -446,8 +446,8 @@ export default function EmailBuilderPage() {
             ))}
             {filtered.length === 0 && (
               <div className="py-12 text-center">
-                <Mail className={cn('w-8 h-8 mx-auto mb-2', isDark ? 'text-white/15' : 'text-black/15')} />
-                <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No campaigns found</p>
+                <Mail className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
+                <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No campaigns found</p>
               </div>
             )}
           </div>

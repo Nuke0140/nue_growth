@@ -71,13 +71,13 @@ export default function RetentionAnalyticsPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Heart className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Heart className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Retention Analytics</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Churn cohorts, renewals, loyalty &amp; NPS
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function RetentionAnalyticsPage() {
             <ExportMenu />
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-xl',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
               {today}
@@ -157,7 +157,7 @@ export default function RetentionAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{cohort.month}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {cohort.churned} of {cohort.total}
                       </span>
                       <span className={cn(
@@ -168,7 +168,7 @@ export default function RetentionAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-3 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-3 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(cohort.churnRate / maxChurnRate) * 100}%` }}
@@ -190,12 +190,12 @@ export default function RetentionAnalyticsPage() {
           <ChartCard title="Renewal Trend" subtitle="Renewed vs lost contracts monthly">
             <div className="flex items-center gap-4 mb-3">
               {[
-                { color: isDark ? 'bg-emerald-500/50' : 'bg-emerald-400', label: 'Renewed' },
+                { color: 'bg-[var(--app-success)]', label: 'Renewed' },
                 { color: isDark ? 'bg-red-500/50' : 'bg-red-400', label: 'Lost' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}
             </div>
@@ -203,7 +203,7 @@ export default function RetentionAnalyticsPage() {
               {data.renewalTrend.map((entry, i) => (
                 <div key={entry.month} className="flex-1 flex flex-col justify-end items-center gap-0.5">
                   {/* Revenue label */}
-                  <span className={cn('text-[8px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[8px] font-medium', 'text-[var(--app-text-muted)]')}>
                     {formatINR(entry.revenue)}
                   </span>
                   <div className="flex gap-0.5 w-full items-end h-full justify-center">
@@ -217,10 +217,10 @@ export default function RetentionAnalyticsPage() {
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.renewed / maxRenewed) * 100}%` }}
                       transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
+                      className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
                     />
                   </div>
-                  <span className={cn('text-[8px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                  <span className={cn('text-[8px] mt-1', 'text-[var(--app-text-disabled)]')}>
                     {entry.month.slice(0, 3)}
                   </span>
                 </div>
@@ -257,19 +257,19 @@ export default function RetentionAnalyticsPage() {
                   <p className="text-sm font-semibold mb-2">{tier.tier}</p>
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                         Clients
                       </span>
                       <span className="text-sm font-semibold">{tier.clients}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                         Avg Spend
                       </span>
                       <span className="text-sm font-medium">{formatINR(tier.avgSpend)}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                         Retention
                       </span>
                       <span className={cn(
@@ -282,9 +282,9 @@ export default function RetentionAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full mt-2', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-1.5 rounded-full mt-2', 'bg-[var(--app-hover-bg)]')}>
                     <div
-                      className={cn('h-full rounded-full', isDark ? 'bg-white/[0.20]' : 'bg-black/[0.15]')}
+                      className={cn('h-full rounded-full', 'bg-[var(--app-hover-bg)]')}
                       style={{ width: `${tier.retention}%` }}
                     />
                   </div>
@@ -309,13 +309,13 @@ export default function RetentionAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
-                      <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                         {src.ratio}x ratio
                       </span>
                       <span className="text-sm font-semibold">{formatINR(src.ltv)}</span>
                     </div>
                   </div>
-                  <div className={cn('w-full h-2.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.ltv / maxLTV) * 100}%` }}
@@ -337,7 +337,7 @@ export default function RetentionAnalyticsPage() {
                   {[100, 75, 50, 25, 0].map((val) => (
                     <span
                       key={val}
-                      className={cn('text-[9px] w-6 text-right', isDark ? 'text-white/20' : 'text-black/20')}
+                      className={cn('text-[9px] w-6 text-right', 'text-[var(--app-text-disabled)]')}
                     >
                       {val}
                     </span>
@@ -366,12 +366,12 @@ export default function RetentionAnalyticsPage() {
                           <div
                             className={cn(
                               'absolute left-3 top-1/2 -translate-y-1/2 w-4 h-0.5',
-                              isDark ? 'bg-white/[0.10]' : 'bg-black/[0.10]',
+                              'bg-[var(--app-hover-bg)]',
                             )}
                           />
                         )}
                       </div>
-                      <span className={cn('text-[8px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                      <span className={cn('text-[8px]', 'text-[var(--app-text-disabled)]')}>
                         {entry.month.slice(0, 3)}
                       </span>
                     </motion.div>
@@ -386,12 +386,12 @@ export default function RetentionAnalyticsPage() {
         <ChartCard title="Win-back Success" subtitle="Attempted vs won back per month">
           <div className="flex items-center gap-4 mb-3">
             {[
-              { color: isDark ? 'bg-blue-500/50' : 'bg-blue-400', label: 'Attempted' },
-              { color: isDark ? 'bg-emerald-500/50' : 'bg-emerald-400', label: 'Won Back' },
+              { color: 'bg-[var(--app-info)]', label: 'Attempted' },
+              { color: 'bg-[var(--app-success)]', label: 'Won Back' },
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-1.5">
                 <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
               </div>
             ))}
           </div>
@@ -399,7 +399,7 @@ export default function RetentionAnalyticsPage() {
             {data.winbackSuccess.map((entry, i) => (
               <div key={entry.month} className="flex-1 flex flex-col justify-end items-center gap-0.5">
                 <div className="flex items-baseline gap-0.5">
-                  <span className={cn('text-[8px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[8px]', 'text-[var(--app-text-muted)]')}>
                     {formatINR(entry.revenue)}
                   </span>
                 </div>
@@ -414,10 +414,10 @@ export default function RetentionAnalyticsPage() {
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.won / maxWinback) * 100}%` }}
                     transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
+                    className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
                   />
                 </div>
-                <span className={cn('text-[8px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                <span className={cn('text-[8px] mt-1', 'text-[var(--app-text-disabled)]')}>
                   {entry.month.slice(0, 3)}
                 </span>
               </div>

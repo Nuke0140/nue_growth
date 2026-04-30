@@ -63,7 +63,7 @@ export default function DashboardWidget({
         <h3
           className={cn(
             'text-sm font-semibold truncate',
-            isDark ? 'text-white' : 'text-zinc-900',
+            'text-[var(--app-text)]',
           )}
         >
           {title}
@@ -74,7 +74,7 @@ export default function DashboardWidget({
           transition={{ duration: 0.2 }}
           className={cn(
             'shrink-0 ml-2',
-            isDark ? 'text-zinc-400' : 'text-zinc-500',
+            'text-[var(--app-text-muted)]',
           )}
         >
           <ChevronDown className="h-4 w-4" />

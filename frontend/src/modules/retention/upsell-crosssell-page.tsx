@@ -51,11 +51,11 @@ export default function UpsellCrosssellPage() {
     const avgFit = upsellData.reduce((s, o) => s + o.fitScore, 0) / upsellData.length;
     const avgProb = upsellData.reduce((s, o) => s + o.probability, 0) / upsellData.length;
     return [
-      { label: 'Total Pipeline Value', value: formatINR(totalPipeline), icon: IndianRupee, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 12.4, changeLabel: 'vs last quarter' },
-      { label: 'Approached', value: `${approached}`, icon: Target, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 25.0, changeLabel: 'opportunities reached out' },
-      { label: 'In-Progress', value: `${inProgress}`, icon: Clock, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 10.0, changeLabel: 'active negotiations' },
-      { label: 'Closed Won', value: `${closedWon}`, icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: 'conversions this period' },
-      { label: 'Avg Fit Score', value: `${avgFit.toFixed(0)}%`, icon: Zap, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 5.2, changeLabel: 'service compatibility' },
+      { label: 'Total Pipeline Value', value: formatINR(totalPipeline), icon: IndianRupee, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 12.4, changeLabel: 'vs last quarter' },
+      { label: 'Approached', value: `${approached}`, icon: Target, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 25.0, changeLabel: 'opportunities reached out' },
+      { label: 'In-Progress', value: `${inProgress}`, icon: Clock, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 10.0, changeLabel: 'active negotiations' },
+      { label: 'Closed Won', value: `${closedWon}`, icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: 'conversions this period' },
+      { label: 'Avg Fit Score', value: `${avgFit.toFixed(0)}%`, icon: Zap, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 5.2, changeLabel: 'service compatibility' },
     ];
   }, [isDark]);
 
@@ -83,15 +83,15 @@ export default function UpsellCrosssellPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <TrendingUp className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <TrendingUp className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Upsell & Cross-sell</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Expansion Revenue Cockpit</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Expansion Revenue Cockpit</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Search className="w-4 h-4" />
             Find Opportunities
           </Button>
@@ -105,10 +105,10 @@ export default function UpsellCrosssellPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
@@ -121,7 +121,7 @@ export default function UpsellCrosssellPage() {
                   </span>
                 )}
               </div>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{stat.changeLabel}</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.changeLabel}</p>
             </motion.div>
           ))}
         </div>
@@ -139,7 +139,7 @@ export default function UpsellCrosssellPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Top Opportunity Insight</p>
-              <p className={cn('text-sm mt-1', isDark ? 'text-white/60' : 'text-black/60')}>
+              <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-semibold">{topInsight.client}</span> → <span className="font-semibold text-emerald-500">{topInsight.probability}% chance</span> to buy{' '}
                 <span className="font-medium">{topInsight.recommendedService}</span> — {formatINR(topInsight.expansionValue)} expansion value
               </p>
@@ -149,7 +149,7 @@ export default function UpsellCrosssellPage() {
 
         {/* Filter Bar */}
         <div className="flex items-center gap-2 flex-wrap">
-          <Filter className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           {allStatuses.map(status => (
             <button
               key={status}
@@ -157,7 +157,7 @@ export default function UpsellCrosssellPage() {
               className={cn(
                 'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
                 statusFilter === status
-                  ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                  ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                   : (isDark ? 'bg-white/[0.03] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.03] text-black/40 hover:bg-black/[0.06]')
               )}
             >
@@ -179,7 +179,7 @@ export default function UpsellCrosssellPage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+                  className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -191,22 +191,22 @@ export default function UpsellCrosssellPage() {
                       </div>
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {opp.currentServices.map(s => (
-                          <Badge key={s} variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                          <Badge key={s} variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                             {s}
                           </Badge>
                         ))}
-                        <span className={cn('text-[10px] px-1', isDark ? 'text-white/25' : 'text-black/25')}>→</span>
-                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+                        <span className={cn('text-[10px] px-1', 'text-[var(--app-text-muted)]')}>→</span>
+                        <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
                           {opp.recommendedService}
                         </Badge>
                       </div>
                       {/* Fit Score Bar */}
                       <div className="mb-2">
                         <div className="flex items-center justify-between mb-1">
-                          <span className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Fit Score</span>
+                          <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>Fit Score</span>
                           <span className="text-xs font-bold">{opp.fitScore}%</span>
                         </div>
-                        <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${opp.fitScore}%` }}
@@ -218,10 +218,10 @@ export default function UpsellCrosssellPage() {
                       {/* Probability Bar */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <span className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Probability</span>
+                          <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>Probability</span>
                           <span className="text-xs font-bold">{opp.probability}%</span>
                         </div>
-                        <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${opp.probability}%` }}
@@ -233,26 +233,26 @@ export default function UpsellCrosssellPage() {
                     </div>
                     <div className="flex flex-row sm:flex-col items-start sm:items-end gap-3 sm:gap-2 shrink-0">
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Expansion Value</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Expansion Value</p>
                         <p className="text-lg font-bold text-emerald-500">{formatINR(opp.expansionValue)}</p>
                       </div>
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Growth Score</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Growth Score</p>
                         <p className="text-sm font-semibold">{opp.accountGrowthScore}</p>
                       </div>
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Industry</p>
-                        <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Industry</p>
+                        <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                           {opp.industry}
                         </Badge>
                       </div>
                     </div>
                   </div>
-                  <div className={cn('flex items-center gap-4 mt-3 pt-3 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                  <div className={cn('flex items-center gap-4 mt-3 pt-3 border-t', 'border-[var(--app-border)]')}>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       <Clock className="w-3 h-3 inline mr-1" />Last: {opp.lastPurchase}
                     </span>
-                    <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       Manager: {opp.accountManager}
                     </span>
                   </div>
@@ -266,11 +266,11 @@ export default function UpsellCrosssellPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5 h-fit', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5 h-fit', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Fit Score Distribution</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Fit Score Distribution</span>
             </div>
             <div className="space-y-3">
               {fitDistribution.map((bucket, j) => {
@@ -283,10 +283,10 @@ export default function UpsellCrosssellPage() {
                 return (
                   <div key={bucket.label}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className={cn('text-[11px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{bucket.label}%</span>
+                      <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-muted)]')}>{bucket.label}%</span>
                       <span className="text-xs font-bold">{bucket.value}</span>
                     </div>
-                    <div className={cn('h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(bucket.value / maxFitBucket) * 100}%` }}

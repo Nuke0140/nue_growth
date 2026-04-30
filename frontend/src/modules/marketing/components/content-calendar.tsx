@@ -53,7 +53,7 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'published': return isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-50 text-emerald-600';
+      case 'published': return 'bg-[var(--app-success-bg)] text-[var(--app-success)]';
       case 'scheduled': return isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-50 text-blue-600';
       case 'draft': return isDark ? 'bg-gray-500/20 text-gray-400' : 'bg-gray-50 text-gray-600';
       default: return '';
@@ -62,16 +62,16 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
 
   if (dates.length === 0) {
     return (
-      <div className={cn('rounded-2xl border p-8 text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-        <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-gray-400')}>No scheduled posts</p>
+      <div className={cn('rounded-2xl border p-8 text-center', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No scheduled posts</p>
       </div>
     );
   }
 
   if (viewMode === 'week') {
     return (
-      <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-        <div className="grid grid-cols-7 divide-x" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+      <div className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+        <div className="grid grid-cols-7 divide-x" style={{ borderColor: 'var(--app-border)' }}>
           {dates.map((date, i) => {
             const dayPosts = postsByDate[date] || [];
             const dayLabel = new Date(date).toLocaleDateString('en-US', { weekday: 'short' });
@@ -85,8 +85,8 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
                 className="p-3 space-y-2 min-h-[180px]"
               >
                 <div className="text-center mb-2">
-                  <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-gray-500')}>{dayLabel}</p>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>{dayNum}</p>
+                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{dayLabel}</p>
+                  <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{dayNum}</p>
                 </div>
                 {dayPosts.map(post => (
                   <motion.div
@@ -97,11 +97,11 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
                   >
                     <div className="flex items-center gap-1 mb-1">
                       <span>{PLATFORM_ICONS[post.platform] || '📄'}</span>
-                      <span className={cn('font-medium truncate', isDark ? 'text-white/60' : 'text-gray-600')}>
+                      <span className={cn('font-medium truncate', 'text-[var(--app-text-secondary)]')}>
                         {post.platform}
                       </span>
                     </div>
-                    <p className={cn('line-clamp-2 leading-tight', isDark ? 'text-white/40' : 'text-gray-500')}>
+                    <p className={cn('line-clamp-2 leading-tight', 'text-[var(--app-text-muted)]')}>
                       {post.caption.slice(0, 60)}...
                     </p>
                   </motion.div>
@@ -116,10 +116,10 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
 
   // Month view: grid
   return (
-    <div className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+    <div className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
       <div className="grid grid-cols-7 gap-1 text-center mb-2">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-          <span key={d} className={cn('text-[10px] font-medium py-1', isDark ? 'text-white/30' : 'text-gray-400')}>{d}</span>
+          <span key={d} className={cn('text-[10px] font-medium py-1', 'text-[var(--app-text-muted)]')}>{d}</span>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
@@ -143,7 +143,7 @@ export default function ContentCalendar({ posts, onPostClick, viewMode = 'month'
                   title={post.caption}
                 >
                   <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: PLATFORM_COLORS[post.platform] || '#6b7280' }} />
-                  <span className={cn('text-[8px] truncate', isDark ? 'text-white/30' : 'text-gray-400')}>{post.platform.slice(0, 3)}</span>
+                  <span className={cn('text-[8px] truncate', 'text-[var(--app-text-muted)]')}>{post.platform.slice(0, 3)}</span>
                 </div>
               ))}
             </motion.div>

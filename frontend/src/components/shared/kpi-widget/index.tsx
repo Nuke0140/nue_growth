@@ -37,24 +37,24 @@ const colorMap: Record<KpiColorVariant, { bg: string; text: string; iconBg: stri
     iconBg: CSS.accentLight,
   },
   success: {
-    bg: 'rgba(52, 211, 153, 0.1)',
+    bg: 'var(--app-success-bg)',
     text: '#34d399',
-    iconBg: 'rgba(52, 211, 153, 0.12)',
+    iconBg: 'var(--app-success-bg)',
   },
   warning: {
-    bg: 'rgba(251, 191, 36, 0.1)',
+    bg: 'var(--app-warning-bg)',
     text: '#fbbf24',
-    iconBg: 'rgba(251, 191, 36, 0.12)',
+    iconBg: 'var(--app-warning-bg)',
   },
   danger: {
-    bg: 'rgba(248, 113, 113, 0.1)',
+    bg: 'var(--app-danger-bg)',
     text: '#f87171',
-    iconBg: 'rgba(248, 113, 113, 0.12)',
+    iconBg: 'var(--app-danger-bg)',
   },
   info: {
-    bg: 'rgba(96, 165, 250, 0.1)',
+    bg: 'var(--app-info-bg)',
     text: '#60a5fa',
-    iconBg: 'rgba(96, 165, 250, 0.12)',
+    iconBg: 'var(--app-info-bg)',
   },
 };
 

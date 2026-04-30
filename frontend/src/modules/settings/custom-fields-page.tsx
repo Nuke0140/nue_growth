@@ -101,12 +101,12 @@ export default function CustomFieldsPage() {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <SlidersHorizontal className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <SlidersHorizontal className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Custom Fields</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Create and manage custom fields</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Create and manage custom fields</p>
             </div>
           </div>
           <button
@@ -127,7 +127,7 @@ export default function CustomFieldsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
             {moduleTabs.map((tab) => (
               <button
                 key={tab}
@@ -152,7 +152,7 @@ export default function CustomFieldsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
         >
-          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+          <div className={cn('inline-flex items-center rounded-xl p-1 gap-0.5 flex-wrap', 'bg-[var(--app-hover-bg)]')}>
             {typeFilters.map((type) => (
               <button
                 key={type}
@@ -186,11 +186,11 @@ export default function CustomFieldsPage() {
             <motion.div
               key={kpi.label}
               variants={fadeUp}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-2">
                 <kpi.icon className={cn('w-4 h-4', kpi.color)} />
-                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                <span className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
               </div>
               <p className="text-xl md:text-2xl font-bold">{kpi.value}</p>
             </motion.div>
@@ -219,15 +219,15 @@ export default function CustomFieldsPage() {
                 {/* Header row */}
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                      <TypeIcon className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                      <TypeIcon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5">
                         <p className="text-sm font-semibold">{field.label}</p>
                         {field.required && <span className="h-2 w-2 rounded-full bg-red-400" />}
                       </div>
-                      <p className={cn('text-[10px] font-mono', isDark ? 'text-white/30' : 'text-black/30')}>{field.name}</p>
+                      <p className={cn('text-[10px] font-mono', 'text-[var(--app-text-muted)]')}>{field.name}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -245,7 +245,7 @@ export default function CustomFieldsPage() {
                   <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold capitalize', isDark ? mColor.dark : mColor.light)}>
                     {field.module}
                   </span>
-                  <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium capitalize', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                  <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium capitalize', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                     {field.type}
                   </span>
                   {field.required && (
@@ -259,14 +259,14 @@ export default function CustomFieldsPage() {
                 <div className="space-y-1.5 mb-3">
                   {field.defaultValue && (
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider w-16 shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>Default</span>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider w-16 shrink-0', 'text-[var(--app-text-muted)]')}>Default</span>
                       <span className="text-xs">{field.defaultValue}</span>
                     </div>
                   )}
                   {field.validationRule && (
                     <div className="flex items-center gap-2">
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider w-16 shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>Validation</span>
-                      <span className={cn('text-[11px] font-mono truncate', isDark ? 'text-white/50' : 'text-black/50')}>{field.validationRule}</span>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider w-16 shrink-0', 'text-[var(--app-text-muted)]')}>Validation</span>
+                      <span className={cn('text-[11px] font-mono truncate', 'text-[var(--app-text-secondary)]')}>{field.validationRule}</span>
                     </div>
                   )}
                 </div>
@@ -274,10 +274,10 @@ export default function CustomFieldsPage() {
                 {/* Options (for dropdown/multi-select) */}
                 {field.options && field.options.length > 0 && (
                   <div className="mb-3">
-                    <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1.5', isDark ? 'text-white/30' : 'text-black/30')}>Options</span>
+                    <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Options</span>
                     <div className="flex flex-wrap gap-1">
                       {field.options.map((opt) => (
-                        <span key={opt} className={cn('rounded-full px-2 py-0.5 text-[9px] font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                        <span key={opt} className={cn('rounded-full px-2 py-0.5 text-[9px] font-medium', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                           {opt}
                         </span>
                       ))}
@@ -287,7 +287,7 @@ export default function CustomFieldsPage() {
 
                 {/* Visibility Roles */}
                 <div className="mb-3">
-                  <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1.5', isDark ? 'text-white/30' : 'text-black/30')}>Visible to</span>
+                  <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Visible to</span>
                   <div className="flex flex-wrap gap-1">
                     {field.visibilityRoles.map((role) => (
                       <RoleChip key={role} role={role} size="sm" />
@@ -296,7 +296,7 @@ export default function CustomFieldsPage() {
                 </div>
 
                 {/* Dates */}
-                <div className={cn('flex items-center gap-4 text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                <div className={cn('flex items-center gap-4 text-[10px]', 'text-[var(--app-text-disabled)]')}>
                   <span>Created: {new Date(field.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                   <span>Modified: {new Date(field.modifiedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                 </div>
@@ -314,14 +314,14 @@ export default function CustomFieldsPage() {
             transition={{ duration: 0.4 }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Plus className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Create Custom Field</span>
+              <Plus className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Create Custom Field</span>
             </div>
-            <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <div className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Name */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Field Name</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Field Name</label>
                   <input
                     type="text"
                     value={formName}
@@ -329,14 +329,14 @@ export default function CustomFieldsPage() {
                     placeholder="e.g. lead_score"
                     className={cn(
                       'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
-                      isDark ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20' : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
+                      'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
                 </div>
 
                 {/* Label */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Display Label</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Display Label</label>
                   <input
                     type="text"
                     value={formLabel}
@@ -344,14 +344,14 @@ export default function CustomFieldsPage() {
                     placeholder="e.g. Lead Score"
                     className={cn(
                       'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
-                      isDark ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20' : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
+                      'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
                 </div>
 
                 {/* Module */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Module</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Module</label>
                   <select
                     value={formModule}
                     onChange={(e) => setFormModule(e.target.value)}
@@ -368,7 +368,7 @@ export default function CustomFieldsPage() {
 
                 {/* Type */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Type</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Type</label>
                   <select
                     value={formType}
                     onChange={(e) => setFormType(e.target.value)}
@@ -385,7 +385,7 @@ export default function CustomFieldsPage() {
 
                 {/* Default Value */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Default Value</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Default Value</label>
                   <input
                     type="text"
                     value={formDefault}
@@ -393,14 +393,14 @@ export default function CustomFieldsPage() {
                     placeholder="Optional"
                     className={cn(
                       'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50',
-                      isDark ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20' : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
+                      'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
                 </div>
 
                 {/* Validation Rule */}
                 <div>
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Validation Rule</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Validation Rule</label>
                   <input
                     type="text"
                     value={formValidation}
@@ -408,7 +408,7 @@ export default function CustomFieldsPage() {
                     placeholder="e.g. min:0,max:100"
                     className={cn(
                       'w-full rounded-lg border px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500/50',
-                      isDark ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20' : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
+                      'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                     )}
                   />
                 </div>
@@ -416,7 +416,7 @@ export default function CustomFieldsPage() {
                 {/* Options textarea */}
                 {(formType === 'dropdown' || formType === 'multi-select') && (
                   <div className="md:col-span-2">
-                    <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', isDark ? 'text-white/40' : 'text-black/40')}>Options (comma-separated)</label>
+                    <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1.5', 'text-[var(--app-text-muted)]')}>Options (comma-separated)</label>
                     <textarea
                       value={formOptions}
                       onChange={(e) => setFormOptions(e.target.value)}
@@ -424,7 +424,7 @@ export default function CustomFieldsPage() {
                       rows={2}
                       className={cn(
                         'w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-none',
-                        isDark ? 'bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20' : 'bg-black/[0.03] border-black/[0.08] text-black placeholder:text-black/20',
+                        'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]',
                       )}
                     />
                   </div>
@@ -437,7 +437,7 @@ export default function CustomFieldsPage() {
                     onClick={() => setFormRequired(!formRequired)}
                     className={cn(
                       'inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition-colors cursor-pointer',
-                      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
                     <span className={cn('h-2 w-2 rounded-full', formRequired ? 'bg-red-400' : isDark ? 'bg-zinc-600' : 'bg-zinc-300')} />
@@ -447,7 +447,7 @@ export default function CustomFieldsPage() {
 
                 {/* Role visibility */}
                 <div className="md:col-span-2">
-                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-2', isDark ? 'text-white/40' : 'text-black/40')}>Visible to Roles</label>
+                  <label className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>Visible to Roles</label>
                   <div className="flex flex-wrap gap-2">
                     {allRoles.map((role) => (
                       <button

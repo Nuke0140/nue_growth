@@ -99,18 +99,18 @@ export default function AdPerformancePage() {
       .slice(0, 5);
   }, []);
 
-  const card = (i: number) => cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
-  const kpiCard = (i: number) => cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const card = (i: number) => cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiCard = (i: number) => cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Paid Ads Analytics
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
             Monitor ad spend, performance, and ROI across all platforms
           </p>
         </div>
@@ -180,9 +180,9 @@ export default function AdPerformancePage() {
           >
             <div className="flex items-center gap-2 mb-2">
               <kpi.icon className={cn('w-4 h-4', kpi.color)} />
-              <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{kpi.label}</span>
+              <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{kpi.label}</span>
             </div>
-            <p className={cn('text-xl font-bold', isDark ? 'text-white' : 'text-gray-900')}>{kpi.value}</p>
+            <p className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{kpi.value}</p>
           </motion.div>
         ))}
       </div>
@@ -195,8 +195,8 @@ export default function AdPerformancePage() {
         className={card(0)}
       >
         <div className="flex items-center gap-2 mb-4">
-          <Globe className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Platform Performance</h3>
+          <Globe className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Platform Performance</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {platformSummary.map((p, i) => {
@@ -206,7 +206,7 @@ export default function AdPerformancePage() {
                 key={p.platform}
                 className={cn(
                   'rounded-xl border p-4 space-y-3',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -217,7 +217,7 @@ export default function AdPerformancePage() {
                     >
                       {config?.icon}
                     </div>
-                    <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
+                    <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                       {config?.label}
                     </span>
                   </div>
@@ -225,27 +225,27 @@ export default function AdPerformancePage() {
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Spend</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{formatCurrency(p.spend)}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Spend</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(p.spend)}</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Clicks</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{formatNumber(p.clicks)}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Clicks</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{formatNumber(p.clicks)}</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Impressions</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{formatNumber(p.impressions)}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Impressions</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{formatNumber(p.impressions)}</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>CPC</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>₹{p.cpc.toFixed(2)}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>CPC</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>₹{p.cpc.toFixed(2)}</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>CPL</p>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{formatCurrency(p.cpl)}</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>CPL</p>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{formatCurrency(p.cpl)}</p>
                   </div>
                   <div>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>ROAS</p>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>ROAS</p>
                     <p className={cn('text-xs font-bold', p.roas >= 4 ? 'text-green-500' : p.roas >= 2 ? 'text-amber-500' : 'text-red-500')}>
                       {p.roas.toFixed(1)}x
                     </p>
@@ -262,25 +262,25 @@ export default function AdPerformancePage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+        className={cn('rounded-2xl border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
       >
         <div className="p-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Campaign Table</h3>
+            <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Campaign Table</h3>
           </div>
-          <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+          <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
             {filteredCampaigns.length} campaigns
           </span>
         </div>
         <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className={cn('border-y', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
+              <tr className={cn('border-y', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
                 {['Campaign', 'Platform', 'Status', 'Spend', 'Clicks', 'Impressions', 'CPC', 'CPL', 'ROAS', 'Conv.'].map(h => (
                   <th
                     key={h}
-                    className={cn('px-4 py-3 text-left font-medium whitespace-nowrap', isDark ? 'text-white/50' : 'text-black/50')}
+                    className={cn('px-4 py-3 text-left font-medium whitespace-nowrap', 'text-[var(--app-text-secondary)]')}
                   >
                     {h}
                   </th>
@@ -291,18 +291,18 @@ export default function AdPerformancePage() {
               {filteredCampaigns.map((c, i) => {
                 const config = PLATFORM_CONFIG[c.platform];
                 const status = STATUS_STYLES[c.status];
-                const roasColor = c.roas >= 5 ? 'text-green-500' : c.roas >= 3 ? 'text-amber-500' : c.roas > 0 ? 'text-red-500' : isDark ? 'text-white/30' : 'text-black/30';
+                const roasColor = c.roas >= 5 ? 'text-green-500' : c.roas >= 3 ? 'text-amber-500' : c.roas > 0 ? 'text-red-500' : 'text-[var(--app-text-muted)]';
                 return (
                   <motion.tr
                     key={c.id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: i * 0.03, duration: 0.2 }}
-                    className={cn('border-b', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                    className={cn('border-b', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                   >
                     <td className="px-4 py-3">
-                      <p className={cn('font-medium max-w-[200px] truncate', isDark ? 'text-white' : 'text-gray-900')}>{c.name}</p>
-                      <p className={cn('text-[10px] truncate mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{c.creative}</p>
+                      <p className={cn('font-medium max-w-[200px] truncate', 'text-[var(--app-text)]')}>{c.name}</p>
+                      <p className={cn('text-[10px] truncate mt-0.5', 'text-[var(--app-text-muted)]')}>{c.creative}</p>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
@@ -312,31 +312,31 @@ export default function AdPerformancePage() {
                         >
                           {config?.icon}
                         </div>
-                        <span className={isDark ? 'text-white/70' : 'text-gray-700'}>{config?.label}</span>
+                        <span className={'text-[var(--app-text-secondary)]'}>{config?.label}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <Badge className={cn('text-[10px]', status.className)}>{status.label}</Badge>
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {formatCurrency(c.spend)}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {formatNumber(c.clicks)}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {formatNumber(c.impressions)}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       ₹{c.cpc.toFixed(2)}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {formatCurrency(c.cpl)}
                     </td>
                     <td className={cn('px-4 py-3 font-bold tabular-nums', roasColor)}>
                       {c.roas > 0 ? `${c.roas.toFixed(1)}x` : '—'}
                     </td>
-                    <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-white/70' : 'text-gray-700')}>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                       {c.conversions > 0 ? formatNumber(c.conversions) : '—'}
                     </td>
                   </motion.tr>
@@ -357,8 +357,8 @@ export default function AdPerformancePage() {
           className={card(0)}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Palette className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Top Creative Performance</h3>
+            <Palette className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Top Creative Performance</h3>
           </div>
           <div className="space-y-3">
             {topCreatives.map((c, i) => {
@@ -368,7 +368,7 @@ export default function AdPerformancePage() {
                   key={c.id}
                   className={cn(
                     'rounded-xl border p-3 flex items-center gap-3',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
@@ -376,14 +376,14 @@ export default function AdPerformancePage() {
                     {i + 1}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={cn('text-xs font-medium truncate', isDark ? 'text-white' : 'text-gray-900')}>{c.name}</p>
-                    <p className={cn('text-[10px] truncate', isDark ? 'text-white/30' : 'text-black/30')}>{c.creative}</p>
+                    <p className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>{c.name}</p>
+                    <p className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>{c.creative}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className={cn('text-xs font-bold', c.roas >= 4 ? 'text-green-500' : 'text-amber-500')}>
                       {c.roas.toFixed(1)}x ROAS
                     </p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       {c.conversions} conv
                     </p>
                   </div>
@@ -402,7 +402,7 @@ export default function AdPerformancePage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Flame className={cn('w-4 h-4 text-orange-500')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Audience Fatigue Detection</h3>
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Audience Fatigue Detection</h3>
           </div>
           <div className="space-y-3">
             {platformSummary.map((p) => {
@@ -414,7 +414,7 @@ export default function AdPerformancePage() {
                   key={p.platform}
                   className={cn(
                     'rounded-xl border p-3',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -425,16 +425,16 @@ export default function AdPerformancePage() {
                       >
                         {config?.icon}
                       </div>
-                      <span className={cn('text-xs font-medium', isDark ? 'text-white' : 'text-gray-900')}>{config?.label}</span>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{config?.label}</span>
                     </div>
                     <Badge className={cn('text-[10px]', p.fatigue.color)}>{p.fatigue.level}</Badge>
                   </div>
                   <div className="space-y-1">
                     <div className="flex justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>CTR</span>
-                      <span className={cn('text-[10px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{ctr.toFixed(2)}%</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>CTR</span>
+                      <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>{ctr.toFixed(2)}%</span>
                     </div>
-                    <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.min(fatigueWidth, 100)}%` }}
@@ -446,8 +446,8 @@ export default function AdPerformancePage() {
                       />
                     </div>
                     <div className="flex justify-between">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Impressions</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{formatNumber(p.impressions)}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Impressions</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{formatNumber(p.impressions)}</span>
                     </div>
                   </div>
                   {p.fatigue.level === 'High' && (

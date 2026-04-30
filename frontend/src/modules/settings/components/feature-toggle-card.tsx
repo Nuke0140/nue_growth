@@ -40,7 +40,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'rounded-2xl border p-4 transition-all duration-200',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
@@ -54,7 +54,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
               </Badge>
             )}
           </div>
-          <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+          <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>
             {flag.description}
           </p>
         </div>
@@ -64,7 +64,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
           onClick={() => onToggle?.(flag.id, !flag.enabled)}
           className={cn(
             'relative w-10 h-5.5 rounded-full transition-colors duration-200 shrink-0 mt-0.5',
-            flag.enabled ? 'bg-emerald-500' : isDark ? 'bg-white/[0.15]' : 'bg-black/[0.15]'
+            flag.enabled ? 'bg-emerald-500' : 'bg-[var(--app-hover-bg)]'
           )}
         >
           <motion.div
@@ -97,24 +97,24 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
 
       {/* Environments */}
       <div className="flex items-center gap-1.5 mb-3">
-        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Environments:</span>
+        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Environments:</span>
         {flag.environments.length > 0 ? (
           flag.environments.map((env) => (
             <div key={env} className="flex items-center gap-1">
               <div className={cn('w-1.5 h-1.5 rounded-full', envColors[env] || 'bg-gray-400')} />
-              <span className={cn('text-[10px] capitalize', isDark ? 'text-white/50' : 'text-black/50')}>{env}</span>
+              <span className={cn('text-[10px] capitalize', 'text-[var(--app-text-secondary)]')}>{env}</span>
             </div>
           ))
         ) : (
-          <span className={cn('text-[10px] italic', isDark ? 'text-white/20' : 'text-black/20')}>None</span>
+          <span className={cn('text-[10px] italic', 'text-[var(--app-text-disabled)]')}>None</span>
         )}
       </div>
 
       {/* Rollout Slider */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Rollout</span>
-          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Rollout</span>
+          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-secondary)]')}>
             {rollout}%
           </span>
         </div>
@@ -131,7 +131,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
           disabled={!flag.enabled}
           className="w-full h-1.5 rounded-full appearance-none cursor-pointer disabled:opacity-30 accent-violet-500"
           style={{
-            background: `linear-gradient(to right, ${flag.enabled ? '#8b5cf6' : isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)'} ${rollout}%, ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} ${rollout}%)`,
+            background: `linear-gradient(to right, ${flag.enabled ? '#8b5cf6' : 'var(--app-border-strong)'} ${rollout}%, ${'var(--app-border)'} ${rollout}%)`,
           }}
         />
       </div>
@@ -154,11 +154,11 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
       )}
 
       {/* Footer */}
-      <div className={cn('mt-3 pt-2 border-t flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-        <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>
+      <div className={cn('mt-3 pt-2 border-t flex items-center justify-between', 'border-[var(--app-border-light)]')}>
+        <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>
           by {flag.modifiedBy}
         </span>
-        <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>
+        <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>
           {new Date(flag.lastModified).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
         </span>
       </div>

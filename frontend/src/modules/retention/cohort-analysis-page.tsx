@@ -42,7 +42,7 @@ function getHeatColor(pct: number, isDark: boolean): string {
 
 function getTextColor(pct: number, isDark: boolean): string {
   if (pct >= 70) return isDark ? 'text-white' : 'text-white';
-  return isDark ? 'text-white/70' : 'text-black/70';
+  return 'text-[var(--app-text)]';
 }
 
 export default function CohortAnalysisPage() {
@@ -81,11 +81,11 @@ export default function CohortAnalysisPage() {
 
   // KPI cards
   const kpiStats = useMemo(() => [
-    { label: 'Avg M+ Retention', value: `${stats.avgRetention.toFixed(1)}%`, icon: Users, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 4.2, changeLabel: 'vs last quarter' },
-    { label: 'Avg Churn Rate', value: `${stats.avgChurn.toFixed(1)}%`, icon: Flame, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: -2.1, changeLabel: 'improving' },
-    { label: 'Total Cohort Revenue', value: formatINR(stats.totalRevenue), icon: BarChart3, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 12.8, changeLabel: 'cumulative' },
-    { label: 'Best Cohort', value: stats.bestCohort?.cohort || '—', icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: stats.bestCohort?.retention[2] || 0, changeLabel: 'M2 retention' },
-    { label: 'Worst Cohort', value: stats.worstCohort?.cohort || '—', icon: TrendingDown, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: stats.worstCohort?.retention[2] || 0, changeLabel: 'M2 retention' },
+    { label: 'Avg M+ Retention', value: `${stats.avgRetention.toFixed(1)}%`, icon: Users, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 4.2, changeLabel: 'vs last quarter' },
+    { label: 'Avg Churn Rate', value: `${stats.avgChurn.toFixed(1)}%`, icon: Flame, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: -2.1, changeLabel: 'improving' },
+    { label: 'Total Cohort Revenue', value: formatINR(stats.totalRevenue), icon: BarChart3, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 12.8, changeLabel: 'cumulative' },
+    { label: 'Best Cohort', value: stats.bestCohort?.cohort || '—', icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: stats.bestCohort?.retention[2] || 0, changeLabel: 'M2 retention' },
+    { label: 'Worst Cohort', value: stats.worstCohort?.cohort || '—', icon: TrendingDown, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: stats.worstCohort?.retention[2] || 0, changeLabel: 'M2 retention' },
   ], [isDark, stats]);
 
   // Repeat purchase rate chart data
@@ -129,13 +129,13 @@ export default function CohortAnalysisPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <BrainCircuit className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Cohort Analysis</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Founder-Grade Retention Analytics</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Founder-Grade Retention Analytics</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -148,8 +148,8 @@ export default function CohortAnalysisPage() {
                 className={cn(
                   'px-3 py-1.5 text-xs font-medium rounded-lg transition-colors',
                   activeView === opt.value
-                    ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                    : (isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')
+                    ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
+                    : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                 )}
               >
                 {opt.label}
@@ -170,11 +170,11 @@ export default function CohortAnalysisPage() {
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 transition-all duration-200',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </span>
                   <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
@@ -193,7 +193,7 @@ export default function CohortAnalysisPage() {
                     </span>
                   )}
                 </div>
-                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
+                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                   {stat.changeLabel}
                 </p>
               </motion.div>
@@ -208,13 +208,13 @@ export default function CohortAnalysisPage() {
           transition={{ delay: 0.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Monthly Retention Heatmap
               </span>
             </div>
@@ -227,7 +227,7 @@ export default function CohortAnalysisPage() {
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
                   <div className={cn('w-3 h-3 rounded-sm', l.color)} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{l.label}</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
                 </div>
               ))}
             </div>
@@ -235,15 +235,15 @@ export default function CohortAnalysisPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  <th className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
+                  <th className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-2', 'text-[var(--app-text-muted)]')}>
                     Cohort
                   </th>
-                  <th className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <th className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-2', 'text-[var(--app-text-muted)]')}>
                     Clients
                   </th>
                   {monthHeaders.map((h) => (
-                    <th key={h} className={cn('text-center text-[11px] font-medium uppercase tracking-wider pb-3 px-1', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-center text-[11px] font-medium uppercase tracking-wider pb-3 px-1', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -251,10 +251,10 @@ export default function CohortAnalysisPage() {
               </thead>
               <tbody>
                 {cohortData.map((row: CohortRow, rowIdx) => (
-                  <tr key={row.cohort} className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+                  <tr key={row.cohort} className={cn('border-b', 'border-[var(--app-border-light)]')}>
                     <td className="py-2 px-2 text-sm font-medium">{row.cohort}</td>
                     <td className="py-2 px-2">
-                      <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+                      <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                         {row.customers}
                       </Badge>
                     </td>
@@ -313,31 +313,31 @@ export default function CohortAnalysisPage() {
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <TrendingUp className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Repeat Purchase Rate (Latest)
                 </span>
               </div>
-              <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Per cohort</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Per cohort</span>
             </div>
             <div className="flex items-end gap-2 h-32">
               {repeatRateData.map((entry, j) => (
                 <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
                     {entry.rate}%
                   </span>
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.rate / maxRepeat) * 100}%` }}
                     transition={{ delay: 0.4 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
+                    className={cn('w-full rounded-t-sm', 'bg-[var(--app-success)]')}
                   />
-                  <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
+                  <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.cohort}</span>
                 </div>
               ))}
             </div>
@@ -350,22 +350,22 @@ export default function CohortAnalysisPage() {
             transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Flame className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                <Flame className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Churn Rate (Latest Month)
                 </span>
               </div>
-              <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Per cohort</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Per cohort</span>
             </div>
             <div className="flex items-end gap-2 h-32">
               {churnData.map((entry, j) => (
                 <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
                     {entry.rate}%
                   </span>
                   <motion.div
@@ -374,7 +374,7 @@ export default function CohortAnalysisPage() {
                     transition={{ delay: 0.4 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                   />
-                  <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
+                  <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.cohort}</span>
                 </div>
               ))}
             </div>
@@ -388,24 +388,24 @@ export default function CohortAnalysisPage() {
           transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Target className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Cumulative Revenue per Cohort
               </span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
               {formatINR(revenuePerCohort.reduce((s, c) => s + c.totalRev, 0))} total
             </Badge>
           </div>
           <div className="flex items-end gap-2 h-36">
             {revenuePerCohort.map((entry, j) => (
               <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
                   {formatINR(entry.totalRev)}
                 </span>
                 <motion.div
@@ -414,7 +414,7 @@ export default function CohortAnalysisPage() {
                   transition={{ delay: 0.5 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-400')}
                 />
-                <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
+                <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.cohort}</span>
               </div>
             ))}
           </div>
@@ -427,12 +427,12 @@ export default function CohortAnalysisPage() {
           transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center gap-2 mb-4">
             <BrainCircuit className={cn('w-4 h-4 text-amber-400')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Key Insights
             </span>
           </div>
@@ -446,13 +446,13 @@ export default function CohortAnalysisPage() {
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
                   <TrendingUp className="w-4 h-4 text-emerald-500" />
                 </div>
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>Best Performing</span>
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Best Performing</span>
               </div>
               <p className="text-lg font-bold text-emerald-500">{stats.bestCohort?.cohort}</p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 M2 Retention: {stats.bestCohort?.retention[2]}% — {stats.bestCohort?.customers} customers
               </p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                 Revenue: {formatINR(stats.bestCohort?.revenue.reduce((s, v) => s + v, 0))}
               </p>
             </div>
@@ -466,13 +466,13 @@ export default function CohortAnalysisPage() {
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-red-500/15' : 'bg-red-100')}>
                   <TrendingDown className="w-4 h-4 text-red-500" />
                 </div>
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>Needs Attention</span>
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Needs Attention</span>
               </div>
               <p className="text-lg font-bold text-red-500">{stats.worstCohort?.cohort}</p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 M2 Retention: {stats.worstCohort?.retention[2]}% — {stats.worstCohort?.customers} customers
               </p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                 Revenue: {formatINR(stats.worstCohort?.revenue.reduce((s, v) => s + v, 0))}
               </p>
             </div>
@@ -483,16 +483,16 @@ export default function CohortAnalysisPage() {
               isDark ? 'bg-white/[0.03] border-white/[0.08]' : 'bg-black/[0.02] border-black/[0.08]'
             )}>
               <div className="flex items-center gap-2 mb-2">
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                  <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                 </div>
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white/60' : 'text-black/60')}>Portfolio Average</span>
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>Portfolio Average</span>
               </div>
               <p className="text-lg font-bold">{stats.avgRetention.toFixed(1)}% Retention</p>
-              <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                 Avg Churn: {stats.avgChurn.toFixed(1)}% per month
               </p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
                 {cohortData.reduce((s, c) => s + c.customers, 0)} total customers across cohorts
               </p>
             </div>
@@ -514,15 +514,15 @@ export default function CohortAnalysisPage() {
               onClick={() => navigateTo(nav.page)}
               className={cn(
                 'rounded-2xl border p-4 text-left transition-all duration-200 group',
-                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between">
                 <nav.icon className={cn('w-5 h-5', nav.color)} />
-                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', isDark ? 'text-white/15' : 'text-black/15')} />
+                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', 'text-[var(--app-text-disabled)]')} />
               </div>
               <p className="text-xl font-bold mt-3">{nav.value}</p>
-              <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{nav.label}</p>
+              <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{nav.label}</p>
             </motion.button>
           ))}
         </div>

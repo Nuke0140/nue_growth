@@ -136,7 +136,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="w-full rounded-[24px] border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-8 shadow-xl shadow-gray-200/50 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+        <div className="w-full rounded-[24px] border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-8 shadow-xl shadow-gray-200/50 dark:shadow-[0_8px_32px_var(--app-overlay)] backdrop-blur-xl">
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Welcome back</h2>
             <p className="mt-1.5 text-sm text-gray-500 dark:text-zinc-400">Sign in to your workspace</p>

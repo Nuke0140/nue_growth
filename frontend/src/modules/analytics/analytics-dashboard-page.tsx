@@ -65,13 +65,13 @@ export default function AnalyticsDashboardPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <BarChart3 className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Analytics Dashboard</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Real-time business intelligence cockpit
               </p>
             </div>
@@ -79,7 +79,7 @@ export default function AnalyticsDashboardPage() {
           <div className="flex items-center gap-3">
             <span className={cn(
               'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-3.5 h-3.5" />
               {today}
@@ -99,8 +99,8 @@ export default function AnalyticsDashboardPage() {
               Last 12 Months
               <ChevronDown className="w-3 h-3" />
             </div>
-            <div className="w-px h-6 shrink-0" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }} />
-            <Filter className={cn('w-3.5 h-3.5 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <div className="w-px h-6 shrink-0" style={{ backgroundColor: 'var(--app-border-strong)' }} />
+            <Filter className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-muted)]')} />
             {['All Channels', 'This Quarter', 'India', 'Google Ads', 'LinkedIn'].map((f) => (
               <FilterChip
                 key={f}
@@ -142,11 +142,11 @@ export default function AnalyticsDashboardPage() {
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-blue-500/50' : 'bg-blue-500')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Leads (×100)</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Leads (×100)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-500')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Revenue</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Revenue</span>
                 </div>
               </div>
               <div className="flex items-end gap-1.5 h-48">
@@ -174,7 +174,7 @@ export default function AnalyticsDashboardPage() {
                         title={`Revenue: ₹${(d.revenue / 100000).toFixed(0)}L`}
                       />
                     </div>
-                    <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                       {d.month}
                     </span>
                   </div>
@@ -189,11 +189,11 @@ export default function AnalyticsDashboardPage() {
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-full', isDark ? 'bg-violet-400' : 'bg-violet-500')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Revenue</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Revenue</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className={cn('w-2.5 h-2.5 rounded-full border-2 border-dashed', isDark ? 'border-white/30' : 'border-black/30')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Target</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</span>
                 </div>
               </div>
               <div className="relative h-48">
@@ -201,7 +201,7 @@ export default function AnalyticsDashboardPage() {
                 {[0, 25, 50, 75, 100].map((pct) => (
                   <div
                     key={pct}
-                    className={cn('absolute left-0 right-0 border-t border-dashed', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}
+                    className={cn('absolute left-0 right-0 border-t border-dashed', 'border-[var(--app-border-light)]')}
                     style={{ bottom: `${pct}%` }}
                   />
                 ))}
@@ -209,7 +209,7 @@ export default function AnalyticsDashboardPage() {
                 <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                   <polyline
                     fill="none"
-                    stroke={isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)'}
+                    stroke={'var(--app-overlay)'}
                     strokeWidth="1.5"
                     strokeDasharray="6 4"
                     points={revenueTrend.map((d, i) => {
@@ -262,7 +262,7 @@ export default function AnalyticsDashboardPage() {
                 <div className="absolute inset-x-0 bottom-0 flex">
                   {revenueTrend.map((d, i) => (
                     <div key={i} className="flex-1 text-center">
-                      <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                         {d.month}
                       </span>
                     </div>
@@ -296,14 +296,14 @@ export default function AnalyticsDashboardPage() {
                     className="space-y-1"
                   >
                     <div className="flex items-center justify-between text-xs">
-                      <span className={cn('font-medium', isDark ? 'text-white/70' : 'text-black/70')}>
+                      <span className={cn('font-medium', 'text-[var(--app-text)]')}>
                         {stage.stage}
                       </span>
-                      <span className={cn('font-semibold', isDark ? 'text-white/90' : 'text-black/90')}>
+                      <span className={cn('font-semibold', 'text-[var(--app-text)]')}>
                         {stage.value.toLocaleString()}
                       </span>
                     </div>
-                    <div className={cn('h-8 rounded-lg flex items-center justify-center relative overflow-hidden', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
+                    <div className={cn('h-8 rounded-lg flex items-center justify-center relative overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${widthPct}%` }}
@@ -342,23 +342,23 @@ export default function AnalyticsDashboardPage() {
                   transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
                 >
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className={cn('font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                    <span className={cn('font-medium truncate', 'text-[var(--app-text)]')}>
                       {src.source}
                     </span>
-                    <span className={cn('font-semibold shrink-0 ml-2', isDark ? 'text-white/90' : 'text-black/90')}>
+                    <span className={cn('font-semibold shrink-0 ml-2', 'text-[var(--app-text)]')}>
                       {src.percentage}% ({src.leads.toLocaleString()})
                     </span>
                   </div>
-                  <div className={cn('h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+                  <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.percentage / sourceMax) * 100}%` }}
                       transition={{ delay: 0.15 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
-                        i === 0 ? (isDark ? 'bg-blue-500/50' : 'bg-blue-400') :
+                        i === 0 ? ('bg-[var(--app-info)]') :
                         i === 1 ? (isDark ? 'bg-violet-500/50' : 'bg-violet-400') :
-                        i === 2 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400') :
+                        i === 2 ? ('bg-[var(--app-success)]') :
                         i === 3 ? (isDark ? 'bg-amber-500/50' : 'bg-amber-400') :
                         i === 4 ? (isDark ? 'bg-sky-500/50' : 'bg-sky-400') :
                         (isDark ? 'bg-pink-500/50' : 'bg-pink-400'),
@@ -377,7 +377,7 @@ export default function AnalyticsDashboardPage() {
                 {/* Y-axis labels */}
                 <div className="absolute inset-y-0 left-0 flex flex-col justify-between text-[9px] pr-2" style={{ width: '32px' }}>
                   {[100, 75, 50, 25, 0].map((v) => (
-                    <span key={v} className={cn(isDark ? 'text-white/25' : 'text-black/25')}>
+                    <span key={v} className={cn('text-[var(--app-text-muted)]')}>
                       {v}%
                     </span>
                   ))}
@@ -387,7 +387,7 @@ export default function AnalyticsDashboardPage() {
                   {[0, 25, 50, 75, 100].map((pct) => (
                     <div
                       key={pct}
-                      className={cn('absolute left-0 right-0 border-t border-dashed', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}
+                      className={cn('absolute left-0 right-0 border-t border-dashed', 'border-[var(--app-border-light)]')}
                       style={{ bottom: `${pct}%` }}
                     />
                   ))}
@@ -435,7 +435,7 @@ export default function AnalyticsDashboardPage() {
                   <div className="absolute inset-x-0 bottom-0 flex">
                     {retentionCurve.map((d, i) => (
                       <div key={i} className="flex-1 text-center">
-                        <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                           M{d.month}
                         </span>
                       </div>
@@ -457,7 +457,7 @@ export default function AnalyticsDashboardPage() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
                     <span className={cn(
                       'text-[9px] font-medium opacity-0 group-hover:opacity-100 transition-opacity',
-                      isDark ? 'text-white/50' : 'text-black/50',
+                      'text-[var(--app-text-secondary)]',
                     )}>
                       {d.margin}%
                     </span>
@@ -471,7 +471,7 @@ export default function AnalyticsDashboardPage() {
                         'transition-colors',
                       )}
                     />
-                    <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                    <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                       {d.month}
                     </span>
                   </div>
@@ -485,12 +485,12 @@ export default function AnalyticsDashboardPage() {
             <div className="h-full flex flex-col justify-end pb-4">
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Score</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-sm', 'bg-[var(--app-success)]')} />
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Score</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className={cn('w-4 h-0 border-t-2 border-dashed', isDark ? 'border-red-400/60' : 'border-red-400')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Target (85%)</span>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target (85%)</span>
                 </div>
               </div>
               <div className="relative flex items-end gap-2 h-40">
@@ -514,7 +514,7 @@ export default function AnalyticsDashboardPage() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
                     <span className={cn(
                       'text-[9px] font-medium opacity-0 group-hover:opacity-100 transition-opacity',
-                      isDark ? 'text-white/50' : 'text-black/50',
+                      'text-[var(--app-text-secondary)]',
                     )}>
                       {d.score}%
                     </span>
@@ -529,7 +529,7 @@ export default function AnalyticsDashboardPage() {
                           : (isDark ? 'bg-red-500/40 hover:bg-red-500/60' : 'bg-red-400 hover:bg-red-500'),
                       )}
                     />
-                    <span className={cn('text-[8px] truncate max-w-full', isDark ? 'text-white/25' : 'text-black/25')}>
+                    <span className={cn('text-[8px] truncate max-w-full', 'text-[var(--app-text-muted)]')}>
                       {d.week.replace('Week ', 'W')}
                     </span>
                   </div>
@@ -547,12 +547,12 @@ export default function AnalyticsDashboardPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className={cn('w-4 h-4 text-amber-400')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Active Alerts
             </span>
             <span className={cn(
               'rounded-full px-2 py-0.5 text-[10px] font-semibold',
-              isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
+              'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
             )}>
               {dashboardAlerts.length}
             </span>
@@ -582,7 +582,7 @@ export default function AnalyticsDashboardPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <p className="text-sm font-semibold truncate">{alert.title}</p>
                     </div>
-                    <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>
                       {alert.description}
                     </p>
                   </div>

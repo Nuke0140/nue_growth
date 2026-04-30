@@ -39,7 +39,7 @@ export default function AnomalyDetectionPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   // Sort anomalies by detectedAt descending for timeline
@@ -52,10 +52,10 @@ export default function AnomalyDetectionPage() {
       <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Anomaly Detection
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
             AI-powered anomaly monitoring
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function AnomalyDetectionPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
@@ -119,7 +119,7 @@ export default function AnomalyDetectionPage() {
                 )}
               >
                 {filter}
-                <span className={cn('text-[10px] rounded-full px-1.5 py-0.5', activeFilter === filter ? 'bg-blue-500/20' : isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')}>
+                <span className={cn('text-[10px] rounded-full px-1.5 py-0.5', activeFilter === filter ? 'bg-blue-500/20' : 'bg-[var(--app-hover-bg)]')}>
                   {count}
                 </span>
               </motion.button>
@@ -163,8 +163,8 @@ export default function AnomalyDetectionPage() {
           transition={{ delay: 0.3 }}
         >
           <div className="flex items-center gap-2 mb-3">
-            <Clock className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Timeline
             </h2>
           </div>
@@ -188,7 +188,7 @@ export default function AnomalyDetectionPage() {
                   transition={{ delay: i * 0.04, duration: 0.2 }}
                   className={cn(
                     'flex items-start gap-3 rounded-xl border p-3',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                   )}
                 >
                   {/* Timeline dot */}
@@ -200,20 +200,20 @@ export default function AnomalyDetectionPage() {
                       anomaly.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500',
                     )} />
                     {i < sortedAnomalies.length - 1 && (
-                      <div className={cn('w-0.5 h-8 mt-1', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
+                      <div className={cn('w-0.5 h-8 mt-1', 'bg-[var(--app-hover-bg)]')} />
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className={cn('text-xs font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h4 className={cn('text-xs font-semibold truncate', 'text-[var(--app-text)]')}>
                         {anomaly.title}
                       </h4>
                       <span className={cn('inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider', STATUS_BADGE_STYLES[anomaly.status])}>
                         {anomaly.status}
                       </span>
                     </div>
-                    <div className={cn('flex items-center gap-2 mt-1 text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <div className={cn('flex items-center gap-2 mt-1 text-[10px]', 'text-[var(--app-text-muted)]')}>
                       <span>{dateStr}</span>
                       <span>·</span>
                       <span>{timeStr}</span>
@@ -234,22 +234,22 @@ export default function AnomalyDetectionPage() {
           transition={{ delay: 0.35 }}
           className={cn(
             'rounded-2xl border border-l-4 border-l-purple-500 p-4 sm:p-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isDark ? 'bg-purple-500/15' : 'bg-purple-50')}>
+            <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', 'bg-[var(--app-purple-light)]')}>
               <Bot className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 AI Monitoring Status
               </h3>
-              <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Real-time anomaly detection across all departments
               </p>
             </div>
-            <div className={cn('ml-auto flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+            <div className={cn('ml-auto flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
               <Activity className="w-3 h-3" />
               Active
             </div>
@@ -257,7 +257,7 @@ export default function AnomalyDetectionPage() {
           <div
             className={cn(
               'rounded-xl p-3',
-              isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]',
+              'bg-[var(--app-hover-bg)]',
             )}
           >
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -267,17 +267,17 @@ export default function AnomalyDetectionPage() {
                 { label: 'Anomalies Today', value: anomalies.length.toString() },
               ].map((item) => (
                 <div key={item.label}>
-                  <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
                     {item.label}
                   </p>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                     {item.value}
                   </p>
                 </div>
               ))}
             </div>
           </div>
-          <p className={cn('text-xs mt-3 leading-relaxed', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-xs mt-3 leading-relaxed', 'text-[var(--app-text-muted)]')}>
             AI is monitoring 47 metrics across 6 departments. The system uses statistical analysis and machine learning models to detect anomalies in real-time. Critical thresholds are calibrated to your business baselines from the last 90 days.
           </p>
         </motion.div>

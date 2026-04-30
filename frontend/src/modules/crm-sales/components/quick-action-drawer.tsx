@@ -51,10 +51,10 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
         )}
       >
         <SheetHeader className="px-6 pt-6 pb-4">
-          <SheetTitle className={cn('text-lg font-semibold', isDark ? 'text-white' : 'text-black')}>
+          <SheetTitle className={cn('text-lg font-semibold', 'text-[var(--app-text)]')}>
             Quick Actions
           </SheetTitle>
-          <SheetDescription className={cn(isDark ? 'text-white/40' : 'text-black/40')}>
+          <SheetDescription className={cn('text-[var(--app-text-muted)]')}>
             {contactName ? `Actions for ${contactName}` : 'Select a quick action to perform'}
           </SheetDescription>
         </SheetHeader>
@@ -89,13 +89,13 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
             ))}
           </div>
 
-          <Separator className={cn(isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
+          <Separator className={cn('bg-[var(--app-hover-bg)]')} />
 
           {/* Recent Actions */}
           <div className="mt-5">
             <h4 className={cn(
               'text-xs font-semibold uppercase tracking-wider mb-3',
-              isDark ? 'text-white/30' : 'text-black/30'
+              'text-[var(--app-text-muted)]'
             )}>
               Recent Actions
             </h4>
@@ -108,7 +108,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                   transition={{ duration: 0.25, delay: 0.3 + i * 0.04 }}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors cursor-pointer',
-                    isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   <div className={cn(
@@ -117,19 +117,19 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                   )} />
                   <span className={cn(
                     'text-sm flex-1',
-                    isDark ? 'text-white/60' : 'text-black/60'
+                    'text-[var(--app-text-secondary)]'
                   )}>
                     {item.text}
                   </span>
                   <span className={cn(
                     'text-[11px] shrink-0',
-                    isDark ? 'text-white/25' : 'text-black/25'
+                    'text-[var(--app-text-muted)]'
                   )}>
                     {item.time}
                   </span>
                   <ArrowRight className={cn(
                     'w-3 h-3 opacity-0 group-hover:opacity-100',
-                    isDark ? 'text-white/20' : 'text-black/20'
+                    'text-[var(--app-text-disabled)]'
                   )} />
                 </motion.div>
               ))}

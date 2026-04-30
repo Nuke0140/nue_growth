@@ -188,10 +188,10 @@ export default function PostBuilderPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Social Media Post Builder
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
             Create, preview, and schedule posts across all platforms
           </p>
         </div>
@@ -243,14 +243,14 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Type className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-                <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Caption Editor</h3>
+                <Type className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+                <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Caption Editor</h3>
               </div>
-              <span className={cn('text-xs tabular-nums', charExceeded ? 'text-red-500' : isDark ? 'text-white/40' : 'text-black/40')}>
+              <span className={cn('text-xs tabular-nums', charExceeded ? 'text-red-500' : 'text-[var(--app-text-muted)]')}>
                 {charCount}/{activePlatform.charLimit}
               </span>
             </div>
@@ -308,11 +308,11 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Hash className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Hashtags</h3>
+              <Hash className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Hashtags</h3>
             </div>
 
             {/* Active Hashtags */}
@@ -328,12 +328,12 @@ export default function PostBuilderPage() {
                 </Badge>
               ))}
               {hashtags.length === 0 && (
-                <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>No hashtags selected</p>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>No hashtags selected</p>
               )}
             </div>
 
             {/* Suggestions */}
-            <p className={cn('text-xs mb-2', isDark ? 'text-white/40' : 'text-black/40')}>Suggested hashtags:</p>
+            <p className={cn('text-xs mb-2', 'text-[var(--app-text-muted)]')}>Suggested hashtags:</p>
             <div className="flex flex-wrap gap-2">
               {HASHTAG_SUGGESTIONS.filter(h => !hashtags.includes(h)).map(tag => (
                 <button
@@ -357,9 +357,9 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <h3 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white' : 'text-gray-900')}>Media Upload</h3>
+            <h3 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>Media Upload</h3>
             <button
               onClick={() => setMediaUploaded(!mediaUploaded)}
               className={cn(
@@ -374,16 +374,16 @@ export default function PostBuilderPage() {
               {mediaUploaded ? (
                 <>
                   <CheckCircle2 className="w-8 h-8 text-green-500" />
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white/70' : 'text-gray-700')}>Media uploaded successfully</p>
-                  <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Click to replace</p>
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text-secondary)]')}>Media uploaded successfully</p>
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Click to replace</p>
                 </>
               ) : (
                 <>
-                  <Upload className={cn('w-8 h-8', isDark ? 'text-white/30' : 'text-black/30')} />
-                  <p className={cn('text-sm font-medium', isDark ? 'text-white/60' : 'text-black/50')}>
+                  <Upload className={cn('w-8 h-8', 'text-[var(--app-text-muted)]')} />
+                  <p className={cn('text-sm font-medium', 'text-[var(--app-text-secondary)]')}>
                     Drop files here or click to upload
                   </p>
-                  <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                     Supports JPG, PNG, GIF, MP4 (max 50MB)
                   </p>
                 </>
@@ -399,11 +399,11 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Eye className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
+              <Eye className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 {activePlatform.label} Preview
               </h3>
             </div>
@@ -417,14 +417,14 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-amber-500" />
-              <h4 className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>AI Recommended Posting Time</h4>
+              <h4 className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>AI Recommended Posting Time</h4>
             </div>
-            <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>Tuesday 11:30 AM IST</p>
-            <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>Tuesday 11:30 AM IST</p>
+            <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
               Based on your audience engagement patterns for {activePlatform.label}
             </p>
             <div className="mt-3 grid grid-cols-3 gap-2">
@@ -455,15 +455,15 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Calendar className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Schedule</h3>
+              <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Schedule</h3>
             </div>
             <div className="space-y-3">
               <div>
-                <label className={cn('text-xs mb-1 block', isDark ? 'text-white/50' : 'text-black/50')}>Date</label>
+                <label className={cn('text-xs mb-1 block', 'text-[var(--app-text-secondary)]')}>Date</label>
                 <input
                   type="date"
                   value={scheduledDate}
@@ -477,7 +477,7 @@ export default function PostBuilderPage() {
                 />
               </div>
               <div>
-                <label className={cn('text-xs mb-1 block', isDark ? 'text-white/50' : 'text-black/50')}>Time</label>
+                <label className={cn('text-xs mb-1 block', 'text-[var(--app-text-secondary)]')}>Time</label>
                 <input
                   type="time"
                   value={scheduledTime}
@@ -508,9 +508,9 @@ export default function PostBuilderPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <h4 className={cn('text-xs font-semibold mb-3', isDark ? 'text-white' : 'text-gray-900')}>Post Checklist</h4>
+            <h4 className={cn('text-xs font-semibold mb-3', 'text-[var(--app-text)]')}>Post Checklist</h4>
             <div className="space-y-2.5">
               {[
                 { label: 'Caption written', done: caption.length > 0 },
@@ -519,10 +519,10 @@ export default function PostBuilderPage() {
                 { label: 'Within character limit', done: !charExceeded },
               ].map(item => (
                 <div key={item.label} className="flex items-center gap-2">
-                  <div className={cn('w-4 h-4 rounded-full flex items-center justify-center', item.done ? 'bg-green-500' : isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-4 h-4 rounded-full flex items-center justify-center', item.done ? 'bg-green-500' : 'bg-[var(--app-hover-bg)]')}>
                     {item.done && <CheckCircle2 className="w-3 h-3 text-white" />}
                   </div>
-                  <span className={cn('text-xs', item.done ? (isDark ? 'text-white/70' : 'text-gray-700') : (isDark ? 'text-white/30' : 'text-black/30'))}>
+                  <span className={cn('text-xs', item.done ? ('text-[var(--app-text-secondary)]') : ('text-[var(--app-text-muted)]'))}>
                     {item.label}
                   </span>
                 </div>

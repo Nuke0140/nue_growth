@@ -89,13 +89,13 @@ export default function PermissionsMatrixPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Shield className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Permissions Matrix</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Role-based access control configuration
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function PermissionsMatrixPage() {
               className={cn(
                 'inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors shrink-0',
                 activeRoleTab === role
-                  ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                  ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                   : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.04] hover:bg-black/[0.04]'),
               )}
             >
@@ -129,7 +129,7 @@ export default function PermissionsMatrixPage() {
 
         {/* ── Permission Filter Chips ── */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className={cn('text-[10px] font-medium shrink-0 mr-1', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className={cn('text-[10px] font-medium shrink-0 mr-1', 'text-[var(--app-text-muted)]')}>
             Filter:
           </span>
           {permissionFilters.map((perm) => (
@@ -181,8 +181,8 @@ export default function PermissionsMatrixPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Users className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Role Presets
             </span>
           </div>
@@ -203,11 +203,11 @@ export default function PermissionsMatrixPage() {
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                       {preset.name}
                     </p>
                     {!preset.isCustom && (
-                      <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                      <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                         System preset
                       </span>
                     )}
@@ -227,7 +227,7 @@ export default function PermissionsMatrixPage() {
                     </button>
                   </div>
                 </div>
-                <p className={cn('text-[10px] leading-relaxed line-clamp-2 mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-[10px] leading-relaxed line-clamp-2 mb-3', 'text-[var(--app-text-muted)]')}>
                   {preset.description}
                 </p>
                 <div className="flex items-center justify-between">
@@ -251,11 +251,11 @@ export default function PermissionsMatrixPage() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Permission Diff Preview
             </h3>
             <div className="flex items-center gap-2">
@@ -264,18 +264,18 @@ export default function PermissionsMatrixPage() {
                 onChange={(e) => setDiffRoleA(e.target.value as UserRole)}
                 className={cn(
                   'rounded-lg border px-2 py-1 text-xs appearance-none',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                  'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
               >
                 {allRoles.map((r) => <option key={r} value={r}>{roleLabels[r]}</option>)}
               </select>
-              <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>vs</span>
+              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>vs</span>
               <select
                 value={diffRoleB}
                 onChange={(e) => setDiffRoleB(e.target.value as UserRole)}
                 className={cn(
                   'rounded-lg border px-2 py-1 text-xs appearance-none',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                  'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
               >
                 {allRoles.map((r) => <option key={r} value={r}>{roleLabels[r]}</option>)}
@@ -287,15 +287,15 @@ export default function PermissionsMatrixPage() {
           <div className="flex items-center gap-4 mb-4">
             <div className="flex items-center gap-1.5">
               <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-blue-500/30' : 'bg-blue-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Only {roleLabels[diffRoleA]}</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Only {roleLabels[diffRoleA]}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Only {roleLabels[diffRoleB]}</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Only {roleLabels[diffRoleB]}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Shared</span>
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Shared</span>
             </div>
           </div>
 
@@ -304,10 +304,10 @@ export default function PermissionsMatrixPage() {
             <div className="min-w-[500px]">
               {/* Header */}
               <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-2 mb-2">
-                <span className={cn('text-[10px] font-semibold', isDark ? 'text-white/30' : 'text-black/30')}>Module</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-blue-400' : 'text-blue-600')}>{roleLabels[diffRoleA]}</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-violet-400' : 'text-violet-600')}>{roleLabels[diffRoleB]}</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-emerald-400' : 'text-emerald-600')}>Shared</span>
+                <span className={cn('text-[10px] font-semibold', 'text-[var(--app-text-muted)]')}>Module</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-info)]')}>{roleLabels[diffRoleA]}</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-purple)]')}>{roleLabels[diffRoleB]}</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-success)]')}>Shared</span>
               </div>
 
               {diffModules.map((row, i) => (
@@ -321,7 +321,7 @@ export default function PermissionsMatrixPage() {
                     i < diffModules.length - 1 && (isDark ? 'border-b border-white/[0.04]' : 'border-b border-black/[0.04]'),
                   )}
                 >
-                  <span className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                  <span className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
                     {row.module}
                   </span>
                   {/* Only A */}

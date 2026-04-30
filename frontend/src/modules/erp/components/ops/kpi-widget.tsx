@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { ANIMATION, COLORS } from '../../design-tokens';
+import { ANIMATION, COLORS } from '@/styles/design-tokens';
 
 interface KpiWidgetProps {
   label: string;
@@ -19,29 +19,29 @@ interface KpiWidgetProps {
 
 const colorMap = {
   accent: {
-    bg: 'var(--ops-accent-light)',
-    text: 'var(--ops-accent)',
-    iconBg: 'var(--ops-accent-light)',
+    bg: 'var(--app-accent-light)',
+    text: 'var(--app-accent)',
+    iconBg: 'var(--app-accent-light)',
   },
   success: {
-    bg: 'rgba(52, 211, 153, 0.1)',
+    bg: 'var(--app-success-bg)',
     text: '#34d399',
-    iconBg: 'rgba(52, 211, 153, 0.12)',
+    iconBg: 'var(--app-success-bg)',
   },
   warning: {
-    bg: 'rgba(251, 191, 36, 0.1)',
+    bg: 'var(--app-warning-bg)',
     text: '#fbbf24',
-    iconBg: 'rgba(251, 191, 36, 0.12)',
+    iconBg: 'var(--app-warning-bg)',
   },
   danger: {
-    bg: 'rgba(248, 113, 113, 0.1)',
+    bg: 'var(--app-danger-bg)',
     text: '#f87171',
-    iconBg: 'rgba(248, 113, 113, 0.12)',
+    iconBg: 'var(--app-danger-bg)',
   },
   info: {
-    bg: 'rgba(96, 165, 250, 0.1)',
+    bg: 'var(--app-info-bg)',
     text: '#60a5fa',
-    iconBg: 'rgba(96, 165, 250, 0.12)',
+    iconBg: 'var(--app-info-bg)',
   },
 };
 
@@ -60,17 +60,17 @@ export const KpiWidget = React.memo(function KpiWidget({
 
   const trendColor =
     trend === 'up'
-      ? 'var(--ops-success)'
+      ? 'var(--app-success)'
       : trend === 'down'
-        ? 'var(--ops-danger)'
-        : 'var(--ops-text-muted)';
+        ? 'var(--app-danger)'
+        : 'var(--app-text-muted)';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: ANIMATION.durationMedium }}
-      className={cn('ops-card ops-glow relative overflow-hidden p-6', className)}
+      className={cn('app-card app-glow relative overflow-hidden p-6', className)}
       role="status"
       aria-label={`${label}: ${value}`}
     >
@@ -83,13 +83,13 @@ export const KpiWidget = React.memo(function KpiWidget({
         <div className="flex flex-col gap-1 min-w-0">
           <p
             className="text-xs font-medium uppercase tracking-wider"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: 'var(--app-text-muted)' }}
           >
             {label}
           </p>
           <p
             className="text-3xl font-bold tracking-tight"
-            style={{ color: 'var(--ops-text)' }}
+            style={{ color: 'var(--app-text)' }}
           >
             {value}
           </p>

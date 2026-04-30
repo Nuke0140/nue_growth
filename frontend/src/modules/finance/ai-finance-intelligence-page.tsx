@@ -56,10 +56,10 @@ const typeLabels: Record<string, string> = {
 };
 
 const impactColors: Record<string, (isDark: boolean) => string> = {
-  critical: (isDark) => isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
+  critical: (isDark) => 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
   high: (isDark) => isDark ? 'bg-orange-500/15 text-orange-400' : 'bg-orange-50 text-orange-600',
-  medium: (isDark) => isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600',
-  low: (isDark) => isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40',
+  medium: (isDark) => 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
+  low: (isDark) => 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
 };
 
 const impactOrder = { critical: 0, high: 1, medium: 2, low: 3 };
@@ -110,16 +110,16 @@ export default function AIFinanceIntelligencePage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Sparkles className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Sparkles className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">AI Finance Intelligence</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>AI CFO Moat Layer</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>AI CFO Moat Layer</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <BrainCircuit className="w-4 h-4" /> Run Analysis
             </Button>
           </div>
@@ -128,14 +128,14 @@ export default function AIFinanceIntelligencePage() {
         {/* Summary KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Insights', value: aiFinanceInsights.length, icon: BrainCircuit, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
-            { label: 'Potential Savings', value: formatINR(totalSavings), icon: DollarSign, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-            { label: 'Critical Alerts', value: criticalCount, icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-            { label: 'Avg Confidence', value: `${avgConfidence}%`, icon: Target, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
+            { label: 'Total Insights', value: aiFinanceInsights.length, icon: BrainCircuit, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]' },
+            { label: 'Potential Savings', value: formatINR(totalSavings), icon: DollarSign, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+            { label: 'Critical Alerts', value: criticalCount, icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
+            { label: 'Avg Confidence', value: `${avgConfidence}%`, icon: Target, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
           ].map((kpi, i) => (
-            <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', kpi.bg)}><kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} /></div>
               </div>
               <p className="text-xl font-bold tracking-tight">{kpi.value}</p>
@@ -184,7 +184,7 @@ export default function AIFinanceIntelligencePage() {
                   'ml-1 text-[9px] px-1.5 py-0 rounded-full',
                   impactFilter === tab.value
                     ? (isDark ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/60')
-                    : (isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')
+                    : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')
                 )}>{aiFinanceInsights.filter(i => i.impact === tab.value).length}</span>
               )}
             </Button>
@@ -206,7 +206,7 @@ export default function AIFinanceIntelligencePage() {
                 transition={{ delay: 0.15 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-all duration-200',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]',
+                  'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]',
                   insight.impact === 'critical' && (isDark ? 'border-red-500/20' : 'border-red-200')
                 )}
               >
@@ -219,17 +219,17 @@ export default function AIFinanceIntelligencePage() {
                     <div className="flex flex-wrap items-center gap-2 mb-1.5">
                       <p className="text-sm font-semibold">{insight.title}</p>
                       <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 capitalize', iColor(isDark))}>{insight.impact}</Badge>
-                      <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>{typeLabels[insight.type] || insight.type}</Badge>
+                      <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>{typeLabels[insight.type] || insight.type}</Badge>
                     </div>
 
                     {/* Description */}
-                    <p className={cn('text-xs leading-relaxed mb-3', isDark ? 'text-white/50' : 'text-black/50')}>{insight.description}</p>
+                    <p className={cn('text-xs leading-relaxed mb-3', 'text-[var(--app-text-secondary)]')}>{insight.description}</p>
 
                     {/* Confidence Meter */}
                     <div className="flex items-center gap-3 mb-3">
                       <div className="flex items-center gap-1.5">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
-                        <div className={cn('w-24 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Confidence</span>
+                        <div className={cn('w-24 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${insight.confidence}%` }}
@@ -243,40 +243,40 @@ export default function AIFinanceIntelligencePage() {
 
                     {/* Metric Comparison */}
                     {insight.metric && insight.currentValue !== undefined && insight.thresholdValue !== undefined && (
-                      <div className={cn('flex items-center gap-3 mb-3 p-2.5 rounded-lg', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                      <div className={cn('flex items-center gap-3 mb-3 p-2.5 rounded-lg', 'bg-[var(--app-hover-bg)]')}>
                         <div>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{insight.metric}</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{insight.metric}</span>
                           <div className="flex items-center gap-2">
                             <span className={cn('text-xs font-bold', insight.currentValue < insight.thresholdValue ? 'text-red-500' : 'text-emerald-500')}>{insight.currentValue}</span>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>vs</span>
-                            <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{insight.thresholdValue}</span>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>threshold</span>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>vs</span>
+                            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{insight.thresholdValue}</span>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>threshold</span>
                           </div>
                         </div>
                       </div>
                     )}
 
                     {/* Recommendation */}
-                    <div className={cn('p-3 rounded-xl mb-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                    <div className={cn('p-3 rounded-xl mb-3', 'bg-[var(--app-hover-bg)]')}>
                       <div className="flex items-center gap-1.5 mb-1">
                         <Lightbulb className={cn('w-3 h-3', colors.color)} />
-                        <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>Recommendation</span>
+                        <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Recommendation</span>
                       </div>
-                      <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/60' : 'text-black/60')}>{insight.recommendation}</p>
+                      <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-secondary)]')}>{insight.recommendation}</p>
                     </div>
 
                     {/* Footer: Saving + Client */}
                     <div className="flex items-center justify-between">
                       {insight.potentialSaving > 0 && (
-                        <div className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
+                        <div className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg', 'bg-[var(--app-success-bg)]')}>
                           <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
                           <span className="text-xs font-bold text-emerald-500">Potential saving: {formatINR(insight.potentialSaving)}</span>
                         </div>
                       )}
                       {insight.client && (
                         <div className="flex items-center gap-1.5">
-                          <Users className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-                          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{insight.client}</span>
+                          <Users className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+                          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{insight.client}</span>
                         </div>
                       )}
                     </div>
@@ -288,7 +288,7 @@ export default function AIFinanceIntelligencePage() {
         </div>
 
         {filteredInsights.length === 0 && (
-          <div className={cn('flex flex-col items-center justify-center py-16', isDark ? 'text-white/30' : 'text-black/30')}>
+          <div className={cn('flex flex-col items-center justify-center py-16', 'text-[var(--app-text-muted)]')}>
             <BrainCircuit className="w-10 h-10 mb-3" />
             <p className="text-sm">No insights match the selected filters.</p>
           </div>

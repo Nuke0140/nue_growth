@@ -42,7 +42,7 @@ export default function ScheduledReportsPage() {
 
   const card = cn(
     'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   return (
@@ -51,10 +51,10 @@ export default function ScheduledReportsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
               Scheduled Reports
             </h1>
-            <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+            <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
               Automated report delivery
             </p>
           </div>
@@ -89,14 +89,14 @@ export default function ScheduledReportsPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
-                  <p className={cn('text-2xl font-bold mt-1', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-2xl font-bold mt-1', 'text-[var(--app-text)]')}>
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]')}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', 'bg-[var(--app-hover-bg)]')}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -109,12 +109,12 @@ export default function ScheduledReportsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className={cn('rounded-2xl border shadow-sm overflow-hidden', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+          className={cn('rounded-2xl border shadow-sm overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
         >
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+          <div className="p-4 sm:p-5 border-b" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-2">
-              <Calendar className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 All Schedules
               </h3>
             </div>
@@ -122,9 +122,9 @@ export default function ScheduledReportsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
                   {['Report Name', 'Frequency', 'Delivery', 'Recipients', 'Last Run', 'Next Run', 'Status', 'Actions'].map((h) => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -144,10 +144,10 @@ export default function ScheduledReportsPage() {
                       transition={{ delay: i * 0.04, duration: 0.2 }}
                       className={cn(
                         'border-b last:border-0 transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                        'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                       )}
                     >
-                      <td className={cn('px-4 py-3 font-medium', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <td className={cn('px-4 py-3 font-medium', 'text-[var(--app-text)]')}>
                         <div className="flex items-center gap-2">
                           {isFailed && <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
                           {report.name}
@@ -160,19 +160,19 @@ export default function ScheduledReportsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1.5">
-                          <DeliveryIcon className={cn('w-3.5 h-3.5', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
+                          <DeliveryIcon className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                           <span className="capitalize">{report.deliveryMethod}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={cn('text-[10px]', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>
                           {report.recipients.length} recipient{report.recipients.length !== 1 ? 's' : ''}
                         </span>
                       </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                      <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                         {report.lastRun}
                       </td>
-                      <td className={cn('px-4 py-3 tabular-nums', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
+                      <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
                         {report.nextRun}
                       </td>
                       <td className="px-4 py-3">
@@ -206,7 +206,7 @@ export default function ScheduledReportsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
           >
-            <h2 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h2 className={cn('text-sm font-semibold mb-3', 'text-[var(--app-text)]')}>
               Failure Alerts
             </h2>
             <div className="space-y-3">
@@ -217,7 +217,7 @@ export default function ScheduledReportsPage() {
                     key={report.id}
                     className={cn(
                       'rounded-2xl border border-l-4 border-l-amber-500 p-4',
-                      isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                     )}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -226,10 +226,10 @@ export default function ScheduledReportsPage() {
                           <AlertTriangle className="w-4 h-4 text-amber-400" />
                         </div>
                         <div>
-                          <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                          <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                             {report.name}
                           </h4>
-                          <p className={cn('text-xs mt-0.5', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                          <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                             Failed {report.failureCount} time{report.failureCount !== 1 ? 's' : ''} — Last run on {report.lastRun}
                           </p>
                         </div>

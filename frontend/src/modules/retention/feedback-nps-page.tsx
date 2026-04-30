@@ -82,10 +82,10 @@ export default function FeedbackNpsPage() {
 
   const kpiStats = useMemo(() => [
     { label: 'NPS Score', value: `${npsCalc.npsScore}`, icon: BarChart3, color: npsCalc.npsScore >= 50 ? 'text-emerald-400' : npsCalc.npsScore >= 0 ? 'text-amber-400' : 'text-red-400', bg: isDark ? (npsCalc.npsScore >= 50 ? 'bg-emerald-500/10' : 'bg-amber-500/10') : (npsCalc.npsScore >= 50 ? 'bg-emerald-50' : 'bg-amber-50') },
-    { label: 'Promoters', value: `${npsCalc.promoters}`, icon: ThumbsUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-    { label: 'Passives', value: `${npsCalc.passives}`, icon: Minus, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-    { label: 'Detractors', value: `${npsCalc.detractors}`, icon: ThumbsDown, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
-    { label: 'Total Responses', value: `${npsCalc.total}`, icon: MessageSquare, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
+    { label: 'Promoters', value: `${npsCalc.promoters}`, icon: ThumbsUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+    { label: 'Passives', value: `${npsCalc.passives}`, icon: Minus, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+    { label: 'Detractors', value: `${npsCalc.detractors}`, icon: ThumbsDown, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
+    { label: 'Total Responses', value: `${npsCalc.total}`, icon: MessageSquare, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
   ], [isDark, npsCalc]);
 
   const maxCategory = Math.max(npsCalc.promoters, npsCalc.passives, npsCalc.detractors, 1);
@@ -102,15 +102,15 @@ export default function FeedbackNpsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <MessageSquare className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <MessageSquare className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Feedback & NPS</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Sentiment & Satisfaction Cockpit</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Sentiment & Satisfaction Cockpit</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Send className="w-4 h-4" />
             Send Survey
           </Button>
@@ -124,10 +124,10 @@ export default function FeedbackNpsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
@@ -144,9 +144,9 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.4 }}
-            className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center text-center', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
-            <p className={cn('text-xs font-medium uppercase tracking-wider mb-2', isDark ? 'text-white/40' : 'text-black/40')}>Net Promoter Score</p>
+            <p className={cn('text-xs font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>Net Promoter Score</p>
             <motion.p
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -155,7 +155,7 @@ export default function FeedbackNpsPage() {
             >
               {npsCalc.npsScore}
             </motion.p>
-            <p className={cn('text-xs mt-2', isDark ? 'text-white/30' : 'text-black/30')}>
+            <p className={cn('text-xs mt-2', 'text-[var(--app-text-muted)]')}>
               {npsCalc.total} responses collected
             </p>
           </motion.div>
@@ -165,11 +165,11 @@ export default function FeedbackNpsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4 }}
-            className={cn('md:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('md:col-span-2 rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center gap-2 mb-5">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>NPS Distribution</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>NPS Distribution</span>
             </div>
             <div className="space-y-4">
               {[
@@ -181,16 +181,16 @@ export default function FeedbackNpsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
                       <div className={cn('w-2.5 h-2.5 rounded-sm', cat.color)} />
-                      <span className={cn('text-sm font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{cat.label}</span>
+                      <span className={cn('text-sm font-medium', 'text-[var(--app-text-secondary)]')}>{cat.label}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={cn('text-sm font-bold', cat.textColor)}>{cat.count}</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {maxCategory > 0 ? ((cat.count / npsCalc.total) * 100).toFixed(0) : 0}%
                       </span>
                     </div>
                   </div>
-                  <div className={cn('h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${maxCategory > 0 ? (cat.count / maxCategory) * 100 : 0}%` }}
@@ -206,10 +206,10 @@ export default function FeedbackNpsPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
-          <Filter className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Filter className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           {filterOptions.map(fo => (
             <div key={fo.key} className="flex items-center gap-1.5 flex-wrap">
-              <span className={cn('text-[10px] font-medium uppercase tracking-wider shrink-0', isDark ? 'text-white/25' : 'text-black/25')}>{fo.key}:</span>
+              <span className={cn('text-[10px] font-medium uppercase tracking-wider shrink-0', 'text-[var(--app-text-muted)]')}>{fo.key}:</span>
               {fo.options.map(opt => (
                 <button
                   key={opt}
@@ -217,7 +217,7 @@ export default function FeedbackNpsPage() {
                   className={cn(
                     'px-2 py-1 rounded-md text-[10px] font-medium transition-colors',
                     fo.value === opt
-                      ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                      ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
                       : (isDark ? 'bg-white/[0.03] text-white/35 hover:bg-white/[0.06]' : 'bg-black/[0.03] text-black/35 hover:bg-black/[0.06]')
                   )}
                 >
@@ -233,23 +233,23 @@ export default function FeedbackNpsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <MessageSquare className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Feedback Inbox</span>
+              <MessageSquare className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Feedback Inbox</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
               {filteredFeedback.length} items
             </Badge>
           </div>
           <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
             <table className="w-full">
               <thead className="sticky top-0 z-10">
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)] bg-[var(--app-bg)]')}>
                   {['Type', 'Rating', 'Subject', 'Client', 'Message', 'Date', 'Status', 'Sentiment'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', 'text-[var(--app-text-muted)]')}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -265,7 +265,7 @@ export default function FeedbackNpsPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 + i * 0.04 }}
-                      className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                      className={cn('border-b cursor-pointer transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                     >
                       <td className="py-3 px-3">
                         <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', tConf.bg, tConf.color)}>{fb.type}</Badge>
@@ -273,7 +273,7 @@ export default function FeedbackNpsPage() {
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-0.5">
                           {Array.from({ length: 5 }).map((_, j) => (
-                            <Star key={j} className={cn('w-3 h-3', j < fb.rating ? 'text-amber-400 fill-amber-400' : (isDark ? 'text-white/10' : 'text-black/10'))} />
+                            <Star key={j} className={cn('w-3 h-3', j < fb.rating ? 'text-amber-400 fill-amber-400' : ('text-[var(--app-text-disabled)]'))} />
                           ))}
                         </div>
                       </td>
@@ -282,10 +282,10 @@ export default function FeedbackNpsPage() {
                       </td>
                       <td className="py-3 px-3 text-sm">{fb.client}</td>
                       <td className="py-3 px-3">
-                        <p className={cn('text-[10px] truncate max-w-[160px]', isDark ? 'text-white/40' : 'text-black/40')}>{fb.message}</p>
+                        <p className={cn('text-[10px] truncate max-w-[160px]', 'text-[var(--app-text-muted)]')}>{fb.message}</p>
                       </td>
                       <td className="py-3 px-3">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{fb.date}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{fb.date}</span>
                       </td>
                       <td className="py-3 px-3">
                         <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', sConf.bg, sConf.color)}>{sConf.label}</Badge>
@@ -315,7 +315,7 @@ export default function FeedbackNpsPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <Heart className="w-4 h-4 text-emerald-500" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Promoters — Brand Champions</span>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Promoters — Brand Champions</span>
               <Badge variant="secondary" className="text-[10px] bg-emerald-500/15 text-emerald-400">{promoters.length}</Badge>
             </div>
             <div className="space-y-2.5">
@@ -329,8 +329,8 @@ export default function FeedbackNpsPage() {
                       <p className="text-sm font-semibold">{p.client}</p>
                       <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-emerald-500/10 text-emerald-500">{p.industry}</Badge>
                     </div>
-                    <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>{p.feedback}</p>
-                    <span className={cn('text-[10px] mt-1 block', isDark ? 'text-white/20' : 'text-black/20')}>{p.date}</span>
+                    <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>{p.feedback}</p>
+                    <span className={cn('text-[10px] mt-1 block', 'text-[var(--app-text-disabled)]')}>{p.date}</span>
                   </div>
                 </div>
               ))}
@@ -346,7 +346,7 @@ export default function FeedbackNpsPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <ShieldAlert className="w-4 h-4 text-red-400" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Detractor Alerts — Immediate Action</span>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Detractor Alerts — Immediate Action</span>
               <Badge variant="secondary" className="text-[10px] bg-red-500/15 text-red-400">{detractors.length}</Badge>
             </div>
             <div className="space-y-2.5">
@@ -360,12 +360,12 @@ export default function FeedbackNpsPage() {
                       <p className="text-sm font-semibold text-red-500">{d.client}</p>
                       <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-red-500/10 text-red-500">{d.industry}</Badge>
                     </div>
-                    <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>{d.feedback}</p>
+                    <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>{d.feedback}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Button variant="ghost" size="sm" className="h-6 text-[10px] px-2 text-red-500 hover:bg-red-500/10 gap-1">
                         <Eye className="w-3 h-3" />Investigate
                       </Button>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>{d.date}</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>{d.date}</span>
                     </div>
                   </div>
                 </div>
@@ -379,20 +379,20 @@ export default function FeedbackNpsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Star className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>NPS Responses</span>
+              <Star className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>NPS Responses</span>
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Client', 'Score', 'Category', 'Feedback', 'Date', 'Sentiment'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', isDark ? 'text-white/40' : 'text-black/40')}>{h}</th>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', 'text-[var(--app-text-muted)]')}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -406,7 +406,7 @@ export default function FeedbackNpsPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.6 + i * 0.04 }}
-                      className={cn('border-b cursor-pointer transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]')}
+                      className={cn('border-b cursor-pointer transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
                     >
                       <td className="py-3 px-3 text-sm font-medium">{r.client}</td>
                       <td className="py-3 px-3">
@@ -420,10 +420,10 @@ export default function FeedbackNpsPage() {
                         )}>{r.category}</Badge>
                       </td>
                       <td className="py-3 px-3">
-                        <p className={cn('text-xs truncate max-w-[250px]', isDark ? 'text-white/50' : 'text-black/50')}>{r.feedback}</p>
+                        <p className={cn('text-xs truncate max-w-[250px]', 'text-[var(--app-text-secondary)]')}>{r.feedback}</p>
                       </td>
                       <td className="py-3 px-3">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{r.date}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{r.date}</span>
                       </td>
                       <td className="py-3 px-3">
                         <div className={cn('flex items-center gap-1', sentConf.color)}>

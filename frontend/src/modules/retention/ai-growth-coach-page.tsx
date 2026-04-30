@@ -85,11 +85,11 @@ export default function AIGrowthCoachPage() {
 
   // KPI stats
   const kpiStats = useMemo(() => [
-    { label: 'Total Insights', value: `${summary.total}`, icon: BrainCircuit, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 0, changeLabel: 'AI-generated' },
-    { label: 'Critical Actions', value: `${summary.critical}`, icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: 0, changeLabel: 'requires immediate action' },
-    { label: 'High Impact', value: `${summary.high}`, icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: 'growth opportunities' },
-    { label: 'Total Potential', value: formatINR(summary.totalPotential), icon: Target, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 0, changeLabel: 'revenue at stake' },
-    { label: 'Avg Confidence', value: `${summary.avgConfidence.toFixed(0)}%`, icon: ShieldAlert, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 0, changeLabel: 'AI model accuracy' },
+    { label: 'Total Insights', value: `${summary.total}`, icon: BrainCircuit, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 0, changeLabel: 'AI-generated' },
+    { label: 'Critical Actions', value: `${summary.critical}`, icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: 0, changeLabel: 'requires immediate action' },
+    { label: 'High Impact', value: `${summary.high}`, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: 'growth opportunities' },
+    { label: 'Total Potential', value: formatINR(summary.totalPotential), icon: Target, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 0, changeLabel: 'revenue at stake' },
+    { label: 'Avg Confidence', value: `${summary.avgConfidence.toFixed(0)}%`, icon: ShieldAlert, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 0, changeLabel: 'AI model accuracy' },
   ], [isDark, summary]);
 
   const toggleActionItem = (insightId: string, itemIdx: number) => {
@@ -115,13 +115,13 @@ export default function AIGrowthCoachPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <BrainCircuit className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">AI Growth Coach</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>AI Retention Moat Layer</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>AI Retention Moat Layer</p>
             </div>
           </div>
           <Button
@@ -129,7 +129,7 @@ export default function AIGrowthCoachPage() {
             disabled={isAnalyzing}
             className={cn(
               'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
             {isAnalyzing ? (
@@ -155,11 +155,11 @@ export default function AIGrowthCoachPage() {
                 'rounded-2xl border p-4 transition-all duration-200',
                 stat.label === 'Critical Actions'
                   ? (isDark ? 'bg-red-500/[0.04] border-red-500/20' : 'bg-red-50 border-red-200')
-                  : (isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')
+                  : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
@@ -167,7 +167,7 @@ export default function AIGrowthCoachPage() {
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{stat.changeLabel}</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.changeLabel}</p>
             </motion.div>
           ))}
         </div>
@@ -179,13 +179,13 @@ export default function AIGrowthCoachPage() {
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn(
             'rounded-2xl border p-4',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex items-center gap-2 flex-wrap">
-              <Filter className={cn('w-3.5 h-3.5 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
-              <span className={cn('text-xs font-medium shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>Category:</span>
+              <Filter className={cn('w-3.5 h-3.5 shrink-0', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-xs font-medium shrink-0', 'text-[var(--app-text-muted)]')}>Category:</span>
               {categories.map((cat) => (
                 <Button
                   key={cat.value}
@@ -195,8 +195,8 @@ export default function AIGrowthCoachPage() {
                   className={cn(
                     'px-2.5 py-1 text-[10px] font-medium rounded-lg transition-colors',
                     categoryFilter === cat.value
-                      ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                      : (isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')
+                      ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
+                      : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                   )}
                 >
                   {cat.label}
@@ -204,7 +204,7 @@ export default function AIGrowthCoachPage() {
               ))}
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Impact:</span>
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Impact:</span>
               <div className="flex gap-1.5">
                 {(['all', 'critical', 'high', 'medium', 'low'] as ImpactFilter[]).map((imp) => (
                   <Button
@@ -215,8 +215,8 @@ export default function AIGrowthCoachPage() {
                     className={cn(
                       'px-2.5 py-1 text-[10px] font-medium rounded-lg capitalize transition-colors',
                       impactFilter === imp
-                        ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                        : (isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')
+                        ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
+                        : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                     )}
                   >
                     {imp}
@@ -246,7 +246,7 @@ export default function AIGrowthCoachPage() {
                   'rounded-2xl border p-5 transition-all duration-200',
                   insight.impact === 'critical'
                     ? (isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')
-                    : (isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')
+                    : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
                 )}
               >
                 {/* Card Header */}
@@ -262,12 +262,12 @@ export default function AIGrowthCoachPage() {
                           {iCfg.label}
                         </Badge>
                         {insight.segment && (
-                          <Badge variant="secondary" className={cn('text-[9px] px-2 py-0', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+                          <Badge variant="secondary" className={cn('text-[9px] px-2 py-0', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                             {insight.segment}
                           </Badge>
                         )}
                       </div>
-                      <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
+                      <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                         {insight.description}
                       </p>
                     </div>
@@ -278,9 +278,9 @@ export default function AIGrowthCoachPage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
                   {/* Confidence */}
                   <div>
-                    <span className={cn('text-[10px] block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
+                    <span className={cn('text-[10px] block mb-1', 'text-[var(--app-text-muted)]')}>Confidence</span>
                     <div className="flex items-center gap-2">
-                      <div className={cn('flex-1 h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <div className={cn('flex-1 h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${insight.confidence}%` }}
@@ -296,20 +296,20 @@ export default function AIGrowthCoachPage() {
 
                   {/* Potential Impact */}
                   <div>
-                    <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Potential Impact</span>
+                    <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Potential Impact</span>
                     <span className="text-sm font-bold text-emerald-500">{formatINR(insight.potentialImpact)}</span>
                   </div>
 
                   {/* Metric Comparison */}
                   {insight.metric && insight.currentValue !== undefined && insight.thresholdValue !== undefined && (
                     <div>
-                      <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{insight.metric}</span>
+                      <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>{insight.metric}</span>
                       <div className="flex items-center gap-1.5">
                         <span className={cn('text-sm font-bold', isMetricWarning ? 'text-red-500' : 'text-emerald-500')}>
                           {insight.currentValue}
                         </span>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>vs</span>
-                        <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>vs</span>
+                        <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                           {insight.thresholdValue}
                         </span>
                         {isMetricWarning && <AlertTriangle className="w-3 h-3 text-red-500" />}
@@ -320,7 +320,7 @@ export default function AIGrowthCoachPage() {
 
                   {/* Impact Badge */}
                   <div>
-                    <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Priority</span>
+                    <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Priority</span>
                     <Badge variant="secondary" className={cn('text-[10px] px-2 py-0', iCfg.color)}>
                       {iCfg.label}
                     </Badge>
@@ -330,19 +330,19 @@ export default function AIGrowthCoachPage() {
                 {/* Recommendation */}
                 <div className={cn(
                   'rounded-xl p-3 mb-3',
-                  isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'
+                  'bg-[var(--app-hover-bg)]'
                 )}>
-                  <span className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[10px] font-semibold uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>
                     Recommendation
                   </span>
-                  <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/60' : 'text-black/60')}>
+                  <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-secondary)]')}>
                     {insight.recommendation}
                   </p>
                 </div>
 
                 {/* Action Items Checklist */}
                 <div className="space-y-1.5">
-                  <span className={cn('text-[10px] font-semibold uppercase tracking-wider block', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[10px] font-semibold uppercase tracking-wider block', 'text-[var(--app-text-muted)]')}>
                     Action Items
                   </span>
                   {insight.actionItems.map((item, itemIdx) => {
@@ -358,7 +358,7 @@ export default function AIGrowthCoachPage() {
                           'flex items-center gap-2.5 p-2 rounded-lg cursor-pointer transition-colors',
                           isChecked
                             ? (isDark ? 'bg-emerald-500/[0.06]' : 'bg-emerald-50')
-                            : (isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]')
+                            : ('hover:bg-[var(--app-hover-bg)]')
                         )}
                       >
                         <div className={cn(
@@ -373,7 +373,7 @@ export default function AIGrowthCoachPage() {
                           'text-xs transition-colors',
                           isChecked
                             ? (isDark ? 'text-white/30 line-through' : 'text-black/30 line-through')
-                            : (isDark ? 'text-white/60' : 'text-black/60')
+                            : ('text-[var(--app-text-secondary)]')
                         )}>
                           {item}
                         </span>
@@ -402,15 +402,15 @@ export default function AIGrowthCoachPage() {
               onClick={() => navigateTo(nav.page)}
               className={cn(
                 'rounded-2xl border p-4 text-left transition-all duration-200 group',
-                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between">
                 <nav.icon className={cn('w-5 h-5', nav.color)} />
-                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', isDark ? 'text-white/15' : 'text-black/15')} />
+                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', 'text-[var(--app-text-disabled)]')} />
               </div>
               <p className="text-xl font-bold mt-3">{nav.value}</p>
-              <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{nav.label}</p>
+              <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{nav.label}</p>
             </motion.button>
           ))}
         </div>

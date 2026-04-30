@@ -61,13 +61,13 @@ function PerformancePageInner() {
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>{emp?.name}</p>
-              <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{emp?.department}</p>
+              <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>{emp?.name}</p>
+              <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>{emp?.department}</p>
             </div>
           </div>
         );
@@ -85,7 +85,7 @@ function PerformancePageInner() {
       sortable: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.kpiScore}%`, backgroundColor: getBarColor(row.kpiScore as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.kpiScore as number) }}>{row.kpiScore}</span>
@@ -99,7 +99,7 @@ function PerformancePageInner() {
       hiddenMobile: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.slaScore}%`, backgroundColor: getBarColor(row.slaScore as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.slaScore as number) }}>{row.slaScore}</span>
@@ -113,7 +113,7 @@ function PerformancePageInner() {
       hiddenMobile: true,
       render: (row) => (
         <div className="flex items-center gap-2 min-w-[80px]">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
             <div className="h-full rounded-full" style={{ width: `${row.taskCompletion}%`, backgroundColor: getBarColor(row.taskCompletion as number) }} />
           </div>
           <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(row.taskCompletion as number) }}>{row.taskCompletion}</span>
@@ -126,7 +126,7 @@ function PerformancePageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm font-medium" style={{ color: (row.clientFeedback as number) > 0 ? getBarColor(row.clientFeedback as number) : 'var(--ops-text-muted)' }}>
+        <span className="text-sm font-medium" style={{ color: (row.clientFeedback as number) > 0 ? getBarColor(row.clientFeedback as number) : 'var(--app-text-muted)' }}>
           {(row.clientFeedback as number) > 0 ? `${row.clientFeedback}%` : 'N/A'}
         </span>
       ),

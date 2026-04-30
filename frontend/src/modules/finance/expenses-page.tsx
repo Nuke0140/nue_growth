@@ -73,15 +73,15 @@ export default function ExpensesPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Receipt className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Receipt className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Expenses</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Expense Control & Tracking</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Expense Control & Tracking</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Plus className="w-4 h-4" /> Add Expense
           </Button>
         </div>
@@ -96,13 +96,13 @@ export default function ExpensesPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', isDark ? config.bgDark : config.bgLight)}>
                     {config.label}
                   </Badge>
-                  <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{cat.count} items</span>
+                  <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{cat.count} items</span>
                 </div>
                 <p className="text-lg font-bold">{formatINR(cat.total)}</p>
               </motion.div>
@@ -113,20 +113,20 @@ export default function ExpensesPage() {
         {/* KPI Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Expenses', value: formatINR(totalExpenses), icon: IndianRupee, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-            { label: 'Total GST', value: formatINR(gstTotal), icon: FileText, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+            { label: 'Total Expenses', value: formatINR(totalExpenses), icon: IndianRupee, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+            { label: 'Total GST', value: formatINR(gstTotal), icon: FileText, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
             { label: 'Pending Approval', value: pendingCount.toString(), icon: Clock, color: 'text-orange-400', bg: isDark ? 'bg-orange-500/10' : 'bg-orange-50' },
-            { label: 'Anomalies', value: anomalyExpenses.length.toString(), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
+            { label: 'Anomalies', value: anomalyExpenses.length.toString(), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4 transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                   <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
@@ -162,7 +162,7 @@ export default function ExpensesPage() {
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
                     <div>
                       <p className="text-sm font-medium">{exp.description}</p>
-                      <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{exp.vendor} • {exp.date}</p>
+                      <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{exp.vendor} • {exp.date}</p>
                     </div>
                   </div>
                   <span className="text-sm font-semibold text-red-500">{formatINR(exp.total)}</span>
@@ -174,23 +174,23 @@ export default function ExpensesPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className={cn('flex items-center gap-2', isDark ? 'text-white/40' : 'text-black/40')}>
+          <div className={cn('flex items-center gap-2', 'text-[var(--app-text-muted)]')}>
             <Filter className="w-4 h-4" />
             <span className="text-xs font-medium uppercase tracking-wider">Filters</span>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setCategoryFilter('all')} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === 'all' ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
+            <button onClick={() => setCategoryFilter('all')} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === 'all' ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
               All Categories
             </button>
             {Object.entries(categoryConfig).map(([key, val]) => (
-              <button key={key} onClick={() => setCategoryFilter(key)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === key ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
+              <button key={key} onClick={() => setCategoryFilter(key)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', categoryFilter === key ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {val.label}
               </button>
             ))}
           </div>
           <div className="flex gap-2 ml-4">
             {(['all', 'approved', 'pending', 'rejected'] as const).map((status) => (
-              <button key={status} onClick={() => setApprovalFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', approvalFilter === status ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black') : (isDark ? 'bg-white/[0.04] text-white/40 hover:bg-white/[0.06]' : 'bg-black/[0.04] text-black/40 hover:bg-black/[0.06]'))}>
+              <button key={status} onClick={() => setApprovalFilter(status)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize', approvalFilter === status ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]') : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-active-bg)]'))}>
                 {status === 'all' ? 'All Status' : status}
               </button>
             ))}
@@ -202,13 +202,13 @@ export default function ExpensesPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <TrendingDown className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Expense Ledger</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+              <TrendingDown className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Expense Ledger</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {filteredExpenses.length} entries
               </Badge>
             </div>
@@ -216,9 +216,9 @@ export default function ExpensesPage() {
           <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
             <table className="w-full">
               <thead className={cn('sticky top-0 z-10', isDark ? 'bg-[#1a1a1a]' : 'bg-white')}>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Description', 'Category', 'Amount', 'GST', 'Total', 'Date', 'Vendor', 'Receipt', 'Approval', 'Anomaly'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3 whitespace-nowrap', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3 whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -234,7 +234,7 @@ export default function ExpensesPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.55 + i * 0.03 }}
-                      className={cn('border-b transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]', exp.isAnomaly && (isDark ? 'bg-red-500/[0.03]' : 'bg-red-50/30'))}
+                      className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]', exp.isAnomaly && (isDark ? 'bg-red-500/[0.03]' : 'bg-red-50/30'))}
                     >
                       <td className="py-3 px-3">
                         <p className="text-sm font-medium max-w-[200px] truncate">{exp.description}</p>
@@ -253,9 +253,9 @@ export default function ExpensesPage() {
                       </td>
                       <td className="py-3 px-3">
                         {exp.receiptUploaded ? (
-                          <Upload className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
+                          <Upload className={cn('w-4 h-4', 'text-[var(--app-success)]')} />
                         ) : (
-                          <Upload className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
+                          <Upload className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
                         )}
                       </td>
                       <td className="py-3 px-3">
@@ -279,31 +279,31 @@ export default function ExpensesPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-emerald-500/10' : 'bg-emerald-50')}>
+              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-success-bg)]')}>
                 <IndianRupee className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Total Expenses (All Categories)</p>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Total Expenses (All Categories)</p>
                 <p className="text-2xl font-bold">{formatINR(totalExpenses)}</p>
               </div>
             </div>
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Base Amount</p>
+                <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Base Amount</p>
                 <p className="text-sm font-semibold">{formatINR(totalExpenses - gstTotal)}</p>
               </div>
-              <div className={cn('w-px h-8', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')} />
+              <div className={cn('w-px h-8', 'bg-[var(--app-hover-bg)]')} />
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>GST</p>
+                <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>GST</p>
                 <p className="text-sm font-semibold">{formatINR(gstTotal)}</p>
               </div>
-              <div className={cn('w-px h-8', isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]')} />
+              <div className={cn('w-px h-8', 'bg-[var(--app-hover-bg)]')} />
               <div className="text-center">
-                <p className={cn('text-[10px] uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Entries</p>
+                <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Entries</p>
                 <p className="text-sm font-semibold">{expenses.length}</p>
               </div>
             </div>

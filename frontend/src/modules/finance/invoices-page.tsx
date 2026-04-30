@@ -63,12 +63,12 @@ export default function InvoicesPage() {
 
   const statusConfig = (status: string): { bg: string; dot: string } => {
     const configs: Record<string, { bg: string; dot: string }> = {
-      draft: { bg: isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50', dot: 'bg-gray-400' },
-      sent: { bg: isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600', dot: 'bg-sky-400' },
-      viewed: { bg: isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600', dot: 'bg-violet-400' },
-      paid: { bg: isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600', dot: 'bg-emerald-400' },
-      overdue: { bg: isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600', dot: 'bg-red-500' },
-      cancelled: { bg: isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30', dot: 'bg-gray-300' },
+      draft: { bg: 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]', dot: 'bg-gray-400' },
+      sent: { bg: 'bg-[var(--app-info-bg)] text-[var(--app-info)]', dot: 'bg-sky-400' },
+      viewed: { bg: 'bg-[var(--app-purple-light)] text-[var(--app-purple)]', dot: 'bg-violet-400' },
+      paid: { bg: 'bg-[var(--app-success-bg)] text-[var(--app-success)]', dot: 'bg-emerald-400' },
+      overdue: { bg: 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]', dot: 'bg-red-500' },
+      cancelled: { bg: 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]', dot: 'bg-gray-300' },
       'write-off': { bg: isDark ? 'bg-red-500/20 text-red-500' : 'bg-red-100 text-red-700', dot: 'bg-red-500' },
     };
     return configs[status] || configs.draft;
@@ -92,13 +92,13 @@ export default function InvoicesPage() {
           <div className="flex items-center gap-3">
             <div className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <FileText className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <FileText className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Invoices</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 {filteredInvoices.length} invoices · {formatINR(totalFiltered)} total
               </p>
             </div>
@@ -106,14 +106,14 @@ export default function InvoicesPage() {
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className={cn(
               'px-3 py-1.5 text-xs font-medium gap-1.5',
-              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               <Calendar className="w-3.5 h-3.5" />
               {today}
             </Badge>
             <Button className={cn(
               'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}>
               <Plus className="w-4 h-4" />
               Create Invoice
@@ -130,8 +130,8 @@ export default function InvoicesPage() {
               className={cn(
                 'flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-colors',
                 activeTab === tab.value
-                  ? (isDark ? 'bg-white/10 text-white/80' : 'bg-black/10 text-black/80')
-                  : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
+                  ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
+                  : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
               )}
             >
               {tab.label}
@@ -139,7 +139,7 @@ export default function InvoicesPage() {
                 'text-[9px] px-1.5 py-0 min-w-[18px] text-center',
                 activeTab === tab.value
                   ? (isDark ? 'bg-white/15 text-white/60' : 'bg-black/15 text-black/60')
-                  : (isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')
+                  : ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')
               )}>
                 {counts[tab.value]}
               </Badge>
@@ -155,11 +155,11 @@ export default function InvoicesPage() {
               animate={{ opacity: 1 }}
               className={cn(
                 'rounded-2xl border p-12 text-center',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}
             >
-              <FileText className={cn('w-10 h-10 mx-auto mb-3', isDark ? 'text-white/15' : 'text-black/15')} />
-              <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No invoices found for this status</p>
+              <FileText className={cn('w-10 h-10 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
+              <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No invoices found for this status</p>
             </motion.div>
           ) : (
             filteredInvoices.map((inv: Invoice, i) => {
@@ -175,7 +175,7 @@ export default function InvoicesPage() {
                   transition={{ delay: i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className={cn(
                     'rounded-2xl border overflow-hidden transition-all duration-200',
-                    isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                    'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
                   )}
                 >
                   {/* Main Card Row */}
@@ -186,18 +186,18 @@ export default function InvoicesPage() {
                     {/* Left — Invoice No & Status */}
                     <div className="flex items-center gap-3 min-w-0 sm:w-[200px]">
                       <div className="flex items-center gap-2 min-w-0">
-                        <FileText className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+                        <FileText className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
                             <p className="text-sm font-semibold truncate">{inv.invoiceNo}</p>
                             {inv.isRecurring && (
-                              <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 shrink-0', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
+                              <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 shrink-0', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
                                 <Repeat className="w-2.5 h-2.5 mr-0.5" />
                                 {inv.recurringCycle}
                               </Badge>
                             )}
                           </div>
-                          <p className={cn('text-[10px] truncate', isDark ? 'text-white/30' : 'text-black/30')}>{inv.client} · {inv.project}</p>
+                          <p className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>{inv.client} · {inv.project}</p>
                         </div>
                       </div>
                     </div>
@@ -205,15 +205,15 @@ export default function InvoicesPage() {
                     {/* Center — Amounts */}
                     <div className="flex items-center gap-4 sm:flex-1 sm:justify-center">
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Amount</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Amount</p>
                         <p className="text-sm font-medium">{formatINR(inv.amount)}</p>
                       </div>
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>GST</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>GST</p>
                         <p className="text-sm font-medium">{formatINR(inv.gst)}</p>
                       </div>
                       <div className="text-right">
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Total</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Total</p>
                         <p className="text-sm font-bold">{formatINR(inv.total)}</p>
                       </div>
                     </div>
@@ -226,14 +226,14 @@ export default function InvoicesPage() {
                       </Badge>
                       <div className="text-right">
                         <p className={cn('text-[10px]', daysInfo.color)}>{daysInfo.label}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                           Issued: {inv.issuedDate}
                         </p>
                       </div>
                       {isExpanded ? (
-                        <ChevronUp className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+                        <ChevronUp className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                       ) : (
-                        <ChevronDown className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+                        <ChevronDown className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                       )}
                     </div>
                   </div>
@@ -244,20 +244,20 @@ export default function InvoicesPage() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('border-t px-4 pb-4', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}
+                      className={cn('border-t px-4 pb-4', 'border-[var(--app-border)]')}
                     >
                       <div className="pt-4 space-y-4">
                         {/* Line Items */}
                         <div>
-                          <p className={cn('text-[11px] font-medium uppercase tracking-wider mb-2', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <p className={cn('text-[11px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                             Line Items ({inv.items.length})
                           </p>
                           <div className="overflow-x-auto">
                             <table className="w-full">
                               <thead>
-                                <tr className={cn('border-b', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+                                <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
                                   {['Description', 'HSN/SAC', 'Qty', 'Rate', 'GST', 'Amount'].map(h => (
-                                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-2 px-2', isDark ? 'text-white/30' : 'text-black/30')}>
+                                    <th key={h} className={cn('text-left text-[10px] font-medium uppercase tracking-wider pb-2 px-2', 'text-[var(--app-text-muted)]')}>
                                       {h}
                                     </th>
                                   ))}
@@ -265,7 +265,7 @@ export default function InvoicesPage() {
                               </thead>
                               <tbody>
                                 {inv.items.map((item, j) => (
-                                  <tr key={j} className={cn('border-b', isDark ? 'border-white/[0.03]' : 'border-black/[0.03]')}>
+                                  <tr key={j} className={cn('border-b', 'border-[var(--app-border-strong)]')}>
                                     <td className="py-2 px-2 text-xs">{item.description}</td>
                                     <td className="py-2 px-2 text-xs font-mono">{item.hsnSac}</td>
                                     <td className="py-2 px-2 text-xs">{item.quantity}</td>
@@ -282,39 +282,39 @@ export default function InvoicesPage() {
                         {/* Timeline & Meta */}
                         <div className="flex flex-wrap gap-4">
                           <div className="flex items-center gap-1.5">
-                            <Clock className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                            <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                            <Clock className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                               Due: <span className="font-medium">{inv.dueDate}</span>
                             </span>
                           </div>
                           {inv.paidDate && (
                             <div className="flex items-center gap-1.5">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                              <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                                 Paid: <span className="font-medium">{inv.paidDate}</span>
                               </span>
                             </div>
                           )}
                           {inv.paymentMethod && (
                             <div className="flex items-center gap-1.5">
-                              <IndianRupee className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                              <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                              <IndianRupee className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                                 Via: <span className="font-medium">{inv.paymentMethod}</span>
                               </span>
                             </div>
                           )}
                           {inv.lastViewedDate && (
                             <div className="flex items-center gap-1.5">
-                              <Eye className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                              <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                              <Eye className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                                 Viewed: <span className="font-medium">{inv.lastViewedDate}</span>
                               </span>
                             </div>
                           )}
                           {inv.reminders > 0 && (
                             <div className="flex items-center gap-1.5">
-                              <Send className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-                              <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                              <Send className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+                              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                                 {inv.reminders} reminders sent
                               </span>
                             </div>
@@ -374,12 +374,12 @@ export default function InvoicesPage() {
           transition={{ delay: 0.4, duration: 0.4 }}
           className={cn(
             'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Payment Timeline</span>
+            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Payment Timeline</span>
           </div>
           <div className="flex items-center gap-3 overflow-x-auto pb-1">
             {filteredInvoices.map((inv: Invoice, i) => {
@@ -394,14 +394,14 @@ export default function InvoicesPage() {
               return (
                 <div key={inv.id} className="min-w-[140px]">
                   <div className="flex items-center justify-between mb-1">
-                    <span className={cn('text-[10px] font-medium truncate', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <span className={cn('text-[10px] font-medium truncate', 'text-[var(--app-text-muted)]')}>
                       {inv.invoiceNo.slice(-8)}
                     </span>
-                    <span className={cn('text-[9px]', isPaid ? 'text-emerald-500' : isOverdue ? 'text-red-500' : isDark ? 'text-white/30' : 'text-black/30')}>
+                    <span className={cn('text-[9px]', isPaid ? 'text-emerald-500' : isOverdue ? 'text-red-500' : 'text-[var(--app-text-muted)]')}>
                       {inv.status}
                     </span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${isPaid ? 100 : progress}%` }}
@@ -412,7 +412,7 @@ export default function InvoicesPage() {
                       )}
                     />
                   </div>
-                  <p className={cn('text-[9px] mt-1', isDark ? 'text-white/20' : 'text-black/20')}>
+                  <p className={cn('text-[9px] mt-1', 'text-[var(--app-text-disabled)]')}>
                     {inv.dueDate}
                   </p>
                 </div>

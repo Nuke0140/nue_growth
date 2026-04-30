@@ -101,12 +101,12 @@ export default function SLAAlertChip({
       </span>
 
       {/* Rule name */}
-      <span className={cn('truncate max-w-[160px]', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
+      <span className={cn('truncate max-w-[160px]', 'text-[var(--app-text-secondary)]')}>
         {ruleName}
       </span>
 
       {/* Divider */}
-      <div className={cn('h-3 w-px shrink-0', isDark ? 'bg-white/[0.1]' : 'bg-black/[0.1]')} />
+      <div className={cn('h-3 w-px shrink-0', 'bg-[var(--app-hover-bg)]')} />
 
       {/* Time or state */}
       {breached ? (
@@ -114,7 +114,7 @@ export default function SLAAlertChip({
           Breached
         </span>
       ) : timeRemaining ? (
-        <span className={cn('flex items-center gap-1 shrink-0', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+        <span className={cn('flex items-center gap-1 shrink-0', 'text-[var(--app-text-muted)]')}>
           <Clock className="h-3 w-3" />
           {timeRemaining}
         </span>
@@ -128,7 +128,7 @@ export default function SLAAlertChip({
       <ArrowRight
         className={cn(
           'h-3 w-3 shrink-0 transition-transform group-hover:translate-x-0.5',
-          isDark ? 'text-zinc-500' : 'text-zinc-400',
+          'text-[var(--app-text-muted)]',
         )}
       />
     </motion.button>

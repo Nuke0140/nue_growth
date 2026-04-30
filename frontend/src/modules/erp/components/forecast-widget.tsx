@@ -79,7 +79,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border shadow-sm overflow-hidden',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header with gradient */}
@@ -103,7 +103,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             </div>
             <div>
               <h3 className="text-sm font-semibold">{title}</h3>
-              <p className="text-[10px] text-[var(--ops-text-disabled)]">
+              <p className="text-[10px] text-[var(--app-text-disabled)]">
                 Forecast Overview
               </p>
             </div>
@@ -166,12 +166,12 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             >
               <div className="flex items-center gap-2">
                 <div className={cn('w-2 h-2 rounded-sm', config.barColor)} />
-                <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+                <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
                   {item.label}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-[11px] font-semibold text-[var(--ops-text)]">
+                <span className="text-[11px] font-semibold text-[var(--app-text)]">
                   {formatCurrency(item.value)}
                 </span>
                 <div className={cn(

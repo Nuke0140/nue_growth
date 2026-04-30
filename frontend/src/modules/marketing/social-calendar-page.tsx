@@ -79,13 +79,13 @@ function PostCard({ post, isDark, compact = false }: {
           <PostStatusBadge status={post.status} isDark={isDark} />
         </div>
         {!compact && (
-          <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+          <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
             {formatTime(post.scheduledAt)}
           </span>
         )}
       </div>
       {!compact && (
-        <p className={cn('text-xs leading-relaxed mb-2 line-clamp-2', isDark ? 'text-white/50' : 'text-black/50')}>
+        <p className={cn('text-xs leading-relaxed mb-2 line-clamp-2', 'text-[var(--app-text-secondary)]')}>
           {post.caption}
         </p>
       )}
@@ -96,15 +96,15 @@ function PostCard({ post, isDark, compact = false }: {
             <span className="font-medium tabular-nums">{(post.likes || 0).toLocaleString()}</span>
           </div>
           <div className="flex items-center gap-1">
-            <MessageCircle className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
+            <MessageCircle className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
             <span className="font-medium tabular-nums">{(post.comments || 0).toLocaleString()}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Share2 className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
+            <Share2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
             <span className="font-medium tabular-nums">{(post.shares || 0).toLocaleString()}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Eye className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-black/25')} />
+            <Eye className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
             <span className="font-medium tabular-nums">{(post.reach || 0).toLocaleString()}</span>
           </div>
         </div>
@@ -144,7 +144,7 @@ function AIContentIdeas({ isDark }: { isDark: boolean }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-4 h-4 text-purple-400" />
@@ -159,7 +159,7 @@ function AIContentIdeas({ isDark }: { isDark: boolean }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 + i * 0.06, duration: 0.25 }}
             className={cn('rounded-xl p-3 transition-colors cursor-pointer',
-              isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+              'hover:bg-[var(--app-hover-bg)]'
             )}
           >
             <div className="flex items-start justify-between mb-1">
@@ -168,14 +168,14 @@ function AIContentIdeas({ isDark }: { isDark: boolean }) {
                 <Bot className="w-3 h-3" /> Use
               </Button>
             </div>
-            <p className={cn('text-[11px] leading-relaxed mb-2', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-[11px] leading-relaxed mb-2', 'text-[var(--app-text-muted)]')}>
               {idea.description}
             </p>
             <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="secondary" className="text-[9px] px-1.5 py-0 border-0">
                 {idea.platform}
               </Badge>
-              <span className={cn('text-[10px] flex items-center gap-1', isDark ? 'text-white/25' : 'text-black/25')}>
+              <span className={cn('text-[10px] flex items-center gap-1', 'text-[var(--app-text-muted)]')}>
                 <Clock className="w-2.5 h-2.5" /> {idea.bestTime}
               </span>
             </div>
@@ -283,7 +283,7 @@ export default function SocialCalendarPage() {
         >
           <div>
             <h1 className="text-xl font-bold tracking-tight">Social Calendar</h1>
-            <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
               Plan, schedule, and publish across all platforms
             </p>
           </div>
@@ -300,13 +300,13 @@ export default function SocialCalendarPage() {
         {/* Controls Row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
           {/* View Toggle */}
-          <div className={cn('flex items-center gap-1 p-1 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
+          <div className={cn('flex items-center gap-1 p-1 rounded-xl', 'bg-[var(--app-hover-bg)]')}>
             <button
               onClick={() => setViewMode('month')}
               className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
                 viewMode === 'month'
                   ? isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-white text-black shadow-sm'
-                  : isDark ? 'text-white/40' : 'text-black/40'
+                  : 'text-[var(--app-text-muted)]'
               )}
             >
               <Grid3X3 className="w-3.5 h-3.5" /> Month
@@ -316,7 +316,7 @@ export default function SocialCalendarPage() {
               className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
                 viewMode === 'week'
                   ? isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-white text-black shadow-sm'
-                  : isDark ? 'text-white/40' : 'text-black/40'
+                  : 'text-[var(--app-text-muted)]'
               )}
             >
               <Columns3 className="w-3.5 h-3.5" /> Week
@@ -346,14 +346,14 @@ export default function SocialCalendarPage() {
 
           {/* Search */}
           <div className={cn('flex items-center gap-2 px-3 py-1.5 rounded-xl border ml-auto',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}>
-            <Search className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+            <Search className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
             <input
               type="text" placeholder="Search posts..." value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={cn('bg-transparent text-xs focus:outline-none w-32',
-                isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
               )}
             />
           </div>
@@ -369,19 +369,19 @@ export default function SocialCalendarPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+                className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 {/* Month Navigation */}
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold">{monthName}</h3>
                   <div className="flex items-center gap-1">
                     <button onClick={prevMonth} className={cn('p-1.5 rounded-lg transition-colors',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}>
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button onClick={nextMonth} className={cn('p-1.5 rounded-lg transition-colors',
-                      isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                      'hover:bg-[var(--app-hover-bg)]'
                     )}>
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -392,7 +392,7 @@ export default function SocialCalendarPage() {
                 <div className="grid grid-cols-7 mb-1">
                   {weekDays.map(d => (
                     <div key={d} className={cn('text-center text-[10px] font-medium py-2',
-                      isDark ? 'text-white/25' : 'text-black/25'
+                      'text-[var(--app-text-muted)]'
                     )}>{d}</div>
                   ))}
                 </div>
@@ -423,13 +423,13 @@ export default function SocialCalendarPage() {
                         className={cn('aspect-square rounded-xl flex flex-col items-center justify-center gap-1 transition-all relative',
                           isSelected
                             ? isDark ? 'bg-white/[0.08] ring-1 ring-white/[0.15]' : 'bg-black/[0.06] ring-1 ring-black/[0.15]'
-                            : isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.03]',
-                          isToday && !isSelected && (isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')
+                            : 'hover:bg-[var(--app-hover-bg)]',
+                          isToday && !isSelected && ('bg-[var(--app-hover-bg)]')
                         )}
                       >
                         <span className={cn('text-xs',
                           isSelected ? 'font-bold' : 'font-medium',
-                          isDark ? 'text-white/60' : 'text-black/60'
+                          'text-[var(--app-text-secondary)]'
                         )}>{day}</span>
 
                         {/* Post dots */}
@@ -442,7 +442,7 @@ export default function SocialCalendarPage() {
                               );
                             })}
                             {dayPosts.length > 4 && (
-                              <span className={cn('text-[8px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                              <span className={cn('text-[8px]', 'text-[var(--app-text-muted)]')}>
                                 +{dayPosts.length - 4}
                               </span>
                             )}
@@ -459,7 +459,7 @@ export default function SocialCalendarPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+                className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold">
@@ -470,14 +470,14 @@ export default function SocialCalendarPage() {
                       const prev = new Date(weekViewDays[0]);
                       prev.setDate(prev.getDate() - 7);
                       setSelectedDate(prev.toDateString());
-                    }} className={cn('p-1.5 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]')}>
+                    }} className={cn('p-1.5 rounded-lg transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button onClick={() => {
                       const next = new Date(weekViewDays[0]);
                       next.setDate(next.getDate() + 7);
                       setSelectedDate(next.toDateString());
-                    }} className={cn('p-1.5 rounded-lg transition-colors', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]')}>
+                    }} className={cn('p-1.5 rounded-lg transition-colors', 'hover:bg-[var(--app-hover-bg)]')}>
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -496,11 +496,11 @@ export default function SocialCalendarPage() {
                           onClick={() => setSelectedDate(isSelected ? null : dateKey)}
                           className={cn('w-full text-center py-2 rounded-xl text-xs font-medium transition-all',
                             isSelected
-                              ? isDark ? 'bg-white/[0.08]' : 'bg-black/[0.06]'
-                              : isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.03]'
+                              ? 'bg-[var(--app-hover-bg)]'
+                              : 'hover:bg-[var(--app-hover-bg)]'
                           )}
                         >
-                          <div className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                          <div className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                             {d.toLocaleDateString('en-IN', { weekday: 'short' })}
                           </div>
                           <div>{d.getDate()}</div>
@@ -524,7 +524,7 @@ export default function SocialCalendarPage() {
                                     {post.platform}
                                   </span>
                                 </div>
-                                <p className="line-clamp-2" style={{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }}>
+                                <p className="line-clamp-2" style={{ color: 'var(--app-overlay)' }}>
                                   {post.caption}
                                 </p>
                               </div>
@@ -544,16 +544,16 @@ export default function SocialCalendarPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-5 mt-4', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+                className={cn('rounded-2xl border p-5 mt-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold">
                     {new Date(selectedDate).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                   </h3>
                   <button onClick={() => setSelectedDate(null)} className={cn('p-1 rounded-lg transition-colors',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}>
-                    <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Close</span>
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Close</span>
                   </button>
                 </div>
                 {selectedDayPosts.length > 0 ? (
@@ -564,8 +564,8 @@ export default function SocialCalendarPage() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <CalendarDays className={cn('w-8 h-8 mx-auto mb-2', isDark ? 'text-white/15' : 'text-black/15')} />
-                    <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No posts scheduled for this day</p>
+                    <CalendarDays className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
+                    <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No posts scheduled for this day</p>
                     <Button variant="outline" size="sm" className="mt-3 h-7 text-xs gap-1" onClick={handleCreatePost}>
                       <Plus className="w-3 h-3" /> Schedule Post
                     </Button>
@@ -582,7 +582,7 @@ export default function SocialCalendarPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -598,7 +598,7 @@ export default function SocialCalendarPage() {
                       <div
                         key={post.id}
                         className={cn('flex items-start gap-3 p-2.5 rounded-xl transition-colors cursor-pointer',
-                          isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'
+                          'hover:bg-[var(--app-hover-bg)]'
                         )}
                         onClick={() => setSelectedDate(new Date(post.scheduledAt).toDateString())}
                       >
@@ -609,7 +609,7 @@ export default function SocialCalendarPage() {
                           <p className="text-xs font-medium truncate">{post.caption}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className={cn('text-[10px] capitalize', isDark ? pc.textDark : pc.textLight)}>{post.platform}</span>
-                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
+                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
                               {formatDate(post.scheduledAt)} · {formatTime(post.scheduledAt)}
                             </span>
                           </div>
@@ -620,8 +620,8 @@ export default function SocialCalendarPage() {
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', isDark ? 'text-white/15' : 'text-black/15')} />
-                  <p className={cn('text-xs', isDark ? 'text-white/25' : 'text-black/25')}>No upcoming posts</p>
+                  <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
+                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>No upcoming posts</p>
                 </div>
               )}
             </motion.div>
@@ -631,7 +631,7 @@ export default function SocialCalendarPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                 <Hash className="w-4 h-4" /> Platform Breakdown
@@ -645,11 +645,11 @@ export default function SocialCalendarPage() {
                       <div className={cn('w-5 h-5 rounded flex items-center justify-center', isDark ? pc.bgDark : pc.bgLight)}>
                         <div className={cn('w-1.5 h-1.5 rounded-full', pc.dotColor)} />
                       </div>
-                      <span className={cn('text-xs w-16 capitalize', isDark ? 'text-white/50' : 'text-black/50')}>{pc.label}</span>
-                      <div className={cn('flex-1 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <span className={cn('text-xs w-16 capitalize', 'text-[var(--app-text-secondary)]')}>{pc.label}</span>
+                      <div className={cn('flex-1 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                         <div className={cn('h-1.5 rounded-full transition-all', pc.dotColor)} style={{ width: `${(count / total) * 100}%` }} />
                       </div>
-                      <span className={cn('text-[10px] font-medium w-5 text-right tabular-nums', isDark ? 'text-white/40' : 'text-black/40')}>{count}</span>
+                      <span className={cn('text-[10px] font-medium w-5 text-right tabular-nums', 'text-[var(--app-text-muted)]')}>{count}</span>
                     </div>
                   );
                 })}

@@ -66,12 +66,12 @@ export default function GSTTaxPage() {
   }, []);
 
   const kpiStats = [
-    { label: 'GST Collected', value: formatINR(totalCollected), icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 12.4 },
-    { label: 'GST Payable', value: formatINR(totalPayable), icon: IndianRupee, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 8.2 },
-    { label: 'GST Receivable', value: formatINR(totalReceivable), icon: ArrowDownRight, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 15.1 },
-    { label: 'TDS Deducted', value: formatINR(totalTDSDeducted), icon: Shield, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 6.8 },
-    { label: 'Tax Liability', value: formatINR(totalTaxLiability), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: -3.2 },
-    { label: 'Total Filed', value: `${totalFiled}/${taxFilings.length}`, icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 10 },
+    { label: 'GST Collected', value: formatINR(totalCollected), icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 12.4 },
+    { label: 'GST Payable', value: formatINR(totalPayable), icon: IndianRupee, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 8.2 },
+    { label: 'GST Receivable', value: formatINR(totalReceivable), icon: ArrowDownRight, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 15.1 },
+    { label: 'TDS Deducted', value: formatINR(totalTDSDeducted), icon: Shield, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 6.8 },
+    { label: 'Tax Liability', value: formatINR(totalTaxLiability), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: -3.2 },
+    { label: 'Total Filed', value: `${totalFiled}/${taxFilings.length}`, icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 10 },
   ];
 
   return (
@@ -80,19 +80,19 @@ export default function GSTTaxPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Receipt className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Receipt className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">GST & Tax</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>India GST & Tax Workspace</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>India GST & Tax Workspace</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className={cn('px-3 py-2 text-sm font-medium rounded-xl gap-2 border', isDark ? 'border-white/[0.1] text-white/60 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/60 hover:bg-black/[0.05]')}>
               <Download className="w-4 h-4" /> Export GST Report
             </Button>
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
               <FileText className="w-4 h-4" /> File GST
             </Button>
           </div>
@@ -108,10 +108,10 @@ export default function GSTTaxPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+                className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                   <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
                     <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                   </div>
@@ -133,25 +133,25 @@ export default function GSTTaxPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Monthly GST Trend</span>
+              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Monthly GST Trend</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Collected</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Collected</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Payable</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Payable</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Liability</span>
+                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Liability</span>
               </div>
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function GSTTaxPage() {
                       className="flex-1 rounded-t-sm bg-red-500/40"
                     />
                   </div>
-                  <span className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>{periodShort}</span>
+                  <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{periodShort}</span>
                 </div>
               );
             })}
@@ -190,8 +190,8 @@ export default function GSTTaxPage() {
         {/* Quarter Summary Cards */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Quarter Summary</h2>
+            <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Quarter Summary</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {quarterSummary.map((q, i) => (
@@ -200,25 +200,25 @@ export default function GSTTaxPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + i * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-4 transition-all duration-200 cursor-pointer', isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+                className={cn('rounded-2xl border p-4 transition-all duration-200 cursor-pointer', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">{q.label}</span>
-                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                    <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                    <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>GST Collected</span>
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>GST Collected</span>
                     <span className="text-sm font-semibold text-emerald-500">{formatINR(q.collected)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>GST Payable</span>
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>GST Payable</span>
                     <span className="text-sm font-semibold text-amber-500">{formatINR(q.payable)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Tax Liability</span>
+                    <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Tax Liability</span>
                     <span className="text-sm font-semibold text-red-500">{formatINR(q.liability)}</span>
                   </div>
                 </div>
@@ -232,13 +232,13 @@ export default function GSTTaxPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-2xl border p-5', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Calendar className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Filing Calendar</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+              <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Filing Calendar</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {taxFilings.length} filings
               </Badge>
             </div>
@@ -246,9 +246,9 @@ export default function GSTTaxPage() {
           <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
             <table className="w-full">
               <thead className={cn('sticky top-0 z-10', isDark ? 'bg-[#1a1a1a]' : 'bg-white')}>
-                <tr className={cn('border-b', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
                   {['Period', 'Type', 'Due Date', 'Filed Date', 'Status', 'Amount'].map(h => (
-                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3 whitespace-nowrap', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3 whitespace-nowrap', 'text-[var(--app-text-muted)]')}>
                       {h}
                     </th>
                   ))}
@@ -266,7 +266,7 @@ export default function GSTTaxPage() {
                       transition={{ delay: 0.65 + i * 0.03 }}
                       className={cn(
                         'border-b transition-colors',
-                        isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.02]',
+                        'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
                         filing.status === 'overdue' && (isDark ? 'bg-red-500/[0.03]' : 'bg-red-50/30'),
                       )}
                     >
@@ -323,7 +323,7 @@ export default function GSTTaxPage() {
                     <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
                     <div>
                       <p className="text-sm font-medium">{f.type} — {f.period}</p>
-                      <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Due: {f.dueDate} • {formatINR(f.amount)}</p>
+                      <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Due: {f.dueDate} • {formatINR(f.amount)}</p>
                     </div>
                   </div>
                   <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-lg">
@@ -365,7 +365,7 @@ export default function GSTTaxPage() {
                       <Clock className="w-4 h-4 text-amber-500 shrink-0" />
                       <div>
                         <p className="text-sm font-medium">{f.type} — {f.period}</p>
-                        <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>Due: {f.dueDate} • {formatINR(f.amount)}</p>
+                        <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Due: {f.dueDate} • {formatINR(f.amount)}</p>
                       </div>
                     </div>
                     <Badge variant="secondary" className={cn('text-xs px-3 py-1', isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-100 text-amber-700')}>

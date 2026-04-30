@@ -84,16 +84,16 @@ export default function ApiKeysWebhooksPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Key className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Key className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">API Keys & Webhooks</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage API access and webhook endpoints</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage API access and webhook endpoints</p>
             </div>
           </div>
           <Button
-            className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}
+            className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
             onClick={() => {}}
           >
             <Plus className="w-4 h-4" /> Create API Key
@@ -108,9 +108,9 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+              className={cn('rounded-2xl border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
-              <span className={cn('text-[11px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/40' : 'text-black/40')}>
+              <span className={cn('text-[11px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>
                 {kpi.label}
               </span>
               <p className={cn('text-2xl font-bold tracking-tight', kpi.color)}>{kpi.value}</p>
@@ -119,7 +119,7 @@ export default function ApiKeysWebhooksPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {(['keys', 'webhooks'] as const).map((tab) => (
             <button
               key={tab}
@@ -128,7 +128,7 @@ export default function ApiKeysWebhooksPage() {
                 'px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize',
                 activeTab === tab
                   ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
-                  : isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+                  : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
               )}
             >
               {tab === 'keys' ? 'API Keys' : 'Webhooks'}
@@ -148,7 +148,7 @@ export default function ApiKeysWebhooksPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-4 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+                  className={cn('rounded-2xl border p-4 transition-colors', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                     {/* Left */}
@@ -181,9 +181,9 @@ export default function ApiKeysWebhooksPage() {
 
                       {/* Scopes */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Scopes:</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Scopes:</span>
                         {apiKey.scopes.map((scope) => (
-                          <Badge key={scope} variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
+                          <Badge key={scope} variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
                             {scope}
                           </Badge>
                         ))}
@@ -192,7 +192,7 @@ export default function ApiKeysWebhooksPage() {
 
                     {/* Right: Meta + Actions */}
                     <div className="flex flex-col items-end gap-2 shrink-0">
-                      <div className={cn('text-[10px] space-y-0.5 text-right', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <div className={cn('text-[10px] space-y-0.5 text-right', 'text-[var(--app-text-muted)]')}>
                         <p>Created: {new Date(apiKey.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                         {apiKey.lastUsed && <p>Last used: {new Date(apiKey.lastUsed).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
                         {apiKey.expiresAt && <p>Expires: {new Date(apiKey.expiresAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
@@ -224,19 +224,19 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Zap className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Available Scopes</span>
+                <Zap className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Available Scopes</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {Object.entries(scopeDescriptions).map(([scope, desc]) => (
-                  <div key={scope} className={cn('p-3 rounded-xl border', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                    <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0 mb-1', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
+                  <div key={scope} className={cn('p-3 rounded-xl border', 'border-[var(--app-border-light)]')}>
+                    <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0 mb-1', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
                       {scope}
                     </Badge>
-                    <p className={cn('text-xs mt-1', isDark ? 'text-white/40' : 'text-black/40')}>{desc}</p>
+                    <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{desc}</p>
                   </div>
                 ))}
               </div>
@@ -255,32 +255,32 @@ export default function ApiKeysWebhooksPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.35 }}
-                  className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+                  className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
                 >
                   <div className="flex flex-col gap-4">
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <Globe className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                          <Globe className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                           <h3 className="text-sm font-semibold">{wh.name}</h3>
                           <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? wConf.bgDark : wConf.bgLight)}>
                             {wConf.label}
                           </Badge>
                         </div>
-                        <code className={cn('text-[11px] font-mono block truncate', isDark ? 'text-white/35' : 'text-black/35')}>
+                        <code className={cn('text-[11px] font-mono block truncate', 'text-[var(--app-text-muted)]')}>
                           {wh.url.length > 60 ? wh.url.slice(0, 60) + '...' : wh.url}
                         </code>
                         <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                           {wh.events.map((event) => (
-                            <Badge key={event} variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? 'bg-sky-500/15 text-sky-400' : 'bg-sky-50 text-sky-600')}>
+                            <Badge key={event} variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-info-bg)] text-[var(--app-info)]')}>
                               {event}
                             </Badge>
                           ))}
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Retries: {wh.retryAttempts}</span>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Retries: {wh.retryAttempts}</span>
                         <button
                           className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-colors', isDark ? 'hover:bg-white/[0.06] text-white/40' : 'hover:bg-black/[0.06] text-black/40')}
                         >
@@ -296,8 +296,8 @@ export default function ApiKeysWebhooksPage() {
 
                     {/* Last Delivery */}
                     {wh.lastDelivery && (
-                      <div className={cn('flex items-center gap-2 p-2.5 rounded-lg text-xs', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                        <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Last Delivery:</span>
+                      <div className={cn('flex items-center gap-2 p-2.5 rounded-lg text-xs', 'bg-[var(--app-hover-bg)]')}>
+                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last Delivery:</span>
                         {wh.lastDelivery.success ? (
                           <span className="text-emerald-500">✓ {wh.lastDelivery.statusCode} — {new Date(wh.lastDelivery.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                         ) : (
@@ -308,23 +308,23 @@ export default function ApiKeysWebhooksPage() {
 
                     {/* Delivery Logs Table */}
                     <div>
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                         Recent Deliveries
                       </span>
-                      <div className={cn('rounded-lg border overflow-hidden', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
+                      <div className={cn('rounded-lg border overflow-hidden', 'border-[var(--app-border-light)]')}>
                         <table className="w-full text-[11px]">
                           <thead>
-                            <tr className={cn(isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-                              <th className={cn('text-left px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Time</th>
-                              <th className={cn('text-center px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status</th>
-                              <th className={cn('text-center px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Duration</th>
-                              <th className={cn('text-right px-3 py-2 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Result</th>
+                            <tr className={cn('bg-[var(--app-hover-bg)]')}>
+                              <th className={cn('text-left px-3 py-2 font-medium', 'text-[var(--app-text-muted)]')}>Time</th>
+                              <th className={cn('text-center px-3 py-2 font-medium', 'text-[var(--app-text-muted)]')}>Status</th>
+                              <th className={cn('text-center px-3 py-2 font-medium', 'text-[var(--app-text-muted)]')}>Duration</th>
+                              <th className={cn('text-right px-3 py-2 font-medium', 'text-[var(--app-text-muted)]')}>Result</th>
                             </tr>
                           </thead>
                           <tbody>
                             {wh.deliveryLogs.map((log, j) => (
-                              <tr key={j} className={cn('border-t', isDark ? 'border-white/[0.03]' : 'border-black/[0.03]')}>
-                                <td className={cn('px-3 py-2 font-mono', isDark ? 'text-white/50' : 'text-black/50')}>
+                              <tr key={j} className={cn('border-t', 'border-[var(--app-border-strong)]')}>
+                                <td className={cn('px-3 py-2 font-mono', 'text-[var(--app-text-secondary)]')}>
                                   {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                 </td>
                                 <td className="px-3 py-2 text-center font-mono">{log.statusCode}</td>
@@ -352,11 +352,11 @@ export default function ApiKeysWebhooksPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
+              className={cn('rounded-2xl border p-5', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Plus className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                  <Plus className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   Create Webhook
                 </h3>
                 <Button
@@ -371,7 +371,7 @@ export default function ApiKeysWebhooksPage() {
               {showCreateWebhook && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4">
                   <div>
-                    <label className={cn('text-xs font-medium block mb-1.5', isDark ? 'text-white/50' : 'text-black/50')}>Webhook URL</label>
+                    <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Webhook URL</label>
                     <input
                       type="url"
                       placeholder="https://your-server.com/webhooks/..."
@@ -379,27 +379,27 @@ export default function ApiKeysWebhooksPage() {
                     />
                   </div>
                   <div>
-                    <label className={cn('text-xs font-medium block mb-1.5', isDark ? 'text-white/50' : 'text-black/50')}>Event Subscriptions</label>
+                    <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Event Subscriptions</label>
                     <div className="grid grid-cols-2 gap-2">
                       {['contact.created', 'contact.updated', 'deal.won', 'invoice.paid', 'user.login', 'backup.completed'].map((event) => (
-                        <label key={event} className={cn('flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-xs transition-colors', isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]')}>
+                        <label key={event} className={cn('flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-xs transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}>
                           <input type="checkbox" className="accent-violet-500 w-3.5 h-3.5" />
-                          <span className={cn('font-mono', isDark ? 'text-white/50' : 'text-black/50')}>{event}</span>
+                          <span className={cn('font-mono', 'text-[var(--app-text-secondary)]')}>{event}</span>
                         </label>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <label className={cn('text-xs font-medium block mb-1.5', isDark ? 'text-white/50' : 'text-black/50')}>Signing Secret</label>
-                    <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+                    <label className={cn('text-xs font-medium block mb-1.5', 'text-[var(--app-text-secondary)]')}>Signing Secret</label>
+                    <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
                       <code className="flex-1 text-xs font-mono text-violet-400">whsec_••••••••••••••••</code>
-                      <button className={cn('p-1 rounded', isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.06]')}>
-                        <Copy className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
+                      <button className={cn('p-1 rounded', 'hover:bg-[var(--app-hover-bg)]')}>
+                        <Copy className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
                       </button>
                     </div>
                   </div>
                   <Button
-                    className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}
+                    className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}
                   >
                     <Send className="w-4 h-4" /> Create Webhook
                   </Button>

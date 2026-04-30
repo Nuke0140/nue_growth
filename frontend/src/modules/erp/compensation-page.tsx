@@ -42,10 +42,10 @@ function hashCode(str: string): number {
 
 const avatarColors = [
   'rgba(204, 92, 55, 0.12)',
-  'rgba(52, 211, 153, 0.12)',
-  'rgba(96, 165, 250, 0.12)',
-  'rgba(251, 191, 36, 0.12)',
-  'rgba(248, 113, 113, 0.12)',
+  'var(--app-success-bg)',
+  'var(--app-info-bg)',
+  'var(--app-warning-bg)',
+  'var(--app-danger-bg)',
   'rgba(168, 85, 247, 0.12)',
 ];
 
@@ -120,13 +120,13 @@ function CompensationPageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--ops-accent)',
+                  color: 'var(--app-accent)',
                 }}
               >
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+            <span className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
               {name}
             </span>
           </div>
@@ -139,7 +139,7 @@ function CompensationPageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="ops-badge" style={{ backgroundColor: 'rgba(204, 92, 55, 0.1)', color: 'var(--ops-accent)' }}>
+        <span className="app-badge" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
           {row.salaryBand as string}
         </span>
       ),
@@ -149,7 +149,7 @@ function CompensationPageInner() {
       label: 'Department',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
           {row.department as string}
         </span>
       ),
@@ -160,7 +160,7 @@ function CompensationPageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
           {formatINR(row.baseSalary as number)}
         </span>
       ),
@@ -171,7 +171,7 @@ function CompensationPageInner() {
       sortable: true,
       hiddenMobile: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--ops-success)' }}>
+        <span className="text-sm" style={{ color: 'var(--app-success)' }}>
           +{formatINR(row.incentives as number)}
         </span>
       ),
@@ -181,7 +181,7 @@ function CompensationPageInner() {
       label: 'Total Comp',
       sortable: true,
       render: (row) => (
-        <span className="text-sm font-bold" style={{ color: 'var(--ops-text)' }}>
+        <span className="text-sm font-bold" style={{ color: 'var(--app-text)' }}>
           {formatINR(row.totalComp as number)}
         </span>
       ),
@@ -202,23 +202,23 @@ function CompensationPageInner() {
         </motion.div>
 
         {/* Department Salary Distribution Bar Chart */}
-        <motion.div variants={fadeUp} className="ops-card p-6">
-          <h3 className="text-sm font-semibold mb-5" style={{ color: 'var(--ops-text)' }}>
+        <motion.div variants={fadeUp} className="app-card p-6">
+          <h3 className="text-sm font-semibold mb-5" style={{ color: 'var(--app-text)' }}>
             Avg Salary by Department
           </h3>
           <div className="space-y-3">
             {deptAvgSalary.map((dept, idx) => {
               const barWidth = Math.max((dept.avgSalary / maxAvgSalary) * 100, 4);
-              const barColor = deptColors[dept.department] || 'var(--ops-accent)';
+              const barColor = deptColors[dept.department] || 'var(--app-accent)';
               return (
                 <div key={dept.department} className="flex items-center gap-4">
                   <span
                     className="text-xs font-medium w-28 shrink-0 text-right"
-                    style={{ color: 'var(--ops-text-secondary)' }}
+                    style={{ color: 'var(--app-text-secondary)' }}
                   >
                     {dept.department}
                   </span>
-                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}

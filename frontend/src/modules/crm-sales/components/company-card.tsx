@@ -89,7 +89,7 @@ export default function CompanyCard({ company }: CompanyCardProps) {
             <h3 className="text-sm font-semibold truncate">{company.name}</h3>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="text-sm">{getIndustryIcon(company.industry)}</span>
-              <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+              <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                 {company.industry}
               </span>
             </div>
@@ -128,44 +128,44 @@ export default function CompanyCard({ company }: CompanyCardProps) {
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div className={cn(
           'rounded-xl p-2.5',
-          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <DollarSign className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>ARR</span>
+            <DollarSign className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>ARR</span>
           </div>
           <p className="text-sm font-bold">{formatARR(company.arr)}</p>
         </div>
 
         <div className={cn(
           'rounded-xl p-2.5',
-          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <Users className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Contacts</span>
+            <Users className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Contacts</span>
           </div>
           <p className="text-sm font-bold">{company.linkedContacts}</p>
         </div>
 
         <div className={cn(
           'rounded-xl p-2.5',
-          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <TrendingUp className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Deals</span>
+            <TrendingUp className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Deals</span>
           </div>
           <p className="text-sm font-bold">{company.activeDeals}</p>
         </div>
 
         <div className={cn(
           'rounded-xl p-2.5',
-          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]'
+          'bg-[var(--app-hover-bg)]'
         )}>
           <div className="flex items-center gap-1.5 mb-1">
-            <Building2 className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Size</span>
+            <Building2 className={cn('w-3 h-3', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Size</span>
           </div>
           <p className="text-sm font-bold">{company.employeeCount}</p>
         </div>
@@ -180,16 +180,16 @@ export default function CompanyCard({ company }: CompanyCardProps) {
       >
         <div className={cn(
           'pt-3 mt-1 border-t space-y-2',
-          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+          'border-[var(--app-border-light)]'
         )}>
           <div className="flex items-center gap-2">
-            <User className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{company.owner}</span>
+            <User className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{company.owner}</span>
           </div>
           {company.website && (
             <div className="flex items-center gap-2">
-              <Globe className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-              <span className={cn('text-xs truncate', isDark ? 'text-white/50' : 'text-black/50')}>{company.website}</span>
+              <Globe className={cn('w-3.5 h-3.5', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-xs truncate', 'text-[var(--app-text-secondary)]')}>{company.website}</span>
             </div>
           )}
         </div>

@@ -65,14 +65,14 @@ function EmptyState({ isDark }: { isDark: boolean }) {
     <div className="flex flex-col items-center justify-center py-12 px-6">
       <div className={cn(
         'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
-        isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+        'bg-[var(--app-hover-bg)]'
       )}>
-        <ClipboardList className={cn('w-7 h-7', isDark ? 'text-white/20' : 'text-black/20')} />
+        <ClipboardList className={cn('w-7 h-7', 'text-[var(--app-text-disabled)]')} />
       </div>
-      <p className={cn('text-sm font-medium mb-1', isDark ? 'text-white/50' : 'text-black/50')}>
+      <p className={cn('text-sm font-medium mb-1', 'text-[var(--app-text-secondary)]')}>
         No activities yet
       </p>
-      <p className={cn('text-xs text-center max-w-[200px]', isDark ? 'text-white/30' : 'text-black/30')}>
+      <p className={cn('text-xs text-center max-w-[200px]', 'text-[var(--app-text-muted)]')}>
         Activities will appear here when you interact with contacts
       </p>
     </div>
@@ -114,17 +114,17 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
           <div className="flex items-center gap-3 mb-3">
             <span className={cn(
               'text-[11px] font-semibold uppercase tracking-wider',
-              isDark ? 'text-white/30' : 'text-black/30'
+              'text-[var(--app-text-muted)]'
             )}>
               {group.group}
             </span>
             <div className={cn(
               'flex-1 h-px',
-              isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]'
+              'bg-[var(--app-hover-bg)]'
             )} />
             <span className={cn(
               'text-[11px] font-medium',
-              isDark ? 'text-white/20' : 'text-black/20'
+              'text-[var(--app-text-disabled)]'
             )}>
               {group.items.length}
             </span>
@@ -167,22 +167,22 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-0.5">
                         <h4 className="text-sm font-medium truncate">{activity.subject}</h4>
-                        <span className={cn('text-[11px] shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>
+                        <span className={cn('text-[11px] shrink-0', 'text-[var(--app-text-muted)]')}>
                           {formatTime(activity.date)}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2 mb-1">
                         {activity.contactName && (
-                          <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                             {activity.contactName}
                           </span>
                         )}
                         {activity.contactName && activity.companyName && (
-                          <span className={cn('text-xs', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
+                          <span className={cn('text-xs', 'text-[var(--app-text-disabled)]')}>·</span>
                         )}
                         {activity.companyName && (
-                          <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                             {activity.companyName}
                           </span>
                         )}
@@ -193,13 +193,13 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
                         {activity.duration && (
                           <span className={cn(
                             'px-1.5 py-0.5 rounded text-[10px] font-medium',
-                            isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40'
+                            'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                           )}>
                             {activity.duration}
                           </span>
                         )}
                         {activity.outcome && (
-                          <span className={cn('text-[11px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                          <span className={cn('text-[11px]', 'text-[var(--app-text-muted)]')}>
                             {activity.outcome}
                           </span>
                         )}
