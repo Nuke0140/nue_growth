@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useAuthStore } from '@/store/auth-store';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
-import CrmSalesLayout from '@/modules/crm-sales/crm-sales-layout';
+import CrmSalesLayout from '@/modules/crm-sales/system/layout';
 import ErpLayout from '@/modules/erp/erp-layout';
 import MarketingLayout from '@/modules/marketing/marketing-layout';
 import FinanceLayout from '@/modules/finance/finance-layout';
