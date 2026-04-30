@@ -180,7 +180,7 @@ function ApprovalsPageInner() {
       title: 'Request submitted',
       description: `${approval.requestedBy} created this approval request`,
       timestamp: new Date(approval.createdAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      accentColor: 'var(--ops-accent)',
+      accentColor: 'var(--app-accent)',
     });
     // Comments as timeline items
     approval.comments.forEach(c => {
@@ -239,8 +239,8 @@ function ApprovalsPageInner() {
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length === 0 ? (
             <div className="col-span-full ops-card p-12 text-center">
-              <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)', opacity: 0.3 }} />
-              <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>No approvals in this category.</p>
+              <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--app-text-muted)', opacity: 0.3 }} />
+              <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>No approvals in this category.</p>
             </div>
           ) : (
             filtered.map((approval, idx) => {
@@ -284,9 +284,9 @@ function ApprovalsPageInner() {
 
                     {/* Title */}
                     <div>
-                      <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--ops-text)' }}>{approval.title}</p>
+                      <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--app-text)' }}>{approval.title}</p>
                       {approval.project && (
-                        <p className="text-[11px] mt-1" style={{ color: 'var(--ops-text-muted)' }}>{approval.project}</p>
+                        <p className="text-[11px] mt-1" style={{ color: 'var(--app-text-muted)' }}>{approval.project}</p>
                       )}
                     </div>
 
@@ -294,16 +294,16 @@ function ApprovalsPageInner() {
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
                         <Avatar className="h-5 w-5">
-                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
+                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
                             {approval.requestedBy.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>Requested by: {approval.requestedBy}</span>
+                        <span className="text-xs" style={{ color: 'var(--app-text-secondary)' }}>Requested by: {approval.requestedBy}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                      <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
                         <span>{timeAgo(approval.createdAt)}</span>
                         {approval.version > 1 && (
-                          <span className="ops-badge" style={{ backgroundColor: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' }}>v{approval.version}</span>
+                          <span className="ops-badge" style={{ backgroundColor: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' }}>v{approval.version}</span>
                         )}
                         {approval.comments.length > 0 && (
                           <span className="inline-flex items-center gap-1">
@@ -316,8 +316,8 @@ function ApprovalsPageInner() {
                     {/* Expand toggle */}
                     <button
                       className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-lg"
-                      style={{ color: 'var(--ops-text-muted)' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
+                      style={{ color: 'var(--app-text-muted)' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
                       onClick={() => toggleExpand(approval.id)}
                     >
@@ -345,7 +345,7 @@ function ApprovalsPageInner() {
                                 approval.status === 'rejected' ? '#f87171' :
                                 approval.status === 'escalated' ? '#fbbf24' : '#fbbf24',
                             }} />
-                            <span className="text-xs font-medium capitalize" style={{ color: 'var(--ops-text-secondary)' }}>
+                            <span className="text-xs font-medium capitalize" style={{ color: 'var(--app-text-secondary)' }}>
                               Current Status: {approval.status}
                             </span>
                           </div>
@@ -357,7 +357,7 @@ function ApprovalsPageInner() {
 
                           {/* Action buttons */}
                           {isActionable && (
-                            <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                            <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
                               <button
                                 className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
                                 style={{ backgroundColor: 'rgba(52,211,153,0.12)', color: '#34d399' }}

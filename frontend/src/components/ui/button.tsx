@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[var(--app-accent)] text-white shadow-xs hover:brightness-110",
+          "bg-[var(--app-accent)] text-white shadow-xs hover:brightness-110 active:scale-[0.98]",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -22,8 +22,14 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         accent:
           "bg-[var(--app-accent)] text-white shadow-sm hover:brightness-110 active:scale-[0.98]",
+        structural:
+          "bg-[var(--app-structural)] text-white shadow-sm hover:brightness-110 active:scale-[0.98] hover:shadow-[var(--app-shadow-blue)]",
         premium:
-          "bg-gradient-to-r from-[#2563EB] to-[#F97316] text-white shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] font-semibold",
+          "bg-gradient-to-r from-[#2563EB] to-[#F97316] text-white shadow-md hover:shadow-[var(--app-shadow-glow-blue)] hover:brightness-110 active:scale-[0.98] font-semibold",
+        "ghost-structural":
+          "text-[var(--app-structural)] hover:bg-[var(--app-structural-light)] active:scale-[0.98]",
+        "ghost-accent":
+          "text-[var(--app-accent)] hover:bg-[var(--app-accent-light)] active:scale-[0.98]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

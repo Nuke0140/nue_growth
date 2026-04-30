@@ -294,7 +294,7 @@ export function Topbar({
           {/* Extra slot (e.g. density toggle, module-specific filters) */}
           {extra}
 
-          {/* AI Sparkle — desktop only, with pulsing blue glow */}
+          {/* AI Sparkle — desktop only, with pulsing orange glow */}
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="hidden md:flex">
@@ -310,9 +310,9 @@ export function Topbar({
                     className="absolute inset-0 rounded-lg pointer-events-none"
                     animate={{
                       boxShadow: [
-                        '0 0 0 0 rgba(37, 99, 235, 0)',
-                        '0 0 0 4px rgba(37, 99, 235, 0.1)',
-                        '0 0 0 0 rgba(37, 99, 235, 0)',
+                        '0 0 0 0 rgba(249, 115, 22, 0)',
+                        '0 0 0 4px rgba(249, 115, 22, 0.1)',
+                        '0 0 0 0 rgba(249, 115, 22, 0)',
                       ],
                     }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -382,7 +382,7 @@ export function Topbar({
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarFallback
                     className="text-white text-xs font-semibold rounded-lg"
-                    style={{ backgroundColor: accent.primary }}
+                    style={{ backgroundColor: 'var(--app-structural)' }}
                   >
                     {initials}
                   </AvatarFallback>

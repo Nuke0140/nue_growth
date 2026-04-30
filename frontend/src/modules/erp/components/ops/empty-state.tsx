@@ -13,7 +13,7 @@ import {
   ChevronRight,
   Eye,
 } from 'lucide-react';
-import { ANIMATION } from '../../design-tokens';
+import { ANIMATION } from '@/styles/design-tokens';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -46,14 +46,14 @@ function NoDataIllustration() {
         width="70"
         height="50"
         rx="6"
-        stroke="var(--ops-border-strong)"
+        stroke="var(--app-border-strong)"
         strokeWidth="1.5"
-        fill="var(--ops-hover-bg)"
+        fill="var(--app-hover-bg)"
       />
       {/* Box flap */}
       <path
         d="M25 36 L60 20 L95 36"
-        stroke="var(--ops-border-strong)"
+        stroke="var(--app-border-strong)"
         strokeWidth="1.5"
         fill="none"
       />
@@ -62,7 +62,7 @@ function NoDataIllustration() {
         cx="60"
         cy="52"
         r="12"
-        stroke="var(--ops-accent)"
+        stroke="var(--app-accent)"
         strokeWidth="2"
         fill="none"
         opacity="0.6"
@@ -75,7 +75,7 @@ function NoDataIllustration() {
         y1="61"
         x2="76"
         y2="68"
-        stroke="var(--ops-accent)"
+        stroke="var(--app-accent)"
         strokeWidth="2"
         strokeLinecap="round"
         opacity="0.6"
@@ -90,7 +90,7 @@ function NoDataIllustration() {
           cx={dot.x}
           cy={dot.y}
           r="2"
-          fill="var(--ops-text-muted)"
+          fill="var(--app-text-muted)"
           animate={{ y: [dot.y, dot.y - 4, dot.y] }}
           transition={{ duration: 2.5, delay: i * 0.4, repeat: Infinity }}
         />
@@ -107,9 +107,9 @@ function NoResultsIllustration() {
         cx="52"
         cy="45"
         r="20"
-        stroke="var(--ops-border-strong)"
+        stroke="var(--app-border-strong)"
         strokeWidth="2"
-        fill="var(--ops-hover-bg)"
+        fill="var(--app-hover-bg)"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -120,7 +120,7 @@ function NoResultsIllustration() {
         y1="59"
         x2="80"
         y2="73"
-        stroke="var(--ops-border-strong)"
+        stroke="var(--app-border-strong)"
         strokeWidth="2.5"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
@@ -132,7 +132,7 @@ function NoResultsIllustration() {
         x="52"
         y="52"
         textAnchor="middle"
-        fill="var(--ops-accent)"
+        fill="var(--app-accent)"
         fontSize="18"
         fontWeight="bold"
         opacity="0.5"
@@ -149,7 +149,7 @@ function NoResultsIllustration() {
           cx={dot.x}
           cy={dot.y}
           r="2.5"
-          fill="var(--ops-text-disabled)"
+          fill="var(--app-text-disabled)"
           animate={{ opacity: [0.1, 0.3, 0.1] }}
           transition={{ duration: 2, delay: i * 0.3, repeat: Infinity }}
         />
@@ -164,9 +164,9 @@ function ErrorIllustration() {
       {/* Warning triangle */}
       <motion.path
         d="M60 18 L98 82 H22 Z"
-        stroke="var(--ops-border-strong)"
+        stroke="var(--app-border-strong)"
         strokeWidth="2"
-        fill="var(--ops-hover-bg)"
+        fill="var(--app-hover-bg)"
         strokeLinejoin="round"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -203,8 +203,8 @@ function ErrorIllustration() {
         transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
         style={{ transformOrigin: '25px 85px' }}
       >
-        <circle cx="25" cy="85" r="8" stroke="var(--ops-text)" strokeWidth="1.5" fill="none" />
-        <circle cx="25" cy="85" r="3" stroke="var(--ops-text)" strokeWidth="1.5" fill="none" />
+        <circle cx="25" cy="85" r="8" stroke="var(--app-text)" strokeWidth="1.5" fill="none" />
+        <circle cx="25" cy="85" r="3" stroke="var(--app-text)" strokeWidth="1.5" fill="none" />
       </motion.g>
       <motion.g
         opacity="0.1"
@@ -212,8 +212,8 @@ function ErrorIllustration() {
         transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
         style={{ transformOrigin: '100px 20px' }}
       >
-        <circle cx="100" cy="20" r="6" stroke="var(--ops-text)" strokeWidth="1.5" fill="none" />
-        <circle cx="100" cy="20" r="2" stroke="var(--ops-text)" strokeWidth="1.5" fill="none" />
+        <circle cx="100" cy="20" r="6" stroke="var(--app-text)" strokeWidth="1.5" fill="none" />
+        <circle cx="100" cy="20" r="2" stroke="var(--app-text)" strokeWidth="1.5" fill="none" />
       </motion.g>
     </svg>
   );
@@ -225,9 +225,9 @@ function GettingStartedIllustration() {
       {/* Rocket body */}
       <motion.path
         d="M60 12 C60 12 48 30 48 55 L60 48 L72 55 C72 30 60 12 60 12 Z"
-        stroke="var(--ops-text-muted)"
+        stroke="var(--app-text-muted)"
         strokeWidth="1.5"
-        fill="var(--ops-accent-light)"
+        fill="var(--app-accent-light)"
         initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, type: 'spring' as const }}
@@ -237,22 +237,22 @@ function GettingStartedIllustration() {
         cx="60"
         cy="35"
         r="5"
-        stroke="var(--ops-text-muted)"
+        stroke="var(--app-text-muted)"
         strokeWidth="1.5"
-        fill="var(--ops-hover-bg)"
+        fill="var(--app-hover-bg)"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.5 }}
       />
       {/* Fins */}
-      <path d="M48 55 L40 65 L50 58 Z" stroke="var(--ops-border)" strokeWidth="1" fill="var(--ops-hover-bg)" />
-      <path d="M72 55 L80 65 L70 58 Z" stroke="var(--ops-border)" strokeWidth="1" fill="var(--ops-hover-bg)" />
+      <path d="M48 55 L40 65 L50 58 Z" stroke="var(--app-border)" strokeWidth="1" fill="var(--app-hover-bg)" />
+      <path d="M72 55 L80 65 L70 58 Z" stroke="var(--app-border)" strokeWidth="1" fill="var(--app-hover-bg)" />
       {/* Flame */}
       <motion.path
         d="M54 52 L60 72 L66 52"
-        stroke="var(--ops-accent)"
+        stroke="var(--app-accent)"
         strokeWidth="1.5"
-        fill="var(--ops-accent-light)"
+        fill="var(--app-accent-light)"
         animate={{ d: ['M54 52 L60 72 L66 52', 'M55 52 L60 68 L65 52', 'M54 52 L60 72 L66 52'] }}
         transition={{ duration: 0.6, repeat: Infinity }}
       />
@@ -268,7 +268,7 @@ function GettingStartedIllustration() {
           cx={star.x}
           cy={star.y}
           r="1.5"
-          fill="var(--ops-text-disabled)"
+          fill="var(--app-text-disabled)"
           animate={{ opacity: [0.2, 0.5, 0.2] }}
           transition={{ duration: 1.5, delay: i * 0.3, repeat: Infinity }}
         />
@@ -316,11 +316,11 @@ function GettingStartedChecklist() {
             style={{
               backgroundColor: isChecked
                 ? 'rgba(34,197,94,0.06)'
-                : 'var(--ops-hover-bg)',
+                : 'var(--app-hover-bg)',
               border: `1px solid ${
                 isChecked
                   ? 'rgba(34,197,94,0.15)'
-                  : 'var(--ops-border)'
+                  : 'var(--app-border)'
               }`,
             }}
             whileHover={{ x: 2 }}
@@ -331,10 +331,10 @@ function GettingStartedChecklist() {
               style={{
                 backgroundColor: isChecked
                   ? '#22c55e'
-                  : 'var(--ops-hover-bg)',
+                  : 'var(--app-hover-bg)',
                 border: isChecked
                   ? undefined
-                  : '1.5px solid var(--ops-border-strong)',
+                  : '1.5px solid var(--app-border-strong)',
               }}
               animate={isChecked ? { scale: [1, 1.2, 1] } : {}}
               transition={{ duration: 0.3, ...ANIMATION.springBounce }}
@@ -355,8 +355,8 @@ function GettingStartedChecklist() {
                 className="text-xs font-medium"
                 style={{
                   color: isChecked
-                    ? 'var(--ops-text-secondary)'
-                    : 'var(--ops-text)',
+                    ? 'var(--app-text-secondary)'
+                    : 'var(--app-text)',
                   textDecoration: isChecked ? 'line-through' : undefined,
                 }}
               >
@@ -364,7 +364,7 @@ function GettingStartedChecklist() {
               </p>
               <p
                 className="text-[10px] mt-0.5"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               >
                 {step.sublabel}
               </p>
@@ -373,7 +373,7 @@ function GettingStartedChecklist() {
             {!isChecked && (
               <ChevronRight
                 className="w-3.5 h-3.5 ml-auto shrink-0"
-                style={{ color: 'var(--ops-text-disabled)' }}
+                style={{ color: 'var(--app-text-disabled)' }}
               />
             )}
           </motion.button>
@@ -435,11 +435,11 @@ const EmptyStateInner = memo(function EmptyStateInner({
               ease: 'easeInOut',
             }}
             className="flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
-            style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+            style={{ backgroundColor: 'var(--app-hover-bg)' }}
           >
             <Icon
               className="w-7 h-7"
-              style={{ color: 'var(--ops-text-muted)' }}
+              style={{ color: 'var(--app-text-muted)' }}
             />
           </motion.div>
         </motion.div>
@@ -451,7 +451,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: ANIMATION.durationSlow, delay: 0.1 }}
         className="text-sm font-semibold"
-        style={{ color: 'var(--ops-text-secondary)' }}
+        style={{ color: 'var(--app-text-secondary)' }}
       >
         {title}
       </motion.p>
@@ -462,7 +462,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: ANIMATION.durationSlow, delay: 0.15 }}
         className="text-xs mt-1.5 max-w-xs leading-relaxed"
-        style={{ color: 'var(--ops-text-muted)' }}
+        style={{ color: 'var(--app-text-muted)' }}
       >
         {description}
       </motion.p>
@@ -479,16 +479,16 @@ const EmptyStateInner = memo(function EmptyStateInner({
           className="mt-6 w-full max-w-sm"
         >
           <div className="flex items-center justify-center gap-1.5 mb-3">
-            <Eye className="w-3.5 h-3.5" style={{ color: 'var(--ops-text-muted)' }} />
-            <span className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+            <Eye className="w-3.5 h-3.5" style={{ color: 'var(--app-text-muted)' }} />
+            <span className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
               Preview of what this will look like
             </span>
           </div>
           <div
             className="rounded-lg p-4 opacity-40"
             style={{
-              backgroundColor: 'var(--ops-hover-bg)',
-              border: '1px solid var(--ops-border)',
+              backgroundColor: 'var(--app-hover-bg)',
+              border: '1px solid var(--app-border)',
             }}
           >
             {demoDataPreview}
@@ -518,7 +518,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
               type="button"
               className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
               style={{
-                backgroundColor: 'var(--ops-accent)',
+                backgroundColor: 'var(--app-accent)',
                 color: '#fff',
                 boxShadow: '0 2px 8px rgba(204,92,55,0.3)',
               }}
@@ -541,8 +541,8 @@ const EmptyStateInner = memo(function EmptyStateInner({
               className="px-4 py-2 rounded-lg text-xs font-medium transition-colors"
               style={{
                 backgroundColor: 'transparent',
-                color: 'var(--ops-text-secondary)',
-                border: '1px solid var(--ops-border-strong)',
+                color: 'var(--app-text-secondary)',
+                border: '1px solid var(--app-border-strong)',
               }}
             >
               {secondaryAction.label}

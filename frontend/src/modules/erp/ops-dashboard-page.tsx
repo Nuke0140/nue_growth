@@ -237,12 +237,12 @@ function RevenueTooltip({ active, payload, label }: { active?: boolean; payload?
     <div
       className="px-3 py-2 rounded-lg text-xs"
       style={{
-        backgroundColor: 'var(--ops-card-bg)',
-        border: '1px solid var(--ops-border-strong)',
-        color: 'var(--ops-text)',
+        backgroundColor: 'var(--app-card-bg)',
+        border: '1px solid var(--app-border-strong)',
+        color: 'var(--app-text)',
       }}
     >
-      <p className="font-semibold" style={{ color: 'var(--ops-text)' }}>{label}</p>
+      <p className="font-semibold" style={{ color: 'var(--app-text)' }}>{label}</p>
       <p style={{ color: ACCENT }}>₹{payload[0].value}L</p>
     </div>
   );
@@ -352,7 +352,7 @@ function OpsDashboardPageInner() {
                     domain={[0, 100]}
                     tickFormatter={(v: number) => `${v}%`}
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'var(--ops-border)' }}
+                    axisLine={{ stroke: 'var(--app-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -371,9 +371,9 @@ function OpsDashboardPageInner() {
                         <div
                           className="px-3 py-2 rounded-lg text-xs"
                           style={{
-                            backgroundColor: 'var(--ops-card-bg)',
-                            border: '1px solid var(--ops-border-strong)',
-                            color: 'var(--ops-text)',
+                            backgroundColor: 'var(--app-card-bg)',
+                            border: '1px solid var(--app-border-strong)',
+                            color: 'var(--app-text)',
                           }}
                         >
                           <p className="font-semibold">{d.name}</p>
@@ -381,7 +381,7 @@ function OpsDashboardPageInner() {
                         </div>
                       );
                     }}
-                    cursor={{ fill: 'var(--ops-hover-bg)' }}
+                    cursor={{ fill: 'var(--app-hover-bg)' }}
                   />
                   <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={18}>
                     {projectProgressData.map((entry, idx) => {
@@ -403,7 +403,7 @@ function OpsDashboardPageInner() {
                   <Bar
                     dataKey="remaining"
                     stackId="stack"
-                    fill="var(--ops-border)"
+                    fill="var(--app-border)"
                     radius={[0, 4, 4, 0]}
                     barSize={18}
                   />
@@ -432,7 +432,7 @@ function OpsDashboardPageInner() {
                   <XAxis
                     dataKey="month"
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'var(--ops-border)' }}
+                    axisLine={{ stroke: 'var(--app-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -449,7 +449,7 @@ function OpsDashboardPageInner() {
                     strokeWidth={2.5}
                     fill="url(#revenueGradient)"
                     dot={{ r: 4, fill: ACCENT, strokeWidth: 0 }}
-                    activeDot={{ r: 6, fill: ACCENT, stroke: 'var(--ops-bg)', strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: ACCENT, stroke: 'var(--app-bg)', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -473,8 +473,8 @@ function OpsDashboardPageInner() {
                     transition={{ duration: 0.25, delay: idx * 0.06 }}
                     className="flex items-start gap-3 p-2.5 rounded-lg"
                     style={{
-                      backgroundColor: 'var(--ops-hover-bg)',
-                      border: '1px solid var(--ops-border)',
+                      backgroundColor: 'var(--app-hover-bg)',
+                      border: '1px solid var(--app-border)',
                     }}
                   >
                     <div
@@ -486,7 +486,7 @@ function OpsDashboardPageInner() {
                     <div className="flex-1 min-w-0">
                       <p
                         className="text-xs font-semibold"
-                        style={{ color: 'var(--ops-text)' }}
+                        style={{ color: 'var(--app-text)' }}
                       >
                         {item.label}
                       </p>
@@ -498,7 +498,7 @@ function OpsDashboardPageInner() {
                       </p>
                       <p
                         className="text-[11px] mt-0.5"
-                        style={{ color: 'var(--ops-text-muted)' }}
+                        style={{ color: 'var(--app-text-muted)' }}
                       >
                         {item.detail}
                       </p>
@@ -548,7 +548,7 @@ function OpsDashboardPageInner() {
                     <div className="flex-1 min-w-0">
                       <p
                         className="text-xs font-semibold truncate"
-                        style={{ color: 'var(--ops-text)' }}
+                        style={{ color: 'var(--app-text)' }}
                       >
                         {alert.title}
                       </p>
@@ -596,20 +596,20 @@ function OpsDashboardPageInner() {
           <div className="flex items-center gap-3 mb-4">
             <div
               className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
-              style={{ backgroundColor: 'var(--ops-accent-light)' }}
+              style={{ backgroundColor: 'var(--app-accent-light)' }}
             >
               <Sparkles className="w-5 h-5" style={{ color: ACCENT }} />
             </div>
             <div className="min-w-0">
               <h3
                 className="text-sm font-semibold truncate"
-                style={{ color: 'var(--ops-text)' }}
+                style={{ color: 'var(--app-text)' }}
               >
                 AI Intelligence
               </h3>
               <p
                 className="text-xs mt-0.5 truncate"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               >
                 Automated insights &amp; recommendations
               </p>
@@ -634,8 +634,8 @@ function OpsDashboardPageInner() {
                   }}
                   className="ops-card-hover rounded-xl p-3.5 cursor-pointer transition-colors"
                   style={{
-                    backgroundColor: 'var(--ops-hover-bg)',
-                    border: '1px solid var(--ops-border)',
+                    backgroundColor: 'var(--app-hover-bg)',
+                    border: '1px solid var(--app-border)',
                   }}
                 >
                   {/* Top row: severity icon + title + confidence badge */}
@@ -653,7 +653,7 @@ function OpsDashboardPageInner() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <p
                           className="text-xs font-bold leading-snug"
-                          style={{ color: 'var(--ops-text)' }}
+                          style={{ color: 'var(--app-text)' }}
                         >
                           {insight.title}
                         </p>
@@ -677,8 +677,8 @@ function OpsDashboardPageInner() {
                         <span
                           className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
                           style={{
-                            backgroundColor: 'var(--ops-hover-bg)',
-                            color: 'var(--ops-text-secondary)',
+                            backgroundColor: 'var(--app-hover-bg)',
+                            color: 'var(--app-text-secondary)',
                           }}
                         >
                           {insight.confidence}% confidence
@@ -691,7 +691,7 @@ function OpsDashboardPageInner() {
                   <p
                     className="text-xs mt-2 leading-relaxed line-clamp-2"
                     style={{
-                      color: 'var(--ops-text-muted)',
+                      color: 'var(--app-text-muted)',
                       display: '-webkit-box',
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',

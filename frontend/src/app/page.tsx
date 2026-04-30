@@ -93,7 +93,7 @@ export default function Home() {
   if (isInitializing) {
     // Full-screen animated loading spinner
     content = (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 dark:bg-[#050505]">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--app-surface-0)] dark:bg-[var(--app-surface-0)]">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -102,8 +102,8 @@ export default function Home() {
           className="flex flex-col items-center gap-6"
         >
           <Image src="/logo.png" alt="NueEra" width={90} height={70} className="object-contain animate-pulse opacity-90" priority />
-          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-            <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+          <div className="flex items-center gap-2 text-[var(--app-text-muted)]">
+            <Loader2 className="h-5 w-5 animate-spin text-[var(--app-structural)]" />
             <span className="text-sm font-medium tracking-wide">Preparing Workspace...</span>
           </div>
         </motion.div>

@@ -156,7 +156,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-2xl border p-5 transition-colors duration-200 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)]'
+        'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
       )}
     >
       {/* Top row: Type badge + Status chip + Version */}
@@ -181,7 +181,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
             {status.label}
           </span>
         </div>
-        <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', 'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]')}>
+        <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
           v{approval.version}
         </span>
       </div>
@@ -197,10 +197,10 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
           {getInitials(approval.requestedBy)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium truncate text-[var(--ops-text)]">
+          <p className="text-xs font-medium truncate text-[var(--app-text)]">
             {approval.requestedBy}
           </p>
-          <p className="text-[10px] text-[var(--ops-text-muted)]">
+          <p className="text-[10px] text-[var(--app-text-muted)]">
             {formatDate(approval.createdAt)}
           </p>
         </div>
@@ -209,8 +209,8 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
       {/* Project (if linked) */}
       {approval.project && (
         <div className="flex items-center gap-1.5 mb-3">
-          <span className="text-[10px] text-[var(--ops-text-disabled)]">Project:</span>
-          <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
+          <span className="text-[10px] text-[var(--app-text-disabled)]">Project:</span>
+          <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
             {approval.project}
           </span>
         </div>
@@ -218,8 +218,8 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
 
       {/* Comments count */}
       <div className="flex items-center gap-1.5 mb-4">
-        <MessageSquare className="w-3 h-3 text-[var(--ops-text-muted)]" />
-        <span className="text-[11px] text-[var(--ops-text-muted)]">
+        <MessageSquare className="w-3 h-3 text-[var(--app-text-muted)]" />
+        <span className="text-[11px] text-[var(--app-text-muted)]">
           {approval.comments.length} comment{approval.comments.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -229,7 +229,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
         <div
           className={cn(
             'flex items-center gap-2 pt-3 border-t',
-            'border-[var(--ops-border)]'
+            'border-[var(--app-border)]'
           )}
         >
           <Button
@@ -283,7 +283,7 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Approval
         <div
           className={cn(
             'mt-3 p-2.5 rounded-lg text-[11px] leading-relaxed line-clamp-2',
-            'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
+            'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
           )}
         >
           <span className="font-medium">{approval.comments[0].author}:</span>{' '}

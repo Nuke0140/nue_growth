@@ -76,9 +76,9 @@ const colorStyles: Record<StatusColor, { bg: string; text: string; dot: string }
     dot: '#f87171',
   },
   gray: {
-    bg: 'var(--ops-hover-bg)',
-    text: 'var(--ops-text-secondary)',
-    dot: 'var(--ops-text-muted)',
+    bg: 'var(--app-hover-bg)',
+    text: 'var(--app-text-secondary)',
+    dot: 'var(--app-text-muted)',
   },
   blue: {
     bg: 'rgba(96, 165, 250, 0.12)',

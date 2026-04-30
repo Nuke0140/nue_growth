@@ -146,8 +146,8 @@ function MobileFab({ accent }: { accent: { primary: string } }) {
         onClick={() => setFabOpen(!fabOpen)}
         className="relative w-14 h-14 rounded-full text-white flex items-center justify-center"
         style={{
-          background: 'linear-gradient(135deg, #2563EB, #F97316)',
-          boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)',
+          background: 'var(--app-gradient-brand)',
+          boxShadow: 'var(--app-shadow-glow-blue)',
         }}
       >
         <motion.div
@@ -280,7 +280,7 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
                     className="h-full transition-all duration-300 ease-out rounded-full"
                     style={{
                       width: `${progressWidth}%`,
-                      background: 'linear-gradient(90deg, #2563EB, #3B82F6, #2563EB)',
+                      background: 'var(--app-gradient-brand)',
                       backgroundSize: '200% 100%',
                     }}
                   />

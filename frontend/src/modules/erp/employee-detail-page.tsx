@@ -257,14 +257,14 @@ function EmployeeDetailPageInner() {
     return (
       <div
         className="h-full flex items-center justify-center"
-        style={{ backgroundColor: 'var(--ops-bg-dark)' }}
+        style={{ backgroundColor: 'var(--app-surface-1)' }}
       >
         <div className="text-center space-y-3">
           <UserCircle
             className="w-12 h-12 mx-auto"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: 'var(--app-text-muted)' }}
           />
-          <p style={{ color: 'var(--ops-text-secondary)' }}>
+          <p style={{ color: 'var(--app-text-secondary)' }}>
             Employee not found
           </p>
           <button onClick={goBack} className="ops-btn-ghost gap-2">
@@ -290,10 +290,10 @@ function EmployeeDetailPageInner() {
   // ---- Productivity color ----
   const prodColor =
     employee.productivityScore >= 85
-      ? 'var(--ops-success)'
+      ? 'var(--app-success)'
       : employee.productivityScore >= 70
-        ? 'var(--ops-warning)'
-        : 'var(--ops-danger)';
+        ? 'var(--app-warning)'
+        : 'var(--app-danger)';
 
   // ---- Quick actions config ----
   const quickActions = [
@@ -331,7 +331,7 @@ function EmployeeDetailPageInner() {
                 <AvatarFallback
                   className="text-2xl font-bold"
                   style={{
-                    backgroundColor: 'var(--ops-accent)',
+                    backgroundColor: 'var(--app-accent)',
                     color: '#ffffff',
                   }}
                 >
@@ -339,7 +339,7 @@ function EmployeeDetailPageInner() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm mb-3" style={{ color: 'var(--ops-text-secondary)' }}>
+                <p className="text-sm mb-3" style={{ color: 'var(--app-text-secondary)' }}>
                   {employee.designation} · {employee.department}
                 </p>
                 <div className="flex items-center gap-3">
@@ -355,10 +355,10 @@ function EmployeeDetailPageInner() {
         {/* ---- Quick Stats ---- */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Active Projects', value: employee.activeProjects, icon: FolderKanban, color: 'var(--ops-accent)' },
+            { label: 'Active Projects', value: employee.activeProjects, icon: FolderKanban, color: 'var(--app-accent)' },
             { label: 'Productivity Score', value: `${employee.productivityScore}%`, icon: BarChart3, color: prodColor },
-            { label: 'Salary Band', value: employee.salaryBand, icon: DollarSign, color: 'var(--ops-text)' },
-            { label: 'Join Date', value: formatDate(employee.joinDate), icon: Calendar, color: 'var(--ops-info)' },
+            { label: 'Salary Band', value: employee.salaryBand, icon: DollarSign, color: 'var(--app-text)' },
+            { label: 'Join Date', value: formatDate(employee.joinDate), icon: Calendar, color: 'var(--app-info)' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -372,10 +372,10 @@ function EmployeeDetailPageInner() {
             >
               <OpsCard hoverable className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium" style={{ color: 'var(--ops-text-muted)' }}>
+                  <span className="text-xs font-medium" style={{ color: 'var(--app-text-muted)' }}>
                     {stat.label}
                   </span>
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
                     <stat.icon className="w-3.5 h-3.5" style={{ color: stat.color }} />
                   </div>
                 </div>
@@ -395,7 +395,7 @@ function EmployeeDetailPageInner() {
         >
           <TabsList
             className="w-full flex overflow-x-auto gap-1 p-1 rounded-xl h-auto"
-            style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+            style={{ backgroundColor: 'var(--app-hover-bg)' }}
           >
             {tabs.map((tab) => (
               <TabsTrigger
@@ -404,9 +404,9 @@ function EmployeeDetailPageInner() {
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors data-[state=active]:text-white data-[state=active]:shadow-sm"
                 style={{
                   backgroundColor:
-                    activeTab === tab.key ? 'var(--ops-hover-bg)' : 'transparent',
+                    activeTab === tab.key ? 'var(--app-hover-bg)' : 'transparent',
                   color:
-                    activeTab === tab.key ? 'var(--ops-text)' : 'var(--ops-text-muted)',
+                    activeTab === tab.key ? 'var(--app-text)' : 'var(--app-text-muted)',
                 }}
               >
                 <tab.icon className="w-4 h-4" />
@@ -422,11 +422,11 @@ function EmployeeDetailPageInner() {
               <div className="lg:col-span-2 space-y-5">
                 {/* Personal Info */}
                 <div className="ops-card p-5 space-y-4">
-                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                    <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                    <UserCircle className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                     Personal Information
                   </h3>
-                  <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                  <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       { label: 'Full Name', value: employee.name },
@@ -439,10 +439,10 @@ function EmployeeDetailPageInner() {
                       { label: 'Salary Band', value: employee.salaryBand },
                     ].map((item) => (
                       <div key={item.label}>
-                        <p className="text-[11px] mb-0.5" style={{ color: 'var(--ops-text-muted)' }}>
+                        <p className="text-[11px] mb-0.5" style={{ color: 'var(--app-text-muted)' }}>
                           {item.label}
                         </p>
-                        <p className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                        <p className="text-sm font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                           {item.value}
                         </p>
                       </div>
@@ -454,11 +454,11 @@ function EmployeeDetailPageInner() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Contact Info */}
                   <div className="ops-card p-5 space-y-4">
-                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                      <Mail className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                      <Mail className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                       Contact Information
                     </h3>
-                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                     <div className="space-y-4">
                       {[
                         { icon: Mail, label: 'Email', value: employee.email },
@@ -466,12 +466,12 @@ function EmployeeDetailPageInner() {
                         { icon: Briefcase, label: 'Department', value: employee.department },
                       ].map((item) => (
                         <div key={item.label} className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
-                            <item.icon className="w-4 h-4" style={{ color: 'var(--ops-text-muted)' }} />
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+                            <item.icon className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
                           </div>
                           <div>
-                            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>{item.label}</p>
-                            <p className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>{item.value}</p>
+                            <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>{item.label}</p>
+                            <p className="text-sm font-medium" style={{ color: 'var(--app-text-secondary)' }}>{item.value}</p>
                           </div>
                         </div>
                       ))}
@@ -480,17 +480,17 @@ function EmployeeDetailPageInner() {
 
                   {/* Performance */}
                   <div className="ops-card p-5 space-y-4">
-                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                      <BarChart3 className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                      <BarChart3 className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                       Performance
                     </h3>
-                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>Productivity Score</span>
+                        <span className="text-xs" style={{ color: 'var(--app-text-muted)' }}>Productivity Score</span>
                         <span className="text-xs font-bold" style={{ color: prodColor }}>{employee.productivityScore}%</span>
                       </div>
-                      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+                      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
                         <div
                           className="h-full rounded-full transition-all"
                           style={{ width: `${employee.productivityScore}%`, backgroundColor: prodColor }}
@@ -498,13 +498,13 @@ function EmployeeDetailPageInner() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 pt-2">
-                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-                        <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>SLA Score</p>
-                        <p className="text-sm font-bold" style={{ color: 'var(--ops-info)' }}>96%</p>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+                        <p className="text-[10px] mb-1" style={{ color: 'var(--app-text-muted)' }}>SLA Score</p>
+                        <p className="text-sm font-bold" style={{ color: 'var(--app-info)' }}>96%</p>
                       </div>
-                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--ops-hover-bg)', border: '1px solid var(--ops-border)' }}>
-                        <p className="text-[10px] mb-1" style={{ color: 'var(--ops-text-muted)' }}>Task Completion</p>
-                        <p className="text-sm font-bold" style={{ color: 'var(--ops-success)' }}>95%</p>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: 'var(--app-hover-bg)', border: '1px solid var(--app-border)' }}>
+                        <p className="text-[10px] mb-1" style={{ color: 'var(--app-text-muted)' }}>Task Completion</p>
+                        <p className="text-sm font-bold" style={{ color: 'var(--app-success)' }}>95%</p>
                       </div>
                     </div>
                   </div>
@@ -512,11 +512,11 @@ function EmployeeDetailPageInner() {
 
                 {/* Project Assignments */}
                 <div className="ops-card p-5 space-y-4">
-                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                    <FolderKanban className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                  <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                    <FolderKanban className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                     Project Assignments
                   </h3>
-                  <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                  <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                   {employee.activeProjects > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {[1, 2].slice(0, employee.activeProjects).map((i) => {
@@ -532,22 +532,22 @@ function EmployeeDetailPageInner() {
                             key={i}
                             className="rounded-xl p-3 space-y-2"
                             style={{
-                              backgroundColor: 'var(--ops-hover-bg)',
-                              border: '1px solid var(--ops-border)',
+                              backgroundColor: 'var(--app-hover-bg)',
+                              border: '1px solid var(--app-border)',
                             }}
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium truncate" style={{ color: 'var(--ops-text)' }}>
+                              <span className="text-sm font-medium truncate" style={{ color: 'var(--app-text)' }}>
                                 {proj.name}
                               </span>
-                              <span className="text-xs font-bold" style={{ color: 'var(--ops-info)' }}>
+                              <span className="text-xs font-bold" style={{ color: 'var(--app-info)' }}>
                                 {proj.progress}%
                               </span>
                             </div>
-                            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
+                            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
                               <div
                                 className="h-full rounded-full"
-                                style={{ width: `${proj.progress}%`, backgroundColor: 'var(--ops-accent)' }}
+                                style={{ width: `${proj.progress}%`, backgroundColor: 'var(--app-accent)' }}
                               />
                             </div>
                           </div>
@@ -555,7 +555,7 @@ function EmployeeDetailPageInner() {
                       })}
                     </div>
                   ) : (
-                    <p className="text-sm text-center py-6" style={{ color: 'var(--ops-text-muted)' }}>
+                    <p className="text-sm text-center py-6" style={{ color: 'var(--app-text-muted)' }}>
                       No active project assignments
                     </p>
                   )}
@@ -572,11 +572,11 @@ function EmployeeDetailPageInner() {
                 >
                   {/* Quick Actions */}
                   <div className="ops-card p-5 space-y-4">
-                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                      <Zap className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                      <Zap className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                       Quick Actions
                     </h3>
-                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                     <div className="space-y-2">
                       {quickActions.map((action) => {
                         const Icon = action.icon;
@@ -588,7 +588,7 @@ function EmployeeDetailPageInner() {
                             className="flex items-center gap-3 w-full p-3 rounded-xl text-left transition-colors cursor-pointer"
                             style={{
                               backgroundColor: 'transparent',
-                              border: '1px solid var(--ops-border)',
+                              border: '1px solid var(--app-border)',
                             }}
                             onMouseEnter={(e) => {
                               (e.currentTarget as HTMLElement).style.backgroundColor = action.bg;
@@ -596,7 +596,7 @@ function EmployeeDetailPageInner() {
                             }}
                             onMouseLeave={(e) => {
                               (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                              (e.currentTarget as HTMLElement).style.borderColor = 'var(--ops-border)';
+                              (e.currentTarget as HTMLElement).style.borderColor = 'var(--app-border)';
                             }}
                           >
                             <div
@@ -605,7 +605,7 @@ function EmployeeDetailPageInner() {
                             >
                               <Icon className="w-4 h-4" style={{ color: action.color }} />
                             </div>
-                            <span className="text-sm font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                            <span className="text-sm font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                               {action.label}
                             </span>
                           </motion.button>
@@ -616,25 +616,25 @@ function EmployeeDetailPageInner() {
 
                   {/* Manager Info */}
                   <div className="ops-card p-5 space-y-4">
-                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                      <UserCircle className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                    <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                      <UserCircle className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                       Reporting To
                     </h3>
-                    <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                    <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
                         <AvatarFallback
                           className="text-xs font-semibold"
-                          style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+                          style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}
                         >
                           {employee.manager.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+                        <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
                           {employee.manager}
                         </p>
-                        <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
+                        <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
                           Direct Manager
                         </p>
                       </div>
@@ -729,8 +729,8 @@ function EmployeeDetailPageInner() {
           <TabsContent value="assets" className="mt-5">
             {employeeAssets.length === 0 ? (
               <div className="ops-card p-12 text-center">
-                <Package className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)' }} />
-                <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>
+                <Package className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--app-text-muted)' }} />
+                <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
                   No assets assigned to this employee
                 </p>
               </div>
@@ -741,15 +741,15 @@ function EmployeeDetailPageInner() {
                     <div className="flex items-start gap-3">
                       <div
                         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: 'var(--ops-accent-light)' }}
+                        style={{ backgroundColor: 'var(--app-accent-light)' }}
                       >
-                        <Laptop className="w-5 h-5" style={{ color: 'var(--ops-accent)' }} />
+                        <Laptop className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--ops-text)' }}>
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--app-text)' }}>
                           {asset.name}
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>
+                        <p className="text-xs mt-0.5" style={{ color: 'var(--app-text-muted)' }}>
                           {asset.type} · {asset.serialNo}
                         </p>
                         <div className="flex items-center gap-2 mt-2">
@@ -761,14 +761,14 @@ function EmployeeDetailPageInner() {
                             {asset.status.replace('-', ' ')}
                           </span>
                         </div>
-                        <div className="mt-3 pt-3 space-y-1" style={{ borderTop: '1px solid var(--ops-border)' }}>
-                          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                        <div className="mt-3 pt-3 space-y-1" style={{ borderTop: '1px solid var(--app-border)' }}>
+                          <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
                             Purchase: {formatDate(asset.purchaseDate)}
                           </p>
-                          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+                          <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
                             Warranty: {formatDate(asset.warrantyEnd)}
                           </p>
-                          <p className="text-[11px] font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+                          <p className="text-[11px] font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                             Cost: {formatCurrency(asset.purchaseCost)}
                           </p>
                         </div>
@@ -785,7 +785,7 @@ function EmployeeDetailPageInner() {
             <div className="ops-card p-5">
               <div className="space-y-0">
                 {activities.length === 0 ? (
-                  <p className="text-sm text-center py-6" style={{ color: 'var(--ops-text-muted)' }}>
+                  <p className="text-sm text-center py-6" style={{ color: 'var(--app-text-muted)' }}>
                     No activity recorded
                   </p>
                 ) : (
@@ -794,15 +794,15 @@ function EmployeeDetailPageInner() {
                       <div className="flex items-start gap-3 py-3">
                         <div
                           className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                          style={{ backgroundColor: 'var(--ops-accent-light)' }}
+                          style={{ backgroundColor: 'var(--app-accent-light)' }}
                         >
-                          <Activity className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                          <Activity className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+                          <p className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
                             {item.text}
                           </p>
-                          <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>
+                          <p className="text-xs mt-0.5" style={{ color: 'var(--app-text-muted)' }}>
                             {formatDate(item.date)}
                           </p>
                         </div>
@@ -811,7 +811,7 @@ function EmployeeDetailPageInner() {
                         <div
                           className="ml-4 h-px"
                           style={{
-                            backgroundColor: 'var(--ops-border)',
+                            backgroundColor: 'var(--app-border)',
                             width: 'calc(100% - 2rem)',
                             marginLeft: '2rem',
                           }}
@@ -833,8 +833,8 @@ function EmployeeDetailPageInner() {
               className="ops-card p-5"
             >
               <div className="flex items-center gap-2 mb-5">
-                <FileText className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
-                <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+                <FileText className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
+                <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
                   Employee Timeline
                 </h3>
                 <div className="ml-auto flex items-center gap-3">
@@ -849,7 +849,7 @@ function EmployeeDetailPageInner() {
                         className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: legend.color }}
                       />
-                      <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                      <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
                         {legend.label}
                       </span>
                     </div>
@@ -870,8 +870,8 @@ function EmployeeDetailPageInner() {
             >
               {/* Quick Note Input */}
               <div className="ops-card p-5 space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                  <Plus className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                  <Plus className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                   Add a Note
                 </h3>
                 <div className="flex gap-2">
@@ -885,16 +885,16 @@ function EmployeeDetailPageInner() {
                     placeholder="Type a quick note about this employee..."
                     className="ops-input flex-1 px-3 py-2 text-sm"
                     style={{
-                      backgroundColor: 'var(--ops-hover-bg)',
-                      border: '1px solid var(--ops-border)',
-                      color: 'var(--ops-text)',
+                      backgroundColor: 'var(--app-hover-bg)',
+                      border: '1px solid var(--app-border)',
+                      color: 'var(--app-text)',
                       outline: 'none',
                     }}
                     onFocus={(e) => {
-                      (e.target as HTMLElement).style.borderColor = 'var(--ops-accent)';
+                      (e.target as HTMLElement).style.borderColor = 'var(--app-accent)';
                     }}
                     onBlur={(e) => {
-                      (e.target as HTMLElement).style.borderColor = 'var(--ops-border)';
+                      (e.target as HTMLElement).style.borderColor = 'var(--app-border)';
                     }}
                   />
                   <motion.button
@@ -914,11 +914,11 @@ function EmployeeDetailPageInner() {
 
               {/* Manager Notes */}
               <div className="ops-card p-5 space-y-4">
-                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--ops-text)' }}>
-                  <Pencil className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--app-text)' }}>
+                  <Pencil className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                   Manager Notes
                 </h3>
-                <Separator style={{ backgroundColor: 'var(--ops-border)' }} />
+                <Separator style={{ backgroundColor: 'var(--app-border)' }} />
                 <textarea
                   value={managerNotes}
                   onChange={(e) => setManagerNotes(e.target.value)}
@@ -926,23 +926,23 @@ function EmployeeDetailPageInner() {
                   rows={4}
                   className="ops-input w-full px-3 py-2 text-sm resize-none"
                   style={{
-                    backgroundColor: 'var(--ops-hover-bg)',
-                    border: '1px solid var(--ops-border)',
-                    color: 'var(--ops-text)',
+                    backgroundColor: 'var(--app-hover-bg)',
+                    border: '1px solid var(--app-border)',
+                    color: 'var(--app-text)',
                     outline: 'none',
                   }}
                   onFocus={(e) => {
-                    (e.target as HTMLElement).style.borderColor = 'var(--ops-accent)';
+                    (e.target as HTMLElement).style.borderColor = 'var(--app-accent)';
                   }}
                   onBlur={(e) => {
-                    (e.target as HTMLElement).style.borderColor = 'var(--ops-border)';
+                    (e.target as HTMLElement).style.borderColor = 'var(--app-border)';
                   }}
                 />
                 <div className="flex justify-end">
                   <motion.button
                     whileTap={{ scale: 0.97 }}
                     className="ops-btn-ghost gap-2 text-xs px-3"
-                    style={{ border: '1px solid var(--ops-border)' }}
+                    style={{ border: '1px solid var(--app-border)' }}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Save Notes
@@ -952,12 +952,12 @@ function EmployeeDetailPageInner() {
 
               {/* Notes List */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2 px-1" style={{ color: 'var(--ops-text)' }}>
-                  <StickyNote className="w-4 h-4" style={{ color: 'var(--ops-accent)' }} />
+                <h3 className="text-sm font-semibold flex items-center gap-2 px-1" style={{ color: 'var(--app-text)' }}>
+                  <StickyNote className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
                   All Notes
                   <span
                     className="ops-badge text-[10px]"
-                    style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}
+                    style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}
                   >
                     {notes.length}
                   </span>
@@ -975,7 +975,7 @@ function EmployeeDetailPageInner() {
                         className="ops-card p-4 space-y-2"
                         style={{
                           borderLeft: `3px solid ${
-                            note.type === 'manager' ? 'var(--ops-accent)' : 'var(--ops-hover-bg)'
+                            note.type === 'manager' ? 'var(--app-accent)' : 'var(--app-hover-bg)'
                           }`,
                         }}
                       >
@@ -986,36 +986,36 @@ function EmployeeDetailPageInner() {
                                 className="text-[9px] font-semibold"
                                 style={{
                                   backgroundColor: note.type === 'manager'
-                                    ? 'var(--ops-accent-light)'
-                                    : 'var(--ops-hover-bg)',
+                                    ? 'var(--app-accent-light)'
+                                    : 'var(--app-hover-bg)',
                                   color: note.type === 'manager'
-                                    ? 'var(--ops-accent)'
-                                    : 'var(--ops-text-muted)',
+                                    ? 'var(--app-accent)'
+                                    : 'var(--app-text-muted)',
                                 }}
                               >
                                 {note.author.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                               </AvatarFallback>
                             </Avatar>
-                            <span className="text-xs font-semibold" style={{ color: 'var(--ops-text)' }}>
+                            <span className="text-xs font-semibold" style={{ color: 'var(--app-text)' }}>
                               {note.author}
                             </span>
                             {note.type === 'manager' && (
                               <span
                                 className="text-[9px] font-medium px-1.5 py-0.5 rounded-full"
                                 style={{
-                                  backgroundColor: 'var(--ops-accent-light)',
-                                  color: 'var(--ops-accent)',
+                                  backgroundColor: 'var(--app-accent-light)',
+                                  color: 'var(--app-accent)',
                                 }}
                               >
                                 Manager
                               </span>
                             )}
                           </div>
-                          <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                          <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
                             {note.timestamp}
                           </span>
                         </div>
-                        <p className="text-sm leading-relaxed" style={{ color: 'var(--ops-text-secondary)' }}>
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--app-text-secondary)' }}>
                           {note.content}
                         </p>
                       </div>

@@ -11,7 +11,6 @@
    We map them to --app-* canonical tokens so there is ONE system.
    ============================================ */
 @theme inline {
-  /* Map shadcn tokens → --app-* canonical values */
   --color-background: var(--app-bg);
   --color-foreground: var(--app-text);
   --color-card: var(--app-card-bg);
@@ -29,7 +28,7 @@
   --color-destructive: var(--app-danger);
   --color-border: var(--app-border);
   --color-input: var(--app-input-bg);
-  --color-ring: var(--app-accent);
+  --color-ring: var(--app-structural);
   --color-chart-1: var(--app-module-erp);
   --color-chart-2: var(--app-module-crm);
   --color-chart-3: var(--app-module-analytics);
@@ -37,12 +36,12 @@
   --color-chart-5: var(--app-module-marketing);
   --color-sidebar: var(--app-sidebar-bg);
   --color-sidebar-foreground: var(--app-text);
-  --color-sidebar-primary: var(--app-accent);
+  --color-sidebar-primary: var(--app-structural);
   --color-sidebar-primary-foreground: #ffffff;
-  --color-sidebar-accent: var(--app-accent-light);
-  --color-sidebar-accent-foreground: var(--app-accent);
+  --color-sidebar-accent: var(--app-structural-light);
+  --color-sidebar-accent-foreground: var(--app-structural);
   --color-sidebar-border: var(--app-border);
-  --color-sidebar-ring: var(--app-accent);
+  --color-sidebar-ring: var(--app-structural);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --radius-sm: var(--app-radius-sm);
@@ -53,9 +52,6 @@
 
 /* ============================================
    Shadcn CSS Variable Definitions (Light)
-   ============================================
-   These are required by shadcn/ui components internally.
-   They reference --app-* tokens so values stay in sync.
    ============================================ */
 :root {
   --radius: 0.625rem;
@@ -76,7 +72,7 @@
   --destructive: var(--app-danger);
   --border: var(--app-border);
   --input: var(--app-input-bg);
-  --ring: var(--app-accent);
+  --ring: var(--app-structural);
   --chart-1: var(--app-module-erp);
   --chart-2: var(--app-module-crm);
   --chart-3: var(--app-module-analytics);
@@ -84,12 +80,12 @@
   --chart-5: var(--app-module-marketing);
   --sidebar: var(--app-sidebar-bg);
   --sidebar-foreground: var(--app-text);
-  --sidebar-primary: var(--app-accent);
+  --sidebar-primary: var(--app-structural);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--app-accent-light);
-  --sidebar-accent-foreground: var(--app-accent);
+  --sidebar-accent: var(--app-structural-light);
+  --sidebar-accent-foreground: var(--app-structural);
   --sidebar-border: var(--app-border);
-  --sidebar-ring: var(--app-accent);
+  --sidebar-ring: var(--app-structural);
 }
 
 /* ============================================
@@ -113,7 +109,7 @@
   --destructive: var(--app-danger);
   --border: var(--app-border);
   --input: var(--app-input-bg);
-  --ring: var(--app-accent);
+  --ring: var(--app-structural);
   --chart-1: var(--app-module-erp);
   --chart-2: var(--app-module-crm);
   --chart-3: var(--app-module-analytics);
@@ -121,12 +117,12 @@
   --chart-5: var(--app-module-marketing);
   --sidebar: var(--app-sidebar-bg);
   --sidebar-foreground: var(--app-text);
-  --sidebar-primary: var(--app-accent);
+  --sidebar-primary: var(--app-structural);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--app-accent-light);
-  --sidebar-accent-foreground: var(--app-accent);
+  --sidebar-accent: var(--app-structural-light);
+  --sidebar-accent-foreground: var(--app-structural);
   --sidebar-border: var(--app-border);
-  --sidebar-ring: var(--app-accent);
+  --sidebar-ring: var(--app-structural);
 }
 
 /* ============================================
@@ -137,24 +133,41 @@
   background-color: var(--app-card-bg);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow-card);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: box-shadow 0.3s var(--app-easing), transform 0.2s var(--app-easing);
 }
 
 .app-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s var(--app-easing), box-shadow 0.2s var(--app-easing);
 }
 
 .app-card-hover:hover {
-  transform: translateY(-0.125rem);
+  transform: translateY(-2px);
   box-shadow: var(--app-shadow-card-hover);
 }
 
 .app-glow {
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s var(--app-easing);
 }
 
 .app-glow:hover {
-  box-shadow: var(--app-shadow-accent);
+  box-shadow: var(--app-shadow-glow-blue);
+}
+
+.app-glow-orange {
+  transition: box-shadow 0.3s var(--app-easing);
+}
+
+.app-glow-orange:hover {
+  box-shadow: var(--app-shadow-glow-orange);
+}
+
+.app-glow-ai {
+  animation: ai-pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes ai-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+  50% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.12), 0 0 40px rgba(249, 115, 22, 0.06); }
 }
 
 .app-input {
@@ -162,12 +175,12 @@
   background-color: var(--app-input-bg);
   border: 1px solid var(--app-border);
   color: var(--app-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s var(--app-easing), box-shadow 0.2s var(--app-easing);
 }
 
 .app-input:focus {
-  border-color: var(--app-accent);
-  box-shadow: 0 0 0 2px var(--app-accent-light);
+  border-color: var(--app-structural);
+  box-shadow: 0 0 0 2px var(--app-structural-light);
   outline: none;
 }
 
@@ -184,7 +197,7 @@
   background-color: var(--app-accent);
   color: #ffffff;
   font-weight: 500;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s var(--app-easing), transform 0.1s var(--app-easing), box-shadow 0.2s var(--app-easing);
   cursor: pointer;
   border: none;
   padding: 0.5rem 1rem;
@@ -194,6 +207,7 @@
 
 .app-btn-primary:hover {
   background-color: var(--app-accent-hover);
+  box-shadow: var(--app-shadow-accent);
 }
 
 .app-btn-primary:active {
@@ -205,6 +219,27 @@
   cursor: not-allowed;
 }
 
+.app-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-elevated);
+  color: var(--app-text);
+  font-weight: 500;
+  transition: background-color 0.2s var(--app-easing);
+  cursor: pointer;
+  border: 1px solid var(--app-border);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.app-btn-secondary:hover {
+  background-color: var(--app-card-bg-hover);
+}
+
 .app-btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -214,7 +249,7 @@
   background-color: transparent;
   color: var(--app-text-secondary);
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s var(--app-easing);
   cursor: pointer;
   border: none;
   padding: 0.5rem 1rem;
@@ -224,6 +259,58 @@
 
 .app-btn-ghost:hover {
   background-color: var(--app-hover-bg);
+}
+
+.app-btn-structural {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-structural);
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.2s var(--app-easing), transform 0.1s var(--app-easing), box-shadow 0.2s var(--app-easing);
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.app-btn-structural:hover {
+  background-color: var(--app-structural-hover);
+  box-shadow: var(--app-shadow-blue);
+}
+
+.app-btn-structural:active {
+  transform: scale(0.98);
+}
+
+.app-btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--app-radius-md);
+  background: var(--app-gradient-brand);
+  color: #ffffff;
+  font-weight: 600;
+  transition: transform 0.1s var(--app-easing), box-shadow 0.2s var(--app-easing);
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.app-btn-premium:hover {
+  box-shadow: var(--app-shadow-glow-blue);
+  filter: brightness(1.08);
+}
+
+.app-btn-premium:active {
+  transform: scale(0.98);
 }
 
 .app-badge {
@@ -237,7 +324,9 @@
   font-weight: 500;
   line-height: 1rem;
   white-space: nowrap;
-  border: 1px solid transparent;
+  background-color: var(--app-chip-bg);
+  border: 1px solid var(--app-chip-border);
+  color: var(--app-text-secondary);
 }
 
 /* Skeleton animations */
@@ -259,21 +348,25 @@
   top: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover), var(--app-accent));
+  background: var(--app-gradient-brand);
   z-index: 100;
-  transition: width 0.3s ease;
+  transition: width 0.3s var(--app-easing);
 }
 
 /* Gradient accent */
 .app-gradient-accent {
-  background: linear-gradient(135deg, var(--app-accent-light) 0%, rgba(204,92,55,0.03) 100%);
+  background: var(--app-gradient-brand-subtle);
 }
 
 .app-gradient-text {
-  background: linear-gradient(135deg, var(--app-accent) 0%, var(--app-accent-gradient-to) 100%);
+  background: var(--app-gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.app-gradient-brand {
+  background: var(--app-gradient-brand);
 }
 
 /* Notification dropdown animation */
@@ -300,7 +393,7 @@
 
 /* Drag ghost shadow */
 .app-drag-ghost {
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2);
   opacity: 0.9;
 }
 
@@ -310,7 +403,7 @@
 }
 
 .app-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--app-scrollbar-track);
 }
 
 .app-scrollbar::-webkit-scrollbar-thumb {
@@ -322,13 +415,13 @@
   background: var(--app-scrollbar-thumb-hover);
 }
 
-/* Legacy alias: .custom-scrollbar → .app-scrollbar styles */
+/* Legacy alias */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--app-scrollbar-track);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -338,6 +431,48 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--app-scrollbar-thumb-hover);
+}
+
+/* ---- Surface Level Classes ---- */
+.app-surface-0 { background-color: var(--app-surface-0); }
+.app-surface-1 { background-color: var(--app-surface-1); }
+.app-surface-2 { background-color: var(--app-surface-2); }
+.app-surface-3 { background-color: var(--app-surface-3); }
+.app-surface-4 { background-color: var(--app-surface-4); }
+
+/* ---- Glass Effect ---- */
+.app-glass {
+  background-color: var(--app-glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+/* ---- Divider ---- */
+.app-divider {
+  height: 1px;
+  background-color: var(--app-divider);
+  border: none;
+}
+
+/* ---- Orbital Glow (decorative, logo-inspired) ---- */
+.app-orbital-glow {
+  position: relative;
+}
+
+.app-orbital-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--app-gradient-brand);
+  opacity: 0;
+  transition: opacity 0.4s var(--app-easing);
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.app-orbital-glow:hover::before {
+  opacity: 0.15;
 }
 
 @layer base {
@@ -359,9 +494,9 @@ html {
   overflow-y: scroll;
 }
 
-/* 2. Focus visible — keyboard navigation indicator */
+/* 2. Focus visible — keyboard navigation indicator (blue ring) */
 *:focus-visible {
-  outline: 2px solid var(--app-accent);
+  outline: 2px solid var(--app-structural);
   outline-offset: 2px;
   border-radius: 4px;
 }

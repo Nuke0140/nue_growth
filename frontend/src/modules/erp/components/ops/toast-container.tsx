@@ -109,7 +109,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className={cn(
         'pointer-events-auto relative overflow-hidden rounded-xl border p-4 shadow-xl',
-        'bg-[var(--ops-card-bg)]',
+        'bg-[var(--app-card-bg)]',
         config.border
       )}
     >
@@ -132,18 +132,18 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h4 className="text-[13px] font-semibold text-[var(--ops-text)] leading-snug">
+          <h4 className="text-[13px] font-semibold text-[var(--app-text)] leading-snug">
             {toast.title}
           </h4>
           {toast.message && (
-            <p className="text-xs text-[var(--ops-text-secondary)] mt-1 leading-relaxed">
+            <p className="text-xs text-[var(--app-text-secondary)] mt-1 leading-relaxed">
               {toast.message}
             </p>
           )}
           {toast.actionText && (
             <button
               onClick={handleAction}
-              className="text-[11px] font-semibold text-[var(--ops-accent)] hover:text-[var(--ops-accent-hover)] mt-2 transition-colors"
+              className="text-[11px] font-semibold text-[var(--app-accent)] hover:text-[var(--app-accent-hover)] mt-2 transition-colors"
             >
               {toast.actionText}
             </button>
@@ -153,7 +153,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
         {/* Close */}
         <button
           onClick={onDismiss}
-          className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--ops-text-disabled)] hover:text-[var(--ops-text-muted)] hover:bg-[var(--ops-hover-bg)] transition-all shrink-0"
+          className="flex items-center justify-center w-6 h-6 rounded-lg text-[var(--app-text-disabled)] hover:text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] transition-all shrink-0"
           aria-label="Dismiss"
         >
           <X className="w-3.5 h-3.5" />

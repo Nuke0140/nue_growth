@@ -168,15 +168,15 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
     <div className="flex h-full gap-0 -m-6">
       {/* Left panel: Workflow list */}
       <div
-        className="w-[260px] shrink-0 border-r border-[var(--ops-border)] flex flex-col"
-        style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+        className="w-[260px] shrink-0 border-r border-[var(--app-border)] flex flex-col"
+        style={{ backgroundColor: 'var(--app-hover-bg)' }}
       >
-        <div className="px-4 py-3 border-b border-[var(--ops-border)]">
-          <h3 className="text-sm font-semibold text-[var(--ops-text)] flex items-center gap-2">
-            <Workflow className="w-4 h-4 text-[var(--ops-accent)]" />
+        <div className="px-4 py-3 border-b border-[var(--app-border)]">
+          <h3 className="text-sm font-semibold text-[var(--app-text)] flex items-center gap-2">
+            <Workflow className="w-4 h-4 text-[var(--app-accent)]" />
             Workflows
           </h3>
-          <p className="text-[11px] text-[var(--ops-text-muted)] mt-0.5">
+          <p className="text-[11px] text-[var(--app-text-muted)] mt-0.5">
             {localWorkflows.length} automation{localWorkflows.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -189,19 +189,19 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
               className={cn(
                 'w-full text-left px-4 py-3 transition-colors group',
                 wf.id === selectedId
-                  ? 'bg-[var(--ops-accent-light)] border-l-2 border-[var(--ops-accent)]'
-                  : 'border-l-2 border-transparent hover:bg-[var(--ops-hover-bg)]'
+                  ? 'bg-[var(--app-accent-light)] border-l-2 border-[var(--app-accent)]'
+                  : 'border-l-2 border-transparent hover:bg-[var(--app-hover-bg)]'
               )}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className={cn(
                     'text-[13px] font-medium truncate',
-                    wf.id === selectedId ? 'text-[var(--ops-text)]' : 'text-[var(--ops-text-secondary)]'
+                    wf.id === selectedId ? 'text-[var(--app-text)]' : 'text-[var(--app-text-secondary)]'
                   )}>
                     {wf.name}
                   </p>
-                  <p className="text-[11px] text-[var(--ops-text-muted)] mt-0.5 truncate">
+                  <p className="text-[11px] text-[var(--app-text-muted)] mt-0.5 truncate">
                     {wf.steps.length} steps
                   </p>
                 </div>
@@ -214,7 +214,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                     'w-7 h-7 rounded-lg flex items-center justify-center transition-colors shrink-0',
                     wf.active
                       ? 'text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/10'
-                      : 'text-[var(--ops-text-muted)] hover:bg-[var(--ops-hover-bg)]'
+                      : 'text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]'
                   )}
                 >
                   {wf.active ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
@@ -230,13 +230,13 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
         {selectedWorkflow ? (
           <>
             {/* Workflow header */}
-            <div className="px-6 py-4 border-b border-[var(--ops-border)] shrink-0">
+            <div className="px-6 py-4 border-b border-[var(--app-border)] shrink-0">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-semibold text-[var(--ops-text)]">
+                  <h2 className="text-base font-semibold text-[var(--app-text)]">
                     {selectedWorkflow.name}
                   </h2>
-                  <p className="text-xs text-[var(--ops-text-muted)] mt-0.5">
+                  <p className="text-xs text-[var(--app-text-muted)] mt-0.5">
                     {selectedWorkflow.description}
                   </p>
                 </div>
@@ -246,14 +246,14 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                       'text-[11px] font-medium px-2.5 py-1 rounded-lg',
                       selectedWorkflow.active
                         ? 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400'
-                        : 'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
+                        : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
                     )}
                   >
                     {selectedWorkflow.active ? 'Active' : 'Inactive'}
                   </span>
                   <button
                     onClick={handleSave}
-                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--ops-accent)] text-white hover:bg-[var(--ops-accent)]/90 transition-colors"
+                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 transition-colors"
                   >
                     Save
                   </button>
@@ -265,9 +265,9 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
             <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar p-6">
               {selectedWorkflow.steps.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-3">
-                  <Workflow className="w-10 h-10 text-[var(--ops-text-muted)]" />
-                  <p className="text-sm text-[var(--ops-text-muted)]">No steps yet</p>
-                  <p className="text-xs text-[var(--ops-text-muted)]">Click + to add your first step</p>
+                  <Workflow className="w-10 h-10 text-[var(--app-text-muted)]" />
+                  <p className="text-sm text-[var(--app-text-muted)]">No steps yet</p>
+                  <p className="text-xs text-[var(--app-text-muted)]">Click + to add your first step</p>
                 </div>
               ) : (
                 <div className="flex items-center gap-0 min-h-[200px]">
@@ -296,14 +296,14 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                           >
                             <div className="flex items-center gap-2 mb-1.5">
                               <Icon className={cn('w-4 h-4', colors.iconColor)} />
-                              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--ops-text-muted)]">
+                              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--app-text-muted)]">
                                 {step.category}
                               </span>
                             </div>
-                            <p className="text-xs font-medium text-[var(--ops-text)] leading-snug">
+                            <p className="text-xs font-medium text-[var(--app-text)] leading-snug">
                               {step.label}
                             </p>
-                            <p className="text-[10px] text-[var(--ops-text-muted)] mt-1">
+                            <p className="text-[10px] text-[var(--app-text-muted)] mt-1">
                               {getLabelForType(step.type)}
                             </p>
 
@@ -316,7 +316,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                   exit={{ height: 0, opacity: 0 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="mt-2 pt-2 border-t border-[var(--ops-border-strong)]">
+                                  <div className="mt-2 pt-2 border-t border-[var(--app-border-strong)]">
                                     <input
                                       type="text"
                                       value={step.label}
@@ -333,7 +333,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                           })
                                         );
                                       }}
-                                      className="ops-input text-xs w-full px-2 py-1.5 bg-[var(--ops-hover-bg)] border-[var(--ops-border-strong)] text-[var(--ops-text)]"
+                                      className="ops-input text-xs w-full px-2 py-1.5 bg-[var(--app-hover-bg)] border-[var(--app-border-strong)] text-[var(--app-text)]"
                                       placeholder="Step label"
                                     />
                                   </div>
@@ -357,14 +357,14 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                         {/* Add step button + connector arrow */}
                         {idx < selectedWorkflow.steps.length - 1 && (
                           <div className="flex items-center mx-1 relative">
-                            <div className="w-8 h-[2px] bg-[var(--ops-border)]" />
+                            <div className="w-8 h-[2px] bg-[var(--app-border)]" />
                             <motion.div
                               className="absolute"
                               initial={{ x: -4 }}
                               animate={{ x: [0, 6, 0] }}
                               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
                             >
-                              <ChevronRight className="w-3 h-3 text-[var(--ops-text-muted)]" />
+                              <ChevronRight className="w-3 h-3 text-[var(--app-text-muted)]" />
                             </motion.div>
                           </div>
                         )}
@@ -383,8 +383,8 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                             className={cn(
                               'w-7 h-7 rounded-full flex items-center justify-center transition-all shrink-0',
                               showAddMenu?.stepId === step.id
-                                ? 'bg-[var(--ops-accent)] text-white'
-                                : 'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)] hover:bg-[var(--ops-hover-bg)] hover:text-[var(--ops-text-secondary)]'
+                                ? 'bg-[var(--app-accent)] text-white'
+                                : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)] hover:text-[var(--app-text-secondary)]'
                             )}
                           >
                             <Plus className="w-3.5 h-3.5" />
@@ -398,9 +398,9 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -5, scale: 0.95 }}
                                 transition={{ duration: 0.15 }}
-                                className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[200px] bg-[var(--ops-card-bg)] border border-[var(--ops-border-strong)] rounded-xl shadow-xl z-20 py-1.5"
+                                className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[200px] bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-xl shadow-xl z-20 py-1.5"
                               >
-                                <p className="text-[10px] font-semibold text-[var(--ops-text-muted)] uppercase tracking-wider px-3 pb-1.5">
+                                <p className="text-[10px] font-semibold text-[var(--app-text-muted)] uppercase tracking-wider px-3 pb-1.5">
                                   Triggers
                                 </p>
                                 {triggerTypes.map((t) => {
@@ -409,15 +409,15 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                     <button
                                       key={t.type}
                                       onClick={() => addStep(showAddMenu.index, t.type)}
-                                      className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] transition-colors"
+                                      className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
                                     >
                                       <TIcon className="w-3.5 h-3.5 text-purple-400" />
                                       {t.label}
                                     </button>
                                   );
                                 })}
-                                <div className="h-px bg-[var(--ops-border)] my-1.5" />
-                                <p className="text-[10px] font-semibold text-[var(--ops-text-muted)] uppercase tracking-wider px-3 pb-1.5">
+                                <div className="h-px bg-[var(--app-border)] my-1.5" />
+                                <p className="text-[10px] font-semibold text-[var(--app-text-muted)] uppercase tracking-wider px-3 pb-1.5">
                                   Actions
                                 </p>
                                 {actionTypes.map((a) => {
@@ -426,7 +426,7 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
                                     <button
                                       key={a.type}
                                       onClick={() => addStep(showAddMenu.index, a.type)}
-                                      className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] transition-colors"
+                                      className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[12px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
                                     >
                                       <AIcon className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                                       {a.label}
@@ -449,15 +449,15 @@ export function AutomationBuilder({ workflows, onSave }: AutomationBuilderProps)
           <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+              style={{ backgroundColor: 'var(--app-hover-bg)' }}
             >
-              <Workflow className="w-8 h-8 text-[var(--ops-text-muted)]" />
+              <Workflow className="w-8 h-8 text-[var(--app-text-muted)]" />
             </div>
             <div className="text-center">
-              <p className="text-sm font-medium text-[var(--ops-text-secondary)]">
+              <p className="text-sm font-medium text-[var(--app-text-secondary)]">
                 No workflows yet
               </p>
-              <p className="text-xs text-[var(--ops-text-muted)] mt-1 max-w-[280px]">
+              <p className="text-xs text-[var(--app-text-muted)] mt-1 max-w-[280px]">
                 Create your first automation to streamline repetitive tasks and processes.
               </p>
             </div>

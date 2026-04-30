@@ -65,8 +65,8 @@ function ErrorIllustration() {
   return (
     <svg width="120" height="100" viewBox="0 0 120 100" fill="none">
       <motion.path d="M60 18 L98 82 H22 Z" stroke={CSS.borderStrong} strokeWidth="2" fill={CSS.hoverBg} strokeLinejoin="round" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} />
-      <motion.line x1="60" y1="40" x2="60" y2="60" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" opacity="0.5" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.5 }} />
-      <motion.circle cx="60" cy="70" r="2" fill="#ef4444" opacity="0.5" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }} />
+      <motion.line x1="60" y1="40" x2="60" y2="60" stroke={CSS.danger} strokeWidth="3" strokeLinecap="round" opacity="0.5" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.5 }} />
+      <motion.circle cx="60" cy="70" r="2" fill={CSS.danger} opacity="0.5" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }} />
       <motion.g opacity="0.15" animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} style={{ transformOrigin: '25px 85px' }}>
         <circle cx="25" cy="85" r="8" stroke={CSS.text} strokeWidth="1.5" fill="none" />
         <circle cx="25" cy="85" r="3" stroke={CSS.text} strokeWidth="1.5" fill="none" />
@@ -136,15 +136,15 @@ function GettingStartedChecklist() {
             onClick={() => toggle(idx)}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors w-full"
             style={{
-              backgroundColor: isChecked ? 'rgba(34,197,94,0.06)' : CSS.hoverBg,
-              border: `1px solid ${isChecked ? 'rgba(34,197,94,0.15)' : CSS.border}`,
+              backgroundColor: isChecked ? CSS.successBg : CSS.hoverBg,
+              border: `1px solid ${isChecked ? CSS.successBg : CSS.border}`,
             }}
             whileHover={{ x: 2 }}
           >
             <motion.div
               className="flex items-center justify-center w-5 h-5 rounded-md shrink-0"
               style={{
-                backgroundColor: isChecked ? '#22c55e' : CSS.hoverBg,
+                backgroundColor: isChecked ? CSS.success : CSS.hoverBg,
                 border: isChecked ? undefined : `1.5px solid ${CSS.borderStrong}`,
               }}
               animate={isChecked ? { scale: [1, 1.2, 1] } : {}}

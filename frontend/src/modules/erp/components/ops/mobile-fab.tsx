@@ -86,7 +86,7 @@ export function MobileFab() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-[var(--ops-overlay)] backdrop-blur-sm"
+            className="fixed inset-0 bg-[var(--app-overlay)] backdrop-blur-sm"
             onClick={() => setExpanded(false)}
           />
         )}
@@ -118,7 +118,7 @@ export function MobileFab() {
                   }}
                   className="flex items-center gap-2"
                 >
-                  <span className="text-xs font-medium text-[var(--ops-text)] bg-[var(--ops-card-bg)] border border-[var(--ops-border)] px-2.5 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                  <span className="text-xs font-medium text-[var(--app-text)] bg-[var(--app-card-bg)] border border-[var(--app-border)] px-2.5 py-1 rounded-lg shadow-lg whitespace-nowrap">
                     {action.label}
                   </span>
                   <button
@@ -144,9 +144,9 @@ export function MobileFab() {
         onClick={toggleExpanded}
         className={cn(
           'w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-colors relative',
-          expanded ? 'bg-[var(--ops-card-bg)]' : 'bg-[var(--ops-accent)]'
+          expanded ? 'bg-[var(--app-card-bg)]' : 'bg-[var(--app-accent)]'
         )}
-        style={{ border: expanded ? '2px solid var(--ops-border-strong)' : 'none' }}
+        style={{ border: expanded ? '2px solid var(--app-border-strong)' : 'none' }}
       >
         {/* Pending approvals badge */}
         {!expanded && pendingApprovals > 0 && (
@@ -159,7 +159,7 @@ export function MobileFab() {
           transition={{ type: 'spring', damping: 20, stiffness: 300 }}
         >
           <Plus
-            className={cn('w-6 h-6', expanded ? 'text-[var(--ops-text)]' : 'text-white')}
+            className={cn('w-6 h-6', expanded ? 'text-[var(--app-text)]' : 'text-white')}
           />
         </motion.div>
       </motion.button>

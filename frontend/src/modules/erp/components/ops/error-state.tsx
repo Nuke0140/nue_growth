@@ -35,8 +35,8 @@ export function ErrorState({
       <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-3">
         <AlertCircle className="w-6 h-6 text-red-500 dark:text-red-400" />
       </div>
-      <h3 className="text-sm font-semibold text-[var(--ops-text)] mb-1">{title}</h3>
-      <p className="text-xs text-[var(--ops-text-muted)] text-center mb-4 max-w-xs">{message}</p>
+      <h3 className="text-sm font-semibold text-[var(--app-text)] mb-1">{title}</h3>
+      <p className="text-xs text-[var(--app-text-muted)] text-center mb-4 max-w-xs">{message}</p>
       {onRetry && (
         <button onClick={handleRetry} disabled={retrying} className="ops-btn-ghost flex items-center gap-2 text-xs">
           <RefreshCw className={`w-3.5 h-3.5 ${retrying ? 'animate-spin' : ''}`} />

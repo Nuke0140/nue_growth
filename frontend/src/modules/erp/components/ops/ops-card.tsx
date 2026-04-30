@@ -55,9 +55,9 @@ export function OpsCard({
             {Icon && (
               <div
                 className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
-                style={{ backgroundColor: 'var(--ops-accent-light)' }}
+                style={{ backgroundColor: 'var(--app-accent-light)' }}
               >
-                <Icon className="w-5 h-5" style={{ color: 'var(--ops-accent)' }} />
+                <Icon className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
               </div>
             )}
             {(title || subtitle) && (
@@ -65,7 +65,7 @@ export function OpsCard({
                 {title && (
                   <h3
                     className="text-sm font-semibold truncate"
-                    style={{ color: 'var(--ops-text)' }}
+                    style={{ color: 'var(--app-text)' }}
                   >
                     {title}
                   </h3>
@@ -73,7 +73,7 @@ export function OpsCard({
                 {subtitle && (
                   <p
                     className="text-xs mt-0.5 truncate"
-                    style={{ color: 'var(--ops-text-muted)' }}
+                    style={{ color: 'var(--app-text-muted)' }}
                   >
                     {subtitle}
                   </p>
@@ -87,8 +87,8 @@ export function OpsCard({
                 variant="secondary"
                 className="ops-badge shrink-0"
                 style={{
-                  backgroundColor: 'var(--ops-card-bg-light)',
-                  color: 'var(--ops-text-secondary)',
+                  backgroundColor: 'var(--app-card-bg-hover)',
+                  color: 'var(--app-text-secondary)',
                 }}
               >
                 {badge}

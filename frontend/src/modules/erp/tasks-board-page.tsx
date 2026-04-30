@@ -195,7 +195,7 @@ function getAllLabels(taskIds: string[]): string[] {
 function mapToKanbanTask(task: typeof mockTasks[0]): KanbanTask {
   const taskLabels = MOCK_LABELS[task.id] || [];
   const labels: KanbanLabel[] = taskLabels.map((name) => {
-    const config = LABEL_CONFIG[name] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
+    const config = LABEL_CONFIG[name] || { bg: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' };
     return { name, ...config };
   });
 
@@ -239,17 +239,17 @@ function StatCard({
   return (
     <div className="ops-card rounded-2xl p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium" style={{ color: 'var(--ops-text-muted)' }}>
+        <span className="text-xs font-medium" style={{ color: 'var(--app-text-muted)' }}>
           {label}
         </span>
         <div
           className="w-7 h-7 rounded-lg flex items-center justify-center"
-          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+          style={{ backgroundColor: 'var(--app-hover-bg)' }}
         >
-          <Icon className="w-3.5 h-3.5" style={{ color: accent || 'var(--ops-text-muted)' }} />
+          <Icon className="w-3.5 h-3.5" style={{ color: accent || 'var(--app-text-muted)' }} />
         </div>
       </div>
-      <p className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>
+      <p className="text-xl font-bold" style={{ color: 'var(--app-text)' }}>
         {value}
       </p>
     </div>
@@ -276,18 +276,18 @@ function LabelFilterBar({
         )}
         style={{
           backgroundColor: activeLabel === null
-            ? 'var(--ops-accent)'
+            ? 'var(--app-accent)'
             : 'transparent',
           color: activeLabel === null
             ? '#ffffff'
-            : 'var(--ops-text-secondary)',
+            : 'var(--app-text-secondary)',
         }}
         whileTap={{ scale: 0.97 }}
       >
         All Labels
       </motion.button>
       {labels.map((label) => {
-        const config = LABEL_CONFIG[label] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
+        const config = LABEL_CONFIG[label] || { bg: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' };
         const isActive = activeLabel === label;
         return (
           <motion.button
@@ -341,7 +341,7 @@ function TaskDetailDrawer({
   const projectName = getProjectShortName(task.projectId);
   const attachmentCount = MOCK_ATTACHMENTS[task.id] || 0;
   const taskLabels = (MOCK_LABELS[task.id] || []).map((name) => {
-    const config = LABEL_CONFIG[name] || { bg: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' };
+    const config = LABEL_CONFIG[name] || { bg: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' };
     return { name, ...config };
   });
 
@@ -350,15 +350,15 @@ function TaskDetailDrawer({
       <DrawerContent
         className="max-h-[85vh]"
         style={{
-          backgroundColor: 'var(--ops-card-bg)',
-          borderColor: 'var(--ops-border)',
+          backgroundColor: 'var(--app-card-bg)',
+          borderColor: 'var(--app-border)',
         }}
       >
-        <DrawerHeader className="border-b" style={{ borderColor: 'var(--ops-border)' }}>
+        <DrawerHeader className="border-b" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex items-center justify-between">
             <DrawerTitle
               className="text-base font-semibold"
-              style={{ color: 'var(--ops-text)' }}
+              style={{ color: 'var(--app-text)' }}
             >
               Task Details
             </DrawerTitle>
@@ -367,13 +367,13 @@ function TaskDetailDrawer({
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 rounded-lg"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               >
                 <X className="w-4 h-4" />
               </Button>
             </DrawerClose>
           </div>
-          <DrawerDescription style={{ color: 'var(--ops-text-muted)' }}>
+          <DrawerDescription style={{ color: 'var(--app-text-muted)' }}>
             {task.title}
           </DrawerDescription>
         </DrawerHeader>
@@ -384,15 +384,15 @@ function TaskDetailDrawer({
             <div
               className="ops-card rounded-xl p-3 space-y-1"
             >
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Project
               </span>
-              <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+              <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
                 {projectName}
               </p>
             </div>
             <div className="ops-card rounded-xl p-3 space-y-1">
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Assignee
               </span>
               <div className="flex items-center gap-2">
@@ -407,24 +407,24 @@ function TaskDetailDrawer({
                     {getInitials(task.assignee)}
                   </AvatarFallback>
                 </Avatar>
-                <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+                <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
                   {task.assignee}
                 </p>
               </div>
             </div>
             <div className="ops-card rounded-xl p-3 space-y-1">
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Due Date
               </span>
-              <p className="text-sm font-medium" style={{ color: 'var(--ops-text)' }}>
+              <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
                 {formatDueDate(task.dueDate)}
               </p>
             </div>
             <div className="ops-card rounded-xl p-3 space-y-1">
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Story Points
               </span>
-              <p className="text-sm font-semibold" style={{ color: 'var(--ops-accent)' }}>
+              <p className="text-sm font-semibold" style={{ color: 'var(--app-accent)' }}>
                 {task.storyPoints} SP
               </p>
             </div>
@@ -433,7 +433,7 @@ function TaskDetailDrawer({
           {/* Labels */}
           {taskLabels.length > 0 && (
             <div className="space-y-2">
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Labels
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -471,10 +471,10 @@ function TaskDetailDrawer({
           {/* Description */}
           {task.description && (
             <div className="space-y-2">
-              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                 Description
               </span>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--ops-text-secondary)' }}>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--app-text-secondary)' }}>
                 {task.description}
               </p>
             </div>
@@ -485,12 +485,12 @@ function TaskDetailDrawer({
             <div
               className="flex items-center gap-3 p-3 rounded-xl"
               style={{
-                backgroundColor: 'var(--ops-hover-bg)',
-                border: '1px solid var(--ops-border)',
+                backgroundColor: 'var(--app-hover-bg)',
+                border: '1px solid var(--app-border)',
               }}
             >
-              <Paperclip className="w-4 h-4" style={{ color: 'var(--ops-text-muted)' }} />
-              <span className="text-sm" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Paperclip className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
+              <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
                 {attachmentCount} attachment{attachmentCount > 1 ? 's' : ''}
               </span>
             </div>
@@ -500,13 +500,13 @@ function TaskDetailDrawer({
           {subtasks.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--ops-text-muted)' }}>
+                <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'var(--app-text-muted)' }}>
                   Subtasks
                 </span>
                 <span
                   className="text-xs font-semibold"
                   style={{
-                    color: completedCount === subtasks.length ? '#34d399' : 'var(--ops-text-secondary)',
+                    color: completedCount === subtasks.length ? '#34d399' : 'var(--app-text-secondary)',
                   }}
                 >
                   {completedCount}/{subtasks.length}
@@ -516,12 +516,12 @@ function TaskDetailDrawer({
               {/* Subtask progress bar */}
               <div
                 className="h-2 rounded-full overflow-hidden"
-                style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+                style={{ backgroundColor: 'var(--app-hover-bg)' }}
               >
                 <motion.div
                   className="h-full rounded-full"
                   style={{
-                    backgroundColor: completedCount === subtasks.length ? '#34d399' : 'var(--ops-accent)',
+                    backgroundColor: completedCount === subtasks.length ? '#34d399' : 'var(--app-accent)',
                   }}
                   initial={{ width: 0 }}
                   animate={{
@@ -542,21 +542,21 @@ function TaskDetailDrawer({
                         'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors',
                       )}
                       style={{
-                        backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'var(--ops-hover-bg)',
+                        backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'var(--app-hover-bg)',
                       }}
                       whileTap={{ scale: 0.99 }}
                     >
                       {subtask.completed ? (
                         <CheckSquare className="w-4 h-4 shrink-0" style={{ color: '#34d399' }} />
                       ) : (
-                        <Square className="w-4 h-4 shrink-0" style={{ color: 'var(--ops-text-muted)' }} />
+                        <Square className="w-4 h-4 shrink-0" style={{ color: 'var(--app-text-muted)' }} />
                       )}
                       <span
                         className={cn(
                           'text-sm',
                         )}
                         style={{
-                          color: subtask.completed ? 'var(--ops-text-muted)' : 'var(--ops-text)',
+                          color: subtask.completed ? 'var(--app-text-muted)' : 'var(--app-text)',
                           textDecoration: subtask.completed ? 'line-through' : 'none',
                         }}
                       >
@@ -572,12 +572,12 @@ function TaskDetailDrawer({
 
         <DrawerFooter
           className="border-t pt-4"
-          style={{ borderColor: 'var(--ops-border)' }}
+          style={{ borderColor: 'var(--app-border)' }}
         >
           <Button
             className="w-full rounded-xl"
             style={{
-              backgroundColor: 'var(--ops-accent)',
+              backgroundColor: 'var(--app-accent)',
               color: '#fff',
             }}
             onClick={() => onOpenChange(false)}
@@ -623,9 +623,9 @@ function AddTaskDrawer({
   }, [handleReset, onOpenChange]);
 
   const drawerInputStyle: React.CSSProperties = {
-    backgroundColor: 'var(--ops-elevated)',
-    border: '1px solid var(--ops-border)',
-    color: 'var(--ops-text)',
+    backgroundColor: 'var(--app-elevated)',
+    border: '1px solid var(--app-border)',
+    color: 'var(--app-text)',
     borderRadius: '0.75rem',
   };
 
@@ -634,15 +634,15 @@ function AddTaskDrawer({
       <DrawerContent
         className="max-h-[85vh]"
         style={{
-          backgroundColor: 'var(--ops-card-bg)',
-          borderColor: 'var(--ops-border)',
+          backgroundColor: 'var(--app-card-bg)',
+          borderColor: 'var(--app-border)',
         }}
       >
-        <DrawerHeader className="border-b" style={{ borderColor: 'var(--ops-border)' }}>
+        <DrawerHeader className="border-b" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex items-center justify-between">
             <DrawerTitle
               className="text-base font-semibold"
-              style={{ color: 'var(--ops-text)' }}
+              style={{ color: 'var(--app-text)' }}
             >
               Add New Task
             </DrawerTitle>
@@ -651,13 +651,13 @@ function AddTaskDrawer({
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 rounded-lg"
-                style={{ color: 'var(--ops-text-muted)' }}
+                style={{ color: 'var(--app-text-muted)' }}
               >
                 <X className="w-4 h-4" />
               </Button>
             </DrawerClose>
           </div>
-          <DrawerDescription style={{ color: 'var(--ops-text-muted)' }}>
+          <DrawerDescription style={{ color: 'var(--app-text-muted)' }}>
             Create a new task and assign it to a project.
           </DrawerDescription>
         </DrawerHeader>
@@ -665,7 +665,7 @@ function AddTaskDrawer({
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {/* Title */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+            <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
               Title
             </Label>
             <Input
@@ -679,7 +679,7 @@ function AddTaskDrawer({
 
           {/* Description */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+            <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
               Description
             </Label>
             <textarea
@@ -694,7 +694,7 @@ function AddTaskDrawer({
 
           {/* Project */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+            <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
               Project
             </Label>
             <Select value={projectId} onValueChange={setProjectId}>
@@ -703,14 +703,14 @@ function AddTaskDrawer({
               </SelectTrigger>
               <SelectContent
                 style={{
-                  backgroundColor: 'var(--ops-card-bg)',
-                  borderColor: 'var(--ops-border)',
+                  backgroundColor: 'var(--app-card-bg)',
+                  borderColor: 'var(--app-border)',
                 }}
               >
                 {mockProjects
                   .filter((p) => p.status === 'active' || p.status === 'inception')
                   .map((p) => (
-                    <SelectItem key={p.id} value={p.id} style={{ color: 'var(--ops-text)' }}>
+                    <SelectItem key={p.id} value={p.id} style={{ color: 'var(--app-text)' }}>
                       {p.name.split(' ').slice(0, 2).join(' ')}
                     </SelectItem>
                   ))}
@@ -720,7 +720,7 @@ function AddTaskDrawer({
 
           {/* Assignee */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+            <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
               Assignee
             </Label>
             <Select value={assignee} onValueChange={setAssignee}>
@@ -729,8 +729,8 @@ function AddTaskDrawer({
               </SelectTrigger>
               <SelectContent
                 style={{
-                  backgroundColor: 'var(--ops-card-bg)',
-                  borderColor: 'var(--ops-border)',
+                  backgroundColor: 'var(--app-card-bg)',
+                  borderColor: 'var(--app-border)',
                 }}
               >
                 {mockResources.map((r) => (
@@ -740,8 +740,8 @@ function AddTaskDrawer({
                         <AvatarFallback
                           className="text-[8px] font-semibold"
                           style={{
-                            backgroundColor: 'var(--ops-accent-light-hover)',
-                            color: 'var(--ops-accent)',
+                            backgroundColor: 'var(--app-accent-light)',
+                            color: 'var(--app-accent)',
                           }}
                         >
                           {getInitials(r.name)}
@@ -758,7 +758,7 @@ function AddTaskDrawer({
           {/* Stage + Priority row */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Stage
               </Label>
               <Select value={stage} onValueChange={setStage}>
@@ -767,8 +767,8 @@ function AddTaskDrawer({
                 </SelectTrigger>
                 <SelectContent
                   style={{
-                    backgroundColor: 'var(--ops-card-bg)',
-                    borderColor: 'var(--ops-border)',
+                    backgroundColor: 'var(--app-card-bg)',
+                    borderColor: 'var(--app-border)',
                   }}
                 >
                   {COLUMN_DEFS.map((col) => (
@@ -780,7 +780,7 @@ function AddTaskDrawer({
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
                 Priority
               </Label>
               <Select value={priority} onValueChange={setPriority}>
@@ -789,8 +789,8 @@ function AddTaskDrawer({
                 </SelectTrigger>
                 <SelectContent
                   style={{
-                    backgroundColor: 'var(--ops-card-bg)',
-                    borderColor: 'var(--ops-border)',
+                    backgroundColor: 'var(--app-card-bg)',
+                    borderColor: 'var(--app-border)',
                   }}
                 >
                   <SelectItem value="low">Low</SelectItem>
@@ -804,7 +804,7 @@ function AddTaskDrawer({
 
           {/* Due Date */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium" style={{ color: 'var(--ops-text-secondary)' }}>
+            <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
               Due Date
             </Label>
             <Input
@@ -817,14 +817,14 @@ function AddTaskDrawer({
           </div>
         </div>
 
-        <DrawerFooter className="border-t pt-4" style={{ borderColor: 'var(--ops-border)' }}>
+        <DrawerFooter className="border-t pt-4" style={{ borderColor: 'var(--app-border)' }}>
           <div className="flex gap-2 w-full">
             <Button
               variant="ghost"
               className="flex-1 rounded-xl"
               style={{
-                color: 'var(--ops-text-secondary)',
-                backgroundColor: 'var(--ops-hover-bg)',
+                color: 'var(--app-text-secondary)',
+                backgroundColor: 'var(--app-hover-bg)',
               }}
               onClick={() => onOpenChange(false)}
             >
@@ -833,7 +833,7 @@ function AddTaskDrawer({
             <Button
               className="flex-1 rounded-xl"
               style={{
-                backgroundColor: 'var(--ops-accent)',
+                backgroundColor: 'var(--app-accent)',
                 color: '#fff',
               }}
               onClick={handleSubmit}
@@ -965,15 +965,15 @@ function TasksBoardPageInner() {
         <Button
           className="h-9 px-3 rounded-xl gap-1.5 text-xs font-medium"
           style={{
-            backgroundColor: 'var(--ops-accent)',
+            backgroundColor: 'var(--app-accent)',
             color: '#fff',
           }}
           onClick={() => setDrawerOpen(true)}
           onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = 'var(--ops-accent-hover)')
+            (e.currentTarget.style.backgroundColor = 'var(--app-accent-hover)')
           }
           onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor = 'var(--ops-accent)')
+            (e.currentTarget.style.backgroundColor = 'var(--app-accent)')
           }
         >
           <Plus className="w-4 h-4" />
@@ -985,7 +985,7 @@ function TasksBoardPageInner() {
 
         {/* ── Project Filter ── */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium shrink-0" style={{ color: 'var(--ops-text-muted)' }}>
+          <span className="text-xs font-medium shrink-0" style={{ color: 'var(--app-text-muted)' }}>
             Filter by project:
           </span>
           <Select value={projectFilter} onValueChange={setProjectFilter}>
@@ -993,9 +993,9 @@ function TasksBoardPageInner() {
               className="w-auto min-w-[180px]"
               size="sm"
               style={{
-                backgroundColor: 'var(--ops-elevated)',
-                border: '1px solid var(--ops-border)',
-                color: 'var(--ops-text)',
+                backgroundColor: 'var(--app-elevated)',
+                border: '1px solid var(--app-border)',
+                color: 'var(--app-text)',
                 borderRadius: '0.75rem',
               }}
             >
@@ -1003,8 +1003,8 @@ function TasksBoardPageInner() {
             </SelectTrigger>
             <SelectContent
               style={{
-                backgroundColor: 'var(--ops-card-bg)',
-                borderColor: 'var(--ops-border)',
+                backgroundColor: 'var(--app-card-bg)',
+                borderColor: 'var(--app-border)',
               }}
             >
               <SelectItem value="all">All Projects</SelectItem>
@@ -1021,7 +1021,7 @@ function TasksBoardPageInner() {
         <div className="space-y-1.5">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: 'var(--app-text-muted)' }}
           >
             Filter by label
           </span>

@@ -1,37 +1,87 @@
 /* ============================================
-   NueEra Growth OS — Canonical Design Tokens
+   NueEra Growth OS — Premium Global Theme
    ============================================
    SINGLE SOURCE OF TRUTH for all design tokens.
    Uses ONLY the --app-* namespace.
-   Dark mode handled exclusively via .dark class.
+
+   Brand DNA: Deep Navy base + Electric Blue (structure) + Warm Orange (energy)
+   Visual language: Orbit, Glow, Connection, Power, Intelligent Growth
+
+   Dark mode: Deep navy futuristic identity (PRIMARY)
+   Light mode: Clean slate-blue professional identity
    ============================================ */
 
+/* ============================================
+   LIGHT MODE — :root defaults
+   Clean, professional slate-blue light theme
+   ============================================ */
 :root {
+  /* ---- Surface Hierarchy (5 levels) ---- */
+  --app-surface-0: #f0f4f8;
+  --app-surface-1: #f8fafc;
+  --app-surface-2: #ffffff;
+  --app-surface-3: #ffffff;
+  --app-surface-4: #ffffff;
+
   /* ---- Core surfaces ---- */
-  --app-bg: #fafafa;
-  --app-accent: #cc5c37;
-  --app-accent-hover: #b8512f;
-  --app-accent-light: rgba(204, 92, 55, 0.08);
-  --app-accent-gradient-to: #e8825e;
-  --app-card-bg: #ffffff;
-  --app-card-bg-hover: #f5f5f5;
-  --app-elevated: #f5f5f5;
-  --app-input-bg: #f5f5f5;
+  --app-bg: var(--app-surface-0);
+  --app-card-bg: var(--app-surface-2);
+  --app-card-bg-hover: #f1f5f9;
+  --app-elevated: #f1f5f9;
+  --app-input-bg: #f1f5f9;
+  --app-sidebar-bg: var(--app-surface-2);
+  --app-topbar-bg: rgba(255, 255, 255, 0.85);
+  --app-glass-bg: rgba(255, 255, 255, 0.82);
+
+  /* ---- Dual Accent System ---- */
+  /* Electric Blue — structural accent (navigation, active, controls) */
+  --app-blue: #2563eb;
+  --app-blue-hover: #1d4ed8;
+  --app-blue-light: rgba(37, 99, 235, 0.08);
+  --app-blue-glow: rgba(37, 99, 235, 0.15);
+
+  /* Warm Orange — energy accent (AI, growth, primary CTAs, insights) */
+  --app-orange: #f97316;
+  --app-orange-hover: #ea580c;
+  --app-orange-light: rgba(249, 115, 22, 0.08);
+  --app-orange-glow: rgba(249, 115, 22, 0.15);
+
+  /* Primary accent = Orange (main CTA, brand energy) */
+  --app-accent: var(--app-orange);
+  --app-accent-hover: var(--app-orange-hover);
+  --app-accent-light: var(--app-orange-light);
+  --app-accent-glow: var(--app-orange-glow);
+  --app-accent-gradient-to: #fb923c;
+
+  /* Structural accent = Blue (navigation, active states, controls) */
+  --app-structural: var(--app-blue);
+  --app-structural-hover: var(--app-blue-hover);
+  --app-structural-light: var(--app-blue-light);
+  --app-structural-glow: var(--app-blue-glow);
+
+  /* ---- Brand Gradient ---- */
+  --app-gradient-brand: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+  --app-gradient-brand-subtle: linear-gradient(135deg, rgba(37, 99, 235, 0.06) 0%, rgba(249, 115, 22, 0.06) 100%);
+  --app-gradient-brand-strong: linear-gradient(135deg, #1d4ed8 0%, #ea580c 100%);
+  --app-gradient-radial-glow: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  --app-gradient-surface: linear-gradient(180deg, var(--app-surface-2) 0%, var(--app-surface-1) 100%);
 
   /* ---- Text ---- */
-  --app-text: #0a0a0a;
-  --app-text-secondary: rgba(0, 0, 0, 0.6);
-  --app-text-muted: rgba(0, 0, 0, 0.35);
-  --app-text-disabled: rgba(0, 0, 0, 0.2);
+  --app-text: #0f172a;
+  --app-text-secondary: rgba(15, 23, 42, 0.65);
+  --app-text-muted: rgba(15, 23, 42, 0.4);
+  --app-text-disabled: rgba(15, 23, 42, 0.22);
 
   /* ---- Borders ---- */
-  --app-border: rgba(0, 0, 0, 0.08);
-  --app-border-light: rgba(0, 0, 0, 0.05);
-  --app-border-strong: rgba(0, 0, 0, 0.12);
+  --app-border: rgba(148, 163, 184, 0.2);
+  --app-border-light: rgba(148, 163, 184, 0.12);
+  --app-border-strong: rgba(148, 163, 184, 0.3);
+  --app-border-accent: rgba(37, 99, 235, 0.2);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(0, 0, 0, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.06);
+  --app-hover-bg: rgba(15, 23, 42, 0.04);
+  --app-active-bg: rgba(37, 99, 235, 0.06);
+  --app-pressed-bg: rgba(15, 23, 42, 0.08);
 
   /* ---- Semantic ---- */
   --app-success: #059669;
@@ -39,29 +89,36 @@
   --app-danger: #dc2626;
   --app-info: #2563eb;
 
-  /* ---- Semantic light backgrounds ---- */
-  --app-success-bg: rgba(5, 150, 105, 0.10);
-  --app-warning-bg: rgba(217, 119, 6, 0.10);
-  --app-danger-bg: rgba(220, 38, 38, 0.10);
-  --app-info-bg: rgba(37, 99, 235, 0.10);
+  /* ---- Semantic backgrounds ---- */
+  --app-success-bg: rgba(5, 150, 105, 0.08);
+  --app-warning-bg: rgba(217, 119, 6, 0.08);
+  --app-danger-bg: rgba(220, 38, 38, 0.08);
+  --app-info-bg: rgba(37, 99, 235, 0.08);
 
   /* ---- Shadows ---- */
-  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --app-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --app-shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --app-shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.2);
-  --app-shadow-accent: 0 2px 8px rgba(204, 92, 55, 0.2);
+  --app-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --app-shadow-md: 0 4px 8px rgba(15, 23, 42, 0.06);
+  --app-shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.03);
+  --app-shadow-card-hover: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --app-shadow-dropdown: 0 8px 30px rgba(15, 23, 42, 0.12);
+  --app-shadow-modal: 0 24px 64px rgba(15, 23, 42, 0.16);
+  --app-shadow-accent: 0 2px 12px rgba(249, 115, 22, 0.15);
+  --app-shadow-blue: 0 2px 12px rgba(37, 99, 235, 0.12);
+  --app-shadow-glow-blue: 0 0 20px rgba(37, 99, 235, 0.12);
+  --app-shadow-glow-orange: 0 0 20px rgba(249, 115, 22, 0.12);
 
   /* ---- Border Radius ---- */
+  --app-radius-xs: 4px;
   --app-radius-sm: 6px;
   --app-radius-md: 10px;
   --app-radius-lg: 14px;
   --app-radius-xl: 20px;
+  --app-radius-2xl: 28px;
   --app-radius-full: 9999px;
 
-  /* ---- Spacing Scale (px) ---- */
+  /* ---- Spacing Scale (8px grid) ---- */
+  --app-space-0: 0px;
+  --app-space-0-5: 2px;
   --app-space-xs: 4px;
   --app-space-sm: 8px;
   --app-space-md: 12px;
@@ -70,94 +127,187 @@
   --app-space-2xl: 24px;
   --app-space-3xl: 32px;
   --app-space-4xl: 40px;
+  --app-space-5xl: 48px;
+  --app-space-6xl: 64px;
+
+  /* ---- Typography ---- */
+  --app-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --app-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --app-text-display: 2.25rem;
+  --app-text-h1: 1.875rem;
+  --app-text-h2: 1.5rem;
+  --app-text-h3: 1.25rem;
+  --app-text-h4: 1.125rem;
+  --app-text-body: 0.875rem;
+  --app-text-sm: 0.8125rem;
+  --app-text-xs: 0.75rem;
+  --app-text-caption: 0.6875rem;
+  --app-leading-tight: 1.25;
+  --app-leading-normal: 1.5;
+  --app-leading-relaxed: 1.75;
+
+  /* ---- Motion ---- */
+  --app-duration-instant: 75ms;
+  --app-duration-fast: 150ms;
+  --app-duration-normal: 200ms;
+  --app-duration-slow: 300ms;
+  --app-duration-page: 350ms;
+  --app-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --app-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(0, 0, 0, 0.15);
-  --app-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
+  --app-scrollbar-thumb: rgba(15, 23, 42, 0.12);
+  --app-scrollbar-thumb-hover: rgba(15, 23, 42, 0.2);
+  --app-scrollbar-track: transparent;
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(0, 0, 0, 0.4);
+  --app-overlay: rgba(15, 23, 42, 0.4);
+  --app-overlay-heavy: rgba(15, 23, 42, 0.6);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(0, 0, 0, 0.04);
-  --app-skeleton-to: rgba(0, 0, 0, 0.08);
+  --app-skeleton-from: rgba(15, 23, 42, 0.04);
+  --app-skeleton-to: rgba(15, 23, 42, 0.08);
 
   /* ---- Layout ---- */
-  --app-sidebar-bg: #ffffff;
-  --app-topbar-bg: #ffffff;
-  --app-topbar-border: rgba(0, 0, 0, 0.08);
-  --app-sidebar-width: 256px;
-  --app-sidebar-collapsed-width: 64px;
+  --app-topbar-border: rgba(148, 163, 184, 0.15);
+  --app-sidebar-width: 260px;
+  --app-sidebar-collapsed-width: 68px;
   --app-topbar-height: 56px;
 
   /* ---- Selection ---- */
-  --app-selection-bg: rgba(204, 92, 55, 0.2);
+  --app-selection-bg: rgba(37, 99, 235, 0.15);
 
   /* ---- Focus ---- */
-  --app-focus-ring: rgba(204, 92, 55, 0.4);
+  --app-focus-ring: rgba(37, 99, 235, 0.35);
+  --app-focus-ring-offset: 2px;
+
+  /* ---- Divider ---- */
+  --app-divider: rgba(148, 163, 184, 0.12);
+
+  /* ---- Chip / Badge ---- */
+  --app-chip-bg: rgba(15, 23, 42, 0.06);
+  --app-chip-border: rgba(148, 163, 184, 0.15);
 
   /* ---- Module accents ---- */
-  --app-module-erp: #cc5c37;
-  --app-module-erp-hover: #b8512f;
-  --app-module-erp-light: rgba(204, 92, 55, 0.08);
+  --app-module-erp: #f97316;
+  --app-module-erp-hover: #ea580c;
+  --app-module-erp-light: rgba(249, 115, 22, 0.08);
+  --app-module-erp-glow: rgba(249, 115, 22, 0.15);
+
   --app-module-crm: #6366f1;
   --app-module-crm-hover: #5558e6;
   --app-module-crm-light: rgba(99, 102, 241, 0.08);
-  --app-module-finance: #059669;
-  --app-module-finance-hover: #047857;
-  --app-module-finance-light: rgba(5, 150, 105, 0.08);
+  --app-module-crm-glow: rgba(99, 102, 241, 0.15);
+
+  --app-module-finance: #10b981;
+  --app-module-finance-hover: #059669;
+  --app-module-finance-light: rgba(16, 185, 129, 0.08);
+  --app-module-finance-glow: rgba(16, 185, 129, 0.15);
+
   --app-module-marketing: #d946ef;
   --app-module-marketing-hover: #c026d3;
   --app-module-marketing-light: rgba(217, 70, 239, 0.08);
+  --app-module-marketing-glow: rgba(217, 70, 239, 0.15);
+
   --app-module-analytics: #0ea5e9;
   --app-module-analytics-hover: #0284c7;
   --app-module-analytics-light: rgba(14, 165, 233, 0.08);
+  --app-module-analytics-glow: rgba(14, 165, 233, 0.15);
+
   --app-module-automation: #f59e0b;
   --app-module-automation-hover: #d97706;
   --app-module-automation-light: rgba(245, 158, 11, 0.08);
-  --app-module-retention: #10b981;
-  --app-module-retention-hover: #059669;
-  --app-module-retention-light: rgba(16, 185, 129, 0.08);
-  --app-module-settings: #64748b;
-  --app-module-settings-hover: #475569;
-  --app-module-settings-light: rgba(100, 116, 139, 0.08);
+  --app-module-automation-glow: rgba(245, 158, 11, 0.15);
+
+  --app-module-retention: #34d399;
+  --app-module-retention-hover: #10b981;
+  --app-module-retention-light: rgba(52, 211, 153, 0.08);
+  --app-module-retention-glow: rgba(52, 211, 153, 0.15);
+
+  --app-module-settings: #94a3b8;
+  --app-module-settings-hover: #64748b;
+  --app-module-settings-light: rgba(148, 163, 184, 0.08);
+  --app-module-settings-glow: rgba(148, 163, 184, 0.12);
 
   /* ---- Extra status colors ---- */
   --app-purple: #8b5cf6;
-  --app-purple-light: rgba(139, 92, 246, 0.10);
+  --app-purple-light: rgba(139, 92, 246, 0.08);
   --app-emerald: #10b981;
-  --app-emerald-light: rgba(16, 185, 129, 0.10);
+  --app-emerald-light: rgba(16, 185, 129, 0.08);
 }
 
 /* ============================================
-   Dark Mode — .dark class only
+   DARK MODE — Deep Navy Premium Theme
+   The PRIMARY identity: powered by the NueEra logo DNA
+   Blue orbital structure + Orange energy core
    ============================================ */
 .dark {
+  /* ---- Surface Hierarchy (5 levels, navy-based) ---- */
+  --app-surface-0: #060a14;
+  --app-surface-1: #0a1020;
+  --app-surface-2: #0f172a;
+  --app-surface-3: #162036;
+  --app-surface-4: #1e293b;
+
   /* ---- Core surfaces ---- */
-  --app-bg: #1b1c1e;
-  --app-accent: #cc5c37;
-  --app-accent-hover: #d46a44;
-  --app-accent-light: rgba(204, 92, 55, 0.10);
-  --app-accent-gradient-to: #e8825e;
-  --app-card-bg: #222325;
-  --app-card-bg-hover: #2a2b2e;
-  --app-elevated: #2a2b2e;
-  --app-input-bg: #2a2b2e;
+  --app-bg: var(--app-surface-0);
+  --app-card-bg: var(--app-surface-2);
+  --app-card-bg-hover: var(--app-surface-3);
+  --app-elevated: var(--app-surface-3);
+  --app-input-bg: var(--app-surface-1);
+  --app-sidebar-bg: var(--app-surface-1);
+  --app-topbar-bg: rgba(10, 16, 32, 0.82);
+  --app-glass-bg: rgba(10, 16, 32, 0.78);
 
-  /* ---- Text ---- */
-  --app-text: #f5f5f5;
-  --app-text-secondary: rgba(245, 245, 245, 0.6);
-  --app-text-muted: rgba(245, 245, 245, 0.35);
-  --app-text-disabled: rgba(245, 245, 245, 0.2);
+  /* ---- Dual Accent System ---- */
+  /* Electric Blue — structural accent (navigation, active, controls) */
+  --app-blue: #3b82f6;
+  --app-blue-hover: #2563eb;
+  --app-blue-light: rgba(59, 130, 246, 0.10);
+  --app-blue-glow: rgba(59, 130, 246, 0.20);
 
-  /* ---- Borders ---- */
-  --app-border: rgba(255, 255, 255, 0.06);
-  --app-border-light: rgba(255, 255, 255, 0.04);
-  --app-border-strong: rgba(255, 255, 255, 0.12);
+  /* Warm Orange — energy accent (AI, growth, primary CTAs, insights) */
+  --app-orange: #f97316;
+  --app-orange-hover: #fb923c;
+  --app-orange-light: rgba(249, 115, 22, 0.10);
+  --app-orange-glow: rgba(249, 115, 22, 0.20);
+
+  /* Primary accent = Orange (main CTA, brand energy) */
+  --app-accent: var(--app-orange);
+  --app-accent-hover: var(--app-orange-hover);
+  --app-accent-light: var(--app-orange-light);
+  --app-accent-glow: var(--app-orange-glow);
+  --app-accent-gradient-to: #fb923c;
+
+  /* Structural accent = Blue (navigation, active states, controls) */
+  --app-structural: var(--app-blue);
+  --app-structural-hover: var(--app-blue-hover);
+  --app-structural-light: var(--app-blue-light);
+  --app-structural-glow: var(--app-blue-glow);
+
+  /* ---- Brand Gradient ---- */
+  --app-gradient-brand: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+  --app-gradient-brand-subtle: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(249, 115, 22, 0.08) 100%);
+  --app-gradient-brand-strong: linear-gradient(135deg, #1d4ed8 0%, #ea580c 100%);
+  --app-gradient-radial-glow: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+  --app-gradient-surface: linear-gradient(180deg, var(--app-surface-2) 0%, var(--app-surface-1) 100%);
+
+  /* ---- Text (cool whites on navy) ---- */
+  --app-text: #f1f5f9;
+  --app-text-secondary: rgba(241, 245, 249, 0.65);
+  --app-text-muted: rgba(241, 245, 249, 0.38);
+  --app-text-disabled: rgba(241, 245, 249, 0.2);
+
+  /* ---- Borders (subtle blue-gray on navy) ---- */
+  --app-border: rgba(148, 163, 184, 0.08);
+  --app-border-light: rgba(148, 163, 184, 0.05);
+  --app-border-strong: rgba(148, 163, 184, 0.14);
+  --app-border-accent: rgba(59, 130, 246, 0.2);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(255, 255, 255, 0.04);
-  --app-active-bg: rgba(204, 92, 55, 0.08);
+  --app-hover-bg: rgba(241, 245, 249, 0.04);
+  --app-active-bg: rgba(59, 130, 246, 0.08);
+  --app-pressed-bg: rgba(241, 245, 249, 0.08);
 
   /* ---- Semantic ---- */
   --app-success: #34d399;
@@ -165,29 +315,36 @@
   --app-danger: #f87171;
   --app-info: #60a5fa;
 
-  /* ---- Semantic light backgrounds ---- */
+  /* ---- Semantic backgrounds ---- */
   --app-success-bg: rgba(52, 211, 153, 0.10);
   --app-warning-bg: rgba(251, 191, 36, 0.10);
   --app-danger-bg: rgba(248, 113, 113, 0.10);
   --app-info-bg: rgba(96, 165, 250, 0.10);
 
-  /* ---- Shadows ---- */
-  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-  --app-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --app-shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --app-shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.25);
-  --app-shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.4);
-  --app-shadow-accent: 0 2px 8px rgba(204, 92, 55, 0.25);
+  /* ---- Shadows (navy-tinted, not black) ---- */
+  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --app-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.25);
+  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
+  --app-shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --app-shadow-dropdown: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --app-shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --app-shadow-accent: 0 2px 16px rgba(249, 115, 22, 0.2);
+  --app-shadow-blue: 0 2px 16px rgba(59, 130, 246, 0.15);
+  --app-shadow-glow-blue: 0 0 24px rgba(59, 130, 246, 0.15), 0 0 48px rgba(59, 130, 246, 0.06);
+  --app-shadow-glow-orange: 0 0 24px rgba(249, 115, 22, 0.15), 0 0 48px rgba(249, 115, 22, 0.06);
 
   /* ---- Border Radius (same in dark) ---- */
+  --app-radius-xs: 4px;
   --app-radius-sm: 6px;
   --app-radius-md: 10px;
   --app-radius-lg: 14px;
   --app-radius-xl: 20px;
+  --app-radius-2xl: 28px;
   --app-radius-full: 9999px;
 
   /* ---- Spacing Scale (same in dark) ---- */
+  --app-space-0: 0px;
+  --app-space-0-5: 2px;
   --app-space-xs: 4px;
   --app-space-sm: 8px;
   --app-space-md: 12px;
@@ -196,42 +353,96 @@
   --app-space-2xl: 24px;
   --app-space-3xl: 32px;
   --app-space-4xl: 40px;
+  --app-space-5xl: 48px;
+  --app-space-6xl: 64px;
+
+  /* ---- Typography (same in dark) ---- */
+  --app-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --app-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ---- Motion (same in dark) ---- */
+  --app-duration-instant: 75ms;
+  --app-duration-fast: 150ms;
+  --app-duration-normal: 200ms;
+  --app-duration-slow: 300ms;
+  --app-duration-page: 350ms;
+  --app-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --app-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(255, 255, 255, 0.10);
-  --app-scrollbar-thumb-hover: rgba(255, 255, 255, 0.20);
+  --app-scrollbar-thumb: rgba(241, 245, 249, 0.08);
+  --app-scrollbar-thumb-hover: rgba(241, 245, 249, 0.14);
+  --app-scrollbar-track: transparent;
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(0, 0, 0, 0.6);
+  --app-overlay: rgba(0, 0, 0, 0.55);
+  --app-overlay-heavy: rgba(0, 0, 0, 0.7);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(255, 255, 255, 0.04);
-  --app-skeleton-to: rgba(255, 255, 255, 0.08);
+  --app-skeleton-from: rgba(241, 245, 249, 0.03);
+  --app-skeleton-to: rgba(241, 245, 249, 0.07);
 
   /* ---- Layout ---- */
-  --app-sidebar-bg: #1b1c1e;
-  --app-topbar-bg: #1b1c1e;
-  --app-topbar-border: rgba(255, 255, 255, 0.06);
+  --app-topbar-border: rgba(148, 163, 184, 0.06);
 
   /* ---- Selection ---- */
-  --app-selection-bg: rgba(204, 92, 55, 0.3);
+  --app-selection-bg: rgba(59, 130, 246, 0.25);
 
   /* ---- Focus ---- */
-  --app-focus-ring: rgba(204, 92, 55, 0.5);
+  --app-focus-ring: rgba(59, 130, 246, 0.4);
+  --app-focus-ring-offset: 2px;
 
-  /* ---- Module accents (light variants shift for dark mode) ---- */
-  --app-module-erp-light: rgba(204, 92, 55, 0.12);
-  --app-module-crm-light: rgba(99, 102, 241, 0.12);
-  --app-module-finance-light: rgba(5, 150, 105, 0.12);
-  --app-module-marketing-light: rgba(217, 70, 239, 0.12);
-  --app-module-analytics-light: rgba(14, 165, 233, 0.12);
-  --app-module-automation-light: rgba(245, 158, 11, 0.12);
-  --app-module-retention-light: rgba(16, 185, 129, 0.12);
-  --app-module-settings-light: rgba(100, 116, 139, 0.12);
+  /* ---- Divider ---- */
+  --app-divider: rgba(148, 163, 184, 0.06);
+
+  /* ---- Chip / Badge ---- */
+  --app-chip-bg: rgba(241, 245, 249, 0.06);
+  --app-chip-border: rgba(148, 163, 184, 0.1);
+
+  /* ---- Module accents (adjusted for navy: slightly brighter, deeper glow) ---- */
+  --app-module-erp: #fb923c;
+  --app-module-erp-hover: #f97316;
+  --app-module-erp-light: rgba(249, 115, 22, 0.10);
+  --app-module-erp-glow: rgba(249, 115, 22, 0.20);
+
+  --app-module-crm: #818cf8;
+  --app-module-crm-hover: #6366f1;
+  --app-module-crm-light: rgba(99, 102, 241, 0.10);
+  --app-module-crm-glow: rgba(99, 102, 241, 0.20);
+
+  --app-module-finance: #34d399;
+  --app-module-finance-hover: #10b981;
+  --app-module-finance-light: rgba(16, 185, 129, 0.10);
+  --app-module-finance-glow: rgba(16, 185, 129, 0.20);
+
+  --app-module-marketing: #e879f9;
+  --app-module-marketing-hover: #d946ef;
+  --app-module-marketing-light: rgba(217, 70, 239, 0.10);
+  --app-module-marketing-glow: rgba(217, 70, 239, 0.20);
+
+  --app-module-analytics: #38bdf8;
+  --app-module-analytics-hover: #0ea5e9;
+  --app-module-analytics-light: rgba(14, 165, 233, 0.10);
+  --app-module-analytics-glow: rgba(14, 165, 233, 0.20);
+
+  --app-module-automation: #fbbf24;
+  --app-module-automation-hover: #f59e0b;
+  --app-module-automation-light: rgba(245, 158, 11, 0.10);
+  --app-module-automation-glow: rgba(245, 158, 11, 0.20);
+
+  --app-module-retention: #6ee7b7;
+  --app-module-retention-hover: #34d399;
+  --app-module-retention-light: rgba(52, 211, 153, 0.10);
+  --app-module-retention-glow: rgba(52, 211, 153, 0.20);
+
+  --app-module-settings: #94a3b8;
+  --app-module-settings-hover: #cbd5e1;
+  --app-module-settings-light: rgba(148, 163, 184, 0.10);
+  --app-module-settings-glow: rgba(148, 163, 184, 0.12);
 
   /* ---- Extra status colors ---- */
   --app-purple: #a78bfa;
-  --app-purple-light: rgba(167, 139, 250, 0.12);
+  --app-purple-light: rgba(167, 139, 250, 0.10);
   --app-emerald: #34d399;
-  --app-emerald-light: rgba(52, 211, 153, 0.12);
+  --app-emerald-light: rgba(52, 211, 153, 0.10);
 }

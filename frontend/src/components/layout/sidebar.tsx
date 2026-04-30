@@ -148,7 +148,7 @@ const NavItem = React.memo(function NavItem({
         <motion.div
           layoutId={layoutId}
           className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full"
-          style={{ backgroundColor: accent.primary }}
+          style={{ backgroundColor: 'var(--app-structural)' }}
           transition={{
             type: 'spring',
             stiffness: 350,
@@ -175,7 +175,7 @@ const NavItem = React.memo(function NavItem({
         <Badge
           variant="secondary"
           className="ml-auto text-[9px] px-1.5 py-0 rounded-md border-0 font-semibold tracking-wide"
-          style={{ backgroundColor: accent.light, color: accent.primary }}
+          style={{ backgroundColor: 'var(--app-orange-light)', color: 'var(--app-orange)' }}
         >
           AI
         </Badge>
@@ -187,7 +187,7 @@ const NavItem = React.memo(function NavItem({
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="ml-auto text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-white px-1.5 leading-none"
-          style={{ backgroundColor: accent.primary }}
+          style={{ backgroundColor: 'var(--app-structural)' }}
         >
           {item.badge > 99 ? '99+' : item.badge}
         </motion.span>
@@ -326,7 +326,7 @@ const SidebarHeader = React.memo(function SidebarHeader({
       {/* Module icon in accent-colored rounded square */}
       <div
         className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-        style={{ backgroundColor: accent.primary }}
+        style={{ backgroundColor: 'var(--app-structural)' }}
       >
         <ModuleIcon className="w-4 h-4 text-white" />
       </div>
@@ -395,7 +395,7 @@ const SidebarFooter = React.memo(function SidebarFooter({
       <Avatar className="h-8 w-8 rounded-lg shrink-0">
         <AvatarFallback
           className="text-white text-xs font-semibold rounded-lg"
-          style={{ backgroundColor: accent.primary }}
+          style={{ backgroundColor: 'var(--app-structural)' }}
         >
           {initials}
         </AvatarFallback>

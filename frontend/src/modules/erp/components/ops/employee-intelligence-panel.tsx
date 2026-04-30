@@ -99,7 +99,7 @@ function generateHeatmapData(): number[][] {
 }
 
 function getHeatmapColor(value: number): string {
-  if (value === 0) return 'var(--ops-hover-bg)';
+  if (value === 0) return 'var(--app-hover-bg)';
   if (value < 20) return 'rgba(34,197,94,0.2)';
   if (value < 40) return 'rgba(34,197,94,0.4)';
   if (value < 60) return 'rgba(245,158,11,0.4)';
@@ -126,11 +126,11 @@ function WorkloadHeatmap() {
   return (
     <div className="relative">
       <div className="flex items-center gap-2 mb-3">
-        <Activity className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-        <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+        <Activity className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+        <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
           Workload Heatmap
         </span>
-        <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+        <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
           7-day view
         </span>
       </div>
@@ -143,7 +143,7 @@ function WorkloadHeatmap() {
             className="text-[8px] text-center shrink-0"
             style={{
               width: 14,
-              color: h % 3 === 0 ? 'var(--ops-text-muted)' : 'transparent',
+              color: h % 3 === 0 ? 'var(--app-text-muted)' : 'transparent',
             }}
           >
             {h % 3 === 0 ? `${h}` : ''}
@@ -161,8 +161,8 @@ function WorkloadHeatmap() {
               style={{
                 color:
                   dayIdx === todayIdx
-                    ? 'var(--ops-accent)'
-                    : 'var(--ops-text-muted)',
+                    ? 'var(--app-accent)'
+                    : 'var(--app-text-muted)',
               }}
             >
               {days[dayIdx]}
@@ -201,7 +201,7 @@ function WorkloadHeatmap() {
 
       {/* Legend */}
       <div className="flex items-center gap-2 mt-2">
-        <span className="text-[9px]" style={{ color: 'var(--ops-text-muted)' }}>
+        <span className="text-[9px]" style={{ color: 'var(--app-text-muted)' }}>
           Low
         </span>
         <div className="flex gap-[2px]">
@@ -219,7 +219,7 @@ function WorkloadHeatmap() {
             />
           ))}
         </div>
-        <span className="text-[9px]" style={{ color: 'var(--ops-text-muted)' }}>
+        <span className="text-[9px]" style={{ color: 'var(--app-text-muted)' }}>
           High
         </span>
       </div>
@@ -234,9 +234,9 @@ function WorkloadHeatmap() {
             left: tooltip.x,
             top: tooltip.y - 36,
             transform: 'translateX(-50%)',
-            backgroundColor: 'var(--ops-elevated)',
-            border: '1px solid var(--ops-border-strong)',
-            color: 'var(--ops-text)',
+            backgroundColor: 'var(--app-elevated)',
+            border: '1px solid var(--app-border-strong)',
+            color: 'var(--app-text)',
           }}
         >
           {days[tooltip.day]} {tooltip.hour}:00 — {tooltip.value}% load
@@ -262,7 +262,7 @@ function BurnoutIndicator({ risk }: { risk: string }) {
             cy="50"
             r="40"
             fill="none"
-            stroke="var(--ops-border)"
+            stroke="var(--app-border)"
             strokeWidth="8"
           />
           {/* Progress arc */}
@@ -301,7 +301,7 @@ function BurnoutIndicator({ risk }: { risk: string }) {
           </span>
         </div>
       </div>
-      <p className="text-[11px] font-medium mt-2" style={{ color: 'var(--ops-text)' }}>
+      <p className="text-[11px] font-medium mt-2" style={{ color: 'var(--app-text)' }}>
         Burnout Risk
       </p>
       <span
@@ -312,7 +312,7 @@ function BurnoutIndicator({ risk }: { risk: string }) {
       </span>
       <p
         className="text-[10px] mt-2 text-center max-w-[200px] leading-relaxed"
-        style={{ color: 'var(--ops-text-muted)' }}
+        style={{ color: 'var(--app-text-muted)' }}
       >
         {config.recommendation}
       </p>
@@ -342,8 +342,8 @@ function PerformanceTrend({ data }: { data: number[] }) {
     <div>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <TrendingUp className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-          <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+          <TrendingUp className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+          <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
             Performance Trend
           </span>
         </div>
@@ -371,7 +371,7 @@ function PerformanceTrend({ data }: { data: number[] }) {
             y1={padding + pct * (height - padding * 2)}
             x2={width}
             y2={padding + pct * (height - padding * 2)}
-            stroke="var(--ops-border)"
+            stroke="var(--app-border)"
             strokeWidth="1"
           />
         ))}
@@ -424,7 +424,7 @@ function PerformanceTrend({ data }: { data: number[] }) {
           <span
             key={m}
             className="text-[8px]"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: 'var(--app-text-muted)' }}
           >
             {m}
           </span>
@@ -437,9 +437,9 @@ function PerformanceTrend({ data }: { data: number[] }) {
 function SkillTags({ skills }: { skills: string[] }) {
   const levels = ['beginner', 'intermediate', 'expert'] as const;
   const levelColors: Record<string, { bg: string; text: string }> = {
-    beginner: { bg: 'var(--ops-hover-bg)', text: 'var(--ops-text-secondary)' },
+    beginner: { bg: 'var(--app-hover-bg)', text: 'var(--app-text-secondary)' },
     intermediate: { bg: 'rgba(59,130,246,0.1)', text: '#60a5fa' },
-    expert: { bg: 'var(--ops-accent-light)', text: 'var(--ops-accent)' },
+    expert: { bg: 'var(--app-accent-light)', text: 'var(--app-accent)' },
   };
 
   const skillData = skills.map((s) => {
@@ -450,8 +450,8 @@ function SkillTags({ skills }: { skills: string[] }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="w-4 h-4" style={{ color: 'var(--ops-text-secondary)' }} />
-        <span className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>
+        <Sparkles className="w-4 h-4" style={{ color: 'var(--app-text-secondary)' }} />
+        <span className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>
           Skills
         </span>
       </div>
@@ -467,7 +467,7 @@ function SkillTags({ skills }: { skills: string[] }) {
               style={{
                 backgroundColor: lc.bg,
                 color: lc.text,
-                border: '1px solid var(--ops-border)',
+                border: '1px solid var(--app-border)',
               }}
             >
               {skill.name}
@@ -490,35 +490,35 @@ export function EmployeeIntelligencePanel({
       {/* Header */}
       <div
         className="flex items-center gap-3 px-5 py-4"
-        style={{ borderBottom: '1px solid var(--ops-border)' }}
+        style={{ borderBottom: '1px solid var(--app-border)' }}
       >
         <div
           className="flex items-center justify-center w-9 h-9 rounded-xl"
-          style={{ backgroundColor: 'var(--ops-accent-light)' }}
+          style={{ backgroundColor: 'var(--app-accent-light)' }}
         >
-          <Brain className="w-4.5 h-4.5" style={{ color: 'var(--ops-accent)' }} />
+          <Brain className="w-4.5 h-4.5" style={{ color: 'var(--app-accent)' }} />
         </div>
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
             Employee Intelligence
           </h3>
-          <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+          <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
             {data.name} · {data.availability}
           </p>
         </div>
         <div className="ml-auto flex items-center gap-3">
           <div className="text-right">
-            <p className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+            <p className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
               Active Projects
             </p>
-            <p className="text-lg font-bold" style={{ color: 'var(--ops-text)' }}>
+            <p className="text-lg font-bold" style={{ color: 'var(--app-text)' }}>
               {data.activeProjects}
             </p>
           </div>
           <div
             className="text-right"
           >
-            <p className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+            <p className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
               Workload
             </p>
             <div className="flex items-center gap-2">

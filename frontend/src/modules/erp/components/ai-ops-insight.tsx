@@ -69,7 +69,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'relative rounded-2xl border overflow-hidden shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]',
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]',
         isCritical && severity.glowColor
       )}
     >
@@ -97,19 +97,19 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               <span className={cn('w-2 h-2 rounded-full shrink-0', severity.dotColor)} />
-              <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
+              <span className="text-[10px] font-medium text-[var(--app-text-secondary)]">
                 {severity.label}
               </span>
             </div>
             <span className={cn(
               'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium',
-              'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
               <Brain className="w-2.5 h-2.5" />
               {typeLabels[insight.type] || insight.type}
             </span>
           </div>
-          <span className="text-[10px] text-[var(--ops-text-disabled)]">
+          <span className="text-[10px] text-[var(--app-text-disabled)]">
             {insight.id.toUpperCase()}
           </span>
         </div>
@@ -120,7 +120,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
         </h3>
 
         {/* Description */}
-        <p className="text-xs leading-relaxed mb-3 line-clamp-2 text-[var(--ops-text-secondary)]">
+        <p className="text-xs leading-relaxed mb-3 line-clamp-2 text-[var(--app-text-secondary)]">
           {insight.description}
         </p>
 
@@ -136,7 +136,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
               <Zap className="w-3.5 h-3.5 text-purple-500 shrink-0 mt-0.5" />
               <div>
                 <p className="text-[10px] font-semibold mb-0.5 text-purple-500">Recommendation</p>
-                <p className="text-[11px] leading-relaxed text-[var(--ops-text-secondary)]">
+                <p className="text-[11px] leading-relaxed text-[var(--app-text-secondary)]">
                   {insight.recommendation}
                 </p>
               </div>
@@ -152,7 +152,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
                 key={entity}
                 className={cn(
                   'inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium border',
-                  'bg-[var(--ops-hover-bg)] text-[var(--ops-text-secondary)] border-[var(--ops-border)]'
+                  'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]'
                 )}
               >
                 {entity}
@@ -163,11 +163,11 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
 
         {/* Confidence Bar */}
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] font-medium shrink-0 text-[var(--ops-text-muted)]">
+          <span className="text-[10px] font-medium shrink-0 text-[var(--app-text-muted)]">
             Confidence
           </span>
           <div className="flex-1">
-            <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
+            <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
               <motion.div
                 className={cn(
                   'h-full rounded-full',
@@ -181,7 +181,7 @@ export default function AiOpsInsightCard({ insight, onAction }: AiOpsInsightProp
               />
             </div>
           </div>
-          <span className="text-[11px] font-bold shrink-0 text-[var(--ops-text-secondary)]">
+          <span className="text-[11px] font-bold shrink-0 text-[var(--app-text-secondary)]">
             {insight.confidence}%
           </span>
         </div>
