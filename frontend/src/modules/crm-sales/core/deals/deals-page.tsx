@@ -14,23 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import { mockDeals, revenueStats } from './data/mock-data';
-import PipelineBoard from './components/pipeline-board';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CreateModal } from '@/components/shared/create-modal';
-import type { FormField } from '@/components/shared/create-modal';
-import { ContextualSidebar } from '@/components/shared/contextual-sidebar';
-import { CSS } from '@/styles/design-tokens';
-import type { Deal, DealStage } from '@/modules/crm-sales/types';
-=======
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import { mockDeals, revenueStats } from '@/modules/crm-sales/data/mock-data';
 import PipelineBoard from '@/modules/crm-sales/core/pipeline/pipeline-board';
 import type { Deal, DealStage } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -46,21 +33,12 @@ const STAGE_LABELS: Record<DealStage, string> = {
 function getStageColor(stage: DealStage): string {
   const map: Record<DealStage, string> = {
     new: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-    qualified: 'bg-blue-500/15 text-blue-400',
-    demo: 'bg-purple-500/15 text-purple-400',
-    proposal: 'bg-amber-500/15 text-amber-400',
-    negotiation: 'bg-emerald-500/15 text-emerald-400',
-    won: 'bg-emerald-500/20 text-emerald-400',
-    lost: 'bg-red-500/15 text-red-400',
-=======
     qualified: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
     demo: isDark ? 'bg-purple-500/15 text-purple-300' : 'bg-purple-50 text-purple-700',
     proposal: isDark ? 'bg-amber-500/15 text-amber-300' : 'bg-amber-50 text-amber-700',
     negotiation: 'bg-[var(--app-success-bg)] text-[var(--app-success)]',
     won: isDark ? 'bg-emerald-500/20 text-emerald-300' : 'bg-emerald-100 text-emerald-700',
     lost: isDark ? 'bg-red-500/15 text-red-300' : 'bg-red-50 text-red-700',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
   };
   return map[stage];
 }
@@ -240,27 +218,14 @@ export default function DealsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              <h1 className="text-2xl font-bold tracking-tight">Deals</h1>
-              <p className="text-sm mt-1 text-[var(--app-text-muted)]">
-=======
               <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Deals
               </h1>
               <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 {mockDeals.length} deals · {formatCurrency(revenueStats.totalPipeline)} pipeline
               </p>
             </div>
             <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              <Button
-                className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold text-white"
-                style={{ backgroundColor: CSS.accent }}
-                onClick={() => setShowCreateModal(true)}
-              >
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
-=======
               <div className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
@@ -282,7 +247,6 @@ export default function DealsPage() {
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
                 <Plus className="w-4 h-4 mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 Add Deal
               </Button>
             </div>
@@ -305,13 +269,6 @@ export default function DealsPage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-                className="rounded-2xl border p-4"
-                style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <stat.icon className={cn('w-4 h-4', stat.label === 'Stuck Deals' ? 'text-amber-500' : 'text-[var(--app-text-muted)]')} />
-=======
                 className={cn(
                   'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -319,22 +276,16 @@ export default function DealsPage() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <stat.icon className={cn('w-4 h-4', stat.label === 'Stuck Deals' ? 'text-amber-500' : ('text-[var(--app-text-muted)]'))} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                   {stat.change !== 'alert' && (
                     <span className={cn('text-[10px] font-medium', stat.up ? 'text-emerald-500' : 'text-red-500')}>
                       {stat.change}
                     </span>
                   )}
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-                <p className="text-lg font-bold tracking-tight">{stat.value}</p>
-                <p className="text-[10px] mt-1 text-[var(--app-text-muted)]">{stat.label}</p>
-=======
                 <p className={cn('text-lg font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   {stat.value}
                 </p>
                 <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.label}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
               </div>
             ))}
           </motion.div>
@@ -342,11 +293,6 @@ export default function DealsPage() {
           {/* View Toggle + Filters */}
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'table')}>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              <TabsList className="rounded-xl p-0.5 h-9 bg-[var(--app-hover-bg)]">
-                <TabsTrigger value="kanban" className="rounded-lg text-xs gap-1.5">Kanban</TabsTrigger>
-                <TabsTrigger value="table" className="rounded-lg text-xs gap-1.5">Table</TabsTrigger>
-=======
               <TabsList className={cn(
                 'rounded-[var(--app-radius-lg)] p-0.5 h-10',
                 'bg-[var(--app-hover-bg)]'
@@ -359,21 +305,16 @@ export default function DealsPage() {
                   <List className="w-4 h-4" />
                   Table
                 </TabsTrigger>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
               </TabsList>
             </Tabs>
 
             <Separator orientation="vertical" className="h-6 hidden sm:block" />
 
             <Select value={stageFilter} onValueChange={(v) => setStageFilter(v as DealStage | 'all')}>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              <SelectTrigger className="w-[140px] h-8 text-xs rounded-lg bg-[var(--app-hover-bg)] border-[var(--app-border)]">
-=======
               <SelectTrigger className={cn(
                 'w-[140px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 <SelectValue placeholder="All Stages" />
               </SelectTrigger>
               <SelectContent>
@@ -394,19 +335,6 @@ export default function DealsPage() {
 
           {/* Table View */}
           {view === 'table' && (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-            <SmartDataTable
-              data={tableData}
-              columns={columns}
-              onRowClick={(row) => handleDealSelect(row as unknown as Deal)}
-              searchable
-              searchPlaceholder="Search deals..."
-              searchKeys={['name', 'company', 'contactName']}
-              emptyMessage="No deals match your filters"
-              pageSize={10}
-              enableExport
-            />
-=======
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -513,7 +441,6 @@ export default function DealsPage() {
                 </div>
               )}
             </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
           )}
 
           {/* Forecast Card + Won/Lost Analytics */}
@@ -523,17 +450,6 @@ export default function DealsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Q2 Forecast</h3>
-                <Badge variant="outline" className="text-[10px]">Confidence: 76%</Badge>
-              </div>
-              <div className="flex items-end gap-3 mb-4">
-                <span className="text-3xl font-bold tracking-tight">{formatCurrency(revenueStats.forecastQ2)}</span>
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -549,7 +465,6 @@ export default function DealsPage() {
                 <span className={cn('text-3xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   {formatCurrency(revenueStats.forecastQ2)}
                 </span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 <span className="text-emerald-500 text-xs font-medium mb-1 flex items-center gap-0.5">
                   <ArrowUpRight className="w-4 h-4" />
                   +18% vs Q1
@@ -557,19 +472,6 @@ export default function DealsPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[10px]">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-                  <span className="text-[var(--app-text-disabled)]">Pessimistic</span>
-                  <span className="font-medium text-[var(--app-text-muted)]">{formatCurrency(revenueStats.forecastQ2 * 0.7)}</span>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-                  <div className="h-full bg-gradient-to-r from-red-400/50 via-amber-400/50 to-emerald-400/50 rounded-full w-full" />
-                </div>
-                <div className="flex items-center justify-between text-[10px]">
-                  <span className="text-[var(--app-text-disabled)]">Most Likely</span>
-                  <span className="font-medium">{formatCurrency(revenueStats.forecastQ2)}</span>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-=======
                   <span className={cn('text-[var(--app-text-muted)]')}>Pessimistic</span>
                   <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>{formatCurrency(revenueStats.forecastQ2 * 0.7)}</span>
                 </div>
@@ -581,7 +483,6 @@ export default function DealsPage() {
                   <span className={cn('font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(revenueStats.forecastQ2)}</span>
                 </div>
                 <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: '76%' }}
@@ -590,13 +491,8 @@ export default function DealsPage() {
                   />
                 </div>
                 <div className="flex items-center justify-between text-[10px]">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-                  <span className="text-[var(--app-text-disabled)]">Optimistic</span>
-                  <span className="font-medium text-[var(--app-text-muted)]">{formatCurrency(revenueStats.forecastQ2 * 1.3)}</span>
-=======
                   <span className={cn('text-[var(--app-text-muted)]')}>Optimistic</span>
                   <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>{formatCurrency(revenueStats.forecastQ2 * 1.3)}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 </div>
               </div>
             </motion.div>
@@ -606,13 +502,6 @@ export default function DealsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Won vs Lost by Month</h3>
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -620,7 +509,6 @@ export default function DealsPage() {
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Won vs Lost by Month</h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Won</span>
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-red-400" /> Lost</span>
@@ -640,11 +528,7 @@ export default function DealsPage() {
                           <motion.div initial={{ height: 0 }} animate={{ height: `${lostHeight}%` }} transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }} className="w-full rounded-t-sm bg-red-400" />
                         </div>
                       </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/deals-page.tsx
-                      <span className="text-[10px] text-[var(--app-text-disabled)]">{item.month}</span>
-=======
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/deals/deals-page.tsx
                     </div>
                   );
                 })}

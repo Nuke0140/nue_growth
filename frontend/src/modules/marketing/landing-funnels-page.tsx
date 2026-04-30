@@ -333,13 +333,6 @@ export default function LandingFunnelsPage() {
             </div>
             <span className={cn('text-xs', subtle)}>{CTA_DATA.length} CTAs</span>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={CTA_DATA as unknown as Record<string, unknown>[]}
-            columns={ctaColumns}
-            pageSize={10}
-          />
-=======
           <div className="overflow-x-auto max-h-[320px] overflow-y-auto">
             <table className="w-full text-xs">
               <thead>
@@ -378,7 +371,6 @@ export default function LandingFunnelsPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Funnel Comparison Bar Chart */}

@@ -10,14 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-import { revenueMetrics, mockLeadSources } from './data/mock-data';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CSS } from '@/styles/design-tokens';
-=======
 import { revenueMetrics, mockLeadSources, mockSalesDeals } from '@/modules/crm-sales/data/mock-data';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -158,26 +151,17 @@ export default function RevenuePage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              <h1 className="text-2xl font-bold tracking-tight">Revenue</h1>
-              <p className="text-sm mt-1 text-[var(--app-text-muted)]">
-=======
               <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Revenue
               </h1>
               <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                 Executive revenue analytics · Real-time tracking
               </p>
             </div>
             <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              <div className="flex items-center rounded-xl border overflow-hidden" style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
-=======
               <div className={cn('flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                 {(['monthly', 'quarterly', 'annual'] as Period[]).map(p => (
                   <button
                     key={p}
@@ -185,11 +169,7 @@ export default function RevenuePage() {
                     className={cn(
                       'px-3 py-2 text-xs font-medium transition-colors capitalize',
                       period === p
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                        ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
-=======
                         ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                         : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
                     )}
                   >
@@ -212,12 +192,6 @@ export default function RevenuePage() {
             className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3"
           >
             {kpiCards.map((kpi) => (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              <div key={kpi.label} className="rounded-2xl border p-4" style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}>
-                <div className="flex items-center justify-between mb-2">
-                  <kpi.icon className="w-4 h-4 text-[var(--app-text-muted)]" />
-                  <span className={cn('text-[10px] font-medium flex items-center gap-0.5', kpi.up ? 'text-emerald-500' : 'text-red-500')}>
-=======
               <div key={kpi.label} className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
@@ -226,18 +200,12 @@ export default function RevenuePage() {
                   <span className={cn('text-[10px] font-medium flex items-center gap-0.5',
                     kpi.up ? 'text-emerald-500' : 'text-red-500'
                   )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                     {kpi.up ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
                     {kpi.change}
                   </span>
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                <p className="text-base font-bold tracking-tight">{kpi.value}</p>
-                <p className="text-[10px] mt-1 text-[var(--app-text-muted)]">{kpi.label}</p>
-=======
                 <p className={cn('text-sm font-bold tracking-tight', 'text-[var(--app-text)]')}>{kpi.value}</p>
                 <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{kpi.label}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
               </div>
             ))}
           </motion.div>
@@ -249,18 +217,10 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">MRR Trend</h3>
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>MRR Trend</h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                 <span className="text-emerald-500 text-xs font-medium flex items-center gap-0.5">
                   <ArrowUpRight className="w-4 h-4" />
                   +31% since Nov
@@ -271,13 +231,9 @@ export default function RevenuePage() {
                   const height = maxMRR > 0 ? (item.mrr / maxMRR) * 100 : 0;
                   return (
                     <div key={item.month} className="flex-1 flex flex-col items-center gap-1">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                      <span className="text-[10px] mb-1 font-medium text-[var(--app-text-secondary)]">{formatCurrency(item.mrr)}</span>
-=======
                       <span className={cn('text-[10px] mb-1 font-medium', 'text-[var(--app-text-muted)]')}>
                         {formatCurrency(item.mrr)}
                       </span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                       <div className="w-full flex flex-col justify-end" style={{ height: '140px' }}>
                         <motion.div
                           initial={{ height: 0 }}
@@ -287,11 +243,7 @@ export default function RevenuePage() {
                           style={{ backgroundColor: 'rgba(168,85,247,0.4)' }}
                         />
                       </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                      <span className="text-[10px] text-[var(--app-text-disabled)]">{item.month}</span>
-=======
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                     </div>
                   );
                 })}
@@ -303,16 +255,6 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Revenue by Source</h3>
-                <PieChart className="w-4 h-4 text-[var(--app-text-muted)]" />
-              </div>
-              <div className="flex items-center gap-6">
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -321,7 +263,6 @@ export default function RevenuePage() {
               </div>
               <div className="flex items-center gap-app-2xl">
                 {/* Visual Pie using conic-gradient */}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                 <div className="shrink-0 w-36 h-36 rounded-full relative"
                   style={{
                     background: `conic-gradient(${SOURCE_ATTRIBUTION.map((s, i) => {
@@ -333,13 +274,8 @@ export default function RevenuePage() {
                 >
                   <div className="absolute inset-3 rounded-full flex items-center justify-center" style={{ backgroundColor: CSS.bg }}>
                     <div className="text-center">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                      <p className="text-lg font-bold">{formatCurrency(totalSourceRevenue)}</p>
-                      <p className="text-[9px] text-[var(--app-text-muted)]">Total</p>
-=======
                       <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{formatCurrency(totalSourceRevenue)}</p>
                       <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Total</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                     </div>
                   </div>
                 </div>
@@ -349,15 +285,9 @@ export default function RevenuePage() {
                     const pct = ((s.revenue / totalSourceRevenue) * 100).toFixed(0);
                     return (
                       <div key={s.name} className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                        <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: s.color }} />
-                        <span className="text-xs flex-1 text-[var(--app-text-secondary)]">{s.name}</span>
-                        <span className="text-xs font-medium text-[var(--app-text)]">{pct}%</span>
-=======
                         <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] shrink-0" style={{ backgroundColor: s.color }} />
                         <span className={cn('text-xs flex-1', 'text-[var(--app-text-secondary)]')}>{s.name}</span>
                         <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{pct}%</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                       </div>
                     );
                   })}
@@ -370,20 +300,11 @@ export default function RevenuePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-              className="rounded-2xl border p-5 lg:col-span-2"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Revenue Waterfall</h3>
-                <span className="text-xs text-[var(--app-text-muted)]">ARR Movement</span>
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl lg:col-span-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Waterfall</h3>
                 <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>ARR Movement</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
               </div>
               <div className="flex items-end justify-between gap-4 h-52">
                 {WATERFALL.map((item, i) => {
@@ -395,11 +316,7 @@ export default function RevenuePage() {
                   return (
                     <div key={item.label} className="flex-1 flex flex-col items-center gap-1">
                       <span className={cn('text-[10px] font-medium mb-1',
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                        isIncrease ? 'text-emerald-500' : isDecrease ? 'text-red-500' : 'text-[var(--app-text-muted)]'
-=======
                         isIncrease ? 'text-emerald-500' : isDecrease ? 'text-red-500' : ('text-[var(--app-text-muted)]')
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                       )}>
                         {isDecrease ? '' : isStart || isEnd ? '' : '+'}{formatCurrency(item.value)}
                       </span>
@@ -416,11 +333,7 @@ export default function RevenuePage() {
                           )}
                         />
                       </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                      <span className="text-[10px] text-center text-[var(--app-text-disabled)]">{item.label}</span>
-=======
                       <span className={cn('text-[10px] text-center', 'text-[var(--app-text-muted)]')}>{item.label}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                     </div>
                   );
                 })}
@@ -433,13 +346,6 @@ export default function RevenuePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.25 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-            className="rounded-2xl border overflow-hidden"
-            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-          >
-            <div className="px-5 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
-              <h3 className="text-sm font-semibold">Source Breakdown</h3>
-=======
             className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
@@ -494,7 +400,6 @@ export default function RevenuePage() {
                   })}
                 </tbody>
               </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
             </div>
             <SmartDataTable
               data={sourceTableData}
@@ -535,33 +440,20 @@ export default function RevenuePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                className="rounded-2xl border p-4"
-                style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-purple-500/15">
-=======
                 className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                     isDark ? 'bg-purple-500/15' : 'bg-purple-100'
                   )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
                     <insight.icon className="w-4 h-4 text-purple-400" />
                   </div>
                   <Badge variant="outline" className="ml-auto text-[9px] px-1.5 py-0 border-purple-300 text-purple-700">
                     <Sparkles className="w-2.5 h-2.5 mr-1" /> {insight.confidence}
                   </Badge>
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/revenue-page.tsx
-                <h4 className="text-sm font-semibold mb-1.5">{insight.title}</h4>
-                <p className="text-xs leading-relaxed text-[var(--app-text-secondary)]">{insight.description}</p>
-=======
                 <h4 className={cn('text-sm font-semibold mb-1.5', 'text-[var(--app-text)]')}>{insight.title}</h4>
                 <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-secondary)]')}>{insight.description}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/revenue/revenue-page.tsx
               </motion.div>
             ))}
           </div>

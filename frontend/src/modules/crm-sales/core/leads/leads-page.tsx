@@ -12,21 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import { mockLeads } from './data/mock-data';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CreateModal } from '@/components/shared/create-modal';
-import type { FormField } from '@/components/shared/create-modal';
-import { ContextualSidebar } from '@/components/shared/contextual-sidebar';
-import { CSS } from '@/styles/design-tokens';
-import type { Lead, LeadIntent, LeadStatus, ContactSource } from '@/modules/crm-sales/types';
-=======
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import { mockLeads } from '@/modules/crm-sales/data/mock-data';
 import type { Lead, LeadIntent, LeadStatus, ContactSource } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -241,27 +229,14 @@ export default function LeadsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-              <h1 className="text-2xl font-bold tracking-tight">Leads</h1>
-              <p className="text-sm mt-1 text-[var(--app-text-muted)]">
-=======
               <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Leads
               </h1>
               <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
                 {stats.total} leads · {formatCurrency(stats.totalRevenue)} pipeline
               </p>
             </div>
             <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-              <Button
-                className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold"
-                style={{ backgroundColor: CSS.accent, color: '#fff' }}
-                onClick={() => setShowCreateModal(true)}
-              >
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
-=======
               <div className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
@@ -283,7 +258,6 @@ export default function LeadsPage() {
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}>
                 <Plus className="w-4 h-4 mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
                 Add Lead
               </Button>
             </div>
@@ -305,16 +279,6 @@ export default function LeadsPage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-                className="rounded-2xl border p-4"
-                style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <stat.icon className="w-4 h-4 text-[var(--app-text-muted)]" />
-                  <span className="text-xs font-medium text-[var(--app-text-muted)]">{stat.label}</span>
-                </div>
-                <p className="text-xl font-bold tracking-tight">{stat.value}</p>
-=======
                 className={cn(
                   'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -325,7 +289,6 @@ export default function LeadsPage() {
                   <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 </div>
                 <p className={cn('text-xl font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
               </div>
             ))}
           </motion.div>
@@ -354,17 +317,12 @@ export default function LeadsPage() {
 
             <Separator orientation="vertical" className="h-6 mx-1 hidden sm:block" />
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-            <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v as ContactSource | 'all')}>
-              <SelectTrigger className="w-[130px] h-8 text-xs rounded-lg bg-[var(--app-hover-bg)] border-[var(--app-border)]">
-=======
             {/* Source */}
             <Select value={sourceFilter} onValueChange={(v) => { setSourceFilter(v as ContactSource | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
                 'w-[130px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
                 <SelectValue placeholder="Source" />
               </SelectTrigger>
               <SelectContent>
@@ -375,17 +333,12 @@ export default function LeadsPage() {
               </SelectContent>
             </Select>
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-            <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as LeadStatus | 'all')}>
-              <SelectTrigger className="w-[130px] h-8 text-xs rounded-lg bg-[var(--app-hover-bg)] border-[var(--app-border)]">
-=======
             {/* Status */}
             <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v as LeadStatus | 'all'); setPage(1); }}>
               <SelectTrigger className={cn(
                 'w-[130px] h-8 text-xs rounded-[var(--app-radius-lg)]',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -400,46 +353,6 @@ export default function LeadsPage() {
             </Select>
           </div>
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-          {/* SmartDataTable */}
-          <SmartDataTable
-            data={tableData}
-            columns={columns}
-            onRowClick={(row) => setSelectedLead(row as unknown as Lead)}
-            searchable
-            searchPlaceholder="Search leads..."
-            searchKeys={['name', 'company', 'email']}
-            emptyMessage="No leads match your filters"
-            pageSize={8}
-            enableExport
-            actions={(row) => {
-              const l = row as unknown as Lead;
-              return (
-                <div className="flex items-center gap-1">
-                  <button onClick={(e) => { e.stopPropagation(); }} className="p-1.5 rounded-lg transition-colors hover:bg-[var(--app-hover-bg)]">
-                    <ArrowRightLeft className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
-                  </button>
-                </div>
-              );
-            }}
-          />
-        </div>
-      </ScrollArea>
-
-      {/* Create Lead Modal */}
-      <CreateModal
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        title="Add Lead"
-        description="Create a new lead in your pipeline"
-        fields={createLeadFields}
-        icon={Flame}
-        submitLabel="Create Lead"
-        onSubmit={(data) => {
-          console.log('Creating lead:', data);
-        }}
-      />
-=======
           {/* Table */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -672,7 +585,6 @@ export default function LeadsPage() {
     </div>
   );
 }
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
 
       {/* Lead Detail Sidebar */}
       <ContextualSidebar
@@ -728,16 +640,6 @@ export default function LeadsPage() {
                 })()}
               </div>
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-              {/* Score */}
-              <div className="mb-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium text-[var(--app-text-muted)]">Lead Score</span>
-                  <span className="text-sm font-bold">{selectedLead.score}/100</span>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-                  <div
-=======
   const scoreBreakdown = [
     { label: 'Engagement', value: Math.round(lead.score * 0.35), weight: '35%' },
     { label: 'Fit Score', value: Math.round(lead.score * 0.30), weight: '30%' },
@@ -789,7 +691,6 @@ export default function LeadsPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${item.value}%` }}
                     transition={{ duration: 0.6, ease: 'easeOut' }}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
                     className={cn(
                       'h-full rounded-full transition-all',
                       selectedLead.score >= 70 ? 'bg-emerald-500' : selectedLead.score >= 40 ? 'bg-amber-500' : 'bg-red-500'
@@ -797,52 +698,6 @@ export default function LeadsPage() {
                     style={{ width: `${selectedLead.score}%` }}
                   />
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-=======
-                <span className={cn('text-[10px] font-medium w-8 text-right', 'text-[var(--app-text-muted)]')}>
-                  {item.value}
-                </span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
-              </div>
-
-<<<<<<< HEAD:frontend/src/modules/crm-sales/leads-page.tsx
-              <div className="grid grid-cols-2 gap-2 text-xs text-[var(--app-text-secondary)]">
-                <div>
-                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Source</span>
-                  <span className="capitalize">{selectedLead.source.replace('_', ' ')}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Status</span>
-                  <Badge variant={STATUS_VARIANT[selectedLead.status]} className="text-[10px] h-5 capitalize">{selectedLead.status}</Badge>
-                </div>
-                <div>
-                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Expected Revenue</span>
-                  <span className="font-semibold text-emerald-500">{formatCurrency(selectedLead.expectedRevenue)}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] text-[var(--app-text-disabled)] mb-0.5">Campaign</span>
-                  <span>{selectedLead.campaign || '—'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Next Action */}
-            {selectedLead.nextAction && (
-              <div>
-                <span className="text-xs font-medium text-[var(--app-text-secondary)]">Next Action</span>
-                <p className="text-sm mt-1">{selectedLead.nextAction}</p>
-              </div>
-            )}
-
-            {/* Assigned */}
-            <div>
-              <span className="text-xs font-medium text-[var(--app-text-secondary)]">Assigned Rep</span>
-              <p className="text-sm mt-1">{selectedLead.assignedRep}</p>
-            </div>
-          </div>
-        )}
-      </ContextualSidebar>
-=======
         <div className={cn('grid grid-cols-2 gap-3 text-xs', 'text-[var(--app-text-secondary)]')}>
           <div>
             <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Source</span>
@@ -891,7 +746,6 @@ export default function LeadsPage() {
           </SelectContent>
         </Select>
       </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/core/leads/leads-page.tsx
     </div>
   );
 }

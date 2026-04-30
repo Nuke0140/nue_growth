@@ -245,16 +245,6 @@ export default function LoyaltyProgramPage() {
                 {loyaltyMembers.length} members
               </Badge>
             </div>
-<<<<<<< HEAD
-            <SmartDataTable
-              data={loyaltyMembers as unknown as Record<string, unknown>[]}
-              columns={memberColumns}
-              searchable
-              searchPlaceholder="Search members..."
-              enableExport
-              pageSize={10}
-            />
-=======
             <div className="overflow-x-auto max-h-[420px] overflow-y-auto">
               <table className="w-full">
                 <thead className="sticky top-0 z-10">
@@ -312,7 +302,6 @@ export default function LoyaltyProgramPage() {
                 </tbody>
               </table>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </motion.div>
 
           {/* Right Column: Progress Rings + Tier Distribution */}

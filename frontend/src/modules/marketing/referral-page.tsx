@@ -173,15 +173,6 @@ export default function ReferralPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-app-2xl">
         {/* Leaderboard */}
         <div className="lg:col-span-2">
-<<<<<<< HEAD
-          <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Leaderboard</h2>
-          <SmartDataTable
-            data={mockReferrals as unknown as Record<string, unknown>[]}
-            columns={leaderboardColumns}
-            searchable enableExport pageSize={10}
-            searchPlaceholder="Search referrals..."
-          />
-=======
           <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Leaderboard</h2>
           <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
@@ -226,7 +217,6 @@ export default function ReferralPage() {
               </table>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
 
         {/* Right column */}

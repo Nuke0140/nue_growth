@@ -56,32 +56,16 @@ function getAccent(config: ModuleConfig) {
 // ---- Skeleton loader for lazy-loading mode ----
 function ModuleSkeleton() {
   return (
-<<<<<<< HEAD
-    <div className="space-y-6 p-6 animate-in fade-in duration-300">
-      <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-48 rounded-lg animate-pulse" />
-        <div className="flex gap-2">
-          <Skeleton className="h-9 w-28 rounded-lg animate-pulse" style={{ animationDelay: '0.05s' }} />
-          <Skeleton className="h-9 w-9 rounded-lg animate-pulse" style={{ animationDelay: '0.1s' }} />
-=======
     <div className="space-y-app-2xl p-6">
       <div className="flex items-center justify-between">
         <Skeleton className="h-8 w-48 rounded-[var(--app-radius-lg)]" />
         <div className="flex gap-2">
           <Skeleton className="h-10  w-28 rounded-[var(--app-radius-lg)]" />
           <Skeleton className="h-10  w-9 rounded-[var(--app-radius-lg)]" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-<<<<<<< HEAD
-          <Skeleton key={i} className="h-32 rounded-xl animate-pulse" style={{ animationDelay: `${0.15 + i * 0.05}s` }} />
-        ))}
-      </div>
-      <Skeleton className="h-64 rounded-xl animate-pulse" style={{ animationDelay: '0.3s' }} />
-      <Skeleton className="h-48 rounded-xl animate-pulse" style={{ animationDelay: '0.35s' }} />
-=======
           <Skeleton key={i} className="h-32 rounded-[var(--app-radius-lg)]" />
         ))}
       </div>
@@ -860,7 +844,6 @@ function ModulePageContent({ config, accent }: { config: ModuleConfig; accent: {
           )}
         </motion.div>
       </AnimatePresence>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     </div>
   );
 }
@@ -1020,16 +1003,11 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
   return (
     <ModuleProvider overrideConfig={config}>
       <div
-<<<<<<< HEAD
-        className="h-screen flex flex-col overflow-hidden transition-colors duration-300"
-        style={{ backgroundColor: CSS.bg, color: CSS.text }}
-=======
         className="h-screen flex flex-col overflow-hidden transition-colors duration-200"
         style={{
           backgroundColor: CSS.bg,
           color: CSS.text,
         }}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       >
         {/* Topbar */}
         <Topbar

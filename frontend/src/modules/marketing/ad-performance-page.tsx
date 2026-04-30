@@ -102,103 +102,8 @@ export default function AdPerformancePage() {
       .slice(0, 5);
   }, []);
 
-<<<<<<< HEAD
-  const adCampaignColumns: DataTableColumnDef[] = [
-    {
-      key: 'name',
-      label: 'Campaign',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as AdCampaign;
-        return (
-          <div>
-            <p className="font-medium max-w-[200px] truncate" style={{ color: CSS.text }}>{c.name}</p>
-            <p className="text-[10px] truncate mt-0.5" style={{ color: CSS.textMuted }}>{c.creative}</p>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'platform',
-      label: 'Platform',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as AdCampaign;
-        const config = PLATFORM_CONFIG[c.platform];
-        return (
-          <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold" style={{ backgroundColor: config?.color }}>
-              {config?.icon}
-            </div>
-            <span style={{ color: CSS.textSecondary }}>{config?.label}</span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as AdCampaign;
-        const status = STATUS_STYLES[c.status];
-        return <Badge className={cn('text-[10px]', status.className)}>{status.label}</Badge>;
-      },
-    },
-    {
-      key: 'spend',
-      label: 'Spend',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(row.spend as number)}</span>,
-    },
-    {
-      key: 'clicks',
-      label: 'Clicks',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.clicks as number)}</span>,
-    },
-    {
-      key: 'impressions',
-      label: 'Impressions',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatNumber(row.impressions as number)}</span>,
-    },
-    {
-      key: 'cpc',
-      label: 'CPC',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>₹{(row.cpc as number).toFixed(2)}</span>,
-    },
-    {
-      key: 'cpl',
-      label: 'CPL',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{formatCurrency(row.cpl as number)}</span>,
-    },
-    {
-      key: 'roas',
-      label: 'ROAS',
-      sortable: true,
-      render: (row) => {
-        const roas = row.roas as number;
-        const color = roas >= 5 ? '#10b981' : roas >= 3 ? '#f59e0b' : roas > 0 ? '#ef4444' : CSS.textMuted;
-        return <span className="font-bold tabular-nums" style={{ color }}>{roas > 0 ? `${roas.toFixed(1)}x` : '—'}</span>;
-      },
-    },
-    {
-      key: 'conversions',
-      label: 'Conv.',
-      sortable: true,
-      render: (row) => <span className="tabular-nums" style={{ color: CSS.textSecondary }}>{(row.conversions as number) > 0 ? formatNumber(row.conversions as number) : '—'}</span>,
-    },
-  ];
-
-  const card = (i: number) => cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
-  const kpiCard = (i: number) => cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
-=======
   const card = (i: number) => cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
   const kpiCard = (i: number) => cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   return (
     <div className="space-y-app-2xl">
@@ -371,15 +276,6 @@ export default function AdPerformancePage() {
             {filteredCampaigns.length} campaigns
           </span>
         </div>
-<<<<<<< HEAD
-        <SmartDataTable
-            data={filteredCampaigns as unknown as Record<string, unknown>[]}
-            columns={adCampaignColumns}
-            searchable enableExport pageSize={10}
-            searchPlaceholder="Search campaigns..."
-          />
-        </motion.div>
-=======
         <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
           <table className="w-full text-xs">
             <thead>
@@ -453,7 +349,6 @@ export default function AdPerformancePage() {
           </table>
         </div>
       </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
       {/* Bottom Row: Creative Performance + Audience Fatigue */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">

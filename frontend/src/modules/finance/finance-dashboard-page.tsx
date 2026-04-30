@@ -44,19 +44,6 @@ export default function FinanceDashboardPage() {
     []
   );
 
-<<<<<<< HEAD
-  const kpiStats = [
-    { label: 'Total Revenue', value: formatINR(stats.totalRevenue), icon: DollarSign, color: 'success', change: 8.3, changeLabel: 'this financial year' },
-    { label: 'Pending Receivables', value: formatINR(stats.pendingReceivables), icon: CreditCard, color: 'warning', change: -5.2, changeLabel: '₹87.5L outstanding' },
-    { label: 'Pending Payables', value: formatINR(stats.pendingPayables), icon: HandCoins, color: 'warning', change: 3.1, changeLabel: 'vendor dues this month' },
-    { label: 'Cash in Bank', value: formatINR(stats.cashInBank), icon: Banknote, color: 'success', change: 12.4, changeLabel: 'current balance' },
-    { label: 'Burn Rate', value: `${formatINR(stats.burnRate)}/mo`, icon: Flame, color: 'danger', change: 4.5, changeLabel: 'monthly cash burn' },
-    { label: 'Runway', value: `${stats.runwayMonths} months`, icon: Clock, color: 'danger', change: -18.2, changeLabel: 'below 4-month safety' },
-    { label: 'GST Due', value: formatINR(stats.gstDue), icon: Receipt, color: 'warning', change: 6.3, changeLabel: 'file by Apr 20' },
-    { label: 'Payroll Due', value: formatINR(stats.payrollDue), icon: Users, color: 'info', change: 1.8, changeLabel: 'process by Apr 25' },
-    { label: 'Profit Margin', value: `${stats.profitMargin}%`, icon: Shield, color: 'success', change: 1.4, changeLabel: 'net margin YTD' },
-    { label: 'Client Profitability', value: `${stats.clientProfitability}%`, icon: BarChart3, color: 'success', change: 3.8, changeLabel: 'avg client margin' },
-=======
   const receivableAging = useMemo(() => {
     const buckets = { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
     receivables.forEach((r: Receivable) => { buckets[r.agingBucket] += r.dueAmount; });
@@ -116,7 +103,6 @@ export default function FinanceDashboardPage() {
     { label: 'Receivables', value: formatINR(stats.pendingReceivables), page: 'receivables', icon: CreditCard },
     { label: 'Payables', value: formatINR(stats.pendingPayables), page: 'payables', icon: HandCoins },
     { label: 'Invoices', value: `${invoices.length} total`, page: 'invoices', icon: FileText },
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   ];
 
   const tableData = useMemo(() =>
@@ -180,16 +166,6 @@ export default function FinanceDashboardPage() {
   ], []);
 
   return (
-<<<<<<< HEAD
-    <PageShell
-      title="Finance Dashboard"
-      subtitle="CFO Command Center"
-      icon={() => <Wallet className="w-5 h-5" style={{ color: CSS.accent }} />}
-      onCreate={() => navigateTo('invoices')}
-      createLabel="Quick Create Invoice"
-    >
-      <div className="space-y-6">
-=======
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
         {/* Header */}
@@ -227,7 +203,6 @@ export default function FinanceDashboardPage() {
           </div>
         </div>
 
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         {/* KPI Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {kpiStats.map((stat, i) => {
@@ -235,15 +210,6 @@ export default function FinanceDashboardPage() {
             return (
               <KpiWidget
                 key={stat.label}
-<<<<<<< HEAD
-                label={stat.label}
-                value={stat.value}
-                icon={stat.icon}
-                color={stat.color}
-                trend={isPositive ? 'up' : 'down'}
-                trendValue={`${Math.abs(stat.change)}%`}
-              />
-=======
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -276,19 +242,10 @@ export default function FinanceDashboardPage() {
                   {stat.changeLabel}
                 </p>
               </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             );
           })}
         </div>
 
-<<<<<<< HEAD
-        {/* Top 5 Overdue Invoices Table */}
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Top 5 Overdue Invoices</span>
-=======
         {/* Charts Row — Revenue Trend */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div
@@ -487,7 +444,6 @@ export default function FinanceDashboardPage() {
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Top 5 Overdue Invoices
               </span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
             <Button
               variant="ghost"
@@ -496,25 +452,6 @@ export default function FinanceDashboardPage() {
               className="text-xs gap-1"
               style={{ color: CSS.textSecondary }}
             >
-<<<<<<< HEAD
-              View All →
-            </Button>
-          </div>
-          <SmartDataTable
-            columns={columns}
-            data={tableData}
-            enableExport
-            emptyMessage="No overdue invoices"
-            pageSize={5}
-          />
-        </div>
-
-        {/* Active Alerts */}
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <div className="flex items-center gap-2 mb-4">
-            <AlertTriangle className="w-4 h-4" style={{ color: CSS.warning }} />
-            <span className="text-sm font-semibold" style={{ color: CSS.text }}>Active Alerts</span>
-=======
               View All <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
@@ -590,7 +527,6 @@ export default function FinanceDashboardPage() {
             <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
               {financeAlerts.length} alerts
             </Badge>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
           <div className="space-y-2">
             {financeAlerts.map((alert: FAlert, i) => {
@@ -601,15 +537,6 @@ export default function FinanceDashboardPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }}
-<<<<<<< HEAD
-                  className="flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer"
-                  style={{
-                    borderColor: isCritical ? 'color-mix(in srgb, var(--app-danger) 20%, transparent)' : CSS.border,
-                  }}
-                >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: isCritical ? 'color-mix(in srgb, var(--app-danger) 10%, transparent)' : 'color-mix(in srgb, var(--app-info) 10%, transparent)' }}>
-                    {isCritical ? <CircleAlert className="w-4 h-4" style={{ color: CSS.danger }} /> : <AlertCircle className="w-4 h-4" style={{ color: CSS.info }} />}
-=======
                   className={cn(
                     'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
                     'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
@@ -617,29 +544,21 @@ export default function FinanceDashboardPage() {
                 >
                   <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>{alert.title}</p>
                       <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: isCritical ? CSS.danger : alert.severity === 'warning' ? CSS.warning : CSS.info }} />
                     </div>
-<<<<<<< HEAD
-                    <p className="text-xs leading-relaxed" style={{ color: CSS.textSecondary }}>{alert.description}</p>
-                  </div>
-=======
                     <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-muted)]')}>
                       {alert.description}
                     </p>
                   </div>
                   <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-disabled)]')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </motion.div>
               );
             })}
           </div>
-<<<<<<< HEAD
-=======
         </motion.div>
 
         {/* Quick Navigation */}
@@ -669,7 +588,6 @@ export default function FinanceDashboardPage() {
               </p>
             </motion.button>
           ))}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       </div>
     </PageShell>

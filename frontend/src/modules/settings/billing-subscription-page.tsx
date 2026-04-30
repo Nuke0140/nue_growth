@@ -232,16 +232,6 @@ export default function BillingSubscriptionPage() {
               {billingPlan.invoiceHistory.length} invoices
             </Badge>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={billingPlan.invoiceHistory as unknown as Record<string, unknown>[]}
-            columns={invoiceColumns}
-            searchable
-            searchPlaceholder="Search invoices..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
@@ -283,7 +273,6 @@ export default function BillingSubscriptionPage() {
               </table>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Payment Methods */}

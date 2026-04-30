@@ -156,11 +156,7 @@ export default function ApiKeysWebhooksPage() {
         </div>
 
         {/* Tabs */}
-<<<<<<< HEAD
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: CSS.hoverBg }}>
-=======
         <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit" style={{ background: 'var(--app-hover-bg)' }}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           {(['keys', 'webhooks'] as const).map((tab) => (
             <button
               key={tab}
@@ -168,11 +164,7 @@ export default function ApiKeysWebhooksPage() {
               className={cn(
                 'px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors capitalize',
                 activeTab === tab
-<<<<<<< HEAD
-                  ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
-=======
                   ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
               )}
             >
@@ -354,13 +346,6 @@ export default function ApiKeysWebhooksPage() {
                       <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', 'text-[var(--app-text-muted)]')}>
                         Recent Deliveries
                       </span>
-<<<<<<< HEAD
-                      <SmartDataTable
-                        data={wh.deliveryLogs as unknown as Record<string, unknown>[]}
-                        columns={deliveryColumns}
-                        pageSize={10}
-                      />
-=======
                       <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
                         <table className="w-full text-[11px]">
                           <thead>
@@ -391,7 +376,6 @@ export default function ApiKeysWebhooksPage() {
                           </tbody>
                         </table>
                       </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     </div>
                   </div>
                 </motion.div>

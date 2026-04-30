@@ -254,16 +254,6 @@ export default function ReferralGrowthPage() {
               <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>All Referrals</span>
             </div>
-<<<<<<< HEAD
-            <SmartDataTable
-              data={referralData as unknown as Record<string, unknown>[]}
-              columns={referralColumns}
-              searchable
-              searchPlaceholder="Search referrals..."
-              enableExport
-              pageSize={10}
-            />
-=======
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -317,7 +307,6 @@ export default function ReferralGrowthPage() {
                 </tbody>
               </table>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </motion.div>
 
           {/* Referral ROI Chart + Fraud Section */}

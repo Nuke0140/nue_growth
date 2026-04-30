@@ -143,14 +143,6 @@ export default function CRMAnalyticsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-              <Users className="w-5 h-5" style={{ color: CSS.textSecondary }} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">CRM Analytics</h1>
-              <p className="text-xs" style={{ color: CSS.textMuted }}>
-=======
             <div className={cn(
               'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
@@ -160,7 +152,6 @@ export default function CRMAnalyticsPage() {
             <div>
               <h1 className="text-xl md:text-2xl font-bold">CRM Analytics</h1>
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Lead sources, lifecycle stages &amp; contact engagement
               </p>
             </div>
@@ -177,16 +168,11 @@ export default function CRMAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-<<<<<<< HEAD
-            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-=======
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-4 h-4 inline mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               {today}
             </span>
           </div>
@@ -245,21 +231,13 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {src.conversion}% conv
                       </span>
                       <span className="text-sm font-semibold">{formatNum(src.leads)}</span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.leads / maxLeadSource) * 100}%` }}
@@ -281,14 +259,10 @@ export default function CRMAnalyticsPage() {
                   <div key={stage.stage} className="w-full flex flex-col items-center">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-sm font-medium">{stage.stage}</span>
-<<<<<<< HEAD
-                      <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-emerald-500/15 text-emerald-400">
-=======
                       <span className={cn(
                         'text-xs px-2 py-0.5 rounded-full font-medium',
                         'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                       )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {stage.rate}%
                       </span>
                     </div>
@@ -296,16 +270,6 @@ export default function CRMAnalyticsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-<<<<<<< HEAD
-                      className="h-10 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
-                    >
-                      <div className="text-center">
-                        <p className="text-base font-bold" style={{ color: CSS.text }}>
-                          {formatNum(stage.converted)}
-                        </p>
-                        <p className="text-[10px]" style={{ color: CSS.textMuted }}>
-=======
                       className={cn(
                         'h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                         'bg-[var(--app-hover-bg)]',
@@ -317,20 +281,15 @@ export default function CRMAnalyticsPage() {
                           {formatNum(stage.converted)}
                         </p>
                         <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           of {formatNum(stage.total)}
                         </p>
                       </div>
                     </motion.div>
                     {i < data.lifecycleConversion.length - 1 && (
-<<<<<<< HEAD
-                      <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
-=======
                       <ChevronRight className={cn(
                         'w-4 h-4 my-0.5 rotate-90',
                         'text-[var(--app-text-disabled)]',
                       )} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     )}
                   </div>
                 );
@@ -357,18 +316,6 @@ export default function CRMAnalyticsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.06, duration: 0.3 }}
-<<<<<<< HEAD
-                  className="rounded-xl border p-4 transition-colors"
-                  style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.border }}
-                >
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"
-                    style={{ backgroundColor: CSS.hoverBg }}
-                  >
-                    <item.icon className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-                  </div>
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: CSS.textMuted }}>
-=======
                   className={cn(
                     'rounded-[var(--app-radius-lg)] border p-4 transition-colors',
                     isDark
@@ -383,7 +330,6 @@ export default function CRMAnalyticsPage() {
                     <item.icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                   </div>
                   <p className={cn('text-[10px] uppercase tracking-wider mb-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     {item.metric}
                   </p>
                   <div className="flex items-baseline gap-1.5">
@@ -419,21 +365,13 @@ export default function CRMAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{stage.stage}</span>
                     <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {stage.deals} deals
                       </span>
                       <span className="text-sm font-semibold">{stage.avgDays}d</span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(stage.avgDays / maxPipelineDays) * 100}%` }}
@@ -448,16 +386,6 @@ export default function CRMAnalyticsPage() {
 
           {/* Rep Response Performance */}
           <ChartCard title="Rep Response Performance" subtitle="Response time, meetings &amp; conversion by rep">
-<<<<<<< HEAD
-            <SmartDataTable
-              data={data.repResponsePerformance as unknown as Record<string, unknown>[]}
-              columns={repColumns}
-              searchable
-              enableExport
-              pageSize={10}
-              searchPlaceholder="Search reps…"
-            />
-=======
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -528,7 +456,6 @@ export default function CRMAnalyticsPage() {
                 </tbody>
               </table>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </ChartCard>
         </div>
       </div>

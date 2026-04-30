@@ -23,13 +23,6 @@ function formatINR(num: number): string {
   return `₹${num}`;
 }
 
-<<<<<<< HEAD
-function getMarginColor(margin: number): string {
-  if (margin >= 50) return CSS.success;
-  if (margin >= 35) return CSS.info;
-  if (margin >= 25) return CSS.warning;
-  return CSS.danger;
-=======
 const riskColors = {
   low: { badge: isDark => 'bg-[var(--app-success-bg)] text-[var(--app-success)]', dot: 'bg-emerald-500' },
   medium: { badge: isDark => 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]', dot: 'bg-amber-500' },
@@ -47,7 +40,6 @@ function getMarginColor(margin: number) {
   if (margin >= 35) return 'text-sky-500';
   if (margin >= 25) return 'text-amber-500';
   return 'text-red-500';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 }
 
 export default function ProfitabilityPage() {
@@ -62,29 +54,6 @@ export default function ProfitabilityPage() {
   const totalRevision = useMemo(() => clientProfitability.reduce((s, c) => s + c.revisionCost, 0), []);
 
   const kpis = [
-<<<<<<< HEAD
-    { label: 'Avg Margin', value: `${avgMargin}%`, icon: Target, color: 'success', change: 2.1 },
-    { label: 'Total Profit', value: formatINR(totalProfit), icon: TrendingUp, color: 'info', change: 8.4 },
-    { label: 'Total Revenue', value: formatINR(totalRevenue), icon: ArrowUpRight, color: 'accent', change: 12.2 },
-    { label: 'Revision Cost', value: formatINR(totalRevision), icon: AlertTriangle, color: 'warning', change: -3.5 },
-    { label: 'Healthy Clients', value: `${clientProfitability.filter(c => c.margin >= 35).length}/${clientProfitability.length}`, icon: Users, color: 'success', change: 10.0 },
-  ];
-
-  const projectTableData = useMemo(() =>
-    projectMargins.map((proj: ProjectMargin) => ({
-      id: proj.project,
-      project: proj.project,
-      client: proj.client,
-      revenue: formatINR(proj.revenue),
-      budget: formatINR(proj.budget),
-      spent: formatINR(proj.spent),
-      margin: proj.margin,
-      marginColor: getMarginColor(proj.margin + 30),
-      status: proj.status,
-    })),
-    []
-  );
-=======
     { label: 'Avg Margin', value: `${avgMargin}%`, icon: Target, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 2.1 },
     { label: 'Total Profit', value: formatINR(totalProfit), icon: TrendingUp, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 8.4 },
     { label: 'Total Revenue', value: formatINR(totalRevenue), icon: ArrowUpRight, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 12.2 },
@@ -112,7 +81,6 @@ export default function ProfitabilityPage() {
             </Button>
           </div>
         </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   const projectColumns: DataTableColumnDef[] = useMemo(() => [
     {
@@ -174,9 +142,6 @@ export default function ProfitabilityPage() {
           {kpis.map((kpi, i) => {
             const isPositive = kpi.change >= 0;
             return (
-<<<<<<< HEAD
-              <KpiWidget key={kpi.label} label={kpi.label} value={kpi.value} icon={kpi.icon} color={kpi.color} trend={isPositive ? 'up' : 'down'} trendValue={`${Math.abs(kpi.change)}%`} />
-=======
               <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
@@ -190,47 +155,11 @@ export default function ProfitabilityPage() {
                   </span>
                 </div>
               </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             );
           })}
         </div>
 
         {/* Client Profitability Cards */}
-<<<<<<< HEAD
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {clientProfitability.map((client, i) => (
-            <motion.div
-              key={client.client}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
-              className="rounded-2xl border p-4 transition-all duration-200 cursor-pointer"
-              style={{
-                backgroundColor: CSS.cardBg,
-                border: `1px solid ${CSS.border}`,
-                boxShadow: CSS.shadowCard,
-              }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold" style={{ color: CSS.text }}>{client.client}</span>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-medium" style={{ color: getMarginColor(client.margin) }}>{client.margin}%</span>
-                  {client.trend >= 0 ? <TrendingUp className="w-3 h-3" style={{ color: CSS.success }} /> : <TrendingDown className="w-3 h-3" style={{ color: CSS.danger }} />}
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 mb-3">
-                <div>
-                  <p className="text-[10px]" style={{ color: CSS.textMuted }}>Revenue</p>
-                  <p className="text-xs font-semibold" style={{ color: CSS.text }}>{formatINR(client.revenue)}</p>
-                </div>
-                <div>
-                  <p className="text-[10px]" style={{ color: CSS.textMuted }}>Cost</p>
-                  <p className="text-xs font-semibold" style={{ color: CSS.text }}>{formatINR(client.cost)}</p>
-                </div>
-                <div>
-                  <p className="text-[10px]" style={{ color: CSS.textMuted }}>Profit</p>
-                  <p className="text-xs font-semibold" style={{ color: client.profit > 0 ? CSS.success : CSS.danger }}>{formatINR(client.profit)}</p>
-=======
         <div>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -272,7 +201,6 @@ export default function ProfitabilityPage() {
                 </div>
                 <div className={cn('mt-3 w-full h-1 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(client.margin, 100)}%` }} transition={{ delay: 0.4 + i * 0.08, duration: 0.5 }} className={cn('h-full rounded-full', client.margin >= 50 ? 'bg-emerald-500' : client.margin >= 35 ? 'bg-sky-500' : client.margin >= 25 ? 'bg-amber-500' : 'bg-red-500')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -290,23 +218,6 @@ export default function ProfitabilityPage() {
         </div>
 
         {/* Project Margin Table */}
-<<<<<<< HEAD
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-semibold" style={{ color: CSS.text }}>Project Margins</span>
-          </div>
-          <SmartDataTable
-            columns={projectColumns}
-            data={projectTableData}
-            searchable
-            searchPlaceholder="Search projects..."
-            searchKeys={['project', 'client', 'status']}
-            enableExport
-            emptyMessage="No project data found"
-            pageSize={10}
-          />
-        </div>
-=======
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Project Margins</span>
@@ -338,22 +249,14 @@ export default function ProfitabilityPage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
         {/* Service Margins & Alerts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Service Margin Chart */}
-<<<<<<< HEAD
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-            <div className="flex items-center gap-2 mb-4">
-              <Target className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Service Margins</span>
-=======
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="flex items-center gap-2 mb-4">
               <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Service Margins</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
             <div className="space-y-3">
               {serviceMargins.map((svc, i) => (
@@ -362,21 +265,12 @@ export default function ProfitabilityPage() {
                     <span className="text-xs font-medium" style={{ color: CSS.text }}>{svc.service}</span>
                     <span className="text-xs font-bold" style={{ color: getMarginColor(svc.margin) }}>{svc.margin}%</span>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-                    <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(svc.margin, 100)}%` }} transition={{ delay: 0.65 + i * 0.08, duration: 0.5 }} className="h-full rounded-full" style={{ backgroundColor: getMarginColor(svc.margin) }} />
-                  </div>
-                  <div className="flex items-center justify-between mt-0.5">
-                    <span className="text-[9px]" style={{ color: CSS.textMuted }}>{formatINR(svc.revenue)} rev</span>
-                    <span className="text-[9px]" style={{ color: CSS.textMuted }}>{svc.projects} projects</span>
-=======
                   <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(svc.margin, 100)}%` }} transition={{ delay: 0.65 + i * 0.08, duration: 0.5 }} className={cn('h-full rounded-full', svc.margin >= 50 ? 'bg-emerald-500' : svc.margin >= 35 ? 'bg-sky-500' : svc.margin >= 25 ? 'bg-amber-500' : 'bg-red-500')} />
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
                     <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{formatINR(svc.revenue)} rev</span>
                     <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{svc.projects} projects</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   </div>
                 </div>
               ))}
@@ -386,26 +280,6 @@ export default function ProfitabilityPage() {
           {/* Low Margin & Churn Risk */}
           <div className="space-y-4">
             {/* Low Margin Alerts */}
-<<<<<<< HEAD
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-              <div className="flex items-center gap-2 mb-3">
-                <AlertTriangle className="w-4 h-4" style={{ color: CSS.warning }} />
-                <span className="text-sm font-semibold" style={{ color: CSS.text }}>Low Margin Alerts</span>
-              </div>
-              <div className="space-y-2">
-                {lowMarginClients.map((c, i) => (
-                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.75 + i * 0.05, duration: 0.3 }} className="flex items-center justify-between p-3 rounded-xl border" style={{ borderColor: CSS.border }}>
-                    <div>
-                      <p className="text-xs font-medium" style={{ color: CSS.text }}>{c.client}</p>
-                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>{formatINR(c.revenue)} revenue</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs font-bold" style={{ color: CSS.danger }}>{c.margin}%</span>
-                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>{formatINR(c.revisionCost)} revisions</p>
-                    </div>
-                  </motion.div>
-                ))}
-=======
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle className="w-4 h-4 text-amber-400" />
@@ -426,31 +300,10 @@ export default function ProfitabilityPage() {
                   </motion.div>
                 ))}
                 {lowMarginClients.length === 0 && <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>All clients above 25% margin threshold.</p>}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
             </motion.div>
 
             {/* Churn Risk */}
-<<<<<<< HEAD
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-              <div className="flex items-center gap-2 mb-3">
-                <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
-                <span className="text-sm font-semibold" style={{ color: CSS.text }}>Churn Risk</span>
-              </div>
-              <div className="space-y-2">
-                {highRiskClients.map((c, i) => (
-                  <motion.div key={c.client} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.85 + i * 0.05, duration: 0.3 }} className="flex items-center justify-between p-3 rounded-xl border" style={{ borderColor: CSS.border }}>
-                    <div>
-                      <p className="text-xs font-medium" style={{ color: CSS.text }}>{c.client}</p>
-                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>Trend: {c.trend}%</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs font-bold" style={{ color: CSS.danger }}>{formatINR(c.revenue)}</span>
-                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>revenue at risk</p>
-                    </div>
-                  </motion.div>
-                ))}
-=======
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-4 h-4 text-red-400" />
@@ -471,7 +324,6 @@ export default function ProfitabilityPage() {
                   </motion.div>
                 ))}
                 {highRiskClients.length === 0 && <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>No high-risk clients identified.</p>}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
             </motion.div>
           </div>

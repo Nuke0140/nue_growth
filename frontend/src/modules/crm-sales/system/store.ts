@@ -1,12 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/crm-sales-store.ts
-import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
-import type { CrmSalesPage } from './types';
-=======
 import type { CrmSalesPage } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/system/store.ts
 
 interface CrmSalesNotification {
   id: string;

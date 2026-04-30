@@ -9,14 +9,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-import { mockForecasts, mockTeamPerformance } from './data/mock-data';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CSS } from '@/styles/design-tokens';
-=======
 import { mockForecasts, mockTeamPerformance } from '@/modules/crm-sales/data/mock-data';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -172,26 +165,14 @@ export default function SalesForecastPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              <h1 className="text-2xl font-bold tracking-tight">Sales Forecast</h1>
-              <p className="text-sm mt-1 text-[var(--app-text-muted)]">
-=======
               <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                 Sales Forecast
               </h1>
               <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                 AI-powered revenue predictions · Updated 2 hours ago
               </p>
             </div>
             <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              <div className="flex items-center gap-1 px-3 py-2 rounded-xl border" style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
-                <Calendar className="w-4 h-4 text-[var(--app-text-muted)]" />
-                <span className="text-xs text-[var(--app-text-secondary)]">Apr 1 – Jun 30, 2026</span>
-              </div>
-              <div className="flex items-center rounded-xl border overflow-hidden" style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
-=======
               <div className={cn('flex items-center gap-1 px-3 py-2 rounded-[var(--app-radius-lg)] border',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
@@ -201,7 +182,6 @@ export default function SalesForecastPage() {
               <div className={cn('flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                 {QUARTERS.map(q => (
                   <button
                     key={q}
@@ -209,11 +189,7 @@ export default function SalesForecastPage() {
                     className={cn(
                       'px-3 py-2 text-xs font-medium transition-colors',
                       selectedQuarter === q
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                        ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
-=======
                         ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                         : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
                     )}
                   >
@@ -239,17 +215,11 @@ export default function SalesForecastPage() {
               { label: 'Quarter Target', value: formatCurrency(totalTarget), icon: Target, change: '$4.64M', up: true },
               { label: 'Monthly Close', value: formatCurrency(expectedMonthlyClose), icon: Calendar, change: 'avg', up: true },
             ].map((stat) => (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              <div key={stat.label} className="rounded-2xl border p-4" style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}>
-                <div className="flex items-center justify-between mb-2">
-                  <stat.icon className="w-4 h-4 text-[var(--app-text-muted)]" />
-=======
               <div key={stat.label} className={cn('rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
               )}>
                 <div className="flex items-center justify-between mb-2">
                   <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                   {stat.change !== 'avg' && (
                     <span className={cn('text-[10px] font-medium flex items-center gap-0.5', stat.up ? 'text-emerald-500' : 'text-red-500')}>
                       {stat.up ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
@@ -257,13 +227,8 @@ export default function SalesForecastPage() {
                     </span>
                   )}
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                <p className="text-lg font-bold tracking-tight">{stat.value}</p>
-                <p className="text-[10px] mt-1 text-[var(--app-text-muted)]">{stat.label}</p>
-=======
                 <p className={cn('text-lg font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
                 <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.label}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
               </div>
             ))}
           </motion.div>
@@ -275,16 +240,6 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Monthly Forecast vs Actual</h3>
-                <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-sm bg-purple-400" /> Forecast
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -295,7 +250,6 @@ export default function SalesForecastPage() {
                   </span>
                   <span className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Actual
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                   </span>
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Actual</span>
                 </div>
@@ -316,11 +270,7 @@ export default function SalesForecastPage() {
                           </div>
                         )}
                       </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                      <span className="text-[10px] text-[var(--app-text-disabled)]">{item.month}</span>
-=======
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                     </div>
                   );
                 })}
@@ -332,18 +282,10 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Rep Forecast Comparison</h3>
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Rep Forecast Comparison</h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-white/30" /> Pipeline</span>
                   <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-purple-500" /> Weighted</span>
@@ -358,15 +300,6 @@ export default function SalesForecastPage() {
                   return (
                     <div key={rep.id} className="space-y-1.5">
                       <div className="flex items-center justify-between">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                        <span className="text-xs font-medium text-[var(--app-text-secondary)]">{rep.repName}</span>
-                        <span className="text-[10px] text-[var(--app-text-muted)]">{formatCurrency(rep.weightedForecast)}</span>
-                      </div>
-                      <div className="flex gap-1 h-4">
-                        <motion.div initial={{ width: 0 }} animate={{ width: `${pipelineW}%` }} transition={{ duration: 0.6, ease: 'easeOut' }} className="h-full rounded-sm bg-[var(--app-hover-bg)]" />
-                        <motion.div initial={{ width: 0 }} animate={{ width: `${weightedW}%` }} transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }} className="h-full rounded-sm bg-purple-500/60" />
-                        <motion.div initial={{ width: 0 }} animate={{ width: `${committedW}%` }} transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }} className="h-full rounded-sm bg-emerald-500" />
-=======
                         <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{rep.repName}</span>
                         <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{formatCurrency(rep.weightedForecast)}</span>
                       </div>
@@ -389,7 +322,6 @@ export default function SalesForecastPage() {
                           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
                           className="h-full rounded-[var(--app-radius-sm)] bg-emerald-500"
                         />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                       </div>
                     </div>
                   );
@@ -402,18 +334,6 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Stage Revenue Trend</h3>
-                <div className="flex items-center gap-2 text-[10px] flex-wrap">
-                  {['New', 'Qualified', 'Discovery', 'Demo', 'Proposal', 'Negotiation'].map((label, i) => (
-                    <span key={label} className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: STAGE_COLORS_ARR[i] }} />
-                      <span className="text-[var(--app-text-muted)]">{label}</span>
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -423,7 +343,6 @@ export default function SalesForecastPage() {
                     <span key={label} className="flex items-center gap-1">
                       <span className="w-2 h-2 rounded-[var(--app-radius-sm)]" style={{ backgroundColor: STAGE_COLORS_ARR[i] }} />
                       <span className={cn('text-[var(--app-text-muted)]')}>{label}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                     </span>
                   ))}
                 </div>
@@ -456,11 +375,7 @@ export default function SalesForecastPage() {
                           );
                         })}
                       </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                      <span className="text-[10px] text-[var(--app-text-disabled)]">{item.month}</span>
-=======
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                     </div>
                   );
                 })}
@@ -472,40 +387,21 @@ export default function SalesForecastPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.25 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-              className="rounded-2xl border p-5"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold">Confidence Trend</h3>
-=======
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Confidence Trend</h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                 <Badge variant="outline" className="text-[10px]">6 months</Badge>
               </div>
               <div className="relative h-44">
                 {[0, 25, 50, 75, 100].map(val => (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                  <div key={val} className="absolute w-full border-t border-dashed border-[var(--app-border)]" style={{ bottom: `${val}%` }}>
-                    <span className="absolute -top-2 -left-1 text-[9px] text-[var(--app-text-disabled)]">{val}%</span>
-=======
                   <div key={val} className={cn('absolute w-full border-t border-dashed',
                     'border-[var(--app-border-light)]'
                   )} style={{ bottom: `${val}%` }}>
                     <span className={cn('absolute -top-2 -left-1 text-[9px]', 'text-[var(--app-text-disabled)]')}>{val}%</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                   </div>
                 ))}
                 <div className="absolute inset-0 flex items-end justify-between px-2 pb-1">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                  {CONFIDENCE_TREND.map((item, i) => (
-                    <div key={item.month} className="flex-1 flex flex-col items-center" style={{ height: '100%' }}>
-                      <div className="flex-1 flex items-end justify-center w-full relative" style={{ paddingBottom: `${item.confidence}%` }}>
-                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.3, delay: i * 0.1 }} className="w-3 h-3 rounded-full border-2 shrink-0 bg-[var(--app-bg)] border-purple-400" />
-=======
                   {CONFIDENCE_TREND.map((item, i) => {
                     const prev = i > 0 ? CONFIDENCE_TREND[i - 1].confidence : item.confidence;
                     const next = i < CONFIDENCE_TREND.length - 1 ? CONFIDENCE_TREND[i + 1].confidence : item.confidence;
@@ -539,7 +435,6 @@ export default function SalesForecastPage() {
                           />
                         </div>
                         <span className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{item.month}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                       </div>
                       <span className="text-[10px] mt-1 text-[var(--app-text-disabled)]">{item.month}</span>
                     </div>
@@ -554,13 +449,6 @@ export default function SalesForecastPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-            className="rounded-2xl border overflow-hidden"
-            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-          >
-            <div className="px-5 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
-              <h3 className="text-sm font-semibold">Rep Breakdown</h3>
-=======
             className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
@@ -619,7 +507,6 @@ export default function SalesForecastPage() {
                   })}
                 </tbody>
               </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
             </div>
             <SmartDataTable
               data={repTableData}
@@ -637,33 +524,16 @@ export default function SalesForecastPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.35 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-            className="rounded-2xl border p-5 bg-purple-500/[0.04] border-purple-500/15"
-          >
-            <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-purple-500/15">
-=======
             className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-purple-500/[0.04] border-purple-500/15' : 'bg-purple-50/50 border-purple-200/50')}
           >
             <div className="flex items-start gap-3">
               <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
                 isDark ? 'bg-purple-500/15' : 'bg-purple-100'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                 <BrainCircuit className="w-4 h-4 text-purple-400" />
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/sales-forecast-page.tsx
-                  <h3 className="text-sm font-semibold">AI Recommendation</h3>
-                  <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-purple-500/30 text-purple-300">
-                    <Sparkles className="w-2.5 h-2.5 mr-1" /> AI
-                  </Badge>
-                </div>
-                <p className="text-sm text-[var(--app-text-secondary)]">
-                  Focus on <span className="font-semibold text-[var(--app-text)]">Shanghai Tech</span> ($320K, 80% probability) and{' '}
-                  <span className="font-semibold text-[var(--app-text)]">USA Tech Solutions</span> ($520K, 60% probability) deals to exceed Q2 target by 15%.
-=======
                   <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>AI Recommendation</h3>
                   <Badge variant="outline" className={cn('text-[9px] px-1.5 py-0', isDark ? 'border-purple-500/30 text-purple-300' : 'border-purple-300 text-purple-700')}>
                     <Sparkles className="w-2.5 h-2.5 mr-1" /> AI
@@ -672,7 +542,6 @@ export default function SalesForecastPage() {
                 <p className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
                   Focus on <span className={cn('font-semibold', 'text-[var(--app-text)]')}>Shanghai Tech</span> ($320K, 80% probability) and{' '}
                   <span className={cn('font-semibold', 'text-[var(--app-text)]')}>USA Tech Solutions</span> ($520K, 60% probability) deals to exceed Q2 target by 15%.
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/forecast/sales-forecast-page.tsx
                   Both deals have strong buyer signals and budget approval. Prioritize the Shanghai Tech negotiation closing by Apr 25.
                 </p>
               </div>

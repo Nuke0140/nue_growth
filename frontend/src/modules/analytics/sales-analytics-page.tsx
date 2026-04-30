@@ -155,14 +155,6 @@ export default function SalesAnalyticsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-              <BarChart3 className="w-5 h-5" style={{ color: CSS.textSecondary }} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Sales Analytics</h1>
-              <p className="text-xs" style={{ color: CSS.textMuted }}>
-=======
             <div className={cn(
               'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
@@ -172,7 +164,6 @@ export default function SalesAnalyticsPage() {
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Sales Analytics</h1>
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Pipeline performance &amp; rep leaderboard
               </p>
             </div>
@@ -189,16 +180,11 @@ export default function SalesAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-<<<<<<< HEAD
-            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-=======
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-4 h-4 inline mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               {today}
             </span>
           </div>
@@ -260,21 +246,13 @@ export default function SalesAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{bucket.label}</span>
                     <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {bucket.count} deals
                       </span>
                       <span className="text-sm font-semibold">{bucket.value}%</span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-3 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-3 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(bucket.value / maxDealAging) * 100}%` }}
@@ -303,14 +281,10 @@ export default function SalesAnalyticsPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-sm font-medium">{stage.stage}</span>
                       {stage.dropRate > 0 && (
-<<<<<<< HEAD
-                        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-red-500/15 text-red-400">
-=======
                         <span className={cn(
                           'text-xs px-2 py-0.5 rounded-full font-medium',
                           'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
                         )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           -{stage.dropRate}%
                         </span>
                       )}
@@ -319,16 +293,6 @@ export default function SalesAnalyticsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-<<<<<<< HEAD
-                      className="h-12 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
-                    >
-                      <div className="text-center">
-                        <p className="text-lg font-bold" style={{ color: CSS.text }}>
-                          {stage.dealCount}
-                        </p>
-                        <p className="text-[10px]" style={{ color: CSS.textMuted }}>
-=======
                       className={cn(
                         'h-12 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                         'bg-[var(--app-hover-bg)]',
@@ -340,20 +304,15 @@ export default function SalesAnalyticsPage() {
                           {stage.dealCount}
                         </p>
                         <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           deals
                         </p>
                       </div>
                     </motion.div>
                     {i < data.stageDropOff.length - 1 && (
-<<<<<<< HEAD
-                      <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
-=======
                       <ChevronRight className={cn(
                         'w-4 h-4 my-0.5 rotate-90',
                         'text-[var(--app-text-disabled)]',
                       )} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     )}
                   </div>
                 );
@@ -364,16 +323,6 @@ export default function SalesAnalyticsPage() {
 
         {/* Rep Leaderboard Table */}
         <ChartCard title="Rep Leaderboard" subtitle="Top performers by revenue" className="lg:col-span-2">
-<<<<<<< HEAD
-          <SmartDataTable
-            data={rankedLeaderboard as unknown as Record<string, unknown>[]}
-            columns={leaderboardColumns}
-            searchable
-            enableExport
-            pageSize={10}
-            searchPlaceholder="Search reps…"
-          />
-=======
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -449,7 +398,6 @@ export default function SalesAnalyticsPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </ChartCard>
 
         {/* Row: Source to Close + Lost Reasons */}
@@ -467,21 +415,13 @@ export default function SalesAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {src.convRate}% conv
                       </span>
                       <span className="text-sm font-semibold">{src.avgDays}d</span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.avgDays / maxSourceDays) * 100}%` }}
@@ -513,11 +453,7 @@ export default function SalesAnalyticsPage() {
                 >
                   <div className="text-center">
                     <p className="text-lg font-bold">{data.lostReasons.reduce((s, r) => s + r.count, 0)}</p>
-<<<<<<< HEAD
-                    <p className="text-[10px]" style={{ color: CSS.textMuted }}>total lost</p>
-=======
                     <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>total lost</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   </div>
                 </div>
               </motion.div>
@@ -540,11 +476,7 @@ export default function SalesAnalyticsPage() {
                       <span className="text-xs font-medium truncate">{reason.reason}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {reason.count}
                       </span>
                       <span className="text-xs font-semibold">{reason.percentage}%</span>

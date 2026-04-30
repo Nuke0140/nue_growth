@@ -412,11 +412,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 {density === 'compact' ? (
                   <Rows3 className="w-4 h-4 mr-1.5" />
                 ) : density === 'comfortable' ? (
-<<<<<<< HEAD
-                  <Rows className="w-3.5 h-3.5 mr-1.5" />
-=======
                   <Rows5 className="w-4 h-4 mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 ) : (
                   <Rows4 className="w-4 h-4 mr-1.5" />
                 )}
@@ -607,15 +603,9 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                       {col.sortable && (
                         <ArrowUpDown
                           className={cn(
-<<<<<<< HEAD
-                              'w-3.5 h-3.5 transition-opacity',
-                              sortKey === col.key ? 'opacity-100' : 'opacity-30'
-                            )}
-=======
                             'w-4 h-4 transition-opacity',
                             sortKey === col.key ? 'opacity-100' : 'opacity-30'
                           )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           style={{ color: COLORS.text.muted }}
                           aria-hidden="true"
                         />

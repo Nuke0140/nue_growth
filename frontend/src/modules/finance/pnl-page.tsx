@@ -28,9 +28,6 @@ export default function PnLPage() {
 
   const months = ['Apr 2026', 'Mar 2026', 'Feb 2026', 'Jan 2026'];
 
-<<<<<<< HEAD
-  const isCategoryBold = (cat: string) => majorRows.includes(cat);
-=======
   const getRowStyle = (category: string) => {
     if (category === 'Gross Margin' || category === 'EBITDA' || category === 'Net Profit' || category === 'Net Margin %') {
       return isDark ? 'bg-white/[0.04] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]';
@@ -42,7 +39,6 @@ export default function PnLPage() {
   };
 
   const isCategoryBold = (cat: string) => highlightedRows.includes(cat);
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   const isCategoryAccent = (cat: string) => cat === 'Gross Margin' || cat === 'EBITDA' || cat === 'Net Profit' || cat === 'Net Margin %';
   const isVariancePositive = (entry: PnLEntry) => {
     if (entry.category.includes('COGS') || entry.category.includes('OpEx') || entry.category === 'Depreciation & Amort.') {
@@ -58,19 +54,11 @@ export default function PnLPage() {
     const margin = pnlData.find(d => d.category === 'Net Margin %');
     const cogs = pnlData.find(d => d.category === 'Total COGS');
     return [
-<<<<<<< HEAD
-      { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'success' },
-      { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'info' },
-      { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: TrendingUp, color: 'success' },
-      { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'accent' },
-      { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: FileText, color: 'warning' },
-=======
       { label: 'Total Revenue', value: formatINR(rev?.currentMonth ?? 0), change: rev?.variancePercent ?? 0, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
       { label: 'EBITDA', value: formatINR(ebitda?.currentMonth ?? 0), change: ebitda?.variancePercent ?? 0, icon: FileText, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
       { label: 'Net Profit', value: formatINR(net?.currentMonth ?? 0), change: net?.variancePercent ?? 0, icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
       { label: 'Net Margin', value: `${margin?.currentMonth ?? 0}%`, change: margin?.variancePercent ?? 0, icon: TrendingUp, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]' },
       { label: 'Total COGS', value: formatINR(cogs?.currentMonth ?? 0), change: cogs?.variancePercent ?? 0, icon: ArrowDownRight, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     ];
   }, []);
 
@@ -170,20 +158,6 @@ export default function PnLPage() {
   ], []);
 
   return (
-<<<<<<< HEAD
-    <PageShell
-      title="Profit & Loss Statement"
-      subtitle="Executive P&L"
-      icon={() => <FileText className="w-5 h-5" style={{ color: CSS.accent }} />}
-      headerRight={
-        <div className="flex items-center gap-3">
-          <Button size="sm" className="text-xs px-3 py-1.5 rounded-lg" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
-            {months[selectedMonth]}
-          </Button>
-          <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-            <Download className="w-4 h-4" /> Export
-          </Button>
-=======
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
         {/* Header */}
@@ -216,7 +190,6 @@ export default function PnLPage() {
               <Download className="w-4 h-4" /> Export
             </Button>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       }
     >
@@ -226,17 +199,6 @@ export default function PnLPage() {
           {kpis.map((kpi, i) => {
             const isPositive = kpi.label === 'Total COGS' ? kpi.change <= 0 : kpi.change >= 0;
             return (
-<<<<<<< HEAD
-              <KpiWidget
-                key={kpi.label}
-                label={kpi.label}
-                value={kpi.value}
-                icon={kpi.icon}
-                color={kpi.color}
-                trend={isPositive ? 'up' : 'down'}
-                trendValue={`${Math.abs(kpi.change)}%`}
-              />
-=======
               <motion.div key={kpi.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
                 <div className="flex items-center justify-between mb-2">
                   <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
@@ -251,26 +213,11 @@ export default function PnLPage() {
                 </div>
                 <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>vs previous month</p>
               </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             );
           })}
         </div>
 
         {/* P&L Table */}
-<<<<<<< HEAD
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <SmartDataTable
-            columns={columns}
-            data={tableData}
-            searchable
-            searchPlaceholder="Search P&L categories..."
-            searchKeys={['category']}
-            enableExport
-            emptyMessage="No P&L data found"
-            pageSize={20}
-          />
-        </div>
-=======
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }} className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="flex items-center justify-between mb-4">
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>P&L Statement — {months[selectedMonth]}</span>
@@ -358,7 +305,6 @@ export default function PnLPage() {
             })}
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       </div>
     </PageShell>
   );

@@ -271,16 +271,6 @@ export default function DataGovernancePage() {
             <Download className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Data Export Requests</span>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={dataExportRequests as unknown as Record<string, unknown>[]}
-            columns={exportColumns}
-            searchable
-            searchPlaceholder="Search exports..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -342,7 +332,6 @@ export default function DataGovernancePage() {
               </table>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* ── Consent Logs ── */}
@@ -355,16 +344,6 @@ export default function DataGovernancePage() {
             <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Consent Logs</span>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={consentLogs as unknown as Record<string, unknown>[]}
-            columns={consentColumns}
-            searchable
-            searchPlaceholder="Search consent logs..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -409,7 +388,6 @@ export default function DataGovernancePage() {
               </table>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* ── GDPR / Delete Workflow ── */}

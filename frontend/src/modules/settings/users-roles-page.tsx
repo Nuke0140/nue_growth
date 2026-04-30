@@ -283,19 +283,6 @@ export default function UsersRolesPage() {
         </div>
 
         {/* ── Users Table (Desktop) ── */}
-<<<<<<< HEAD
-        <SmartDataTable
-          data={filteredUsers as unknown as Record<string, unknown>[]}
-          columns={userColumns}
-          searchable
-          searchPlaceholder="Search users..."
-          enableExport
-          pageSize={10}
-          selectable
-          onSelectionChange={(ids) => setSelectedUsers(ids)}
-          className="hidden lg:block"
-        />
-=======
         <motion.div
           variants={stagger}
           initial="hidden"
@@ -435,7 +422,6 @@ export default function UsersRolesPage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
         {/* ── Users Card Layout (Mobile) ── */}
         <div className="lg:hidden space-y-3">
@@ -468,11 +454,7 @@ export default function UsersRolesPage() {
                 </div>
                 <RoleChip role={user.role} />
               </div>
-<<<<<<< HEAD
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: CSS.border }}>
-=======
               <div className="flex items-center gap-3 mt-3 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 <div className="flex items-center gap-1.5">
                   {user.mfaEnabled ? (
                     <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -481,10 +463,6 @@ export default function UsersRolesPage() {
                   )}
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>MFA</span>
                 </div>
-<<<<<<< HEAD
-                <StatusBadge status={user.status} />
-                <span className={cn('text-[10px] ml-auto', isDark ? 'text-white/30' : 'text-black/30')}>
-=======
                 <span className={cn(
                   'rounded-full px-2 py-0.5 text-[10px] font-semibold',
                   user.status === 'active'
@@ -494,7 +472,6 @@ export default function UsersRolesPage() {
                   {user.status}
                 </span>
                 <span className={cn('text-[10px] ml-auto', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   {user.activeSessions} sessions
                 </span>
               </div>

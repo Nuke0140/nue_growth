@@ -259,11 +259,7 @@ export default function RetentionPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-<<<<<<< HEAD
-          className={card}
-=======
           className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -274,26 +270,6 @@ export default function RetentionPage() {
               {CHURN_RISK_CUSTOMERS.length} at-risk
             </Badge>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={CHURN_RISK_CUSTOMERS as unknown as Record<string, unknown>[]}
-            columns={churnRiskColumns}
-            pageSize={10}
-            actions={(row) => {
-              const name = row.name as string;
-              const isReEngaged = reEngaged.includes(name);
-              if (isReEngaged) {
-                return <Badge className="text-[10px] bg-green-500/15 text-green-600">Sent ✓</Badge>;
-              }
-              return (
-                <Button variant="outline" size="sm" className="text-[10px] h-6 px-2" onClick={() => handleReEngage(name)}>
-                  <Send className="w-3 h-3 mr-1" />
-                  Re-engage
-                </Button>
-              );
-            }}
-          />
-=======
           <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
             <table className="w-full text-xs">
               <thead>
@@ -357,7 +333,6 @@ export default function RetentionPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Renewal Alerts */}

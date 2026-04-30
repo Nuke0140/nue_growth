@@ -34,9 +34,6 @@ export default function RevenuePage() {
   const [selectedRange, setSelectedRange] = useState<string>('ytd');
 
   const latest = revenueMonthly[revenueMonthly.length - 1];
-<<<<<<< HEAD
-  const totalRevenue = revenueMonthly.reduce((s: number, r) => s + r.revenue, 0);
-=======
   const totalRevenue = revenueMonthly.reduce((s: number, r: RevenueEntry) => s + r.revenue, 0);
 
   const kpiStats = useMemo(() => [
@@ -48,7 +45,6 @@ export default function RevenuePage() {
     { label: 'One-time Revenue', value: formatINR(latest.oneTime), icon: DollarSign, color: 'text-pink-400', bg: isDark ? 'bg-pink-500/10' : 'bg-pink-50', change: 0, changeLabel: 'project-based' },
     { label: 'Total Revenue', value: formatINR(latest.revenue), icon: BarChart3, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 8.3, changeLabel: 'this month' },
   ], [isDark, latest]);
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   const topClients = useMemo(() =>
     [...revenueByClient].sort((a: RevenueByClient, b: RevenueByClient) => b.revenue - a.revenue).slice(0, 8),
@@ -132,29 +128,6 @@ export default function RevenuePage() {
   ], []);
 
   return (
-<<<<<<< HEAD
-    <PageShell
-      title="Revenue Intelligence"
-      subtitle={<span>Total Revenue: <span style={{ color: CSS.text }}>{formatINR(totalRevenue)}</span></span>}
-      icon={() => <BarChart3 className="w-5 h-5" style={{ color: CSS.accent }} />}
-    >
-      <div className="space-y-6">
-        {/* Date Range Selector */}
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-1 rounded-xl border p-1" style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
-            {dateRanges.map((dr) => (
-              <button
-                key={dr.value}
-                onClick={() => setSelectedRange(dr.value)}
-                className={cn(
-                  'px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors',
-                  selectedRange === dr.value ? 'text-[var(--app-accent)] bg-[var(--app-active-bg)]' : 'text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]'
-                )}
-              >
-                {dr.label}
-              </button>
-            ))}
-=======
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
         {/* Header */}
@@ -200,7 +173,6 @@ export default function RevenuePage() {
               <Calendar className="w-4 h-4" />
               {today}
             </Badge>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         </div>
 
@@ -211,15 +183,6 @@ export default function RevenuePage() {
             return (
               <KpiWidget
                 key={stat.label}
-<<<<<<< HEAD
-                label={stat.label}
-                value={stat.value}
-                icon={stat.icon}
-                color={stat.color}
-                trend={stat.change !== 0 ? (isPositive ? 'up' : 'down') : undefined}
-                trendValue={stat.change !== 0 ? `${Math.abs(stat.change)}%` : undefined}
-              />
-=======
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -252,7 +215,6 @@ export default function RevenuePage() {
                   {stat.changeLabel}
                 </p>
               </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             );
           })}
         </div>
@@ -261,11 +223,6 @@ export default function RevenuePage() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD
-          className="rounded-2xl border p-5"
-          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
-        >
-=======
           transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-[var(--app-radius-xl)] border p-app-xl',
@@ -290,7 +247,6 @@ export default function RevenuePage() {
               </div>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           <div className="flex items-end gap-2 h-36">
             {revenueMonthly.map((entry, j) => {
               const maxVal = Math.max(...revenueMonthly.map((r) => r.target), ...revenueMonthly.map((r) => r.revenue));
@@ -301,14 +257,8 @@ export default function RevenuePage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.target / maxVal) * 100}%` }}
-<<<<<<< HEAD
-                      transition={{ delay: 0.4 + j * 0.05, duration: 0.5 }}
-                      className="flex-1 rounded-t-sm"
-                      style={{ backgroundColor: CSS.hoverBg }}
-=======
                       transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('flex-1 rounded-t-sm max-w-[40%]', 'bg-[var(--app-hover-bg)]')}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     />
                     <motion.div
                       initial={{ height: 0 }}
@@ -318,11 +268,7 @@ export default function RevenuePage() {
                       style={{ backgroundColor: achieved ? 'rgba(52, 211, 153, 0.6)' : 'rgba(248, 113, 113, 0.6)' }}
                     />
                   </div>
-<<<<<<< HEAD
-                  <span className="text-[9px]" style={{ color: CSS.textMuted }}>{months[j]}</span>
-=======
                   <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{months[j]}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </div>
               );
             })}
@@ -330,26 +276,6 @@ export default function RevenuePage() {
         </motion.div>
 
         {/* Revenue by Client Table */}
-<<<<<<< HEAD
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Revenue by Client</span>
-            </div>
-          </div>
-          <SmartDataTable
-            columns={columns}
-            data={tableData}
-            searchable
-            searchPlaceholder="Search clients..."
-            searchKeys={['client', 'services']}
-            enableExport
-            emptyMessage="No clients found"
-            pageSize={8}
-          />
-        </div>
-=======
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -419,21 +345,11 @@ export default function RevenuePage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
         {/* Revenue by Service */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD
-          className="rounded-2xl border p-5"
-          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Layers className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Revenue by Service</span>
-=======
           transition={{ delay: 0.6, duration: 0.4 }}
           className={cn(
             'rounded-[var(--app-radius-xl)] border p-app-xl',
@@ -446,7 +362,6 @@ export default function RevenuePage() {
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Revenue by Service
               </span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
           </div>
           <div className="space-y-3">
@@ -459,34 +374,21 @@ export default function RevenuePage() {
               >
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                    <span className="text-sm font-medium" style={{ color: CSS.text }}>{svc.service}</span>
-                    <StatusBadge status={svc.growth > 0 ? 'completed' : 'overdue'} variant="pill" className="text-[9px] px-1.5 py-0">
-=======
                     <span className="text-sm font-medium">{svc.service}</span>
                     <Badge variant="secondary" className={cn(
                       'text-[9px] px-1.5 py-0',
                       svc.growth > 0 ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]')
                         : ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]')
                     )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {svc.growth > 0 ? '+' : ''}{svc.growth}%
                     </StatusBadge>
                   </div>
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <span className="text-[10px]" style={{ color: CSS.textMuted }}>{svc.projects} projects</span>
-                    <span className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(svc.revenue)}</span>
-                  </div>
-                </div>
-                <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                     <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{svc.projects} projects</span>
                     <span className="text-sm font-semibold">{formatINR(svc.revenue)}</span>
                   </div>
                 </div>
                 <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(svc.revenue / maxServiceRevenue) * 100}%` }}

@@ -300,13 +300,6 @@ export default function SecurityCompliancePage() {
                 <Smartphone className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 Device Management
               </h3>
-<<<<<<< HEAD
-              <SmartDataTable
-                data={securityConfig.deviceLogs as unknown as Record<string, unknown>[]}
-                columns={deviceColumns}
-                pageSize={10}
-              />
-=======
               <div className={cn('rounded-[var(--app-radius-lg)] border overflow-hidden', 'border-[var(--app-border-light)]')}>
                 <table className="w-full text-xs">
                   <thead>
@@ -331,7 +324,6 @@ export default function SecurityCompliancePage() {
                   </tbody>
                 </table>
               </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </motion.div>
 
             {/* Compliance */}

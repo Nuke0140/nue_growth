@@ -129,14 +129,6 @@ export default function MarketingAnalyticsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-              <Megaphone className="w-5 h-5" style={{ color: CSS.textSecondary }} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Marketing Analytics</h1>
-              <p className="text-xs" style={{ color: CSS.textMuted }}>
-=======
             <div className={cn(
               'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
@@ -146,7 +138,6 @@ export default function MarketingAnalyticsPage() {
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Marketing Analytics</h1>
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Channel ROI, campaign performance &amp; content engagement
               </p>
             </div>
@@ -163,16 +154,11 @@ export default function MarketingAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
-<<<<<<< HEAD
-            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-=======
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-4 h-4 inline mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               {today}
             </span>
           </div>
@@ -232,11 +218,7 @@ export default function MarketingAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{ch.channel}</span>
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {formatINR(ch.revenue)} rev
                       </span>
                       <span className={cn(
@@ -247,11 +229,7 @@ export default function MarketingAnalyticsPage() {
                       </span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(ch.roi / maxChannelROI) * 100}%` }}
@@ -271,16 +249,6 @@ export default function MarketingAnalyticsPage() {
 
           {/* Ad Fatigue Table */}
           <ChartCard title="Ad Fatigue Monitor" subtitle="Campaign fatigue score &amp; engagement">
-<<<<<<< HEAD
-            <SmartDataTable
-              data={data.adFatigue as unknown as Record<string, unknown>[]}
-              columns={adFatigueColumns}
-              searchable
-              enableExport
-              pageSize={10}
-              searchPlaceholder="Search campaigns…"
-            />
-=======
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -356,7 +324,6 @@ export default function MarketingAnalyticsPage() {
                 </tbody>
               </table>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </ChartCard>
         </div>
 
@@ -371,14 +338,6 @@ export default function MarketingAnalyticsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
-<<<<<<< HEAD
-                  className="rounded-xl border p-3.5 transition-colors"
-                  style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.border }}
-                >
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-                      <ContentIcon className="w-3.5 h-3.5" style={{ color: CSS.textSecondary }} />
-=======
                   className={cn(
                     'rounded-[var(--app-radius-lg)] border p-3.5 transition-colors',
                     isDark
@@ -392,27 +351,11 @@ export default function MarketingAnalyticsPage() {
                       'bg-[var(--app-hover-bg)]',
                     )}>
                       <ContentIcon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     </div>
                     <span className="text-sm font-semibold truncate">{content.type}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-<<<<<<< HEAD
-                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Views</p>
-                      <p className="text-sm font-semibold">{formatNum(content.views)}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>CTR</p>
-                      <p className="text-sm font-semibold text-blue-500">{content.ctr}%</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Likes</p>
-                      <p className="text-sm font-medium">{formatNum(content.likes)}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Shares</p>
-=======
                       <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Views</p>
                       <p className="text-sm font-semibold">{formatNum(content.views)}</p>
                     </div>
@@ -426,7 +369,6 @@ export default function MarketingAnalyticsPage() {
                     </div>
                     <div>
                       <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Shares</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       <p className="text-sm font-medium">{formatNum(content.shares)}</p>
                     </div>
                   </div>
@@ -445,11 +387,7 @@ export default function MarketingAnalyticsPage() {
                 <div key={stage.stage} className="w-full flex flex-col items-center">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">{stage.stage}</span>
-<<<<<<< HEAD
-                    <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                     <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {stage.conversion}% conv
                     </span>
                   </div>
@@ -457,16 +395,6 @@ export default function MarketingAnalyticsPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${widthPct}%` }}
                     transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-<<<<<<< HEAD
-                    className="h-10 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
-                  >
-                    <div className="text-center">
-                      <p className="text-base font-bold" style={{ color: CSS.text }}>
-                        {formatNum(stage.visitors)}
-                      </p>
-                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>
-=======
                     className={cn(
                       'h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
                       'bg-[var(--app-hover-bg)]',
@@ -478,20 +406,15 @@ export default function MarketingAnalyticsPage() {
                         {formatNum(stage.visitors)}
                       </p>
                       <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         visitors
                       </p>
                     </div>
                   </motion.div>
                   {i < data.funnelConversion.length - 1 && (
-<<<<<<< HEAD
-                    <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
-=======
                     <ChevronRight className={cn(
                       'w-4 h-4 my-0.5 rotate-90',
                       'text-[var(--app-text-disabled)]',
                     )} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   )}
                 </div>
               );
@@ -506,14 +429,6 @@ export default function MarketingAnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-<<<<<<< HEAD
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <Mail className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>
-=======
             className={cn(
               'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
@@ -522,24 +437,16 @@ export default function MarketingAnalyticsPage() {
             <div className="flex items-center gap-2 mb-4">
               <Mail className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Email Campaigns
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-<<<<<<< HEAD
-                  <span className="text-xs" style={{ color: CSS.textMuted }}>Email CTR</span>
-                  <span className="text-lg font-bold">{data.emailCTR}%</span>
-                </div>
-                <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Email CTR</span>
                   <span className="text-lg font-bold">{data.emailCTR}%</span>
                 </div>
                 <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(data.emailCTR / 10) * 100}%` }}
@@ -556,11 +463,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Unsub Rate', value: '0.4%', change: '-0.1%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-<<<<<<< HEAD
-                    <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>
-=======
                     <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">
@@ -583,14 +486,6 @@ export default function MarketingAnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-<<<<<<< HEAD
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <MessageCircle className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>
-=======
             className={cn(
               'rounded-[var(--app-radius-xl)] border p-app-xl',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
@@ -599,24 +494,16 @@ export default function MarketingAnalyticsPage() {
             <div className="flex items-center gap-2 mb-4">
               <MessageCircle className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 WhatsApp Business
               </span>
             </div>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-<<<<<<< HEAD
-                  <span className="text-xs" style={{ color: CSS.textMuted }}>Reply Rate</span>
-                  <span className="text-lg font-bold">{data.whatsappReplyRate}%</span>
-                </div>
-                <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Reply Rate</span>
                   <span className="text-lg font-bold">{data.whatsappReplyRate}%</span>
                 </div>
                 <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${data.whatsappReplyRate}%` }}
@@ -633,11 +520,7 @@ export default function MarketingAnalyticsPage() {
                   { label: 'Response Time', value: '1.8h', change: '-15.0%' },
                 ].map((m, j) => (
                   <div key={m.label}>
-<<<<<<< HEAD
-                    <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>
-=======
                     <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {m.label}
                     </p>
                     <div className="flex items-baseline gap-1.5">

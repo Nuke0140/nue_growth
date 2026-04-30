@@ -49,16 +49,11 @@ export default function ChurnRiskPage() {
 
   const maxTrend = Math.max(...churnTrend.map((c) => c.value));
 
-<<<<<<< HEAD
-  const riskBarColors = ['bg-emerald-500/40', 'bg-amber-500/40', 'bg-red-500/40'];
-  const getRiskBarColor = (score: number) => riskBarColors[score >= 70 ? 2 : score >= 40 ? 1 : 0];
-=======
   const getRiskBadge = (level: string) => {
     if (level === 'high') return { bg: 'bg-[var(--app-danger-bg)]', text: 'text-red-500', label: 'High' };
     if (level === 'medium') return { bg: 'bg-[var(--app-warning-bg)]', text: 'text-amber-500', label: 'Medium' };
     return { bg: 'bg-[var(--app-success-bg)]', text: 'text-emerald-500', label: 'Safe' };
   };
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   // ── Churn Risk columns ──
   const churnColumns = useMemo(() => [
@@ -210,16 +205,6 @@ export default function ChurnRiskPage() {
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Risk Details</span>
             </div>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={churnRiskData as unknown as Record<string, unknown>[]}
-            columns={churnColumns}
-            searchable
-            searchPlaceholder="Search churn risk..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
               <thead>
@@ -290,7 +275,6 @@ export default function ChurnRiskPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* High Risk Action Buttons Row */}

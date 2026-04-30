@@ -44,40 +44,6 @@ export default function PayablesPage() {
   const totalApproved = approvedPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
   const totalUrgent = urgentPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
 
-<<<<<<< HEAD
-=======
-  const summaryCards = useMemo(() => [
-    { label: 'Total Pending', value: formatINR(totalPending), icon: Clock, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', count: pendingPayables.length },
-    { label: 'Approved', value: formatINR(totalApproved), icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', count: approvedPayables.length },
-    { label: 'Urgent', value: formatINR(totalUrgent), icon: Zap, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', count: urgentPayables.length },
-  ], [isDark, totalPending, totalApproved, totalUrgent, pendingPayables.length, approvedPayables.length, urgentPayables.length]);
-
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
-  const filteredPayables = useMemo(() =>
-    payables.filter((p: Payable) => {
-      if (statusFilter !== 'all' && p.approvalStatus !== statusFilter) return false;
-      if (priorityFilter !== 'all' && p.payoutPriority !== priorityFilter) return false;
-      return true;
-    }),
-    [statusFilter, priorityFilter]
-  );
-
-<<<<<<< HEAD
-  const statusFilterItems = useMemo(() => [
-    { key: 'all', label: 'All' },
-    { key: 'pending', label: 'Pending' },
-    { key: 'approved', label: 'Approved' },
-    { key: 'rejected', label: 'Rejected' },
-    { key: 'paid', label: 'Paid' },
-  ], []);
-
-  const priorityFilterItems = useMemo(() => [
-    { key: 'all', label: 'All Priority' },
-    { key: 'high', label: 'High' },
-    { key: 'medium', label: 'Medium' },
-    { key: 'low', label: 'Low' },
-  ], []);
-=======
   const statusBadge = (status: string) => {
     const configs: Record<string, string> = {
       pending: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]',
@@ -97,7 +63,6 @@ export default function PayablesPage() {
     };
     return configs[priority] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]');
   };
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   const tableData = useMemo(() =>
     filteredPayables.map((p: Payable) => ({
@@ -218,21 +183,6 @@ export default function PayablesPage() {
   ], []);
 
   return (
-<<<<<<< HEAD
-    <PageShell
-      title="Payables"
-      subtitle="Vendor Payout Workspace"
-      icon={() => <HandCoins className="w-5 h-5" style={{ color: CSS.accent }} />}
-      headerRight={
-        <div className="flex items-center gap-3">
-          <span className="px-3 py-1.5 text-xs font-medium rounded-full" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
-            <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-            {today}
-          </span>
-          <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-            <CalendarClock className="w-4 h-4" /> Schedule Payout
-          </Button>
-=======
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
         {/* Header */}
@@ -265,18 +215,12 @@ export default function PayablesPage() {
               Schedule Payout
             </Button>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       }
     >
       <div className="space-y-6">
         {/* Summary KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-<<<<<<< HEAD
-          <KpiWidget label="Total Pending" value={formatINR(totalPending)} icon={Clock} color="warning" trend={undefined} />
-          <KpiWidget label="Approved" value={formatINR(totalApproved)} icon={CheckCircle2} color="success" trend={undefined} />
-          <KpiWidget label="Urgent" value={formatINR(totalUrgent)} icon={Zap} color="danger" trend={undefined} />
-=======
           {summaryCards.map((card, i) => (
             <motion.div
               key={card.label}
@@ -302,22 +246,11 @@ export default function PayablesPage() {
               </p>
             </motion.div>
           ))}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <Filter className="w-4 h-4" style={{ color: CSS.textMuted }} />
-            <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>Status:</span>
-            <FilterBar filters={statusFilterItems} activeFilter={statusFilter} onFilterChange={(k) => setStatusFilter(k as StatusFilter)} />
-          </div>
-          <div className="w-px h-5" style={{ backgroundColor: CSS.border }} />
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>Priority:</span>
-            <FilterBar filters={priorityFilterItems} activeFilter={priorityFilter} onFilterChange={(k) => setPriorityFilter(k as PriorityFilter)} />
-=======
             <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
             <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Status:</span>
             {statusFilters.map((f) => (
@@ -352,23 +285,10 @@ export default function PayablesPage() {
                 {f.label}
               </button>
             ))}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         </div>
 
         {/* Payables Table */}
-<<<<<<< HEAD
-        <SmartDataTable
-          columns={columns}
-          data={tableData}
-          searchable
-          searchPlaceholder="Search payables..."
-          searchKeys={['vendor', 'linkedInvoice', 'category']}
-          enableExport
-          emptyMessage="No payables match the selected filters"
-          pageSize={10}
-        />
-=======
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -485,7 +405,6 @@ export default function PayablesPage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       </div>
     </PageShell>
   );

@@ -18,37 +18,6 @@ import type { AssetStatus } from '@/modules/erp/types';
 
 type FilterKey = 'all' | 'active' | 'in-repair' | 'disposed';
 
-<<<<<<< HEAD
-=======
-const ITEMS_PER_PAGE = 8;
-
-function getStatusConfig(status: AssetStatus, isDark: boolean) {
-  switch (status) {
-    case 'active': return 'bg-[var(--app-success-bg)] text-[var(--app-success)] border-[var(--app-success)]/30';
-    case 'in-repair': return 'bg-[var(--app-warning-bg)] text-[var(--app-warning)] border-[var(--app-warning)]/30';
-    case 'disposed': return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
-    case 'retired': return isDark ? 'bg-red-500/15 text-red-300 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200';
-    default: return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
-  }
-}
-
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
-function getStatusLabel(status: AssetStatus) {
-  const map: Record<AssetStatus, string> = { active: 'Active', 'in-repair': 'In Repair', disposed: 'Disposed', retired: 'Retired' };
-  return map[status] || status;
-}
-
-function getTypeIcon(type: string) {
-  const map: Record<string, React.ElementType> = {
-    'Laptop': Laptop, 'Mobile': Smartphone, 'Monitor': Monitor,
-    'Server': Server, 'Printer': Printer, 'AV Equipment': Monitor,
-    'Tablet': Smartphone,
-  };
-  return map[type] || Monitor;
-}
-
-<<<<<<< HEAD
-=======
 function getTypeBadgeColor(type: string, isDark: boolean) {
   const colors: Record<string, string> = {
     'Laptop': isDark ? 'bg-sky-500/15 text-sky-300 border-sky-500/20' : 'bg-sky-50 text-sky-700 border-sky-200',
@@ -62,7 +31,6 @@ function getTypeBadgeColor(type: string, isDark: boolean) {
   return colors[type] || ('bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]');
 }
 
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 function getWarrantyStatus(endDate: string) {
   const now = new Date();
   const end = new Date(endDate);
@@ -160,12 +128,6 @@ function AssetManagementPageInner() {
   return (
     <PageShell title="Asset Management" icon={Monitor} headerRight={
       <div className="flex items-center gap-2">
-<<<<<<< HEAD
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-=======
         <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           <input type="text" placeholder="Search assets..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
@@ -174,7 +136,6 @@ function AssetManagementPageInner() {
           <Tooltip>
             <TooltipTrigger asChild>
               <button className={cn('h-10  w-9 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 <Plus className="w-4 h-4" />
               </button>
             </TooltipTrigger>
@@ -185,30 +146,6 @@ function AssetManagementPageInner() {
     }>
 
         {/* Filter Tabs */}
-<<<<<<< HEAD
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: CSS.hoverBg }}>
-          {filters.map((filter) => {
-            const isActive = activeFilter === filter.key;
-            return (
-              <button
-                key={filter.key}
-                onClick={() => setActiveFilter(filter.key)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
-                style={{
-                  backgroundColor: isActive ? CSS.activeBg : 'transparent',
-                  color: isActive ? CSS.text : CSS.textMuted,
-                  boxShadow: isActive ? CSS.shadowCard : undefined,
-                }}
-              >
-                <filter.icon className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{filter.label}</span>
-                <span
-                  className="px-1.5 py-0.5 rounded text-[10px] font-bold"
-                  style={{ backgroundColor: isActive ? CSS.hoverBg : CSS.hoverBg, color: isActive ? CSS.text : CSS.textMuted }}
-                >
-                  {filter.count}
-                </span>
-=======
         <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit" style={{ background: 'var(--app-hover-bg)' }}>
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
@@ -217,7 +154,6 @@ function AssetManagementPageInner() {
                 <filter.icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{filter.label}</span>
                 <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? ('bg-[var(--app-hover-bg)]') : ('bg-[var(--app-hover-bg)]'))}>{filter.count}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </button>
             );
           })}
@@ -231,19 +167,10 @@ function AssetManagementPageInner() {
             { label: 'In Repair', value: stats.inRepair, icon: AlertTriangle },
             { label: 'Total Value', value: formatCurrency(stats.totalValue), icon: IndianRupee },
           ].map((stat, i) => (
-<<<<<<< HEAD
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="rounded-2xl border p-4" style={{ backgroundColor: CSS.cardBg, borderColor: CSS.borderLight, boxShadow: CSS.shadowCard }}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>{stat.label}</span>
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-                  <stat.icon className="w-3.5 h-3.5" style={{ color: CSS.textDisabled }} />
-                </div>
-=======
             <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                 <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
               <p className="text-xl font-bold" style={{ color: CSS.text }}>{stat.value}</p>
             </motion.div>
@@ -251,17 +178,6 @@ function AssetManagementPageInner() {
         </div>
 
         {/* Table */}
-<<<<<<< HEAD
-        <SmartDataTable
-          data={filtered as unknown as Record<string, unknown>[]}
-          columns={columns}
-          searchable
-          searchPlaceholder="Search assets..."
-          enableExport
-          emptyMessage="No assets found"
-          pageSize={8}
-        />
-=======
         <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="overflow-x-auto">
             <Table>
@@ -376,7 +292,6 @@ function AssetManagementPageInner() {
             </div>
           )}
         </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     </PageShell>
   );
 }

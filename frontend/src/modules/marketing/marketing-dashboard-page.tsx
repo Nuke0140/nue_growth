@@ -410,14 +410,6 @@ export default function MarketingDashboardPage() {
               View All <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={topCampaigns as unknown as Record<string, unknown>[]}
-            columns={topCampaignsColumns}
-            searchable pageSize={10}
-            searchPlaceholder="Search campaigns..."
-          />
-=======
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -486,7 +478,6 @@ export default function MarketingDashboardPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Active Alerts */}

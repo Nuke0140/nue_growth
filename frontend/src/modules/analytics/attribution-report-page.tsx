@@ -43,15 +43,10 @@ export default function AttributionReportPage() {
   const currentModel = MODELS[selectedModelIndex];
   const data = attributionData[selectedModelIndex];
 
-<<<<<<< HEAD
-  const card = 'rounded-2xl border shadow-sm';
-  const cardStyle = { backgroundColor: CSS.cardBg, borderColor: CSS.border, boxShadow: CSS.shadowCard };
-=======
   const card = cn(
     'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
     'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   const maxRevenue = Math.max(...data.revenueBySource.map((s) => s.revenue));
   const maxContribution = Math.max(...data.touchpointContribution.map((t) => t.contribution));
@@ -90,17 +85,10 @@ export default function AttributionReportPage() {
       <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: CSS.text }}>
-            Attribution Reports
-          </h1>
-          <p className="text-sm mt-1" style={{ color: CSS.textSecondary }}>
-=======
           <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Attribution Reports
           </h1>
           <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             Multi-model revenue attribution
           </p>
         </div>
@@ -139,19 +127,12 @@ export default function AttributionReportPage() {
           key={currentModel}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD
-          className="rounded-xl border p-3"
-          style={{ backgroundColor: CSS.cardBgHover, borderColor: CSS.borderLight }}
-        >
-          <p className="text-xs" style={{ color: CSS.textSecondary }}>
-=======
           className={cn(
             'rounded-[var(--app-radius-lg)] border p-3',
             'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             <span className="font-semibold">{MODEL_DESCRIPTIONS[currentModel]}</span>
           </p>
         </motion.div>
@@ -161,28 +142,16 @@ export default function AttributionReportPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
-<<<<<<< HEAD
-          className={cn(card, 'p-4 sm:p-5')}
-          style={cardStyle}
-=======
           className={cn(card, 'p-4 sm:p-app-xl')}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         >
           <div className="flex items-center justify-between mb-app-xl">
             <div className="flex items-center gap-2">
-<<<<<<< HEAD
-              <BarChart3 className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Revenue by Source</h3>
-            </div>
-            <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
               <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Revenue by Source
               </h3>
             </div>
             <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               Total: {formatCurrency(totalRevenue)}
             </span>
           </div>
@@ -197,35 +166,20 @@ export default function AttributionReportPage() {
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: SOURCE_COLORS[i % SOURCE_COLORS.length] }}
                       />
-<<<<<<< HEAD
-                      <span className="text-xs font-medium" style={{ color: CSS.text }}>
-=======
                       <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {source.source}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <span className="text-xs font-semibold" style={{ color: CSS.text }}>
-                        {formatCurrency(source.revenue)}
-                      </span>
-                      <span className="text-[10px] tabular-nums" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                         {formatCurrency(source.revenue)}
                       </span>
                       <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {source.percentage}%
                       </span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('h-2.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
@@ -250,23 +204,6 @@ export default function AttributionReportPage() {
             className={cn(card, 'overflow-hidden')}
             style={cardStyle}
           >
-<<<<<<< HEAD
-            <div className="p-4 sm:p-5 border-b" style={{ borderColor: CSS.border }}>
-              <div className="flex items-center gap-2">
-                <IndianRupee className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-                <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>CAC by Channel</h3>
-              </div>
-            </div>
-            <div className="p-4 sm:p-5">
-              <SmartDataTable
-                data={data.cacByChannel as unknown as Record<string, unknown>[]}
-                columns={cacColumns}
-                searchable
-                enableExport
-                pageSize={10}
-                searchPlaceholder="Search channels…"
-              />
-=======
             <div className="p-4 sm:p-app-xl border-b" style={{ borderColor: 'var(--app-border)' }}>
               <div className="flex items-center gap-2">
                 <IndianRupee className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -305,7 +242,6 @@ export default function AttributionReportPage() {
                   ))}
                 </tbody>
               </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
           </motion.div>
 
@@ -314,14 +250,6 @@ export default function AttributionReportPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3 }}
-<<<<<<< HEAD
-            className={cn(card, 'p-4 sm:p-5')}
-            style={cardStyle}
-          >
-            <div className="flex items-center gap-2 mb-5">
-              <GitBranch className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Touchpoint Contribution</h3>
-=======
             className={cn(card, 'p-4 sm:p-app-xl')}
           >
             <div className="flex items-center gap-2 mb-app-xl">
@@ -329,7 +257,6 @@ export default function AttributionReportPage() {
               <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Touchpoint Contribution
               </h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
             <div className="space-y-4">
               {data.touchpointContribution.map((tp, i) => {
@@ -337,16 +264,6 @@ export default function AttributionReportPage() {
                 return (
                   <div key={tp.touchpoint}>
                     <div className="flex items-center justify-between mb-1.5">
-<<<<<<< HEAD
-                      <span className="text-xs font-medium" style={{ color: CSS.text }}>
-                        {tp.touchpoint}
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold" style={{ color: CSS.text }}>
-                          {tp.contribution}%
-                        </span>
-                        <span className="text-[10px] tabular-nums" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
                         {tp.touchpoint}
                       </span>
@@ -355,16 +272,11 @@ export default function AttributionReportPage() {
                           {tp.contribution}%
                         </span>
                         <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           {tp.conversions} conv
                         </span>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                     <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${width}%` }}
@@ -387,23 +299,6 @@ export default function AttributionReportPage() {
           className={cn(card, 'overflow-hidden')}
           style={cardStyle}
         >
-<<<<<<< HEAD
-          <div className="p-4 sm:p-5 border-b" style={{ borderColor: CSS.border }}>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Assisted Conversions</h3>
-            </div>
-          </div>
-          <div className="p-4 sm:p-5">
-            <SmartDataTable
-              data={data.assistedConversions as unknown as Record<string, unknown>[]}
-              columns={assistedColumns}
-              searchable
-              enableExport
-              pageSize={10}
-              searchPlaceholder="Search channels…"
-            />
-=======
           <div className="p-4 sm:p-app-xl border-b" style={{ borderColor: 'var(--app-border)' }}>
             <div className="flex items-center gap-2">
               <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
@@ -442,7 +337,6 @@ export default function AttributionReportPage() {
                 ))}
               </tbody>
             </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         </motion.div>
 
@@ -451,14 +345,6 @@ export default function AttributionReportPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3 }}
-<<<<<<< HEAD
-          className={cn(card, 'p-4 sm:p-5')}
-          style={cardStyle}
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <Layers className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-            <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Model Comparison</h3>
-=======
           className={cn(card, 'p-4 sm:p-app-xl')}
         >
           <div className="flex items-center gap-2 mb-4">
@@ -466,7 +352,6 @@ export default function AttributionReportPage() {
             <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Model Comparison
             </h3>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {attributionData.map((model, i) => {
@@ -477,41 +362,25 @@ export default function AttributionReportPage() {
                   key={model.model}
                   whileHover={{ scale: 1.02, y: -2 }}
                   onClick={() => setSelectedModelIndex(i)}
-<<<<<<< HEAD
-                  className="rounded-xl border p-3 cursor-pointer transition-colors"
-                  style={
-=======
                   className={cn(
                     'rounded-[var(--app-radius-lg)] border p-3 cursor-pointer transition-colors',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     i === selectedModelIndex
                       ? { borderColor: 'rgba(59, 130, 246, 0.3)', backgroundColor: 'rgba(59, 130, 246, 0.05)' }
                       : { backgroundColor: CSS.cardBgHover, borderColor: CSS.border }
                   }
                 >
                   <div className="flex items-center justify-between mb-2">
-<<<<<<< HEAD
-                    <span className="text-xs font-semibold" style={{ color: CSS.text }}>
-=======
                     <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {MODEL_LABELS[model.model]}
                     </span>
                     {i === selectedModelIndex && (
                       <span className="inline-flex h-2 w-2 rounded-full bg-blue-500" />
                     )}
                   </div>
-<<<<<<< HEAD
-                  <p className="text-lg font-bold" style={{ color: CSS.text }}>
-                    {formatCurrency(modelTotal)}
-                  </p>
-                  <p className="text-[10px] mt-1" style={{ color: CSS.textMuted }}>
-=======
                   <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                     {formatCurrency(modelTotal)}
                   </p>
                   <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     Top: {topSource.source} ({topSource.percentage}%)
                   </p>
                 </motion.div>

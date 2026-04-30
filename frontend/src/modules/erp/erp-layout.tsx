@@ -1500,13 +1500,8 @@ export default function ErpLayout() {
           <Sidebar />
 
           {/* Content area */}
-<<<<<<< HEAD
-          <main className="flex-1 overflow-auto bg-[var(--ops-bg)] scroll-smooth">
-            <ErrorBoundary onError={(error, info) => console.error('ERP Error:', error, info)}>
-=======
           <main className="flex-1 overflow-auto bg-[var(--app-bg)] scroll-smooth">
             <ErpErrorBoundary>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               <PageContent />
             </ErrorBoundary>
           </main>

@@ -35,36 +35,12 @@ const agingBuckets: { label: string; value: AgingFilter }[] = [
   { label: '90+ days', value: '90+' },
 ];
 
-<<<<<<< HEAD
-const stageLabels: Record<string, string> = {
-  'first-reminder': '1st Reminder',
-  'second-reminder': '2nd Reminder',
-  escalation: 'Escalation',
-  legal: 'Legal',
-  resolved: 'Resolved',
-};
-
-const stageStatusMap: Record<string, string> = {
-  'first-reminder': 'pending',
-  'second-reminder': 'pending',
-  escalation: 'escalated',
-  legal: 'escalated',
-  resolved: 'completed',
-};
-
-const bucketColors: Record<string, string> = {
-  '0-30': 'emerald',
-  '31-60': 'amber',
-  '61-90': 'orange',
-  '90+': 'red',
-=======
 const stageColors: Record<string, { color: string; bg: string }> = {
   'first-reminder': { color: 'text-amber-400', bg: isDark => 'bg-[var(--app-warning-bg)]', bgLight: 'bg-amber-50', bgDark: 'bg-amber-500/15' },
   'second-reminder': { color: 'text-orange-400', bgLight: 'bg-orange-50', bgDark: 'bg-orange-500/15' },
   'escalation': { color: 'text-red-400', bgLight: 'bg-red-50', bgDark: 'bg-red-500/15' },
   'legal': { color: 'text-red-500', bgLight: 'bg-red-100', bgDark: 'bg-red-500/20' },
   'resolved': { color: 'text-emerald-400', bgLight: 'bg-emerald-50', bgDark: 'bg-emerald-500/15' },
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 };
 
 export default function ReceivablesPage() {
@@ -82,17 +58,10 @@ export default function ReceivablesPage() {
     const buckets = { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
     receivables.forEach((r: Receivable) => { buckets[r.agingBucket] += r.dueAmount; });
     return [
-<<<<<<< HEAD
-      { label: '0-30 days', key: '0-30' as const, value: buckets['0-30'] },
-      { label: '31-60 days', key: '31-60' as const, value: buckets['31-60'] },
-      { label: '61-90 days', key: '61-90' as const, value: buckets['61-90'] },
-      { label: '90+ days', key: '90+' as const, value: buckets['90+'] },
-=======
       { label: '0-30 days', key: '0-30' as const, value: buckets['0-30'], color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', border: isDark ? 'border-emerald-500/20' : 'border-emerald-200' },
       { label: '31-60 days', key: '31-60' as const, value: buckets['31-60'], color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', border: isDark ? 'border-amber-500/20' : 'border-amber-200' },
       { label: '61-90 days', key: '61-90' as const, value: buckets['61-90'], color: 'text-orange-400', bg: isDark ? 'bg-orange-500/10' : 'bg-orange-50', border: isDark ? 'border-orange-500/20' : 'border-orange-200' },
       { label: '90+ days', key: '90+' as const, value: buckets['90+'], color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', border: isDark ? 'border-red-500/20' : 'border-red-200' },
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     ];
   }, []);
 
@@ -101,13 +70,6 @@ export default function ReceivablesPage() {
     [agingFilter]
   );
 
-<<<<<<< HEAD
-  const getRecoveryPriority = (r: Receivable) => {
-    if (r.overdueDays > 30 && r.paymentProbability < 50) return 'critical';
-    if (r.overdueDays > 15 || r.followUpStage === 'escalation') return 'high';
-    if (r.overdueDays > 0) return 'medium';
-    return 'low';
-=======
   const stageConfig = (stage: string) => {
     const configs: Record<string, { bg: string; text: string }> = {
       'first-reminder': { bg: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]', text: '1st Reminder' },
@@ -130,7 +92,6 @@ export default function ReceivablesPage() {
     if (r.overdueDays > 15 || r.followUpStage === 'escalation') return { label: 'High', color: isDark ? 'bg-orange-500/15 text-orange-400' : 'bg-orange-50 text-orange-600' };
     if (r.overdueDays > 0) return { label: 'Medium', color: 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]' };
     return { label: 'Low', color: 'bg-[var(--app-success-bg)] text-[var(--app-success)]' };
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   };
 
   const getOverdueColor = (days: number) => {
@@ -273,22 +234,6 @@ export default function ReceivablesPage() {
   ], []);
 
   return (
-<<<<<<< HEAD
-    <PageShell
-      title="Receivables"
-      subtitle={
-        <span>Total Outstanding: <span style={{ color: CSS.danger, fontWeight: 600 }}>{formatINR(totalOutstanding)}</span></span>
-      }
-      icon={() => <CreditCard className="w-5 h-5" style={{ color: CSS.accent }} />}
-      headerRight={
-        <span className="px-3 py-1.5 text-xs font-medium rounded-full" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
-          <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-          {today}
-        </span>
-      }
-    >
-      <div className="space-y-6">
-=======
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
         {/* Header */}
@@ -316,7 +261,6 @@ export default function ReceivablesPage() {
           </Badge>
         </div>
 
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         {/* Aging Bucket Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {agingSummary.map((bucket, i) => (
@@ -326,17 +270,6 @@ export default function ReceivablesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setAgingFilter(bucket.key === agingFilter ? 'all' : bucket.key)}
-<<<<<<< HEAD
-              className="rounded-2xl border p-4 cursor-pointer transition-all duration-200"
-              style={{
-                backgroundColor: agingFilter === bucket.key ? CSS.activeBg : CSS.hoverBg,
-                borderColor: agingFilter === bucket.key ? CSS.accent : CSS.border,
-                boxShadow: agingFilter === bucket.key ? `0 0 0 1px ${CSS.accent}20` : CSS.shadowCard,
-              }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
                 bucket.border,
@@ -347,7 +280,6 @@ export default function ReceivablesPage() {
             >
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   {bucket.label}
                 </span>
                 <span className="text-[10px] font-medium" style={{ color: CSS[bucketColors[bucket.key] as keyof typeof CSS] ?? CSS.textMuted }}>
@@ -363,27 +295,6 @@ export default function ReceivablesPage() {
 
         {/* Filter Bar */}
         <div className="flex items-center gap-3 flex-wrap">
-<<<<<<< HEAD
-          <Filter className="w-4 h-4" style={{ color: CSS.textMuted }} />
-          <FilterBar
-            filters={agingBuckets.map((b) => ({ key: b.value, label: b.label }))}
-            activeFilter={agingFilter}
-            onFilterChange={(k) => setAgingFilter(k as AgingFilter)}
-          />
-        </div>
-
-        {/* Receivables Table */}
-        <SmartDataTable
-          columns={columns}
-          data={tableData}
-          searchable
-          searchPlaceholder="Search receivables..."
-          searchKeys={['client', 'invoiceNo', 'project', 'assignedOwner']}
-          enableExport
-          emptyMessage="No data for this aging bucket"
-          pageSize={10}
-        />
-=======
           <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           {agingBuckets.map((b) => (
             <button
@@ -510,7 +421,6 @@ export default function ReceivablesPage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
         {/* WhatsApp CTA Section */}
         {filteredReceivables.some((r: Receivable) => r.overdueDays > 0) && (
@@ -518,19 +428,6 @@ export default function ReceivablesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-<<<<<<< HEAD
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 4%, transparent)', borderColor: 'color-mix(in srgb, var(--app-success) 20%, transparent)' }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 15%, transparent)' }}>
-                  <MessageCircle className="w-5 h-5" style={{ color: CSS.success }} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold" style={{ color: CSS.text }}>Bulk WhatsApp Reminder</p>
-                  <p className="text-xs" style={{ color: CSS.textMuted }}>
-=======
             className={cn(
               'rounded-[var(--app-radius-xl)] border p-app-xl',
               isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'
@@ -544,19 +441,14 @@ export default function ReceivablesPage() {
                 <div>
                   <p className="text-sm font-semibold">Bulk WhatsApp Reminder</p>
                   <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     Send payment reminders to {filteredReceivables.filter((r: Receivable) => r.overdueDays > 0).length} overdue clients
                   </p>
                 </div>
               </div>
-<<<<<<< HEAD
-              <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 20%, transparent)', color: CSS.success }}>
-=======
               <Button className={cn(
                 'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2',
                 isDark ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
               )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 <MessageCircle className="w-4 h-4" />
                 Send Reminders
               </Button>

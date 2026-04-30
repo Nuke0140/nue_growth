@@ -13,16 +13,8 @@ import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-import { mockTeamPerformance } from './data/mock-data';
-import type { TeamPerformance } from '@/modules/crm-sales/types';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CSS } from '@/styles/design-tokens';
-=======
 import { mockTeamPerformance } from '@/modules/crm-sales/data/mock-data';
 import type { TeamPerformance } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
 
 function formatCurrency(value: number): string {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -49,24 +41,15 @@ function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' 
     <div className="relative inline-flex items-center justify-center">
       <svg width={(radius + strokeWidth) * 2} height={(radius + strokeWidth) * 2} className="-rotate-90">
         <circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-          fill="none" stroke={CSS.hoverBg} strokeWidth={strokeWidth} />
-=======
           fill="none" stroke={'var(--app-border)'} strokeWidth={strokeWidth} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
         <motion.circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
           fill="none" stroke={color} strokeWidth={strokeWidth}
           strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }} transition={{ duration: 1.2, ease: 'easeOut' }}
           strokeLinecap="round" />
       </svg>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-      <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm')}
-        style={{ color: CSS.text }}>
-=======
       <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm',
         'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
         {score}
       </span>
     </div>
@@ -79,33 +62,22 @@ function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-      className="rounded-2xl border p-6 md:p-8 relative overflow-hidden"
-      style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-=======
       className={cn(
         'rounded-[var(--app-radius-xl)] border p-6 md:p-app-3xl relative overflow-hidden',
         isDark
           ? 'bg-gradient-to-br from-amber-500/[0.08] via-white/[0.04] to-white/[0.02] border-amber-500/20'
           : 'bg-gradient-to-br from-amber-50 via-white to-white border-amber-200/50'
       )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
     >
       {/* Decorative glow */}
       <div className="absolute -top-20 -right-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-      <div className="relative flex flex-col md:flex-row md:items-center gap-6">
-        <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black ring-2 bg-amber-500/20 text-amber-300 ring-amber-500/30">
-=======
       <div className="relative flex flex-col md:flex-row md:items-center gap-app-2xl">
         <div className="flex items-center gap-app-xl">
           <div className={cn(
             'w-20 h-20 rounded-[var(--app-radius-xl)] flex items-center justify-center text-2xl font-black ring-2',
             isDark ? 'bg-amber-500/20 text-amber-300 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-amber-300/50'
           )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
             {rep.repName.split(' ').map(n => n[0]).join('')}
           </div>
           <div>
@@ -115,13 +87,8 @@ function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
                 Top Performer
               </span>
             </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-            <h2 className="text-xl font-bold" style={{ color: CSS.text }}>{rep.repName}</h2>
-            <p className="text-sm" style={{ color: CSS.textMuted }}>
-=======
             <h2 className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{rep.repName}</h2>
             <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
               {rep.dealsWon} deals won · {rep.closeRate}% close rate
             </p>
           </div>
@@ -134,12 +101,6 @@ function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
             { label: 'SLA Score', value: `${rep.followUpSla}%`, icon: Shield },
             { label: 'AI Score', value: rep.aiProductivityScore.toString(), icon: Sparkles },
           ].map((metric) => (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-            <div key={metric.label} className="rounded-xl p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
-              <metric.icon className="w-4 h-4 mx-auto mb-1" style={{ color: CSS.textDisabled }} />
-              <p className="text-lg font-bold" style={{ color: CSS.text }}>{metric.value}</p>
-              <p className="text-[10px] font-medium" style={{ color: CSS.textDisabled }}>{metric.label}</p>
-=======
             <div key={metric.label} className={cn(
               'rounded-[var(--app-radius-lg)] p-3 text-center',
               'bg-[var(--app-hover-bg)]'
@@ -147,7 +108,6 @@ function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
               <metric.icon className={cn('w-4 h-4 mx-auto mb-1', 'text-[var(--app-text-muted)]')} />
               <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{metric.value}</p>
               <p className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{metric.label}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
             </div>
           ))}
         </div>
@@ -353,30 +313,18 @@ export default function TeamPerformancePage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                <h1 className="text-2xl font-bold tracking-tight" style={{ color: CSS.text }}>
-                  Team Performance
-                </h1>
-                <p className="text-sm mt-1" style={{ color: CSS.textMuted }}>
-=======
                 <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
                   Team Performance
                 </h1>
                 <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                   Sales leaderboard &amp; rep analytics
                 </p>
               </div>
               <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                <div className="flex items-center rounded-xl border overflow-hidden"
-                  style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
-=======
                 <div className={cn(
                   'flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
                   'border-[var(--app-border)]'
                 )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                   {PERIODS.map((p) => (
                     <button
                       key={p}
@@ -384,13 +332,8 @@ export default function TeamPerformancePage() {
                       className={cn(
                         'px-3 py-1.5 text-xs font-medium transition-colors',
                         period === p
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                          ? 'text-[var(--app-text)]'
-                          : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
-=======
                           ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                           : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                       )}
                       style={period === p ? { backgroundColor: CSS.activeBg } : undefined}
                     >
@@ -398,17 +341,11 @@ export default function TeamPerformancePage() {
                     </button>
                   ))}
                 </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                <Button className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold"
-                  style={{ backgroundColor: CSS.accent, color: '#ffffff' }}>
-                  <Plus className="w-3.5 h-3.5 mr-1.5" />
-=======
                 <Button className={cn(
                   'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
                   'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
                 )}>
                   <Plus className="w-4 h-4 mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                   Add Rep
                 </Button>
               </div>
@@ -422,13 +359,6 @@ export default function TeamPerformancePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-              className="rounded-2xl border overflow-hidden"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="px-5 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
-                <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Sales Leaderboard</h3>
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border overflow-hidden',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -598,7 +528,6 @@ export default function TeamPerformancePage() {
                     })}
                   </tbody>
                 </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
               </div>
               <SmartDataTable
                 data={leaderboardData}
@@ -620,42 +549,25 @@ export default function TeamPerformancePage() {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + i * 0.1 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                    className="rounded-2xl border p-5"
-                    style={{
-                      backgroundColor: rep.rank === 1 ? 'rgba(245,158,11,0.04)' : CSS.cardBg,
-                      borderColor: rep.rank === 1 ? 'rgba(245,158,11,0.15)' : CSS.border,
-                    }}
-=======
                     className={cn(
                       'rounded-[var(--app-radius-xl)] border p-app-xl',
                       rep.rank === 1
                         ? (isDark ? 'bg-amber-500/[0.06] border-amber-500/20' : 'bg-amber-50/60 border-amber-200/50')
                         : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
                     )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <ScoreMeter score={rep.aiProductivityScore} size="sm" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                          <span className="text-sm font-semibold" style={{ color: CSS.text }}>
-=======
                           <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                             {rep.repName}
                           </span>
                           {rankStyle && <span className="text-sm">{rankStyle.emoji}</span>}
                         </div>
                         <div className="flex items-center gap-1 mt-0.5">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                          <Sparkles className="w-3 h-3 text-violet-400" />
-                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
-=======
                           <Sparkles className="w-4 h-4 text-violet-400" />
                           <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                             AI Productivity Score
                           </span>
                           <Tooltip>
@@ -674,13 +586,8 @@ export default function TeamPerformancePage() {
                       {/* Target Progress */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
-                            <Target className="w-3 h-3 inline mr-1" />Target Progress
-=======
                           <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
                             <Target className="w-4 h-4 inline mr-1" />Target Progress
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                           </span>
                           <span className={cn('text-[10px] font-bold',
                             rep.targetProgress >= 80 ? 'text-emerald-500' : rep.targetProgress >= 60 ? 'text-amber-500' : 'text-red-500'
@@ -688,11 +595,7 @@ export default function TeamPerformancePage() {
                             {rep.targetProgress}%
                           </span>
                         </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                        <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                         <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${rep.targetProgress}%` }}
@@ -704,11 +607,7 @@ export default function TeamPerformancePage() {
                             )}
                           />
                         </div>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                        <p className="text-[10px] mt-1" style={{ color: CSS.textDisabled }}>
-=======
                         <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                           {formatCurrency(rep.revenueClosed)} of {formatCurrency(rep.targetAmount)}
                         </p>
                       </div>
@@ -720,18 +619,12 @@ export default function TeamPerformancePage() {
                           { label: 'SLA', value: `${rep.followUpSla}%` },
                           { label: 'Response', value: rep.avgResponseTime },
                         ].map((s) => (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                          <div key={s.label} className="rounded-lg p-2 text-center" style={{ backgroundColor: CSS.hoverBg }}>
-                            <p className="text-xs font-bold" style={{ color: CSS.textSecondary }}>{s.value}</p>
-                            <p className="text-[9px]" style={{ color: CSS.textDisabled }}>{s.label}</p>
-=======
                           <div key={s.label} className={cn(
                             'rounded-[var(--app-radius-lg)] p-2 text-center',
                             'bg-[var(--app-hover-bg)]'
                           )}>
                             <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>{s.value}</p>
                             <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{s.label}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                           </div>
                         ))}
                       </div>
@@ -754,16 +647,6 @@ export default function TeamPerformancePage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
-                  className="rounded-2xl border p-4 transition-colors"
-                  style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <stat.icon className={cn('w-4 h-4', stat.color)} />
-                    <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>{stat.label}</span>
-                  </div>
-                  <p className="text-xl font-bold tracking-tight" style={{ color: CSS.text }}>{stat.value}</p>
-=======
                   className={cn(
                     'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
                     'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -774,7 +657,6 @@ export default function TeamPerformancePage() {
                     <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
                   </div>
                   <p className={cn('text-xl font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
                 </motion.div>
               ))}
             </div>

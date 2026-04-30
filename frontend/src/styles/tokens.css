@@ -1,31 +1,6 @@
 /* ============================================
    NueEra Growth OS — Canonical Design Tokens
    ============================================
-<<<<<<< HEAD
-   CSS custom properties (--app-*) for both light and dark mode.
-   Brand: Blue (#2563EB) + Orange (#F97316)
-   Aesthetic: Linear (speed), Notion (clarity),
-              Stripe (depth), Apple (elegance)
-
-   Color ratio: 80% neutral, 15% blue, 5% orange
-   Gradients (blue→orange) ONLY for: CTA buttons, auth screens,
-   AI panels, key highlights.
-   ============================================ */
-
-:root {
-  /* ---- Core Surfaces ---- */
-  --app-bg: #F8FAFC;
-  --app-accent: #2563EB;
-  --app-accent-hover: #1D4ED8;
-  --app-accent-light: rgba(37, 99, 235, 0.08);
-  --app-highlight: #F97316;
-  --app-highlight-hover: #EA580C;
-  --app-highlight-light: rgba(249, 115, 22, 0.08);
-  --app-card-bg: #FFFFFF;
-  --app-card-bg-hover: #F8FAFC;
-  --app-elevated: #F1F5F9;
-  --app-input-bg: #FFFFFF;
-=======
    SINGLE SOURCE OF TRUTH for all design tokens.
    Uses ONLY the --app-* namespace.
    Dark mode handled exclusively via .dark class.
@@ -42,7 +17,6 @@
   --app-card-bg-hover: #f5f5f5;
   --app-elevated: #f5f5f5;
   --app-input-bg: #f5f5f5;
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   /* ---- Text ---- */
   --app-text: #0F172A;
@@ -72,11 +46,6 @@
   --app-info-bg: rgba(37, 99, 235, 0.10);
 
   /* ---- Shadows ---- */
-<<<<<<< HEAD
-  --app-shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --app-shadow-card-hover: 0 8px 25px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(15, 23, 42, 0.04);
-  --app-shadow-elevated: 0 10px 40px rgba(15, 23, 42, 0.1), 0 4px 12px rgba(15, 23, 42, 0.05);
-=======
   --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --app-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
   --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -101,7 +70,6 @@
   --app-space-2xl: 24px;
   --app-space-3xl: 32px;
   --app-space-4xl: 40px;
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   /* ---- Scrollbar ---- */
   --app-scrollbar-thumb: rgba(15, 23, 42, 0.12);
@@ -115,24 +83,6 @@
   --app-skeleton-to: rgba(15, 23, 42, 0.08);
 
   /* ---- Layout ---- */
-<<<<<<< HEAD
-  --app-sidebar-bg: #FFFFFF;
-  --app-topbar-bg: rgba(248, 250, 252, 0.8);
-  --app-topbar-border: rgba(15, 23, 42, 0.06);
-
-  /* ---- Glass / Morphism ---- */
-  --app-glass-bg: rgba(255, 255, 255, 0.7);
-  --app-glass-border: rgba(255, 255, 255, 0.5);
-
-  /* ---- Gradients ---- */
-  --app-gradient-primary: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
-  --app-gradient-primary-hover: linear-gradient(135deg, #1D4ED8 0%, #EA580C 100%);
-
-  /* ---- Glow Effects ---- */
-  --app-glow-blue: 0 0 20px rgba(37, 99, 235, 0.15);
-  --app-glow-orange: 0 0 20px rgba(249, 115, 22, 0.15);
-  --app-glow-mixed: 0 0 30px rgba(37, 99, 235, 0.1), 0 0 60px rgba(249, 115, 22, 0.05);
-=======
   --app-sidebar-bg: #ffffff;
   --app-topbar-bg: #ffffff;
   --app-topbar-border: rgba(0, 0, 0, 0.08);
@@ -177,27 +127,12 @@
   --app-purple-light: rgba(139, 92, 246, 0.10);
   --app-emerald: #10b981;
   --app-emerald-light: rgba(16, 185, 129, 0.10);
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 }
 
 /* ============================================
    Dark Mode — .dark class only
    ============================================ */
 .dark {
-<<<<<<< HEAD
-  /* ---- Core Surfaces ---- */
-  --app-bg: #0B1120;
-  --app-accent: #3B82F6;
-  --app-accent-hover: #2563EB;
-  --app-accent-light: rgba(59, 130, 246, 0.12);
-  --app-highlight: #FB923C;
-  --app-highlight-hover: #F97316;
-  --app-highlight-light: rgba(251, 146, 60, 0.1);
-  --app-card-bg: #111827;
-  --app-card-bg-hover: #1E293B;
-  --app-elevated: #1E293B;
-  --app-input-bg: #111827;
-=======
   /* ---- Core surfaces ---- */
   --app-bg: #1b1c1e;
   --app-accent: #cc5c37;
@@ -208,7 +143,6 @@
   --app-card-bg-hover: #2a2b2e;
   --app-elevated: #2a2b2e;
   --app-input-bg: #2a2b2e;
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   /* ---- Text ---- */
   --app-text: #F1F5F9;
@@ -238,15 +172,6 @@
   --app-info-bg: rgba(96, 165, 250, 0.10);
 
   /* ---- Shadows ---- */
-<<<<<<< HEAD
-  --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
-  --app-shadow-card-hover: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.15);
-  --app-shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
-
-  /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(241, 245, 249, 0.1);
-  --app-scrollbar-thumb-hover: rgba(241, 245, 249, 0.2);
-=======
   --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
   --app-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
   --app-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
@@ -275,7 +200,6 @@
   /* ---- Scrollbar ---- */
   --app-scrollbar-thumb: rgba(255, 255, 255, 0.10);
   --app-scrollbar-thumb-hover: rgba(255, 255, 255, 0.20);
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   /* ---- Overlay ---- */
   --app-overlay: rgba(0, 0, 0, 0.6);
@@ -285,24 +209,6 @@
   --app-skeleton-to: rgba(241, 245, 249, 0.08);
 
   /* ---- Layout ---- */
-<<<<<<< HEAD
-  --app-sidebar-bg: #0F172A;
-  --app-topbar-bg: rgba(11, 17, 32, 0.8);
-  --app-topbar-border: rgba(241, 245, 249, 0.06);
-
-  /* ---- Glass / Morphism ---- */
-  --app-glass-bg: rgba(17, 24, 39, 0.8);
-  --app-glass-border: rgba(241, 245, 249, 0.06);
-
-  /* ---- Gradients ---- */
-  --app-gradient-primary: linear-gradient(135deg, #3B82F6 0%, #FB923C 100%);
-  --app-gradient-primary-hover: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
-
-  /* ---- Glow Effects ---- */
-  --app-glow-blue: 0 0 25px rgba(59, 130, 246, 0.2);
-  --app-glow-orange: 0 0 25px rgba(251, 146, 60, 0.15);
-  --app-glow-mixed: 0 0 30px rgba(59, 130, 246, 0.15), 0 0 60px rgba(251, 146, 60, 0.08);
-=======
   --app-sidebar-bg: #1b1c1e;
   --app-topbar-bg: #1b1c1e;
   --app-topbar-border: rgba(255, 255, 255, 0.06);
@@ -328,5 +234,4 @@
   --app-purple-light: rgba(167, 139, 250, 0.12);
   --app-emerald: #34d399;
   --app-emerald-light: rgba(52, 211, 153, 0.12);
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 }

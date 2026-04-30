@@ -463,27 +463,6 @@ export default function CampaignsPage() {
 
         {/* Table View */}
         {viewMode === 'table' && (
-<<<<<<< HEAD
-          <SmartDataTable
-            data={filteredCampaigns as unknown as Record<string, unknown>[]}
-            columns={campaignsColumns}
-            searchable enableExport pageSize={10}
-            emptyMessage="No campaigns match your filters"
-            actions={(row) => {
-              const c = row as unknown as Campaign;
-              return (
-                <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-[var(--app-hover-bg)]">
-                    {c.status === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-[var(--app-hover-bg)]">
-                    <Copy className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
-              );
-            }}
-          />
-=======
           <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -567,7 +546,6 @@ export default function CampaignsPage() {
               </div>
             )}
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         )}
 
         {/* Cards View */}

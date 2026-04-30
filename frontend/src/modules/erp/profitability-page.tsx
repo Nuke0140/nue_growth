@@ -165,79 +165,6 @@ function ProfitabilityPageInner() {
   return (
     <PageShell title="Profitability" icon={BarChart2} headerRight={
       <div className="flex items-center gap-2">
-<<<<<<< HEAD
-        <Badge className="text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border">
-          <Target className="w-3 h-3 mr-1" />
-          Founder View
-        </Badge>
-      </div>
-    }>
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KpiWidget label="Total Revenue" value={formatCurrency(kpis.totalRevenue)} icon={DollarSign} color="success" trend="up" trendValue="+15%" />
-        <KpiWidget label="Total Cost" value={formatCurrency(kpis.totalCost)} icon={TrendingDown} color="danger" trend="down" trendValue="-8%" />
-        <KpiWidget label="Net Margin" value={`${kpis.netMargin}%`} icon={Target} color={Number(kpis.netMargin) >= 10 ? 'success' : 'warning'} trend={Number(kpis.netMargin) > 0 ? 'up' : 'down'} trendValue={String(kpis.netMargin)} />
-        <KpiWidget label="Burn Rate" value={`${formatCurrency(kpis.burnRate)}/mo`} icon={Flame} color="warning" />
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        {/* Client Profitability Table */}
-        <div className="xl:col-span-2 space-y-3">
-          <h2 className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>Client Profitability</h2>
-          <SmartDataTable
-            data={mockProfitability as unknown as Record<string, unknown>[]}
-            columns={columns}
-            searchable
-            searchPlaceholder="Search clients..."
-            searchKeys={['clientName']}
-            emptyMessage="No clients found"
-            enableExport
-          />
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-4">
-          {/* Profit by Service Type */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-            <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: CSS.text }}>
-              <BarChart3 className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              Profit by Service
-            </h3>
-            {serviceTypeRevenue.map((s, i) => (
-              <div key={s.service} className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium" style={{ color: CSS.text }}>{s.service}</span>
-                  <span className="text-[11px] font-medium" style={{ color: CSS.textSecondary }}>{formatCurrency(s.revenue)}</span>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(s.revenue / maxRevenue) * 100}%` }}
-                    transition={{ delay: 0.3 + i * 0.08, duration: 0.5 }}
-                    className={`h-full rounded-full ${barColors[i % barColors.length]}`}
-                  />
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Burn vs Revenue Chart */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: CSS.text }}>
-                <Zap className="w-4 h-4" style={{ color: CSS.textMuted }} />
-                Burn vs Revenue
-              </h3>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-400" /><span className="text-[9px]" style={{ color: CSS.textDisabled }}>Burn</span></div>
-                <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-400" /><span className="text-[9px]" style={{ color: CSS.textDisabled }}>Revenue</span></div>
-              </div>
-            </div>
-            <div className="flex items-end gap-2 h-32">
-              {burnRevenueData.map((d, i) => (
-                <div key={d.month} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full flex gap-0.5 items-end" style={{ height: '100%' }}>
-=======
         <Badge className={cn('text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border')}>
           <Target className="w-4 h-4 mr-1" />
           Founder View
@@ -350,7 +277,6 @@ function ProfitabilityPageInner() {
                     <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(s.revenue)}</span>
                   </div>
                   <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.burn / maxBurnRevenue) * 100}%` }}
@@ -372,30 +298,6 @@ function ProfitabilityPageInner() {
         </div>
       </div>
 
-<<<<<<< HEAD
-      {/* Alerts Section */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <Bell className="w-4 h-4" style={{ color: CSS.textSecondary }} />
-          <h2 className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>Profitability Alerts</h2>
-          <Badge className="text-[9px] px-1.5 py-0 bg-red-500/15 text-red-300 border border-red-500/20">{allAlerts.length}</Badge>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {allAlerts.map((alert, idx) => {
-            const severity = getAlertSeverity(alert.severity);
-            const SeverityIcon = severity.icon;
-            return (
-              <motion.div key={alert.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.03 }} className="rounded-2xl p-3 flex items-start gap-3" style={{ backgroundColor: severity.bg, border: `1px solid ${severity.border}` }}>
-                <SeverityIcon className="w-4 h-4 shrink-0 mt-0.5" style={{ color: severity.color }} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-medium mb-0.5" style={{ color: CSS.textMuted }}>{alert.clientName}</p>
-                  <p className="text-xs" style={{ color: CSS.text }}>{alert.message}</p>
-                  <span className="text-[9px] uppercase tracking-wider font-bold mt-1 inline-block" style={{ color: severity.color }}>{alert.type.replace('-', ' ')}</span>
-                </div>
-              </motion.div>
-            );
-          })}
-=======
             {/* Burn vs Revenue Chart */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
               <div className="flex items-center justify-between">
@@ -456,7 +358,6 @@ function ProfitabilityPageInner() {
               );
             })}
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       </div>
     </PageShell>

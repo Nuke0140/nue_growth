@@ -43,9 +43,6 @@ function InvoicesPageInner() {
     return { total, paid, overdue, receivable };
   }, []);
 
-<<<<<<< HEAD
-  const filters = [
-=======
   const handleSort = (field: SortField) => {
     if (sortField === field) setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
     else { setSortField(field); setSortDir('asc'); }
@@ -57,7 +54,6 @@ function InvoicesPageInner() {
   }
 
   const filters: { key: FilterKey; label: string; count: number }[] = [
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     { key: 'all', label: 'All', count: mockInvoices.length },
     { key: 'draft', label: 'Draft', count: mockInvoices.filter(i => i.status === 'draft').length },
     { key: 'sent', label: 'Sent', count: mockInvoices.filter(i => i.status === 'sent').length },
@@ -194,102 +190,6 @@ function InvoicesPageInner() {
 
   return (
     <PageShell title="Invoices" icon={Receipt}>
-<<<<<<< HEAD
-      <div className="space-y-6">
-        {/* Filter Tabs */}
-        <FilterBar
-          filters={filters}
-          activeFilter={activeFilter}
-          onFilterChange={(key) => setActiveFilter(key as FilterKey)}
-        />
-
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <KpiWidget label="Total Amount" value={formatINR(stats.total)} icon={DollarSign} color="accent" />
-          <KpiWidget label="Paid" value={formatINR(stats.paid)} icon={Wallet} color="success" />
-          <KpiWidget label="Overdue" value={formatINR(stats.overdue)} icon={AlertTriangle} color="danger" />
-          <KpiWidget label="Receivable" value={formatINR(stats.receivable)} icon={Clock} color="warning" />
-        </div>
-
-        {/* Table */}
-        <SmartDataTable
-          data={filtered as unknown as Record<string, unknown>[]}
-          columns={columns}
-          searchable
-          searchPlaceholder="Search invoices..."
-          searchKeys={['invoiceNo', 'client', 'project']}
-          emptyMessage="No invoices found"
-          pageSize={8}
-          enableExport
-          actions={(row) => {
-            const inv = row as unknown as typeof mockInvoices[0];
-            return (
-              <TooltipProvider delayDuration={0}>
-                <div className="flex items-center justify-center gap-1">
-                  {inv.paymentLink && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          style={{ color: CSS.textMuted }}
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent><p>Payment Link</p></TooltipContent>
-                    </Tooltip>
-                  )}
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        style={{ color: CSS.textMuted }}
-                      >
-                        <FileDown className="w-3.5 h-3.5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent><p>PDF Preview</p></TooltipContent>
-                  </Tooltip>
-                  {inv.status === 'sent' && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          style={{ color: CSS.textMuted }}
-                        >
-                          <Send className="w-3.5 h-3.5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent><p>Resend</p></TooltipContent>
-                    </Tooltip>
-                  )}
-                  {(inv.status === 'overdue' || inv.status === 'partial') && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          style={{ color: '#fbbf24' }}
-                        >
-                          <Bell className="w-3.5 h-3.5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent><p>Send Reminder</p></TooltipContent>
-                    </Tooltip>
-                  )}
-                </div>
-              </TooltipProvider>
-            );
-          }}
-        />
-=======
       <div className="space-y-app-2xl">
         {/* Search + Actions */}
         <div className="flex items-center justify-end gap-2">
@@ -515,7 +415,6 @@ function InvoicesPageInner() {
             </div>
           )}
         </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       </div>
     </PageShell>
   );

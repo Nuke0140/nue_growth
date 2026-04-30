@@ -16,21 +16,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { mockCompanies } from '@/modules/crm-sales/data/mock-data';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import CompanyCard from './components/company-card';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CreateModal } from '@/components/shared/create-modal';
-import type { FormField } from '@/components/shared/create-modal';
-import { ContextualSidebar } from '@/components/shared/contextual-sidebar';
-import { CSS } from '@/styles/design-tokens';
-import type { Company } from '@/modules/crm-sales/types';
-=======
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import CompanyCard from '@/modules/crm-sales/relationships/companies/company-card';
 import type { Company } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
 
 type ViewMode = 'grid' | 'table';
 
@@ -123,103 +111,10 @@ export default function CompaniesPage() {
     [filtered]
   );
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-  // Column definitions
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'name',
-      label: 'Company',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as Company;
-        const initials = c.name.split(' ').map(w => w.charAt(0)).join('').slice(0, 2).toUpperCase();
-        return (
-          <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8 shrink-0">
-              <AvatarImage src={c.logo} alt={c.name} />
-              <AvatarFallback className="text-xs font-bold bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
-            <div className="min-w-0">
-              <p className="text-sm font-medium truncate">{c.name}</p>
-              <p className="text-xs text-[var(--app-text-muted)] truncate">{c.website}</p>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'industry',
-      label: 'Industry',
-      render: (row) => {
-        const c = row as unknown as Company;
-        return <span className="text-sm">{c.industry}</span>;
-      },
-    },
-    {
-      key: 'arr',
-      label: 'ARR',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as Company;
-        return <span className="text-sm font-semibold">{formatARR(c.arr)}</span>;
-      },
-    },
-    {
-      key: 'linkedContacts',
-      label: 'Contacts',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as Company;
-        return <span className="text-sm">{c.linkedContacts}</span>;
-      },
-    },
-    {
-      key: 'activeDeals',
-      label: 'Deals',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as Company;
-        return <span className="text-sm">{c.activeDeals}</span>;
-      },
-    },
-    {
-      key: 'healthScore',
-      label: 'Health',
-      sortable: true,
-      render: (row) => {
-        const c = row as unknown as Company;
-        return (
-          <div className="flex items-center gap-2 min-w-[80px]">
-            <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-              <div
-                className={cn('h-full rounded-full transition-all', getHealthBarColor(c.healthScore))}
-                style={{ width: `${c.healthScore}%` }}
-              />
-            </div>
-            <span className={cn('text-[11px] font-medium w-7 text-right', getHealthColor(c.healthScore))}>
-              {c.healthScore}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'owner',
-      label: 'Owner',
-      render: (row) => {
-        const c = row as unknown as Company;
-        return <span className="text-xs">{c.owner}</span>;
-      },
-    },
-  ], []);
-=======
   function renderSortIcon(field: SortField) {
     if (sortField !== field) return <ArrowUpDown className="w-4 h-4 opacity-40" />;
     return sortDir === 'asc' ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />;
   }
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
 
   return (
     <div className="h-full overflow-y-auto">
@@ -228,24 +123,14 @@ export default function CompaniesPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <h1 className="text-xl md:text-2xl font-bold">Companies</h1>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-            <Badge variant="secondary" className="text-xs font-medium bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]">
-=======
             <Badge variant="secondary" className={cn(
               'text-xs font-medium',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
               {filtered.length}
             </Badge>
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-            {/* Industry Filter */}
-            <Select value={industryFilter} onValueChange={(v) => setIndustryFilter(v)}>
-              <SelectTrigger className="w-[140px] h-9 text-xs rounded-xl border border-[var(--app-border)] text-[var(--app-text-secondary)]">
-                <Filter className="w-3.5 h-3.5 mr-1" />
-=======
             {/* Search */}
             <div className={cn(
               'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-56 transition-colors',
@@ -271,7 +156,6 @@ export default function CompaniesPage() {
                 isDark ? 'bg-white/[0.03] border-white/[0.06] text-white/60' : 'bg-white border-black/[0.06] text-black/60'
               )}>
                 <Filter className="w-4 h-4 mr-1" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
                 <SelectValue placeholder="Industry" />
               </SelectTrigger>
               <SelectContent>
@@ -283,14 +167,10 @@ export default function CompaniesPage() {
             </Select>
 
             {/* View Toggle */}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-            <div className="flex items-center rounded-xl border p-0.5 border-[var(--app-border)]">
-=======
             <div className={cn(
               'flex items-center rounded-[var(--app-radius-lg)] border p-0.5',
               'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
               <button
                 onClick={() => setViewMode('grid')}
                 className={cn(
@@ -318,16 +198,10 @@ export default function CompaniesPage() {
             {/* Add Company */}
             <Button
               size="icon"
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-              className="h-9 w-9 rounded-xl shrink-0"
-              style={{ backgroundColor: CSS.accent, color: '#fff' }}
-              onClick={() => setShowCreateModal(true)}
-=======
               className={cn(
                 'h-10  w-9 rounded-[var(--app-radius-lg)] shrink-0',
                 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
               )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
             >
               <Plus className="w-4 h-4" />
             </Button>
@@ -346,18 +220,6 @@ export default function CompaniesPage() {
               key={stat.label}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-              transition={{ delay: i * 0.05, duration: 0.3 }}
-              className="rounded-2xl border p-4"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-[var(--app-text-muted)]">
-                  {stat.label}
-                </span>
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-                  <stat.icon className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
-=======
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-4',
@@ -373,7 +235,6 @@ export default function CompaniesPage() {
                   'bg-[var(--app-hover-bg)]'
                 )}>
                   <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
                 </div>
               </div>
               <p className="text-xl font-bold">
@@ -388,10 +249,6 @@ export default function CompaniesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.length === 0 ? (
               <div className="col-span-full flex flex-col items-center py-16">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-                <p className="text-sm text-[var(--app-text-muted)]">No companies found</p>
-                <p className="text-xs text-[var(--app-text-disabled)] mt-1">Try adjusting your search or filters</p>
-=======
                 <div className={cn(
                   'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
                   'bg-[var(--app-hover-bg)]'
@@ -404,7 +261,6 @@ export default function CompaniesPage() {
                 <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
                   Try adjusting your search or filters
                 </p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
               </div>
             ) : (
               filtered.map((company, idx) => (
@@ -425,25 +281,6 @@ export default function CompaniesPage() {
 
         {/* Table View */}
         {viewMode === 'table' && (
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-          <SmartDataTable
-            data={tableData}
-            columns={columns}
-            onRowClick={(row) => setSelectedCompany(row as unknown as Company)}
-            searchable
-            searchPlaceholder="Search companies..."
-            searchKeys={['name', 'industry', 'owner']}
-            emptyMessage="No companies found. Try adjusting your search or filters."
-            pageSize={9}
-            enableExport
-            selectable
-            actions={(row) => (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:bg-[var(--app-hover-bg)]"
-=======
           <div className={cn(
             'rounded-[var(--app-radius-xl)] border overflow-hidden',
             'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -627,22 +464,9 @@ export default function CompaniesPage() {
                       'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors disabled:opacity-30',
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
                   >
                     <MoreHorizontal className="w-4 h-4 text-[var(--app-text-muted)]" />
                   </button>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/companies-page.tsx
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setSelectedCompany(row as unknown as Company)}>View Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Company</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          />
-=======
                   <button
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
@@ -788,7 +612,6 @@ export default function CompaniesPage() {
               </button>
             </div>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/companies/companies-page.tsx
         )}
       </div>
 

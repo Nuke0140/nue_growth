@@ -139,14 +139,6 @@ export default function ERPProductivityPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-              <Zap className="w-5 h-5" style={{ color: CSS.textSecondary }} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">ERP Productivity</h1>
-              <p className="text-xs" style={{ color: CSS.textMuted }}>
-=======
             <div className={cn(
               'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
               'bg-[var(--app-hover-bg)]',
@@ -156,7 +148,6 @@ export default function ERPProductivityPage() {
             <div>
               <h1 className="text-xl md:text-2xl font-bold">ERP Productivity</h1>
               <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Project completion, task throughput &amp; employee efficiency
               </p>
             </div>
@@ -173,16 +164,11 @@ export default function ERPProductivityPage() {
               ))}
             </div>
             <ExportMenu />
-<<<<<<< HEAD
-            <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-=======
             <span className={cn(
               'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
             )}>
               <Calendar className="w-4 h-4 inline mr-1.5" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               {today}
             </span>
           </div>
@@ -236,13 +222,8 @@ export default function ERPProductivityPage() {
                 { color: 'bg-[var(--app-info)]', label: 'Created' },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                  <span className="text-[10px]" style={{ color: CSS.textMuted }}>{l.label}</span>
-=======
                   <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', l.color)} />
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </div>
               ))}
             </div>
@@ -272,11 +253,7 @@ export default function ERPProductivityPage() {
                         className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
                       />
                     </div>
-<<<<<<< HEAD
-                    <span className="text-[8px] mt-1" style={{ color: CSS.textMuted }}>
-=======
                     <span className={cn('text-[8px] mt-1', 'text-[var(--app-text-disabled)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       {entry.week.replace('Week ', 'W')}
                     </span>
                   </div>
@@ -292,17 +269,12 @@ export default function ERPProductivityPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.4 }}
-<<<<<<< HEAD
-              className="rounded-2xl border-l-4 border-l-red-500 p-4 flex-1"
-              style={{ backgroundColor: isDark ? 'rgba(239, 68, 68, 0.06)' : 'rgba(239, 68, 68, 0.04)', borderColor: CSS.border, borderLeftColor: '#ef4444' }}
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border-l-4 border-l-red-500 p-4 flex-1',
                 isDark
                   ? 'bg-red-500/[0.06] border border-l-red-500 border-t-red-500/20 border-r-red-500/20 border-b-red-500/20'
                   : 'bg-red-50 border border-l-red-500 border-t-red-200 border-r-red-200 border-b-red-200',
               )}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             >
               <div className="flex items-center gap-2 mb-3">
                 <ShieldAlert className="w-4 h-4 text-red-500" />
@@ -310,19 +282,6 @@ export default function ERPProductivityPage() {
               </div>
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-3xl font-bold text-red-600">{data.blockedTasks}</span>
-<<<<<<< HEAD
-                <span className="text-xs" style={{ color: CSS.textMuted }}>
-                  tasks blocked
-                </span>
-              </div>
-              <p className="text-xs" style={{ color: CSS.textSecondary }}>
-                <span className="font-medium text-red-500">4 critical</span> — awaiting client feedback
-              </p>
-              <p className="text-xs mt-1" style={{ color: CSS.textSecondary }}>
-                <span className="font-medium text-amber-500">5 medium</span> — internal review pending
-              </p>
-              <p className="text-xs mt-1" style={{ color: CSS.textSecondary }}>
-=======
                 <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                   tasks blocked
                 </span>
@@ -334,7 +293,6 @@ export default function ERPProductivityPage() {
                 <span className="font-medium text-amber-500">5 medium</span> — internal review pending
               </p>
               <p className={cn('text-xs mt-1', 'text-[var(--app-text-secondary)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 <span className="font-medium text-blue-500">3 low</span> — dependency blocked
               </p>
             </motion.div>
@@ -344,14 +302,6 @@ export default function ERPProductivityPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.4 }}
-<<<<<<< HEAD
-              className="rounded-2xl border p-4 flex-1"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <RotateCcw className="w-4 h-4" style={{ color: CSS.textMuted }} />
-                <span className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>
-=======
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-4 flex-1',
                 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
@@ -360,22 +310,14 @@ export default function ERPProductivityPage() {
               <div className="flex items-center gap-2 mb-3">
                 <RotateCcw className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                 <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   Revision Rounds
                 </span>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
-<<<<<<< HEAD
-                <span className="text-3xl font-bold" style={{ color: CSS.text }}>
-                  {data.revisionRounds}
-                </span>
-                <span className="text-xs" style={{ color: CSS.textMuted }}>
-=======
                 <span className={cn('text-3xl font-bold', 'text-[var(--app-text)]')}>
                   {data.revisionRounds}
                 </span>
                 <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   avg rounds / project
                 </span>
               </div>
@@ -387,20 +329,12 @@ export default function ERPProductivityPage() {
                 ].map((rev) => (
                   <div key={rev.label}>
                     <div className="flex items-center justify-between mb-0.5">
-<<<<<<< HEAD
-                      <span className="text-[10px]" style={{ color: CSS.textMuted }}>
-=======
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {rev.label}
                       </span>
                       <span className="text-xs font-medium">{rev.value}</span>
                     </div>
-<<<<<<< HEAD
-                    <div className="w-full h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                     <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       <div
                         className={cn('h-full rounded-full', isDark ? 'bg-amber-500/40' : 'bg-amber-400')}
                         style={{ width: `${(rev.value / 4) * 100}%` }}
@@ -415,16 +349,6 @@ export default function ERPProductivityPage() {
 
         {/* Employee Productivity Table */}
         <ChartCard title="Employee Productivity" subtitle="Tasks, hours &amp; efficiency score by employee">
-<<<<<<< HEAD
-          <SmartDataTable
-            data={data.employeeProductivity as unknown as Record<string, unknown>[]}
-            columns={employeeColumns}
-            searchable
-            enableExport
-            pageSize={10}
-            searchPlaceholder="Search employees…"
-          />
-=======
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -516,7 +440,6 @@ export default function ERPProductivityPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </ChartCard>
 
         {/* Department-wise Breakdown */}
@@ -527,13 +450,8 @@ export default function ERPProductivityPage() {
               { color: isDark ? 'bg-violet-500/50' : 'bg-violet-400', label: 'Efficiency %' },
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                <div className={cn('w-2.5 h-2.5 rounded-sm', l.color)} />
-                <span className="text-[10px]" style={{ color: CSS.textMuted }}>{l.label}</span>
-=======
                 <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', l.color)} />
                 <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{l.label}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
             ))}
           </div>
@@ -561,11 +479,7 @@ export default function ERPProductivityPage() {
                 </div>
                 <div className="relative space-y-1">
                   {/* Utilization bar */}
-<<<<<<< HEAD
-                  <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.utilization}%` }}
@@ -574,11 +488,7 @@ export default function ERPProductivityPage() {
                     />
                   </div>
                   {/* Efficiency bar */}
-<<<<<<< HEAD
-                  <div className="w-full h-2 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-=======
                   <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.efficiency}%` }}

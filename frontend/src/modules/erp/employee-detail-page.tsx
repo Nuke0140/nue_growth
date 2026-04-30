@@ -76,39 +76,22 @@ function formatMonth(monthStr: string): string {
 
 function getAttendanceStatusColor(status: string): string {
   switch (status) {
-<<<<<<< HEAD
-    case 'present': return CSS.success;
-    case 'absent': return CSS.danger;
-    case 'half-day': return CSS.warning;
-    case 'wfh': return CSS.info;
-    case 'on-leave': return '#a78bfa';
-    default: return CSS.textMuted;
-=======
     case 'present': return 'var(--app-success)';
     case 'absent': return 'var(--app-danger)';
     case 'half-day': return 'var(--app-warning)';
     case 'wfh': return 'var(--app-info)';
     case 'on-leave': return '#a78bfa';
     default: return 'var(--app-text-muted)';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   }
 }
 
 function getAssetStatusColor(status: string): string {
   switch (status) {
-<<<<<<< HEAD
-    case 'active': return CSS.success;
-    case 'in-repair': return CSS.warning;
-    case 'disposed': return CSS.danger;
-    case 'retired': return CSS.textMuted;
-    default: return CSS.textMuted;
-=======
     case 'active': return 'var(--app-success)';
     case 'in-repair': return 'var(--app-warning)';
     case 'disposed': return 'var(--app-danger)';
     case 'retired': return 'var(--app-text-muted)';
     default: return 'var(--app-text-muted)';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   }
 }
 
@@ -663,57 +646,6 @@ function EmployeeDetailPageInner() {
           </TabsContent>
 
           {/* ---- Attendance Tab ---- */}
-<<<<<<< HEAD
-          <TabsContent value="attendance" className="mt-5">
-            <SmartDataTable
-              data={employeeAttendance as unknown as Record<string, unknown>[]}
-              columns={[
-                { key: 'date', label: 'Date', sortable: true, render: (row) => formatDate(String(row.date)) },
-                { key: 'checkIn', label: 'Check In', sortable: true, render: (row) => row.checkIn || '—' },
-                { key: 'checkOut', label: 'Check Out', sortable: true, render: (row) => row.checkOut || '—' },
-                { key: 'hours', label: 'Hours', sortable: true, render: (row) => Number(row.hours) > 0 ? `${row.hours}h` : '—' },
-                {
-                  key: 'status', label: 'Status', sortable: true,
-                  render: (row) => (
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="w-2 h-2 rounded-full shrink-0"
-                        style={{ backgroundColor: getAttendanceStatusColor(String(row.status)) }}
-                      />
-                      <span
-                        className="text-sm capitalize"
-                        style={{ color: getAttendanceStatusColor(String(row.status)) }}
-                      >
-                        {String(row.status).replace('-', ' ')}
-                      </span>
-                    </div>
-                  ),
-                },
-              ] as DataTableColumnDef[]}
-              searchable
-              searchPlaceholder="Search attendance..."
-              emptyMessage="No attendance records found"
-              pageSize={10}
-            />
-          </TabsContent>
-
-          {/* ---- Leaves Tab ---- */}
-          <TabsContent value="leaves" className="mt-5">
-            <SmartDataTable
-              data={employeeLeaves as unknown as Record<string, unknown>[]}
-              columns={[
-                { key: 'type', label: 'Type', sortable: true, render: (row) => <span className="capitalize font-medium" style={{ color: CSS.text }}>{String(row.type).replace('-', ' ')}</span> },
-                { key: 'period', label: 'Period', sortable: true, render: (row) => <span style={{ color: CSS.textSecondary }}>{row.startDate} — {row.endDate}</span> },
-                { key: 'days', label: 'Days', sortable: true, render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{row.days}</span> },
-                { key: 'reason', label: 'Reason', render: (row) => <span className="max-w-[200px] truncate block" style={{ color: CSS.textMuted }}>{row.reason}</span> },
-                { key: 'status', label: 'Status', sortable: true, render: (row) => <StatusBadge status={String(row.status)} variant="pill" /> },
-              ] as DataTableColumnDef[]}
-              searchable
-              searchPlaceholder="Search leaves..."
-              emptyMessage="No leave requests found"
-              pageSize={10}
-            />
-=======
           <TabsContent value="attendance" className="mt-app-xl">
             <div className="app-card overflow-hidden !p-0">
               <div className="overflow-x-auto">
@@ -826,41 +758,18 @@ function EmployeeDetailPageInner() {
                 </table>
               </div>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </TabsContent>
 
           {/* ---- Payroll Tab ---- */}
           <TabsContent value="payroll" className="mt-app-xl">
             <div className="flex items-center justify-between mb-4">
-<<<<<<< HEAD
-              <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>
-=======
               <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Recent Payslips
               </h3>
               <button className="app-btn-primary gap-2 text-xs">
                 <Download className="w-4 h-4" /> Download Payslip
               </button>
             </div>
-<<<<<<< HEAD
-            <SmartDataTable
-              data={employeePayroll as unknown as Record<string, unknown>[]}
-              columns={[
-                { key: 'month', label: 'Month', sortable: true, render: (row) => <span className="font-medium" style={{ color: CSS.text }}>{formatMonth(String(row.month))}</span> },
-                { key: 'baseSalary', label: 'Base Salary', sortable: true, render: (row) => <span>{formatCurrency(Number(row.baseSalary))}</span> },
-                { key: 'incentives', label: 'Incentives', sortable: true, render: (row) => <span style={{ color: CSS.success }}>+{formatCurrency(Number(row.incentives))}</span> },
-                { key: 'deductions', label: 'Deductions', sortable: true, render: (row) => <span style={{ color: CSS.danger }}>-{formatCurrency(Number(row.deductions))}</span> },
-                { key: 'netPay', label: 'Net Pay', sortable: true, render: (row) => <span className="font-bold" style={{ color: CSS.text }}>{formatCurrency(Number(row.netPay))}</span> },
-                { key: 'status', label: 'Status', sortable: true, render: (row) => <StatusBadge status={String(row.status)} variant="pill" /> },
-              ] as DataTableColumnDef[]}
-              searchable
-              searchPlaceholder="Search payroll..."
-              enableExport
-              emptyMessage="No payroll records found"
-              pageSize={10}
-            />
-=======
             <div className="app-card overflow-hidden !p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -912,7 +821,6 @@ function EmployeeDetailPageInner() {
                 </table>
               </div>
             </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </TabsContent>
 
           {/* ---- Assets Tab ---- */}

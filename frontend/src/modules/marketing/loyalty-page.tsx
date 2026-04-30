@@ -224,15 +224,6 @@ export default function LoyaltyPage() {
 
       {/* Top Members Table */}
       <div>
-<<<<<<< HEAD
-        <h2 className={cn('text-sm font-medium mb-3', isDark ? 'text-white/70' : 'text-gray-700')}>Top Members</h2>
-        <SmartDataTable
-          data={topMembers as unknown as Record<string, unknown>[]}
-          columns={topMembersColumns}
-          searchable enableExport pageSize={10}
-          searchPlaceholder="Search members..."
-        />
-=======
         <h2 className={cn('text-sm font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Top Members</h2>
         <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
           <div className="overflow-x-auto">
@@ -278,7 +269,6 @@ export default function LoyaltyPage() {
             </table>
           </div>
         </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       </div>
 
       {/* Coupons Grid */}

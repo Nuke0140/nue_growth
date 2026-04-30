@@ -108,15 +108,9 @@ function getBarColor(score: number) {
 }
 
 function getBarTextColor(score: number) {
-<<<<<<< HEAD
-  if (score >= 85) return CSS.success;
-  if (score >= 70) return CSS.warning;
-  return CSS.danger;
-=======
   if (score >= 85) return 'var(--app-success)';
   if (score >= 70) return 'var(--app-warning)';
   return 'var(--app-danger)';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 }
 
 function formatStatusLabel(status: EmployeeStatus): string {
@@ -308,136 +302,6 @@ function EmployeesPageInner() {
   // UX State: Empty — filtered results are empty while filters are active
   const isFilteredEmpty = filtered.length === 0 && hasActiveFilters;
 
-<<<<<<< HEAD
-  // ── Handlers with toast feedback ─────────────────────────────
-  const handleCreate = useCallback(
-    (data: Record<string, unknown>) => {
-      if (submittingRef.current) return;
-      submittingRef.current = true;
-      setIsSubmitting(true);
-      showLoadingToast({ title: 'Creating Employee…' });
-
-      setTimeout(() => {
-        setIsSubmitting(false);
-        submittingRef.current = false;
-        success({
-          title: 'Employee Created',
-          message: `${data.name || 'New employee'} has been added successfully.`,
-        });
-        setCreateOpen(false);
-      }, 700);
-    },
-    [showLoadingToast, success],
-  );
-
-  const handleRetry = useCallback(() => {
-    setError(null);
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 600);
-  }, []);
-
-  const handleSimulateError = useCallback(() => {
-    showError({
-      title: 'Connection Error',
-      message: 'Failed to load employee data. Check your connection and try again.',
-    });
-    setError('Failed to load employee data. Please check your connection and try again.');
-  }, [showError]);
-
-  const handleEditFromSidebar = useCallback(() => {
-    if (!selectedEmployee) return;
-    info({
-      title: 'Edit Mode',
-      message: `Editing ${selectedEmployee.name}'s profile.`,
-    });
-  }, [selectedEmployee, info]);
-
-  const handleDeactivateFromSidebar = useCallback(() => {
-    if (!selectedEmployee) return;
-    warning({
-      title: 'Employee Deactivated',
-      message: `${selectedEmployee.name} has been deactivated.`,
-    });
-    setSelectedEmployee(null);
-  }, [selectedEmployee, warning]);
-
-  const handleEditFromDropdown = useCallback(
-    (emp: Employee) => {
-      info({
-        title: 'Edit Mode',
-        message: `Editing ${emp.name}'s profile.`,
-      });
-      setSelectedEmployee(emp);
-    },
-    [info],
-  );
-
-  const handleDeactivateFromDropdown = useCallback(
-    (emp: Employee) => {
-      warning({
-        title: 'Employee Deactivated',
-        message: `${emp.name} has been deactivated.`,
-      });
-    },
-    [warning],
-  );
-
-  const handleBulkAction = useCallback(
-    (action: string) => {
-      const count = bulkSelectedIds.length;
-      success({
-        title: 'Action Completed',
-        message: `${action} applied to ${count} employee${count !== 1 ? 's' : ''}.`,
-      });
-      clearBulkSelection();
-    },
-    [bulkSelectedIds.length, success, clearBulkSelection],
-  );
-
-  // Cast filtered data for SmartDataTable
-  const tableData = useMemo(
-    () => filtered as unknown as Record<string, unknown>[],
-    [filtered],
-  );
-
-  // ── SmartDataTable Columns ──────────────────────────────
-  const columns: DataTableColumnDef[] = useMemo(
-    () => [
-      {
-        key: 'checkbox',
-        label: '',
-        width: 40,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          const isSelected = bulkSelectedIds.includes(emp.id);
-          return (
-            <div onClick={(e) => e.stopPropagation()}>
-              <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={() => toggleBulkSelection(emp.id)}
-                className="rounded cursor-pointer"
-                style={{ accentColor: CSS.accent }}
-              />
-            </div>
-          );
-        },
-      },
-      {
-        key: 'name',
-        label: 'Name',
-        sortable: true,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          return (
-            <div className="flex items-center gap-3">
-              <Avatar className="h-8 w-8 shrink-0">
-                <AvatarFallback
-                  className="text-xs font-semibold"
-                  style={{
-                    backgroundColor: CSS.accentLight,
-                    color: CSS.accent,
-=======
   // ---- Render ----
   return (
     <>
@@ -470,199 +334,8 @@ function EmployeesPageInner() {
                     color: 'var(--app-danger)',
                     backgroundColor: 'rgba(248, 113, 113, 0.08)',
                     border: '1px solid rgba(248, 113, 113, 0.15)',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   }}
                 >
-<<<<<<< HEAD
-                  {emp.avatar}
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0">
-                <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>
-                  {emp.name}
-                </p>
-                <p className="text-xs truncate" style={{ color: CSS.textMuted }}>
-                  {emp.designation}
-                </p>
-              </div>
-            </div>
-          );
-        },
-      },
-      {
-        key: 'skills',
-        label: 'Skills',
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          const skills = SKILLS_MAP[emp.id] || [];
-          return (
-            <div className="flex items-center gap-1.5 flex-wrap max-w-[220px]">
-              {skills.slice(0, 3).map((skill) => (
-                <SkillTag key={skill} skill={skill} />
-              ))}
-              {skills.length > 3 && (
-                <span
-                  className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                  style={{
-                    backgroundColor: CSS.hoverBg,
-                    color: CSS.textMuted,
-                  }}
-                >
-                  +{skills.length - 3}
-                </span>
-              )}
-            </div>
-          );
-        },
-      },
-      {
-        key: 'email',
-        label: 'Email',
-        sortable: true,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          return (
-            <span className="text-sm truncate block max-w-[200px]" style={{ color: CSS.textSecondary }}>
-              {emp.email}
-            </span>
-          );
-        },
-      },
-      {
-        key: 'department',
-        label: 'Department',
-        sortable: true,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          return (
-            <span className="text-sm" style={{ color: CSS.textSecondary }}>
-              {emp.department}
-            </span>
-          );
-        },
-      },
-      {
-        key: 'designation',
-        label: 'Role',
-        sortable: true,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          return (
-            <span className="text-sm" style={{ color: CSS.textSecondary }}>
-              {emp.designation}
-            </span>
-          );
-        },
-      },
-      {
-        key: 'status',
-        label: 'Status',
-        sortable: true,
-        render: (row) => {
-          const emp = row as unknown as Employee;
-          return <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />;
-        },
-      },
-    ],
-    [bulkSelectedIds, toggleBulkSelection],
-  );
-
-  // Actions dropdown renderer for SmartDataTable (with toast feedback)
-  const renderActions = useCallback(
-    (row: Record<string, unknown>) => {
-      const emp = row as unknown as Employee;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button
-              className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
-              style={{ color: CSS.textMuted }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-              }}
-            >
-              <MoreHorizontal className="w-4 h-4" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            style={{
-              backgroundColor: CSS.cardBg,
-              borderColor: CSS.border,
-            }}
-          >
-            <DropdownMenuItem onClick={() => setSelectedEmployee(emp)}>
-              <Eye className="w-4 h-4 mr-2" />
-              View Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleEditFromDropdown(emp)}>
-              <Pencil className="w-4 h-4 mr-2" />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              style={{ color: '#f87171' }}
-              onClick={() => handleDeactivateFromDropdown(emp)}
-            >
-              <UserX className="w-4 h-4 mr-2" />
-              Deactivate
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-    [handleEditFromDropdown, handleDeactivateFromDropdown],
-  );
-
-  // ── Render ─────────────────────────────────────────────
-  return (
-    <>
-      <PageShell
-        title="Employees"
-        icon={Users}
-        onCreate={() => setCreateOpen(true)}
-        isLoading={isLoading}
-        error={error}
-        onRetry={handleRetry}
-        isEmpty={isFilteredEmpty}
-        emptyTitle="No results found"
-        emptyDescription="Try adjusting your search or filter criteria to find what you're looking for."
-        headerRight={
-          <button
-            onClick={handleSimulateError}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
-            style={{
-              color: CSS.textMuted,
-              backgroundColor: CSS.hoverBg,
-              border: `1px solid ${CSS.border}`,
-            }}
-            title="Simulate error state for demo"
-          >
-            <Bug className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Simulate Error</span>
-          </button>
-        }
-      >
-        <div className="space-y-5">
-          {/* ── Filters & Search ─────────────────────────── */}
-          <div className="space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <FilterBar
-                filters={filterItems}
-                activeFilter={activeFilter}
-                onFilterChange={(key) => setActiveFilter(key as FilterKey)}
-              />
-              <div className="sm:ml-auto flex items-center gap-2 w-full sm:w-auto">
-                <div className="flex-1 sm:w-56">
-                  <SearchInput
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder="Search employees..."
-                  />
-=======
                   <FilterX className="w-4 h-4" />
                   Clear All
                 </motion.button>
@@ -1086,7 +759,6 @@ function EmployeesPageInner() {
                       )}
                     </tbody>
                   </table>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </div>
                 {hasActiveFilters && (
                   <motion.button
@@ -1141,19 +813,6 @@ function EmployeesPageInner() {
                 </Select>
               </div>
 
-<<<<<<< HEAD
-              {/* View mode toggle */}
-              <div
-                className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg"
-                style={{ backgroundColor: CSS.hoverBg }}
-              >
-                <button
-                  onClick={() => setViewMode('table')}
-                  className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
-                  style={{
-                    backgroundColor: viewMode === 'table' ? CSS.hoverBg : 'transparent',
-                    color: viewMode === 'table' ? CSS.text : CSS.textMuted,
-=======
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between px-1 mt-3">
@@ -1433,20 +1092,9 @@ function EmployeesPageInner() {
                     backgroundColor: 'var(--app-elevated)',
                     border: '1px solid var(--app-border)',
                     color: formData.department ? 'var(--app-text)' : 'var(--app-text-muted)',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   }}
                   title="Table view"
                 >
-<<<<<<< HEAD
-                  <LayoutList className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
-                  style={{
-                    backgroundColor: viewMode === 'grid' ? CSS.hoverBg : 'transparent',
-                    color: viewMode === 'grid' ? CSS.text : CSS.textMuted,
-=======
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
@@ -1496,15 +1144,9 @@ function EmployeesPageInner() {
                     backgroundColor: 'var(--app-elevated)',
                     border: '1px solid var(--app-border)',
                     color: formData.salaryBand ? 'var(--app-text)' : 'var(--app-text-muted)',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   }}
                   title="Grid view"
                 >
-<<<<<<< HEAD
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
-              </div>
-=======
                   <SelectValue placeholder="Select salary band" />
                 </SelectTrigger>
                 <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
@@ -1513,7 +1155,6 @@ function EmployeesPageInner() {
                   ))}
                 </SelectContent>
               </Select>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
           </div>
 

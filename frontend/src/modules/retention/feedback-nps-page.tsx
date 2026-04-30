@@ -360,16 +360,6 @@ export default function FeedbackNpsPage() {
               {filteredFeedback.length} items
             </Badge>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={filteredFeedback as unknown as Record<string, unknown>[]}
-            columns={feedbackColumns}
-            searchable
-            searchPlaceholder="Search feedback..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
             <table className="w-full">
               <thead className="sticky top-0 z-10">
@@ -428,7 +418,6 @@ export default function FeedbackNpsPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Promoter Highlight + Detractor Alert */}
@@ -514,16 +503,6 @@ export default function FeedbackNpsPage() {
               <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>NPS Responses</span>
             </div>
           </div>
-<<<<<<< HEAD
-          <SmartDataTable
-            data={npsResponses as unknown as Record<string, unknown>[]}
-            columns={npsColumns}
-            searchable
-            searchPlaceholder="Search NPS responses..."
-            enableExport
-            pageSize={10}
-          />
-=======
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -574,7 +553,6 @@ export default function FeedbackNpsPage() {
               </tbody>
             </table>
           </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
       </div>
     </div>

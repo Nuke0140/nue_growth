@@ -124,54 +124,10 @@ export const CSS = {
   sidebarBg: 'var(--app-sidebar-bg)',
   topbarBg: 'var(--app-topbar-bg)',
   topbarBorder: 'var(--app-topbar-border)',
-<<<<<<< HEAD
-  highlight: 'var(--app-highlight)',
-  highlightHover: 'var(--app-highlight-hover)',
-  highlightLight: 'var(--app-highlight-light)',
-  glassBg: 'var(--app-glass-bg)',
-  glassBorder: 'var(--app-glass-border)',
-  gradientPrimary: 'var(--app-gradient-primary)',
-  gradientPrimaryHover: 'var(--app-gradient-primary-hover)',
-  glowBlue: 'var(--app-glow-blue)',
-  glowOrange: 'var(--app-glow-orange)',
-  glowMixed: 'var(--app-glow-mixed)',
-  shadowElevated: 'var(--app-shadow-elevated)',
-} as const;
-
-// ---- Backward-compat alias: --ops-* maps to same --app-* vars ----
-// During migration, existing code referencing CSS legacy can use this.
-// Once migration is complete, remove this object and all --ops-* refs.
-export const CSS_LEGACY = {
-  bg: 'var(--ops-bg)',
-  cardBg: 'var(--ops-card-bg)',
-  cardBgHover: 'var(--ops-card-bg-hover)',
-  elevated: 'var(--ops-elevated)',
-  inputBg: 'var(--ops-input-bg)',
-  accent: 'var(--ops-accent)',
-  accentHover: 'var(--ops-accent-hover)',
-  accentLight: 'var(--ops-accent-light)',
-  text: 'var(--ops-text)',
-  textSecondary: 'var(--ops-text-secondary)',
-  textMuted: 'var(--ops-text-muted)',
-  textDisabled: 'var(--ops-text-disabled)',
-  border: 'var(--ops-border)',
-  borderLight: 'var(--ops-border-light)',
-  borderStrong: 'var(--ops-border-strong)',
-  hoverBg: 'var(--ops-hover-bg)',
-  activeBg: 'var(--ops-active-bg)',
-  success: 'var(--ops-success)',
-  warning: 'var(--ops-warning)',
-  danger: 'var(--ops-danger)',
-  info: 'var(--ops-info)',
-  shadowCard: 'var(--ops-shadow-card)',
-  shadowCardHover: 'var(--ops-shadow-card-hover)',
-  overlay: 'var(--ops-overlay)',
-=======
   purple: 'var(--app-purple)',
   purpleLight: 'var(--app-purple-light)',
   emerald: 'var(--app-emerald)',
   emeraldLight: 'var(--app-emerald-light)',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 } as const;
 
 // ---- Inline style helpers ----
@@ -203,16 +159,10 @@ export const inlineStyles = {
   overlay: { backgroundColor: CSS.overlay },
   sidebar: { backgroundColor: CSS.sidebarBg },
   topbar: { backgroundColor: CSS.topbarBg, borderBottom: `1px solid ${CSS.topbarBorder}` },
-  highlight: { color: CSS.highlight },
-  highlightBg: { backgroundColor: CSS.highlight },
-  highlightLight: { backgroundColor: CSS.highlightLight },
-  glass: { backgroundColor: CSS.glassBg, border: `1px solid ${CSS.glassBorder}` },
-  gradientPrimary: { background: CSS.gradientPrimary },
-  gradientPrimaryHover: { background: CSS.gradientPrimaryHover },
-  glowBlue: { boxShadow: CSS.glowBlue },
-  glowOrange: { boxShadow: CSS.glowOrange },
-  glowMixed: { boxShadow: CSS.glowMixed },
-  shadowElevated: { boxShadow: CSS.shadowElevated },
+  purple: { color: CSS.purple },
+  purpleBg: { backgroundColor: CSS.purpleLight },
+  emerald: { color: CSS.emerald },
+  emeraldBg: { backgroundColor: CSS.emeraldLight },
 } as const;
 
 // ---- Animation (Framer Motion) ----
@@ -257,17 +207,9 @@ export const SHADOWS = {
   md: 'var(--app-shadow-[var(--app-shadow-md)])',
   card: 'var(--app-shadow-card)',
   'card-hover': 'var(--app-shadow-card-hover)',
-<<<<<<< HEAD
-  elevated: 'var(--app-shadow-elevated)',
-  dropdown: '0 8px 24px rgba(0, 0, 0, 0.2)',
-  modal: '0 20px 60px rgba(0, 0, 0, 0.3)',
-  accent: '0 4px 14px rgba(37, 99, 235, 0.25)',
-  highlight: '0 4px 14px rgba(249, 115, 22, 0.25)',
-=======
   dropdown: 'var(--app-shadow-dropdown)',
   modal: 'var(--app-shadow-modal)',
   accent: 'var(--app-shadow-accent)',
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 } as const;
 
 // ---- Z-index layers ----
@@ -345,16 +287,6 @@ export function getPriorityColor(priority: string): { color: string; bg: string 
 
 // ---- Module accent colors ----
 export const MODULE_ACCENTS = {
-<<<<<<< HEAD
-  erp: { primary: '#2563EB', hover: '#1D4ED8', light: 'rgba(37, 99, 235, 0.08)' },
-  crm: { primary: '#7C3AED', hover: '#6D28D9', light: 'rgba(124, 58, 237, 0.08)' },
-  finance: { primary: '#059669', hover: '#047857', light: 'rgba(5, 150, 105, 0.08)' },
-  marketing: { primary: '#EC4899', hover: '#DB2777', light: 'rgba(236, 72, 153, 0.08)' },
-  analytics: { primary: '#0EA5E9', hover: '#0284C7', light: 'rgba(14, 165, 233, 0.08)' },
-  automation: { primary: '#F97316', hover: '#EA580C', light: 'rgba(249, 115, 22, 0.08)' },
-  retention: { primary: '#10B981', hover: '#059669', light: 'rgba(16, 185, 129, 0.08)' },
-  settings: { primary: '#64748B', hover: '#475569', light: 'rgba(100, 116, 139, 0.08)' },
-=======
   erp: { primary: 'var(--app-module-erp)', hover: 'var(--app-module-erp-hover)', light: 'var(--app-module-erp-light)' },
   crm: { primary: 'var(--app-module-crm)', hover: 'var(--app-module-crm-hover)', light: 'var(--app-module-crm-light)' },
   finance: { primary: 'var(--app-module-finance)', hover: 'var(--app-module-finance-hover)', light: 'var(--app-module-finance-light)' },
@@ -363,7 +295,6 @@ export const MODULE_ACCENTS = {
   automation: { primary: 'var(--app-module-automation)', hover: 'var(--app-module-automation-hover)', light: 'var(--app-module-automation-light)' },
   retention: { primary: 'var(--app-module-retention)', hover: 'var(--app-module-retention-hover)', light: 'var(--app-module-retention-light)' },
   settings: { primary: 'var(--app-module-settings)', hover: 'var(--app-module-settings-hover)', light: 'var(--app-module-settings-light)' },
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 } as const;
 
 export type ModuleName = keyof typeof MODULE_ACCENTS;

@@ -73,12 +73,6 @@ export default function ExpensesPage() {
   const pendingCount = useMemo(() => expenses.filter(e => e.approvalStatus === 'pending').length, []);
   const gstTotal = useMemo(() => expenses.reduce((s, e) => s + e.gstAmount, 0), []);
 
-<<<<<<< HEAD
-  const categoryFilterItems = useMemo(() => [
-    { key: 'all', label: 'All Categories' },
-    ...Object.entries(categoryConfig).map(([key, val]) => ({ key, label: val.label })),
-  ], []);
-=======
   return (
     <div className="h-full overflow-y-auto">
       <div className="p-6 space-y-app-2xl">
@@ -97,7 +91,6 @@ export default function ExpensesPage() {
             <Plus className="w-4 h-4" /> Add Expense
           </Button>
         </div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   const approvalFilterItems = useMemo(() => [
     { key: 'all', label: 'All Status' },
@@ -227,20 +220,6 @@ export default function ExpensesPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-<<<<<<< HEAD
-                className="rounded-2xl p-4 cursor-pointer transition-all duration-200"
-                style={{
-                  backgroundColor: CSS.cardBg,
-                  border: `1px solid ${CSS.border}`,
-                  boxShadow: CSS.shadowCard,
-                }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <StatusBadge status={config.label} variant="pill" className="text-[10px] px-2 py-0" />
-                  <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
-                    {cat.count} items
-                  </span>
-=======
                 className={cn('rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -248,7 +227,6 @@ export default function ExpensesPage() {
                     {config.label}
                   </Badge>
                   <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{cat.count} items</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 </div>
                 <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(cat.total)}</p>
               </motion.div>
@@ -258,12 +236,6 @@ export default function ExpensesPage() {
 
         {/* KPI Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-<<<<<<< HEAD
-          <KpiWidget label="Total Expenses" value={formatINR(totalExpenses)} icon={IndianRupee} color="success" trend="down" trendValue="-12.3%" />
-          <KpiWidget label="Total GST" value={formatINR(gstTotal)} icon={AlertTriangle} color="warning" />
-          <KpiWidget label="Pending Approval" value={pendingCount.toString()} icon={Upload} color="info" />
-          <KpiWidget label="Anomalies" value={anomalyExpenses.length.toString()} icon={AlertTriangle} color="danger" />
-=======
           {[
             { label: 'Total Expenses', value: formatINR(totalExpenses), icon: IndianRupee, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
             { label: 'Total GST', value: formatINR(gstTotal), icon: FileText, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
@@ -286,7 +258,6 @@ export default function ExpensesPage() {
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
             </motion.div>
           ))}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
 
         {/* Anomaly Alerts */}
@@ -295,12 +266,7 @@ export default function ExpensesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-<<<<<<< HEAD
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--app-danger) 3%, transparent)', borderColor: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' }}
-=======
             className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-red-500/[0.03] border-red-500/[0.12]' : 'bg-red-50/50 border-red-200/60')}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           >
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
@@ -313,23 +279,13 @@ export default function ExpensesPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
-<<<<<<< HEAD
-                  className="flex items-center justify-between p-3 rounded-xl border"
-                  style={{ borderColor: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' }}
-=======
                   className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'border-red-500/10 bg-red-500/[0.02]' : 'border-red-200/40 bg-white/60')}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 >
                   <div className="flex items-center gap-3">
                     <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
                     <div>
-<<<<<<< HEAD
-                      <p className="text-sm font-medium" style={{ color: CSS.text }}>{exp.description}</p>
-                      <p className="text-xs" style={{ color: CSS.textMuted }}>{exp.vendor} · {exp.date}</p>
-=======
                       <p className="text-sm font-medium">{exp.description}</p>
                       <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{exp.vendor} • {exp.date}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     </div>
                   </div>
                   <span className="text-sm font-semibold" style={{ color: CSS.danger }}>{formatINR(exp.total)}</span>
@@ -340,12 +296,6 @@ export default function ExpensesPage() {
         )}
 
         {/* Filters */}
-<<<<<<< HEAD
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-2 min-w-0" style={{ color: CSS.textMuted }}>
-            <Filter className="w-4 h-4" />
-            <span className="text-xs font-medium uppercase tracking-wider">Category</span>
-=======
         <div className="flex flex-wrap items-center gap-3">
           <div className={cn('flex items-center gap-2', 'text-[var(--app-text-muted)]')}>
             <Filter className="w-4 h-4" />
@@ -367,7 +317,6 @@ export default function ExpensesPage() {
                 {status === 'all' ? 'All Status' : status}
               </button>
             ))}
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
           <FilterBar filters={categoryFilterItems} activeFilter={categoryFilter} onFilterChange={setCategoryFilter} />
         </div>
@@ -377,18 +326,6 @@ export default function ExpensesPage() {
         </div>
 
         {/* Expense Table */}
-<<<<<<< HEAD
-        <SmartDataTable
-          columns={columns}
-          data={tableData}
-          searchable
-          searchPlaceholder="Search expenses..."
-          searchKeys={['description', 'vendor', 'category']}
-          enableExport
-          emptyMessage="No expenses match the selected filters"
-          pageSize={10}
-        />
-=======
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -464,26 +401,12 @@ export default function ExpensesPage() {
             </table>
           </div>
         </motion.div>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
         {/* Total Expenses Summary */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.4 }}
-<<<<<<< HEAD
-          className="rounded-2xl border p-5"
-          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.accentLight }}>
-                <IndianRupee className="w-5 h-5" style={{ color: CSS.accent }} />
-              </div>
-              <div>
-                <p className="text-xs" style={{ color: CSS.textMuted }}>Total Expenses (All Categories)</p>
-                <p className="text-2xl font-bold" style={{ color: CSS.text }}>{formatINR(totalExpenses)}</p>
-=======
           className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -494,25 +417,10 @@ export default function ExpensesPage() {
               <div>
                 <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Total Expenses (All Categories)</p>
                 <p className="text-2xl font-bold">{formatINR(totalExpenses)}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
             </div>
             <div className="flex items-center gap-app-2xl">
               <div className="text-center">
-<<<<<<< HEAD
-                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Base Amount</p>
-                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(totalExpenses - gstTotal)}</p>
-              </div>
-              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
-              <div className="text-center">
-                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>GST</p>
-                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(gstTotal)}</p>
-              </div>
-              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
-              <div className="text-center">
-                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Entries</p>
-                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{expenses.length}</p>
-=======
                 <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Base Amount</p>
                 <p className="text-sm font-semibold">{formatINR(totalExpenses - gstTotal)}</p>
               </div>
@@ -525,7 +433,6 @@ export default function ExpensesPage() {
               <div className="text-center">
                 <p className={cn('text-[10px] uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Entries</p>
                 <p className="text-sm font-semibold">{expenses.length}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               </div>
             </div>
           </div>

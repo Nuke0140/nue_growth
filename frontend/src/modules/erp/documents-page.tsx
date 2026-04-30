@@ -92,11 +92,7 @@ function DocumentsPageInner() {
             <FileText className="w-4 h-4" style={{ color: '#60a5fa' }} />
           </div>
           <div className="min-w-0">
-<<<<<<< HEAD
-            <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>{row.title}</p>
-=======
             <p className="text-sm font-medium truncate" style={{ color: 'var(--app-text)' }}>{row.title}</p>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         </div>
       ),
@@ -123,19 +119,11 @@ function DocumentsPageInner() {
         return (
           <div className="flex items-center gap-2">
             <Avatar className="h-6 w-6">
-<<<<<<< HEAD
-              <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
-                {emp?.avatar || '??'}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-sm" style={{ color: CSS.textSecondary }}>{emp?.name || row.employeeId}</span>
-=======
               <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
             <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>{emp?.name || row.employeeId}</span>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         );
       },
@@ -145,11 +133,7 @@ function DocumentsPageInner() {
       label: 'Uploaded',
       sortable: true,
       render: (row) => (
-<<<<<<< HEAD
-        <span className="text-sm" style={{ color: CSS.textSecondary }}>
-=======
         <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           {new Date(row.uploadedAt as string).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
         </span>
       ),
@@ -163,11 +147,7 @@ function DocumentsPageInner() {
         if (exp) {
           return <span className="app-badge" style={{ backgroundColor: `${exp.color}15`, color: exp.color }}>{exp.label}</span>;
         }
-<<<<<<< HEAD
-        return <span className="text-xs" style={{ color: CSS.textMuted }}>Never</span>;
-=======
         return <span className="text-xs" style={{ color: 'var(--app-text-muted)' }}>Never</span>;
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       },
     },
     {
@@ -175,19 +155,11 @@ function DocumentsPageInner() {
       label: '',
       render: () => (
         <div className="flex items-center gap-1">
-<<<<<<< HEAD
-          <button className="ops-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Eye className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
-          </button>
-          <button className="ops-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
-            <Download className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
-=======
           <button className="app-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
             <Eye className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
           </button>
           <button className="app-btn-ghost p-1.5" onClick={(e) => e.stopPropagation()}>
             <Download className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </button>
         </div>
       ),

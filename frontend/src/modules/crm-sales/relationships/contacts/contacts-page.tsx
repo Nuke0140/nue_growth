@@ -16,19 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { mockContacts } from '@/modules/crm-sales/data/mock-data';
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-import { useCrmSalesStore } from '@/modules/crm-sales/crm-sales-store';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { CreateModal } from '@/components/shared/create-modal';
-import type { FormField } from '@/components/shared/create-modal';
-import { ContextualSidebar } from '@/components/shared/contextual-sidebar';
-import { CSS } from '@/styles/design-tokens';
-import type { Contact, AiIntent } from '@/modules/crm-sales/types';
-=======
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import type { Contact, AiIntent } from '@/modules/crm-sales/system/types';
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
 
 type FilterKey = 'all' | 'high' | 'vip' | 'inactive';
 
@@ -59,19 +48,6 @@ function getStageLabel(stage: string) {
   return map[stage] || stage;
 }
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-function getStageColor(stage: string) {
-  const map: Record<string, string> = {
-    lead: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-    mql: 'bg-purple-500/15 text-purple-400 border-purple-500/20',
-    sql: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
-    opportunity: 'bg-orange-500/15 text-orange-400 border-orange-500/20',
-    customer: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
-    retained: 'bg-teal-500/15 text-teal-400 border-teal-500/20',
-    advocate: 'bg-pink-500/15 text-pink-400 border-pink-500/20',
-  };
-  return map[stage] || 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20';
-=======
 function getStageColor(stage: string, isDark: boolean) {
   switch (stage) {
     case 'lead': return isDark ? 'bg-blue-500/15 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200';
@@ -83,7 +59,6 @@ function getStageColor(stage: string, isDark: boolean) {
     case 'advocate': return isDark ? 'bg-pink-500/15 text-pink-300 border-pink-500/20' : 'bg-pink-50 text-pink-700 border-pink-200';
     default: return 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] border-[var(--app-border)]';
   }
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
 }
 
 function getSourceLabel(source: string) {
@@ -169,165 +144,10 @@ export default function ContactsPage() {
     { key: 'inactive', label: 'Inactive', icon: UserX, count: mockContacts.filter(c => c.aiIntent === 'inactive' || c.healthScore < 40).length },
   ];
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-  // Table columns
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'name',
-      label: 'Name',
-      sortable: true,
-      render: (row) => {
-        const r = row as unknown as Contact;
-        const fullName = `${r.firstName} ${r.lastName}`;
-        const initials = `${r.firstName.charAt(0)}${r.lastName.charAt(0)}`;
-        return (
-          <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8 shrink-0">
-              <AvatarImage src={r.avatar} alt={fullName} />
-              <AvatarFallback className={cn(
-                'text-xs font-semibold',
-                r.healthScore > 75 && 'bg-emerald-500/15 text-emerald-400',
-                r.healthScore > 50 && r.healthScore <= 75 && 'bg-yellow-500/15 text-yellow-400',
-                r.healthScore <= 50 && 'bg-red-500/15 text-red-400',
-              )}>
-                {initials}
-              </AvatarFallback>
-            </Avatar>
-            <div className="min-w-0">
-              <p className="text-sm font-medium truncate">{fullName}</p>
-              <p className="text-xs text-[var(--app-text-muted)] truncate">{r.title}</p>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'company',
-      label: 'Company',
-      sortable: true,
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return <span className="text-sm">{r.company || '—'}</span>;
-      },
-    },
-    {
-      key: 'email',
-      label: 'Email',
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return <span className="text-xs">{r.email}</span>;
-      },
-    },
-    {
-      key: 'phone',
-      label: 'Phone',
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return <span className="text-xs">{r.phone}</span>;
-      },
-    },
-    {
-      key: 'source',
-      label: 'Source',
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return (
-          <span className={cn('px-2 py-0.5 rounded text-[11px] font-medium border', getStageColor(r.source))}>
-            {getSourceLabel(r.source)}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'lifecycleStage',
-      label: 'Stage',
-      sortable: true,
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return (
-          <span className={cn('px-2 py-0.5 rounded text-[11px] font-medium border', getStageColor(r.lifecycleStage))}>
-            {getStageLabel(r.lifecycleStage)}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'owner',
-      label: 'Owner',
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return <span className="text-xs">{r.owner}</span>;
-      },
-    },
-    {
-      key: 'healthScore',
-      label: 'Health',
-      sortable: true,
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return (
-          <div className="flex items-center gap-2 min-w-[80px]">
-            <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-              <div
-                className={cn('h-full rounded-full transition-all', getHealthBarColor(r.healthScore))}
-                style={{ width: `${r.healthScore}%` }}
-              />
-            </div>
-            <span className={cn('text-[11px] font-medium w-7 text-right', getHealthColor(r.healthScore))}>
-              {r.healthScore}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'aiIntent',
-      label: 'AI Intent',
-      sortable: true,
-      render: (row) => {
-        const r = row as unknown as Contact;
-        const intent = intentConfig[r.aiIntent];
-        return (
-          <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium border', intent.className)}>
-            <span className="text-[10px]">{intent.emoji}</span>
-            {intent.label}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'lastInteraction',
-      label: 'Last Active',
-      render: (row) => {
-        const r = row as unknown as Contact;
-        return <span className="text-xs text-[var(--app-text-muted)]">{r.lastInteraction}</span>;
-      },
-    },
-  ], []);
-
-  const tableData = useMemo(
-    () => filtered.map(c => ({
-      id: c.id,
-      name: `${c.firstName} ${c.lastName}`,
-      company: c.company || '',
-      email: c.email,
-      phone: c.phone,
-      source: c.source,
-      lifecycleStage: c.lifecycleStage,
-      owner: c.owner,
-      healthScore: c.healthScore,
-      aiIntent: c.aiIntent,
-      lastInteraction: c.lastInteraction,
-      ...c,
-    })) as unknown as Record<string, unknown>[],
-    [filtered]
-  );
-=======
   function renderSortIcon(field: SortField) {
     if (sortField !== field) return <ArrowUpDown className="w-4 h-4 opacity-40" />;
     return sortDir === 'asc' ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />;
   }
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
 
   if (isLoading) {
     return (
@@ -357,28 +177,14 @@ export default function ContactsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <h1 className="text-xl md:text-2xl font-bold">Contacts</h1>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-            <Badge variant="secondary" className="text-xs font-medium bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]">
-=======
             <Badge variant="secondary" className={cn(
               'text-xs font-medium',
               'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
             )}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
               {filtered.length}
             </Badge>
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-            <Button
-              size="icon"
-              className="h-9 w-9 rounded-xl shrink-0"
-              style={{ backgroundColor: CSS.accent, color: '#fff' }}
-              onClick={() => setShowCreateModal(true)}
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
-=======
             <div className={cn(
               'flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64 transition-colors',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -411,7 +217,6 @@ export default function ContactsPage() {
                 <TooltipContent><p>Add Contact</p></TooltipContent>
               </Tooltip>
             </TooltipProvider>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
           </div>
         </div>
 
@@ -419,16 +224,11 @@ export default function ContactsPage() {
         <div className="flex flex-wrap items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-              <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]">
-                <Upload className="w-3.5 h-3.5" />
-=======
               <Button variant="ghost" size="sm" className={cn(
                 'h-8 gap-1.5 text-xs',
                 'text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
               )}>
                 <Upload className="w-4 h-4" />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
                 Import CSV
               </Button>
             </DropdownMenuTrigger>
@@ -437,20 +237,6 @@ export default function ContactsPage() {
               <DropdownMenuItem>Import from Google Sheets</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-          <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]">
-            <Download className="w-3.5 h-3.5" />
-            Export
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]">
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            Bulk Actions
-          </Button>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl w-fit" style={{ background: CSS.hoverBg }}>
-=======
 
           <Button variant="ghost" size="sm" className={cn(
             'h-8 gap-1.5 text-xs',
@@ -516,7 +302,6 @@ export default function ContactsPage() {
 
         {/* Filter Tabs */}
         <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit" style={{ background: 'var(--app-hover-bg)' }}>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
           {filters.map((filter) => {
             const isActive = activeFilter === filter.key;
             return (
@@ -526,30 +311,21 @@ export default function ContactsPage() {
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200',
                   isActive
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-                    ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] shadow-sm'
-                    : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
-=======
                     ? isDark
                       ? 'bg-white/[0.08] text-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                       : 'bg-black/[0.06] text-black shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
                     : isDark
                       ? 'text-white/40 hover:text-white/70'
                       : 'text-black/40 hover:text-black/70'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
                 )}
               >
                 <filter.icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{filter.label}</span>
                 <span className={cn(
                   'px-1.5 py-0.5 rounded text-[10px] font-bold',
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-                  isActive ? 'bg-[var(--app-active-bg)]' : 'bg-[var(--app-hover-bg)]'
-=======
                   isActive
                     ? 'bg-[var(--app-hover-bg)]'
                     : 'bg-[var(--app-hover-bg)]'
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
                 )}>
                   {filter.count}
                 </span>
@@ -570,18 +346,6 @@ export default function ContactsPage() {
               key={stat.label}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-              transition={{ delay: i * 0.05, duration: 0.3 }}
-              className="rounded-2xl border p-4"
-              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-[var(--app-text-muted)]">
-                  {stat.label}
-                </span>
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
-                  <stat.icon className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
-=======
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-4',
@@ -597,7 +361,6 @@ export default function ContactsPage() {
                   'bg-[var(--app-hover-bg)]'
                 )}>
                   <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -605,101 +368,6 @@ export default function ContactsPage() {
           ))}
         </div>
 
-<<<<<<< HEAD:frontend/src/modules/crm-sales/contacts-page.tsx
-        {/* SmartDataTable */}
-        <SmartDataTable
-          data={tableData}
-          columns={columns}
-          onRowClick={(row) => setSelectedContact(row as unknown as Contact)}
-          searchable
-          searchPlaceholder="Search contacts..."
-          searchKeys={['name', 'company', 'email', 'title']}
-          emptyMessage="No contacts found. Try adjusting your search or filters."
-          pageSize={8}
-          enableExport
-          selectable
-          actions={(row) => {
-            const contact = row as unknown as Contact;
-            return (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:bg-[var(--app-hover-bg)]"
-                  >
-                    <MoreHorizontal className="w-4 h-4 text-[var(--app-text-muted)]" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setSelectedContact(contact)}>View Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Contact</DropdownMenuItem>
-                  <DropdownMenuItem>Send Email</DropdownMenuItem>
-                  <DropdownMenuItem>Schedule Call</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            );
-          }}
-        />
-      </div>
-
-      {/* Create Contact Modal */}
-      <CreateModal
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        title="Create Contact"
-        description="Add a new contact to your CRM"
-        fields={createContactFields}
-        icon={Users}
-        submitLabel="Create Contact"
-        onSubmit={(data) => {
-          console.log('Creating contact:', data);
-        }}
-      />
-
-      {/* Contact Detail Sidebar */}
-      <ContextualSidebar
-        open={!!selectedContact}
-        onClose={() => setSelectedContact(null)}
-        title={selectedContact ? `${selectedContact.firstName} ${selectedContact.lastName}` : ''}
-        subtitle="Contact"
-        icon={Users}
-        width={400}
-        footer={
-          selectedContact ? (
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                className="flex-1 rounded-xl text-xs"
-                variant="outline"
-                onClick={() => setSelectedContact(null)}
-              >
-                Close
-              </Button>
-              <Button
-                size="sm"
-                className="flex-1 rounded-xl text-xs text-white"
-                style={{ backgroundColor: CSS.accent }}
-              >
-                Edit Contact
-              </Button>
-            </div>
-          ) : undefined
-        }
-      >
-        {selectedContact && (
-          <div className="space-y-5">
-            {/* Avatar + basic info */}
-            <div className="flex items-center gap-3">
-              <Avatar className="h-14 w-14">
-                <AvatarImage src={selectedContact.avatar} />
-                <AvatarFallback className="text-lg font-bold bg-emerald-500/15 text-emerald-400">
-                  {selectedContact.firstName[0]}{selectedContact.lastName[0]}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-sm font-semibold">{selectedContact.title}</p>
-                <p className="text-xs text-[var(--app-text-muted)]">{selectedContact.company}</p>
-=======
         {/* Table */}
         <div className={cn(
           'rounded-[var(--app-radius-xl)] border overflow-hidden',
@@ -986,7 +654,6 @@ export default function ContactsPage() {
                 >
                   <ChevronsRight className="w-4 h-4" />
                 </button>
->>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/relationships/contacts/contacts-page.tsx
               </div>
             </div>
 
