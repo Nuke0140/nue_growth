@@ -55,7 +55,7 @@ export default function ExportMenu({ onExport }: ExportMenuProps) {
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(!open)}
         className={cn(
-          'inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium transition-colors',
+          'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2 text-xs font-medium transition-colors',
           isDark
             ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1] border border-white/[0.08]'
             : 'bg-black/[0.03] text-zinc-600 hover:bg-black/[0.06] border border-black/[0.06]',
@@ -74,7 +74,7 @@ export default function ExportMenu({ onExport }: ExportMenuProps) {
             exit={{ opacity: 0, y: -4, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className={cn(
-              'absolute right-0 top-full z-50 mt-1.5 min-w-[180px] rounded-xl border shadow-lg py-1',
+              'absolute right-0 top-full z-50 mt-1.5 min-w-[180px] rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-lg py-1',
               isDark
                 ? 'bg-zinc-800 border-white/[0.08]'
                 : 'bg-white border-black/[0.08]',

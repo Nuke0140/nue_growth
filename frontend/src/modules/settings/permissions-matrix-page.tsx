@@ -83,25 +83,25 @@ export default function PermissionsMatrixPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'bg-[var(--app-hover-bg)]',
             )}>
-              <Shield className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Permissions Matrix</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 Role-based access control configuration
               </p>
             </div>
           </div>
           <button className={cn(
-            'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors',
+            'inline-flex items-center gap-2 rounded-[var(--app-radius-lg)] px-4 py-2.5 text-sm font-medium transition-colors',
             isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' : 'bg-blue-50 text-blue-700 hover:bg-blue-100',
           )}>
             <Plus className="w-4 h-4" />
@@ -118,7 +118,7 @@ export default function PermissionsMatrixPage() {
               className={cn(
                 'inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors shrink-0',
                 activeRoleTab === role
-                  ? (isDark ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200')
+                  ? ('bg-[var(--app-info-bg)] text-[var(--app-info)] border border-[var(--app-info)]/30')
                   : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.04] hover:bg-black/[0.04]'),
               )}
             >
@@ -129,7 +129,7 @@ export default function PermissionsMatrixPage() {
 
         {/* ── Permission Filter Chips ── */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className={cn('text-[10px] font-medium shrink-0 mr-1', isDark ? 'text-white/30' : 'text-black/30')}>
+          <span className={cn('text-[10px] font-medium shrink-0 mr-1', 'text-[var(--app-text-muted)]')}>
             Filter:
           </span>
           {permissionFilters.map((perm) => (
@@ -143,7 +143,7 @@ export default function PermissionsMatrixPage() {
                   : (isDark ? 'bg-white/[0.04] text-zinc-400 border border-white/[0.06] hover:bg-white/[0.06]' : 'bg-black/[0.02] text-zinc-500 border border-black/[0.04] hover:bg-black/[0.04]'),
               )}
             >
-              {activePermissions.has(perm.value) && <Check className="w-3 h-3" />}
+              {activePermissions.has(perm.value) && <Check className="w-4 h-4" />}
               {perm.label}
             </button>
           ))}
@@ -155,7 +155,7 @@ export default function PermissionsMatrixPage() {
                 isDark ? 'text-red-400 hover:bg-red-500/10' : 'text-red-500 hover:bg-red-50',
               )}
             >
-              <X className="w-3 h-3" />
+              <X className="w-4 h-4" />
               Clear
             </button>
           )}
@@ -181,8 +181,8 @@ export default function PermissionsMatrixPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Users className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+            <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Role Presets
             </span>
           </div>
@@ -197,37 +197,37 @@ export default function PermissionsMatrixPage() {
                 key={preset.id}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-2xl border p-4 shadow-sm transition-all',
+                  'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors',
                   isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
                 )}
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
-                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                       {preset.name}
                     </p>
                     {!preset.isCustom && (
-                      <span className={cn('text-[9px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                      <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>
                         System preset
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-1">
                     <button className={cn(
-                      'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
+                      'h-8  w-7 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                       isDark ? 'hover:bg-white/[0.06] text-white/40 hover:text-white' : 'hover:bg-black/[0.06] text-black/40 hover:text-black',
                     )}>
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                     </button>
                     <button className={cn(
-                      'h-7 w-7 rounded-lg flex items-center justify-center transition-colors',
+                      'h-8  w-7 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                       isDark ? 'hover:bg-white/[0.06] text-white/40 hover:text-white' : 'hover:bg-black/[0.06] text-black/40 hover:text-black',
                     )}>
-                      <Edit className="w-3.5 h-3.5" />
+                      <Edit className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
-                <p className={cn('text-[10px] leading-relaxed line-clamp-2 mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
+                <p className={cn('text-[10px] leading-relaxed line-clamp-2 mb-3', 'text-[var(--app-text-muted)]')}>
                   {preset.description}
                 </p>
                 <div className="flex items-center justify-between">
@@ -235,7 +235,7 @@ export default function PermissionsMatrixPage() {
                     'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium',
                     isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.04] text-black/50',
                   )}>
-                    <Users className="w-3 h-3" />
+                    <Users className="w-4 h-4" />
                     {preset.userCount} user{preset.userCount !== 1 ? 's' : ''}
                   </span>
                 </div>
@@ -250,12 +250,12 @@ export default function PermissionsMatrixPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className={cn(
-            'rounded-2xl border p-5 md:p-6',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'rounded-[var(--app-radius-xl)] border p-app-xl md:p-6',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               Permission Diff Preview
             </h3>
             <div className="flex items-center gap-2">
@@ -263,19 +263,19 @@ export default function PermissionsMatrixPage() {
                 value={diffRoleA}
                 onChange={(e) => setDiffRoleA(e.target.value as UserRole)}
                 className={cn(
-                  'rounded-lg border px-2 py-1 text-xs appearance-none',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                  'rounded-[var(--app-radius-lg)] border px-2 py-1 text-xs appearance-none',
+                  'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
               >
                 {allRoles.map((r) => <option key={r} value={r}>{roleLabels[r]}</option>)}
               </select>
-              <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>vs</span>
+              <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>vs</span>
               <select
                 value={diffRoleB}
                 onChange={(e) => setDiffRoleB(e.target.value as UserRole)}
                 className={cn(
-                  'rounded-lg border px-2 py-1 text-xs appearance-none',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08] text-white' : 'bg-black/[0.02] border-black/[0.08] text-black',
+                  'rounded-[var(--app-radius-lg)] border px-2 py-1 text-xs appearance-none',
+                  'bg-[var(--app-input-bg)] border-[var(--app-border)] text-[var(--app-text)]',
                 )}
               >
                 {allRoles.map((r) => <option key={r} value={r}>{roleLabels[r]}</option>)}
@@ -286,16 +286,16 @@ export default function PermissionsMatrixPage() {
           {/* Legend */}
           <div className="flex items-center gap-4 mb-4">
             <div className="flex items-center gap-1.5">
-              <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-blue-500/30' : 'bg-blue-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Only {roleLabels[diffRoleA]}</span>
+              <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', isDark ? 'bg-blue-500/30' : 'bg-blue-200')} />
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Only {roleLabels[diffRoleA]}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Only {roleLabels[diffRoleB]}</span>
+              <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', isDark ? 'bg-violet-500/30' : 'bg-violet-200')} />
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Only {roleLabels[diffRoleB]}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className={cn('w-3 h-3 rounded-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-200')} />
-              <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Shared</span>
+              <div className={cn('w-4 h-4 rounded-[var(--app-radius-sm)]', isDark ? 'bg-emerald-500/30' : 'bg-emerald-200')} />
+              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Shared</span>
             </div>
           </div>
 
@@ -304,10 +304,10 @@ export default function PermissionsMatrixPage() {
             <div className="min-w-[500px]">
               {/* Header */}
               <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-2 mb-2">
-                <span className={cn('text-[10px] font-semibold', isDark ? 'text-white/30' : 'text-black/30')}>Module</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-blue-400' : 'text-blue-600')}>{roleLabels[diffRoleA]}</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-violet-400' : 'text-violet-600')}>{roleLabels[diffRoleB]}</span>
-                <span className={cn('text-[10px] font-semibold text-center', isDark ? 'text-emerald-400' : 'text-emerald-600')}>Shared</span>
+                <span className={cn('text-[10px] font-semibold', 'text-[var(--app-text-muted)]')}>Module</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-info)]')}>{roleLabels[diffRoleA]}</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-purple)]')}>{roleLabels[diffRoleB]}</span>
+                <span className={cn('text-[10px] font-semibold text-center', 'text-[var(--app-success)]')}>Shared</span>
               </div>
 
               {diffModules.map((row, i) => (
@@ -321,46 +321,46 @@ export default function PermissionsMatrixPage() {
                     i < diffModules.length - 1 && (isDark ? 'border-b border-white/[0.04]' : 'border-b border-black/[0.04]'),
                   )}
                 >
-                  <span className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
+                  <span className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
                     {row.module}
                   </span>
                   {/* Only A */}
                   <div className="flex items-center justify-center gap-1 flex-wrap">
                     {row.onlyA.length > 0 ? row.onlyA.map((p) => (
                       <span key={p} className={cn(
-                        'rounded-md px-1.5 py-0.5 text-[9px] font-bold',
+                        'rounded-[var(--app-radius-md)] px-1.5 py-0.5 text-[9px] font-bold',
                         isDark ? 'bg-blue-500/15 text-blue-300' : 'bg-blue-100 text-blue-700',
                       )}>
                         {p}
                       </span>
                     )) : (
-                      <Minus className="w-3 h-3 text-zinc-500" />
+                      <Minus className="w-4 h-4 text-zinc-500" />
                     )}
                   </div>
                   {/* Only B */}
                   <div className="flex items-center justify-center gap-1 flex-wrap">
                     {row.onlyB.length > 0 ? row.onlyB.map((p) => (
                       <span key={p} className={cn(
-                        'rounded-md px-1.5 py-0.5 text-[9px] font-bold',
+                        'rounded-[var(--app-radius-md)] px-1.5 py-0.5 text-[9px] font-bold',
                         isDark ? 'bg-violet-500/15 text-violet-300' : 'bg-violet-100 text-violet-700',
                       )}>
                         {p}
                       </span>
                     )) : (
-                      <Minus className="w-3 h-3 text-zinc-500" />
+                      <Minus className="w-4 h-4 text-zinc-500" />
                     )}
                   </div>
                   {/* Shared */}
                   <div className="flex items-center justify-center gap-1 flex-wrap">
                     {row.shared.length > 0 ? row.shared.map((p) => (
                       <span key={p} className={cn(
-                        'rounded-md px-1.5 py-0.5 text-[9px] font-bold',
+                        'rounded-[var(--app-radius-md)] px-1.5 py-0.5 text-[9px] font-bold',
                         isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-100 text-emerald-700',
                       )}>
                         {p}
                       </span>
                     )) : (
-                      <Minus className="w-3 h-3 text-zinc-500" />
+                      <Minus className="w-4 h-4 text-zinc-500" />
                     )}
                   </div>
                 </motion.div>

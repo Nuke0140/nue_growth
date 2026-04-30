@@ -67,8 +67,8 @@ export default function ReportTemplateCard({
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onClick={onClick}
       className={cn(
-        'group relative flex flex-col rounded-2xl border p-4 sm:p-5 shadow-sm cursor-pointer',
-        'hover:shadow-lg transition-shadow duration-200',
+        'group relative flex flex-col rounded-[var(--app-radius-xl)] border p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] cursor-pointer',
+        'hover:shadow-[var(--app-shadow-md)]-lg transition-shadow duration-200',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -78,7 +78,7 @@ export default function ReportTemplateCard({
       <div className="flex items-start justify-between mb-3">
         <div
           className={cn(
-            'flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
+            'flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
             isDark
               ? 'bg-white/[0.06] group-hover:bg-white/[0.1]'
               : 'bg-black/[0.04] group-hover:bg-black/[0.06]',
@@ -87,7 +87,7 @@ export default function ReportTemplateCard({
           <DisplayIcon
             className={cn(
               'h-5 w-5',
-              isDark ? 'text-zinc-400' : 'text-zinc-500',
+              'text-[var(--app-text-muted)]',
             )}
           />
         </div>
@@ -109,7 +109,7 @@ export default function ReportTemplateCard({
         <h4
           className={cn(
             'text-sm font-semibold truncate mb-1',
-            isDark ? 'text-white' : 'text-zinc-900',
+            'text-[var(--app-text)]',
           )}
         >
           {name}
@@ -117,7 +117,7 @@ export default function ReportTemplateCard({
         <p
           className={cn(
             'text-xs leading-relaxed line-clamp-2',
-            isDark ? 'text-zinc-400' : 'text-zinc-500',
+            'text-[var(--app-text-muted)]',
           )}
         >
           {description}
@@ -129,7 +129,7 @@ export default function ReportTemplateCard({
         <span
           className={cn(
             'text-[10px] font-medium uppercase tracking-wider',
-            isDark ? 'text-zinc-500' : 'text-zinc-400',
+            'text-[var(--app-text-muted)]',
           )}
         >
           Widgets

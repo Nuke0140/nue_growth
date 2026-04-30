@@ -132,7 +132,7 @@ export default function ForgotPasswordPage() {
   };
 
   const rightPanel = (
-    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-8 sm:py-12">
+    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-app-3xl sm:py-app-4xl">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -156,21 +156,21 @@ export default function ForgotPasswordPage() {
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-6 flex items-center gap-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
+          className="mb-app-2xl flex items-center gap-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Login
         </motion.button>
 
-        <Card className="rounded-2xl border-gray-200/60 shadow-sm">
-          <CardContent className="p-6 md:p-8">
+        <Card className="rounded-[var(--app-radius-xl)] border-gray-200/60 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+          <CardContent className="p-6 md:p-app-3xl">
             {/* Header */}
-            <div className="mb-6 text-center">
+            <div className="mb-app-2xl text-center">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-100"
+                className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[var(--app-radius-xl)] bg-gray-100"
               >
                 <Mail className="h-6 w-6 text-gray-600" />
               </motion.div>
@@ -181,17 +181,17 @@ export default function ForgotPasswordPage() {
             </div>
 
             <Tabs defaultValue="email" className="w-full">
-              <TabsList className="mb-6 grid w-full grid-cols-2 rounded-xl bg-gray-100 p-1">
+              <TabsList className="mb-app-2xl grid w-full grid-cols-2 rounded-[var(--app-radius-lg)] bg-gray-100 p-1">
                 <TabsTrigger
                   value="email"
-                  className="rounded-lg text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-gray-900"
+                  className="rounded-[var(--app-radius-lg)] text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] data-[state=active]:text-gray-900"
                 >
                   <Mail className="mr-1.5 h-3.5 w-3.5" />
                   Reset via Email
                 </TabsTrigger>
                 <TabsTrigger
                   value="mobile"
-                  className="rounded-lg text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-gray-900"
+                  className="rounded-[var(--app-radius-lg)] text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] data-[state=active]:text-gray-900"
                 >
                   <Phone className="mr-1.5 h-3.5 w-3.5" />
                   Reset via Mobile OTP
@@ -227,7 +227,7 @@ export default function ForgotPasswordPage() {
                               setEmail(e.target.value);
                               if (emailError) setEmailError('');
                             }}
-                            className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                            className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                               emailError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                             }`}
                           />
@@ -250,7 +250,7 @@ export default function ForgotPasswordPage() {
                         <Button
                           type="submit"
                           disabled={emailLoading}
-                          className="h-11 w-full rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
+                          className="h-10  w-full rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
                         >
                           <AnimatePresence mode="wait">
                             {emailLoading ? (
@@ -286,7 +286,7 @@ export default function ForgotPasswordPage() {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                      className="space-y-5 text-center py-4"
+                      className="space-y-app-xl text-center py-4"
                     >
                       {/* Animated checkmark */}
                       <motion.div
@@ -343,7 +343,7 @@ export default function ForgotPasswordPage() {
                             setEmailSuccess(false);
                             setEmail('');
                           }}
-                          className="h-10 rounded-xl border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                          className="h-10 rounded-[var(--app-radius-lg)] border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                         >
                           Try a different email
                         </Button>
@@ -369,7 +369,7 @@ export default function ForgotPasswordPage() {
                     </Label>
                     <div className="flex gap-2">
                       <Select value={countryCode} onValueChange={setCountryCode}>
-                        <SelectTrigger className="w-[110px] h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20">
+                        <SelectTrigger className="w-[110px] h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -391,7 +391,7 @@ export default function ForgotPasswordPage() {
                           placeholder="9876543210"
                           value={phone}
                           onChange={(e) => handlePhoneChange(e.target.value)}
-                          className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             phoneError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -415,7 +415,7 @@ export default function ForgotPasswordPage() {
                     <Button
                       type="submit"
                       disabled={phoneLoading}
-                      className="h-11 w-full rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
+                      className="h-10  w-full rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
                     >
                       <AnimatePresence mode="wait">
                         {phoneLoading ? (
@@ -455,7 +455,7 @@ export default function ForgotPasswordPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-6 text-center space-y-3"
+          className="mt-app-2xl text-center space-y-3"
         >
           <p className="text-sm text-gray-500">
             Remember your password?{' '}

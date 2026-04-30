@@ -164,27 +164,47 @@ function IncentivesPageInner() {
   ];
 
   return (
+<<<<<<< HEAD
     <PageShell title="Incentives" icon={Gift} onCreate={() => {}}>
       <div className="space-y-6">
+=======
+    <PageShell title="Incentives" icon={Gift}>
+      <div className="space-y-app-2xl">
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         {/* Actions */}
         <div className="flex items-center justify-between gap-2">
           <div className="relative">
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
+<<<<<<< HEAD
               className="appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-lg border cursor-pointer focus:outline-none"
               style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border, color: CSS.textSecondary }}
+=======
+              className={cn(
+                'appearance-none text-xs font-medium px-3 py-1.5 pr-7 rounded-[var(--app-radius-lg)] border cursor-pointer focus:outline-none',
+                isDark ? 'bg-white/[0.04] border-white/[0.08] text-white/60' : 'bg-black/[0.03] border-black/[0.08] text-black/60'
+              )}
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             >
               {months.map(m => (
                 <option key={m} value={m}>{m === 'all' ? 'All Time' : new Date(m + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</option>
               ))}
             </select>
+<<<<<<< HEAD
             <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: CSS.textMuted }} />
+=======
+            <ChevronDown className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
+<<<<<<< HEAD
                 <Button className="h-9 rounded-xl gap-2 text-white" style={{ backgroundColor: CSS.accent }}>
+=======
+                <Button className={cn('h-10  rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   <Plus className="w-4 h-4" /> Add Incentive
                 </Button>
               </TooltipTrigger>
@@ -194,6 +214,7 @@ function IncentivesPageInner() {
         </div>
 
         {/* Filter Tabs */}
+<<<<<<< HEAD
         <FilterBar
           filters={filters}
           activeFilter={activeFilter}
@@ -206,11 +227,59 @@ function IncentivesPageInner() {
           <KpiWidget label="Pending" value={formatCurrency(stats.pending)} icon={Clock} color="warning" />
           <KpiWidget label="Disbursed" value={formatCurrency(stats.disbursed)} icon={CheckCircle2} color="info" />
           <KpiWidget label="Avg Per Employee" value={formatCurrency(stats.avgPerEmployee)} icon={TrendingUp} color="accent" />
+=======
+        <div className="flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit overflow-x-auto" style={{ background: 'var(--app-hover-bg)' }}>
+          {filters.map((filter) => {
+            const isActive = activeFilter === filter.key;
+            return (
+              <button
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key)}
+                className={cn(
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200 whitespace-nowrap',
+                  isActive ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]') : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]')
+                )}
+              >
+                <span>{filter.label}</span>
+                <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? ('bg-[var(--app-hover-bg)]') : ('bg-[var(--app-hover-bg)]'))}>
+                  {filter.count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="flex flex-col xl:flex-row gap-6">
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Total This Month', value: formatCurrency(stats.total), icon: IndianRupee, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Pending', value: formatCurrency(stats.pending), icon: Clock, color: 'text-amber-500 dark:text-amber-400' },
+            { label: 'Disbursed', value: formatCurrency(stats.disbursed), icon: CheckCircle2, color: 'text-blue-400' },
+            { label: 'Avg Per Employee', value: formatCurrency(stats.avgPerEmployee), icon: TrendingUp, color: 'text-purple-400' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
+                </div>
+              </div>
+              <p className="text-lg font-bold">{stat.value}</p>
+            </motion.div>
+          ))}
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
+        </div>
+
+        <div className="flex flex-col xl:flex-row gap-app-2xl">
           {/* Table */}
           <div className="flex-1">
+<<<<<<< HEAD
             <SmartDataTable
               data={filtered as unknown as Record<string, unknown>[]}
               columns={columns}
@@ -236,6 +305,97 @@ function IncentivesPageInner() {
                 </DropdownMenu>
               )}
             />
+=======
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.3 }}
+              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            >
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
+                      <th className={cn('text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Employee</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Type</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Amount</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden md:table-cell', 'text-[var(--app-text-muted)]')}>Month</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell', 'text-[var(--app-text-muted)]')}>Description</th>
+                      <th className={cn('text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Status</th>
+                      <th className="w-[40px]" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((inc, idx) => {
+                      const emp = getEmployee(inc.employeeId);
+                      const type = typeConfig[inc.type];
+                      const status = statusConfig[inc.status];
+                      return (
+                        <motion.tr
+                          key={inc.id}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: idx * 0.03 }}
+                          className={cn('border-b last:border-0', 'border-[var(--app-border-strong)]')}
+                        >
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <Avatar className="h-8  w-7">
+                                <AvatarFallback className={cn('text-[10px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                                  {emp?.avatar || '??'}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span className="text-sm font-medium">{emp?.name || inc.employeeId}</span>
+                            </div>
+                          </td>
+                          <td className="px-3 py-3">
+                            <span className={cn('inline-flex px-2 py-0.5 rounded text-[10px] font-medium border', type.className)}>
+                              {type.label}
+                            </span>
+                          </td>
+                          <td className="px-3 py-3">
+                            <span className="text-sm font-semibold">{formatCurrency(inc.amount)}</span>
+                          </td>
+                          <td className="hidden md:table-cell px-3 py-3">
+                            <span className={cn('text-sm', 'text-[var(--app-text-secondary)]')}>
+                              {new Date(inc.month + '-01').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                            </span>
+                          </td>
+                          <td className="hidden lg:table-cell px-3 py-3">
+                            <span className={cn('text-xs max-w-[200px] truncate block', 'text-[var(--app-text-muted)]')}>
+                              {inc.description}
+                            </span>
+                          </td>
+                          <td className="px-3 py-3">
+                            <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', status.className)}>
+                              <span className={cn('w-1.5 h-1.5 rounded-full', status.dotClass)} />
+                              {status.label}
+                            </span>
+                          </td>
+                          <td className="px-3">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <button className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'hover:bg-[var(--app-hover-bg)]')}>
+                                  <MoreHorizontal className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                                </button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem>View Details</DropdownMenuItem>
+                                <DropdownMenuItem>Approve</DropdownMenuItem>
+                                <DropdownMenuItem>Process Payment</DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
 
           {/* Sidebar - Type Distribution */}
@@ -244,8 +404,12 @@ function IncentivesPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
+<<<<<<< HEAD
               className="rounded-2xl p-5"
               style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
+=======
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             >
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2" style={{ color: CSS.text }}>
                 <BarChart3 className="w-4 h-4" /> Type Distribution
@@ -254,10 +418,17 @@ function IncentivesPageInner() {
                 {typeDistribution.map((d, i) => (
                   <div key={i}>
                     <div className="flex items-center justify-between mb-1">
+<<<<<<< HEAD
                       <span className="text-xs" style={{ color: CSS.textSecondary }}>{d.type.label}</span>
                       <span className="text-xs font-medium" style={{ color: CSS.text }}>{formatCurrency(d.amount)}</span>
                     </div>
                     <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+=======
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{d.type.label}</span>
+                      <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{formatCurrency(d.amount)}</span>
+                    </div>
+                    <div className={cn('h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(d.amount / maxTypeAmount) * 100}%` }}

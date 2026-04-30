@@ -43,7 +43,7 @@ export default function DashboardWidget({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className={cn(
-        'flex flex-col rounded-2xl border shadow-sm overflow-hidden transition-all duration-300',
+        'flex flex-col rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden transition-colors duration-200',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -54,7 +54,7 @@ export default function DashboardWidget({
       <button
         onClick={() => setCollapsed(!collapsed)}
         className={cn(
-          'flex w-full items-center justify-between px-4 py-2.5 sm:px-5 text-left transition-colors',
+          'flex w-full items-center justify-between px-4 py-2.5 sm:px-app-xl text-left transition-colors',
           isDark
             ? 'hover:bg-white/[0.03]'
             : 'hover:bg-black/[0.02]',
@@ -63,7 +63,7 @@ export default function DashboardWidget({
         <h3
           className={cn(
             'text-sm font-semibold truncate',
-            isDark ? 'text-white' : 'text-zinc-900',
+            'text-[var(--app-text)]',
           )}
         >
           {title}
@@ -74,7 +74,7 @@ export default function DashboardWidget({
           transition={{ duration: 0.2 }}
           className={cn(
             'shrink-0 ml-2',
-            isDark ? 'text-zinc-400' : 'text-zinc-500',
+            'text-[var(--app-text-muted)]',
           )}
         >
           <ChevronDown className="h-4 w-4" />

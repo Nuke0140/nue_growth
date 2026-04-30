@@ -61,13 +61,22 @@ function PerformancePageInner() {
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
+<<<<<<< HEAD
               <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
+=======
+              <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 {emp?.avatar || '??'}
               </AvatarFallback>
             </Avatar>
             <div>
+<<<<<<< HEAD
               <p className="text-sm font-medium" style={{ color: CSS.text }}>{emp?.name}</p>
               <p className="text-[11px]" style={{ color: CSS.textMuted }}>{emp?.department}</p>
+=======
+              <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>{emp?.name}</p>
+              <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>{emp?.department}</p>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
             </div>
           </div>
         );
@@ -85,6 +94,7 @@ function PerformancePageInner() {
       key: 'kpiScore',
       label: 'KPI',
       sortable: true,
+<<<<<<< HEAD
       render: (row) => {
         const score = Number(row.kpiScore);
         return (
@@ -93,6 +103,12 @@ function PerformancePageInner() {
               <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
             </div>
             <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
+=======
+      render: (row) => (
+        <div className="flex items-center gap-2 min-w-[80px]">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+            <div className="h-full rounded-full" style={{ width: `${row.kpiScore}%`, backgroundColor: getBarColor(row.kpiScore as number) }} />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         );
       },
@@ -101,6 +117,7 @@ function PerformancePageInner() {
       key: 'slaScore',
       label: 'SLA',
       sortable: true,
+<<<<<<< HEAD
       render: (row) => {
         const score = Number(row.slaScore);
         return (
@@ -109,6 +126,13 @@ function PerformancePageInner() {
               <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
             </div>
             <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
+=======
+      hiddenMobile: true,
+      render: (row) => (
+        <div className="flex items-center gap-2 min-w-[80px]">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+            <div className="h-full rounded-full" style={{ width: `${row.slaScore}%`, backgroundColor: getBarColor(row.slaScore as number) }} />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         );
       },
@@ -117,6 +141,7 @@ function PerformancePageInner() {
       key: 'taskCompletion',
       label: 'Tasks',
       sortable: true,
+<<<<<<< HEAD
       render: (row) => {
         const score = Number(row.taskCompletion);
         return (
@@ -125,6 +150,13 @@ function PerformancePageInner() {
               <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: getBarColor(score) }} />
             </div>
             <span className="text-[11px] font-medium w-6 text-right" style={{ color: getBarColor(score) }}>{score}</span>
+=======
+      hiddenMobile: true,
+      render: (row) => (
+        <div className="flex items-center gap-2 min-w-[80px]">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+            <div className="h-full rounded-full" style={{ width: `${row.taskCompletion}%`, backgroundColor: getBarColor(row.taskCompletion as number) }} />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </div>
         );
       },
@@ -133,6 +165,7 @@ function PerformancePageInner() {
       key: 'clientFeedback',
       label: 'Feedback',
       sortable: true,
+<<<<<<< HEAD
       render: (row) => {
         const score = Number(row.clientFeedback);
         return (
@@ -141,6 +174,14 @@ function PerformancePageInner() {
           </span>
         );
       },
+=======
+      hiddenMobile: true,
+      render: (row) => (
+        <span className="text-sm font-medium" style={{ color: (row.clientFeedback as number) > 0 ? getBarColor(row.clientFeedback as number) : 'var(--app-text-muted)' }}>
+          {(row.clientFeedback as number) > 0 ? `${row.clientFeedback}%` : 'N/A'}
+        </span>
+      ),
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
     },
     {
       key: 'promotionReadiness',
@@ -155,7 +196,7 @@ function PerformancePageInner() {
 
   return (
     <PageShell title="Performance" icon={Target} subtitle="Q1 2026">
-      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg KPI Score" value={`${stats.avgKpi}%`} icon={Target} color="accent" />

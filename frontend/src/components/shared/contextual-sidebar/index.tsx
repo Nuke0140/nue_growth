@@ -80,7 +80,7 @@ export function ContextualSidebar({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className={cn('fixed top-0 right-0 z-50 h-full flex flex-col shadow-2xl', className)}
+            className={cn('fixed top-0 right-0 z-50 h-full flex flex-col shadow-[var(--app-shadow-md)]-2xl', className)}
             style={{
               width,
               maxWidth: '90vw',
@@ -93,13 +93,13 @@ export function ContextualSidebar({
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
+              className="flex items-center justify-between px-app-xl py-4 shrink-0"
               style={{ borderBottom: `1px solid ${CSS.border}` }}
             >
               <div className="flex items-center gap-3 min-w-0">
                 {Icon && (
                   <div
-                    className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0"
+                    className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)] shrink-0"
                     style={{ backgroundColor: CSS.accentLight }}
                   >
                     <Icon
@@ -126,7 +126,7 @@ export function ContextualSidebar({
               </div>
               <button
                 onClick={onClose}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors hover:bg-[var(--app-hover-bg)]"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors hover:bg-[var(--app-hover-bg)]"
                 style={{ color: CSS.textMuted }}
                 aria-label="Close panel"
               >
@@ -135,7 +135,7 @@ export function ContextualSidebar({
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-app-xl py-4">
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ export function ContextualSidebar({
             {/* Footer */}
             {footer && (
               <div
-                className="shrink-0 px-5 py-4"
+                className="shrink-0 px-app-xl py-4"
                 style={{ borderTop: `1px solid ${CSS.border}` }}
               >
                 {footer}

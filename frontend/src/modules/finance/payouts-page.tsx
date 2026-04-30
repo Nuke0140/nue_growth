@@ -56,27 +56,27 @@ export default function PayoutsPage() {
   const pendingAmount = useMemo(() => pendingPayouts.reduce((s, p) => s + p.amount, 0), []);
 
   const kpiStats = [
-    { label: 'Pending', value: pendingPayouts.length.toString(), amount: formatINR(pendingAmount), icon: Clock, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-    { label: 'Processing', value: processingPayouts.length.toString(), icon: RefreshCw, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
-    { label: 'Completed', value: completedPayouts.length.toString(), icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-    { label: 'Failed', value: failedPayouts.length.toString(), icon: AlertCircle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
+    { label: 'Pending', value: pendingPayouts.length.toString(), amount: formatINR(pendingAmount), icon: Clock, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+    { label: 'Processing', value: processingPayouts.length.toString(), icon: RefreshCw, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]' },
+    { label: 'Completed', value: completedPayouts.length.toString(), icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+    { label: 'Failed', value: failedPayouts.length.toString(), icon: AlertCircle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
   ];
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Send className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Send className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Payouts</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Payout Center</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Payout Center</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Plus className="w-4 h-4" /> New Payout
           </Button>
         </div>
@@ -89,16 +89,16 @@ export default function PayoutsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 cursor-pointer transition-all duration-200', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
-              {stat.amount && <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{stat.amount}</p>}
+              {stat.amount && <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{stat.amount}</p>}
             </motion.div>
           ))}
         </div>
@@ -109,7 +109,7 @@ export default function PayoutsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className={cn('rounded-2xl border p-5', isDark ? 'bg-amber-500/[0.03] border-amber-500/[0.12]' : 'bg-amber-50/50 border-amber-200/60')}
+            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-amber-500/[0.03] border-amber-500/[0.12]' : 'bg-amber-50/50 border-amber-200/60')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -128,11 +128,11 @@ export default function PayoutsPage() {
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.25 + i * 0.05, duration: 0.3 }}
-                    className={cn('flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl border', isDark ? 'border-amber-500/10 bg-amber-500/[0.02]' : 'border-amber-200/40 bg-white/60')}
+                    className={cn('flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-[var(--app-radius-lg)] border', isDark ? 'border-amber-500/10 bg-amber-500/[0.02]' : 'border-amber-200/40 bg-white/60')}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                        <Send className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                      <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                        <Send className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
                       </div>
                       <div>
                         <p className="text-sm font-medium">{payout.beneficiary}</p>
@@ -143,13 +143,13 @@ export default function PayoutsPage() {
                           <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? mConf.bgDark : mConf.bgLight)}>
                             {payout.method}
                           </Badge>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{payout.initiatedDate}</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{payout.initiatedDate}</span>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-semibold">{formatINR(payout.amount)}</span>
-                      <Button size="sm" className={cn('text-xs px-3 py-1.5 rounded-lg', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+                      <Button size="sm" className={cn('text-xs px-3 py-1.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
                         Approve
                       </Button>
                     </div>
@@ -165,13 +165,13 @@ export default function PayoutsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Banknote className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>All Payouts</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/40' : 'bg-black/[0.06] text-black/40')}>
+              <Banknote className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>All Payouts</span>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {payouts.length} total • {formatINR(totalPayoutAmount)}
               </Badge>
             </div>
@@ -188,11 +188,11 @@ export default function PayoutsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.04, duration: 0.3 }}
-                  className={cn('p-4 rounded-xl border transition-colors cursor-pointer', isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]', payout.status === 'failed' && (isDark ? 'bg-red-500/[0.02]' : 'bg-red-50/20'))}
+                  className={cn('p-4 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]', payout.status === 'failed' && (isDark ? 'bg-red-500/[0.02]' : 'bg-red-50/20'))}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center shrink-0', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                      <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'bg-[var(--app-hover-bg)]')}>
                         <StatusIcon className={cn('w-4 h-4', sConf.color)} />
                       </div>
                       <div className="min-w-0">
@@ -204,7 +204,7 @@ export default function PayoutsPage() {
                           <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? mConf.bgDark : mConf.bgLight)}>
                             {payout.method}
                           </Badge>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{payout.initiatedDate}</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{payout.initiatedDate}</span>
                         </div>
                       </div>
                     </div>
@@ -214,21 +214,21 @@ export default function PayoutsPage() {
                         {sConf.label}
                       </Badge>
                       {payout.status === 'failed' && (
-                        <Button size="sm" variant="outline" className="text-xs px-2 py-1 rounded-lg border-red-500/30 text-red-500 hover:bg-red-500/10 gap-1">
-                          <RefreshCw className="w-3 h-3" /> Retry
+                        <Button size="sm" variant="outline" className="text-xs px-2 py-1 rounded-[var(--app-radius-lg)] border-red-500/30 text-red-500 hover:bg-red-500/10 gap-1">
+                          <RefreshCw className="w-4 h-4" /> Retry
                         </Button>
                       )}
                     </div>
                   </div>
                   {payout.utrNumber && (
                     <div className="mt-2 ml-12">
-                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>UTR: </span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>UTR: </span>
                       <span className="text-[10px] font-mono">{payout.utrNumber}</span>
                     </div>
                   )}
                   {payout.failureReason && (
                     <div className="mt-2 ml-12 flex items-center gap-1.5">
-                      <AlertCircle className="w-3 h-3 text-red-500" />
+                      <AlertCircle className="w-4 h-4 text-red-500" />
                       <span className="text-[10px] text-red-500">{payout.failureReason}</span>
                     </div>
                   )}
@@ -243,24 +243,24 @@ export default function PayoutsPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Layers className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Batch Processing</span>
+            <Layers className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Batch Processing</span>
           </div>
-          <div className={cn('flex items-center justify-between p-4 rounded-xl border', isDark ? 'border-dashed border-white/[0.1] bg-white/[0.01]' : 'border-dashed border-black/[0.1] bg-black/[0.01]')}>
+          <div className={cn('flex items-center justify-between p-4 rounded-[var(--app-radius-lg)] border', isDark ? 'border-dashed border-white/[0.1] bg-white/[0.01]' : 'border-dashed border-black/[0.1] bg-black/[0.01]')}>
             <div className="flex items-center gap-3">
-              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                <Layers className={cn('w-5 h-5', isDark ? 'text-white/40' : 'text-black/40')} />
+              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+                <Layers className={cn('w-5 h-5', 'text-[var(--app-text-muted)]')} />
               </div>
               <div>
                 <p className="text-sm font-medium">Batch Payout Processing</p>
-                <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Select multiple approved payouts for batch processing</p>
+                <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Select multiple approved payouts for batch processing</p>
               </div>
             </div>
-            <Button variant="outline" className={cn('px-3 py-2 text-xs font-medium rounded-xl gap-2 border', isDark ? 'border-white/[0.1] text-white/60 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/60 hover:bg-black/[0.05]')}>
-              <ArrowUpRight className="w-3.5 h-3.5" /> Open Batch Queue
+            <Button variant="outline" className={cn('px-3 py-2 text-xs font-medium rounded-[var(--app-radius-lg)] gap-2 border', isDark ? 'border-white/[0.1] text-white/60 hover:bg-white/[0.05]' : 'border-black/[0.1] text-black/60 hover:bg-black/[0.05]')}>
+              <ArrowUpRight className="w-4 h-4" /> Open Batch Queue
             </Button>
           </div>
         </motion.div>

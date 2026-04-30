@@ -43,7 +43,7 @@ function getHeatColor(value: number, metric: string, isDark: boolean): string {
 
 function getTextColor(value: number, isDark: boolean): string {
   if (value < 20) return isDark ? 'text-zinc-300' : 'text-zinc-800';
-  if (value < 60) return isDark ? 'text-zinc-100' : 'text-zinc-900';
+  if (value < 60) return 'text-[var(--app-text)]';
   return 'text-white';
 }
 
@@ -95,7 +95,7 @@ export default function CohortHeatmap({
       transition={{ duration: 0.3 }}
       ref={containerRef}
       className={cn(
-        'rounded-2xl border shadow-sm p-4 sm:p-5',
+        'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -104,17 +104,17 @@ export default function CohortHeatmap({
       {/* Title */}
       {title && (
         <div className="mb-4">
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
             {title}
           </h3>
-          <p className={cn('text-xs mt-0.5', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
             {metricLabel[metric] ?? 'Retention %'}
           </p>
         </div>
       )}
 
       {/* Heatmap Grid */}
-      <div className="overflow-x-auto -mx-4 sm:-mx-5 px-4 sm:px-5">
+      <div className="overflow-x-auto -mx-4 sm:-mx-5 px-4 sm:px-app-xl">
         <div className="min-w-[500px]">
           {/* Header Row */}
           <div
@@ -126,7 +126,7 @@ export default function CohortHeatmap({
             <div
               className={cn(
                 'text-[10px] font-medium uppercase tracking-wider py-1',
-                isDark ? 'text-zinc-500' : 'text-zinc-400',
+                'text-[var(--app-text-muted)]',
               )}
             >
               Cohort
@@ -136,7 +136,7 @@ export default function CohortHeatmap({
                 key={i}
                 className={cn(
                   'text-[10px] font-medium uppercase tracking-wider text-center py-1',
-                  isDark ? 'text-zinc-500' : 'text-zinc-400',
+                  'text-[var(--app-text-muted)]',
                 )}
               >
                 P{i + 1}
@@ -158,7 +158,7 @@ export default function CohortHeatmap({
                 <span
                   className={cn(
                     'text-xs font-medium truncate',
-                    isDark ? 'text-zinc-300' : 'text-zinc-700',
+                    'text-[var(--app-text-secondary)]',
                   )}
                 >
                   {cohort.cohortLabel}
@@ -166,7 +166,7 @@ export default function CohortHeatmap({
                 <span
                   className={cn(
                     'text-[9px] shrink-0',
-                    isDark ? 'text-zinc-600' : 'text-zinc-400',
+                    'text-[var(--app-text-muted)]',
                   )}
                 >
                   ({cohort.size.toLocaleString()})
@@ -178,7 +178,7 @@ export default function CohortHeatmap({
                 <div
                   key={p.period}
                   className={cn(
-                    'relative rounded-md flex items-center justify-center py-1.5 text-xs font-semibold cursor-default transition-transform hover:scale-105',
+                    'relative rounded-[var(--app-radius-md)] flex items-center justify-center py-1.5 text-xs font-semibold cursor-default transition-transform hover:scale-105',
                     getTextColor(p.retention, isDark),
                   )}
                   style={{
@@ -200,8 +200,8 @@ export default function CohortHeatmap({
                   <div
                     key={`empty-${i}`}
                     className={cn(
-                      'rounded-md py-1.5',
-                      isDark ? 'bg-white/[0.02]' : 'bg-black/[0.01]',
+                      'rounded-[var(--app-radius-md)] py-1.5',
+                      'bg-[var(--app-hover-bg)]',
                     )}
                   />
                 ),
@@ -215,7 +215,7 @@ export default function CohortHeatmap({
       {tooltip && (
         <div
           className={cn(
-            'pointer-events-none absolute z-50 rounded-lg border px-3 py-2 text-xs shadow-lg',
+            'pointer-events-none absolute z-50 rounded-[var(--app-radius-lg)] border px-3 py-2 text-xs shadow-[var(--app-shadow-md)]-lg',
             isDark
               ? 'bg-zinc-800 border-white/[0.1] text-zinc-200'
               : 'bg-white border-black/[0.08] text-zinc-800',
@@ -234,19 +234,19 @@ export default function CohortHeatmap({
 
       {/* Legend */}
       <div className="mt-4 flex items-center justify-center gap-1.5">
-        <span className={cn('text-[10px] font-medium mr-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+        <span className={cn('text-[10px] font-medium mr-1', 'text-[var(--app-text-muted)]')}>
           Low
         </span>
         {legendSteps.map((step) => (
           <div
             key={step}
-            className="h-3 w-6 rounded-sm first:rounded-l-md last:rounded-r-md"
+            className="h-3 w-6 rounded-[var(--app-radius-sm)] first:rounded-l-md last:rounded-r-md"
             style={{
               backgroundColor: getHeatColor(step, metric, isDark),
             }}
           />
         ))}
-        <span className={cn('text-[10px] font-medium ml-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+        <span className={cn('text-[10px] font-medium ml-1', 'text-[var(--app-text-muted)]')}>
           High
         </span>
       </div>

@@ -73,7 +73,7 @@ export default function ChangeHistoryTimeline({
     return (
       <div
         className={cn(
-          'rounded-2xl border p-5 shadow-sm',
+          'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06]'
             : 'bg-black/[0.02] border-black/[0.06]',
@@ -92,7 +92,7 @@ export default function ChangeHistoryTimeline({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={cn(
-          'flex flex-col items-center justify-center rounded-2xl border p-10 shadow-sm',
+          'flex flex-col items-center justify-center rounded-[var(--app-radius-xl)] border p-app-4xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06]'
             : 'bg-black/[0.02] border-black/[0.06]',
@@ -100,16 +100,16 @@ export default function ChangeHistoryTimeline({
       >
         <div
           className={cn(
-            'flex h-12 w-12 items-center justify-center rounded-2xl mb-3',
-            isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
+            'flex h-12 w-12 items-center justify-center rounded-[var(--app-radius-xl)] mb-3',
+            'bg-[var(--app-hover-bg)]',
           )}
         >
-          <Inbox className={cn('h-6 w-6', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+          <Inbox className={cn('h-6 w-6', 'text-[var(--app-text-muted)]')} />
         </div>
-        <p className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+        <p className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
           No changes yet
         </p>
-        <p className={cn('text-xs mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+        <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>
           Change history will appear here when modifications are made.
         </p>
       </motion.div>
@@ -121,7 +121,7 @@ export default function ChangeHistoryTimeline({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={cn(
-        'rounded-2xl border p-5 shadow-sm',
+        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -153,7 +153,7 @@ export default function ChangeHistoryTimeline({
                   <div
                     className={cn(
                       'flex-1 w-px min-h-[40px]',
-                      isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]',
+                      'bg-[var(--app-hover-bg)]',
                     )}
                   />
                 )}
@@ -163,7 +163,7 @@ export default function ChangeHistoryTimeline({
               <div className={cn('flex-1 min-w-0 pb-6', isLast && 'pb-0')}>
                 {/* Field + Module */}
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                     {change.field}
                   </span>
                   <span
@@ -182,17 +182,17 @@ export default function ChangeHistoryTimeline({
                 <div className="flex items-center gap-2 mb-1.5">
                   <span
                     className={cn(
-                      'rounded-lg px-2 py-0.5 text-[11px] font-mono line-through max-w-[160px] truncate',
+                      'rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[11px] font-mono line-through max-w-[160px] truncate',
                       isDark ? 'bg-red-500/10 text-red-400/70' : 'bg-red-50 text-red-500/70',
                     )}
                   >
                     {change.previousValue}
                   </span>
-                  <ArrowRight className={cn('h-3 w-3 shrink-0', isDark ? 'text-zinc-600' : 'text-zinc-300')} />
+                  <ArrowRight className={cn('h-3 w-3 shrink-0', 'text-[var(--app-text-secondary)]')} />
                   <span
                     className={cn(
-                      'rounded-lg px-2 py-0.5 text-[11px] font-mono font-semibold max-w-[160px] truncate',
-                      isDark ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
+                      'rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[11px] font-mono font-semibold max-w-[160px] truncate',
+                      'bg-[var(--app-success-bg)] text-[var(--app-success)]',
                     )}
                   >
                     {change.newValue}
@@ -201,11 +201,11 @@ export default function ChangeHistoryTimeline({
 
                 {/* Actor + Time */}
                 <div className="flex items-center gap-3">
-                  <span className={cn('flex items-center gap-1 text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <span className={cn('flex items-center gap-1 text-[10px]', 'text-[var(--app-text-muted)]')}>
                     <User className="h-3 w-3" />
                     {change.changedBy}
                   </span>
-                  <span className={cn('flex items-center gap-1 text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <span className={cn('flex items-center gap-1 text-[10px]', 'text-[var(--app-text-muted)]')}>
                     <Clock className="h-3 w-3" />
                     {formatTime(change.timestamp)}
                   </span>

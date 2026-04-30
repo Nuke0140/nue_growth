@@ -159,13 +159,13 @@ export default function FinanceLayout() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className={cn(
-        'h-screen flex flex-col overflow-hidden transition-colors duration-300',
-        isDark ? 'bg-[#0a0a0a] text-white' : 'bg-[#fafafa] text-black'
+        'h-screen flex flex-col overflow-hidden transition-colors duration-200',
+        'bg-[var(--app-bg)] text-[var(--app-text)]'
       )}>
         {/* ========== Top Bar ========== */}
         <header className={cn(
           'h-14 border-b flex items-center justify-between px-4 gap-4 shrink-0 transition-colors',
-          isDark ? 'bg-[#0a0a0a] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+          'bg-[var(--app-bg)] border-[var(--app-border)]'
         )}>
           <div className="flex items-center gap-1.5">
             {/* Home Button */}
@@ -176,7 +176,7 @@ export default function FinanceLayout() {
                   size="icon"
                   onClick={closeModule}
                   className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg',
+                    'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]',
                     isDark
                       ? 'hover:bg-white/[0.06] text-white/50 hover:text-white'
                       : 'hover:bg-black/[0.06] text-black/50 hover:text-black'
@@ -192,7 +192,7 @@ export default function FinanceLayout() {
 
             <div className={cn(
               'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
+              'bg-[var(--app-hover-bg)]'
             )} />
 
             {/* Back Button */}
@@ -204,7 +204,7 @@ export default function FinanceLayout() {
                   onClick={goBack}
                   disabled={!canBack}
                   className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                    'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
                     !canBack && 'opacity-30 cursor-not-allowed',
                     canBack && isDark && 'hover:bg-white/[0.06]',
                     canBack && !isDark && 'hover:bg-black/[0.06]'
@@ -227,7 +227,7 @@ export default function FinanceLayout() {
                   onClick={goForward}
                   disabled={!canForward}
                   className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
+                    'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
                     !canForward && 'opacity-30 cursor-not-allowed',
                     canForward && isDark && 'hover:bg-white/[0.06]',
                     canForward && !isDark && 'hover:bg-black/[0.06]'
@@ -243,7 +243,7 @@ export default function FinanceLayout() {
 
             <div className={cn(
               'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
+              'bg-[var(--app-hover-bg)]'
             )} />
 
             {/* Mobile sidebar toggle */}
@@ -251,18 +251,18 @@ export default function FinanceLayout() {
               variant="ghost"
               size="icon"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden shrink-0 h-8 w-8 rounded-lg"
+              className="md:hidden shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)]"
             >
               <Menu className="w-4 h-4" />
             </Button>
 
             {/* Logo & Breadcrumb */}
             <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-sm" />
-              <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', isDark ? 'text-white/60' : 'text-black/60')}>
+              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-[var(--app-radius-sm)]" />
+              <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', 'text-[var(--app-text-secondary)]')}>
                 Finance
               </span>
-              <ChevronRight className={cn('w-3 h-3 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
+              <ChevronRight className={cn('w-4 h-4 hidden sm:block', 'text-[var(--app-text-disabled)]')} />
               <span className="text-sm font-medium">{currentLabel}</span>
             </div>
           </div>
@@ -270,21 +270,21 @@ export default function FinanceLayout() {
           <div className="flex items-center gap-2">
             {/* Search */}
             <div className={cn(
-              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border w-64 transition-colors',
+              'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
             )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+              <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
               <input
                 type="text"
                 placeholder="Search finance... (⌘K)"
                 className={cn(
                   'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+                  'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
                 )}
               />
               <kbd className={cn(
                 'hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono',
-                isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
+                'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
               )}>
                 <Command className="w-2.5 h-2.5" />K
               </kbd>
@@ -293,7 +293,7 @@ export default function FinanceLayout() {
             {/* Date Range */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Calendar className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -303,7 +303,7 @@ export default function FinanceLayout() {
             {/* Filters */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <SlidersHorizontal className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -313,7 +313,7 @@ export default function FinanceLayout() {
             {/* Export */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <FileSpreadsheet className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -327,7 +327,7 @@ export default function FinanceLayout() {
                   variant="ghost"
                   size="icon"
                   onClick={() => { navigateTo('invoices'); if (isMobile) setSidebarOpen(false); }}
-                  className="hidden md:flex h-8 w-8 rounded-lg"
+                  className="hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]"
                 >
                   <Plus className="w-4 h-4" />
                 </Button>
@@ -338,11 +338,11 @@ export default function FinanceLayout() {
             {/* Notifications */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Bell className="w-4 h-4" />
                   <span className={cn(
                     'absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center',
-                    isDark ? 'bg-white text-black' : 'bg-black text-white'
+                    'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                   )}>8</span>
                 </Button>
               </TooltipTrigger>
@@ -352,10 +352,10 @@ export default function FinanceLayout() {
             {/* AI CFO Assistant */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative hidden md:flex h-8 w-8 rounded-lg">
+                <Button variant="ghost" size="icon" className="relative hidden md:flex h-8 w-8 rounded-[var(--app-radius-lg)]">
                   <Sparkles className="w-4 h-4" />
                   <motion.div
-                    className="absolute inset-0 rounded-lg"
+                    className="absolute inset-0 rounded-[var(--app-radius-lg)]"
                     animate={{ boxShadow: ['0 0 0 0 rgba(139,92,246,0)', '0 0 0 4px rgba(139,92,246,0.1)', '0 0 0 0 rgba(139,92,246,0)'] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
@@ -369,7 +369,7 @@ export default function FinanceLayout() {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              className="h-8 w-8 rounded-lg"
+              className="h-8 w-8 rounded-[var(--app-radius-lg)]"
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
@@ -381,8 +381,8 @@ export default function FinanceLayout() {
                 size="icon"
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 className={cn(
-                  'h-8 w-8 rounded-lg font-bold text-xs',
-                  isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                  'h-8 w-8 rounded-[var(--app-radius-lg)] font-bold text-xs',
+                  'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
                 )}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
@@ -392,19 +392,19 @@ export default function FinanceLayout() {
                   initial={{ opacity: 0, y: -5, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   className={cn(
-                    'absolute right-0 top-11 w-56 rounded-xl border shadow-xl p-2 z-50',
-                    isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]'
+                    'absolute right-0 top-11 w-56 rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-xl p-2 z-50',
+                    'bg-[var(--app-card-bg)] border-[var(--app-border)]'
                   )}
                 >
-                  <div className={cn('px-3 py-2 border-b mb-1', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+                  <div className={cn('px-3 py-2 border-b mb-1', 'border-[var(--app-border)]')}>
                     <p className="text-sm font-semibold">{user?.name || 'User'}</p>
-                    <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{user?.email || ''}</p>
+                    <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{user?.email || ''}</p>
                   </div>
                   <button
                     onClick={() => { logout(); setShowUserMenu(false); }}
                     className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
-                      isDark ? 'text-white/60 hover:text-white hover:bg-white/[0.06]' : 'text-black/60 hover:text-black hover:bg-black/[0.06]'
+                      'w-full flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors',
+                      'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
                     <LogOut className="w-4 h-4" />
@@ -442,7 +442,7 @@ export default function FinanceLayout() {
                 className={cn(
                   'border-r shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
                   isMobile && 'w-[280px]',
-                  isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white'
+                  'border-[var(--app-border)] bg-[var(--app-bg)]'
                 )}
               >
                 <nav className="flex-1 py-3 px-2 overflow-y-auto">
@@ -451,7 +451,7 @@ export default function FinanceLayout() {
                       <div className="px-3 pt-3 pb-1.5">
                         <span className={cn(
                           'text-[10px] font-semibold tracking-wider uppercase',
-                          isDark ? 'text-white/25' : 'text-black/25'
+                          'text-[var(--app-text-muted)]'
                         )}>
                           {section.title}
                         </span>
@@ -465,7 +465,7 @@ export default function FinanceLayout() {
                               key={item.id}
                               onClick={() => { navigateTo(item.id); if (isMobile) setSidebarOpen(false); }}
                               className={cn(
-                                'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group',
+                                'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors duration-200 group',
                                 isActive
                                   ? isDark
                                     ? 'bg-white/[0.08] text-white font-medium'
@@ -476,17 +476,17 @@ export default function FinanceLayout() {
                               )}
                             >
                               <item.icon className={cn(
-                                'w-4.5 h-4.5 transition-colors shrink-0',
+                                'w-5 h-5 transition-colors shrink-0',
                                 isActive
-                                  ? isDark ? 'text-white' : 'text-black'
-                                  : isDark ? 'text-white/30 group-hover:text-white/60' : 'text-black/30 group-hover:text-black/60'
+                                  ? 'text-[var(--app-text)]'
+                                  : 'text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)]'
                               )} />
                               <span className="truncate">{item.label}</span>
                               {item.badge && (
                                 <Badge variant="secondary" className={cn(
                                   'ml-auto text-[9px] px-1.5 py-0 border-0 bg-gradient-to-r',
                                   item.badgeColor || '',
-                                  isDark ? 'text-purple-300' : 'text-purple-600'
+                                  'text-[var(--app-purple)]'
                                 )}>
                                   {item.badge}
                                 </Badge>
@@ -499,7 +499,7 @@ export default function FinanceLayout() {
                       {sectionIdx < navSections.length - 1 && (
                         <div className={cn(
                           'mx-3 mt-3 mb-1 border-t',
-                          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
+                          'border-[var(--app-border-light)]'
                         )} />
                       )}
                     </div>
@@ -509,17 +509,17 @@ export default function FinanceLayout() {
                 {/* Sidebar Footer */}
                 <div className={cn(
                   'p-3 border-t space-y-3',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
+                  'border-[var(--app-border)]'
                 )}>
                   <div className={cn(
-                    'rounded-xl p-3 border',
-                    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
+                    'rounded-[var(--app-radius-lg)] p-3 border',
+                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]'
                   )}>
                     <div className="flex items-center gap-2 mb-2">
                       <IndianRupee className="w-4 h-4 text-emerald-400" />
                       <span className="text-xs font-medium">Finance Alert</span>
                     </div>
-                    <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                       GSTR-1 for March is overdue — file by April 20 to avoid ₹200/day penalty. 8 invoices overdue totaling ₹87.5L.
                     </p>
                   </div>

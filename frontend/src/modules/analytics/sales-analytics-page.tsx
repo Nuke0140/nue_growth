@@ -151,16 +151,28 @@ export default function SalesAnalyticsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6">
+      <div className="space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.hoverBg }}>
               <BarChart3 className="w-5 h-5" style={{ color: CSS.textSecondary }} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Sales Analytics</h1>
               <p className="text-xs" style={{ color: CSS.textMuted }}>
+=======
+            <div className={cn(
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'bg-[var(--app-hover-bg)]',
+            )}>
+              <BarChart3 className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold">Sales Analytics</h1>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                 Pipeline performance &amp; rep leaderboard
               </p>
             </div>
@@ -177,8 +189,16 @@ export default function SalesAnalyticsPage() {
               ))}
             </div>
             <ExportMenu />
+<<<<<<< HEAD
             <span className="px-3 py-1.5 text-xs font-medium rounded-xl" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
               <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
+=======
+            <span className={cn(
+              'px-3 py-1.5 text-xs font-medium rounded-[var(--app-radius-lg)]',
+              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
+            )}>
+              <Calendar className="w-4 h-4 inline mr-1.5" />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
               {today}
             </span>
           </div>
@@ -240,21 +260,29 @@ export default function SalesAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{bucket.label}</span>
                     <div className="flex items-center gap-2">
+<<<<<<< HEAD
                       <span className="text-xs" style={{ color: CSS.textMuted }}>
+=======
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {bucket.count} deals
                       </span>
                       <span className="text-sm font-semibold">{bucket.value}%</span>
                     </div>
                   </div>
+<<<<<<< HEAD
                   <div className="w-full h-3 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+=======
+                  <div className={cn('w-full h-3 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(bucket.value / maxDealAging) * 100}%` }}
                       transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
-                        i === 0 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
-                          : i === 1 ? (isDark ? 'bg-blue-500/50' : 'bg-blue-400')
+                        i === 0 ? ('bg-[var(--app-success)]')
+                          : i === 1 ? ('bg-[var(--app-info)]')
                             : i === 2 ? (isDark ? 'bg-amber-500/50' : 'bg-amber-400')
                               : (isDark ? 'bg-red-500/50' : 'bg-red-400'),
                       )}
@@ -275,7 +303,14 @@ export default function SalesAnalyticsPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-sm font-medium">{stage.stage}</span>
                       {stage.dropRate > 0 && (
+<<<<<<< HEAD
                         <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-red-500/15 text-red-400">
+=======
+                        <span className={cn(
+                          'text-xs px-2 py-0.5 rounded-full font-medium',
+                          'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
+                        )}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           -{stage.dropRate}%
                         </span>
                       )}
@@ -284,6 +319,7 @@ export default function SalesAnalyticsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
                       transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+<<<<<<< HEAD
                       className="h-12 rounded-xl flex items-center justify-center"
                       style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                     >
@@ -292,12 +328,32 @@ export default function SalesAnalyticsPage() {
                           {stage.dealCount}
                         </p>
                         <p className="text-[10px]" style={{ color: CSS.textMuted }}>
+=======
+                      className={cn(
+                        'h-12 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+                        'bg-[var(--app-hover-bg)]',
+                      )}
+                      style={{ maxWidth: '100%' }}
+                    >
+                      <div className="text-center">
+                        <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
+                          {stage.dealCount}
+                        </p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                           deals
                         </p>
                       </div>
                     </motion.div>
                     {i < data.stageDropOff.length - 1 && (
+<<<<<<< HEAD
                       <ChevronRight className="w-4 h-4 my-0.5 rotate-90" style={{ color: CSS.textMuted }} />
+=======
+                      <ChevronRight className={cn(
+                        'w-4 h-4 my-0.5 rotate-90',
+                        'text-[var(--app-text-disabled)]',
+                      )} />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     )}
                   </div>
                 );
@@ -308,6 +364,7 @@ export default function SalesAnalyticsPage() {
 
         {/* Rep Leaderboard Table */}
         <ChartCard title="Rep Leaderboard" subtitle="Top performers by revenue" className="lg:col-span-2">
+<<<<<<< HEAD
           <SmartDataTable
             data={rankedLeaderboard as unknown as Record<string, unknown>[]}
             columns={leaderboardColumns}
@@ -316,6 +373,83 @@ export default function SalesAnalyticsPage() {
             pageSize={10}
             searchPlaceholder="Search reps…"
           />
+=======
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className={cn('border-b', 'border-[var(--app-border)]')}>
+                  {['Rank', 'Rep Name', 'Deals', 'Revenue', 'Win Rate'].map((h) => (
+                    <th
+                      key={h}
+                      className={cn(
+                        'text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3',
+                        'text-[var(--app-text-muted)]',
+                      )}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.repLeaderboard.map((rep, i) => (
+                  <motion.tr
+                    key={rep.name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 + i * 0.06 }}
+                    className={cn(
+                      'border-b transition-colors',
+                      'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]',
+                    )}
+                  >
+                    <td className="py-3 px-3">
+                      {i < 3 ? (
+                        <span className={cn(
+                          'inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold text-white',
+                          badgeColors[i].bg,
+                        )}>
+                          {badgeColors[i].label}
+                        </span>
+                      ) : (
+                        <span className={cn(
+                          'inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-medium',
+                          'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
+                        )}>
+                          {i + 1}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-3">
+                      <div className="flex items-center gap-2">
+                        <div className={cn(
+                          'w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold',
+                          'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
+                        )}>
+                          {rep.name.split(' ').map((n) => n[0]).join('')}
+                        </div>
+                        <span className="text-sm font-medium">{rep.name}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-3 text-sm font-medium">{rep.deals}</td>
+                    <td className="py-3 px-3 text-sm font-semibold">{formatINR(rep.revenue)}</td>
+                    <td className="py-3 px-3">
+                      <div className="flex items-center gap-2">
+                        <div className={cn('w-16 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+                          <div
+                            className={cn('h-full rounded-full', 'bg-[var(--app-success)]')}
+                            style={{ width: `${rep.winRate}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium">{rep.winRate}%</span>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </ChartCard>
 
         {/* Row: Source to Close + Lost Reasons */}
@@ -333,18 +467,26 @@ export default function SalesAnalyticsPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm font-medium">{src.source}</span>
                     <div className="flex items-center gap-3">
+<<<<<<< HEAD
                       <span className="text-xs" style={{ color: CSS.textMuted }}>
+=======
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {src.convRate}% conv
                       </span>
                       <span className="text-sm font-semibold">{src.avgDays}d</span>
                     </div>
                   </div>
+<<<<<<< HEAD
                   <div className="w-full h-2.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+=======
+                  <div className={cn('w-full h-2.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.avgDays / maxSourceDays) * 100}%` }}
                       transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
+                      className={cn('h-full rounded-full', 'bg-[var(--app-info)]')}
                     />
                   </div>
                 </motion.div>
@@ -354,7 +496,7 @@ export default function SalesAnalyticsPage() {
 
           {/* Lost Reasons Pie Chart */}
           <ChartCard title="Lost Reasons" subtitle="Why deals are being lost">
-            <div className="flex flex-col sm:flex-row items-center gap-6 pt-2">
+            <div className="flex flex-col sm:flex-row items-center gap-app-2xl pt-2">
               {/* Conic gradient pie */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -371,7 +513,11 @@ export default function SalesAnalyticsPage() {
                 >
                   <div className="text-center">
                     <p className="text-lg font-bold">{data.lostReasons.reduce((s, r) => s + r.count, 0)}</p>
+<<<<<<< HEAD
                     <p className="text-[10px]" style={{ color: CSS.textMuted }}>total lost</p>
+=======
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>total lost</p>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                   </div>
                 </div>
               </motion.div>
@@ -388,13 +534,17 @@ export default function SalesAnalyticsPage() {
                   >
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-2.5 h-2.5 rounded-sm shrink-0"
+                        className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] shrink-0"
                         style={{ backgroundColor: lostReasonColors[i % lostReasonColors.length] }}
                       />
                       <span className="text-xs font-medium truncate">{reason.reason}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
+<<<<<<< HEAD
                       <span className="text-xs" style={{ color: CSS.textMuted }}>
+=======
+                      <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                         {reason.count}
                       </span>
                       <span className="text-xs font-semibold">{reason.percentage}%</span>

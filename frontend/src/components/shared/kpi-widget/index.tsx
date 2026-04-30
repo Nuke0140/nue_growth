@@ -37,24 +37,24 @@ const colorMap: Record<KpiColorVariant, { bg: string; text: string; iconBg: stri
     iconBg: CSS.accentLight,
   },
   success: {
-    bg: 'rgba(52, 211, 153, 0.1)',
+    bg: 'var(--app-success-bg)',
     text: '#34d399',
-    iconBg: 'rgba(52, 211, 153, 0.12)',
+    iconBg: 'var(--app-success-bg)',
   },
   warning: {
-    bg: 'rgba(251, 191, 36, 0.1)',
+    bg: 'var(--app-warning-bg)',
     text: '#fbbf24',
-    iconBg: 'rgba(251, 191, 36, 0.12)',
+    iconBg: 'var(--app-warning-bg)',
   },
   danger: {
-    bg: 'rgba(248, 113, 113, 0.1)',
+    bg: 'var(--app-danger-bg)',
     text: '#f87171',
-    iconBg: 'rgba(248, 113, 113, 0.12)',
+    iconBg: 'var(--app-danger-bg)',
   },
   info: {
-    bg: 'rgba(96, 165, 250, 0.1)',
+    bg: 'var(--app-info-bg)',
     text: '#60a5fa',
-    iconBg: 'rgba(96, 165, 250, 0.12)',
+    iconBg: 'var(--app-info-bg)',
   },
 };
 
@@ -85,7 +85,7 @@ export const KpiWidget = React.memo(function KpiWidget({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: ANIMATION.duration.slow }}
-      className={cn('relative overflow-hidden p-6 rounded-2xl', className)}
+      className={cn('relative overflow-hidden p-6 rounded-[var(--app-radius-xl)]', className)}
       style={{
         backgroundColor: CSS.cardBg,
         border: `1px solid ${CSS.border}`,
@@ -118,7 +118,7 @@ export const KpiWidget = React.memo(function KpiWidget({
           </p>
           {trend && trendValue && (
             <div className="flex items-center gap-1.5 mt-1">
-              <TrendIcon className="w-3.5 h-3.5" style={{ color: trendColor }} />
+              <TrendIcon className="w-4 h-4" style={{ color: trendColor }} />
               <span className="text-xs font-medium" style={{ color: trendColor }}>
                 {trendValue}
               </span>
@@ -126,7 +126,7 @@ export const KpiWidget = React.memo(function KpiWidget({
           )}
         </div>
         <div
-          className="flex items-center justify-center w-11 h-11 rounded-xl shrink-0"
+          className="flex items-center justify-center w-11 h-10  rounded-[var(--app-radius-lg)] shrink-0"
           style={{ backgroundColor: colors.iconBg }}
         >
           <Icon className="w-5 h-5" style={{ color: colors.text }} />

@@ -36,7 +36,7 @@ export function ConnectionIndicator() {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg hover:bg-[var(--ops-hover-bg)] transition-colors cursor-default select-none">
+        <div className="flex items-center gap-2 px-2.5 py-1 rounded-[var(--app-radius-lg)] hover:bg-[var(--app-hover-bg)] transition-colors cursor-default select-none">
           {/* Status dot */}
           <span className="relative flex items-center justify-center">
             <motion.span
@@ -106,13 +106,13 @@ export function ConnectionIndicator() {
       </TooltipTrigger>
       <TooltipContent
         side="bottom"
-        className="bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-lg px-3 py-2 text-[12px] text-[var(--ops-text)]"
+        className="bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] px-3 py-2 text-[12px] text-[var(--app-text)]"
       >
         <div className="flex flex-col gap-1">
           <span>
             {isOnline ? '🟢 Connected' : '🔴 Offline'}
           </span>
-          <span className="text-[var(--ops-text-muted)]">
+          <span className="text-[var(--app-text-muted)]">
             {syncLabel}
           </span>
         </div>

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { contactsService } from '@/lib/contacts-service';
-import type { Contact } from '@/modules/crm-sales/types';
+import type { Contact } from '@/modules/crm-sales/system/types';
 
 // Centralized Query Keys factory
 export const contactKeys = {

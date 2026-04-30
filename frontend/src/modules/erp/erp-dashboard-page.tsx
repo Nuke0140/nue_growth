@@ -103,7 +103,7 @@ const aiRecommendations = [
 const recentActivities = [
   { id: 'a1', icon: CheckCircle2, title: 'Task completed', description: 'GPS tracking WebSocket setup — AutoFlow', time: '12 min ago', color: '#10b981' },
   { id: 'a2', icon: Shield, title: 'Approval approved', description: 'Sneha Reddy — 3 Days Casual Leave', time: '34 min ago', color: '#3b82f6' },
-  { id: 'a3', icon: GitBranch, title: 'Project updated', description: 'NexaBank — API rate limiting task added', time: '1 hr ago', color: 'var(--ops-accent)' },
+  { id: 'a3', icon: GitBranch, title: 'Project updated', description: 'NexaBank — API rate limiting task added', time: '1 hr ago', color: 'var(--app-accent)' },
   { id: 'a4', icon: Calendar, title: 'Leave applied', description: 'Vikram Joshi — 5 days earned leave (May)', time: '2 hrs ago', color: '#f59e0b' },
   { id: 'a5', icon: AlertTriangle, title: 'Overdue invoice', description: 'MediCare Global — ₹4.8L (10+ days)', time: '3 hrs ago', color: '#ef4444' },
   { id: 'a6', icon: Banknote, title: 'Payroll processed', description: 'March 2026 — 10 employees processed', time: '5 hrs ago', color: '#8b5cf6' },
@@ -113,9 +113,9 @@ const recentActivities = [
 function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; fill: string }>; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[var(--ops-bg)] border border-[var(--ops-border-strong)] rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-xs font-medium text-[var(--ops-text)]">{label}</p>
-      <p className="text-xs text-[var(--ops-text-secondary)]">{payload[0].value} projects</p>
+    <div className="bg-[var(--app-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] px-3 py-2 shadow-[var(--app-shadow-md)]-xl">
+      <p className="text-xs font-medium text-[var(--app-text)]">{label}</p>
+      <p className="text-xs text-[var(--app-text-secondary)]">{payload[0].value} projects</p>
     </div>
   );
 }
@@ -166,10 +166,10 @@ function ErpDashboardPageInner() {
 
   // Summary KPI chips
   const summaryChips = [
-    { label: 'Tasks Due', value: '3', color: 'bg-[#ef4444]/15 text-[#ef4444]' },
-    { label: 'Approvals', value: '2', color: 'bg-[#f59e0b]/15 text-[#f59e0b]' },
-    { label: 'At-Risk Projects', value: '1', color: 'bg-[#ef4444]/15 text-[#ef4444]' },
-    { label: 'Team Utilization', value: '87%', color: 'bg-[#10b981]/15 text-[#10b981]' },
+    { label: 'Tasks Due', value: '3', color: 'bg-[var(--app-danger)]/15 text-[var(--app-danger)]' },
+    { label: 'Approvals', value: '2', color: 'bg-[var(--app-warning)]/15 text-[var(--app-warning)]' },
+    { label: 'At-Risk Projects', value: '1', color: 'bg-[var(--app-danger)]/15 text-[var(--app-danger)]' },
+    { label: 'Team Utilization', value: '87%', color: 'bg-[var(--app-emerald)]/15 text-[var(--app-emerald)]' },
   ];
 
   const quickActions = [
@@ -181,33 +181,33 @@ function ErpDashboardPageInner() {
 
   return (
     <PageShell title="Dashboard" icon={LayoutDashboard} subtitle="Operations overview">
-      <div className="space-y-6 max-w-[1600px] mx-auto">
+      <div className="space-y-app-2xl max-w-[1600px] mx-auto">
         {/* ── Row 1: Today Summary ── */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5 md:p-6 relative overflow-hidden"
+          className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl md:p-6 relative overflow-hidden"
         >
           {/* Gradient accent bar */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#cc5c37] via-[#f59e0b] to-[#cc5c37]" />
 
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[var(--ops-accent-light)] flex items-center justify-center">
-                <Brain className="w-[18px] h-[18px] text-[var(--ops-accent)]" />
+              <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] flex items-center justify-center">
+                <Brain className="w-[18px] h-[18px] text-[var(--app-accent)]" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-[var(--ops-text)]">Today&apos;s Summary</h2>
-                <p className="text-[11px] text-[var(--ops-text-muted)]">{today}</p>
+                <h2 className="text-sm font-semibold text-[var(--app-text)]">Today&apos;s Summary</h2>
+                <p className="text-[11px] text-[var(--app-text-muted)]">{today}</p>
               </div>
             </div>
-            <Badge className="bg-[var(--ops-accent-light)] text-[var(--ops-accent)] border-0 text-[11px] font-medium gap-1 self-start">
-              <Sparkles className="w-3 h-3" /> AI Generated
+            <Badge className="bg-[var(--app-accent-light)] text-[var(--app-accent)] border-0 text-[11px] font-medium gap-1 self-start">
+              <Sparkles className="w-4 h-4" /> AI Generated
             </Badge>
           </div>
 
-          <p className="text-[13px] leading-relaxed text-[var(--ops-text-secondary)] mb-5 max-w-3xl">
+          <p className="text-[13px] leading-relaxed text-[var(--app-text-secondary)] mb-app-xl max-w-3xl">
             You have 3 overdue tasks, 2 pending approvals, and 1 project at risk. Revenue pipeline is at $2.76M with 35% win rate.
             Team utilization is strong at 87%, but Nikhil Das is at 100% allocation — consider rebalancing.
           </p>
@@ -216,7 +216,7 @@ function ErpDashboardPageInner() {
             {summaryChips.map((chip) => (
               <div
                 key={chip.label}
-                className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-medium', chip.color)}
+                className={cn('flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[12px] font-medium', chip.color)}
               >
                 <span>{chip.value}</span>
                 <span className="opacity-60">{chip.label}</span>
@@ -248,31 +248,31 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="lg:col-span-3 rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
+            className="lg:col-span-3 rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-app-xl">
               <div className="flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-[var(--ops-text-muted)]" />
-                <span className="text-sm font-semibold text-[var(--ops-text)]">Project Pipeline</span>
+                <BarChart3 className="w-4 h-4 text-[var(--app-text-muted)]" />
+                <span className="text-sm font-semibold text-[var(--app-text)]">Project Pipeline</span>
               </div>
-              <span className="text-[10px] text-[var(--ops-text-muted)]">By status</span>
+              <span className="text-[10px] text-[var(--app-text-muted)]">By status</span>
             </div>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={pipelineData} barSize={48} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--ops-hover-bg)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--app-hover-bg)" vertical={false} />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 11, fill: 'var(--ops-text-muted)' }}
-                  axisLine={{ stroke: 'var(--ops-border)' }}
+                  tick={{ fontSize: 11, fill: 'var(--app-text-muted)' }}
+                  axisLine={{ stroke: 'var(--app-border)' }}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fontSize: 11, fill: 'var(--ops-text-muted)' }}
+                  tick={{ fontSize: 11, fill: 'var(--app-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
                 />
-                <Tooltip content={<ChartTooltip />} cursor={{ fill: 'var(--ops-hover-bg)' }} />
+                <Tooltip content={<ChartTooltip />} cursor={{ fill: 'var(--app-hover-bg)' }} />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {pipelineData.map((entry, i) => (
                     <rect key={i} fill={entry.fill} />
@@ -287,14 +287,14 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="lg:col-span-2 rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5 flex flex-col"
+            className="lg:col-span-2 rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-[#f59e0b]" />
-                <span className="text-sm font-semibold text-[var(--ops-text)]">Risk Alerts</span>
+                <AlertTriangle className="w-4 h-4 text-[var(--app-warning)]" />
+                <span className="text-sm font-semibold text-[var(--app-text)]">Risk Alerts</span>
               </div>
-              <Badge className="bg-[#ef4444]/15 text-[#ef4444] border-0 text-[10px]">
+              <Badge className="bg-[var(--app-danger)]/15 text-[var(--app-danger)] border-0 text-[10px]">
                 {riskAlerts.filter(a => a.severity === 'critical').length} critical
               </Badge>
             </div>
@@ -307,8 +307,8 @@ function ErpDashboardPageInner() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.35 + i * 0.06 }}
                   className={cn(
-                    'rounded-xl border p-3 cursor-pointer transition-colors hover:bg-[var(--ops-hover-bg)]',
-                    'border-[var(--ops-border)]',
+                    'rounded-[var(--app-radius-lg)] border p-3 cursor-pointer transition-colors hover:bg-[var(--app-hover-bg)]',
+                    'border-[var(--app-border)]',
                     alert.severity === 'critical' ? 'border-l-[3px] border-l-[#ef4444]' : 'border-l-[3px] border-l-[#f59e0b]'
                   )}
                 >
@@ -317,19 +317,19 @@ function ErpDashboardPageInner() {
                       className={cn(
                         'text-[10px] px-1.5 py-0 border-0 font-medium',
                         alert.severity === 'critical'
-                          ? 'bg-[#ef4444]/15 text-[#ef4444]'
-                          : 'bg-[#f59e0b]/15 text-[#f59e0b]'
+                          ? 'bg-[var(--app-danger)]/15 text-[var(--app-danger)]'
+                          : 'bg-[var(--app-warning)]/15 text-[var(--app-warning)]'
                       )}
                     >
                       {alert.severity}
                     </Badge>
-                    <span className="text-[12px] font-medium text-[var(--ops-text)] truncate">{alert.title}</span>
+                    <span className="text-[12px] font-medium text-[var(--app-text)] truncate">{alert.title}</span>
                   </div>
-                  <p className="text-[11px] text-[var(--ops-text-muted)] leading-relaxed mb-2">{alert.description}</p>
+                  <p className="text-[11px] text-[var(--app-text-muted)] leading-relaxed mb-2">{alert.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-[var(--ops-text-muted)]">{alert.affected}</span>
-                    <button className="text-[11px] text-[var(--ops-accent)] font-medium hover:text-[var(--ops-accent)]/80 flex items-center gap-1">
-                      {alert.action} <ArrowRight className="w-3 h-3" />
+                    <span className="text-[10px] text-[var(--app-text-muted)]">{alert.affected}</span>
+                    <button className="text-[11px] text-[var(--app-accent)] font-medium hover:text-[var(--app-accent)]/80 flex items-center gap-1">
+                      {alert.action} <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </motion.div>
@@ -338,7 +338,7 @@ function ErpDashboardPageInner() {
 
             <button
               onClick={() => navigateTo('ai-ops')}
-              className="mt-3 text-[12px] text-[var(--ops-text-muted)] hover:text-[var(--ops-accent)] transition-colors text-center py-2 border-t border-[var(--ops-border)]"
+              className="mt-3 text-[12px] text-[var(--app-text-muted)] hover:text-[var(--app-accent)] transition-colors text-center py-2 border-t border-[var(--app-border)]"
             >
               View All Alerts →
             </button>
@@ -352,14 +352,14 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
+            className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[var(--ops-accent)]" />
-                <span className="text-sm font-semibold text-[var(--ops-text)]">AI Recommendations</span>
+                <Sparkles className="w-4 h-4 text-[var(--app-accent)]" />
+                <span className="text-sm font-semibold text-[var(--app-text)]">AI Recommendations</span>
               </div>
-              <Badge className="bg-[var(--ops-accent-light)] text-[var(--ops-accent)] border-0 text-[10px]">
+              <Badge className="bg-[var(--app-accent-light)] text-[var(--app-accent)] border-0 text-[10px]">
                 3 insights
               </Badge>
             </div>
@@ -373,20 +373,20 @@ function ErpDashboardPageInner() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.45 + i * 0.06 }}
-                    className="rounded-xl border border-[var(--ops-border)] bg-[var(--ops-hover-bg)] p-4 flex gap-3"
+                    className="rounded-[var(--app-radius-lg)] border border-[var(--app-border)] bg-[var(--app-hover-bg)] p-4 flex gap-3"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-[var(--ops-accent-light)] flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[var(--ops-accent)]" />
+                    <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-[var(--app-accent)]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[12px] font-medium text-[var(--ops-text)] mb-0.5">{rec.title}</p>
-                      <p className="text-[11px] text-[var(--ops-text-muted)] leading-relaxed mb-2">{rec.description}</p>
+                      <p className="text-[12px] font-medium text-[var(--app-text)] mb-0.5">{rec.title}</p>
+                      <p className="text-[11px] text-[var(--app-text-muted)] leading-relaxed mb-2">{rec.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[var(--ops-text-muted)]">
-                          Confidence: <span className="text-[#10b981]">{rec.confidence}%</span>
+                        <span className="text-[10px] text-[var(--app-text-muted)]">
+                          Confidence: <span className="text-[var(--app-emerald)]">{rec.confidence}%</span>
                         </span>
-                        <button className="text-[11px] text-[var(--ops-accent)] font-medium hover:text-[var(--ops-accent)]/80 flex items-center gap-1">
-                          {rec.action} <ArrowRight className="w-3 h-3" />
+                        <button className="text-[11px] text-[var(--app-accent)] font-medium hover:text-[var(--app-accent)]/80 flex items-center gap-1">
+                          {rec.action} <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -401,14 +401,14 @@ function ErpDashboardPageInner() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.5 }}
-            className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-5"
+            className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-app-xl"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-[var(--ops-text-muted)]" />
-                <span className="text-sm font-semibold text-[var(--ops-text)]">Recent Activity</span>
+                <Activity className="w-4 h-4 text-[var(--app-text-muted)]" />
+                <span className="text-sm font-semibold text-[var(--app-text)]">Recent Activity</span>
               </div>
-              <Badge className="bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)] border-0 text-[10px]">
+              <Badge className="bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] border-0 text-[10px]">
                 Last 6 hours
               </Badge>
             </div>
@@ -430,18 +430,18 @@ function ErpDashboardPageInner() {
                 key={qa.label}
                 variants={item}
                 onClick={qa.action}
-                className="rounded-2xl border border-[var(--ops-border)] bg-[var(--ops-card-bg)] p-4 text-left transition-all duration-200 hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)] group"
+                className="rounded-[var(--app-radius-xl)] border border-[var(--app-border)] bg-[var(--app-card-bg)] p-4 text-left transition-colors duration-200 hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)] group"
               >
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                  className="w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center mb-3"
                   style={{ backgroundColor: `${qa.accent}18` }}
                 >
                   <Icon className="w-5 h-5" style={{ color: qa.accent }} />
                 </div>
-                <p className="text-[13px] font-medium text-[var(--ops-text)] group-hover:text-white">{qa.label}</p>
-                <div className="flex items-center gap-1 mt-1 text-[11px] text-[var(--ops-text-muted)] group-hover:text-[var(--ops-text-secondary)] transition-colors">
+                <p className="text-[13px] font-medium text-[var(--app-text)] group-hover:text-white">{qa.label}</p>
+                <div className="flex items-center gap-1 mt-1 text-[11px] text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)] transition-colors">
                   <span>Get started</span>
-                  <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </motion.button>
             );

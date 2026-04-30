@@ -83,8 +83,8 @@ export default function AIInsightPanel({
       <div className="flex items-center gap-2 mb-1">
         <div
           className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-lg',
-            isDark ? 'bg-purple-500/15' : 'bg-purple-50',
+            'flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]',
+            'bg-[var(--app-purple-light)]',
           )}
         >
           <Lightbulb className="h-4 w-4 text-purple-400" />
@@ -93,12 +93,12 @@ export default function AIInsightPanel({
           <h3
             className={cn(
               'text-sm font-semibold',
-              isDark ? 'text-white' : 'text-zinc-900',
+              'text-[var(--app-text)]',
             )}
           >
             AI Insights
           </h3>
-          <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
             {insights.length} insight{insights.length !== 1 ? 's' : ''} generated
           </p>
         </div>
@@ -108,14 +108,14 @@ export default function AIInsightPanel({
       {insights.length === 0 && (
         <div
           className={cn(
-            'rounded-2xl border p-8 text-center',
+            'rounded-[var(--app-radius-xl)] border p-app-3xl text-center',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
           )}
         >
-          <Lightbulb className={cn('h-8 w-8 mx-auto mb-2', isDark ? 'text-zinc-600' : 'text-zinc-300')} />
-          <p className={cn('text-sm', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+          <Lightbulb className={cn('h-8 w-8 mx-auto mb-2', 'text-[var(--app-text-secondary)]')} />
+          <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
             No insights available yet
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function AIInsightPanel({
             key={insight.id}
             variants={itemVariants}
             className={cn(
-              'rounded-2xl border border-l-4 shadow-sm overflow-hidden',
+              'rounded-[var(--app-radius-xl)] border border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
               isDark
                 ? 'bg-white/[0.03] border-white/[0.06]'
                 : 'bg-black/[0.02] border-black/[0.06]',
@@ -140,14 +140,14 @@ export default function AIInsightPanel({
             {/* Card Header */}
             <button
               onClick={() => toggleExpand(insight.id)}
-              className="flex w-full items-center justify-between p-4 sm:p-5 text-left"
+              className="flex w-full items-center justify-between p-4 sm:p-app-xl text-left"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <h4
                     className={cn(
                       'text-sm font-semibold truncate',
-                      isDark ? 'text-white' : 'text-zinc-900',
+                      'text-[var(--app-text)]',
                     )}
                   >
                     {insight.title}
@@ -165,7 +165,7 @@ export default function AIInsightPanel({
                 <p
                   className={cn(
                     'text-xs line-clamp-2',
-                    isDark ? 'text-zinc-400' : 'text-zinc-500',
+                    'text-[var(--app-text-muted)]',
                   )}
                 >
                   {insight.description}
@@ -177,7 +177,7 @@ export default function AIInsightPanel({
                 transition={{ duration: 0.2 }}
                 className={cn(
                   'shrink-0 ml-3',
-                  isDark ? 'text-zinc-400' : 'text-zinc-500',
+                  'text-[var(--app-text-muted)]',
                 )}
               >
                 <ChevronDown className="h-4 w-4" />
@@ -196,8 +196,8 @@ export default function AIInsightPanel({
                 >
                   <div
                     className={cn(
-                      'border-t px-4 sm:px-5 py-3 sm:py-4 space-y-3',
-                      isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
+                      'border-t px-4 sm:px-app-xl py-3 sm:py-4 space-y-3',
+                      'border-[var(--app-border)]',
                     )}
                   >
                     {/* Category Tag */}
@@ -205,13 +205,13 @@ export default function AIInsightPanel({
                       <Tag
                         className={cn(
                           'h-3 w-3',
-                          isDark ? 'text-zinc-500' : 'text-zinc-400',
+                          'text-[var(--app-text-muted)]',
                         )}
                       />
                       <span
                         className={cn(
                           'text-[10px] font-medium uppercase tracking-wider',
-                          isDark ? 'text-zinc-500' : 'text-zinc-400',
+                          'text-[var(--app-text-muted)]',
                         )}
                       >
                         {insight.category}
@@ -221,14 +221,14 @@ export default function AIInsightPanel({
                     {/* Recommendation */}
                     <div
                       className={cn(
-                        'rounded-xl p-3',
-                        isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
+                        'rounded-[var(--app-radius-lg)] p-3',
+                        'bg-[var(--app-hover-bg)]',
                       )}
                     >
                       <p
                         className={cn(
                           'text-[10px] font-semibold uppercase tracking-wider mb-1.5',
-                          isDark ? 'text-zinc-500' : 'text-zinc-400',
+                          'text-[var(--app-text-muted)]',
                         )}
                       >
                         Recommendation
@@ -236,7 +236,7 @@ export default function AIInsightPanel({
                       <p
                         className={cn(
                           'text-xs leading-relaxed',
-                          isDark ? 'text-zinc-300' : 'text-zinc-600',
+                          'text-[var(--app-text-secondary)]',
                         )}
                       >
                         {insight.recommendation}

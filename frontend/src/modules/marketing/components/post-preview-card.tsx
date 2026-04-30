@@ -43,14 +43,14 @@ export default function PostPreviewCard({ post }: PostPreviewCardProps) {
     <motion.div
       whileHover={{ y: -2, scale: 1.01 }}
       transition={{ duration: 0.2 }}
-      className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: platformConfig.color + '22' }}>
             <span className="text-xs">{platformConfig.icon}</span>
           </div>
-          <span className={cn('text-xs font-medium capitalize', isDark ? 'text-white/60' : 'text-gray-600')}>
+          <span className={cn('text-xs font-medium capitalize', 'text-[var(--app-text-secondary)]')}>
             {post.platform}
           </span>
         </div>
@@ -77,20 +77,20 @@ export default function PostPreviewCard({ post }: PostPreviewCardProps) {
       {(post.likes || post.comments || post.shares || post.reach) && (
         <div className="flex items-center gap-3 pt-1">
           <div className="flex items-center gap-1">
-            <Heart className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-gray-400')} />
-            <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-gray-500')}>{formatNumber(post.likes)}</span>
+            <Heart className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.likes)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <MessageCircle className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-gray-400')} />
-            <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-gray-500')}>{formatNumber(post.comments)}</span>
+            <MessageCircle className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.comments)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Share2 className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-gray-400')} />
-            <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-gray-500')}>{formatNumber(post.shares)}</span>
+            <Share2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.shares)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Eye className={cn('w-3 h-3', isDark ? 'text-white/25' : 'text-gray-400')} />
-            <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-gray-500')}>{formatNumber(post.reach)}</span>
+            <Eye className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+            <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>{formatNumber(post.reach)}</span>
           </div>
         </div>
       )}

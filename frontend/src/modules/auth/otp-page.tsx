@@ -112,7 +112,7 @@ export default function OtpPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm"
+      className="absolute inset-0 z-20 flex items-center justify-center rounded-[var(--app-radius-xl)] bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm"
     >
       <motion.div
         initial={{ scale: 0.8 }}
@@ -135,7 +135,7 @@ export default function OtpPage() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-      className="space-y-6 py-8 text-center"
+      className="space-y-app-2xl py-app-3xl text-center"
     >
       {/* Animated checkmark circle */}
       <motion.div
@@ -173,7 +173,7 @@ export default function OtpPage() {
             damping: 12,
             delay: 0.15,
           }}
-          className="relative flex h-20 w-20 items-center justify-center rounded-full bg-green-600 shadow-lg shadow-green-600/25"
+          className="relative flex h-20 w-20 items-center justify-center rounded-full bg-green-600 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-green-600/25"
         >
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
@@ -208,7 +208,7 @@ export default function OtpPage() {
   );
 
   const rightPanel = (
-    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-8 sm:py-12">
+    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-app-3xl sm:py-app-4xl">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -233,15 +233,15 @@ export default function OtpPage() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6 flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 transition-colors hover:text-gray-900 dark:hover:text-white"
+            className="mb-app-2xl flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 transition-colors hover:text-gray-900 dark:hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
           </motion.button>
         )}
 
-        <Card className="rounded-2xl border-gray-200/60 dark:border-gray-800/60 dark:bg-gray-900 shadow-sm">
-          <CardContent className="p-6 md:p-8">
+        <Card className="rounded-[var(--app-radius-xl)] border-gray-200/60 dark:border-gray-800/60 dark:bg-gray-900 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+          <CardContent className="p-6 md:p-app-3xl">
             <AnimatePresence mode="wait">
               {isVerified ? (
                 renderSuccessState()
@@ -253,12 +253,12 @@ export default function OtpPage() {
                   transition={{ duration: 0.3 }}
                 >
                   {/* Header */}
-                  <div className="mb-8 text-center">
+                  <div className="mb-app-3xl text-center">
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.15 }}
-                      className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
+                      className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[var(--app-radius-xl)] bg-gray-100 dark:bg-gray-800"
                     >
                       <Shield className="h-6 w-6 text-gray-600 dark:text-gray-300" />
                     </motion.div>
@@ -311,7 +311,7 @@ export default function OtpPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="mt-8 text-center text-xs text-gray-400 dark:text-gray-500"
+                    className="mt-app-3xl text-center text-xs text-gray-400 dark:text-gray-500"
                   >
                     For demo purposes, enter <span className="font-semibold text-gray-600 dark:text-gray-300">123456</span> to verify
                   </motion.p>
@@ -326,7 +326,7 @@ export default function OtpPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-6 text-center space-y-3"
+          className="mt-app-2xl text-center space-y-3"
         >
           {!isVerified && (
                 <p className="text-sm text-gray-500 dark:text-gray-400">

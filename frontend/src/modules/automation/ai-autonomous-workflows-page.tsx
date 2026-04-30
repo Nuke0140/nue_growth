@@ -29,8 +29,8 @@ export default function AiAutonomousWorkflowsPage() {
   const totalTimeSaved = aiWorkflows.reduce((sum, w) => sum + w.metrics.timeSaved, 0);
 
   const card = cn(
-    'rounded-2xl border shadow-sm p-4 sm:p-5',
-    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
+    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
   );
 
   function formatTimestamp(ts: string) {
@@ -42,13 +42,13 @@ export default function AiAutonomousWorkflowsPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="space-y-app-2xl max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             AI Autonomous Workflows
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
             Your AI workflow intelligence layer
           </p>
         </div>
@@ -70,14 +70,14 @@ export default function AiAutonomousWorkflowsPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function AiAutonomousWorkflowsPage() {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-purple-400" />
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               AI Workflows
             </h2>
           </div>
@@ -104,15 +104,15 @@ export default function AiAutonomousWorkflowsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
-                  'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-4',
-                  isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+                  'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-4',
+                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                 )}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
+                      <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
                         {workflow.name}
                       </h3>
                       <span className={cn(
@@ -132,7 +132,7 @@ export default function AiAutonomousWorkflowsPage() {
                         {statusConf.label}
                       </span>
                     </div>
-                    <p className={cn('text-xs line-clamp-2', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+                    <p className={cn('text-xs line-clamp-2', 'text-[var(--app-text-muted)]')}>
                       {workflow.description}
                     </p>
                   </div>
@@ -141,7 +141,7 @@ export default function AiAutonomousWorkflowsPage() {
                   {workflow.status === 'active' && (
                     <div className="shrink-0">
                       <motion.div
-                        className={cn('flex h-10 w-10 items-center justify-center rounded-xl', statusConf.bgColor)}
+                        className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', statusConf.bgColor)}
                         animate={{
                           boxShadow: [
                             '0 0 0 0 rgba(16, 185, 129, 0)',
@@ -159,7 +159,7 @@ export default function AiAutonomousWorkflowsPage() {
 
                 {/* Capability Label */}
                 <div className={cn(
-                  'inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5',
+                  'inline-flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5',
                   isDark ? 'bg-purple-500/10 border border-purple-500/20' : 'bg-purple-50 border border-purple-200',
                 )}>
                   <Sparkles className="h-3 w-3 text-purple-400" />
@@ -171,7 +171,7 @@ export default function AiAutonomousWorkflowsPage() {
                 {/* Confidence Score */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                       Confidence Score
                     </p>
                     <span className={cn(
@@ -182,7 +182,7 @@ export default function AiAutonomousWorkflowsPage() {
                       {workflow.confidence}%
                     </span>
                   </div>
-                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${workflow.confidence}%` }}
@@ -204,10 +204,10 @@ export default function AiAutonomousWorkflowsPage() {
                     { label: 'Time Saved', value: `${workflow.metrics.timeSaved}h`, icon: Zap },
                     { label: 'Impact', value: workflow.metrics.impact, icon: BarChart3 },
                   ].map((metric) => (
-                    <div key={metric.label} className={cn('rounded-xl p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                    <div key={metric.label} className={cn('rounded-[var(--app-radius-lg)] p-2.5', 'bg-[var(--app-hover-bg)]')}>
                       <div className="flex items-center gap-1 mb-0.5">
-                        <metric.icon className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                        <p className={cn('text-[9px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                        <metric.icon className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                        <p className={cn('text-[9px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                           {metric.label}
                         </p>
                       </div>
@@ -220,7 +220,7 @@ export default function AiAutonomousWorkflowsPage() {
 
                 {/* AI Decision Examples */}
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
                     Recent Decisions
                   </p>
                   <div className="space-y-2">
@@ -228,14 +228,14 @@ export default function AiAutonomousWorkflowsPage() {
                       <div
                         key={ei}
                         className={cn(
-                          'rounded-xl border p-3',
-                          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                          'rounded-[var(--app-radius-lg)] border p-3',
+                          'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
                         )}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 text-[11px]">
                           {/* Input */}
                           <div className={cn(
-                            'flex-1 rounded-lg px-2.5 py-1.5',
+                            'flex-1 rounded-[var(--app-radius-lg)] px-2.5 py-1.5',
                             isDark ? 'bg-blue-500/10 text-blue-300' : 'bg-blue-50 text-blue-700',
                           )}>
                             <span className={cn('text-[8px] font-bold uppercase tracking-wider block mb-0.5', isDark ? 'text-blue-400/60' : 'text-blue-500/60')}>
@@ -250,7 +250,7 @@ export default function AiAutonomousWorkflowsPage() {
 
                           {/* AI Action */}
                           <div className={cn(
-                            'flex-1 rounded-lg px-2.5 py-1.5',
+                            'flex-1 rounded-[var(--app-radius-lg)] px-2.5 py-1.5',
                             isDark ? 'bg-purple-500/10 text-purple-300' : 'bg-purple-50 text-purple-700',
                           )}>
                             <span className={cn('text-[8px] font-bold uppercase tracking-wider block mb-0.5', isDark ? 'text-purple-400/60' : 'text-purple-500/60')}>
@@ -265,7 +265,7 @@ export default function AiAutonomousWorkflowsPage() {
 
                           {/* Outcome */}
                           <div className={cn(
-                            'flex-1 rounded-lg px-2.5 py-1.5',
+                            'flex-1 rounded-[var(--app-radius-lg)] px-2.5 py-1.5',
                             isDark ? 'bg-emerald-500/10 text-emerald-300' : 'bg-emerald-50 text-emerald-700',
                           )}>
                             <span className={cn('text-[8px] font-bold uppercase tracking-wider block mb-0.5', isDark ? 'text-emerald-400/60' : 'text-emerald-500/60')}>
@@ -282,8 +282,8 @@ export default function AiAutonomousWorkflowsPage() {
                 {/* Last Decision + Actions */}
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-1.5 text-[10px]">
-                    <Clock className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
-                    <span className={cn(isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                    <Clock className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
+                    <span className={cn('text-[var(--app-text-muted)]')}>
                       Last decision: {workflow.lastDecision ? formatTimestamp(workflow.lastDecision) : 'Never'}
                     </span>
                   </div>
@@ -292,7 +292,7 @@ export default function AiAutonomousWorkflowsPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                        'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
                         'bg-purple-500/15 text-purple-400 hover:bg-purple-500/25',
                       )}
                     >
@@ -303,8 +303,8 @@ export default function AiAutonomousWorkflowsPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
-                        isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
+                        'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 text-xs font-medium transition-colors',
+                        'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
                       )}
                     >
                       <History className="h-3 w-3" />
@@ -321,7 +321,7 @@ export default function AiAutonomousWorkflowsPage() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Lightbulb className="h-4 w-4 text-purple-400" />
-            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               AI Insights & Recommendations
             </h2>
           </div>
@@ -358,32 +358,32 @@ export default function AiAutonomousWorkflowsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className={cn(
-            'rounded-2xl border border-l-4 border-l-purple-500 p-4 sm:p-5',
-            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
+            'rounded-[var(--app-radius-xl)] border border-l-4 border-l-purple-500 p-4 sm:p-app-xl',
+            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
           )}
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isDark ? 'bg-purple-500/15' : 'bg-purple-50')}>
+            <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-purple-light)]')}>
               <Bot className="w-5 h-5 text-purple-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 AI Monitoring Status
               </h3>
-              <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
                 AI is actively monitoring {activeCount} workflows across 6 modules
               </p>
             </div>
             <div className={cn(
               'ml-auto flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold shrink-0',
-              isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600',
+              'bg-[var(--app-success-bg)] text-[var(--app-success)]',
             )}>
               <Activity className="h-3 w-3" />
               Active
             </div>
           </div>
 
-          <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+          <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label: 'Active Models', value: activeCount },
@@ -392,10 +392,10 @@ export default function AiAutonomousWorkflowsPage() {
                 { label: 'Avg Confidence', value: `${avgAccuracy}%` },
               ].map((item) => (
                 <div key={item.label}>
-                  <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                  <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
                     {item.label}
                   </p>
-                  <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
+                  <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
                     {item.value}
                   </p>
                 </div>
@@ -403,7 +403,7 @@ export default function AiAutonomousWorkflowsPage() {
             </div>
           </div>
 
-          <p className={cn('text-xs mt-3 leading-relaxed', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
+          <p className={cn('text-xs mt-3 leading-relaxed', 'text-[var(--app-text-muted)]')}>
             AI is actively monitoring 47 workflows across 6 modules. The system continuously learns from decision outcomes and adjusts confidence thresholds. Models are automatically retrained when accuracy drops below 85% for more than 7 consecutive days.
           </p>
         </motion.div>

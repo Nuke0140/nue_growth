@@ -25,9 +25,9 @@ function formatINR(num: number): string {
 }
 
 const tierConfig: Record<string, { icon: React.ElementType; bg: string; border: string; accent: string; text: string; glow: string }> = {
-  silver: { icon: Star, bg: 'bg-slate-100 dark:bg-slate-900/40', border: 'border-slate-300 dark:border-slate-600', accent: 'bg-slate-400', text: 'text-slate-600 dark:text-slate-300', glow: 'shadow-slate-200 dark:shadow-slate-900' },
-  gold: { icon: Crown, bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-300 dark:border-amber-600', accent: 'bg-amber-400', text: 'text-amber-600 dark:text-amber-300', glow: 'shadow-amber-200 dark:shadow-amber-900' },
-  platinum: { icon: Trophy, bg: 'bg-violet-50 dark:bg-violet-900/20', border: 'border-violet-300 dark:border-violet-600', accent: 'bg-violet-400', text: 'text-violet-600 dark:text-violet-300', glow: 'shadow-violet-200 dark:shadow-violet-900' },
+  silver: { icon: Star, bg: 'bg-slate-100 dark:bg-slate-900/40', border: 'border-slate-300 dark:border-slate-600', accent: 'bg-slate-400', text: 'text-slate-600 dark:text-slate-300', glow: 'shadow-[var(--app-shadow-md)]-slate-200 dark:shadow-[var(--app-shadow-md)]-slate-900' },
+  gold: { icon: Crown, bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-300 dark:border-amber-600', accent: 'bg-amber-400', text: 'text-amber-600 dark:text-amber-300', glow: 'shadow-[var(--app-shadow-md)]-amber-200 dark:shadow-[var(--app-shadow-md)]-amber-900' },
+  platinum: { icon: Trophy, bg: 'bg-violet-50 dark:bg-violet-900/20', border: 'border-violet-300 dark:border-violet-600', accent: 'bg-violet-400', text: 'text-violet-600 dark:text-violet-300', glow: 'shadow-[var(--app-shadow-md)]-violet-200 dark:shadow-[var(--app-shadow-md)]-violet-900' },
 };
 
 function ProgressRing({ progress, size = 64, strokeWidth = 5, color = '#10b981' }: { progress: number; size?: number; strokeWidth?: number; color?: string }) {
@@ -39,7 +39,7 @@ function ProgressRing({ progress, size = 64, strokeWidth = 5, color = '#10b981' 
       <circle cx={size / 2} cy={size / 2} r={radius} stroke="currentColor" strokeWidth={strokeWidth} fill="none" className="text-black/[0.06] dark:text-white/[0.06]" />
       <circle cx={size / 2} cy={size / 2} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"
         strokeDasharray={circumference} strokeDashoffset={offset}
-        className="transition-all duration-1000 ease-out"
+        className="transition-colors duration-1000 ease-out"
       />
     </svg>
   );
@@ -56,10 +56,10 @@ export default function LoyaltyProgramPage() {
     const rewardsActive = loyaltyMembers.reduce((s, m) => s + m.rewardsRedeemed, 0);
     const totalSpent = loyaltyMembers.reduce((s, m) => s + m.totalSpent, 0);
     return [
-      { label: 'Total Points in Circulation', value: `${totalPoints.toLocaleString()}`, icon: Sparkles, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
-      { label: 'Coupons Redeemed', value: `${couponsUsed}`, icon: Gift, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
-      { label: 'Rewards Active', value: `${rewardsActive}`, icon: Award, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
-      { label: 'Total Member Spend', value: formatINR(totalSpent), icon: TrendingUp, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 18.4 },
+      { label: 'Total Points in Circulation', value: `${totalPoints.toLocaleString()}`, icon: Sparkles, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
+      { label: 'Coupons Redeemed', value: `${couponsUsed}`, icon: Gift, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
+      { label: 'Rewards Active', value: `${rewardsActive}`, icon: Award, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]' },
+      { label: 'Total Member Spend', value: formatINR(totalSpent), icon: TrendingUp, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 18.4 },
     ];
   }, [isDark]);
 
@@ -141,19 +141,19 @@ export default function LoyaltyProgramPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <Crown className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
+              <Crown className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Loyalty Program</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Reward Engine</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Reward Engine</p>
             </div>
           </div>
-          <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
+          <Button className={cn('px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2', 'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]')}>
             <Gift className="w-4 h-4" />
             Manage Rewards
           </Button>
@@ -170,27 +170,27 @@ export default function LoyaltyProgramPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('rounded-2xl border p-5', config.bg, config.border)}
+                className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', config.bg, config.border)}
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <TierIcon className={cn('w-5 h-5', config.text)} />
                     <div>
-                      <p className={cn('text-base font-bold capitalize', config.text)}>{tier.tier}</p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <p className={cn('text-sm font-bold capitalize', config.text)}>{tier.tier}</p>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         {formatINR(tier.minSpent)}+ spend · {tier.discount}% discount
                       </p>
                     </div>
                   </div>
                   <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5', config.text, isDark ? 'bg-white/[0.06]' : 'bg-white/60')}>
-                    <Users className="w-3 h-3 mr-1" />{tier.memberCount}
+                    <Users className="w-4 h-4 mr-1" />{tier.memberCount}
                   </Badge>
                 </div>
                 <div className="space-y-1.5">
                   {tier.benefits.map((b, j) => (
                     <div key={j} className="flex items-center gap-2">
                       <div className={cn('w-1.5 h-1.5 rounded-full shrink-0', config.accent)} />
-                      <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{b}</span>
+                      <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{b}</span>
                     </div>
                   ))}
                 </div>
@@ -207,19 +207,19 @@ export default function LoyaltyProgramPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
                 {'change' in stat && stat.change && (
                   <span className="flex items-center gap-0.5 text-[10px] font-medium text-emerald-500">
-                    <ArrowUpRight className="w-3 h-3" />{stat.change}%
+                    <ArrowUpRight className="w-4 h-4" />{stat.change}%
                   </span>
                 )}
               </div>
@@ -234,17 +234,18 @@ export default function LoyaltyProgramPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className={cn('lg:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+            className={cn('lg:col-span-2 rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Users className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Member Directory</span>
+                <Users className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Member Directory</span>
               </div>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
                 {loyaltyMembers.length} members
               </Badge>
             </div>
+<<<<<<< HEAD
             <SmartDataTable
               data={loyaltyMembers as unknown as Record<string, unknown>[]}
               columns={memberColumns}
@@ -253,6 +254,65 @@ export default function LoyaltyProgramPage() {
               enableExport
               pageSize={10}
             />
+=======
+            <div className="overflow-x-auto max-h-[420px] overflow-y-auto">
+              <table className="w-full">
+                <thead className="sticky top-0 z-10">
+                  <tr className={cn('border-b', 'border-[var(--app-border)] bg-[var(--app-bg)]')}>
+                    {['Client', 'Tier', 'Points', 'Total Spent', 'Repeat', 'Referrals', 'Next Milestone'].map(h => (
+                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider pb-3 px-3', 'text-[var(--app-text-muted)]')}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {loyaltyMembers.map((m: LoyaltyMember, i) => {
+                    const tc = tierConfig[m.tier];
+                    return (
+                      <motion.tr
+                        key={m.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.45 + i * 0.04 }}
+                        className={cn('border-b cursor-pointer transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
+                      >
+                        <td className="py-3 px-3">
+                          <div>
+                            <p className="text-sm font-medium">{m.client}</p>
+                            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{m.lastPurchaseDate}</p>
+                          </div>
+                        </td>
+                        <td className="py-3 px-3">
+                          <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize', isDark ? `${tc.text.replace('dark:', '')} bg-white/[0.06]` : `${tc.text} bg-white/60`)}>
+                            {m.tier}
+                          </Badge>
+                        </td>
+                        <td className="py-3 px-3 text-sm font-semibold">{m.points.toLocaleString()}</td>
+                        <td className="py-3 px-3 text-sm">{formatINR(m.totalSpent)}</td>
+                        <td className="py-3 px-3 text-sm">{m.repeatPurchases}</td>
+                        <td className="py-3 px-3 text-sm">{m.referrals}</td>
+                        <td className="py-3 px-3">
+                          <div className="min-w-[100px]">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{m.nextMilestone}</span>
+                              <span className="text-[10px] font-bold">{m.milestoneProgress}%</span>
+                            </div>
+                            <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${m.milestoneProgress}%` }}
+                                transition={{ delay: 0.5 + i * 0.04, duration: 0.6 }}
+                                className={cn('h-full rounded-full', m.tier === 'platinum' ? 'bg-violet-500' : m.tier === 'gold' ? 'bg-amber-500' : 'bg-slate-400')}
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </motion.tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
           </motion.div>
 
           {/* Right Column: Progress Rings + Tier Distribution */}
@@ -262,11 +322,11 @@ export default function LoyaltyProgramPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Target className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Top Members Progress</span>
+                <Target className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Top Members Progress</span>
               </div>
               <div className="space-y-4">
                 {topMembers.slice(0, 3).map((m, j) => {
@@ -279,11 +339,11 @@ export default function LoyaltyProgramPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">{m.client}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{m.nextMilestone} · {m.points.toLocaleString()} pts</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{m.nextMilestone} · {m.points.toLocaleString()} pts</p>
                       </div>
                       <Badge variant="secondary" className={cn('text-[10px] px-2 py-0.5 capitalize shrink-0',
-                        m.tier === 'platinum' ? (isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')
-                        : m.tier === 'gold' ? (isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600')
+                        m.tier === 'platinum' ? ('bg-[var(--app-purple-light)] text-[var(--app-purple)]')
+                        : m.tier === 'gold' ? ('bg-[var(--app-warning-bg)] text-[var(--app-warning)]')
                         : (isDark ? 'bg-slate-500/15 text-slate-400' : 'bg-slate-50 text-slate-600')
                       )}>{m.tier}</Badge>
                     </div>
@@ -297,11 +357,11 @@ export default function LoyaltyProgramPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Trophy className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Tier Distribution</span>
+                <Trophy className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Tier Distribution</span>
               </div>
               {/* Visual blocks */}
               <div className="space-y-3">
@@ -310,13 +370,13 @@ export default function LoyaltyProgramPage() {
                   return (
                     <div key={t.tier}>
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className={cn('text-xs font-medium capitalize', isDark ? 'text-white/50' : 'text-black/50')}>{t.tier}</span>
+                        <span className={cn('text-xs font-medium capitalize', 'text-[var(--app-text-secondary)]')}>{t.tier}</span>
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold">{t.count}</span>
-                          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{pct.toFixed(0)}%</span>
+                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{pct.toFixed(0)}%</span>
                         </div>
                       </div>
-                      <div className={cn('h-4 rounded-full overflow-hidden flex', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+                      <div className={cn('h-4 rounded-full overflow-hidden flex', 'bg-[var(--app-hover-bg)]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
@@ -336,11 +396,11 @@ export default function LoyaltyProgramPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.55, duration: 0.4 }}
-              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Award className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Upcoming Milestones</span>
+                <Award className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Upcoming Milestones</span>
               </div>
               <div className="space-y-3">
                 {loyaltyMembers
@@ -348,13 +408,13 @@ export default function LoyaltyProgramPage() {
                   .sort((a, b) => b.milestoneProgress - a.milestoneProgress)
                   .slice(0, 4)
                   .map((m) => (
-                    <div key={m.id} className={cn('flex items-center gap-3 p-2.5 rounded-xl', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
+                    <div key={m.id} className={cn('flex items-center gap-3 p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
                       <div className={cn('w-2 h-2 rounded-full shrink-0',
                         m.milestoneProgress >= 95 ? 'bg-emerald-500' : m.milestoneProgress >= 85 ? 'bg-amber-500' : 'bg-sky-500'
                       )} />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium truncate">{m.client}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>{m.nextMilestone}</p>
+                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{m.nextMilestone}</p>
                       </div>
                       <span className={cn('text-[10px] font-bold shrink-0',
                         m.milestoneProgress >= 95 ? 'text-emerald-500' : m.milestoneProgress >= 85 ? 'text-amber-500' : 'text-sky-500'

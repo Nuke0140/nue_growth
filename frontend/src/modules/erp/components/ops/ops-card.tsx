@@ -38,9 +38,9 @@ export function OpsCard({
   return (
     <Component
       className={cn(
-        'ops-card ops-glow p-6',
+        'app-card app-glow p-6',
         onClick && 'cursor-pointer',
-        hoverable && 'ops-card-hover',
+        hoverable && 'app-card-hover',
         className
       )}
       onClick={onClick}
@@ -54,10 +54,10 @@ export function OpsCard({
           <div className="flex items-center gap-3 min-w-0">
             {Icon && (
               <div
-                className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
-                style={{ backgroundColor: 'var(--ops-accent-light)' }}
+                className="flex items-center justify-center w-10 h-10 rounded-[var(--app-radius-lg)] shrink-0"
+                style={{ backgroundColor: 'var(--app-accent-light)' }}
               >
-                <Icon className="w-5 h-5" style={{ color: 'var(--ops-accent)' }} />
+                <Icon className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
               </div>
             )}
             {(title || subtitle) && (
@@ -65,7 +65,7 @@ export function OpsCard({
                 {title && (
                   <h3
                     className="text-sm font-semibold truncate"
-                    style={{ color: 'var(--ops-text)' }}
+                    style={{ color: 'var(--app-text)' }}
                   >
                     {title}
                   </h3>
@@ -73,7 +73,7 @@ export function OpsCard({
                 {subtitle && (
                   <p
                     className="text-xs mt-0.5 truncate"
-                    style={{ color: 'var(--ops-text-muted)' }}
+                    style={{ color: 'var(--app-text-muted)' }}
                   >
                     {subtitle}
                   </p>
@@ -85,10 +85,10 @@ export function OpsCard({
             typeof badge === 'string' ? (
               <Badge
                 variant="secondary"
-                className="ops-badge shrink-0"
+                className="app-badge shrink-0"
                 style={{
-                  backgroundColor: 'var(--ops-card-bg-light)',
-                  color: 'var(--ops-text-secondary)',
+                  backgroundColor: 'var(--app-card-bg-light)',
+                  color: 'var(--app-text-secondary)',
                 }}
               >
                 {badge}

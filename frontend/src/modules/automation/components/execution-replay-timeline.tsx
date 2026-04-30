@@ -113,7 +113,7 @@ export default function ExecutionReplayTimeline({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn(
-        'rounded-2xl border shadow-sm',
+        'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -122,15 +122,15 @@ export default function ExecutionReplayTimeline({
       {/* Header */}
       <div
         className={cn(
-          'flex items-center justify-between border-b px-4 py-3 sm:px-5',
-          isDark ? 'border-white/[0.06]' : 'border-black/[0.06]',
+          'flex items-center justify-between border-b px-4 py-3 sm:px-app-xl',
+          'border-[var(--app-border)]',
         )}
       >
         <div className="flex items-center gap-2">
           <h4
             className={cn(
               'text-sm font-semibold',
-              isDark ? 'text-white' : 'text-zinc-900',
+              'text-[var(--app-text)]',
             )}
           >
             Execution Replay
@@ -153,7 +153,7 @@ export default function ExecutionReplayTimeline({
               whileTap={{ scale: 0.92 }}
               onClick={onPause}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
                 isDark
                   ? 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25'
                   : 'bg-blue-50 text-blue-600 hover:bg-blue-100',
@@ -168,7 +168,7 @@ export default function ExecutionReplayTimeline({
               whileTap={{ scale: 0.92 }}
               onClick={onPlay}
               className={cn(
-                'inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                'inline-flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors',
                 isDark
                   ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25'
                   : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100',
@@ -182,7 +182,7 @@ export default function ExecutionReplayTimeline({
       </div>
 
       {/* Timeline */}
-      <div ref={scrollRef} className="max-h-[480px] overflow-y-auto p-4 sm:p-5 space-y-0">
+      <div ref={scrollRef} className="max-h-[480px] overflow-y-auto p-4 sm:p-app-xl space-y-0">
         {steps.map((step, i) => {
           const StatusIcon = statusIcon[step.status];
           const TypeIcon = nodeTypeIcon[step.nodeType] || Zap;
@@ -217,7 +217,7 @@ export default function ExecutionReplayTimeline({
                     className={cn(
                       'w-0.5 flex-1 min-h-[24px]',
                       (statusLineColor[step.status]?.(isDark) ||
-                        (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')),
+                        ('bg-[var(--app-hover-bg)]')),
                     )}
                   />
                 )}
@@ -230,7 +230,7 @@ export default function ExecutionReplayTimeline({
                 transition={{ delay: i * 0.03, duration: 0.15 }}
                 onClick={() => onStep?.(step.id)}
                 className={cn(
-                  'flex-1 rounded-xl border p-3 mb-3 cursor-pointer transition-colors last:mb-0',
+                  'flex-1 rounded-[var(--app-radius-lg)] border p-3 mb-3 cursor-pointer transition-colors last:mb-0',
                   isRunning && (isDark ? 'bg-blue-500/5 border-blue-500/20' : 'bg-blue-50/50 border-blue-200'),
                   !isRunning && (isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-black/[0.01] border-black/[0.06] hover:bg-black/[0.02]'),
                 )}
@@ -241,13 +241,13 @@ export default function ExecutionReplayTimeline({
                       <TypeIcon
                         className={cn(
                           'h-3.5 w-3.5 shrink-0',
-                          isDark ? 'text-zinc-500' : 'text-zinc-400',
+                          'text-[var(--app-text-muted)]',
                         )}
                       />
                       <span
                         className={cn(
                           'text-xs font-semibold truncate',
-                          isDark ? 'text-white' : 'text-zinc-900',
+                          'text-[var(--app-text)]',
                         )}
                       >
                         {step.nodeName}
@@ -255,13 +255,13 @@ export default function ExecutionReplayTimeline({
                     </div>
 
                     <div className="flex items-center gap-3 text-[10px]">
-                      <span className={cn('uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
                         {step.nodeType}
                       </span>
-                      <span className={cn('font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+                      <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>
                         {formatDuration(step.duration)}
                       </span>
-                      <span className={cn(isDark ? 'text-zinc-600' : 'text-zinc-400')}>
+                      <span className={cn('text-[var(--app-text-muted)]')}>
                         {step.timestamp}
                       </span>
                     </div>
@@ -271,7 +271,7 @@ export default function ExecutionReplayTimeline({
                   <ChevronRight
                     className={cn(
                       'h-4 w-4 shrink-0 mt-0.5 transition-transform',
-                      isDark ? 'text-zinc-600' : 'text-zinc-300',
+                      'text-[var(--app-text-secondary)]',
                     )}
                   />
                 </div>
@@ -286,7 +286,7 @@ export default function ExecutionReplayTimeline({
                     >
                       <pre
                         className={cn(
-                          'rounded-lg p-2 text-[10px] leading-relaxed overflow-x-auto whitespace-pre-wrap',
+                          'rounded-[var(--app-radius-lg)] p-2 text-[10px] leading-relaxed overflow-x-auto whitespace-pre-wrap',
                           isDark ? 'bg-white/[0.03] text-zinc-400' : 'bg-black/[0.02] text-zinc-500',
                         )}
                       >

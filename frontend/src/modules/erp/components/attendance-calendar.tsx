@@ -109,8 +109,8 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 shadow-sm',
-        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
+        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
@@ -121,7 +121,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={prevMonth}
-            className="w-7 h-7 hover:bg-[var(--ops-hover-bg)]"
+            className="w-8 h-8 hover:bg-[var(--app-hover-bg)]"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -129,7 +129,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             variant="ghost"
             size="icon"
             onClick={nextMonth}
-            className="w-7 h-7 hover:bg-[var(--ops-hover-bg)]"
+            className="w-8 h-8 hover:bg-[var(--app-hover-bg)]"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -141,7 +141,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
         {dayLabels.map((label) => (
           <div
             key={label}
-            className="text-center text-[10px] font-medium py-1 text-[var(--ops-text-disabled)]"
+            className="text-center text-[10px] font-medium py-1 text-[var(--app-text-disabled)]"
           >
             {label}
           </div>
@@ -167,9 +167,9 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.15, delay: index * 0.008 }}
               className={cn(
-                'aspect-square rounded-xl flex flex-col items-center justify-center relative cursor-default transition-colors',
+                'aspect-square rounded-[var(--app-radius-lg)] flex flex-col items-center justify-center relative cursor-default transition-colors',
                 isTodayCell && 'ring-2 ring-purple-500/50',
-                'hover:bg-[var(--ops-hover-bg)]'
+                'hover:bg-[var(--app-hover-bg)]'
               )}
               title={
                 status
@@ -179,7 +179,7 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
             >
               <span className={cn(
                 'text-[11px] font-medium leading-none',
-                isTodayCell ? 'text-purple-500' : 'text-[var(--ops-text-secondary)]'
+                isTodayCell ? 'text-purple-500' : 'text-[var(--app-text-secondary)]'
               )}>
                 {day}
               </span>
@@ -199,11 +199,11 @@ export default function AttendanceCalendar({ records, employeeId }: AttendanceCa
         {(Object.entries(statusColors) as [AttendanceStatus, { dot: string; label: string }][]).map(([key, config]) => (
           <div key={key} className="flex items-center gap-1.5">
             <span className={cn('w-2 h-2 rounded-full', config.dot)} />
-            <span className="text-[10px] text-[var(--ops-text-muted)]">
+            <span className="text-[10px] text-[var(--app-text-muted)]">
               {config.label}
             </span>
             {summaryStats[key] > 0 && (
-              <span className="text-[10px] font-medium text-[var(--ops-text-secondary)]">
+              <span className="text-[10px] font-medium text-[var(--app-text-secondary)]">
                 {summaryStats[key]}
               </span>
             )}

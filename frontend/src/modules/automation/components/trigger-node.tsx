@@ -34,7 +34,7 @@ export default function TriggerNode({ trigger, onClick }: TriggerNodeProps) {
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onClick={onClick}
       className={cn(
-        'flex flex-col gap-3 rounded-2xl border p-4 cursor-pointer shadow-sm transition-all',
+        'flex flex-col gap-3 rounded-[var(--app-radius-xl)] border p-4 cursor-pointer shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -43,40 +43,40 @@ export default function TriggerNode({ trigger, onClick }: TriggerNodeProps) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
           <div className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center',
+            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
             isDark ? 'bg-blue-500/15' : 'bg-blue-50',
           )}>
-            <Zap className={cn('w-4 h-4', isDark ? 'text-blue-400' : 'text-blue-500')} />
+            <Zap className={cn('w-4 h-4', 'text-[var(--app-info)]')} />
           </div>
           <div>
-            <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
+            <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
               {trigger.name}
             </h4>
-            <p className={cn('text-xs mt-0.5 line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
+            <p className={cn('text-xs mt-0.5 line-clamp-2', 'text-[var(--app-text-muted)]')}>
               {trigger.description}
             </p>
           </div>
         </div>
-        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-white/20' : 'text-black/20')} />
+        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-disabled)]')} />
       </div>
 
       <div className="flex items-center gap-2 flex-wrap">
         <span className={cn(
-          'inline-flex items-center rounded-lg px-2 py-0.5 text-[10px] font-medium border',
+          'inline-flex items-center rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[10px] font-medium border',
           categoryColors[trigger.category] || categoryColors.crm,
         )}>
           {trigger.category.toUpperCase()}
         </span>
         <span className={cn(
           'text-[10px] font-medium',
-          isDark ? 'text-white/30' : 'text-black/30',
+          'text-[var(--app-text-muted)]',
         )}>
           {trigger.event}
         </span>
       </div>
 
-      <div className={cn('flex items-center gap-2 pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+      <div className={cn('flex items-center gap-2 pt-2 border-t', 'border-[var(--app-border)]')}>
+        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
           Used in {trigger.usageCount.toLocaleString()} workflows
         </span>
       </div>

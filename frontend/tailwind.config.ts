@@ -11,6 +11,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+<<<<<<< HEAD
       /* Color definitions removed — handled by @theme inline in globals.css.
          The previous hsl(var(...)) wrappers produced invalid CSS like
          hsl(oklch(...)) because globals.css uses oklch() color space.
@@ -23,6 +24,106 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+=======
+      colors: {
+        background: "var(--app-bg)",
+        foreground: "var(--app-text)",
+        card: {
+          DEFAULT: "var(--app-card-bg)",
+          foreground: "var(--app-text)",
+        },
+        popover: {
+          DEFAULT: "var(--app-card-bg)",
+          foreground: "var(--app-text)",
+        },
+        primary: {
+          DEFAULT: "var(--app-accent)",
+          foreground: "#ffffff",
+        },
+        secondary: {
+          DEFAULT: "var(--app-elevated)",
+          foreground: "var(--app-text)",
+        },
+        muted: {
+          DEFAULT: "var(--app-elevated)",
+          foreground: "var(--app-text-muted)",
+        },
+        accent: {
+          DEFAULT: "var(--app-accent-light)",
+          foreground: "var(--app-accent)",
+        },
+        destructive: {
+          DEFAULT: "var(--app-danger)",
+          foreground: "#ffffff",
+        },
+        border: "var(--app-border)",
+        input: "var(--app-input-bg)",
+        ring: "var(--app-accent)",
+        chart: {
+          "1": "var(--app-module-erp)",
+          "2": "var(--app-module-crm)",
+          "3": "var(--app-module-analytics)",
+          "4": "var(--app-module-finance)",
+          "5": "var(--app-module-marketing)",
+        },
+        app: {
+          bg: "var(--app-bg)",
+          "card-bg": "var(--app-card-bg)",
+          "card-bg-hover": "var(--app-card-bg-hover)",
+          elevated: "var(--app-elevated)",
+          "input-bg": "var(--app-input-bg)",
+          accent: "var(--app-accent)",
+          "accent-hover": "var(--app-accent-hover)",
+          "accent-light": "var(--app-accent-light)",
+          text: "var(--app-text)",
+          "text-secondary": "var(--app-text-secondary)",
+          "text-muted": "var(--app-text-muted)",
+          "text-disabled": "var(--app-text-disabled)",
+          border: "var(--app-border)",
+          "border-light": "var(--app-border-light)",
+          "border-strong": "var(--app-border-strong)",
+          "hover-bg": "var(--app-hover-bg)",
+          "active-bg": "var(--app-active-bg)",
+          success: "var(--app-success)",
+          warning: "var(--app-warning)",
+          danger: "var(--app-danger)",
+          info: "var(--app-info)",
+          "success-bg": "var(--app-success-bg)",
+          "warning-bg": "var(--app-warning-bg)",
+          "danger-bg": "var(--app-danger-bg)",
+          "info-bg": "var(--app-info-bg)",
+          overlay: "var(--app-overlay)",
+          "sidebar-bg": "var(--app-sidebar-bg)",
+          "topbar-bg": "var(--app-topbar-bg)",
+        },
+      },
+      borderRadius: {
+        sm: "var(--app-radius-sm)",
+        md: "var(--app-radius-md)",
+        lg: "var(--app-radius-lg)",
+        xl: "var(--app-radius-xl)",
+        "2xl": "var(--app-radius-xl)",
+        full: "var(--app-radius-full)",
+      },
+      boxShadow: {
+        sm: "var(--app-shadow-sm)",
+        md: "var(--app-shadow-md)",
+        card: "var(--app-shadow-card)",
+        "card-hover": "var(--app-shadow-card-hover)",
+        dropdown: "var(--app-shadow-dropdown)",
+        modal: "var(--app-shadow-modal)",
+        accent: "var(--app-shadow-accent)",
+      },
+      spacing: {
+        "app-xs": "var(--app-space-xs)",
+        "app-sm": "var(--app-space-sm)",
+        "app-md": "var(--app-space-md)",
+        "app-lg": "var(--app-space-lg)",
+        "app-xl": "var(--app-space-xl)",
+        "app-2xl": "var(--app-space-2xl)",
+        "app-3xl": "var(--app-space-3xl)",
+        "app-4xl": "var(--app-space-4xl)",
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
       },
     },
   },

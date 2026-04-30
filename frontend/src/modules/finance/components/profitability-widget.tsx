@@ -15,9 +15,9 @@ function formatAmount(value: number) {
 }
 
 function getMarginColor(margin: number, isDark: boolean) {
-  if (margin > 35) return isDark ? 'text-emerald-400' : 'text-emerald-600';
-  if (margin > 20) return isDark ? 'text-amber-400' : 'text-amber-600';
-  return isDark ? 'text-red-400' : 'text-red-600';
+  if (margin > 35) return 'text-[var(--app-success)]';
+  if (margin > 20) return 'text-[var(--app-warning)]';
+  return 'text-[var(--app-danger)]';
 }
 
 function getMarginBarColor(margin: number) {
@@ -100,21 +100,21 @@ export default function ProfitabilityWidget({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-2xl border p-4 shadow-sm',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <span className={cn('text-sm font-semibold truncate', isDark ? 'text-white/90' : 'text-black/90')}>
+        <span className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
           {client}
         </span>
         <div className="flex items-center gap-1.5 shrink-0">
-          <Shield className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
           <Badge
             variant="outline"
             className={cn(
-              'px-1.5 py-0 rounded-md text-[9px] font-medium border',
+              'px-1.5 py-0 rounded-[var(--app-radius-md)] text-[9px] font-medium border',
               isDark
                 ? `${riskConfig.bgDark} ${riskConfig.textDark} border-transparent`
                 : `${riskConfig.bgLight} ${riskConfig.textLight} border-transparent`
@@ -127,16 +127,16 @@ export default function ProfitabilityWidget({
 
       {/* Metrics */}
       <div className="grid grid-cols-3 gap-2 mb-3">
-        <div className={cn('p-2.5 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-          <p className={cn('text-[9px] font-medium mb-0.5', isDark ? 'text-white/40' : 'text-black/40')}>Revenue</p>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
+          <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Revenue</p>
           <p className="text-xs font-bold tabular-nums text-emerald-500">{formatAmount(revenue)}</p>
         </div>
-        <div className={cn('p-2.5 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-          <p className={cn('text-[9px] font-medium mb-0.5', isDark ? 'text-white/40' : 'text-black/40')}>Cost</p>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
+          <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Cost</p>
           <p className="text-xs font-bold tabular-nums text-red-500">{formatAmount(cost)}</p>
         </div>
-        <div className={cn('p-2.5 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
-          <p className={cn('text-[9px] font-medium mb-0.5', isDark ? 'text-white/40' : 'text-black/40')}>Profit</p>
+        <div className={cn('p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
+          <p className={cn('text-[9px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>Profit</p>
           <p className={cn('text-xs font-bold tabular-nums', getMarginColor(margin, isDark))}>
             {formatAmount(profit)}
           </p>
@@ -146,16 +146,16 @@ export default function ProfitabilityWidget({
       {/* Margin bar */}
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
-          <span className={cn('text-[10px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Margin</span>
+          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>Margin</span>
           <div className="flex items-center gap-1">
             <span className={cn('text-xs font-bold', getMarginColor(margin, isDark))}>{margin.toFixed(1)}%</span>
             <span className={cn(
               'flex items-center text-[10px] font-medium',
               isPositiveTrend
                 ? 'text-emerald-500'
-                : isDark ? 'text-red-400' : 'text-red-600'
+                : 'text-[var(--app-danger)]'
             )}>
-              {isPositiveTrend ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+              {isPositiveTrend ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
               {isPositiveTrend ? '+' : ''}{trend.toFixed(1)}%
             </span>
           </div>
@@ -173,11 +173,11 @@ export default function ProfitabilityWidget({
       {/* Risk indicator */}
       {margin < 20 && (
         <div className={cn(
-          'flex items-center gap-1.5 p-2 rounded-xl',
+          'flex items-center gap-1.5 p-2 rounded-[var(--app-radius-lg)]',
           isDark ? 'bg-red-500/[0.06]' : 'bg-red-50'
         )}>
-          <AlertTriangle className="w-3 h-3 text-red-500 shrink-0" />
-          <p className={cn('text-[10px]', isDark ? 'text-red-400' : 'text-red-600')}>
+          <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
+          <p className={cn('text-[10px]', 'text-[var(--app-danger)]')}>
             Low margin — review pricing or reduce costs
           </p>
         </div>

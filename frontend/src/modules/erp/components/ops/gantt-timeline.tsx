@@ -38,7 +38,7 @@ type ZoomLevel = 'week' | 'month' | 'quarter';
 // ── Helpers ────────────────────────────────────────────
 
 const STAGE_COLORS: Record<string, { bar: string; fill: string; text: string }> = {
-  todo:        { bar: 'rgba(255,255,255,0.12)', fill: 'rgba(255,255,255,0.06)', text: 'rgba(245,245,245,0.5)' },
+  todo:        { bar: 'var(--app-border-strong)', fill: 'var(--app-border)', text: 'rgba(245,245,245,0.5)' },
   'in-progress': { bar: '#3b82f6', fill: '#2563eb', text: '#f5f5f5' },
   review:      { bar: '#f59e0b', fill: '#d97706', text: '#f5f5f5' },
   done:        { bar: '#22c55e', fill: '#16a34a', text: '#f5f5f5' },
@@ -109,20 +109,20 @@ function TaskTooltip({
       style={{ left: position.x, top: position.y, transform: 'translate(-50%, -110%)' }}
     >
       <div
-        className="rounded-lg px-3 py-2.5 shadow-2xl border min-w-[200px]"
+        className="rounded-[var(--app-radius-lg)] px-3 py-2.5 shadow-[var(--app-shadow-md)]-2xl border min-w-[200px]"
         style={{
-          backgroundColor: 'var(--ops-elevated)',
-          borderColor: 'var(--ops-border-strong)',
+          backgroundColor: 'var(--app-elevated)',
+          borderColor: 'var(--app-border-strong)',
         }}
       >
-        <p className="text-xs font-semibold" style={{ color: 'var(--ops-text)' }}>{task.name}</p>
+        <p className="text-xs font-semibold" style={{ color: 'var(--app-text)' }}>{task.name}</p>
         <div className="flex items-center gap-1.5 mt-1.5">
-          <User className="w-3 h-3" style={{ color: 'var(--ops-text-muted)' }} />
-          <span className="text-[11px]" style={{ color: 'var(--ops-text-secondary)' }}>{task.assignee}</span>
+          <User className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
+          <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>{task.assignee}</span>
         </div>
         <div className="flex items-center gap-1.5 mt-1">
-          <Calendar className="w-3 h-3" style={{ color: 'var(--ops-text-muted)' }} />
-          <span className="text-[11px]" style={{ color: 'var(--ops-text-secondary)' }}>
+          <Calendar className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
+          <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>
             {totalDays} days total · {remainingDays} remaining
           </span>
         </div>
@@ -133,7 +133,7 @@ function TaskTooltip({
           >
             {task.stage}
           </span>
-          <span className="text-[11px]" style={{ color: 'var(--ops-text-secondary)' }}>
+          <span className="text-[11px]" style={{ color: 'var(--app-text-secondary)' }}>
             {task.progress}% complete
           </span>
         </div>
@@ -256,21 +256,21 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
   };
 
   return (
-    <div className="ops-card p-0 overflow-hidden">
+    <div className="app-card p-0 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--ops-border)' }}>
+      <div className="flex items-center justify-between px-app-xl py-4" style={{ borderBottom: '1px solid var(--app-border)' }}>
         <div className="flex items-center gap-3">
           <div
-            className="flex items-center justify-center w-9 h-9 rounded-xl"
-            style={{ backgroundColor: 'var(--ops-accent-light)' }}
+            className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)]"
+            style={{ backgroundColor: 'var(--app-accent-light)' }}
           >
-            <Calendar className="w-4.5 h-4.5" style={{ color: 'var(--ops-accent)' }} />
+            <Calendar className="w-5 h-5" style={{ color: 'var(--app-accent)' }} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+            <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
               {projectName || 'Project Timeline'}
             </h3>
-            <p className="text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
+            <p className="text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
               {tasks.length} tasks · {MONTH_NAMES[rangeStart.getMonth()]} – {MONTH_NAMES[rangeEnd.getMonth()]}
             </p>
           </div>
@@ -281,20 +281,20 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
           <button
             onClick={() => setIsMobileView((v) => !v)}
             className={cn(
-              'p-1.5 rounded-lg transition-colors md:hidden',
+              'p-1.5 rounded-[var(--app-radius-lg)] transition-colors md:hidden',
               isMobileView
-                ? 'bg-[var(--ops-accent-light)]'
-                : 'hover:bg-[var(--ops-hover-bg)]'
+                ? 'bg-[var(--app-accent-light)]'
+                : 'hover:bg-[var(--app-hover-bg)]'
             )}
-            style={{ color: isMobileView ? 'var(--ops-accent)' : 'var(--ops-text-secondary)' }}
+            style={{ color: isMobileView ? 'var(--app-accent)' : 'var(--app-text-secondary)' }}
           >
             <List className="w-4 h-4" />
           </button>
 
           {/* Zoom controls */}
           <div
-            className="hidden md:flex items-center rounded-lg overflow-hidden"
-            style={{ border: '1px solid var(--ops-border)' }}
+            className="hidden md:flex items-center rounded-[var(--app-radius-lg)] overflow-hidden"
+            style={{ border: '1px solid var(--app-border)' }}
           >
             {(['week', 'month', 'quarter'] as ZoomLevel[]).map((z) => (
               <button
@@ -302,11 +302,11 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                 onClick={() => setZoom(z)}
                 className={cn(
                   'px-3 py-1.5 text-[11px] font-medium transition-colors capitalize',
-                  zoom === z ? 'bg-[var(--ops-accent-light)]' : 'hover:bg-[var(--ops-hover-bg)]'
+                  zoom === z ? 'bg-[var(--app-accent-light)]' : 'hover:bg-[var(--app-hover-bg)]'
                 )}
                 style={{
-                  color: zoom === z ? 'var(--ops-accent)' : 'var(--ops-text-secondary)',
-                  borderRight: z !== 'quarter' ? '1px solid var(--ops-border)' : undefined,
+                  color: zoom === z ? 'var(--app-accent)' : 'var(--app-text-secondary)',
+                  borderRight: z !== 'quarter' ? '1px solid var(--app-border)' : undefined,
                 }}
               >
                 {z}
@@ -321,16 +321,16 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
         <div className="overflow-x-auto">
           <div style={{ minWidth: `${totalWidth + 220}px` }}>
             {/* Time Headers */}
-            <div className="flex" style={{ borderBottom: '1px solid var(--ops-border)' }}>
+            <div className="flex" style={{ borderBottom: '1px solid var(--app-border)' }}>
               {/* Task label column */}
               <div
-                className="shrink-0 px-5 py-2"
+                className="shrink-0 px-app-xl py-2"
                 style={{
                   width: 220,
-                  borderBottom: '1px solid var(--ops-border)',
+                  borderBottom: '1px solid var(--app-border)',
                 }}
               >
-                <span className="text-[11px] font-medium" style={{ color: 'var(--ops-text-muted)' }}>
+                <span className="text-[11px] font-medium" style={{ color: 'var(--app-text-muted)' }}>
                   Task
                 </span>
               </div>
@@ -345,9 +345,9 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                       className="px-2 py-1.5 text-[11px] font-medium shrink-0"
                       style={{
                         width: m.width * dayWidth,
-                        color: 'var(--ops-text-secondary)',
-                        borderBottom: '1px solid var(--ops-border)',
-                        borderRight: '1px solid var(--ops-border)',
+                        color: 'var(--app-text-secondary)',
+                        borderBottom: '1px solid var(--app-border)',
+                        borderRight: '1px solid var(--app-border)',
                       }}
                     >
                       {m.label}
@@ -363,8 +363,8 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                       className="text-center text-[10px] shrink-0 py-1"
                       style={{
                         width: w.width * dayWidth,
-                        color: 'var(--ops-text-muted)',
-                        borderRight: '1px solid var(--ops-border)',
+                        color: 'var(--app-text-muted)',
+                        borderRight: '1px solid var(--app-border)',
                       }}
                     >
                       {zoom === 'week'
@@ -465,35 +465,35 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                     className="flex items-center group"
                     style={{
                       height: 52,
-                      borderBottom: '1px solid rgba(255,255,255,0.04)',
+                      borderBottom: '1px solid var(--app-hover-bg)',
                     }}
                   >
                     {/* Task label */}
                     <div
-                      className="shrink-0 flex items-center gap-2 px-5 overflow-hidden"
+                      className="shrink-0 flex items-center gap-2 px-app-xl overflow-hidden"
                       style={{ width: 220 }}
                     >
                       <button
                         onClick={() => toggleExpand(task.id)}
                         className="shrink-0"
-                        style={{ color: 'var(--ops-text-muted)' }}
+                        style={{ color: 'var(--app-text-muted)' }}
                       >
                         {isExpanded ? (
-                          <ChevronDown className="w-3.5 h-3.5" />
+                          <ChevronDown className="w-4 h-4" />
                         ) : (
-                          <ChevronRight className="w-3.5 h-3.5" />
+                          <ChevronRight className="w-4 h-4" />
                         )}
                       </button>
                       <div className="min-w-0">
                         <p
                           className="text-xs font-medium truncate"
-                          style={{ color: 'var(--ops-text)' }}
+                          style={{ color: 'var(--app-text)' }}
                         >
                           {task.name}
                         </p>
                         <p
                           className="text-[10px] truncate"
-                          style={{ color: 'var(--ops-text-muted)' }}
+                          style={{ color: 'var(--app-text-muted)' }}
                         >
                           {task.assignee}
                         </p>
@@ -503,7 +503,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                     {/* Gantt bar area */}
                     <div className="relative flex-1 h-full">
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 h-7 rounded-md cursor-pointer overflow-hidden transition-shadow group-hover:shadow-lg"
+                        className="absolute top-1/2 -translate-y-1/2 h-8  rounded-[var(--app-radius-md)] cursor-pointer overflow-hidden transition-shadow group-hover:shadow-[var(--app-shadow-md)]-lg"
                         style={{
                           left: pos.clampedLeft,
                           width: Math.max(pos.width, dayWidth * 2),
@@ -518,7 +518,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                           initial={{ width: 0 }}
                           animate={{ width: `${task.progress}%` }}
                           transition={{ duration: 0.6, delay: idx * 0.05 }}
-                          className="h-full rounded-md"
+                          className="h-full rounded-[var(--app-radius-md)]"
                           style={{ backgroundColor: colors.fill }}
                         />
                         {/* Label on bar */}
@@ -550,19 +550,19 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: idx * 0.04 }}
-                className="p-3 rounded-lg"
+                className="p-3 rounded-[var(--app-radius-lg)]"
                 style={{
                   backgroundColor: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  border: '1px solid var(--app-border)',
                   borderLeft: `3px solid ${colors.bar}`,
                 }}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-xs font-medium" style={{ color: 'var(--ops-text)' }}>{task.name}</p>
+                    <p className="text-xs font-medium" style={{ color: 'var(--app-text)' }}>{task.name}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>{task.assignee}</span>
-                      <span className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
+                      <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>{task.assignee}</span>
+                      <span className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
                         {totalDays}d
                       </span>
                     </div>
@@ -575,7 +575,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                   </span>
                 </div>
                 {/* Mini progress bar */}
-                <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-border)' }}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${task.progress}%` }}
@@ -584,7 +584,7 @@ export function GanttTimeline({ tasks, projectName }: GanttTimelineProps) {
                     style={{ backgroundColor: colors.bar }}
                   />
                 </div>
-                <p className="text-[10px] mt-1" style={{ color: 'var(--ops-text-muted)' }}>
+                <p className="text-[10px] mt-1" style={{ color: 'var(--app-text-muted)' }}>
                   {task.progress}% complete
                 </p>
               </motion.div>

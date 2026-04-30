@@ -22,11 +22,11 @@ function SMSKPI({ label, value, sub, isDark }: {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+      className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
     >
-      <p className={cn('text-xs font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>{label}</p>
+      <p className={cn('text-xs font-medium mb-1', 'text-[var(--app-text-muted)]')}>{label}</p>
       <p className="text-2xl font-bold tracking-tight">{value}</p>
-      <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{sub}</p>
+      <p className={cn('text-xs mt-1', 'text-[var(--app-text-muted)]')}>{sub}</p>
     </motion.div>
   );
 }
@@ -53,7 +53,7 @@ function TypeBadge({ type, isDark }: { type: string; isDark: boolean }) {
   const c = config[type] || config.promotional;
   return (
     <Badge variant="secondary" className={cn('text-[10px] px-2 py-0 border-0 gap-1 capitalize', c.cls)}>
-      <c.icon className="w-3 h-3" /> {type}
+      <c.icon className="w-4 h-4" /> {type}
     </Badge>
   );
 }
@@ -64,9 +64,9 @@ function DeliveryBar({ delivered, failed, isDark }: { delivered: number; failed:
   const pct = total > 0 ? (delivered / total) * 100 : 0;
   return (
     <div className="flex items-center gap-2">
-      <div className={cn('h-1.5 w-16 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+      <div className={cn('h-1.5 w-16 rounded-full', 'bg-[var(--app-hover-bg)]')}>
         <div
-          className={cn('h-1.5 rounded-full transition-all',
+          className={cn('h-1.5 rounded-full transition-colors',
             pct >= 98 ? 'bg-emerald-500' : pct >= 95 ? 'bg-amber-500' : 'bg-red-500'
           )}
           style={{ width: `${pct}%` }}
@@ -91,26 +91,26 @@ function TemplateCard({ name, text, charCount, type, isDark, index }: {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 + index * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('rounded-2xl border p-4 flex flex-col',
-        isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+      className={cn('rounded-[var(--app-radius-xl)] border p-4 flex flex-col',
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold">{name}</span>
         <TypeBadge type={type} isDark={isDark} />
       </div>
-      <div className={cn('flex-1 rounded-xl p-3 mb-3 font-mono text-xs leading-relaxed',
+      <div className={cn('flex-1 rounded-[var(--app-radius-lg)] p-3 mb-3 font-mono text-xs leading-relaxed',
         isDark ? 'bg-white/[0.02] text-white/50' : 'bg-black/[0.02] text-black/50'
       )}>
         {text}
       </div>
       <div className="flex items-center justify-between">
-        <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/25' : 'text-black/25')}>
+        <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
           {charCount} / 160 chars
         </span>
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="sm" onClick={handleCopy} className="h-6 text-[10px] gap-1 px-2">
-            <Copy className="w-3 h-3" /> {copied ? 'Copied!' : 'Copy'}
+            <Copy className="w-4 h-4" /> {copied ? 'Copied!' : 'Copy'}
           </Button>
           <Button size="sm" className="h-6 text-[10px] gap-1 px-2">Use Template</Button>
         </div>
@@ -171,7 +171,7 @@ export default function SmsCampaignsPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="max-w-7xl mx-auto p-6 space-y-app-2xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -180,24 +180,24 @@ export default function SmsCampaignsPage() {
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
-            <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-violet-500/10' : 'bg-violet-50'
+            <div className={cn('w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'bg-[var(--app-purple-light)]'
             )}>
               <Smartphone className="w-5 h-5 text-violet-500" />
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight">SMS Campaigns</h1>
-              <p className={cn('text-sm mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+              <p className={cn('text-sm mt-0.5', 'text-[var(--app-text-muted)]')}>
                 High-deliverability SMS at Indian telecom rates
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="h-8 gap-1.5">
-              <BarChart3 className="w-3.5 h-3.5" /> Reports
+              <BarChart3 className="w-4 h-4" /> Reports
             </Button>
             <Button size="sm" className="h-8 gap-1.5">
-              <Plus className="w-3.5 h-3.5" /> New SMS
+              <Plus className="w-4 h-4" /> New SMS
             </Button>
           </div>
         </motion.div>
@@ -211,35 +211,35 @@ export default function SmsCampaignsPage() {
         </div>
 
         {/* Type Tabs */}
-        <div className={cn('flex items-center gap-1 p-1 rounded-xl w-fit',
-          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]'
+        <div className={cn('flex items-center gap-1 p-1 rounded-[var(--app-radius-lg)] w-fit',
+          'bg-[var(--app-hover-bg)]'
         )}>
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+              className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
                 activeTab === tab.id
-                  ? isDark ? 'bg-white/[0.08] text-white shadow-sm' : 'bg-white text-black shadow-sm'
-                  : isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+                  ? isDark ? 'bg-white/[0.08] text-white shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]' : 'bg-white text-black shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
+                  : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
               )}
             >
-              <tab.icon className="w-3.5 h-3.5" />
+              <tab.icon className="w-4 h-4" />
               {tab.label}
             </button>
           ))}
         </div>
 
         {/* Search */}
-        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-xl border w-full max-w-sm',
-          isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full max-w-sm',
+          'bg-[var(--app-card-bg)] border-[var(--app-border)]'
         )}>
-          <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+          <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
           <input
             type="text" placeholder="Search campaigns..." value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={cn('bg-transparent text-sm focus:outline-none w-full',
-              isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
+              'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]'
             )}
           />
         </div>
@@ -249,10 +249,10 @@ export default function SmsCampaignsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           {/* Table Header */}
-          <div className={cn('grid grid-cols-12 gap-2 px-5 py-3 text-xs font-medium border-b',
+          <div className={cn('grid grid-cols-12 gap-2 px-app-xl py-3 text-xs font-medium border-b',
             isDark ? 'text-white/40 border-white/[0.04]' : 'text-black/40 border-black/[0.04]'
           )}>
             <div className="col-span-2">Campaign</div>
@@ -273,7 +273,7 @@ export default function SmsCampaignsPage() {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + i * 0.03, duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('grid grid-cols-12 gap-2 px-5 py-3 text-xs border-b items-center transition-colors',
+                className={cn('grid grid-cols-12 gap-2 px-app-xl py-3 text-xs border-b items-center transition-colors',
                   isDark ? 'border-white/[0.03] hover:bg-white/[0.02]' : 'border-black/[0.03] hover:bg-black/[0.01]',
                   i === filtered.length - 1 && 'border-b-0'
                 )}
@@ -296,7 +296,7 @@ export default function SmsCampaignsPage() {
                 {/* Template Preview */}
                 <div className="col-span-3 min-w-0">
                   <p className="font-mono text-[11px] truncate" style={{
-                    color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)'
+                    color: 'var(--app-overlay)'
                   }}>
                     {campaign.template}
                   </p>
@@ -310,9 +310,9 @@ export default function SmsCampaignsPage() {
                 {/* Sent/Delivered/Failed */}
                 <div className="col-span-2 text-[11px] tabular-nums">
                   <span className="font-medium">{(campaign.sent / 1000).toFixed(1)}K</span>
-                  <span className={isDark ? 'text-white/20' : 'text-black/20'}> / </span>
+                  <span className={'text-[var(--app-text-disabled)]'}> / </span>
                   <span className="text-emerald-500">{(campaign.delivered / 1000).toFixed(1)}K</span>
-                  <span className={isDark ? 'text-white/20' : 'text-black/20'}> / </span>
+                  <span className={'text-[var(--app-text-disabled)]'}> / </span>
                   <span className="text-red-400">{campaign.failed}</span>
                 </div>
 
@@ -323,8 +323,8 @@ export default function SmsCampaignsPage() {
 
                 {/* Actions */}
                 <div className="col-span-1 text-right">
-                  <button className={cn('p-1 rounded-lg transition-colors',
-                    isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-black/[0.04]'
+                  <button className={cn('p-1 rounded-[var(--app-radius-lg)] transition-colors',
+                    'hover:bg-[var(--app-hover-bg)]'
                   )}>
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
@@ -332,9 +332,9 @@ export default function SmsCampaignsPage() {
               </motion.div>
             ))}
             {filtered.length === 0 && (
-              <div className="py-12 text-center">
-                <Smartphone className={cn('w-8 h-8 mx-auto mb-2', isDark ? 'text-white/15' : 'text-black/15')} />
-                <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No campaigns found</p>
+              <div className="py-app-4xl text-center">
+                <Smartphone className={cn('w-8 h-8 mx-auto mb-2', 'text-[var(--app-text-disabled)]')} />
+                <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No campaigns found</p>
               </div>
             )}
           </div>
@@ -351,9 +351,9 @@ export default function SmsCampaignsPage() {
               <Zap className="w-4 h-4 text-violet-500" /> Template Gallery
             </h3>
             <button className={cn('text-xs flex items-center gap-1',
-              isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60'
+              'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
             )}>
-              View All <ArrowUpRight className="w-3 h-3" />
+              View All <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -368,7 +368,7 @@ export default function SmsCampaignsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -383,22 +383,22 @@ export default function SmsCampaignsPage() {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + i * 0.04, duration: 0.2 }}
-                className={cn('flex items-center justify-between p-3 rounded-xl transition-colors',
-                  isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.01]'
+                className={cn('flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] transition-colors',
+                  'hover:bg-[var(--app-hover-bg)]'
                 )}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <ExternalLink className={cn('w-3.5 h-3.5 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+                  <ExternalLink className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                   <div className="min-w-0">
                     <p className="text-xs font-medium truncate">{link.url}</p>
-                    <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
+                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                       {link.clicks.toLocaleString()} clicks
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {link.ctr > 0 && (
-                    <div className={cn('h-1.5 w-12 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                    <div className={cn('h-1.5 w-12 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                       <div className="h-1.5 rounded-full bg-violet-500" style={{ width: `${Math.min(link.ctr * 3, 100)}%` }} />
                     </div>
                   )}

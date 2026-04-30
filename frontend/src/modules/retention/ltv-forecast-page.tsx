@@ -22,11 +22,11 @@ function formatINR(num: number): string {
 }
 
 const segmentColors = [
-  { bg: (isDark) => isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', border: (isDark) => isDark ? 'border-emerald-500/20' : 'border-emerald-200', accent: 'text-emerald-400' },
-  { bg: (isDark) => isDark ? 'bg-violet-500/10' : 'bg-violet-50', border: (isDark) => isDark ? 'border-violet-500/20' : 'border-violet-200', accent: 'text-violet-400' },
-  { bg: (isDark) => isDark ? 'bg-amber-500/10' : 'bg-amber-50', border: (isDark) => isDark ? 'border-amber-500/20' : 'border-amber-200', accent: 'text-amber-400' },
-  { bg: (isDark) => isDark ? 'bg-red-500/10' : 'bg-red-50', border: (isDark) => isDark ? 'border-red-500/20' : 'border-red-200', accent: 'text-red-400' },
-  { bg: (isDark) => isDark ? 'bg-sky-500/10' : 'bg-sky-50', border: (isDark) => isDark ? 'border-sky-500/20' : 'border-sky-200', accent: 'text-sky-400' },
+  { bg: (isDark) => 'bg-[var(--app-success-bg)]', border: (isDark) => isDark ? 'border-emerald-500/20' : 'border-emerald-200', accent: 'text-emerald-400' },
+  { bg: (isDark) => 'bg-[var(--app-purple-light)]', border: (isDark) => isDark ? 'border-violet-500/20' : 'border-violet-200', accent: 'text-violet-400' },
+  { bg: (isDark) => 'bg-[var(--app-warning-bg)]', border: (isDark) => isDark ? 'border-amber-500/20' : 'border-amber-200', accent: 'text-amber-400' },
+  { bg: (isDark) => 'bg-[var(--app-danger-bg)]', border: (isDark) => isDark ? 'border-red-500/20' : 'border-red-200', accent: 'text-red-400' },
+  { bg: (isDark) => 'bg-[var(--app-info-bg)]', border: (isDark) => isDark ? 'border-sky-500/20' : 'border-sky-200', accent: 'text-sky-400' },
 ];
 
 export default function LTVForecastPage() {
@@ -74,11 +74,11 @@ export default function LTVForecastPage() {
 
   // KPI stats
   const kpiStats = useMemo(() => [
-    { label: 'Current Portfolio LTV', value: formatINR(portfolioSummary.totalCurrent), icon: Target, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: '5 segments' },
-    { label: 'Predicted Portfolio LTV', value: formatINR(portfolioSummary.totalPredicted), icon: TrendingUp, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: ((portfolioSummary.totalPredicted - portfolioSummary.totalCurrent) / portfolioSummary.totalCurrent * 100), changeLabel: 'growth potential' },
-    { label: 'Best Case Total', value: formatINR(portfolioSummary.totalBest), icon: Zap, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: 'optimistic scenario' },
-    { label: 'Worst Case Total', value: formatINR(portfolioSummary.totalWorst), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: 0, changeLabel: 'pessimistic scenario' },
-    { label: 'Avg Confidence', value: `${portfolioSummary.avgConfidence.toFixed(0)}%`, icon: Shield, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 0, changeLabel: 'AI model accuracy' },
+    { label: 'Current Portfolio LTV', value: formatINR(portfolioSummary.totalCurrent), icon: Target, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: '5 segments' },
+    { label: 'Predicted Portfolio LTV', value: formatINR(portfolioSummary.totalPredicted), icon: TrendingUp, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: ((portfolioSummary.totalPredicted - portfolioSummary.totalCurrent) / portfolioSummary.totalCurrent * 100), changeLabel: 'growth potential' },
+    { label: 'Best Case Total', value: formatINR(portfolioSummary.totalBest), icon: Zap, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: 'optimistic scenario' },
+    { label: 'Worst Case Total', value: formatINR(portfolioSummary.totalWorst), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: 0, changeLabel: 'pessimistic scenario' },
+    { label: 'Avg Confidence', value: `${portfolioSummary.avgConfidence.toFixed(0)}%`, icon: Shield, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 0, changeLabel: 'AI model accuracy' },
   ], [isDark, portfolioSummary]);
 
   const handleRunPrediction = () => {
@@ -88,27 +88,27 @@ export default function LTVForecastPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <BrainCircuit className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <BrainCircuit className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">LTV Forecast</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>AI Revenue Predictor</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>AI Revenue Predictor</p>
             </div>
           </div>
           <Button
             onClick={handleRunPrediction}
             disabled={isPredicting}
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
             {isPredicting ? (
@@ -131,27 +131,27 @@ export default function LTVForecastPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4 transition-all duration-200',
-                isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
                 {stat.change > 0 && (
                   <span className="flex items-center gap-0.5 text-[10px] font-medium text-emerald-500">
-                    <ArrowUpRight className="w-3 h-3" />{stat.change.toFixed(1)}%
+                    <ArrowUpRight className="w-4 h-4" />{stat.change.toFixed(1)}%
                   </span>
                 )}
               </div>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{stat.changeLabel}</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.changeLabel}</p>
             </motion.div>
           ))}
         </div>
@@ -168,7 +168,7 @@ export default function LTVForecastPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-5 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
                   colorConfig.bg(isDark),
                   colorConfig.border(isDark)
                 )}
@@ -178,21 +178,21 @@ export default function LTVForecastPage() {
                   <div className="flex-1 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className={cn('w-3 h-3 rounded-full', isGrowing ? 'bg-emerald-500' : 'bg-red-500')} />
+                        <div className={cn('w-4 h-4 rounded-full', isGrowing ? 'bg-emerald-500' : 'bg-red-500')} />
                         <h3 className="text-sm font-semibold">{forecast.segment}</h3>
                       </div>
-                      <Badge variant="secondary" className={cn('text-[10px]', isGrowing ? (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600') : (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600'))}>
+                      <Badge variant="secondary" className={cn('text-[10px]', isGrowing ? ('bg-[var(--app-success-bg)] text-[var(--app-success)]') : ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]'))}>
                         {isGrowing ? '↑ Growing' : '↓ Declining'}
                       </Badge>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       <div>
-                        <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Current LTV</span>
+                        <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Current LTV</span>
                         <span className="text-sm font-semibold">{formatINR(forecast.currentLTV)}</span>
                       </div>
                       <div>
-                        <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Predicted LTV</span>
+                        <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Predicted LTV</span>
                         <span className="text-lg font-bold">{formatINR(forecast.predictedLTV)}</span>
                       </div>
                       <div>
@@ -209,9 +209,9 @@ export default function LTVForecastPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {/* Confidence Meter */}
                       <div>
-                        <span className={cn('text-[10px] block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
+                        <span className={cn('text-[10px] block mb-1', 'text-[var(--app-text-muted)]')}>Confidence</span>
                         <div className="flex items-center gap-2">
-                          <div className={cn('flex-1 h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                          <div className={cn('flex-1 h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${forecast.confidence}%` }}
@@ -224,19 +224,19 @@ export default function LTVForecastPage() {
                       </div>
                       {/* Avg Lifespan */}
                       <div>
-                        <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Avg Lifespan</span>
+                        <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Avg Lifespan</span>
                         <span className="text-sm font-medium">{forecast.avgLifespan} months</span>
                       </div>
                       {/* Churn Risk */}
                       <div>
-                        <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Churn Risk</span>
+                        <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Churn Risk</span>
                         <span className={cn('text-sm font-medium', forecast.churnRisk > 40 ? 'text-red-500' : forecast.churnRisk > 20 ? 'text-amber-500' : 'text-emerald-500')}>
                           {forecast.churnRisk}%
                         </span>
                       </div>
                       {/* Expansion */}
                       <div>
-                        <span className={cn('text-[10px] block mb-0.5', isDark ? 'text-white/30' : 'text-black/30')}>Expansion Potential</span>
+                        <span className={cn('text-[10px] block mb-0.5', 'text-[var(--app-text-muted)]')}>Expansion Potential</span>
                         <span className="text-sm font-medium text-emerald-500">{formatINR(forecast.expansionPotential)}</span>
                       </div>
                     </div>
@@ -255,25 +255,25 @@ export default function LTVForecastPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   LTV Comparison — Current vs Predicted
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/30' : 'bg-black/30')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Current</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-white/30' : 'bg-black/30')} />
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Predicted</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
                 </div>
               </div>
             </div>
@@ -291,10 +291,10 @@ export default function LTVForecastPage() {
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.predicted / maxLTV) * 100}%` }}
                       transition={{ delay: 0.55 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
+                      className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
                     />
                   </div>
-                  <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.label}</span>
+                  <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.label}</span>
                 </div>
               ))}
             </div>
@@ -306,14 +306,14 @@ export default function LTVForecastPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
-              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
+              'bg-[var(--app-card-bg)] border-[var(--app-border)]'
             )}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Shield className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+                <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                   Churn Risk by Segment
                 </span>
               </div>
@@ -329,7 +329,7 @@ export default function LTVForecastPage() {
                     transition={{ delay: 0.6 + j * 0.06, duration: 0.3 }}
                     className="flex items-center gap-3"
                   >
-                    <span className={cn('text-xs w-24 truncate', isDark ? 'text-white/60' : 'text-black/60')}>
+                    <span className={cn('text-xs w-24 truncate', 'text-[var(--app-text-secondary)]')}>
                       {item.segment}
                     </span>
                     <div className="flex-1 h-3 rounded-full overflow-hidden relative">
@@ -344,7 +344,7 @@ export default function LTVForecastPage() {
                       {item.churnRisk}%
                     </span>
                     {item.isDeclining && (
-                      <TrendingDown className="w-3.5 h-3.5 text-red-500" />
+                      <TrendingDown className="w-4 h-4 text-red-500" />
                     )}
                   </motion.div>
                 );
@@ -359,18 +359,18 @@ export default function LTVForecastPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-amber-400" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
                 Expansion Potential Summary
               </span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
               {formatINR(portfolioSummary.totalExpansion)} total
             </Badge>
           </div>
@@ -381,16 +381,16 @@ export default function LTVForecastPage() {
                 const maxExp = Math.max(...ltvForecasts.map((x) => x.expansionPotential), 1);
                 return (
                   <div key={f.id} className="flex-1 flex flex-col justify-end items-center gap-1">
-                    <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                    <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
                       {formatINR(f.expansionPotential)}
                     </span>
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(f.expansionPotential / maxExp) * 100}%` }}
                       transition={{ delay: 0.6 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
+                      className={cn('w-full rounded-t-sm', 'bg-[var(--app-warning)]')}
                     />
-                    <span className={cn('text-[8px] truncate w-full text-center', isDark ? 'text-white/20' : 'text-black/20')}>
+                    <span className={cn('text-[8px] truncate w-full text-center', 'text-[var(--app-text-disabled)]')}>
                       {f.segment.split('(')[0].trim().slice(0, 10)}
                     </span>
                   </div>
@@ -413,16 +413,16 @@ export default function LTVForecastPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
-                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between">
                 <nav.icon className={cn('w-5 h-5', nav.color)} />
-                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', isDark ? 'text-white/15' : 'text-black/15')} />
+                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', 'text-[var(--app-text-disabled)]')} />
               </div>
               <p className="text-xl font-bold mt-3">{nav.value}</p>
-              <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{nav.label}</p>
+              <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{nav.label}</p>
             </motion.button>
           ))}
         </div>

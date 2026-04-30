@@ -38,21 +38,21 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-2xl border p-5 overflow-x-auto',
-        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+        'rounded-[var(--app-radius-xl)] border p-app-xl overflow-x-auto',
+        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
       )}
     >
       <table className="min-w-full">
         <thead>
           <tr>
-            <th className={cn('text-left text-[10px] font-semibold pb-3 pr-4', isDark ? 'text-white/30' : 'text-black/30')}>
+            <th className={cn('text-left text-[10px] font-semibold pb-3 pr-4', 'text-[var(--app-text-muted)]')}>
               Cohort
             </th>
-            <th className={cn('text-right text-[10px] font-semibold pb-3 px-2', isDark ? 'text-white/30' : 'text-black/30')}>
+            <th className={cn('text-right text-[10px] font-semibold pb-3 px-2', 'text-[var(--app-text-muted)]')}>
               Size
             </th>
             {months.map((m) => (
-              <th key={m} className={cn('text-center text-[10px] font-semibold pb-3 px-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
+              <th key={m} className={cn('text-center text-[10px] font-semibold pb-3 px-1.5', 'text-[var(--app-text-muted)]')}>
                 {m}
               </th>
             ))}
@@ -61,10 +61,10 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
         <tbody>
           {data.map((row, rowIdx) => (
             <tr key={row.cohort}>
-              <td className={cn('text-xs font-medium py-1.5 pr-4', isDark ? 'text-white/70' : 'text-black/70')}>
+              <td className={cn('text-xs font-medium py-1.5 pr-4', 'text-[var(--app-text)]')}>
                 {row.cohort}
               </td>
-              <td className={cn('text-xs text-right py-1.5 px-2 tabular-nums', isDark ? 'text-white/40' : 'text-black/40')}>
+              <td className={cn('text-xs text-right py-1.5 px-2 tabular-nums', 'text-[var(--app-text-muted)]')}>
                 {row.customers}
               </td>
               {row.retention.map((val, colIdx) => (
@@ -74,9 +74,9 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
                     onMouseEnter={() => setHoveredCell({ row: rowIdx, col: colIdx })}
                     onMouseLeave={() => setHoveredCell(null)}
                     className={cn(
-                      'flex items-center justify-center h-8 rounded-lg text-[11px] font-medium cursor-default transition-colors relative',
+                      'flex items-center justify-center h-8 rounded-[var(--app-radius-lg)] text-[11px] font-medium cursor-default transition-colors relative',
                       getCellColor(val),
-                      isDark ? 'text-white/90' : 'text-black/90'
+                      'text-[var(--app-text)]'
                     )}
                   >
                     {val}%
@@ -85,8 +85,8 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
                         className={cn(
-                          'absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 rounded-md text-[10px] whitespace-nowrap z-10',
-                          isDark ? 'bg-white text-black' : 'bg-black text-white'
+                          'absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 rounded-[var(--app-radius-md)] text-[10px] whitespace-nowrap z-10',
+                          'bg-[var(--app-card-bg)] text-[var(--app-text)]'
                         )}
                       >
                         {row.cohort} · M{colIdx + 1}: {val}% retained

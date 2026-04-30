@@ -77,7 +77,7 @@ const featureItemVariants = {
 
 export default function AuthSideBranding() {
   return (
-    <div className="relative flex h-full w-full min-h-screen flex-col justify-between bg-gradient-to-br from-blue-600 via-blue-500 to-orange-500 p-8 lg:p-12">
+    <div className="relative flex h-full w-full min-h-screen flex-col justify-between bg-gradient-to-br from-blue-600 via-blue-500 to-orange-500 p-app-3xl lg:p-app-4xl">
       {/* Animated floating shapes */}
       {floatingShapes.map((shape, i) => (
         <motion.div
@@ -115,7 +115,7 @@ export default function AuthSideBranding() {
         <motion.div
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="mb-4 inline-block rounded-xl bg-white/10 backdrop-blur-sm p-2"
+          className="mb-4 inline-block rounded-[var(--app-radius-lg)] bg-white/10 backdrop-blur-sm p-2"
         >
           <Image
             src="/logo.png"
@@ -138,7 +138,7 @@ export default function AuthSideBranding() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="mt-2 text-sm text-white/70 lg:text-base"
+          className="mt-2 text-sm text-white/70 lg:text-sm"
         >
           Streamline operations, amplify growth, and unlock the full potential of your business.
         </motion.p>
@@ -155,9 +155,9 @@ export default function AuthSideBranding() {
           <motion.div
             key={feature.title}
             variants={featureItemVariants}
-            className="flex items-start gap-3 rounded-xl bg-white/10 p-3 backdrop-blur-sm transition-colors hover:bg-white/15"
+            className="flex items-start gap-3 rounded-[var(--app-radius-lg)] bg-white/10 p-3 backdrop-blur-sm transition-colors hover:bg-white/15"
           >
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/20">
+            <div className="flex h-10  w-9 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)] bg-white/20">
               <feature.icon className="h-4 w-4 text-white" />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function AuthSideBranding() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
-        className="relative z-10 space-y-5"
+        className="relative z-10 space-y-app-xl"
       >
         {/* Trust Badges */}
         <div className="flex flex-wrap gap-3">
@@ -196,14 +196,14 @@ export default function AuthSideBranding() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1 }}
-          className="rounded-xl bg-white/10 p-4 backdrop-blur-sm"
+          className="rounded-[var(--app-radius-lg)] bg-white/10 p-4 backdrop-blur-sm"
         >
           <Quote className="mb-2 h-5 w-5 text-white/40" />
           <p className="text-sm italic text-white/85 leading-relaxed">
             &ldquo;DigiNue transformed how we manage our entire business operations.&rdquo;
           </p>
           <div className="mt-3 flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-xs font-bold text-white">
+            <div className="flex h-8  w-7 items-center justify-center rounded-full bg-white/20 text-xs font-bold text-white">
               RS
             </div>
             <div>

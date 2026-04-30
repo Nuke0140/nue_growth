@@ -86,20 +86,20 @@ export function MiniCalendar({
   };
 
   return (
-    <div className={cn('ops-card p-4 flex flex-col gap-3', className)}>
+    <div className={cn('app-card p-4 flex flex-col gap-3', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold" style={{ color: 'var(--ops-text)' }}>
+        <h3 className="text-sm font-semibold" style={{ color: 'var(--app-text)' }}>
           {MONTH_NAMES[viewMonth]} {viewYear}
         </h3>
         <div className="flex items-center gap-0.5">
           <button
             onClick={prevMonth}
-            className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
-            style={{ color: 'var(--ops-text-muted)' }}
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
+            style={{ color: 'var(--app-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
-                'var(--ops-hover-bg)';
+                'var(--app-hover-bg)';
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -111,11 +111,11 @@ export function MiniCalendar({
           </button>
           <button
             onClick={nextMonth}
-            className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
-            style={{ color: 'var(--ops-text-muted)' }}
+            className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
+            style={{ color: 'var(--app-text-muted)' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
-                'var(--ops-hover-bg)';
+                'var(--app-hover-bg)';
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -134,7 +134,7 @@ export function MiniCalendar({
           <div
             key={d}
             className="text-center text-[11px] font-medium py-1"
-            style={{ color: 'var(--ops-text-muted)' }}
+            style={{ color: 'var(--app-text-muted)' }}
           >
             {d}
           </div>
@@ -158,18 +158,18 @@ export function MiniCalendar({
               key={dateStr}
               onClick={() => onDateClick?.(dateStr)}
               className={cn(
-                'relative flex flex-col items-center justify-center h-8 rounded-lg text-xs font-medium transition-colors'
+                'relative flex flex-col items-center justify-center h-8 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors'
               )}
               style={{
                 color: isSelected
                   ? '#ffffff'
                   : isToday
-                    ? 'var(--ops-accent)'
-                    : 'var(--ops-text-secondary)',
+                    ? 'var(--app-accent)'
+                    : 'var(--app-text-secondary)',
                 backgroundColor: isSelected
-                  ? 'var(--ops-accent)'
+                  ? 'var(--app-accent)'
                   : isToday
-                    ? 'var(--ops-accent-light)'
+                    ? 'var(--app-accent-light)'
                     : 'transparent',
               }}
             >
@@ -181,7 +181,7 @@ export function MiniCalendar({
                       key={idx}
                       className="w-1 h-1 rounded-full"
                       style={{
-                        backgroundColor: ev.color || 'var(--ops-accent)',
+                        backgroundColor: ev.color || 'var(--app-accent)',
                       }}
                     />
                   ))}
@@ -204,12 +204,12 @@ export function MiniCalendar({
           >
             <div
               className="border-t pt-3 mt-1 space-y-2"
-              style={{ borderColor: 'var(--ops-border)' }}
+              style={{ borderColor: 'var(--app-border)' }}
             >
               {selectedEvents.length === 0 ? (
                 <p
                   className="text-xs text-center py-2"
-                  style={{ color: 'var(--ops-text-muted)' }}
+                  style={{ color: 'var(--app-text-muted)' }}
                 >
                   No events
                 </p>
@@ -217,16 +217,16 @@ export function MiniCalendar({
                 selectedEvents.map((ev, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-lg"
-                    style={{ backgroundColor: 'var(--ops-hover-bg)' }}
+                    className="flex items-center gap-2 px-2 py-1.5 rounded-[var(--app-radius-lg)]"
+                    style={{ backgroundColor: 'var(--app-hover-bg)' }}
                   >
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
-                      style={{ backgroundColor: ev.color || 'var(--ops-accent)' }}
+                      style={{ backgroundColor: ev.color || 'var(--app-accent)' }}
                     />
                     <span
                       className="text-xs font-medium truncate"
-                      style={{ color: 'var(--ops-text-secondary)' }}
+                      style={{ color: 'var(--app-text-secondary)' }}
                     >
                       {ev.title}
                     </span>

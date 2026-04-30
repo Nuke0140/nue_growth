@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth-store';
 import { getModuleConfigFromPathname } from '@/lib/module-registry';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
-import CrmSalesLayout from '@/modules/crm-sales/crm-sales-layout';
+import CrmSalesLayout from '@/modules/crm-sales/system/layout';
 import ErpLayout from '@/modules/erp/erp-layout';
 import MarketingLayout from '@/modules/marketing/marketing-layout';
 import FinanceLayout from '@/modules/finance/finance-layout';
@@ -99,7 +99,7 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col items-center gap-6"
+          className="flex flex-col items-center gap-app-2xl"
         >
           <Image src="/logo.png" alt="NueEra" width={90} height={70} className="object-contain animate-pulse opacity-90" priority />
           <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">

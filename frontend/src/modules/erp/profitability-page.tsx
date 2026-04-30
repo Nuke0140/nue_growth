@@ -165,6 +165,7 @@ function ProfitabilityPageInner() {
   return (
     <PageShell title="Profitability" icon={BarChart2} headerRight={
       <div className="flex items-center gap-2">
+<<<<<<< HEAD
         <Badge className="text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border">
           <Target className="w-3 h-3 mr-1" />
           Founder View
@@ -236,6 +237,120 @@ function ProfitabilityPageInner() {
               {burnRevenueData.map((d, i) => (
                 <div key={d.month} className="flex-1 flex flex-col items-center gap-1">
                   <div className="w-full flex gap-0.5 items-end" style={{ height: '100%' }}>
+=======
+        <Badge className={cn('text-xs font-medium bg-purple-500/15 text-purple-300 border-purple-500/20 border')}>
+          <Target className="w-4 h-4 mr-1" />
+          Founder View
+        </Badge>
+        <div className={cn('flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border w-full sm:w-64 transition-colors', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+          <Search className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-muted)]')} />
+          <input type="text" placeholder="Search clients..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={cn('bg-transparent text-sm focus:outline-none w-full', 'text-[var(--app-text)] placeholder:text-[var(--app-text-muted)]')} />
+        </div>
+      </div>
+    }>
+      {/* KPI Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Total Revenue', value: formatCurrency(kpis.totalRevenue), icon: DollarSign, change: '+15%', up: true, color: 'text-emerald-500 dark:text-emerald-400' },
+            { label: 'Total Cost', value: formatCurrency(kpis.totalCost), icon: TrendingDown, change: '-8%', up: false, color: 'text-red-500 dark:text-red-400' },
+            { label: 'Net Margin', value: `${kpis.netMargin}%`, icon: Target, change: kpis.netMargin, up: Number(kpis.netMargin) > 0, color: Number(kpis.netMargin) >= 10 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400' },
+            { label: 'Burn Rate', value: `${formatCurrency(kpis.burnRate)}/mo`, icon: Flame, change: 'per month', up: false, color: 'text-orange-400' },
+          ].map((kpi, i) => (
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <div className="flex items-center justify-between mb-2">
+                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}><kpi.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} /></div>
+              </div>
+              <p className="text-xl font-bold">{kpi.value}</p>
+              <div className="flex items-center gap-1 mt-1">
+                {kpi.up ? <ArrowUpRight className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> : <ArrowDownRight className="w-4 h-4 text-red-500 dark:text-red-400" />}
+                <span className={cn('text-[10px] font-medium', kpi.color)}>{kpi.change}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+          {/* Client Profitability Table */}
+          <div className="xl:col-span-2 space-y-3">
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text-secondary)]')}>Client Profitability</h2>
+            <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className={cn('border-b', 'border-[var(--app-border-light)]')}>
+                      <th className="text-left px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Client</th>
+                      <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Revenue (₹)</th>
+                      <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Cost (₹)</th>
+                      <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Margin</th>
+                      <th className="text-right px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Burn</th>
+                      <th className="text-center px-4 py-3 text-[10px] uppercase tracking-wider font-semibold">Alerts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((client, idx) => {
+                      const marginColor = getMarginColor(client.margin);
+                      const hasAlerts = client.alerts.length > 0;
+                      const isNegMargin = client.margin < 0;
+                      return (
+                        <motion.tr key={client.clientId} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.03 }} className={cn('border-b last:border-0 transition-colors', isDark ? 'border-white/[0.03] hover:bg-white/[0.03]' : 'border-black/[0.03] hover:bg-black/[0.02]')}>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              {isNegMargin && <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />}
+                              <span className={cn('text-sm font-medium', isNegMargin && 'text-red-500 dark:text-red-400')}>{client.clientName}</span>
+                            </div>
+                          </td>
+                          <td className="text-right px-4 py-3">
+                            <span className="text-xs font-medium">{formatCurrency(client.revenue)}</span>
+                          </td>
+                          <td className="text-right px-4 py-3">
+                            <span className="text-xs font-medium">{formatCurrency(client.cost)}</span>
+                          </td>
+                          <td className="text-right px-4 py-3">
+                            <div className="flex items-center justify-end gap-2">
+                              <span className={cn('text-xs font-bold', marginColor.text)}>{client.margin > 0 ? '+' : ''}{client.margin}%</span>
+                              <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                                <div className={cn('h-full rounded-full transition-colors', marginColor.bar)} style={{ width: `${Math.min(Math.abs(client.margin) * 2, 100)}%` }} />
+                              </div>
+                            </div>
+                          </td>
+                          <td className="text-right px-4 py-3">
+                            <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{client.burnRate > 0 ? formatCurrency(client.burnRate) : '—'}</span>
+                          </td>
+                          <td className="text-center px-4 py-3">
+                            {hasAlerts ? (
+                              <Badge className={cn('text-[9px] px-1.5 py-0 min-w-[18px] justify-center', client.alerts.some(a => a.severity === 'critical') ? 'bg-red-500/15 text-red-300 border border-red-500/20' : 'bg-amber-500/15 text-amber-300 border border-amber-500/20')}>
+                                {client.alerts.length}
+                              </Badge>
+                            ) : (
+                              <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>—</span>
+                            )}
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-4">
+            {/* Profit by Service Type */}
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <h3 className="text-sm font-semibold flex items-center gap-2">
+                <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+                Profit by Service
+              </h3>
+              {serviceTypeRevenue.map((s, i) => (
+                <div key={s.service} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium">{s.service}</span>
+                    <span className={cn('text-[11px] font-medium', 'text-[var(--app-text-secondary)]')}>{formatCurrency(s.revenue)}</span>
+                  </div>
+                  <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.burn / maxBurnRevenue) * 100}%` }}
@@ -257,6 +372,7 @@ function ProfitabilityPageInner() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Alerts Section */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
@@ -279,6 +395,68 @@ function ProfitabilityPageInner() {
               </motion.div>
             );
           })}
+=======
+            {/* Burn vs Revenue Chart */}
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold flex items-center gap-2">
+                  <Zap className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+                  Burn vs Revenue
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-400" /><span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Burn</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-400" /><span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Revenue</span></div>
+                </div>
+              </div>
+              <div className="flex items-end gap-2 h-32">
+                {burnRevenueData.map((d, i) => (
+                  <div key={d.month} className="flex-1 flex flex-col items-center gap-1">
+                    <div className="w-full flex gap-0.5 items-end" style={{ height: '100%' }}>
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: `${(d.burn / maxBurnRevenue) * 100}%` }}
+                        transition={{ delay: 0.4 + i * 0.05, duration: 0.4 }}
+                        className="flex-1 bg-red-400/60 rounded-t-sm"
+                      />
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: `${(d.revenue / maxBurnRevenue) * 100}%` }}
+                        transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
+                        className="flex-1 bg-emerald-400/60 rounded-t-sm"
+                      />
+                    </div>
+                    <span className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{d.month}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Alerts Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Bell className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text-secondary)]')}>Profitability Alerts</h2>
+            <Badge className={cn('text-[9px] px-1.5 py-0 bg-red-500/15 text-red-300 border border-red-500/20')}>{allAlerts.length}</Badge>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {allAlerts.map((alert, idx) => {
+              const severity = getAlertSeverity(alert.severity);
+              const SeverityIcon = severity.icon;
+              return (
+                <motion.div key={alert.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.03 }} className={cn('rounded-[var(--app-radius-xl)] border p-3 flex items-start gap-3', severity.bg(isDark))}>
+                  <SeverityIcon className={cn('w-4 h-4 shrink-0 mt-0.5', severity.color)} />
+                  <div className="flex-1 min-w-0">
+                    <p className={cn('text-[10px] font-medium mb-0.5', 'text-[var(--app-text-muted)]')}>{alert.clientName}</p>
+                    <p className="text-xs">{alert.message}</p>
+                    <span className={cn('text-[9px] uppercase tracking-wider font-bold mt-1 inline-block', severity.color)}>{alert.type.replace('-', ' ')}</span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </div>
       </div>
     </PageShell>

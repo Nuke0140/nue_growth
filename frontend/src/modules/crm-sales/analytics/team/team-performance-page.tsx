@@ -1,0 +1,786 @@
+'use client';
+
+import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Trophy, Plus, Crown, Star, Target, Clock, Zap,
+  DollarSign, TrendingUp, Shield, Sparkles, Users,
+  ChevronRight, Info,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+import { mockTeamPerformance } from './data/mock-data';
+import type { TeamPerformance } from '@/modules/crm-sales/types';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
+import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { CSS } from '@/styles/design-tokens';
+=======
+import { mockTeamPerformance } from '@/modules/crm-sales/data/mock-data';
+import type { TeamPerformance } from '@/modules/crm-sales/system/types';
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+
+function formatCurrency(value: number): string {
+  if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
+  if (value >= 1000) return `$${(value / 1000).toFixed(0)}K`;
+  return `$${value.toLocaleString()}`;
+}
+
+const RANK_STYLES: Record<number, { emoji: string; bg: string; ring: string; label: string }> = {
+  1: { emoji: '🥇', bg: 'bg-amber-500/15', ring: 'ring-amber-500/40', label: '1st' },
+  2: { emoji: '🥈', bg: 'bg-slate-400/15', ring: 'ring-slate-400/40', label: '2nd' },
+  3: { emoji: '🥉', bg: 'bg-orange-700/15', ring: 'ring-orange-700/40', label: '3rd' },
+};
+
+const PERIODS = ['This Week', 'This Month', 'This Quarter'] as const;
+
+function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' }) {
+  const radius = size === 'sm' ? 28 : 36;
+  const strokeWidth = size === 'sm' ? 4 : 5;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (score / 100) * circumference;
+  const color = score >= 85 ? '#22c55e' : score >= 70 ? '#f59e0b' : '#ef4444';
+
+  return (
+    <div className="relative inline-flex items-center justify-center">
+      <svg width={(radius + strokeWidth) * 2} height={(radius + strokeWidth) * 2} className="-rotate-90">
+        <circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+          fill="none" stroke={CSS.hoverBg} strokeWidth={strokeWidth} />
+=======
+          fill="none" stroke={'var(--app-border)'} strokeWidth={strokeWidth} />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+        <motion.circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
+          fill="none" stroke={color} strokeWidth={strokeWidth}
+          strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }}
+          animate={{ strokeDashoffset: offset }} transition={{ duration: 1.2, ease: 'easeOut' }}
+          strokeLinecap="round" />
+      </svg>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+      <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm')}
+        style={{ color: CSS.text }}>
+=======
+      <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm',
+        'text-[var(--app-text)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+        {score}
+      </span>
+    </div>
+  );
+}
+
+function TopPerformerCard({ rep }: { rep: TeamPerformance }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+      className="rounded-2xl border p-6 md:p-8 relative overflow-hidden"
+      style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
+=======
+      className={cn(
+        'rounded-[var(--app-radius-xl)] border p-6 md:p-app-3xl relative overflow-hidden',
+        isDark
+          ? 'bg-gradient-to-br from-amber-500/[0.08] via-white/[0.04] to-white/[0.02] border-amber-500/20'
+          : 'bg-gradient-to-br from-amber-50 via-white to-white border-amber-200/50'
+      )}
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+    >
+      {/* Decorative glow */}
+      <div className="absolute -top-20 -right-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+      <div className="relative flex flex-col md:flex-row md:items-center gap-6">
+        <div className="flex items-center gap-5">
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black ring-2 bg-amber-500/20 text-amber-300 ring-amber-500/30">
+=======
+      <div className="relative flex flex-col md:flex-row md:items-center gap-app-2xl">
+        <div className="flex items-center gap-app-xl">
+          <div className={cn(
+            'w-20 h-20 rounded-[var(--app-radius-xl)] flex items-center justify-center text-2xl font-black ring-2',
+            isDark ? 'bg-amber-500/20 text-amber-300 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-amber-300/50'
+          )}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+            {rep.repName.split(' ').map(n => n[0]).join('')}
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Crown className="w-5 h-5 text-amber-500" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-amber-400/60">
+                Top Performer
+              </span>
+            </div>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+            <h2 className="text-xl font-bold" style={{ color: CSS.text }}>{rep.repName}</h2>
+            <p className="text-sm" style={{ color: CSS.textMuted }}>
+=======
+            <h2 className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{rep.repName}</h2>
+            <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+              {rep.dealsWon} deals won · {rep.closeRate}% close rate
+            </p>
+          </div>
+        </div>
+
+        <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 md:ml-auto">
+          {[
+            { label: 'Revenue', value: formatCurrency(rep.revenueClosed), icon: DollarSign },
+            { label: 'Deals Won', value: rep.dealsWon.toString(), icon: Trophy },
+            { label: 'SLA Score', value: `${rep.followUpSla}%`, icon: Shield },
+            { label: 'AI Score', value: rep.aiProductivityScore.toString(), icon: Sparkles },
+          ].map((metric) => (
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+            <div key={metric.label} className="rounded-xl p-3 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+              <metric.icon className="w-4 h-4 mx-auto mb-1" style={{ color: CSS.textDisabled }} />
+              <p className="text-lg font-bold" style={{ color: CSS.text }}>{metric.value}</p>
+              <p className="text-[10px] font-medium" style={{ color: CSS.textDisabled }}>{metric.label}</p>
+=======
+            <div key={metric.label} className={cn(
+              'rounded-[var(--app-radius-lg)] p-3 text-center',
+              'bg-[var(--app-hover-bg)]'
+            )}>
+              <metric.icon className={cn('w-4 h-4 mx-auto mb-1', 'text-[var(--app-text-muted)]')} />
+              <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{metric.value}</p>
+              <p className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{metric.label}</p>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function TeamPerformancePage() {
+  const [period, setPeriod] = useState<string>('This Month');
+
+  const sortedReps = useMemo(() =>
+    [...mockTeamPerformance].sort((a, b) => a.rank - b.rank),
+    []
+  );
+
+  const topPerformer = sortedReps[0];
+  const otherReps = sortedReps.slice(1);
+
+  const teamSummary = useMemo(() => {
+    const totalRevenue = mockTeamPerformance.reduce((s, r) => s + r.revenueClosed, 0);
+    const avgCloseRate = Math.round(mockTeamPerformance.reduce((s, r) => s + r.closeRate, 0) / mockTeamPerformance.length);
+    const bestResponse = mockTeamPerformance.reduce((best, r) =>
+      parseFloat(r.avgResponseTime) < parseFloat(best.avgResponseTime) ? r : best
+    );
+    const avgSla = Math.round(mockTeamPerformance.reduce((s, r) => s + r.followUpSla, 0) / mockTeamPerformance.length);
+    return { totalRevenue, avgCloseRate, bestResponse, avgSla };
+  }, []);
+
+  // SmartDataTable data & columns
+  const leaderboardData = useMemo(
+    () => sortedReps.map(rep => ({
+      id: rep.id,
+      rank: rep.rank,
+      repName: rep.repName,
+      dealsWon: rep.dealsWon,
+      revenueClosed: rep.revenueClosed,
+      followUpSla: rep.followUpSla,
+      avgResponseTime: rep.avgResponseTime,
+      closeRate: rep.closeRate,
+      aiProductivityScore: rep.aiProductivityScore,
+      targetProgress: rep.targetProgress,
+      targetAmount: rep.targetAmount,
+    })) as unknown as Record<string, unknown>[],
+    []
+  );
+
+  const leaderboardColumns: DataTableColumnDef[] = useMemo(() => [
+    {
+      key: 'rank',
+      label: 'Rank',
+      sortable: true,
+      render: (row) => {
+        const r = row as { rank: number };
+        const rankStyle = RANK_STYLES[r.rank];
+        if (rankStyle) {
+          const colorClass = r.rank === 1 ? 'text-amber-300 dark:text-amber-300' :
+            r.rank === 2 ? 'text-slate-300 dark:text-slate-300' : 'text-orange-300 dark:text-orange-300';
+          return (
+            <div className={cn('flex items-center gap-1.5 px-2.5 py-1 rounded-lg w-fit', rankStyle.bg)}>
+              <span className="text-base">{rankStyle.emoji}</span>
+              <span className={cn('text-xs font-bold', colorClass)}>#{r.rank}</span>
+            </div>
+          );
+        }
+        return (
+          <span className="text-xs font-medium px-2.5 py-1 rounded-lg" style={{ backgroundColor: CSS.hoverBg, color: CSS.textMuted }}>
+            #{r.rank}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'repName',
+      label: 'Rep',
+      sortable: true,
+      render: (row) => {
+        const r = row as { rank: number; repName: string };
+        const initials = r.repName.split(' ').map(n => n[0]).join('');
+        return (
+          <div className="flex items-center gap-3">
+            <div className={cn(
+              'w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold shrink-0',
+              r.rank === 1
+                ? 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/30'
+                : ''
+            )}
+            style={r.rank !== 1 ? { backgroundColor: CSS.hoverBg, color: CSS.textSecondary } : undefined}
+            >
+              {initials}
+            </div>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>{r.repName}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'dealsWon',
+      label: 'Deals Won',
+      sortable: true,
+      render: (row) => {
+        const v = row.dealsWon as number;
+        return <span className="text-sm font-semibold" style={{ color: CSS.text }}>{v}</span>;
+      },
+    },
+    {
+      key: 'revenueClosed',
+      label: 'Revenue',
+      sortable: true,
+      render: (row) => {
+        const v = row.revenueClosed as number;
+        return <span className="text-sm font-bold text-emerald-500">{formatCurrency(v)}</span>;
+      },
+    },
+    {
+      key: 'followUpSla',
+      label: 'SLA %',
+      sortable: true,
+      render: (row) => {
+        const v = row.followUpSla as number;
+        const colorClass = v >= 90 ? 'bg-emerald-500/15 text-emerald-500' : v >= 80 ? 'bg-amber-500/15 text-amber-500' : 'bg-red-500/15 text-red-500';
+        return <span className={cn('text-xs font-medium px-2 py-1 rounded-md', colorClass)}>{v}%</span>;
+      },
+    },
+    {
+      key: 'avgResponseTime',
+      label: 'Avg Response',
+      render: (row) => {
+        const v = row.avgResponseTime as string;
+        return (
+          <div className="flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5" style={{ color: CSS.textDisabled }} />
+            <span className="text-xs font-medium" style={{ color: CSS.textSecondary }}>{v}</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'closeRate',
+      label: 'Close Rate',
+      sortable: true,
+      render: (row) => {
+        const v = row.closeRate as number;
+        const colorClass = v >= 40 ? 'text-emerald-500' : v >= 30 ? 'text-amber-500' : 'text-red-500';
+        return <span className={cn('text-xs font-semibold', colorClass)}>{v}%</span>;
+      },
+    },
+    {
+      key: 'aiProductivityScore',
+      label: 'AI Score',
+      sortable: true,
+      render: (row) => {
+        const r = row as { aiProductivityScore: number };
+        const colorClass = r.aiProductivityScore >= 85 ? 'text-violet-400' : r.aiProductivityScore >= 70 ? 'text-amber-400' : 'text-red-400';
+        return (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-1.5 cursor-help">
+                <Sparkles className={cn('w-3.5 h-3.5', colorClass)} />
+                <span className="text-xs font-bold" style={{ color: CSS.text }}>{r.aiProductivityScore}</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-xs">AI Productivity Score measures AI-assisted task completion rate, email optimization, and automated follow-up effectiveness.</p>
+            </TooltipContent>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      key: 'targetProgress',
+      label: 'Target',
+      render: (row) => {
+        const r = row as { targetProgress: number; targetAmount: number; revenueClosed: number };
+        const barColor = r.targetProgress >= 80 ? 'bg-emerald-500' : r.targetProgress >= 60 ? 'bg-amber-500' : 'bg-red-500';
+        return (
+          <div className="w-32 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>{r.targetProgress}%</span>
+              <span className="text-[10px]" style={{ color: CSS.textDisabled }}>
+                {formatCurrency(r.targetAmount - r.revenueClosed)} left
+              </span>
+            </div>
+            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${r.targetProgress}%` }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className={cn('h-full rounded-full', barColor)}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+  ], []);
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <div className="h-full flex flex-col overflow-hidden">
+        <ScrollArea className="flex-1">
+          <div className="p-4 md:p-6 space-y-app-2xl max-w-[1400px] mx-auto">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                <h1 className="text-2xl font-bold tracking-tight" style={{ color: CSS.text }}>
+                  Team Performance
+                </h1>
+                <p className="text-sm mt-1" style={{ color: CSS.textMuted }}>
+=======
+                <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+                  Team Performance
+                </h1>
+                <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                  Sales leaderboard &amp; rep analytics
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                <div className="flex items-center rounded-xl border overflow-hidden"
+                  style={{ backgroundColor: CSS.hoverBg, borderColor: CSS.border }}>
+=======
+                <div className={cn(
+                  'flex items-center rounded-[var(--app-radius-lg)] border overflow-hidden',
+                  'border-[var(--app-border)]'
+                )}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                  {PERIODS.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => setPeriod(p)}
+                      className={cn(
+                        'px-3 py-1.5 text-xs font-medium transition-colors',
+                        period === p
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                          ? 'text-[var(--app-text)]'
+                          : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+=======
+                          ? 'bg-[var(--app-card-bg)] text-[var(--app-text)]'
+                          : isDark ? 'text-white/50 hover:text-white/80' : 'text-black/50 hover:text-black/80'
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                      )}
+                      style={period === p ? { backgroundColor: CSS.activeBg } : undefined}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                <Button className="shrink-0 h-9 px-4 rounded-xl text-xs font-semibold"
+                  style={{ backgroundColor: CSS.accent, color: '#ffffff' }}>
+                  <Plus className="w-3.5 h-3.5 mr-1.5" />
+=======
+                <Button className={cn(
+                  'shrink-0 h-10  px-4 rounded-[var(--app-radius-lg)] text-xs font-semibold',
+                  'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
+                )}>
+                  <Plus className="w-4 h-4 mr-1.5" />
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                  Add Rep
+                </Button>
+              </div>
+            </div>
+
+            {/* Top Performer Hero Card */}
+            {topPerformer && <TopPerformerCard rep={topPerformer} />}
+
+            {/* Leaderboard Table */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+              className="rounded-2xl border overflow-hidden"
+              style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
+            >
+              <div className="px-5 py-4" style={{ borderBottom: `1px solid ${CSS.border}` }}>
+                <h3 className="text-sm font-semibold" style={{ color: CSS.text }}>Sales Leaderboard</h3>
+=======
+              className={cn(
+                'rounded-[var(--app-radius-xl)] border overflow-hidden',
+                'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+              )}
+            >
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className={cn('border-b', 'border-[var(--app-border)]')}>
+                      {['Rank', 'Rep', 'Deals Won', 'Revenue', 'SLA %', 'Avg Response', 'Close Rate', 'AI Score', 'Target'].map(col => (
+                        <th key={col} className={cn(
+                          'px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap',
+                          'text-[var(--app-text-muted)]'
+                        )}>
+                          {col}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sortedReps.map((rep, i) => {
+                      const rankStyle = RANK_STYLES[rep.rank];
+                      const initials = rep.repName.split(' ').map(n => n[0]).join('');
+                      return (
+                        <motion.tr
+                          key={rep.id}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.05 + 0.15 }}
+                          className={cn(
+                            'border-b transition-colors',
+                            'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
+                          )}
+                        >
+                          {/* Rank */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            {rankStyle ? (
+                              <div className={cn(
+                                'flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--app-radius-lg)] w-fit',
+                                rankStyle.bg
+                              )}>
+                                <span className="text-sm">{rankStyle.emoji}</span>
+                                <span className={cn('text-xs font-bold',
+                                  rep.rank === 1 ? (isDark ? 'text-amber-300' : 'text-amber-700') :
+                                  rep.rank === 2 ? (isDark ? 'text-slate-300' : 'text-slate-600') :
+                                  (isDark ? 'text-orange-300' : 'text-orange-700')
+                                )}>
+                                  #{rep.rank}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className={cn('text-xs font-medium px-2.5 py-1 rounded-[var(--app-radius-lg)]',
+                                isDark ? 'text-white/40 bg-white/[0.04]' : 'text-black/40 bg-black/[0.04]'
+                              )}>
+                                #{rep.rank}
+                              </span>
+                            )}
+                          </td>
+
+                          {/* Rep Name + Avatar */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-3">
+                              <div className={cn(
+                                'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center text-xs font-bold shrink-0',
+                                rep.rank === 1
+                                  ? (isDark ? 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/30' : 'bg-amber-100 text-amber-700 ring-1 ring-amber-300')
+                                  : 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]'
+                              )}>
+                                {initials}
+                              </div>
+                              <span className={cn('text-sm font-medium', 'text-[var(--app-text)]')}>
+                                {rep.repName}
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Deals Won */}
+                          <td className={cn('px-4 py-4 text-sm font-semibold whitespace-nowrap', 'text-[var(--app-text)]')}>
+                            {rep.dealsWon}
+                          </td>
+
+                          {/* Revenue */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <span className={cn('text-sm font-bold', 'text-[var(--app-success)]')}>
+                              {formatCurrency(rep.revenueClosed)}
+                            </span>
+                          </td>
+
+                          {/* Follow-up SLA */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <span className={cn('text-xs font-medium px-2 py-1 rounded-[var(--app-radius-md)]',
+                              rep.followUpSla >= 90
+                                ? 'bg-emerald-500/15 text-emerald-500'
+                                : rep.followUpSla >= 80
+                                  ? 'bg-amber-500/15 text-amber-500'
+                                  : 'bg-red-500/15 text-red-500'
+                            )}>
+                              {rep.followUpSla}%
+                            </span>
+                          </td>
+
+                          {/* Avg Response Time */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-1.5">
+                              <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                              <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
+                                {rep.avgResponseTime}
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Close Rate */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <span className={cn('text-xs font-semibold',
+                              rep.closeRate >= 40 ? 'text-emerald-500' : rep.closeRate >= 30 ? 'text-amber-500' : 'text-red-500'
+                            )}>
+                              {rep.closeRate}%
+                            </span>
+                          </td>
+
+                          {/* AI Productivity Score */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <div className="flex items-center gap-1.5 cursor-help">
+                                  <Sparkles className={cn('w-4 h-4',
+                                    rep.aiProductivityScore >= 85 ? 'text-violet-400' : rep.aiProductivityScore >= 70 ? 'text-amber-400' : 'text-red-400'
+                                  )} />
+                                  <span className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
+                                    {rep.aiProductivityScore}
+                                  </span>
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="text-xs">AI Productivity Score measures AI-assisted task completion rate, email optimization, and automated follow-up effectiveness.</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </td>
+
+                          {/* Target Progress */}
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="w-32 space-y-1.5">
+                              <div className="flex items-center justify-between">
+                                <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
+                                  {rep.targetProgress}%
+                                </span>
+                                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                                  {formatCurrency(rep.targetAmount - rep.revenueClosed)} left
+                                </span>
+                              </div>
+                              <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${rep.targetProgress}%` }}
+                                  transition={{ duration: 1, ease: 'easeOut', delay: i * 0.1 }}
+                                  className={cn(
+                                    'h-full rounded-full',
+                                    rep.targetProgress >= 80 ? 'bg-emerald-500' :
+                                    rep.targetProgress >= 60 ? 'bg-amber-500' : 'bg-red-500'
+                                  )}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+              </div>
+              <SmartDataTable
+                data={leaderboardData}
+                columns={leaderboardColumns}
+                pageSize={10}
+                emptyMessage="No performance data available"
+                searchable={false}
+                searchKeys={['repName']}
+              />
+            </motion.div>
+
+            {/* Gamification Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {sortedReps.map((rep, i) => {
+                const rankStyle = RANK_STYLES[rep.rank];
+                return (
+                  <motion.div
+                    key={rep.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                    className="rounded-2xl border p-5"
+                    style={{
+                      backgroundColor: rep.rank === 1 ? 'rgba(245,158,11,0.04)' : CSS.cardBg,
+                      borderColor: rep.rank === 1 ? 'rgba(245,158,11,0.15)' : CSS.border,
+                    }}
+=======
+                    className={cn(
+                      'rounded-[var(--app-radius-xl)] border p-app-xl',
+                      rep.rank === 1
+                        ? (isDark ? 'bg-amber-500/[0.06] border-amber-500/20' : 'bg-amber-50/60 border-amber-200/50')
+                        : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
+                    )}
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <ScoreMeter score={rep.aiProductivityScore} size="sm" />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                          <span className="text-sm font-semibold" style={{ color: CSS.text }}>
+=======
+                          <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                            {rep.repName}
+                          </span>
+                          {rankStyle && <span className="text-sm">{rankStyle.emoji}</span>}
+                        </div>
+                        <div className="flex items-center gap-1 mt-0.5">
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                          <Sparkles className="w-3 h-3 text-violet-400" />
+                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
+=======
+                          <Sparkles className="w-4 h-4 text-violet-400" />
+                          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                            AI Productivity Score
+                          </span>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="w-4 h-4 cursor-help opacity-40" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="text-xs max-w-[200px]">Composite score measuring AI email drafting, auto follow-ups, lead scoring accuracy, and CRM automation usage.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      {/* Target Progress */}
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                          <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
+                            <Target className="w-3 h-3 inline mr-1" />Target Progress
+=======
+                          <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
+                            <Target className="w-4 h-4 inline mr-1" />Target Progress
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                          </span>
+                          <span className={cn('text-[10px] font-bold',
+                            rep.targetProgress >= 80 ? 'text-emerald-500' : rep.targetProgress >= 60 ? 'text-amber-500' : 'text-red-500'
+                          )}>
+                            {rep.targetProgress}%
+                          </span>
+                        </div>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                        <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
+=======
+                        <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${rep.targetProgress}%` }}
+                            transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 + i * 0.1 }}
+                            className={cn(
+                              'h-full rounded-full',
+                              rep.targetProgress >= 80 ? 'bg-emerald-500' :
+                              rep.targetProgress >= 60 ? 'bg-amber-500' : 'bg-red-500'
+                            )}
+                          />
+                        </div>
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                        <p className="text-[10px] mt-1" style={{ color: CSS.textDisabled }}>
+=======
+                        <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                          {formatCurrency(rep.revenueClosed)} of {formatCurrency(rep.targetAmount)}
+                        </p>
+                      </div>
+
+                      {/* Quick stats */}
+                      <div className="grid grid-cols-3 gap-2 pt-2">
+                        {[
+                          { label: 'Close Rate', value: `${rep.closeRate}%` },
+                          { label: 'SLA', value: `${rep.followUpSla}%` },
+                          { label: 'Response', value: rep.avgResponseTime },
+                        ].map((s) => (
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                          <div key={s.label} className="rounded-lg p-2 text-center" style={{ backgroundColor: CSS.hoverBg }}>
+                            <p className="text-xs font-bold" style={{ color: CSS.textSecondary }}>{s.value}</p>
+                            <p className="text-[9px]" style={{ color: CSS.textDisabled }}>{s.label}</p>
+=======
+                          <div key={s.label} className={cn(
+                            'rounded-[var(--app-radius-lg)] p-2 text-center',
+                            'bg-[var(--app-hover-bg)]'
+                          )}>
+                            <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>{s.value}</p>
+                            <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{s.label}</p>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Team Summary Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { label: 'Total Team Revenue', value: formatCurrency(teamSummary.totalRevenue), icon: DollarSign, color: 'text-emerald-500' },
+                { label: 'Avg Close Rate', value: `${teamSummary.avgCloseRate}%`, icon: TrendingUp, color: 'text-blue-500' },
+                { label: 'Best Response Time', value: teamSummary.bestResponse.avgResponseTime, icon: Clock, color: 'text-violet-500' },
+                { label: 'SLA Compliance', value: `${teamSummary.avgSla}%`, icon: Shield, color: 'text-amber-500' },
+              ].map((stat) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+<<<<<<< HEAD:frontend/src/modules/crm-sales/team-performance-page.tsx
+                  className="rounded-2xl border p-4 transition-colors"
+                  style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
+                    <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>{stat.label}</span>
+                  </div>
+                  <p className="text-xl font-bold tracking-tight" style={{ color: CSS.text }}>{stat.value}</p>
+=======
+                  className={cn(
+                    'rounded-[var(--app-radius-xl)] border p-4 transition-colors',
+                    'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+                  )}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <stat.icon className={cn('w-4 h-4', stat.color)} />
+                    <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
+                  </div>
+                  <p className={cn('text-xl font-bold tracking-tight', 'text-[var(--app-text)]')}>{stat.value}</p>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041:frontend/src/modules/crm-sales/analytics/team/team-performance-page.tsx
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </ScrollArea>
+      </div>
+    </TooltipProvider>
+  );
+}

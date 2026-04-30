@@ -101,13 +101,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center bg-gray-50 dark:bg-[#050505] px-4 py-8 overflow-hidden font-sans selection:bg-blue-500/30 text-gray-900 dark:text-zinc-100">
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-gray-50 dark:bg-[#050505] px-4 py-app-3xl overflow-hidden font-sans selection:bg-blue-500/30 text-gray-900 dark:text-zinc-100">
       
       {/* Theme Toggle */}
       {mounted && (
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="absolute top-4 right-4 z-50 p-2.5 rounded-full border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-white/[0.08] transition-colors shadow-sm"
+          className="absolute top-4 right-4 z-50 p-2.5 rounded-full border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-white/[0.08] transition-colors shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]"
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -127,7 +127,7 @@ export default function LoginPage() {
         className="relative z-10 w-full max-w-[420px] flex flex-col items-center"
       >
         {/* Top Section / Logo */}
-        <div className="mb-8 flex flex-col items-center text-center">
+        <div className="mb-app-3xl flex flex-col items-center text-center">
           <Image src="/logo.png" alt="Logo" width={120} height={80} priority className="object-contain mb-4" />
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">NueEra</h1>
           <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
@@ -136,13 +136,13 @@ export default function LoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="w-full rounded-[24px] border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-8 shadow-xl shadow-gray-200/50 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl">
-          <div className="mb-8">
+        <div className="w-full rounded-[24px] border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-app-3xl shadow-[var(--app-shadow-md)]-xl shadow-[var(--app-shadow-md)]-gray-200/50 dark:shadow-[var(--app-shadow-md)]-[0_8px_32px_var(--app-overlay)] backdrop-blur-xl">
+          <div className="mb-app-3xl">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Welcome back</h2>
             <p className="mt-1.5 text-sm text-gray-500 dark:text-zinc-400">Sign in to your workspace</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-app-xl">
             <div className="space-y-4">
               {/* Work Email */}
               <div className="space-y-2">
@@ -155,7 +155,7 @@ export default function LoginPage() {
                   placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-11 rounded-xl border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                  className="h-10  rounded-[var(--app-radius-lg)] border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-colors"
                 />
               </div>
 
@@ -170,7 +170,7 @@ export default function LoginPage() {
                   placeholder="e.g. ACME"
                   value={companyCode}
                   onChange={(e) => setCompanyCode(e.target.value)}
-                  className="h-11 rounded-xl border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                  className="h-10  rounded-[var(--app-radius-lg)] border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-colors"
                 />
               </div>
 
@@ -195,7 +195,7 @@ export default function LoginPage() {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 pr-10 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-all"
+                    className="h-10  rounded-[var(--app-radius-lg)] border-gray-200 dark:border-white/[0.1] bg-gray-50/50 dark:bg-white/[0.03] px-4 pr-10 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-600 focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/50 transition-colors"
                   />
                   <button
                     type="button"
@@ -224,7 +224,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="group relative h-11 w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-orange-500 text-sm font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] disabled:opacity-70 disabled:hover:scale-100"
+              className="group relative h-10  w-full overflow-hidden rounded-[var(--app-radius-lg)] bg-gradient-to-r from-blue-500 to-orange-500 text-sm font-semibold text-white transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--app-shadow-md)]-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[var(--app-shadow-md)]-[0_0_25px_rgba(249,115,22,0.4)] disabled:opacity-70 disabled:hover:scale-100"
             >
               <AnimatePresence mode="wait">
                 {isLoading ? (
@@ -254,7 +254,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-app-2xl text-center">
             <p className="text-sm text-gray-500 dark:text-zinc-400">
               Don't have an account?{' '}
               <button
@@ -269,7 +269,7 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <div className="mt-8 text-center text-xs text-gray-400 dark:text-zinc-500">
+        <div className="mt-app-3xl text-center text-xs text-gray-400 dark:text-zinc-500">
           &copy; {new Date().getFullYear()} NueEra Growth OS. All rights reserved.
         </div>
       </motion.div>

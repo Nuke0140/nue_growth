@@ -86,6 +86,7 @@ export default function AttributionPage() {
   const totalRevenue = useMemo(() => adjustedChannels.reduce((s, c) => s + c.revenue, 0), [adjustedChannels]);
   const maxRevenue = useMemo(() => Math.max(...adjustedChannels.map(c => c.revenue)), [adjustedChannels]);
 
+<<<<<<< HEAD
   const channelColumns: DataTableColumnDef[] = [
     {
       key: 'channel',
@@ -133,16 +134,20 @@ export default function AttributionPage() {
 
   const card = cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
   const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+=======
+  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-app-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
             Multi-Touch Attribution
           </h1>
-          <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
+          <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
             Understand which channels truly drive revenue across the customer journey
           </p>
         </div>
@@ -171,7 +176,7 @@ export default function AttributionPage() {
               transition={{ delay: i * 0.04, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setSelectedModel(model.id)}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
                 isActive
                   ? 'bg-orange-500/15 text-orange-600 border border-orange-500/20'
                   : isDark
@@ -179,7 +184,7 @@ export default function AttributionPage() {
                     : 'bg-black/[0.03] border border-black/[0.06] text-black/50 hover:bg-black/[0.06]',
               )}
             >
-              {isAI && <Zap className="w-3.5 h-3.5" />}
+              {isAI && <Zap className="w-4 h-4" />}
               {model.label}
             </motion.button>
           );
@@ -191,9 +196,9 @@ export default function AttributionPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         key={selectedModel}
-        className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}
+        className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
       >
-        <p className={cn('text-xs', isDark ? 'text-white/60' : 'text-gray-600')}>
+        <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
           <span className="font-semibold">{MODEL_COMPARISON[selectedModel].desc}</span>
           <span className="mx-2">·</span>
           Revenue multiplier: <span className="font-mono">{MODEL_COMPARISON[selectedModel].factor}x</span>
@@ -207,12 +212,12 @@ export default function AttributionPage() {
         transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-app-xl">
           <div className="flex items-center gap-2">
-            <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Revenue Attribution</h3>
+            <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Revenue Attribution</h3>
           </div>
-          <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
+          <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
             Total: {formatCurrency(totalRevenue)}
           </span>
         </div>
@@ -227,15 +232,15 @@ export default function AttributionPage() {
                     <span className={cn('text-xs font-medium', isDark ? 'text-white/80' : 'text-gray-700')}>{ch.channel}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
+                    <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                       {formatCurrency(ch.revenue)}
                     </span>
-                    <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
                       {ch.contribution}%
                     </span>
                   </div>
                 </div>
-                <div className={cn('h-2.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                <div className={cn('h-2.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${width}%` }}
@@ -250,26 +255,72 @@ export default function AttributionPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
         {/* Channel Contribution Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
+          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
         >
           <div className="p-4">
             <div className="flex items-center gap-2">
-              <Layers className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Channel Contribution</h3>
+              <Layers className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Channel Contribution</h3>
             </div>
           </div>
+<<<<<<< HEAD
           <SmartDataTable
             data={adjustedChannels as unknown as Record<string, unknown>[]}
             columns={channelColumns}
             pageSize={10}
             searchPlaceholder="Search channels..."
           />
+=======
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className={cn('border-y', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
+                  {['Channel', 'Revenue', 'Contribution', 'Conversions'].map(h => (
+                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', 'text-[var(--app-text-secondary)]')}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {adjustedChannels.map((ch, i) => (
+                  <motion.tr
+                    key={ch.channel}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.04, duration: 0.2 }}
+                    className={cn('border-b', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
+                  >
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
+                        <span className={cn('font-medium', 'text-[var(--app-text)]')}>{ch.channel}</span>
+                      </div>
+                    </td>
+                    <td className={cn('px-4 py-3 font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                      {formatCurrency(ch.revenue)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className={cn('w-12 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                          <div className="h-full rounded-full" style={{ width: `${ch.contribution}%`, backgroundColor: ch.color }} />
+                        </div>
+                        <span className={cn('tabular-nums', 'text-[var(--app-text-secondary)]')}>{ch.contribution}%</span>
+                      </div>
+                    </td>
+                    <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
+                      {formatNumber(ch.conversions)}
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
         </motion.div>
 
         {/* Model Comparison Grid */}
@@ -280,8 +331,8 @@ export default function AttributionPage() {
           className={card}
         >
           <div className="flex items-center gap-2 mb-4">
-            <PieChart className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Model Comparison</h3>
+            <PieChart className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Model Comparison</h3>
           </div>
           <div className="space-y-3">
             {Object.entries(MODEL_COMPARISON).map(([key, model], i) => {
@@ -291,7 +342,7 @@ export default function AttributionPage() {
                   key={key}
                   onClick={() => setSelectedModel(key)}
                   className={cn(
-                    'w-full rounded-xl border p-3 text-left transition',
+                    'w-full rounded-[var(--app-radius-lg)] border p-3 text-left transition',
                     isActive
                       ? isDark
                         ? 'bg-orange-500/5 border-orange-500/20'
@@ -303,8 +354,8 @@ export default function AttributionPage() {
                 >
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
-                      {key === 'ai' && <Zap className="w-3.5 h-3.5 text-amber-500" />}
-                      <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
+                      {key === 'ai' && <Zap className="w-4 h-4 text-amber-500" />}
+                      <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
                         {ATTRIBUTION_MODELS.find(m => m.id === key)?.label ?? key}
                       </span>
                     </div>
@@ -315,7 +366,7 @@ export default function AttributionPage() {
                       {model.factor}x
                     </Badge>
                   </div>
-                  <p className={cn('text-[10px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
+                  <p className={cn('text-[10px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
                     {model.desc}
                   </p>
                 </motion.button>
@@ -332,24 +383,24 @@ export default function AttributionPage() {
         transition={{ delay: 0.25, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-5">
-          <GitBranch className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Conversion Paths</h3>
-          <span className={cn('text-xs ml-auto', isDark ? 'text-white/40' : 'text-black/40')}>Top 3 journeys</span>
+        <div className="flex items-center gap-2 mb-app-xl">
+          <GitBranch className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Conversion Paths</h3>
+          <span className={cn('text-xs ml-auto', 'text-[var(--app-text-muted)]')}>Top 3 journeys</span>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-app-xl">
           {CONVERSION_PATHS.map((path, i) => (
             <div
               key={i}
               className={cn(
-                'rounded-xl border p-4',
-                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
+                'rounded-[var(--app-radius-lg)] border p-4',
+                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
               )}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{path.label}</span>
+                <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{path.label}</span>
                 <div className="flex items-center gap-3">
-                  <span className={cn('text-[10px]', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>
                     {path.conversions} conversions
                   </span>
                   <span className={cn('text-[10px] font-semibold', isDark ? 'text-white/70' : 'text-gray-600')}>
@@ -365,7 +416,7 @@ export default function AttributionPage() {
                       animate={{ scale: 1 }}
                       transition={{ delay: j * 0.1 + i * 0.1, duration: 0.3 }}
                       className={cn(
-                        'px-3 py-1.5 rounded-lg text-[10px] font-medium whitespace-nowrap',
+                        'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium whitespace-nowrap',
                         j === path.steps.length - 1
                           ? 'bg-green-500/15 text-green-600'
                           : isDark
@@ -376,12 +427,12 @@ export default function AttributionPage() {
                       {step}
                     </motion.div>
                     {j < path.steps.length - 1 && (
-                      <ArrowRight className={cn('w-3 h-3 shrink-0', isDark ? 'text-white/20' : 'text-black/20')} />
+                      <ArrowRight className={cn('w-4 h-4 shrink-0', 'text-[var(--app-text-disabled)]')} />
                     )}
                   </div>
                 ))}
               </div>
-              <p className={cn('text-[10px] mt-2', isDark ? 'text-white/30' : 'text-black/30')}>
+              <p className={cn('text-[10px] mt-2', 'text-[var(--app-text-muted)]')}>
                 Avg. time to convert: {path.avgDays} days
               </p>
             </div>
@@ -392,8 +443,8 @@ export default function AttributionPage() {
       {/* ROI by Channel KPI Cards */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
-          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>ROI by Channel</h3>
+          <TrendingUp className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
+          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>ROI by Channel</h3>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {adjustedChannels.map((ch, i) => {
@@ -408,10 +459,10 @@ export default function AttributionPage() {
               >
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: ch.color }} />
-                  <span className={cn('text-[10px] truncate', isDark ? 'text-white/40' : 'text-black/40')}>{ch.channel}</span>
+                  <span className={cn('text-[10px] truncate', 'text-[var(--app-text-muted)]')}>{ch.channel}</span>
                 </div>
-                <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>{roi.toFixed(0)}x</p>
-                <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>ROI</p>
+                <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{roi.toFixed(0)}x</p>
+                <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>ROI</p>
               </motion.div>
             );
           })}

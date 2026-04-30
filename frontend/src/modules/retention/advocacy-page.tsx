@@ -90,34 +90,34 @@ export default function AdvocacyPage() {
 
   // KPI stats
   const kpiStats = useMemo(() => [
-    { label: 'Total Requests', value: `${summary.total}`, icon: MessageSquareQuote, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 0, changeLabel: 'advocacy pipeline' },
-    { label: 'Submitted', value: `${summary.submitted}`, icon: Star, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 0, changeLabel: 'awaiting review' },
-    { label: 'Published', value: `${summary.published}`, icon: BookOpen, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: 'live content' },
-    { label: 'Declined', value: `${summary.declined}`, icon: XCircle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: 0, changeLabel: 'rejection rate' },
-    { label: 'Total Impact', value: `${(summary.totalImpact / 1000).toFixed(1)}K`, icon: Eye, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 0, changeLabel: 'content views' },
+    { label: 'Total Requests', value: `${summary.total}`, icon: MessageSquareQuote, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 0, changeLabel: 'advocacy pipeline' },
+    { label: 'Submitted', value: `${summary.submitted}`, icon: Star, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 0, changeLabel: 'awaiting review' },
+    { label: 'Published', value: `${summary.published}`, icon: BookOpen, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: 'live content' },
+    { label: 'Declined', value: `${summary.declined}`, icon: XCircle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: 0, changeLabel: 'rejection rate' },
+    { label: 'Total Impact', value: `${(summary.totalImpact / 1000).toFixed(1)}K`, icon: Eye, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 0, changeLabel: 'content views' },
   ], [isDark, summary]);
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-app-2xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
+              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'bg-[var(--app-hover-bg)]'
             )}>
-              <Award className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
+              <Award className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Advocacy</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Customer Advocacy Hub</p>
+              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Customer Advocacy Hub</p>
             </div>
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
-              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
+              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
             )}
           >
             <MessageSquareQuote className="w-4 h-4" />
@@ -134,20 +134,20 @@ export default function AdvocacyPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-2xl border p-4 transition-all duration-200',
-                isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
+                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-4 h-4', stat.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
-              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{stat.changeLabel}</p>
+              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.changeLabel}</p>
             </motion.div>
           ))}
         </div>
@@ -158,14 +158,14 @@ export default function AdvocacyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn(
-            'rounded-2xl border p-4',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'rounded-[var(--app-radius-xl)] border p-4',
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex items-center gap-2">
-              <Filter className={cn('w-3.5 h-3.5', isDark ? 'text-white/30' : 'text-black/30')} />
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Type:</span>
+              <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Type:</span>
               <div className="flex gap-1.5 flex-wrap">
                 {(['all', 'testimonial', 'review', 'case-study', 'ambassador', 'speaker', 'referral-champion'] as FilterType[]).map((t) => (
                   <Button
@@ -174,10 +174,10 @@ export default function AdvocacyPage() {
                     size="sm"
                     onClick={() => setTypeFilter(t)}
                     className={cn(
-                      'px-2.5 py-1 text-[10px] font-medium rounded-lg capitalize transition-colors',
+                      'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] capitalize transition-colors',
                       typeFilter === t
-                        ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                        : (isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')
+                        ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
+                        : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                     )}
                   >
                     {t === 'all' ? 'All' : t.replace('-', ' ')}
@@ -186,7 +186,7 @@ export default function AdvocacyPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>Status:</span>
+              <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>Status:</span>
               <div className="flex gap-1.5">
                 {(['all', 'requested', 'submitted', 'published', 'declined'] as FilterStatus[]).map((s) => (
                   <Button
@@ -195,10 +195,10 @@ export default function AdvocacyPage() {
                     size="sm"
                     onClick={() => setStatusFilter(s)}
                     className={cn(
-                      'px-2.5 py-1 text-[10px] font-medium rounded-lg capitalize transition-colors',
+                      'px-2.5 py-1 text-[10px] font-medium rounded-[var(--app-radius-lg)] capitalize transition-colors',
                       statusFilter === s
-                        ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                        : (isDark ? 'text-white/40 hover:bg-white/[0.06]' : 'text-black/40 hover:bg-black/[0.06]')
+                        ? ('bg-[var(--app-card-bg)] text-[var(--app-text)]')
+                        : ('text-[var(--app-text-muted)] hover:bg-[var(--app-hover-bg)]')
                     )}
                   >
                     {s}
@@ -222,22 +222,22 @@ export default function AdvocacyPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border p-4 transition-all duration-200',
+                  'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
                   entry.status === 'declined'
                     ? (isDark ? 'bg-red-500/[0.02] border-red-500/15' : 'bg-red-50/50 border-red-200')
                     : entry.status === 'published'
                       ? (isDark ? 'bg-emerald-500/[0.02] border-emerald-500/15' : 'bg-emerald-50/50 border-emerald-200')
-                      : (isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')
+                      : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
                 )}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', tCfg.color.split(' ')[0])}>
+                    <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', tCfg.color.split(' ')[0])}>
                       <TypeIcon className={cn('w-4 h-4', tCfg.color.split(' ')[1])} />
                     </div>
                     <div>
                       <h3 className="text-sm font-semibold">{entry.client}</h3>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>{entry.industry}</p>
+                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{entry.industry}</p>
                     </div>
                   </div>
                   <div className="flex gap-1.5">
@@ -247,32 +247,32 @@ export default function AdvocacyPage() {
                 </div>
 
                 {entry.content && (
-                  <p className={cn('text-xs leading-relaxed mb-2 line-clamp-2', isDark ? 'text-white/50' : 'text-black/50')}>
+                  <p className={cn('text-xs leading-relaxed mb-2 line-clamp-2', 'text-[var(--app-text-secondary)]')}>
                     &ldquo;{entry.content}&rdquo;
                   </p>
                 )}
 
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                     Requested: {entry.requestDate}
                   </span>
                   {entry.submittedDate && (
                     <>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/15' : 'text-black/15')}>·</span>
-                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>·</span>
+                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
                         Submitted: {entry.submittedDate}
                       </span>
                     </>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between mt-2 pt-2 border-t border-dashed" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-dashed" style={{ borderColor: 'var(--app-border)' }}>
                   <div className="flex items-center gap-1.5">
-                    <Eye className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
+                    <Eye className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                     <span className="text-[10px] font-medium">{entry.impact.toLocaleString()} views</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Star className={cn('w-3 h-3', entry.promoterScore >= 80 ? 'text-amber-400' : isDark ? 'text-white/30' : 'text-black/30')} />
+                    <Star className={cn('w-4 h-4', entry.promoterScore >= 80 ? 'text-amber-400' : 'text-[var(--app-text-muted)]')} />
                     <span className={cn('text-[10px] font-medium', entry.promoterScore >= 80 ? 'text-amber-400' : '')}>
                       NPS: {entry.promoterScore}
                     </span>
@@ -289,16 +289,16 @@ export default function AdvocacyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-2xl border p-5',
-            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
+            'rounded-[var(--app-radius-xl)] border p-app-xl',
+            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Star className="w-4 h-4 text-amber-400" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Top Advocates</span>
+              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Top Advocates</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600')}>
+            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-warning-bg)] text-[var(--app-warning)]')}>
               By Promoter Score
             </Badge>
           </div>
@@ -307,16 +307,16 @@ export default function AdvocacyPage() {
               const maxScore = 100;
               return (
                 <div key={adv.id} className="flex-1 flex flex-col justify-end items-center gap-1">
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
                     {adv.promoterScore}
                   </span>
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(adv.promoterScore / maxScore) * 100}%` }}
                     transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
+                    className={cn('w-full rounded-t-sm', 'bg-[var(--app-warning)]')}
                   />
-                  <span className={cn('text-[9px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{adv.client}</span>
+                  <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{adv.client}</span>
                 </div>
               );
             })}
@@ -330,16 +330,16 @@ export default function AdvocacyPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              'rounded-2xl border p-5',
+              'rounded-[var(--app-radius-xl)] border p-app-xl',
               isDark ? 'bg-red-500/[0.02] border-red-500/15' : 'bg-red-50/50 border-red-200'
             )}
           >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <XCircle className="w-4 h-4 text-red-400" />
-                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Declined Requests</span>
+                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Declined Requests</span>
               </div>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>
+              <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
                 {declinedEntries.length} declined
               </Badge>
             </div>
@@ -351,7 +351,7 @@ export default function AdvocacyPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 + i * 0.06, duration: 0.3 }}
                   className={cn(
-                    'flex items-center gap-3 p-3 rounded-xl border',
+                    'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] border',
                     isDark ? 'border-red-500/10' : 'border-red-200'
                   )}
                 >
@@ -363,15 +363,15 @@ export default function AdvocacyPage() {
                         {typeConfig[entry.type].label}
                       </Badge>
                     </div>
-                    <p className={cn('text-xs mt-0.5', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
                       Low NPS ({entry.promoterScore}) · Likely due to service dissatisfaction
                     </p>
                   </div>
                 </motion.div>
               ))}
             </div>
-            <div className={cn('mt-3 p-3 rounded-xl', isDark ? 'bg-red-500/[0.04]' : 'bg-red-100/50')}>
-              <p className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
+            <div className={cn('mt-3 p-3 rounded-[var(--app-radius-lg)]', isDark ? 'bg-red-500/[0.04]' : 'bg-red-100/50')}>
+              <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
                 <span className="font-semibold text-red-400">Analysis:</span> Declined requests correlate with NPS scores below 50. Focus on improving service delivery before re-requesting. Average promoter score of declined: {Math.round(declinedEntries.reduce((s, e) => s + e.promoterScore, 0) / declinedEntries.length)}.
               </p>
             </div>
@@ -392,16 +392,16 @@ export default function AdvocacyPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-2xl border p-4 text-left transition-all duration-200 group',
-                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
+                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
+                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
               )}
             >
               <div className="flex items-center justify-between">
                 <nav.icon className={cn('w-5 h-5', nav.color)} />
-                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', isDark ? 'text-white/15' : 'text-black/15')} />
+                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', 'text-[var(--app-text-disabled)]')} />
               </div>
               <p className="text-xl font-bold mt-3">{nav.value}</p>
-              <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{nav.label}</p>
+              <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{nav.label}</p>
             </motion.button>
           ))}
         </div>

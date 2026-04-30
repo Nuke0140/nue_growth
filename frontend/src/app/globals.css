@@ -4,7 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   Tailwind v4 @theme — Map shadcn vars to Tailwind colors
+   ============================================
+   Shadcn/ui components consume --background, --card, etc.
+   We map them to --app-* canonical tokens so there is ONE system.
+   ============================================ */
 @theme inline {
+<<<<<<< HEAD
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
@@ -118,12 +125,94 @@
   --ops-overlay: var(--app-overlay);
   --ops-skeleton-from: var(--app-skeleton-from);
   --ops-skeleton-to: var(--app-skeleton-to);
+=======
+  /* Map shadcn tokens → --app-* canonical values */
+  --color-background: var(--app-bg);
+  --color-foreground: var(--app-text);
+  --color-card: var(--app-card-bg);
+  --color-card-foreground: var(--app-text);
+  --color-popover: var(--app-card-bg);
+  --color-popover-foreground: var(--app-text);
+  --color-primary: var(--app-accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--app-elevated);
+  --color-secondary-foreground: var(--app-text);
+  --color-muted: var(--app-elevated);
+  --color-muted-foreground: var(--app-text-muted);
+  --color-accent: var(--app-accent-light);
+  --color-accent-foreground: var(--app-accent);
+  --color-destructive: var(--app-danger);
+  --color-border: var(--app-border);
+  --color-input: var(--app-input-bg);
+  --color-ring: var(--app-accent);
+  --color-chart-1: var(--app-module-erp);
+  --color-chart-2: var(--app-module-crm);
+  --color-chart-3: var(--app-module-analytics);
+  --color-chart-4: var(--app-module-finance);
+  --color-chart-5: var(--app-module-marketing);
+  --color-sidebar: var(--app-sidebar-bg);
+  --color-sidebar-foreground: var(--app-text);
+  --color-sidebar-primary: var(--app-accent);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: var(--app-accent-light);
+  --color-sidebar-accent-foreground: var(--app-accent);
+  --color-sidebar-border: var(--app-border);
+  --color-sidebar-ring: var(--app-accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: var(--app-radius-sm);
+  --radius-md: var(--app-radius-md);
+  --radius-lg: var(--app-radius-lg);
+  --radius-xl: var(--app-radius-xl);
 }
 
 /* ============================================
-   System Design Tokens (Dark)
+   Shadcn CSS Variable Definitions (Light)
+   ============================================
+   These are required by shadcn/ui components internally.
+   They reference --app-* tokens so values stay in sync.
+   ============================================ */
+:root {
+  --radius: 0.625rem;
+  --background: var(--app-bg);
+  --foreground: var(--app-text);
+  --card: var(--app-card-bg);
+  --card-foreground: var(--app-text);
+  --popover: var(--app-card-bg);
+  --popover-foreground: var(--app-text);
+  --primary: var(--app-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--app-elevated);
+  --secondary-foreground: var(--app-text);
+  --muted: var(--app-elevated);
+  --muted-foreground: var(--app-text-muted);
+  --accent: var(--app-accent-light);
+  --accent-foreground: var(--app-accent);
+  --destructive: var(--app-danger);
+  --border: var(--app-border);
+  --input: var(--app-input-bg);
+  --ring: var(--app-accent);
+  --chart-1: var(--app-module-erp);
+  --chart-2: var(--app-module-crm);
+  --chart-3: var(--app-module-analytics);
+  --chart-4: var(--app-module-finance);
+  --chart-5: var(--app-module-marketing);
+  --sidebar: var(--app-sidebar-bg);
+  --sidebar-foreground: var(--app-text);
+  --sidebar-primary: var(--app-accent);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--app-accent-light);
+  --sidebar-accent-foreground: var(--app-accent);
+  --sidebar-border: var(--app-border);
+  --sidebar-ring: var(--app-accent);
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
+}
+
+/* ============================================
+   Shadcn CSS Variable Definitions (Dark)
    ============================================ */
 .dark {
+<<<<<<< HEAD
   --background: oklch(0.16 0.02 260);
   --foreground: oklch(0.965 0.005 250);
   --card: oklch(0.21 0.02 260);
@@ -355,13 +444,46 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--ops-scrollbar-thumb-hover);
+=======
+  --background: var(--app-bg);
+  --foreground: var(--app-text);
+  --card: var(--app-card-bg);
+  --card-foreground: var(--app-text);
+  --popover: var(--app-card-bg);
+  --popover-foreground: var(--app-text);
+  --primary: var(--app-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--app-elevated);
+  --secondary-foreground: var(--app-text);
+  --muted: var(--app-elevated);
+  --muted-foreground: var(--app-text-muted);
+  --accent: var(--app-accent-light);
+  --accent-foreground: var(--app-accent);
+  --destructive: var(--app-danger);
+  --border: var(--app-border);
+  --input: var(--app-input-bg);
+  --ring: var(--app-accent);
+  --chart-1: var(--app-module-erp);
+  --chart-2: var(--app-module-crm);
+  --chart-3: var(--app-module-analytics);
+  --chart-4: var(--app-module-finance);
+  --chart-5: var(--app-module-marketing);
+  --sidebar: var(--app-sidebar-bg);
+  --sidebar-foreground: var(--app-text);
+  --sidebar-primary: var(--app-accent);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--app-accent-light);
+  --sidebar-accent-foreground: var(--app-accent);
+  --sidebar-border: var(--app-border);
+  --sidebar-ring: var(--app-accent);
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 }
 
 /* ============================================
    App Utility Classes (theme-aware, --app-*)
    ============================================ */
 .app-card {
-  border-radius: 1rem;
+  border-radius: var(--app-radius-lg);
   background-color: var(--app-card-bg);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow-card);
@@ -377,8 +499,16 @@
   box-shadow: var(--app-shadow-card-hover);
 }
 
+.app-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.app-glow:hover {
+  box-shadow: var(--app-shadow-accent);
+}
+
 .app-input {
-  border-radius: 0.75rem;
+  border-radius: var(--app-radius-md);
   background-color: var(--app-input-bg);
   border: 1px solid var(--app-border);
   color: var(--app-text);
@@ -400,7 +530,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.75rem;
+  border-radius: var(--app-radius-md);
   background-color: var(--app-accent);
   color: #ffffff;
   font-weight: 500;
@@ -430,7 +560,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.75rem;
+  border-radius: var(--app-radius-md);
   background-color: transparent;
   color: var(--app-text-secondary);
   font-weight: 500;
@@ -451,7 +581,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  border-radius: 0.5rem;
+  border-radius: var(--app-radius-sm);
   padding: 0.125rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
@@ -460,11 +590,12 @@
   border: 1px solid transparent;
 }
 
+/* Skeleton animations */
 .app-skeleton {
   background: linear-gradient(90deg, var(--app-skeleton-from) 25%, var(--app-skeleton-to) 50%, var(--app-skeleton-from) 75%);
   background-size: 200% 100%;
   animation: app-skeleton-pulse 1.5s ease-in-out infinite;
-  border-radius: 0.5rem;
+  border-radius: var(--app-radius-sm);
 }
 
 @keyframes app-skeleton-pulse {
@@ -472,7 +603,11 @@
   100% { background-position: -200% 0; }
 }
 
+<<<<<<< HEAD
 /* Progress bar — uses brand blue */
+=======
+/* Progress bar */
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 .app-progress-bar {
   position: fixed;
   top: 0;
@@ -483,14 +618,25 @@
   transition: width 0.3s ease;
 }
 
+<<<<<<< HEAD
 /* Gradient text — blue → orange */
 .app-gradient-text {
   background: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
+=======
+/* Gradient accent */
+.app-gradient-accent {
+  background: linear-gradient(135deg, var(--app-accent-light) 0%, rgba(204,92,55,0.03) 100%);
+}
+
+.app-gradient-text {
+  background: linear-gradient(135deg, var(--app-accent) 0%, var(--app-accent-gradient-to) 100%);
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* Notification dropdown animation */
 .app-dropdown-enter {
   animation: app-dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -506,16 +652,19 @@
   }
 }
 
+/* Button press animation */
 .app-btn-press:active {
   transform: scale(0.96);
   transition: transform 0.1s ease;
 }
 
+/* Drag ghost shadow */
 .app-drag-ghost {
   box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
   opacity: 0.9;
 }
 
+/* Scrollbar styling (theme-aware) */
 .app-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
@@ -533,6 +682,7 @@
   background: var(--app-scrollbar-thumb-hover);
 }
 
+<<<<<<< HEAD
 /* ============================================
    Premium Glass Effects
    ============================================ */
@@ -767,6 +917,26 @@
 /* ============================================
    Base Layer & Global Enhancements
    ============================================ */
+=======
+/* Legacy alias: .custom-scrollbar → .app-scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--app-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--app-scrollbar-thumb-hover);
+}
+
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -796,7 +966,11 @@ html {
 
 /* 3. Consistent selection color — uses brand blue */
 ::selection {
+<<<<<<< HEAD
   background-color: rgba(37, 99, 235, 0.2);
+=======
+  background-color: var(--app-selection-bg);
+>>>>>>> 900ed12021c4109885cf9541dbb4abde29107041
   color: inherit;
 }
 
@@ -814,6 +988,7 @@ html {
 
 /* 5. Print styles */
 @media print {
+  .app-scrollbar::-webkit-scrollbar,
   .custom-scrollbar::-webkit-scrollbar {
     display: none;
   }
