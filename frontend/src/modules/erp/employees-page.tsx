@@ -33,7 +33,7 @@ import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
 
 // ── Action Feedback ────────────────────────────────────
-import { useActionFeedback } from '@/hooks/use-action-feedback.tsx';
+import { useActionFeedback } from '@/hooks/use-action-feedback';
 
 // ── ERP-specific dependencies ───────────────────────────
 import { mockEmployees, mockResources } from '@/modules/erp/data/mock-data';

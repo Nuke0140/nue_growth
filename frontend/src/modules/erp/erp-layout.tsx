@@ -55,7 +55,7 @@ import { CreateModal } from './components/ops/create-modal';
 import { DensityToggle } from './components/ops/density-toggle';
 import { ErrorBoundary } from '@/components/shared/error-boundary';
 import { ContextualSidebar } from './components/ops/contextual-sidebar';
-import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
+import { useFeedbackStore } from '@/hooks/use-action-feedback';
 
 // Mock data
 import { mockNotifications } from './data/mock-data';

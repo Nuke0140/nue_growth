@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
+import { useFeedbackStore } from '@/hooks/use-action-feedback';
 import type { RetentionPage } from './types';
 
 interface RetentionState {

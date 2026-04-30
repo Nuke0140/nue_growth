@@ -34,4 +34,4 @@ export type { ErrorBoundaryProps } from './error-boundary';
 
 export { SkeletonTable, SkeletonCard, SkeletonKPI, SkeletonDashboard } from './skeleton';
 
-export { useActionFeedback, ToastContainer } from '@/hooks/use-action-feedback.tsx';
+export { useActionFeedback, ToastContainer } from '@/hooks/use-action-feedback';

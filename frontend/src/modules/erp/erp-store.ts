@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import { useFeedbackStore } from '@/hooks/use-action-feedback.tsx';
+import { useFeedbackStore } from '@/hooks/use-action-feedback';
 import type { ErpPage, Toast, SmartAlert, SidebarPanel, PinnedPage, SavedView, DashboardWidget } from './types';
 
 // ---- Create Entity Types ----
