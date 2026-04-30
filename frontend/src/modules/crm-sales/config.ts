@@ -1,32 +1,32 @@
 'use client';
 
 import type { ModuleConfig } from '@/types/module-config';
-import { useCrmSalesStore } from './crm-sales-store';
+import { useCrmSalesStore } from './system/store';
 
-// Direct imports — matching current behavior (no lazy loading)
-import ContactsPage from './contacts-page';
-import ContactDetailPage from './contact-detail-page';
-import CompaniesPage from './companies-page';
-import CompanyDetailPage from './company-detail-page';
-import LeadsPage from './leads-page';
-import LeadDetailPage from './lead-detail-page';
-import DealsPage from './deals-page';
-import DealDetailPage from './deal-detail-page';
-import ActivitiesPage from './activities-page';
-import TasksPage from './tasks-page';
-import NotesPage from './notes-page';
-import SegmentsPage from './segments-page';
-import LifecyclePage from './lifecycle-page';
-import ContactIntelligencePage from './contact-intelligence-page';
-import LeadCapturePage from './lead-capture-page';
-import QualificationPage from './qualification-page';
-import DealsPipelinePage from './deals-pipeline-page';
-import SalesForecastPage from './sales-forecast-page';
-import RevenuePage from './revenue-page';
-import TeamPerformancePage from './team-performance-page';
-import FollowupsPage from './followups-page';
-import ProposalsPage from './proposals-page';
-import WinLossPage from './win-loss-analysis-page';
+// Direct imports — nested module structure
+import ContactsPage from './relationships/contacts/contacts-page';
+import ContactDetailPage from './relationships/contacts/contact-detail-page';
+import CompaniesPage from './relationships/companies/companies-page';
+import CompanyDetailPage from './relationships/companies/company-detail-page';
+import LeadsPage from './core/leads/leads-page';
+import LeadDetailPage from './core/leads/lead-detail-page';
+import DealsPage from './core/deals/deals-page';
+import DealDetailPage from './core/deals/deal-detail-page';
+import ActivitiesPage from './execution/activities/activities-page';
+import TasksPage from './execution/tasks/tasks-page';
+import NotesPage from './execution/notes/notes-page';
+import SegmentsPage from './execution/segments/segments-page';
+import LifecyclePage from './execution/lifecycle/lifecycle-page';
+import ContactIntelligencePage from './relationships/intelligence/contact-intelligence-page';
+import LeadCapturePage from './core/lead-capture/lead-capture-page';
+import QualificationPage from './intelligence/qualification/qualification-page';
+import DealsPipelinePage from './core/pipeline/pipeline-page';
+import SalesForecastPage from './analytics/forecast/sales-forecast-page';
+import RevenuePage from './analytics/revenue/revenue-page';
+import TeamPerformancePage from './analytics/team/team-performance-page';
+import FollowupsPage from './execution/follow-ups/followups-page';
+import ProposalsPage from './analytics/proposals/proposals-page';
+import WinLossPage from './analytics/win-loss/win-loss-page';
 
 // Icons
 import {
