@@ -108,9 +108,9 @@ function getBarColor(score: number) {
 }
 
 function getBarTextColor(score: number) {
-  if (score >= 85) return 'var(--app-success)';
-  if (score >= 70) return 'var(--app-warning)';
-  return 'var(--app-danger)';
+  if (score >= 85) return CSS.success;
+  if (score >= 70) return CSS.warning;
+  return CSS.danger;
 }
 
 function formatStatusLabel(status: EmployeeStatus): string {
@@ -302,463 +302,324 @@ function EmployeesPageInner() {
   // UX State: Empty — filtered results are empty while filters are active
   const isFilteredEmpty = filtered.length === 0 && hasActiveFilters;
 
-  // ---- Render ----
-  return (
-    <>
-    <PageShell title="Employees" icon={Users} createType="employee">
-      <div className="space-y-app-xl">
-        {/* ---- Filters & Search ---- */}
-        <div className="space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <FilterBar
-              filters={filterItems}
-              activeFilter={activeFilter}
-              onFilterChange={(key) => setActiveFilter(key as FilterKey)}
-            />
-            <div className="sm:ml-auto flex items-center gap-2 w-full sm:w-auto">
-              <div className="flex-1 sm:w-56">
-                <SearchInput
-                  value={searchQuery}
-                  onChange={setSearchQuery}
-                  placeholder="Search employees..."
-                />
-              </div>
-              {hasActiveFilters && (
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  onClick={clearAllFilters}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium shrink-0 transition-colors"
+  // ── Handlers with toast feedback ─────────────────────────────
+  const handleCreate = useCallback(
+    (data: Record<string, unknown>) => {
+      if (submittingRef.current) return;
+      submittingRef.current = true;
+      setIsSubmitting(true);
+      showLoadingToast({ title: 'Creating Employee…' });
+
+      setTimeout(() => {
+        setIsSubmitting(false);
+        submittingRef.current = false;
+        success({
+          title: 'Employee Created',
+          message: `${data.name || 'New employee'} has been added successfully.`,
+        });
+        setCreateOpen(false);
+      }, 700);
+    },
+    [showLoadingToast, success],
+  );
+
+  const handleRetry = useCallback(() => {
+    setError(null);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 600);
+  }, []);
+
+  const handleSimulateError = useCallback(() => {
+    showError({
+      title: 'Connection Error',
+      message: 'Failed to load employee data. Check your connection and try again.',
+    });
+    setError('Failed to load employee data. Please check your connection and try again.');
+  }, [showError]);
+
+  const handleEditFromSidebar = useCallback(() => {
+    if (!selectedEmployee) return;
+    info({
+      title: 'Edit Mode',
+      message: `Editing ${selectedEmployee.name}'s profile.`,
+    });
+  }, [selectedEmployee, info]);
+
+  const handleDeactivateFromSidebar = useCallback(() => {
+    if (!selectedEmployee) return;
+    warning({
+      title: 'Employee Deactivated',
+      message: `${selectedEmployee.name} has been deactivated.`,
+    });
+    setSelectedEmployee(null);
+  }, [selectedEmployee, warning]);
+
+  const handleEditFromDropdown = useCallback(
+    (emp: Employee) => {
+      info({
+        title: 'Edit Mode',
+        message: `Editing ${emp.name}'s profile.`,
+      });
+      setSelectedEmployee(emp);
+    },
+    [info],
+  );
+
+  const handleDeactivateFromDropdown = useCallback(
+    (emp: Employee) => {
+      warning({
+        title: 'Employee Deactivated',
+        message: `${emp.name} has been deactivated.`,
+      });
+    },
+    [warning],
+  );
+
+  const handleBulkAction = useCallback(
+    (action: string) => {
+      const count = bulkSelectedIds.length;
+      success({
+        title: 'Action Completed',
+        message: `${action} applied to ${count} employee${count !== 1 ? 's' : ''}.`,
+      });
+      clearBulkSelection();
+    },
+    [bulkSelectedIds.length, success, clearBulkSelection],
+  );
+
+  // Cast filtered data for SmartDataTable
+  const tableData = useMemo(
+    () => filtered as unknown as Record<string, unknown>[],
+    [filtered],
+  );
+
+  // ── SmartDataTable Columns ──────────────────────────────
+  const columns: DataTableColumnDef[] = useMemo(
+    () => [
+      {
+        key: 'checkbox',
+        label: '',
+        width: 40,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          const isSelected = bulkSelectedIds.includes(emp.id);
+          return (
+            <div onClick={(e) => e.stopPropagation()}>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={() => toggleBulkSelection(emp.id)}
+                className="rounded cursor-pointer"
+                style={{ accentColor: CSS.accent }}
+              />
+            </div>
+          );
+        },
+      },
+      {
+        key: 'name',
+        label: 'Name',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          return (
+            <div className="flex items-center gap-3">
+              <Avatar className="h-8 w-8 shrink-0">
+                <AvatarFallback
+                  className="text-xs font-semibold"
                   style={{
-                    color: 'var(--app-danger)',
-                    backgroundColor: 'rgba(248, 113, 113, 0.08)',
-                    border: '1px solid rgba(248, 113, 113, 0.15)',
+                    backgroundColor: CSS.accentLight,
+                    color: CSS.accent,
                   }}
                 >
-                  <FilterX className="w-4 h-4" />
-                  Clear All
-                </motion.button>
+                  {emp.avatar}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0">
+                <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>
+                  {emp.name}
+                </p>
+                <p className="text-xs truncate" style={{ color: CSS.textMuted }}>
+                  {emp.designation}
+                </p>
+              </div>
+            </div>
+          );
+        },
+      },
+      {
+        key: 'skills',
+        label: 'Skills',
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          const skills = SKILLS_MAP[emp.id] || [];
+          return (
+            <div className="flex items-center gap-1.5 flex-wrap max-w-[220px]">
+              {skills.slice(0, 3).map((skill) => (
+                <SkillTag key={skill} skill={skill} />
+              ))}
+              {skills.length > 3 && (
+                <span
+                  className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+                  style={{
+                    backgroundColor: CSS.hoverBg,
+                    color: CSS.textMuted,
+                  }}
+                >
+                  +{skills.length - 3}
+                </span>
               )}
             </div>
-          </div>
-          {/* Department filter row */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
-              <Select
-                value={departmentFilter}
-                onValueChange={(v) => setDepartmentFilter(v)}
-              >
-                <SelectTrigger
-                  className="app-input w-[180px] h-8 text-xs"
-                  style={{
-                    backgroundColor: 'var(--app-elevated)',
-                    border: '1px solid var(--app-border)',
-                    color: departmentFilter !== 'all' ? 'var(--app-text)' : 'var(--app-text-muted)',
-                  }}
-                >
-                  <SelectValue placeholder="All Departments" />
-                </SelectTrigger>
-                <SelectContent
-                  style={{
-                    backgroundColor: 'var(--app-card-bg)',
-                    borderColor: 'var(--app-border)',
-                  }}
-                >
-                  <SelectItem value="all">All Departments</SelectItem>
-                  {departments.map((dept) => (
-                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            {/* View mode toggle */}
-            <div className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-[var(--app-radius-lg)]" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
-              <button
-                onClick={() => setViewMode('table')}
-                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-md)] transition-colors"
-                style={{
-                  backgroundColor: viewMode === 'table' ? 'var(--app-hover-bg)' : 'transparent',
-                  color: viewMode === 'table' ? 'var(--app-text)' : 'var(--app-text-muted)',
-                }}
-                title="Table view"
-              >
-                <LayoutList className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('grid')}
-                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-md)] transition-colors"
-                style={{
-                  backgroundColor: viewMode === 'grid' ? 'var(--app-hover-bg)' : 'transparent',
-                  color: viewMode === 'grid' ? 'var(--app-text)' : 'var(--app-text-muted)',
-                }}
-                title="Grid view"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
+          );
+        },
+      },
+      {
+        key: 'email',
+        label: 'Email',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          return (
+            <span className="text-sm truncate block max-w-[200px]" style={{ color: CSS.textSecondary }}>
+              {emp.email}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'department',
+        label: 'Department',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          return (
+            <span className="text-sm" style={{ color: CSS.textSecondary }}>
+              {emp.department}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'designation',
+        label: 'Role',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          return (
+            <span className="text-sm" style={{ color: CSS.textSecondary }}>
+              {emp.designation}
+            </span>
+          );
+        },
+      },
+      {
+        key: 'status',
+        label: 'Status',
+        sortable: true,
+        render: (row) => {
+          const emp = row as unknown as Employee;
+          return <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />;
+        },
+      },
+    ],
+    [bulkSelectedIds, toggleBulkSelection],
+  );
 
-        {/* ---- Stats Row ---- */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            {
-              label: 'Total Employees',
-              value: stats.total,
-              icon: Users,
-              color: 'var(--app-text)',
-            },
-            {
-              label: 'Active',
-              value: stats.active,
-              icon: UserCheck,
-              color: 'var(--app-success)',
-            },
-            {
-              label: 'On Leave',
-              value: stats.onLeave,
-              icon: Clock,
-              color: 'var(--app-warning)',
-            },
-            {
-              label: 'Avg Productivity',
-              value: `${stats.avgProductivity}%`,
-              icon: AlertTriangle,
-              color: 'var(--app-info)',
-            },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: i * 0.05,
-                duration: 0.3,
-                ease: [0.22, 1, 0.36, 1],
+  // Actions dropdown renderer for SmartDataTable (with toast feedback)
+  const renderActions = useCallback(
+    (row: Record<string, unknown>) => {
+      const emp = row as unknown as Employee;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+              style={{ color: CSS.textMuted }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg;
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
               }}
             >
-              <OpsCard hoverable className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span
-                    className="text-xs font-medium"
-                    style={{ color: 'var(--app-text-muted)' }}
-                  >
-                    {stat.label}
-                  </span>
-                  <div
-                    className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
-                    style={{ backgroundColor: 'var(--app-hover-bg)' }}
-                  >
-                    <stat.icon className="w-4 h-4" style={{ color: stat.color }} />
-                  </div>
-                </div>
-                <p className="text-xl font-bold" style={{ color: stat.color }}>
-                  {stat.value}
-                </p>
-              </OpsCard>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* ---- Data Table or Grid View ---- */}
-        <AnimatePresence mode="wait">
-          {viewMode === 'table' ? (
-            <motion.div
-              key="table-view"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            style={{
+              backgroundColor: CSS.cardBg,
+              borderColor: CSS.border,
+            }}
+          >
+            <DropdownMenuItem onClick={() => setSelectedEmployee(emp)}>
+              <Eye className="w-4 h-4 mr-2" />
+              View Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleEditFromDropdown(emp)}>
+              <Pencil className="w-4 h-4 mr-2" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              style={{ color: '#f87171' }}
+              onClick={() => handleDeactivateFromDropdown(emp)}
             >
-              <div className="app-card overflow-hidden !p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr style={{ borderBottom: '1px solid var(--app-border)' }}>
-                        {/* Checkbox column */}
-                        <th className="w-10 px-3 py-3">
-                          <input
-                            type="checkbox"
-                            checked={allPageSelected}
-                            onChange={handleToggleAll}
-                            className="rounded border-gray-600 cursor-pointer"
-                            style={{ accentColor: 'var(--app-accent)' }}
-                          />
-                        </th>
-                        {/* Name */}
-                        <th
-                          className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none"
-                          style={{ color: 'var(--app-text-muted)' }}
-                          onClick={() => handleSort('name')}
-                        >
-                          <div className="flex items-center gap-1.5">
-                            Name
-                            <ArrowUpDown
-                              className="w-4 h-4"
-                              style={{ opacity: sortKey === 'name' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
-                            />
-                          </div>
-                        </th>
-                        {/* Skills */}
-                        <th className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--app-text-muted)' }}>
-                          Skills
-                        </th>
-                        {/* Email */}
-                        <th
-                          className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden md:table-cell"
-                          style={{ color: 'var(--app-text-muted)' }}
-                          onClick={() => handleSort('email')}
-                        >
-                          <div className="flex items-center gap-1.5">
-                            Email
-                            <ArrowUpDown
-                              className="w-4 h-4"
-                              style={{ opacity: sortKey === 'email' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
-                            />
-                          </div>
-                        </th>
-                        {/* Department */}
-                        <th
-                          className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden md:table-cell"
-                          style={{ color: 'var(--app-text-muted)' }}
-                          onClick={() => handleSort('department')}
-                        >
-                          <div className="flex items-center gap-1.5">
-                            Department
-                            <ArrowUpDown
-                              className="w-4 h-4"
-                              style={{ opacity: sortKey === 'department' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
-                            />
-                          </div>
-                        </th>
-                        {/* Role */}
-                        <th
-                          className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none hidden lg:table-cell"
-                          style={{ color: 'var(--app-text-muted)' }}
-                          onClick={() => handleSort('designation')}
-                        >
-                          <div className="flex items-center gap-1.5">
-                            Role
-                            <ArrowUpDown
-                              className="w-4 h-4"
-                              style={{ opacity: sortKey === 'designation' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
-                            />
-                          </div>
-                        </th>
-                        {/* Status */}
-                        <th
-                          className="text-left px-3 py-3 text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none"
-                          style={{ color: 'var(--app-text-muted)' }}
-                          onClick={() => handleSort('status')}
-                        >
-                          <div className="flex items-center gap-1.5">
-                            Status
-                            <ArrowUpDown
-                              className="w-4 h-4"
-                              style={{ opacity: sortKey === 'status' ? 1 : 0.3, color: 'var(--app-text-muted)' }}
-                            />
-                          </div>
-                        </th>
-                        {/* Actions */}
-                        <th className="w-10 px-3 py-3" />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {paged.length === 0 ? (
-                        <tr>
-                          <td colSpan={8} className="h-32 text-center text-sm" style={{ color: 'var(--app-text-muted)' }}>
-                            No employees found. Try adjusting your search or filters.
-                          </td>
-                        </tr>
-                      ) : (
-                        paged.map((emp) => {
-                          const skills = SKILLS_MAP[emp.id] || [];
-                          const isEditing = editingId === emp.id;
-                          const isSelected = bulkSelectedIds.includes(emp.id);
+              <UserX className="w-4 h-4 mr-2" />
+              Deactivate
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+    [handleEditFromDropdown, handleDeactivateFromDropdown],
+  );
 
-                          return (
-                            <tr
-                              key={emp.id}
-                              className="border-b transition-colors"
-                              style={{
-                                borderColor: 'var(--app-border)',
-                                cursor: 'pointer',
-                                backgroundColor: isSelected
-                                  ? 'var(--app-active-bg)'
-                                  : 'transparent',
-                              }}
-                              onClick={() => selectEmployee(emp.id)}
-                              onMouseEnter={(e) => {
-                                if (!isSelected) {
-                                  (e.currentTarget as HTMLElement).style.backgroundColor =
-                                    'var(--app-hover-bg)';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.backgroundColor =
-                                  isSelected ? 'var(--app-active-bg)' : 'transparent';
-                              }}
-                            >
-                              {/* Checkbox */}
-                              <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
-                                <input
-                                  type="checkbox"
-                                  checked={isSelected}
-                                  onChange={() => toggleBulkSelection(emp.id)}
-                                  className="rounded border-gray-600 cursor-pointer"
-                                  style={{ accentColor: 'var(--app-accent)' }}
-                                />
-                              </td>
-                              {/* Name — inline editable */}
-                              <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
-                                {isEditing ? (
-                                  <div className="flex items-center gap-2">
-                                    <input
-                                      ref={editInputRef}
-                                      type="text"
-                                      value={editingName}
-                                      onChange={(e) => setEditingName(e.target.value)}
-                                      onBlur={saveInlineEdit}
-                                      onKeyDown={handleInlineKeyDown}
-                                      className="text-sm font-medium px-2 py-1 rounded-[var(--app-radius-md)] w-full max-w-[200px]"
-                                      style={{
-                                        backgroundColor: 'var(--app-hover-bg)',
-                                        border: '1px solid var(--app-accent)',
-                                        color: 'var(--app-text)',
-                                        outline: 'none',
-                                      }}
-                                    />
-                                    <button
-                                      onClick={saveInlineEdit}
-                                      className="flex items-center justify-center w-6 h-6 rounded"
-                                      style={{ backgroundColor: 'var(--app-success)', color: '#fff' }}
-                                    >
-                                      <Check className="w-4 h-4" />
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className="flex items-center gap-3 cursor-text"
-                                    onDoubleClick={() => handleDoubleClickName(emp)}
-                                  >
-                                    <Avatar className="h-8 w-8 shrink-0">
-                                      <AvatarFallback
-                                        className="text-xs font-semibold"
-                                        style={{
-                                          backgroundColor: 'var(--app-accent-light)',
-                                          color: 'var(--app-accent)',
-                                        }}
-                                      >
-                                        {emp.avatar}
-                                      </AvatarFallback>
-                                    </Avatar>
-                                    <div className="min-w-0">
-                                      <p
-                                        className="text-sm font-medium truncate"
-                                        style={{ color: 'var(--app-text)' }}
-                                        title="Double-click to edit"
-                                      >
-                                        {emp.name}
-                                      </p>
-                                      <p
-                                        className="text-xs truncate"
-                                        style={{ color: 'var(--app-text-muted)' }}
-                                      >
-                                        {emp.designation}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-                              </td>
-                              {/* Skills */}
-                              <td className="px-3 py-3 hidden lg:table-cell">
-                                <div className="flex items-center gap-1.5 flex-wrap max-w-[220px]">
-                                  {skills.slice(0, 3).map((skill) => (
-                                    <SkillTag key={skill} skill={skill} />
-                                  ))}
-                                  {skills.length > 3 && (
-                                    <span
-                                      className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                                      style={{
-                                        backgroundColor: 'var(--app-hover-bg)',
-                                        color: 'var(--app-text-muted)',
-                                      }}
-                                    >
-                                      +{skills.length - 3}
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              {/* Email */}
-                              <td className="px-3 py-3 hidden md:table-cell">
-                                <span className="text-sm truncate block max-w-[200px]" style={{ color: 'var(--app-text-secondary)' }}>
-                                  {emp.email}
-                                </span>
-                              </td>
-                              {/* Department */}
-                              <td className="px-3 py-3 hidden md:table-cell">
-                                <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-                                  {emp.department}
-                                </span>
-                              </td>
-                              {/* Role */}
-                              <td className="px-3 py-3 hidden lg:table-cell">
-                                <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-                                  {emp.designation}
-                                </span>
-                              </td>
-                              {/* Status */}
-                              <td className="px-3 py-3">
-                                <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />
-                              </td>
-                              {/* Actions */}
-                              <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <button
-                                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
-                                      style={{ color: 'var(--app-text-muted)' }}
-                                      onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)';
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                                      }}
-                                    >
-                                      <MoreHorizontal className="w-4 h-4" />
-                                    </button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent
-                                    align="end"
-                                    style={{
-                                      backgroundColor: 'var(--app-card-bg)',
-                                      borderColor: 'var(--app-border)',
-                                    }}
-                                  >
-                                    <DropdownMenuItem onClick={() => selectEmployee(emp.id)}>
-                                      <Eye className="w-4 h-4 mr-2" />
-                                      View Profile
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                      <Pencil className="w-4 h-4 mr-2" />
-                                      Edit
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem style={{ color: '#f87171' }}>
-                                      <UserX className="w-4 h-4 mr-2" />
-                                      Deactivate
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
+  // ── Render ─────────────────────────────────────────────
+  return (
+    <>
+      <PageShell
+        title="Employees"
+        icon={Users}
+        onCreate={() => setCreateOpen(true)}
+        isLoading={isLoading}
+        error={error}
+        onRetry={handleRetry}
+        isEmpty={isFilteredEmpty}
+        emptyTitle="No results found"
+        emptyDescription="Try adjusting your search or filter criteria to find what you're looking for."
+        headerRight={
+          <button
+            onClick={handleSimulateError}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+            style={{
+              color: CSS.textMuted,
+              backgroundColor: CSS.hoverBg,
+              border: `1px solid ${CSS.border}`,
+            }}
+            title="Simulate error state for demo"
+          >
+            <Bug className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Simulate Error</span>
+          </button>
+        }
+      >
+        <div className="space-y-5">
+          {/* ── Filters & Search ─────────────────────────── */}
+          <div className="space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <FilterBar
+                filters={filterItems}
+                activeFilter={activeFilter}
+                onFilterChange={(key) => setActiveFilter(key as FilterKey)}
+              />
+              <div className="sm:ml-auto flex items-center gap-2 w-full sm:w-auto">
+                <div className="flex-1 sm:w-56">
+                  <SearchInput
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder="Search employees..."
+                  />
                 </div>
                 {hasActiveFilters && (
                   <motion.button
@@ -813,348 +674,34 @@ function EmployeesPageInner() {
                 </Select>
               </div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between px-1 mt-3">
-                  <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
-                    Showing {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, sorted.length)} of {sorted.length}
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      style={{ color: 'var(--app-text-secondary)' }}
-                      onClick={() => setPage(Math.max(0, safePage - 1))}
-                      disabled={safePage === 0}
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                    <span className="text-xs px-2" style={{ color: 'var(--app-text-secondary)' }}>
-                      {safePage + 1} / {totalPages}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      style={{ color: 'var(--app-text-secondary)' }}
-                      onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
-                      disabled={safePage >= totalPages - 1}
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ) : (
-            /* ---- Grid View ---- */
-            <motion.div
-              key="grid-view"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
-            >
-              {paged.length === 0 ? (
-                <div className="app-card p-app-4xl text-center">
-                  <Users className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--app-text-muted)' }} />
-                  <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
-                    No employees found. Try adjusting your search or filters.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {paged.map((emp, idx) => {
-                    const skills = SKILLS_MAP[emp.id] || [];
-                    const isSelected = bulkSelectedIds.includes(emp.id);
-                    return (
-                      <motion.div
-                        key={emp.id}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.03, duration: 0.25 }}
-                      >
-                        <div
-                          className="app-card app-glow p-app-xl cursor-pointer transition-colors"
-                          style={{
-                            border: isSelected ? '1px solid var(--app-accent)' : undefined,
-                            backgroundColor: isSelected
-                              ? 'rgba(204, 92, 55, 0.04)'
-                              : undefined,
-                          }}
-                          onClick={() => selectEmployee(emp.id)}
-                        >
-                          {/* Top row: avatar + status + checkbox */}
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="relative">
-                                <Avatar className="h-12 w-12">
-                                  <AvatarFallback
-                                    className="text-sm font-bold"
-                                    style={{
-                                      backgroundColor: 'var(--app-accent-light)',
-                                      color: 'var(--app-accent)',
-                                    }}
-                                  >
-                                    {emp.avatar}
-                                  </AvatarFallback>
-                                </Avatar>
-                                {/* Status dot */}
-                                <span
-                                  className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2"
-                                  style={{
-                                    backgroundColor: getStatusDotColor(emp.status),
-                                    borderColor: 'var(--app-card-bg)',
-                                  }}
-                                />
-                              </div>
-                              <div className="min-w-0">
-                                <p
-                                  className="text-sm font-semibold truncate"
-                                  style={{ color: 'var(--app-text)' }}
-                                >
-                                  {emp.name}
-                                </p>
-                                <p
-                                  className="text-xs truncate"
-                                  style={{ color: 'var(--app-text-muted)' }}
-                                >
-                                  {emp.designation}
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={(e) => {
-                                e.stopPropagation();
-                                toggleBulkSelection(emp.id);
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                              className="rounded border-gray-600 cursor-pointer mt-1"
-                              style={{ accentColor: 'var(--app-accent)' }}
-                            />
-                          </div>
-
-                          {/* Department */}
-                          <div className="flex items-center gap-2 mb-3">
-                            <span
-                              className="text-xs font-medium"
-                              style={{ color: 'var(--app-text-secondary)' }}
-                            >
-                              {emp.department}
-                            </span>
-                            <span
-                              className="w-1 h-1 rounded-full"
-                              style={{ backgroundColor: 'var(--app-text-muted)' }}
-                            />
-                            <StatusBadge status={formatStatusLabel(emp.status)} variant="pill" />
-                          </div>
-
-                          {/* Skills */}
-                          <div className="flex items-center gap-1.5 flex-wrap mb-4">
-                            {skills.slice(0, 3).map((skill) => (
-                              <SkillTag key={skill} skill={skill} />
-                            ))}
-                          </div>
-
-                          {/* Bottom row: projects + productivity */}
-                          <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--app-border)' }}>
-                            <div className="flex items-center gap-1.5">
-                              <FolderKanban className="w-4 h-4" style={{ color: 'var(--app-accent)' }} />
-                              <span className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                                {emp.activeProjects} Projects
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div
-                                className="h-1.5 rounded-full overflow-hidden"
-                                style={{ backgroundColor: 'var(--app-hover-bg)', width: '60px' }}
-                              >
-                                <div
-                                  className="h-full rounded-full transition-colors"
-                                  style={{
-                                    width: `${emp.productivityScore}%`,
-                                    backgroundColor: getBarColor(emp.productivityScore),
-                                  }}
-                                />
-                              </div>
-                              <span
-                                className="text-[10px] font-bold"
-                                style={{ color: getBarColor(emp.productivityScore) }}
-                              >
-                                {emp.productivityScore}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Grid pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between px-1 mt-3">
-                  <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
-                    Showing {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, sorted.length)} of {sorted.length}
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      style={{ color: 'var(--app-text-secondary)' }}
-                      onClick={() => setPage(Math.max(0, safePage - 1))}
-                      disabled={safePage === 0}
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                    <span className="text-xs px-2" style={{ color: 'var(--app-text-secondary)' }}>
-                      {safePage + 1} / {totalPages}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      style={{ color: 'var(--app-text-secondary)' }}
-                      onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
-                      disabled={safePage >= totalPages - 1}
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ---- Add Employee Drawer ---- */}
-        <DrawerForm
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          title="Add Employee"
-          onSubmit={handleDrawerSubmit}
-          submitLabel="Add Employee"
-        >
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Full Name
-              </Label>
-              <Input
-                value={formData.name}
-                onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
-                placeholder="Enter full name"
-                className="app-input"
-                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Email
-              </Label>
-              <Input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
-                placeholder="name@company.com"
-                className="app-input"
-                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Phone
-              </Label>
-              <Input
-                value={formData.phone}
-                onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
-                placeholder="+91 XXXXX XXXXX"
-                className="app-input"
-                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Department
-              </Label>
-              <Select
-                value={formData.department}
-                onValueChange={(v) => setFormData((f) => ({ ...f, department: v }))}
+              {/* View mode toggle */}
+              <div
+                className="sm:ml-auto flex items-center gap-1 p-0.5 rounded-lg"
+                style={{ backgroundColor: CSS.hoverBg }}
               >
-                <SelectTrigger
-                  className="app-input"
+                <button
+                  onClick={() => setViewMode('table')}
+                  className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                   style={{
-                    backgroundColor: 'var(--app-elevated)',
-                    border: '1px solid var(--app-border)',
-                    color: formData.department ? 'var(--app-text)' : 'var(--app-text-muted)',
+                    backgroundColor: viewMode === 'table' ? CSS.hoverBg : 'transparent',
+                    color: viewMode === 'table' ? CSS.text : CSS.textMuted,
                   }}
                   title="Table view"
                 >
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
-                  {['Engineering', 'Design', 'QA', 'Operations', 'HR', 'Sales', 'Finance'].map(
-                    (dept) => (
-                      <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                    ),
-                  )}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Role / Designation
-              </Label>
-              <Input
-                value={formData.designation}
-                onChange={(e) => setFormData((f) => ({ ...f, designation: e.target.value }))}
-                placeholder="e.g. Senior Developer"
-                className="app-input"
-                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Joining Date
-              </Label>
-              <Input
-                type="date"
-                value={formData.joinDate}
-                onChange={(e) => setFormData((f) => ({ ...f, joinDate: e.target.value }))}
-                className="app-input"
-                style={{ backgroundColor: 'var(--app-elevated)', border: '1px solid var(--app-border)', color: 'var(--app-text)' }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-medium" style={{ color: 'var(--app-text-secondary)' }}>
-                Salary Band
-              </Label>
-              <Select
-                value={formData.salaryBand}
-                onValueChange={(v) => setFormData((f) => ({ ...f, salaryBand: v }))}
-              >
-                <SelectTrigger
-                  className="app-input"
+                  <LayoutList className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
                   style={{
-                    backgroundColor: 'var(--app-elevated)',
-                    border: '1px solid var(--app-border)',
-                    color: formData.salaryBand ? 'var(--app-text)' : 'var(--app-text-muted)',
+                    backgroundColor: viewMode === 'grid' ? CSS.hoverBg : 'transparent',
+                    color: viewMode === 'grid' ? CSS.text : CSS.textMuted,
                   }}
                   title="Grid view"
                 >
-                  <SelectValue placeholder="Select salary band" />
-                </SelectTrigger>
-                <SelectContent style={{ backgroundColor: 'var(--app-card-bg)', borderColor: 'var(--app-border)' }}>
-                  {['E1', 'E2', 'E3', 'E4', 'E5', 'E6'].map((band) => (
-                    <SelectItem key={band} value={band}>{band}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                  <LayoutGrid className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
 

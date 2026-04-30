@@ -81,16 +81,16 @@ export default function RetentionDashboardPage() {
   ], []);
 
   const kpiStats = useMemo(() => [
-    { label: 'Active Customers', value: stats.activeCustomers.toString(), icon: Users, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 5.2, changeLabel: 'growing steadily' },
-    { label: 'Churn Rate', value: `${stats.churnRate}%`, icon: Flame, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: -8.1, changeLabel: 'improved from 7.4%' },
-    { label: 'Renewal Rate', value: `${stats.renewalRate}%`, icon: RefreshCw, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 2.3, changeLabel: 'on-track target 92%' },
-    { label: 'Repeat Purchase', value: `${stats.repeatPurchaseRate}%`, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 4.1, changeLabel: 'healthy retention' },
-    { label: 'Avg LTV', value: formatINR(stats.avgLTV), icon: IndianRupee, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 12.6, changeLabel: 'strong growth' },
-    { label: 'NPS', value: stats.nps.toString(), icon: Star, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 6.3, changeLabel: 'detractors reduced' },
-    { label: 'Referral Growth', value: `${stats.referralGrowth}%`, icon: UserPlus, color: 'text-sky-400', bg: 'bg-[var(--app-info-bg)]', change: 8.5, changeLabel: 'advocacy up' },
-    { label: 'Expansion Rev', value: formatINR(stats.expansionRevenue), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 15.2, changeLabel: 'upsell performing' },
-    { label: 'Health Score', value: stats.avgHealthScore.toString(), icon: Heart, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 3.4, changeLabel: 'avg across 248' },
-    { label: 'At-Risk Accounts', value: stats.atRiskAccounts.toString(), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]', change: -12.0, changeLabel: 'needs attention', severity: 'warning' as const },
+    { label: 'Active Customers', value: stats.activeCustomers.toString(), icon: Users, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 5.2, changeLabel: 'growing steadily' },
+    { label: 'Churn Rate', value: `${stats.churnRate}%`, icon: Flame, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: -8.1, changeLabel: 'improved from 7.4%' },
+    { label: 'Renewal Rate', value: `${stats.renewalRate}%`, icon: RefreshCw, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 2.3, changeLabel: 'on-track target 92%' },
+    { label: 'Repeat Purchase', value: `${stats.repeatPurchaseRate}%`, icon: TrendingUp, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 4.1, changeLabel: 'healthy retention' },
+    { label: 'Avg LTV', value: formatINR(stats.avgLTV), icon: IndianRupee, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 12.6, changeLabel: 'strong growth' },
+    { label: 'NPS', value: stats.nps.toString(), icon: Star, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 6.3, changeLabel: 'detractors reduced' },
+    { label: 'Referral Growth', value: `${stats.referralGrowth}%`, icon: UserPlus, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50', change: 8.5, changeLabel: 'advocacy up' },
+    { label: 'Expansion Rev', value: formatINR(stats.expansionRevenue), icon: ArrowUpRight, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 15.2, changeLabel: 'upsell performing' },
+    { label: 'Health Score', value: stats.avgHealthScore.toString(), icon: Heart, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 3.4, changeLabel: 'avg across 248' },
+    { label: 'At-Risk Accounts', value: stats.atRiskAccounts.toString(), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50', change: -12.0, changeLabel: 'needs attention', severity: 'warning' as const },
   ], [isDark, stats]);
 
   const quickNavItems: { label: string; value: string; page: RetentionPage; icon: React.ElementType; color: string }[] = [
@@ -106,34 +106,34 @@ export default function RetentionDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-app-2xl">
+      <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-              'bg-[var(--app-hover-bg)]'
+              'w-10 h-10 rounded-xl flex items-center justify-center',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
             )}>
-              <Shield className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+              <Shield className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Retention Dashboard</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>LTV Command Center</p>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>LTV Command Center</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className={cn(
               'px-3 py-1.5 text-xs font-medium gap-1.5',
-              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
+              isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
             )}>
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-3.5 h-3.5" />
               {today}
             </Badge>
             <Button
               onClick={() => navigateTo('winback-campaigns')}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
-                'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
+                'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+                isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
               )}
             >
               <Rocket className="w-4 h-4" />
@@ -153,18 +153,18 @@ export default function RetentionDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-[var(--app-radius-xl)] border p-4 cursor-pointer transition-colors duration-200',
+                  'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
                   stat.severity === 'warning'
                     ? (isDark ? 'bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.07]' : 'bg-red-50 border-red-200 hover:bg-red-100')
-                    : ('bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]')
+                    : (isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
                     {stat.label}
                   </span>
-                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
-                    <stat.icon className={cn('w-4 h-4', stat.color)} />
+                  <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
+                    <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -173,11 +173,11 @@ export default function RetentionDashboardPage() {
                     'flex items-center gap-0.5 text-[10px] font-medium',
                     isPositive ? 'text-emerald-500' : 'text-red-500'
                   )}>
-                    {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                    {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                     {Math.abs(stat.change)}%
                   </span>
                 </div>
-                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>
                   {stat.changeLabel}
                 </p>
               </motion.div>
@@ -191,28 +191,28 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Flame className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Trend</span>
+                <Flame className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Churn Trend</span>
               </div>
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last 6 months</span>
+              <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Last 6 months</span>
             </div>
             <div className="flex items-end gap-2 h-32">
               {churnTrend.map((entry, j) => {
                 const maxVal = Math.max(...churnTrend.map((e) => e.value));
                 return (
                   <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                    <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.value}%</span>
+                    <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.value}%</span>
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.value / maxVal) * 100}%` }}
                       transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                     />
-                    <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.month}</span>
+                    <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
                   </div>
                 );
               })}
@@ -223,28 +223,28 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <RefreshCw className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Renewal Trend</span>
+                <RefreshCw className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Renewal Trend</span>
               </div>
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last 6 months</span>
+              <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Last 6 months</span>
             </div>
             <div className="flex items-end gap-2 h-32">
               {renewalTrend.map((entry, j) => {
                 const maxVal = Math.max(...renewalTrend.map((e) => e.value));
                 return (
                   <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                    <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.value}%</span>
+                    <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.value}%</span>
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.value / maxVal) * 100}%` }}
                       transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('w-full rounded-t-sm', 'bg-[var(--app-success)]')}
+                      className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                     />
-                    <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.month}</span>
+                    <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
                   </div>
                 );
               })}
@@ -258,43 +258,43 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <PieChart className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Cohort Retention (M1 → M2)</span>
+                <PieChart className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Cohort Retention (M1 → M2)</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>M1</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>M1</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-amber-500/50' : 'bg-amber-400')} />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>M2</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-amber-500/50' : 'bg-amber-400')} />
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>M2</span>
                 </div>
               </div>
             </div>
             <div className="space-y-3">
               {cohortMini.map((c, j) => (
                 <div key={j} className="flex items-center gap-3">
-                  <span className={cn('text-[10px] w-16 shrink-0 font-medium', 'text-[var(--app-text-muted)]')}>{c.cohort}</span>
+                  <span className={cn('text-[10px] w-16 shrink-0 font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{c.cohort}</span>
                   <div className="flex-1 flex gap-1 items-center">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m1}%` }}
                       transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')}
+                      className={cn('h-5 rounded-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                     />
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m2}%` }}
                       transition={{ delay: 0.55 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn('h-5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-warning)]')}
+                      className={cn('h-5 rounded-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                     />
                   </div>
-                  <span className={cn('text-[10px] w-8 text-right font-medium', 'text-[var(--app-text-muted)]')}>{c.m2}%</span>
+                  <span className={cn('text-[10px] w-8 text-right font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{c.m2}%</span>
                 </div>
               ))}
             </div>
@@ -304,21 +304,21 @@ export default function RetentionDashboardPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+            className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <IndianRupee className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-                <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>LTV Growth</span>
+                <IndianRupee className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+                <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>LTV Growth</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Current</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-violet-500/50' : 'bg-violet-400')} />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
+                  <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-violet-500/50' : 'bg-violet-400')} />
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Predicted</span>
                 </div>
               </div>
             </div>
@@ -332,7 +332,7 @@ export default function RetentionDashboardPage() {
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.current / maxVal) * 100}%` }}
                         transition={{ delay: 0.5 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
+                        className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                       />
                       <motion.div
                         initial={{ height: 0 }}
@@ -341,7 +341,7 @@ export default function RetentionDashboardPage() {
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-400')}
                       />
                     </div>
-                    <span className={cn('text-[8px] mt-1 text-center', 'text-[var(--app-text-disabled)]')}>{entry.segment}</span>
+                    <span className={cn('text-[8px] mt-1 text-center', isDark ? 'text-white/20' : 'text-black/20')}>{entry.segment}</span>
                   </div>
                 );
               })}
@@ -354,28 +354,28 @@ export default function RetentionDashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Star className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>NPS Trend</span>
+              <Star className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>NPS Trend</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
+            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600')}>
               NPS {stats.nps} — Good
             </Badge>
           </div>
           <div className="flex items-end gap-2 h-32">
             {npsTrend.map((entry, j) => (
               <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.value}</span>
+                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{entry.value}</span>
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.value / 100) * 100}%` }}
                   transition={{ delay: 0.55 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className={cn('w-full rounded-t-sm', 'bg-[var(--app-warning)]')}
+                  className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                 />
-                <span className={cn('text-[9px]', 'text-[var(--app-text-disabled)]')}>{entry.month}</span>
+                <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
               </div>
             ))}
           </div>
@@ -386,14 +386,14 @@ export default function RetentionDashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <AlertTriangle className={cn('w-4 h-4 text-amber-400')} />
-              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Active Alerts</span>
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Active Alerts</span>
             </div>
-            <Badge variant="secondary" className={cn('text-[10px]', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
+            <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>
               {retentionAlerts.length} alerts
             </Badge>
           </div>
@@ -409,11 +409,11 @@ export default function RetentionDashboardPage() {
                   transition={{ delay: 0.65 + i * 0.05, duration: 0.3 }}
                   onClick={() => alert.actionPage && navigateTo(alert.actionPage as RetentionPage)}
                   className={cn(
-                    'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors cursor-pointer',
-                    'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]'
+                    'flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer',
+                    isDark ? 'border-white/[0.04] hover:bg-white/[0.03]' : 'border-black/[0.04] hover:bg-black/[0.02]'
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -424,11 +424,11 @@ export default function RetentionDashboardPage() {
                         alert.severity === 'critical' ? 'bg-red-500' : alert.severity === 'warning' ? 'bg-amber-500' : 'bg-sky-500'
                       )} />
                     </div>
-                    <p className={cn('text-xs leading-relaxed', 'text-[var(--app-text-muted)]')}>
+                    <p className={cn('text-xs leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
                       {alert.description}
                     </p>
                   </div>
-                  <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-disabled)]')} />
+                  <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-white/15' : 'text-black/15')} />
                 </motion.div>
               );
             })}
@@ -442,8 +442,8 @@ export default function RetentionDashboardPage() {
           transition={{ delay: 0.75, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-3">
-            <Navigation className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Quick Navigation</span>
+            <Navigation className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Quick Navigation</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {quickNavItems.map((nav, i) => (
@@ -454,19 +454,19 @@ export default function RetentionDashboardPage() {
                 transition={{ delay: 0.8 + i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => navigateTo(nav.page)}
                 className={cn(
-                  'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
-                  'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
+                  'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
                 )}
               >
                 <div className="flex items-center justify-between">
                   <nav.icon className={cn('w-5 h-5', nav.color, 'opacity-60')} />
                   <ChevronRight className={cn(
                     'w-4 h-4 transition-transform group-hover:translate-x-1',
-                    'text-[var(--app-text-disabled)]'
+                    isDark ? 'text-white/15' : 'text-black/15'
                   )} />
                 </div>
                 <p className="text-xl font-bold mt-3">{nav.value}</p>
-                <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
                   {nav.label}
                 </p>
               </motion.button>

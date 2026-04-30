@@ -40,26 +40,26 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border p-app-xl',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border p-5',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
       )}
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold">{segment}</h3>
         <div className={cn('flex items-center gap-1 text-xs font-medium', isPositive ? 'text-emerald-400' : 'text-red-400')}>
-          {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+          {isPositive ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
           {isPositive ? '+' : ''}{formatLTV(growth)}
         </div>
       </div>
 
       {/* Current vs Predicted */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
-          <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>Current LTV</p>
+        <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
+          <p className={cn('text-[10px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Current LTV</p>
           <p className="text-lg font-bold">{formatLTV(currentLTV)}</p>
         </div>
-        <div className={cn('rounded-[var(--app-radius-lg)] p-3 border', 'bg-[var(--app-hover-bg)] border-[var(--app-border-light)]')}>
-          <p className={cn('text-[10px] mb-1', 'text-[var(--app-text-muted)]')}>Predicted LTV</p>
+        <div className={cn('rounded-xl p-3 border', isDark ? 'bg-white/[0.02] border-white/[0.04]' : 'bg-black/[0.01] border-black/[0.04]')}>
+          <p className={cn('text-[10px] mb-1', isDark ? 'text-white/30' : 'text-black/30')}>Predicted LTV</p>
           <p className="text-lg font-bold">{formatLTV(predictedLTV)}</p>
         </div>
       </div>
@@ -67,19 +67,19 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       {/* Range bar */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-1.5">
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Worst case</span>
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Best case</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Worst case</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Best case</span>
         </div>
         <div className="relative h-2 rounded-full bg-gradient-to-r from-red-400/30 via-amber-400/30 to-emerald-400/30">
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-2 border-black shadow-[var(--app-shadow-md)]-md"
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border-2 border-black shadow-md"
             style={{ left: `${Math.min(Math.max(currentPos, 0), 100)}%` }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3, type: 'spring' }}
           />
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-violet-400 bg-violet-400/30 shadow-[var(--app-shadow-md)]-md"
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-violet-400 bg-violet-400/30 shadow-md"
             style={{ left: `${Math.min(Math.max(predictedPos, 0), 100)}%` }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -89,11 +89,11 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
         <div className="flex items-center gap-4 mt-1.5">
           <div className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-white border border-black/30" />
-            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</span>
+            <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Current</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-violet-400" />
-            <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Predicted</span>
+            <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>Predicted</span>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
       <div className="flex items-center justify-between">
         {/* Confidence meter */}
         <div className="flex items-center gap-2">
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Confidence</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Confidence</span>
           <div className="w-20 h-1.5 rounded-full overflow-hidden bg-black/10">
             <motion.div
               className={cn('h-full rounded-full', confidence >= 70 ? 'bg-emerald-400' : confidence >= 40 ? 'bg-amber-400' : 'bg-red-400')}
@@ -116,7 +116,7 @@ export default function LTVWidget({ segment, currentLTV, predictedLTV, bestCase,
 
         {/* Churn risk */}
         <div className={cn('flex items-center gap-1 text-xs', churnRisk > 20 ? 'text-red-400' : churnRisk > 10 ? 'text-amber-400' : 'text-emerald-400')}>
-          <AlertTriangle className="w-4 h-4" />
+          <AlertTriangle className="w-3.5 h-3.5" />
           <span className="font-medium">{churnRisk}% churn risk</span>
         </div>
       </div>

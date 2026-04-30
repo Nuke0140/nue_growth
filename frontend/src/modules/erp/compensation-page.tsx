@@ -42,10 +42,10 @@ function hashCode(str: string): number {
 
 const avatarColors = [
   'rgba(204, 92, 55, 0.12)',
-  'var(--app-success-bg)',
-  'var(--app-info-bg)',
-  'var(--app-warning-bg)',
-  'var(--app-danger-bg)',
+  'rgba(52, 211, 153, 0.12)',
+  'rgba(96, 165, 250, 0.12)',
+  'rgba(251, 191, 36, 0.12)',
+  'rgba(248, 113, 113, 0.12)',
   'rgba(168, 85, 247, 0.12)',
 ];
 
@@ -120,13 +120,13 @@ function CompensationPageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--app-accent)',
+                  color: CSS.accent,
                 }}
               >
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>
               {name}
             </span>
           </div>
@@ -138,8 +138,8 @@ function CompensationPageInner() {
       label: 'Band',
       sortable: true,
       render: (row) => (
-        <span className="app-badge" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
-          {row.salaryBand as string}
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold" style={{ backgroundColor: 'rgba(204, 92, 55, 0.1)', color: CSS.accent }}>
+          {String(row.salaryBand)}
         </span>
       ),
     },
@@ -148,8 +148,8 @@ function CompensationPageInner() {
       label: 'Department',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-          {row.department as string}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.department)}
         </span>
       ),
     },
@@ -158,8 +158,8 @@ function CompensationPageInner() {
       label: 'Base Salary',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-          {formatINR(row.baseSalary as number)}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {formatINR(Number(row.baseSalary))}
         </span>
       ),
     },
@@ -168,8 +168,8 @@ function CompensationPageInner() {
       label: 'Incentives',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--app-success)' }}>
-          +{formatINR(row.incentives as number)}
+        <span className="text-sm" style={{ color: CSS.success }}>
+          +{formatINR(Number(row.incentives))}
         </span>
       ),
     },
@@ -178,8 +178,8 @@ function CompensationPageInner() {
       label: 'Total Comp',
       sortable: true,
       render: (row) => (
-        <span className="text-sm font-bold" style={{ color: 'var(--app-text)' }}>
-          {formatINR(row.totalComp as number)}
+        <span className="text-sm font-bold" style={{ color: CSS.text }}>
+          {formatINR(Number(row.totalComp))}
         </span>
       ),
     },
@@ -190,7 +190,7 @@ function CompensationPageInner() {
 
   return (
     <PageShell title="Compensation" icon={Wallet}>
-      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* KPI Widgets */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <KpiWidget label="Avg Salary" value={formatINR(kpis.avgSalary)} icon={Wallet} color="accent" />
@@ -199,31 +199,31 @@ function CompensationPageInner() {
         </motion.div>
 
         {/* Department Salary Distribution Bar Chart */}
-        <motion.div variants={fadeUp} className="app-card p-6">
-          <h3 className="text-sm font-semibold mb-app-xl" style={{ color: 'var(--app-text)' }}>
+        <motion.div variants={fadeUp} className="rounded-2xl p-6" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
+          <h3 className="text-sm font-semibold mb-5" style={{ color: CSS.text }}>
             Avg Salary by Department
           </h3>
           <div className="space-y-3">
             {deptAvgSalary.map((dept, idx) => {
               const barWidth = Math.max((dept.avgSalary / maxAvgSalary) * 100, 4);
-              const barColor = deptColors[dept.department] || 'var(--app-accent)';
+              const barColor = deptColors[dept.department] || CSS.accent;
               return (
                 <div key={dept.department} className="flex items-center gap-4">
                   <span
                     className="text-xs font-medium w-28 shrink-0 text-right"
-                    style={{ color: 'var(--app-text-secondary)' }}
+                    style={{ color: CSS.textSecondary }}
                   >
                     {dept.department}
                   </span>
-                  <div className="flex-1 h-8  rounded-[var(--app-radius-lg)] overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+                  <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}
                       transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                      className="h-full rounded-[var(--app-radius-lg)] flex items-center justify-end pr-3"
+                      className="h-full rounded-lg flex items-center justify-end pr-3"
                       style={{ backgroundColor: barColor, minWidth: '3rem' }}
                     >
-                      <span className="text-[11px] font-bold text-white drop-shadow-[var(--app-shadow-sm)]">
+                      <span className="text-[11px] font-bold text-white drop-shadow-sm">
                         {formatINR(dept.avgSalary)}
                       </span>
                     </motion.div>

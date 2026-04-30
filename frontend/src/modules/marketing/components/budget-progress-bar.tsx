@@ -27,7 +27,7 @@ export default function BudgetProgressBar({ spent, budget, label }: BudgetProgre
           <span className={cn('text-xs font-bold tabular-nums', textColor)}>{pct}%</span>
         </div>
       )}
-      <div className={cn('w-full h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+      <div className={cn('w-full h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${Math.min(100, pct)}%` }}
@@ -36,10 +36,10 @@ export default function BudgetProgressBar({ spent, budget, label }: BudgetProgre
         />
       </div>
       <div className="flex items-center justify-between">
-        <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
+        <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/40' : 'text-gray-500')}>
           ₹{spent.toLocaleString()} spent
         </span>
-        <span className={cn('text-[10px] tabular-nums', 'text-[var(--app-text-muted)]')}>
+        <span className={cn('text-[10px] tabular-nums', isDark ? 'text-white/30' : 'text-gray-400')}>
           ₹{budget.toLocaleString()} budget
           {remaining > 0 && (
             <span className={cn('ml-1', isDark ? 'text-white/20' : 'text-gray-300')}>

@@ -68,7 +68,7 @@ function CircularProgress({ value, size = 56, strokeWidth = 4 }: { value: number
           cy={size / 2}
           r={radius}
           fill="none"
-          className="stroke-[var(--app-hover-bg)]"
+          className="stroke-[var(--ops-hover-bg)]"
           strokeWidth={strokeWidth}
         />
         <motion.circle
@@ -126,22 +126,22 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border p-5 shadow-sm',
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
       )}
     >
       {/* Header: Employee + Period */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2.5">
           <div className={cn(
-            'w-9 h-10  rounded-full flex items-center justify-center text-xs font-bold',
-            'bg-[var(--app-elevated)] text-[var(--app-text)]'
+            'w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold',
+            'bg-[var(--ops-elevated)] text-[var(--ops-text)]'
           )}>
             {employeeName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
           </div>
           <div>
             <h3 className="text-sm font-semibold">{employeeName}</h3>
-            <p className="text-[10px] text-[var(--app-text-muted)]">
+            <p className="text-[10px] text-[var(--ops-text-muted)]">
               {review.period}
             </p>
           </div>
@@ -150,11 +150,11 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
           animate={isOverdue ? { scale: [1, 1.05, 1] } : {}}
           transition={isOverdue ? { duration: 1.5, repeat: Infinity } : {}}
           className={cn(
-            'inline-flex items-center gap-1 px-2 py-0.5 rounded-[var(--app-radius-lg)] text-[10px] font-medium border',
+            'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-medium border',
             `${promotion.bg} ${promotion.color} ${promotion.border}`
           )}
         >
-          <Award className="w-4 h-4" />
+          <Award className="w-3 h-3" />
           {promotion.label}
         </motion.span>
       </div>
@@ -177,8 +177,8 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1.5">
-                  <Icon className="w-4 h-4 text-[var(--app-text-muted)]" />
-                  <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
+                  <Icon className="w-3 h-3 text-[var(--ops-text-muted)]" />
+                  <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
                     {metric.label}
                   </span>
                 </div>
@@ -186,10 +186,10 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
                   {metric.value}%
                 </span>
               </div>
-              <div className="h-1.5 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
+              <div className="h-1.5 rounded-full overflow-hidden bg-[var(--ops-hover-bg)]">
                 <motion.div
                   className={cn(
-                    'h-full rounded-full transition-colors duration-200',
+                    'h-full rounded-full transition-all duration-500',
                     metric.value >= 80 ? 'bg-emerald-500'
                       : metric.value >= 60 ? 'bg-amber-500'
                       : 'bg-red-500'
@@ -208,16 +208,16 @@ export default function PerformanceWidget({ review, employeeName }: PerformanceW
       <div
         className={cn(
           'mt-4 pt-3 border-t flex items-center justify-between',
-          'border-[var(--app-border)]'
+          'border-[var(--ops-border)]'
         )}
       >
         <div className="flex items-center gap-1.5">
-          <Star className="w-4 h-4 text-[var(--app-text-disabled)]" />
+          <Star className="w-3 h-3 text-[var(--ops-text-disabled)]" />
           <span className={cn('text-[10px] font-medium', getScoreColor(overallScore))}>
             Overall: {overallScore}%
           </span>
         </div>
-        <span className="text-[9px] text-[var(--app-text-disabled)]">
+        <span className="text-[9px] text-[var(--ops-text-disabled)]">
           ID: {review.employeeId}
         </span>
       </div>

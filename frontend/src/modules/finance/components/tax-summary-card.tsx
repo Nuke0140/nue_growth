@@ -80,9 +80,9 @@ export default function TaxSummaryCard({
 
   const taxItems = [
     { label: 'GST Collected', value: gstCollected, color: 'text-emerald-500' },
-    { label: 'GST Payable', value: gstPayable, color: 'text-[var(--app-danger)]' },
+    { label: 'GST Payable', value: gstPayable, color: isDark ? 'text-red-400' : 'text-red-600' },
     { label: 'GST Receivable', value: gstReceivable, color: 'text-blue-500' },
-    { label: 'TDS', value: tds, color: 'text-[var(--app-purple)]' },
+    { label: 'TDS', value: tds, color: isDark ? 'text-violet-400' : 'text-violet-600' },
   ];
 
   return (
@@ -91,22 +91,22 @@ export default function TaxSummaryCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border p-app-xl',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border p-5',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className={cn(
-            'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+            'w-8 h-8 rounded-xl flex items-center justify-center',
             isDark ? 'bg-violet-500/10' : 'bg-violet-100'
           )}>
             <Receipt className="w-4 h-4 text-violet-500" />
           </div>
           <div>
             <h3 className="text-sm font-semibold">Tax Summary</h3>
-            <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{period}</p>
+            <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>{period}</p>
           </div>
         </div>
         <Badge
@@ -126,8 +126,8 @@ export default function TaxSummaryCard({
       {/* Tax Items */}
       <div className="grid grid-cols-2 gap-3 mb-4">
         {taxItems.map((item) => (
-          <div key={item.label} className={cn('p-3 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
-            <p className={cn('text-[10px] font-medium mb-1', 'text-[var(--app-text-muted)]')}>
+          <div key={item.label} className={cn('p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+            <p className={cn('text-[10px] font-medium mb-1', isDark ? 'text-white/40' : 'text-black/40')}>
               {item.label}
             </p>
             <p className={cn('text-sm font-bold tabular-nums', item.color)}>
@@ -139,20 +139,20 @@ export default function TaxSummaryCard({
 
       {/* Total Liability */}
       <div className={cn(
-        'flex items-center justify-between p-3 rounded-[var(--app-radius-lg)] border',
+        'flex items-center justify-between p-3 rounded-xl border',
         isDark
           ? 'bg-red-500/[0.04] border-red-500/[0.1]'
           : 'bg-red-50 border-red-100'
       )}>
         <div className="flex items-center gap-2">
-          {filingStatus === 'overdue' && <AlertTriangle className="w-4 h-4 text-red-500" />}
-          <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
+          {filingStatus === 'overdue' && <AlertTriangle className="w-3.5 h-3.5 text-red-500" />}
+          <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>
             Total Tax Liability
           </span>
         </div>
         <div className="flex items-center gap-1">
           <span className="text-sm font-bold text-red-500 tabular-nums">{formatAmount(taxLiability)}</span>
-          <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
+          <ChevronRight className={cn('w-3.5 h-3.5', isDark ? 'text-white/20' : 'text-black/20')} />
         </div>
       </div>
     </motion.div>

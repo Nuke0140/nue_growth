@@ -82,7 +82,7 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
         whileHover={{ scale: 1.03, y: -4 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        className={`relative h-36 md:h-44 rounded-[var(--app-radius-xl)] ${module.shade} overflow-hidden transition-colors duration-200 border ${'border-[var(--app-border)]'}`}
+        className={`relative h-36 md:h-44 rounded-2xl ${module.shade} overflow-hidden transition-colors duration-300 border ${isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'}`}
       >
         {/* Dot pattern */}
         <motion.div
@@ -108,7 +108,7 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
         <div className={`absolute bottom-0 left-0 right-0 h-1/2 ${isDark ? 'bg-gradient-to-t from-black/30 to-transparent' : 'bg-gradient-to-t from-white/40 to-transparent'}`} />
 
         {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-app-xl">
+        <div className="relative z-10 h-full flex flex-col justify-between p-5">
           <div className="flex items-start justify-between">
             <motion.div
               animate={{
@@ -117,7 +117,7 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
               }}
               transition={{ duration: 0.4 }}
             >
-              <module.icon className={`w-8 h-8 md:w-10 md:h-10 drop-shadow-[var(--app-shadow-card-hover)] ${'text-[var(--app-text)]'}`} />
+              <module.icon className={`w-8 h-8 md:w-10 md:h-10 drop-shadow-lg ${isDark ? 'text-white' : 'text-black'}`} />
             </motion.div>
             {isWide && (
               <motion.div
@@ -126,15 +126,15 @@ function ModuleTile({ module, index, isDark, onClick }: { module: Module; index:
                 transition={{ duration: 0.2 }}
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-black/10'}`}
               >
-                <ChevronDown className={`w-4 h-4 -rotate-90 ${'text-[var(--app-text)]'}`} />
+                <ChevronDown className={`w-4 h-4 -rotate-90 ${isDark ? 'text-white' : 'text-black'}`} />
               </motion.div>
             )}
           </div>
           <div>
-            <h3 className={`font-bold text-sm md:text-lg tracking-tight ${'text-[var(--app-text)]'}`}>
+            <h3 className={`font-bold text-base md:text-lg tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
               {module.name}
             </h3>
-            <p className={`text-xs md:text-sm mt-0.5 ${'text-[var(--app-text-secondary)]'}`}>
+            <p className={`text-xs md:text-sm mt-0.5 ${isDark ? 'text-white/50' : 'text-black/50'}`}>
               {module.description}
             </p>
           </div>
@@ -157,22 +157,22 @@ export default function WindowsDesktop() {
     currentHour < 12 ? 'Good Morning' : currentHour < 18 ? 'Good Afternoon' : 'Good Evening';
 
   return (
-    <div className={`min-h-screen flex flex-col transition-colors duration-200 ${'bg-[var(--app-bg)]'}`}>
+    <div className={`min-h-screen flex flex-col transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#f5f5f5]'}`}>
       {/* Top bar */}
-      <header className={`h-8 border-b flex items-center justify-between px-4 transition-colors duration-200 ${isDark ? 'bg-[#050505] border-white/[0.05]' : 'bg-[#f5f5f5] border-black/[0.05]'}`}>
+      <header className={`h-8 border-b flex items-center justify-between px-4 transition-colors duration-500 ${isDark ? 'bg-[#050505] border-white/[0.05]' : 'bg-[#f5f5f5] border-black/[0.05]'}`}>
         {/* Left: brand */}
         <div className="flex items-center gap-2 md:gap-3">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className={`flex items-center gap-1.5 cursor-pointer transition-colors ${'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'}`}
+            className={`flex items-center gap-1.5 cursor-pointer transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'}`}
           >
             <Image
               src="/logo.png"
               alt="DigiNue"
               width={20}
               height={14}
-              className="object-contain rounded-[var(--app-radius-sm)]"
+              className="object-contain rounded-sm"
             />
             <span className="text-[11px] font-semibold tracking-wide hidden sm:inline">DIGINUE</span>
           </motion.div>
@@ -184,14 +184,14 @@ export default function WindowsDesktop() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`transition-colors ${'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'}`}
+            className={`transition-colors ${isDark ? 'text-white/40 hover:text-white/70' : 'text-black/40 hover:text-black/70'}`}
           >
-            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
           </motion.button>
-          <div className={`hidden sm:flex items-center gap-3 ${'text-[var(--app-text-muted)]'}`}>
-            <Wifi className="w-4 h-4" />
-            <Battery className="w-4 h-4" />
-            <Volume2 className="w-4 h-4" />
+          <div className={`hidden sm:flex items-center gap-3 ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+            <Wifi className="w-3 h-3" />
+            <Battery className="w-3.5 h-3.5" />
+            <Volume2 className="w-3 h-3" />
             <span className="text-[10px] font-mono">
               {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
@@ -206,13 +206,13 @@ export default function WindowsDesktop() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 px-6 md:px-app-4xl pt-6 pb-4"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 px-6 md:px-10 pt-6 pb-4"
         >
           <div>
-            <h2 className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-200 ${'text-[var(--app-text)]'}`}>
-              {greeting}, <span className={'text-[var(--app-text)]'}>{displayName}</span>
+            <h2 className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-500 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+              {greeting}, <span className={isDark ? 'text-white' : 'text-black'}>{displayName}</span>
             </h2>
-            <p className={`text-sm mt-0.5 transition-colors duration-200 ${'text-[var(--app-text-muted)]'}`}>
+            <p className={`text-sm mt-0.5 transition-colors duration-500 ${isDark ? 'text-white/30' : 'text-black/30'}`}>
               Welcome to your enterprise command center
             </p>
           </div>
@@ -221,12 +221,12 @@ export default function WindowsDesktop() {
             {/* Search */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[var(--app-radius-lg)] border flex-1 min-w-0 sm:flex-none sm:w-40 md:w-64 transition-colors duration-200 ${isDark
+              className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border flex-1 min-w-0 sm:flex-none sm:w-40 md:w-64 transition-colors duration-500 ${isDark
                 ? 'bg-white/[0.04] border-white/[0.08]'
                 : 'bg-white/60 border-black/[0.08]'
                 }`}
             >
-              <Search className={`w-4 h-4 ${'text-[var(--app-text-muted)]'}`} />
+              <Search className={`w-4 h-4 ${isDark ? 'text-white/30' : 'text-black/30'}`} />
               <input
                 type="text"
                 placeholder="Search modules..."
@@ -241,12 +241,12 @@ export default function WindowsDesktop() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`relative w-10 h-10 rounded-[var(--app-radius-lg)] border flex items-center justify-center transition-colors duration-200 ${isDark
+              className={`relative w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-500 ${isDark
                 ? 'bg-white/[0.04] border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.08]'
                 : 'bg-white/60 border-black/[0.08] text-black/50 hover:text-black/80 hover:bg-white/80'
                 }`}
             >
-              <Bell className="w-5 h-5" />
+              <Bell className="w-4.5 h-4.5" />
               <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] text-white flex items-center justify-center font-bold ${isDark ? 'bg-white text-black' : 'bg-black'}`}>
                 3
               </span>
@@ -258,9 +258,9 @@ export default function WindowsDesktop() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className={`w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center font-bold text-sm shadow-[var(--app-shadow-md)]-lg transition-colors duration-200 ${isDark
-                  ? 'bg-white text-black shadow-[var(--app-shadow-md)]-white/10'
-                  : 'bg-black text-white shadow-[var(--app-shadow-md)]-black/10'
+                className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shadow-lg transition-colors duration-500 ${isDark
+                  ? 'bg-white text-black shadow-white/10'
+                  : 'bg-black text-white shadow-black/10'
                   }`}
               >
                 {displayName.charAt(0).toUpperCase()}
@@ -271,20 +271,20 @@ export default function WindowsDesktop() {
                 <motion.div
                   initial={{ opacity: 0, y: -5, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={`absolute right-0 top-12 w-56 rounded-[var(--app-radius-lg)] border shadow-[var(--app-shadow-md)]-xl p-2 z-50 transition-colors ${isDark
+                  className={`absolute right-0 top-12 w-56 rounded-xl border shadow-xl p-2 z-50 transition-colors ${isDark
                     ? 'bg-[#1a1a1a] border-white/[0.08]'
                     : 'bg-white border-black/[0.08]'
                     }`}
                 >
-                  <div className={`px-3 py-2 border-b mb-1 ${'border-[var(--app-border)]'}`}>
-                    <p className={`text-sm font-semibold ${'text-[var(--app-text)]'}`}>
+                  <div className={`px-3 py-2 border-b mb-1 ${isDark ? 'border-white/[0.08]' : 'border-black/[0.08]'}`}>
+                    <p className={`text-sm font-semibold ${isDark ? 'text-white/90' : 'text-black/90'}`}>
                       {displayName}
                     </p>
-                    <p className={`text-xs ${'text-[var(--app-text-muted)]'}`}>{user?.email || 'user@example.com'}</p>
+                    <p className={`text-xs ${isDark ? 'text-white/40' : 'text-black/40'}`}>{user?.email || 'user@example.com'}</p>
                   </div>
                   <button
                     onClick={logout}
-                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] text-sm transition-colors ${isDark
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${isDark
                       ? 'text-white/60 hover:text-white hover:bg-white/[0.06]'
                       : 'text-black/60 hover:text-black hover:bg-black/[0.06]'
                       }`}
@@ -299,7 +299,7 @@ export default function WindowsDesktop() {
         </motion.div>
 
         {/* Module tiles grid */}
-        <div className="flex-1 overflow-y-auto px-6 md:px-app-4xl pb-8">
+        <div className="flex-1 overflow-y-auto px-6 md:px-10 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 md:gap-4 max-w-6xl mx-auto">
             {modules.map((module, index) => (
               <ModuleTile
@@ -320,7 +320,7 @@ export default function WindowsDesktop() {
       </main>
 
       {/* Bottom taskbar */}
-      <footer className={`h-8 sm:h-10 backdrop-blur-xl border-t flex items-center justify-center transition-colors duration-200 ${isDark
+      <footer className={`h-8 sm:h-10 backdrop-blur-xl border-t flex items-center justify-center transition-colors duration-500 ${isDark
         ? 'bg-[#050505]/80 border-white/[0.05]'
         : 'bg-[#f5f5f5]/80 border-black/[0.05]'
         }`}

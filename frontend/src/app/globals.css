@@ -137,11 +137,11 @@
   background-color: var(--app-card-bg);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow-card);
-  transition: box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .app-card-hover {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .app-card-hover:hover {
@@ -162,12 +162,12 @@
   background-color: var(--app-input-bg);
   border: 1px solid var(--app-border);
   color: var(--app-text);
-  transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .app-input:focus {
   border-color: var(--app-accent);
-  box-shadow: 0 0 0 3px var(--app-accent-light);
+  box-shadow: 0 0 0 2px var(--app-accent-light);
   outline: none;
 }
 
@@ -184,7 +184,7 @@
   background-color: var(--app-accent);
   color: #ffffff;
   font-weight: 500;
-  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.1s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
   cursor: pointer;
   border: none;
   padding: 0.5rem 1rem;
@@ -349,13 +349,17 @@
   }
 }
 
+/* ============================================
+   Global Enhancements
+   ============================================ */
+
 /* 1. Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
 
-/* 2. Focus visible — uses brand blue */
+/* 2. Focus visible — keyboard navigation indicator */
 *:focus-visible {
   outline: 2px solid var(--app-accent);
   outline-offset: 2px;
@@ -367,7 +371,7 @@ html {
   outline: none;
 }
 
-/* 3. Consistent selection color — uses brand blue */
+/* 3. Consistent selection color */
 ::selection {
   background-color: var(--app-selection-bg);
   color: inherit;

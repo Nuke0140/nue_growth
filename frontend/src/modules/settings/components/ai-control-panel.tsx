@@ -74,7 +74,7 @@ export default function AIControlPanel({
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       className={cn(
-        'relative rounded-[var(--app-radius-xl)] border border-l-4 border-l-violet-500 p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
+        'relative rounded-2xl border border-l-4 border-l-violet-500 p-5 shadow-sm overflow-hidden',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
@@ -95,7 +95,7 @@ export default function AIControlPanel({
           <div className="relative">
             {enabled && (
               <motion.div
-                className="absolute inset-0 rounded-[var(--app-radius-lg)] blur-md"
+                className="absolute inset-0 rounded-xl blur-md"
                 animate={{
                   opacity: [0.3, 0.6, 0.3],
                   scale: [0.95, 1.05, 0.95],
@@ -106,7 +106,7 @@ export default function AIControlPanel({
             )}
             <div
               className={cn(
-                'relative flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]',
+                'relative flex h-10 w-10 items-center justify-center rounded-xl',
                 enabled
                   ? isDark
                     ? 'bg-violet-500/15'
@@ -131,7 +131,7 @@ export default function AIControlPanel({
 
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                 {title}
               </h3>
               <span
@@ -144,7 +144,7 @@ export default function AIControlPanel({
                 AI
               </span>
             </div>
-            <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-xs mt-0.5', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
               {description}
             </p>
           </div>
@@ -156,14 +156,14 @@ export default function AIControlPanel({
           onClick={onToggle}
           className={cn(
             'shrink-0 cursor-pointer transition-colors',
-            enabled ? 'text-violet-400' : 'text-[var(--app-text-secondary)]',
+            enabled ? 'text-violet-400' : isDark ? 'text-zinc-600' : 'text-zinc-300',
           )}
           aria-label={`Toggle ${title}`}
         >
           {enabled ? (
-            <ToggleRight className="h-8  w-7" />
+            <ToggleRight className="h-7 w-7" />
           ) : (
-            <ToggleLeft className="h-8  w-7" />
+            <ToggleLeft className="h-7 w-7" />
           )}
         </motion.button>
       </div>
@@ -177,13 +177,13 @@ export default function AIControlPanel({
         >
           {/* Mode selector tabs */}
           <div>
-            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Mode
             </p>
             <div
               className={cn(
-                'inline-flex items-center rounded-[var(--app-radius-lg)] p-1 gap-0.5',
-                'bg-[var(--app-hover-bg)]',
+                'inline-flex items-center rounded-xl p-1 gap-0.5',
+                isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]',
               )}
             >
               {modes.map((m) => (
@@ -192,11 +192,11 @@ export default function AIControlPanel({
                   type="button"
                   onClick={() => handleModeChange(m.value)}
                   className={cn(
-                    'rounded-[var(--app-radius-lg)] px-3 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer',
+                    'rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer',
                     localMode === m.value
                       ? isDark
-                        ? 'bg-violet-500/20 text-violet-300 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
-                        : 'bg-violet-100 text-violet-700 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]'
+                        ? 'bg-violet-500/20 text-violet-300 shadow-sm'
+                        : 'bg-violet-100 text-violet-700 shadow-sm'
                       : isDark
                         ? 'text-zinc-500 hover:text-zinc-300'
                         : 'text-zinc-400 hover:text-zinc-600',
@@ -211,14 +211,14 @@ export default function AIControlPanel({
           {/* Token usage */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <p className={cn('text-[10px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-[10px] font-semibold uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Token Usage
               </p>
-              <span className={cn('text-xs font-mono tabular-nums font-bold', 'text-[var(--app-text)]')}>
+              <span className={cn('text-xs font-mono tabular-nums font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
                 {formatTokens(tokenUsed)} / {formatTokens(tokenLimit)}
               </span>
             </div>
-            <div className={cn('h-2 w-full rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('h-2 w-full rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${tokenPercent}%` }}
@@ -238,7 +238,7 @@ export default function AIControlPanel({
 
           {/* Module access */}
           <div>
-            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-1.5', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-1.5', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Module Access
             </p>
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -261,17 +261,17 @@ export default function AIControlPanel({
             {/* Prompt logging */}
             <div
               className={cn(
-                'flex items-center justify-between rounded-[var(--app-radius-lg)] p-3 border',
-                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                'flex items-center justify-between rounded-xl p-3 border',
+                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
               )}
             >
               <div className="flex items-center gap-2">
-                <FileText className={cn('h-4 w-4', 'text-[var(--app-text-muted)]')} />
+                <FileText className={cn('h-4 w-4', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
                 <div>
-                  <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                  <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                     Prompt Logging
                   </p>
-                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                  <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                     {promptLogging ? 'Enabled' : 'Disabled'}
                   </p>
                 </div>
@@ -287,17 +287,17 @@ export default function AIControlPanel({
             {/* Safe action confirmation */}
             <div
               className={cn(
-                'flex items-center justify-between rounded-[var(--app-radius-lg)] p-3 border',
-                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                'flex items-center justify-between rounded-xl p-3 border',
+                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
               )}
             >
               <div className="flex items-center gap-2">
-                <Lock className={cn('h-4 w-4', 'text-[var(--app-text-muted)]')} />
+                <Lock className={cn('h-4 w-4', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
                 <div>
-                  <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                  <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                     Safe Action Confirmation
                   </p>
-                  <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                  <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                     {safeActionConfirmation ? 'Enabled' : 'Disabled'}
                   </p>
                 </div>
@@ -314,7 +314,7 @@ export default function AIControlPanel({
           {/* Role quotas */}
           {roleQuotas.length > 0 && (
             <div>
-              <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-[10px] font-semibold uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Role Quotas
               </p>
               <div className="space-y-2">
@@ -324,12 +324,12 @@ export default function AIControlPanel({
                   return (
                     <div key={rq.role} className="flex items-center gap-3">
                       <div className="flex items-center gap-1.5 w-24 shrink-0">
-                        <Users className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
-                        <span className={cn('text-[10px] font-medium truncate capitalize', 'text-[var(--app-text-secondary)]')}>
+                        <Users className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+                        <span className={cn('text-[10px] font-medium truncate capitalize', isDark ? 'text-zinc-300' : 'text-zinc-600')}>
                           {rq.role}
                         </span>
                       </div>
-                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
@@ -340,7 +340,7 @@ export default function AIControlPanel({
                           )}
                         />
                       </div>
-                      <span className={cn('text-[10px] font-mono tabular-nums shrink-0', 'text-[var(--app-text-muted)]')}>
+                      <span className={cn('text-[10px] font-mono tabular-nums shrink-0', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                         {rq.used}/{rq.quota}
                       </span>
                     </div>

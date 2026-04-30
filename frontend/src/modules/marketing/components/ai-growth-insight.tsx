@@ -33,10 +33,10 @@ const INSIGHT_COLORS: Record<string, string> = {
 };
 
 const IMPACT_STYLES: Record<string, { color: (dark: boolean) => string; bg: (dark: boolean) => string }> = {
-  'low': { color: (isDark) => 'text-[var(--app-text-muted)]', bg: (isDark) => isDark ? 'bg-gray-500/15' : 'bg-gray-100' },
-  'medium': { color: (isDark) => 'text-[var(--app-info)]', bg: (isDark) => isDark ? 'bg-blue-500/15' : 'bg-blue-50' },
-  'high': { color: (isDark) => 'text-[var(--app-warning)]', bg: (isDark) => 'bg-[var(--app-warning-bg)]' },
-  'critical': { color: (isDark) => 'text-[var(--app-danger)]', bg: (isDark) => 'bg-[var(--app-danger-bg)]' },
+  'low': { color: (isDark) => isDark ? 'text-gray-400' : 'text-gray-500', bg: (isDark) => isDark ? 'bg-gray-500/15' : 'bg-gray-100' },
+  'medium': { color: (isDark) => isDark ? 'text-blue-400' : 'text-blue-600', bg: (isDark) => isDark ? 'bg-blue-500/15' : 'bg-blue-50' },
+  'high': { color: (isDark) => isDark ? 'text-amber-400' : 'text-amber-600', bg: (isDark) => isDark ? 'bg-amber-500/15' : 'bg-amber-50' },
+  'critical': { color: (isDark) => isDark ? 'text-red-400' : 'text-red-600', bg: (isDark) => isDark ? 'bg-red-500/15' : 'bg-red-50' },
 };
 
 interface AiGrowthInsightProps {
@@ -53,15 +53,15 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
     <motion.div
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className={cn('rounded-[var(--app-radius-xl)] border p-4 space-y-3', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+      className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
             <span style={{ color }}>{INSIGHT_ICONS[insight.type] || <Search className="w-4 h-4" />}</span>
           </div>
           <div className="min-w-0">
-            <h3 className={cn('text-xs font-semibold leading-tight line-clamp-2', 'text-[var(--app-text)]')}>
+            <h3 className={cn('text-xs font-semibold leading-tight line-clamp-2', isDark ? 'text-white' : 'text-gray-900')}>
               {insight.title}
             </h3>
           </div>
@@ -78,10 +78,10 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
       {/* Confidence Bar */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Confidence</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>Confidence</span>
           <span className={cn('text-[10px] font-semibold tabular-nums', isDark ? 'text-white/60' : 'text-gray-700')}>{insight.confidence}%</span>
         </div>
-        <div className={cn('w-full h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+        <div className={cn('w-full h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-gray-100')}>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${insight.confidence}%` }}
@@ -93,21 +93,21 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
       </div>
 
       {/* Recommendation */}
-      <div className={cn('rounded-[var(--app-radius-lg)] p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
+      <div className={cn('rounded-lg p-2.5', isDark ? 'bg-white/[0.03]' : 'bg-gray-50')}>
         <p className={cn('text-[10px] leading-relaxed', isDark ? 'text-white/40' : 'text-gray-600')}>
           {insight.recommendation}
         </p>
       </div>
 
       <div className="flex items-center justify-between pt-1">
-        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-gray-400')}>
           ROI: <span className="font-medium text-emerald-500">₹{(insight.potentialROI / 1000).toFixed(0)}K</span>
         </span>
         <Button
           size="sm"
           className="text-[10px] h-6 px-2 gap-1 bg-gradient-to-r from-purple-500 to-violet-600 text-white hover:from-purple-600 hover:to-violet-700"
         >
-          <Check className="w-4 h-4" />
+          <Check className="w-3 h-3" />
           Apply
         </Button>
       </div>

@@ -48,7 +48,7 @@ function getDueDateColor(dateStr: string) {
   const daysLeft = Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
   if (daysLeft < 0) return 'text-red-500 dark:text-red-400';
   if (daysLeft <= 3) return 'text-amber-500 dark:text-amber-400';
-  return 'text-[var(--app-text-muted)]';
+  return 'text-[var(--ops-text-muted)]';
 }
 
 // ─── Component ────────────────────────────────────────────
@@ -88,10 +88,10 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: stageIndex * 0.05 }}
               className={cn(
-                'w-[280px] flex-shrink-0 rounded-[var(--app-radius-xl)] border flex flex-col',
+                'w-[280px] flex-shrink-0 rounded-2xl border flex flex-col',
                 isBlockedColumn
                   ? 'bg-red-50/50 dark:bg-red-500/[0.03] border-red-200/50 dark:border-red-500/[0.1]'
-                  : 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+                  : 'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
               )}
               style={{ maxHeight: '600px' }}
             >
@@ -99,7 +99,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               <div
                 className={cn(
                   'flex items-center justify-between px-4 py-3 rounded-t-2xl border-b',
-                  `${stage.headerBg} border-[var(--app-border)]`
+                  `${stage.headerBg} border-[var(--ops-border)]`
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                   variant="secondary"
                   className={cn(
                     'h-5 min-w-[20px] px-1.5 text-[10px] font-bold rounded-full',
-                    'bg-[var(--app-elevated)] text-[var(--app-text-secondary)]'
+                    'bg-[var(--ops-elevated)] text-[var(--ops-text-secondary)]'
                   )}
                 >
                   {stageTasks.length}
@@ -121,8 +121,8 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
               <ScrollArea className="flex-1 px-2 py-2">
                 <div className="flex flex-col gap-2">
                   {stageTasks.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-app-3xl px-4 rounded-[var(--app-radius-lg)] text-center text-[var(--app-text-disabled)]">
-                      <div className="w-8 h-8 rounded-full mb-2 flex items-center justify-center bg-[var(--app-hover-bg)]">
+                    <div className="flex flex-col items-center justify-center py-8 px-4 rounded-xl text-center text-[var(--ops-text-disabled)]">
+                      <div className="w-8 h-8 rounded-full mb-2 flex items-center justify-center bg-[var(--ops-hover-bg)]">
                         <StageIcon className="w-4 h-4" />
                       </div>
                       <p className="text-[11px]">No tasks</p>
@@ -138,8 +138,8 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => onTaskClick?.(task.id)}
                       className={cn(
-                        'p-3 rounded-[var(--app-radius-lg)] border cursor-pointer transition-colors duration-150 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
-                        'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)] hover:border-[var(--app-border-strong)]'
+                        'p-3 rounded-xl border cursor-pointer transition-colors duration-150 shadow-sm',
+                        'bg-[var(--ops-card-bg)] border-[var(--ops-border)] hover:bg-[var(--ops-hover-bg)] hover:border-[var(--ops-border-strong)]'
                       )}
                     >
                       {/* Task Title */}
@@ -154,12 +154,12 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                           <div
                             className={cn(
                               'w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold',
-                              'bg-[var(--app-elevated)] text-[var(--app-text-secondary)]'
+                              'bg-[var(--ops-elevated)] text-[var(--ops-text-secondary)]'
                             )}
                           >
                             {getInitials(task.assignee)}
                           </div>
-                          <span className="text-[10px] text-[var(--app-text-muted)]">
+                          <span className="text-[10px] text-[var(--ops-text-muted)]">
                             {task.assignee.split(' ')[0]}
                           </span>
                         </div>
@@ -169,7 +169,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                           {task.storyPoints > 0 && (
                             <span className={cn(
                               'inline-flex items-center px-1 py-0.5 rounded text-[9px] font-medium',
-                              'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
+                              'bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)]'
                             )}>
                               SP {task.storyPoints}
                             </span>
@@ -177,7 +177,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
 
                           {/* Blocked Indicator */}
                           {task.isBlocked && (
-                            <AlertCircle className="w-4 h-4 text-red-500" />
+                            <AlertCircle className="w-3 h-3 text-red-500" />
                           )}
 
                           {/* Due Date */}
@@ -192,9 +192,9 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
 
                       {/* SLA Deadline */}
                       {task.slaDeadline && task.stage !== 'done' && (
-                        <div className="flex items-center gap-1 mt-1.5 pt-1.5 border-t border-[var(--app-border)]">
+                        <div className="flex items-center gap-1 mt-1.5 pt-1.5 border-t border-[var(--ops-border)]">
                           <Timer className="w-2.5 h-2.5 text-amber-600/60 dark:text-amber-400/60" />
-                          <span className="text-[9px] text-[var(--app-text-disabled)]">
+                          <span className="text-[9px] text-[var(--ops-text-disabled)]">
                             SLA: {formatDate(task.slaDeadline)}
                           </span>
                         </div>
@@ -203,7 +203,7 @@ export default function TaskBoard({ tasks, onTaskClick }: TaskBoardProps) {
                       {/* Dependencies */}
                       {task.dependencies.length > 0 && (
                         <div className="flex items-center gap-1 mt-1">
-                          <span className="text-[9px] text-[var(--app-text-disabled)]">
+                          <span className="text-[9px] text-[var(--ops-text-disabled)]">
                             {task.dependencies.length} dep{task.dependencies.length > 1 ? 's' : ''}
                           </span>
                         </div>

@@ -100,14 +100,14 @@ export default function AnomalyAlertCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.25 }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+        'rounded-2xl border border-l-4 shadow-sm',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06]'
           : 'bg-black/[0.02] border-black/[0.06]',
         config.borderColor,
       )}
     >
-      <div className="p-4 sm:p-app-xl space-y-3">
+      <div className="p-4 sm:p-5 space-y-3">
         {/* Header Row */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
@@ -118,7 +118,7 @@ export default function AnomalyAlertCard({
               <h4
                 className={cn(
                   'text-sm font-semibold truncate',
-                  'text-[var(--app-text)]',
+                  isDark ? 'text-white' : 'text-zinc-900',
                 )}
               >
                 {title}
@@ -126,7 +126,7 @@ export default function AnomalyAlertCard({
               <p
                 className={cn(
                   'text-xs mt-0.5 line-clamp-2',
-                  'text-[var(--app-text-muted)]',
+                  isDark ? 'text-zinc-400' : 'text-zinc-500',
                 )}
               >
                 {description}
@@ -148,28 +148,28 @@ export default function AnomalyAlertCard({
         {/* Metric Comparison */}
         <div
           className={cn(
-            'grid grid-cols-3 gap-2 rounded-[var(--app-radius-lg)] p-3',
-            'bg-[var(--app-hover-bg)]',
+            'grid grid-cols-3 gap-2 rounded-xl p-3',
+            isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
           )}
         >
           <div className="text-center">
-            <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Metric
             </p>
-            <p className={cn('text-xs font-semibold mt-0.5 truncate', 'text-[var(--app-text-secondary)]')}>
+            <p className={cn('text-xs font-semibold mt-0.5 truncate', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
               {metric}
             </p>
           </div>
           <div className="text-center">
-            <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Expected
             </p>
-            <p className={cn('text-xs font-semibold mt-0.5', 'text-[var(--app-text-secondary)]')}>
+            <p className={cn('text-xs font-semibold mt-0.5', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
               {expected.toLocaleString()}
             </p>
           </div>
           <div className="text-center">
-            <p className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Actual
             </p>
             <div className="flex items-center justify-center gap-1 mt-0.5">
@@ -187,10 +187,10 @@ export default function AnomalyAlertCard({
 
         {/* Deviation + Timestamp */}
         <div className="flex items-center justify-between text-xs">
-          <span className={cn('font-medium', 'text-[var(--app-text-muted)]')}>
+          <span className={cn('font-medium', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
             Deviation: <span className="text-red-400 font-bold">{deviation > 0 ? '+' : ''}{deviation.toFixed(1)}%</span>
           </span>
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+          <span className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
             {detectedAt}
           </span>
         </div>
@@ -199,7 +199,7 @@ export default function AnomalyAlertCard({
         <button
           onClick={() => setExpanded(!expanded)}
           className={cn(
-            'flex w-full items-center justify-between rounded-[var(--app-radius-lg)] px-3 py-2 text-xs transition-colors text-left',
+            'flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors text-left',
             isDark
               ? 'bg-white/[0.03] hover:bg-white/[0.05] text-zinc-400'
               : 'bg-black/[0.02] hover:bg-black/[0.03] text-zinc-500',
@@ -223,7 +223,7 @@ export default function AnomalyAlertCard({
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <p className={cn('text-xs leading-relaxed px-1', 'text-[var(--app-text-secondary)]')}>
+              <p className={cn('text-xs leading-relaxed px-1', isDark ? 'text-zinc-400' : 'text-zinc-600')}>
                 {recommendation}
               </p>
             </motion.div>

@@ -1,25 +1,36 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Search, Plus, Download, Upload, SlidersHorizontal, MoreHorizontal,
-  Users, Flame, Star, UserX, Mail, Phone, Globe, Linkedin, ArrowUp,
+  Users, Flame, Star, UserX, ChevronLeft, ChevronRight, LayoutGrid,
+  List, ArrowUpDown, Filter, Eye, Bookmark, Mail, Phone, Globe, Linkedin,
+  ArrowUp, ArrowDown, ChevronsLeft, ChevronsRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
+import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenuSeparator, DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
+import { Progress } from '@/components/ui/progress';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { mockContacts } from '@/modules/crm-sales/data/mock-data';
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import type { Contact, AiIntent } from '@/modules/crm-sales/system/types';
 
 type FilterKey = 'all' | 'high' | 'vip' | 'inactive';
+type SortField = 'name' | 'company' | 'healthScore' | 'aiIntent' | 'lastInteraction' | 'lifecycleStage';
+type SortDir = 'asc' | 'desc';
 
 const intentConfig: Record<AiIntent, { label: string; emoji: string; className: string }> = {
   high: { label: 'High Intent', emoji: '🔥', className: 'bg-orange-500/15 text-orange-400 border-orange-500/20' },
@@ -70,37 +81,19 @@ function getSourceLabel(source: string) {
   return map[source] || source;
 }
 
-const createContactFields: FormField[] = [
-  { key: 'firstName', label: 'First Name', type: 'text', placeholder: 'John', required: true },
-  { key: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Doe', required: true },
-  { key: 'email', label: 'Email', type: 'text', placeholder: 'john@company.com', required: true },
-  { key: 'phone', label: 'Phone', type: 'text', placeholder: '+1 (555) 000-0000' },
-  { key: 'company', label: 'Company', type: 'text', placeholder: 'Acme Inc' },
-  { key: 'title', label: 'Job Title', type: 'text', placeholder: 'VP of Sales' },
-  {
-    key: 'source',
-    label: 'Source',
-    type: 'select',
-    options: [
-      { label: 'Website', value: 'website' },
-      { label: 'LinkedIn', value: 'linkedin' },
-      { label: 'Referral', value: 'referral' },
-      { label: 'Event', value: 'event' },
-      { label: 'Cold Call', value: 'cold_call' },
-      { label: 'Organic', value: 'organic' },
-    ],
-  },
-];
+const ITEMS_PER_PAGE = 8;
 
 export default function ContactsPage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const selectContact = useCrmSalesStore((s) => s.selectContact);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [sortField, setSortField] = useState<SortField>('name');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   // Filter
   const filtered = useMemo(() => {
@@ -122,8 +115,31 @@ export default function ContactsPage() {
       case 'inactive': result = result.filter(c => c.aiIntent === 'inactive' || c.healthScore < 40); break;
     }
 
+    // Sort
+    result.sort((a, b) => {
+      let cmp = 0;
+      switch (sortField) {
+        case 'name':
+          cmp = `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+          break;
+        case 'company': cmp = (a.company || '').localeCompare(b.company || ''); break;
+        case 'healthScore': cmp = a.healthScore - b.healthScore; break;
+        case 'aiIntent':
+          const order: Record<AiIntent, number> = { high: 3, medium: 2, low: 1, inactive: 0 };
+          cmp = order[a.aiIntent] - order[b.aiIntent];
+          break;
+        case 'lastInteraction': cmp = 0; break;
+        case 'lifecycleStage': cmp = 0; break;
+      }
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+
     return result;
-  }, [searchQuery, activeFilter]);
+  }, [searchQuery, activeFilter, sortField, sortDir]);
+
+  // Pagination
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   // Stats
   const stats = useMemo(() => ({
@@ -136,6 +152,15 @@ export default function ContactsPage() {
       return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     }).length,
   }), []);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDir('asc');
+    }
+  };
 
   const filters: { key: FilterKey; label: string; icon: React.ElementType; count: number }[] = [
     { key: 'all', label: 'All', icon: Users, count: stats.total },
@@ -307,7 +332,7 @@ export default function ContactsPage() {
             return (
               <button
                 key={filter.key}
-                onClick={() => setActiveFilter(filter.key)}
+                onClick={() => { setActiveFilter(filter.key); setCurrentPage(1); }}
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors duration-200',
                   isActive
@@ -656,95 +681,9 @@ export default function ContactsPage() {
                 </button>
               </div>
             </div>
-
-            {/* Contact details */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm">
-                <Mail className="w-4 h-4 text-[var(--app-text-muted)]" />
-                <span>{selectedContact.email}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
-                <Phone className="w-4 h-4 text-[var(--app-text-muted)]" />
-                <span>{selectedContact.phone}</span>
-              </div>
-              {selectedContact.company && (
-                <div className="flex items-center gap-3 text-sm">
-                  <Globe className="w-4 h-4 text-[var(--app-text-muted)]" />
-                  <span>{selectedContact.company}</span>
-                </div>
-              )}
-              <div className="flex items-center gap-3 text-sm">
-                <span className="text-xs text-[var(--app-text-muted)]">Source:</span>
-                <span className="text-xs">{getSourceLabel(selectedContact.source)}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
-                <span className="text-xs text-[var(--app-text-muted)]">Owner:</span>
-                <span className="text-xs">{selectedContact.owner}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
-                <span className="text-xs text-[var(--app-text-muted)]">Last Active:</span>
-                <span className="text-xs">{selectedContact.lastInteraction}</span>
-              </div>
-            </div>
-
-            {/* Health Score */}
-            <div className="rounded-xl p-4" style={{ backgroundColor: CSS.hoverBg }}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-[var(--app-text-secondary)]">Health Score</span>
-                <span className={cn('text-lg font-bold', getHealthColor(selectedContact.healthScore))}>
-                  {selectedContact.healthScore}
-                </span>
-              </div>
-              <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
-                <div
-                  className={cn('h-full rounded-full', getHealthBarColor(selectedContact.healthScore))}
-                  style={{ width: `${selectedContact.healthScore}%` }}
-                />
-              </div>
-            </div>
-
-            {/* AI Intent */}
-            <div className="rounded-xl p-4" style={{ backgroundColor: CSS.hoverBg }}>
-              <span className="text-xs font-medium text-[var(--app-text-secondary)]">AI Intent</span>
-              <div className="mt-2">
-                {(() => {
-                  const intent = intentConfig[selectedContact.aiIntent];
-                  return (
-                    <span className={cn('inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border', intent.className)}>
-                      <span>{intent.emoji}</span>
-                      {intent.label}
-                    </span>
-                  );
-                })()}
-              </div>
-            </div>
-
-            {/* Lifecycle Stage */}
-            <div className="rounded-xl p-4" style={{ backgroundColor: CSS.hoverBg }}>
-              <span className="text-xs font-medium text-[var(--app-text-secondary)]">Lifecycle Stage</span>
-              <div className="mt-2">
-                <span className={cn('inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium border', getStageColor(selectedContact.lifecycleStage))}>
-                  {getStageLabel(selectedContact.lifecycleStage)}
-                </span>
-              </div>
-            </div>
-
-            {/* Tags */}
-            {selectedContact.tags.length > 0 && (
-              <div>
-                <span className="text-xs font-medium text-[var(--app-text-secondary)]">Tags</span>
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {selectedContact.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-[10px]">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </ContextualSidebar>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

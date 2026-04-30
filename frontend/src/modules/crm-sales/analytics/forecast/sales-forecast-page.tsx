@@ -2,11 +2,14 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import {
   DollarSign, TrendingUp, TrendingDown, BarChart3, Target,
-  ArrowUpRight, ArrowDownRight, BrainCircuit, Sparkles, Calendar,
+  ArrowUpRight, ArrowDownRight, BrainCircuit, Sparkles,
+  Calendar, ChevronDown,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { mockForecasts, mockTeamPerformance } from '@/modules/crm-sales/data/mock-data';
@@ -19,6 +22,7 @@ function formatCurrency(value: number): string {
 
 const QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4'];
 
+/* Monthly forecast bar chart data */
 const MONTHLY_FORECAST = [
   { month: 'Jan', forecast: 380000, actual: 420000 },
   { month: 'Feb', forecast: 450000, actual: 390000 },
@@ -29,6 +33,7 @@ const MONTHLY_FORECAST = [
 ];
 const maxForecast = Math.max(...MONTHLY_FORECAST.flatMap(d => [d.forecast, d.actual || 0]), 1);
 
+/* Stage revenue trend data */
 const STAGE_TREND = [
   { month: 'Jan', new: 80000, qualified: 120000, discovery: 150000, demo: 100000, proposal: 80000, negotiation: 60000 },
   { month: 'Feb', new: 95000, qualified: 140000, discovery: 160000, demo: 120000, proposal: 90000, negotiation: 75000 },
@@ -38,6 +43,7 @@ const STAGE_TREND = [
 ];
 const maxStageTrend = Math.max(...STAGE_TREND.flatMap(d => [d.new, d.qualified, d.discovery, d.demo, d.proposal, d.negotiation]), 1);
 
+/* Confidence trend data */
 const CONFIDENCE_TREND = [
   { month: 'Jan', confidence: 62 },
   { month: 'Feb', confidence: 68 },
@@ -50,6 +56,8 @@ const CONFIDENCE_TREND = [
 const STAGE_COLORS_ARR = ['#a3a3a3', '#3b82f6', '#06b6d4', '#a855f7', '#f59e0b', '#22c55e'];
 
 export default function SalesForecastPage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [selectedQuarter, setSelectedQuarter] = useState('Q2');
 
   const totalPipeline = useMemo(() => mockForecasts.reduce((s, f) => s + f.pipelineValue, 0), []);
@@ -61,102 +69,6 @@ export default function SalesForecastPage() {
   const expectedMonthlyClose = Math.round(totalWeighted / 3);
 
   const maxRepValue = Math.max(...mockForecasts.map(f => Math.max(f.pipelineValue, f.bestCase)), 1);
-
-  // Rep breakdown table data
-  const repTableData = useMemo(
-    () => mockForecasts.map((rep) => {
-      const perf = mockTeamPerformance.find(t => t.repId === rep.repId);
-      const gap = perf ? perf.targetAmount - rep.committed : 0;
-      return {
-        id: rep.id,
-        repName: rep.repName,
-        pipelineValue: rep.pipelineValue,
-        weightedForecast: rep.weightedForecast,
-        committed: rep.committed,
-        bestCase: rep.bestCase,
-        worstCase: rep.worstCase,
-        gap,
-        rank: perf?.rank || '-',
-        closeRate: perf?.closeRate || 0,
-      };
-    }) as unknown as Record<string, unknown>[],
-    []
-  );
-
-  const repColumns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'repName',
-      label: 'Rep Name',
-      render: (row) => {
-        const r = row as { repName: string; rank: string; closeRate: number };
-        return (
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
-              {r.repName.split(' ').map(n => n[0]).join('')}
-            </div>
-            <div>
-              <p className="text-xs font-medium">{r.repName}</p>
-              <p className="text-[10px] text-[var(--app-text-disabled)]">
-                Rank #{r.rank} · {r.closeRate}% close rate
-              </p>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'pipelineValue',
-      label: 'Pipeline',
-      render: (row) => {
-        const v = row.pipelineValue as number;
-        return <span className="text-xs font-semibold" style={{ color: CSS.text }}>{formatCurrency(v)}</span>;
-      },
-    },
-    {
-      key: 'weightedForecast',
-      label: 'Weighted',
-      render: (row) => {
-        const v = row.weightedForecast as number;
-        return <span className="text-xs font-medium text-purple-400">{formatCurrency(v)}</span>;
-      },
-    },
-    {
-      key: 'committed',
-      label: 'Committed',
-      render: (row) => {
-        const v = row.committed as number;
-        return <span className="text-xs font-medium text-[var(--app-text-secondary)]">{formatCurrency(v)}</span>;
-      },
-    },
-    {
-      key: 'bestCase',
-      label: 'Best Case',
-      render: (row) => {
-        const v = row.bestCase as number;
-        return <span className="text-xs text-emerald-500/70">{formatCurrency(v)}</span>;
-      },
-    },
-    {
-      key: 'worstCase',
-      label: 'Worst Case',
-      render: (row) => {
-        const v = row.worstCase as number;
-        return <span className="text-xs text-red-500/70">{formatCurrency(v)}</span>;
-      },
-    },
-    {
-      key: 'gap',
-      label: 'Gap to Target',
-      render: (row) => {
-        const g = row.gap as number;
-        return (
-          <span className={cn('text-xs font-bold', g > 0 ? 'text-red-500' : 'text-emerald-500')}>
-            {g > 0 ? '-' : '+'}{formatCurrency(Math.abs(g))}
-          </span>
-        );
-      },
-    },
-  ], []);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -186,8 +98,7 @@ export default function SalesForecastPage() {
                   <button
                     key={q}
                     onClick={() => setSelectedQuarter(q)}
-                    className={cn(
-                      'px-3 py-2 text-xs font-medium transition-colors',
+                    className={cn('px-3 py-2 text-xs font-medium transition-colors',
                       selectedQuarter === q
                         ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                         : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
@@ -221,7 +132,9 @@ export default function SalesForecastPage() {
                 <div className="flex items-center justify-between mb-2">
                   <stat.icon className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
                   {stat.change !== 'avg' && (
-                    <span className={cn('text-[10px] font-medium flex items-center gap-0.5', stat.up ? 'text-emerald-500' : 'text-red-500')}>
+                    <span className={cn('text-[10px] font-medium flex items-center gap-0.5',
+                      stat.up ? 'text-emerald-500' : 'text-red-500'
+                    )}>
                       {stat.up ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
                       {stat.change}
                     </span>
@@ -251,7 +164,6 @@ export default function SalesForecastPage() {
                   <span className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" /> Actual
                   </span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500" /> Actual</span>
                 </div>
               </div>
               <div className="flex items-end justify-between gap-3 h-44">
@@ -262,11 +174,22 @@ export default function SalesForecastPage() {
                     <div key={item.month} className="flex-1 flex flex-col items-center gap-1">
                       <div className="w-full flex items-end gap-1 h-36">
                         <div className="flex-1 flex flex-col justify-end">
-                          <motion.div initial={{ height: 0 }} animate={{ height: `${forecastH}%` }} transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full rounded-t-sm" style={{ backgroundColor: 'rgba(168,85,247,0.3)' }} />
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: `${forecastH}%` }}
+                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                            className="w-full rounded-t-sm"
+                            style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.5)' : 'rgba(168,85,247,0.3)' }}
+                          />
                         </div>
                         {item.actual !== null && (
                           <div className="flex-1 flex flex-col justify-end">
-                            <motion.div initial={{ height: 0 }} animate={{ height: `${actualH}%` }} transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }} className="w-full rounded-t-sm bg-emerald-500" />
+                            <motion.div
+                              initial={{ height: 0 }}
+                              animate={{ height: `${actualH}%` }}
+                              transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                              className="w-full rounded-t-sm bg-emerald-500"
+                            />
                           </div>
                         )}
                       </div>
@@ -329,7 +252,7 @@ export default function SalesForecastPage() {
               </div>
             </motion.div>
 
-            {/* Stage Revenue Trend */}
+            {/* Stage Revenue Trend (Stacked) */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -370,7 +293,7 @@ export default function SalesForecastPage() {
                               animate={{ height: `${h}%` }}
                               transition={{ duration: 0.5, ease: 'easeOut', delay: idx * 0.05 }}
                               className="w-full"
-                              style={{ backgroundColor: `${STAGE_COLORS_ARR[idx]}80` }}
+                              style={{ backgroundColor: `${STAGE_COLORS_ARR[idx]}${isDark ? '80' : '40'}` }}
                             />
                           );
                         })}
@@ -382,7 +305,7 @@ export default function SalesForecastPage() {
               </div>
             </motion.div>
 
-            {/* Confidence Trend */}
+            {/* Confidence Trend (Line Chart with dots) */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -394,6 +317,7 @@ export default function SalesForecastPage() {
                 <Badge variant="outline" className="text-[10px]">6 months</Badge>
               </div>
               <div className="relative h-44">
+                {/* Grid lines */}
                 {[0, 25, 50, 75, 100].map(val => (
                   <div key={val} className={cn('absolute w-full border-t border-dashed',
                     'border-[var(--app-border-light)]'
@@ -401,6 +325,7 @@ export default function SalesForecastPage() {
                     <span className={cn('absolute -top-2 -left-1 text-[9px]', 'text-[var(--app-text-disabled)]')}>{val}%</span>
                   </div>
                 ))}
+                {/* Line + dots */}
                 <div className="absolute inset-0 flex items-end justify-between px-2 pb-1">
                   {CONFIDENCE_TREND.map((item, i) => {
                     const prev = i > 0 ? CONFIDENCE_TREND[i - 1].confidence : item.confidence;
@@ -436,9 +361,8 @@ export default function SalesForecastPage() {
                         </div>
                         <span className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{item.month}</span>
                       </div>
-                      <span className="text-[10px] mt-1 text-[var(--app-text-disabled)]">{item.month}</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -508,15 +432,6 @@ export default function SalesForecastPage() {
                 </tbody>
               </table>
             </div>
-            <SmartDataTable
-              data={repTableData}
-              columns={repColumns}
-              pageSize={10}
-              emptyMessage="No data"
-              searchable={false}
-              enableExport
-              searchKeys={['repName']}
-            />
           </motion.div>
 
           {/* AI Recommendation */}

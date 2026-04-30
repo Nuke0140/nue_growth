@@ -46,7 +46,7 @@ const AssetManagementPage = lazy(() => import('./asset-management-page').then(m 
 const OpsDashboardPage = lazy(() => import('./ops-dashboard-page').then(m => ({ default: m.default })));
 
 // Design tokens for consistent animation
-import { ANIMATION } from '@/styles/design-tokens';
+import { ANIMATION } from './design-tokens';
 
 // Ops components
 import { CommandPalette } from './components/ops/command-palette';
@@ -415,7 +415,7 @@ function PageContent() {
       {progressWidth > 0 && (
         <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
           <div
-            className="app-progress-bar h-full bg-[var(--app-accent)] transition-colors duration-200 ease-out rounded-full"
+            className="ops-progress-bar h-full bg-[var(--ops-accent)] transition-all duration-300 ease-out rounded-full"
             style={{ width: `${progressWidth}%` }}
           />
         </div>
@@ -461,8 +461,8 @@ function ToastContainer() {
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease }}
               className={cn(
-                'pointer-events-auto flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border backdrop-blur-sm shadow-[var(--app-shadow-md)]-lg',
-                'bg-[var(--app-card-bg)] border-[var(--app-border-strong)]',
+                'pointer-events-auto flex items-start gap-3 p-3 rounded-xl border backdrop-blur-sm shadow-lg',
+                'bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)]',
                 config.border
               )}
             >
@@ -470,20 +470,20 @@ function ToastContainer() {
                 <ToastIcon className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-medium text-[var(--app-text)] leading-tight">
+                <p className="text-[13px] font-medium text-[var(--ops-text)] leading-tight">
                   {toast.title}
                 </p>
                 {toast.message && (
-                  <p className="text-[12px] text-[var(--app-text-secondary)] mt-0.5 line-clamp-2">
+                  <p className="text-[12px] text-[var(--ops-text-secondary)] mt-0.5 line-clamp-2">
                     {toast.message}
                   </p>
                 )}
               </div>
               <button
                 onClick={() => removeToast(toast.id)}
-                className="shrink-0 text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] transition-colors"
+                className="shrink-0 text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)] transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </motion.div>
           );
@@ -518,7 +518,7 @@ function MobileFab() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
               transition={{ duration: ANIMATION.duration.fast }}
-              className="absolute bottom-16 right-0 bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-xl)] p-1.5 min-w-[180px] shadow-[var(--app-shadow-md)]-xl"
+              className="absolute bottom-16 right-0 bg-[var(--ops-card-bg)] border border-[var(--ops-border-strong)] rounded-2xl p-1.5 min-w-[180px] shadow-xl"
             >
               {[
                 { label: 'New Project', icon: FolderKanban, action: () => openCreateModal('project') },
@@ -532,9 +532,9 @@ function MobileFab() {
                     item.action();
                     setFabOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] transition-colors"
                 >
-                  <item.icon className="w-4 h-4 text-[var(--app-text-secondary)]" />
+                  <item.icon className="w-4 h-4 text-[var(--ops-text-secondary)]" />
                   {item.label}
                 </button>
               ))}
@@ -545,7 +545,7 @@ function MobileFab() {
       <motion.button
         whileTap={{ scale: 0.9 }}
         onClick={() => setFabOpen(!fabOpen)}
-        className="relative w-14 h-14 rounded-full bg-[var(--app-accent)] text-white shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-[var(--app-accent)]/30 flex items-center justify-center"
+        className="relative w-14 h-14 rounded-full bg-[var(--ops-accent)] text-white shadow-lg shadow-[var(--ops-accent)]/30 flex items-center justify-center"
       >
         <motion.div
           animate={{ rotate: fabOpen ? 45 : 0 }}
@@ -574,17 +574,17 @@ function SidebarNavItem({
     <button
       onClick={onClick}
       className={cn(
-        'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-[13px] transition-colors duration-200 group relative',
+        'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group relative',
         isActive
-          ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] font-medium'
-          : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+          ? 'bg-[var(--ops-active-bg)] text-[var(--ops-text)] font-medium'
+          : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
       )}
     >
       {/* Active left accent border */}
       {isActive && (
         <motion.div
           layoutId="sidebar-active"
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-[var(--app-accent)]"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-[var(--ops-accent)]"
           transition={{ type: 'spring', stiffness: 350, damping: 30 }}
         />
       )}
@@ -592,13 +592,13 @@ function SidebarNavItem({
         className={cn(
           'w-[18px] h-[18px] transition-colors shrink-0',
           isActive
-            ? 'text-[var(--app-accent)]'
-            : 'text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)]'
+            ? 'text-[var(--ops-accent)]'
+            : 'text-[var(--ops-text-muted)] group-hover:text-[var(--ops-text-secondary)]'
         )}
       />
       <span className="truncate flex-1 text-left">{item.label}</span>
       {badge !== undefined && badge > 0 && (
-        <span className="ml-auto text-[10px] font-semibold min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[var(--app-accent)] text-white px-1.5 leading-none">
+        <span className="ml-auto text-[10px] font-semibold min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[var(--ops-accent)] text-white px-1.5 leading-none">
           {badge > 99 ? '99+' : badge}
         </span>
       )}
@@ -633,7 +633,7 @@ function SidebarSection({
     <div className="mb-1">
       {/* Section label */}
       <div className="px-3 pt-3 pb-1">
-        <span className="text-[10px] font-semibold tracking-wider uppercase text-[var(--app-text-disabled)]">
+        <span className="text-[10px] font-semibold tracking-wider uppercase text-[var(--ops-text-disabled)]">
           {section.label}
         </span>
       </div>
@@ -647,18 +647,18 @@ function SidebarSection({
           }
         }}
         className={cn(
-          'w-full flex items-center gap-3 px-3 py-2 rounded-[var(--app-radius-lg)] text-[13px] transition-colors duration-200 group',
+          'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
           isSectionActive && !isExpanded
-            ? 'text-[var(--app-text-secondary)]'
-            : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+            ? 'text-[var(--ops-text-secondary)]'
+            : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
         )}
       >
         <section.icon
           className={cn(
             'w-[18px] h-[18px] transition-colors shrink-0',
             isSectionActive
-              ? 'text-[var(--app-accent)]'
-              : 'text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)]'
+              ? 'text-[var(--ops-accent)]'
+              : 'text-[var(--ops-text-muted)] group-hover:text-[var(--ops-text-secondary)]'
           )}
         />
         <span className="flex-1 text-left truncate">{section.label}</span>
@@ -666,7 +666,7 @@ function SidebarSection({
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: ANIMATION.duration.normal }}
         >
-          <ChevronDown className="w-4 h-4 text-[var(--app-text-disabled)]" />
+          <ChevronDown className="w-3.5 h-3.5 text-[var(--ops-text-disabled)]" />
         </motion.div>
       </button>
 
@@ -680,7 +680,7 @@ function SidebarSection({
             transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
             className="overflow-hidden"
           >
-            <div className="ml-3 pl-3 border-l border-[var(--app-border)] space-y-0.5 py-1">
+            <div className="ml-3 pl-3 border-l border-[var(--ops-border)] space-y-0.5 py-1">
               {filteredItems.map((item) => (
                 <SidebarNavItem
                   key={item.id}
@@ -747,7 +747,7 @@ function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: ANIMATION.duration.fast }}
-            className="fixed inset-0 bg-[var(--app-overlay)] backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-[var(--ops-overlay)] backdrop-blur-sm z-40"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -763,21 +763,21 @@ function Sidebar() {
             transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
             className={cn(
               'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
-              'bg-[var(--app-bg)] border-r border-[var(--app-border)]',
+              'bg-[var(--ops-bg)] border-r border-[var(--ops-border)]',
               isMobile && 'w-[260px]'
             )}
           >
             <div className="h-full flex flex-col">
               {/* Logo area */}
-              <div className="h-14 flex items-center gap-2.5 px-4 shrink-0 border-b border-[var(--app-border)]">
-                <div className="w-8 h-8 rounded-[var(--app-radius-lg)] bg-[var(--app-accent)] flex items-center justify-center">
+              <div className="h-14 flex items-center gap-2.5 px-4 shrink-0 border-b border-[var(--ops-border)]">
+                <div className="w-8 h-8 rounded-lg bg-[var(--ops-accent)] flex items-center justify-center">
                   <span className="text-white font-bold text-sm">O</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[13px] font-semibold text-[var(--app-text)] leading-tight">
+                  <span className="text-[13px] font-semibold text-[var(--ops-text)] leading-tight">
                     Operations
                   </span>
-                  <span className="text-[10px] text-[var(--app-text-muted)] leading-tight">
+                  <span className="text-[10px] text-[var(--ops-text-muted)] leading-tight">
                     ERP Module
                   </span>
                 </div>
@@ -787,7 +787,7 @@ function Sidebar() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setSidebarOpen(false)}
-                    className="ml-auto h-8  w-7 text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                    className="ml-auto h-7 w-7 text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -843,7 +843,7 @@ function Sidebar() {
               </nav>
 
               {/* Sidebar footer — user profile */}
-              <div className="p-3 border-t border-[var(--app-border)]">
+              <div className="p-3 border-t border-[var(--ops-border)]">
                 <SidebarFooter />
               </div>
             </div>
@@ -870,17 +870,17 @@ function SidebarFooter() {
   const role = (user as Record<string, unknown>)?.role as string || 'Team Member';
 
   return (
-    <div className="flex items-center gap-3 p-2 rounded-[var(--app-radius-lg)] hover:bg-[var(--app-hover-bg)] transition-colors cursor-pointer">
-      <Avatar className="h-8 w-8 rounded-[var(--app-radius-lg)]">
-        <AvatarFallback className="bg-[var(--app-accent)] text-white text-xs font-semibold rounded-[var(--app-radius-lg)]">
+    <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-[var(--ops-hover-bg)] transition-colors cursor-pointer">
+      <Avatar className="h-8 w-8 rounded-lg">
+        <AvatarFallback className="bg-[var(--ops-accent)] text-white text-xs font-semibold rounded-lg">
           {initials}
         </AvatarFallback>
       </Avatar>
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-medium text-[var(--app-text)] truncate">
+        <p className="text-[13px] font-medium text-[var(--ops-text)] truncate">
           {user?.name || 'User'}
         </p>
-        <p className="text-[11px] text-[var(--app-text-muted)] truncate">
+        <p className="text-[11px] text-[var(--ops-text-muted)] truncate">
           {role}
         </p>
       </div>
@@ -924,7 +924,7 @@ function Topbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 h-14 border-b border-[var(--app-border)] bg-[var(--app-bg)] backdrop-blur-sm flex items-center justify-between px-4 gap-4 shrink-0">
+    <header className="sticky top-0 z-30 h-14 border-b border-[var(--ops-border)] bg-[var(--ops-bg)] backdrop-blur-sm flex items-center justify-between px-4 gap-4 shrink-0">
       {/* Left section */}
       <div className="flex items-center gap-1.5 min-w-0">
         {/* Home */}
@@ -934,7 +934,7 @@ function Topbar() {
               variant="ghost"
               size="icon"
               onClick={closeModule}
-              className="shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+              className="shrink-0 h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               <Home className="w-4 h-4" />
             </Button>
@@ -945,7 +945,7 @@ function Topbar() {
         </Tooltip>
 
         {/* Divider */}
-        <div className="w-px h-5 mx-1 hidden md:block bg-[var(--app-hover-bg)]" />
+        <div className="w-px h-5 mx-1 hidden md:block bg-[var(--ops-hover-bg)]" />
 
         {/* Back / Forward */}
         <Tooltip>
@@ -956,10 +956,10 @@ function Topbar() {
               onClick={goBack}
               disabled={!canBack}
               className={cn(
-                'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
+                'shrink-0 h-8 w-8 rounded-lg transition-opacity',
                 !canBack
                   ? 'opacity-20 cursor-not-allowed'
-                  : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+                  : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
               )}
             >
               <ArrowLeft className="w-4 h-4" />
@@ -978,10 +978,10 @@ function Topbar() {
               onClick={goForward}
               disabled={!canForward}
               className={cn(
-                'shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] transition-opacity',
+                'shrink-0 h-8 w-8 rounded-lg transition-opacity',
                 !canForward
                   ? 'opacity-20 cursor-not-allowed'
-                  : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+                  : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
               )}
             >
               <ArrowRight className="w-4 h-4" />
@@ -993,31 +993,31 @@ function Topbar() {
         </Tooltip>
 
         {/* Divider */}
-        <div className="w-px h-5 mx-1 hidden md:block bg-[var(--app-hover-bg)]" />
+        <div className="w-px h-5 mx-1 hidden md:block bg-[var(--ops-hover-bg)]" />
 
         {/* Mobile menu toggle */}
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="md:hidden shrink-0 h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+          className="md:hidden shrink-0 h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
         >
           <Menu className="w-4 h-4" />
         </Button>
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-1.5 min-w-0">
-          <span className="text-[13px] text-[var(--app-text-muted)] hidden sm:block shrink-0">
+          <span className="text-[13px] text-[var(--ops-text-muted)] hidden sm:block shrink-0">
             Operations
           </span>
-          <ChevronRight className="w-4 h-4 text-[var(--app-text-disabled)] hidden sm:block shrink-0" />
-          <span className="text-[13px] font-medium text-[var(--app-text)] truncate">
+          <ChevronRight className="w-3 h-3 text-[var(--ops-text-disabled)] hidden sm:block shrink-0" />
+          <span className="text-[13px] font-medium text-[var(--ops-text)] truncate">
             {currentLabel}
           </span>
           {isDetailPage && (
             <Badge
               variant="secondary"
-              className="ml-2 text-[10px] px-1.5 py-0 h-5 bg-[var(--app-active-bg)] text-[var(--app-accent)] border-0 rounded-[var(--app-radius-md)]"
+              className="ml-2 text-[10px] px-1.5 py-0 h-5 bg-[var(--ops-active-bg)] text-[var(--ops-accent)] border-0 rounded-md"
             >
               Detail
             </Badge>
@@ -1035,11 +1035,11 @@ function Topbar() {
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') setCommandPaletteOpen(true);
           }}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] border border-[var(--app-border)] bg-[var(--app-hover-bg)] w-56 lg:w-64 transition-colors hover:border-[var(--app-accent-hover)] hover:bg-[var(--app-hover-bg)] cursor-pointer"
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[var(--ops-border)] bg-[var(--ops-hover-bg)] w-56 lg:w-64 transition-colors hover:border-[var(--ops-accent-hover)] hover:bg-[var(--ops-hover-bg)] cursor-pointer"
         >
-          <Search className="w-4 h-4 shrink-0 text-[var(--app-text-muted)]" />
-          <span className="text-[13px] text-[var(--app-text-disabled)]">Search...</span>
-          <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[var(--app-hover-bg)] text-[var(--app-text-muted)] ml-auto">
+          <Search className="w-4 h-4 shrink-0 text-[var(--ops-text-muted)]" />
+          <span className="text-[13px] text-[var(--ops-text-disabled)]">Search...</span>
+          <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[var(--ops-hover-bg)] text-[var(--ops-text-muted)] ml-auto">
             <Command className="w-2.5 h-2.5" />K
           </kbd>
         </div>
@@ -1051,7 +1051,7 @@ function Topbar() {
               variant="ghost"
               size="icon"
               onClick={() => setCommandPaletteOpen(true)}
-              className="md:hidden h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+              className="md:hidden h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               <Search className="w-4 h-4" />
             </Button>
@@ -1067,7 +1067,7 @@ function Topbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                  className="h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                 >
                   <History className="w-4 h-4" />
                 </Button>
@@ -1077,14 +1077,14 @@ function Topbar() {
           </Tooltip>
           <DropdownMenuContent
             align="end"
-            className="w-56 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] app-dropdown-enter"
+            className="w-56 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl ops-dropdown-enter"
           >
-            <DropdownMenuLabel className="text-[var(--app-text-secondary)] text-xs font-semibold tracking-wider uppercase">
+            <DropdownMenuLabel className="text-[var(--ops-text-secondary)] text-xs font-semibold tracking-wider uppercase">
               Recent Pages
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[var(--app-hover-bg)]" />
+            <DropdownMenuSeparator className="bg-[var(--ops-hover-bg)]" />
             {recentPages.length === 0 ? (
-              <div className="px-3 py-4 text-center text-[13px] text-[var(--app-text-muted)]">
+              <div className="px-3 py-4 text-center text-[13px] text-[var(--ops-text-muted)]">
                 No recent pages
               </div>
             ) : (
@@ -1096,16 +1096,16 @@ function Topbar() {
                     key={page}
                     onClick={() => navigateTo(page)}
                     className={cn(
-                      'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-[var(--app-radius-lg)] mx-1',
+                      'flex items-center gap-2.5 py-2 text-[13px] cursor-pointer rounded-lg mx-1',
                       page === currentPage
-                        ? 'text-[var(--app-text)] bg-[var(--app-active-bg)]'
-                        : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+                        ? 'text-[var(--ops-text)] bg-[var(--ops-active-bg)]'
+                        : 'text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]'
                     )}
                   >
-                    <Icon className="w-4 h-4 shrink-0 text-[var(--app-text-muted)]" />
+                    <Icon className="w-4 h-4 shrink-0 text-[var(--ops-text-muted)]" />
                     <span className="truncate">{label}</span>
                     {page === currentPage && (
-                      <span className="ml-auto text-[10px] text-[var(--app-accent)] font-medium">Current</span>
+                      <span className="ml-auto text-[10px] text-[var(--ops-accent)] font-medium">Current</span>
                     )}
                   </DropdownMenuItem>
                 );
@@ -1120,11 +1120,11 @@ function Topbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="relative h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+              className="relative h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               <Bell className="w-4 h-4" />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full bg-[var(--app-accent)] text-[9px] font-bold flex items-center justify-center text-white px-1">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full bg-[var(--ops-accent)] text-[9px] font-bold flex items-center justify-center text-white px-1">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -1132,15 +1132,15 @@ function Topbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-80 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] p-0 app-dropdown-enter"
+            className="w-80 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl p-0 ops-dropdown-enter"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--app-border)]">
-              <span className="text-sm font-semibold text-[var(--app-text)]">Notifications</span>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--ops-border)]">
+              <span className="text-sm font-semibold text-[var(--ops-text)]">Notifications</span>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllRead}
-                  className="text-[11px] font-medium text-[var(--app-accent)] hover:text-[var(--app-accent)]/80 transition-colors cursor-pointer"
+                  className="text-[11px] font-medium text-[var(--ops-accent)] hover:text-[var(--ops-accent)]/80 transition-colors cursor-pointer"
                 >
                   Mark all read
                 </button>
@@ -1158,8 +1158,8 @@ function Topbar() {
                     className={cn(
                       'flex items-start gap-3 px-4 py-3 transition-colors cursor-pointer',
                       !notif.read
-                        ? 'bg-[var(--app-active-bg)] hover:bg-[var(--app-active-bg)]'
-                        : 'hover:bg-[var(--app-hover-bg)]'
+                        ? 'bg-[var(--ops-active-bg)] hover:bg-[var(--ops-active-bg)]'
+                        : 'hover:bg-[var(--ops-hover-bg)]'
                     )}
                     onClick={() => {
                       if (!notif.read) {
@@ -1174,7 +1174,7 @@ function Topbar() {
                   >
                     <div
                       className={cn(
-                        'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5',
+                        'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5',
                         typeConfig.bg
                       )}
                     >
@@ -1186,20 +1186,20 @@ function Topbar() {
                           className={cn(
                             'text-[13px] truncate',
                             notif.read
-                              ? 'text-[var(--app-text-secondary)]'
-                              : 'text-[var(--app-text)] font-medium'
+                              ? 'text-[var(--ops-text-secondary)]'
+                              : 'text-[var(--ops-text)] font-medium'
                           )}
                         >
                           {notif.title}
                         </span>
                         {!notif.read && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-accent)] shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--ops-accent)] shrink-0" />
                         )}
                       </div>
-                      <p className="text-[12px] text-[var(--app-text-muted)] line-clamp-2 mt-0.5">
+                      <p className="text-[12px] text-[var(--ops-text-muted)] line-clamp-2 mt-0.5">
                         {notif.message}
                       </p>
-                      <span className="text-[11px] text-[var(--app-text-disabled)] mt-1 block">
+                      <span className="text-[11px] text-[var(--ops-text-disabled)] mt-1 block">
                         {formatNotifTime(notif.timestamp)}
                       </span>
                     </div>
@@ -1209,8 +1209,8 @@ function Topbar() {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-[var(--app-border)] px-4 py-2">
-              <button className="w-full text-center text-[12px] font-medium text-[var(--app-accent)] hover:text-[var(--app-accent)]/80 transition-colors py-1 cursor-pointer">
+            <div className="border-t border-[var(--ops-border)] px-4 py-2">
+              <button className="w-full text-center text-[12px] font-medium text-[var(--ops-accent)] hover:text-[var(--ops-accent)]/80 transition-colors py-1 cursor-pointer">
                 View all notifications
               </button>
             </div>
@@ -1225,7 +1225,7 @@ function Topbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden sm:flex h-8 w-8 rounded-[var(--app-radius-lg)] bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent)]/90 hover:text-white"
+                  className="hidden sm:flex h-8 w-8 rounded-lg bg-[var(--ops-accent)] text-white hover:bg-[var(--ops-accent)]/90 hover:text-white"
                 >
                   <Plus className="w-4 h-4" />
                 </Button>
@@ -1235,54 +1235,54 @@ function Topbar() {
           </Tooltip>
           <DropdownMenuContent
             align="end"
-            className="w-52 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)] app-dropdown-enter"
+            className="w-52 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl ops-dropdown-enter"
           >
-            <DropdownMenuLabel className="text-[var(--app-text-secondary)] text-xs font-semibold tracking-wider uppercase">
+            <DropdownMenuLabel className="text-[var(--ops-text-secondary)] text-xs font-semibold tracking-wider uppercase">
               Quick Create
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[var(--app-hover-bg)]" />
+            <DropdownMenuSeparator className="bg-[var(--ops-hover-bg)]" />
             {canPerform('create', 'projects') && (
             <DropdownMenuItem
               onClick={() => openCreateModal('project')}
-              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] mx-1 cursor-pointer"
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg mx-1 cursor-pointer"
             >
-              <FolderKanban className="w-4 h-4 text-[var(--app-text-muted)]" />
+              <FolderKanban className="w-4 h-4 text-[var(--ops-text-muted)]" />
               New Project
             </DropdownMenuItem>
             )}
             {canPerform('create', 'employees') && (
             <DropdownMenuItem
               onClick={() => openCreateModal('employee')}
-              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] mx-1 cursor-pointer"
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg mx-1 cursor-pointer"
             >
-              <UserPlus className="w-4 h-4 text-[var(--app-text-muted)]" />
+              <UserPlus className="w-4 h-4 text-[var(--ops-text-muted)]" />
               Add Employee
             </DropdownMenuItem>
             )}
             {canPerform('create', 'leaves') && (
             <DropdownMenuItem
               onClick={() => openCreateModal('leave')}
-              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] mx-1 cursor-pointer"
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg mx-1 cursor-pointer"
             >
-              <CalendarOff className="w-4 h-4 text-[var(--app-text-muted)]" />
+              <CalendarOff className="w-4 h-4 text-[var(--ops-text-muted)]" />
               Apply Leave
             </DropdownMenuItem>
             )}
             {canPerform('create', 'tasks-board') && (
             <DropdownMenuItem
               onClick={() => openCreateModal('task')}
-              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] mx-1 cursor-pointer"
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg mx-1 cursor-pointer"
             >
-              <ListPlus className="w-4 h-4 text-[var(--app-text-muted)]" />
+              <ListPlus className="w-4 h-4 text-[var(--ops-text-muted)]" />
               Create Task
             </DropdownMenuItem>
             )}
             {canPerform('create', 'assets') && (
             <DropdownMenuItem
               onClick={() => openCreateModal('asset')}
-              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] mx-1 cursor-pointer"
+              className="flex items-center gap-2.5 py-2 text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg mx-1 cursor-pointer"
             >
-              <Monitor className="w-4 h-4 text-[var(--app-text-muted)]" />
+              <Monitor className="w-4 h-4 text-[var(--ops-text-muted)]" />
               Add Asset
             </DropdownMenuItem>
             )}
@@ -1299,7 +1299,7 @@ function Topbar() {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="hidden sm:flex h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+              className="hidden sm:flex h-8 w-8 rounded-lg text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
             >
               {theme === 'dark' ? (
                 <Sun className="w-4 h-4" />
@@ -1319,10 +1319,10 @@ function Topbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-[var(--app-radius-lg)]"
+              className="h-8 w-8 rounded-lg"
             >
-              <Avatar className="h-8 w-8 rounded-[var(--app-radius-lg)]">
-                <AvatarFallback className="bg-[var(--app-accent)] text-white text-xs font-semibold rounded-[var(--app-radius-lg)]">
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarFallback className="bg-[var(--ops-accent)] text-white text-xs font-semibold rounded-lg">
                   {user?.name
                     ? user.name
                         .split(' ')
@@ -1337,35 +1337,35 @@ function Topbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-56 bg-[var(--app-card-bg)] border-[var(--app-border-strong)] rounded-[var(--app-radius-lg)]"
+            className="w-56 bg-[var(--ops-card-bg)] border-[var(--ops-border-strong)] rounded-xl"
           >
-            <div className="px-3 py-2.5 border-b border-[var(--app-border)] mb-1">
+            <div className="px-3 py-2.5 border-b border-[var(--ops-border)] mb-1">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold text-[var(--app-text)]">
+                <p className="text-sm font-semibold text-[var(--ops-text)]">
                   {user?.name || 'User'}
                 </p>
                 <Badge
-                  className="text-[10px] px-1.5 py-0 h-4 bg-[var(--app-accent-light)] text-[var(--app-accent)] border-0 rounded-[var(--app-radius-md)] font-medium capitalize"
+                  className="text-[10px] px-1.5 py-0 h-4 bg-[var(--ops-accent-light)] text-[var(--ops-accent)] border-0 rounded-md font-medium capitalize"
                 >
                   {role}
                 </Badge>
               </div>
-              <p className="text-xs text-[var(--app-text-muted)]">
+              <p className="text-xs text-[var(--ops-text-muted)]">
                 {user?.email || ''}
               </p>
             </div>
-            <DropdownMenuItem className="text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] cursor-pointer focus:bg-[var(--app-hover-bg)] focus:text-[var(--app-text)]">
+            <DropdownMenuItem className="text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg cursor-pointer focus:bg-[var(--ops-hover-bg)] focus:text-[var(--ops-text)]">
               <User className="w-4 h-4 mr-2" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] rounded-[var(--app-radius-lg)] cursor-pointer focus:bg-[var(--app-hover-bg)] focus:text-[var(--app-text)]">
+            <DropdownMenuItem className="text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)] rounded-lg cursor-pointer focus:bg-[var(--ops-hover-bg)] focus:text-[var(--ops-text)]">
               <Settings className="w-4 h-4 mr-2" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-[var(--app-hover-bg)]" />
+            <DropdownMenuSeparator className="bg-[var(--ops-hover-bg)]" />
             <DropdownMenuItem
               onClick={logout}
-              className="text-[var(--app-text-secondary)] hover:text-red-400 hover:bg-red-500/10 rounded-[var(--app-radius-lg)] cursor-pointer focus:bg-red-500/10 focus:text-red-400"
+              className="text-[var(--ops-text-secondary)] hover:text-red-400 hover:bg-red-500/10 rounded-lg cursor-pointer focus:bg-red-500/10 focus:text-red-400"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
@@ -1490,7 +1490,7 @@ export default function ErpLayout() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="h-screen flex flex-col overflow-hidden bg-[var(--app-bg)] text-[var(--app-text)]">
+      <div className="h-screen flex flex-col overflow-hidden bg-[var(--ops-bg)] text-[var(--ops-text)]">
         {/* Topbar */}
         <Topbar />
 
@@ -1500,8 +1500,8 @@ export default function ErpLayout() {
           <Sidebar />
 
           {/* Content area */}
-          <main className="flex-1 overflow-auto bg-[var(--app-bg)] scroll-smooth">
-            <ErpErrorBoundary>
+          <main className="flex-1 overflow-auto bg-[var(--ops-bg)] scroll-smooth">
+            <ErrorBoundary onError={(error, info) => console.error('ERP Error:', error, info)}>
               <PageContent />
             </ErrorBoundary>
           </main>

@@ -121,15 +121,15 @@ type SortDir = 'asc' | 'desc' | null;
 // ── Density row padding map ────────────────────────────
 
 const densityPadding: Record<DataTableDensity, string> = {
-  compact: 'py-app-xs',
-  normal: 'py-app-sm',
-  comfortable: 'py-app-lg',
+  compact: 'py-1.5',
+  normal: 'py-2.5',
+  comfortable: 'py-4',
 };
 
 const densityCellPadding: Record<DataTableDensity, string> = {
-  compact: 'px-app-md py-app-xs text-xs',
-  normal: 'px-app-lg py-app-sm text-sm',
-  comfortable: 'px-app-lg py-app-lg text-sm',
+  compact: 'px-3 py-1.5 text-xs',
+  normal: 'px-4 py-2.5 text-[13px]',
+  comfortable: 'px-4 py-4 text-sm',
 };
 
 // ── Component ──────────────────────────────────────────
@@ -387,7 +387,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   setPage(0);
                 }}
                 placeholder={searchPlaceholder}
-                className="w-full pl-9 pr-4 py-2 text-sm rounded-[var(--app-radius-md)] border outline-none transition-colors"
+                className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border outline-none transition-colors"
                 style={{
                   backgroundColor: CSS.hoverBg,
                   borderColor: CSS.borderStrong,
@@ -410,19 +410,19 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 style={{ color: CSS.textSecondary }}
               >
                 {density === 'compact' ? (
-                  <Rows3 className="w-4 h-4 mr-1.5" />
+                  <Rows3 className="w-3.5 h-3.5 mr-1.5" />
                 ) : density === 'comfortable' ? (
-                  <Rows5 className="w-4 h-4 mr-1.5" />
+                  <Rows className="w-3.5 h-3.5 mr-1.5" />
                 ) : (
-                  <Rows4 className="w-4 h-4 mr-1.5" />
+                  <Rows4 className="w-3.5 h-3.5 mr-1.5" />
                 )}
                 Density
-                <ChevronDown className="w-4 h-4 ml-1" />
+                <ChevronDown className="w-3 h-3 ml-1" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-40 rounded-[var(--app-radius-lg)]"
+              className="w-40 rounded-xl"
               style={{ backgroundColor: CSS.cardBg, borderColor: CSS.borderStrong }}
             >
               {(['compact', 'normal', 'comfortable'] as const).map((d) => (
@@ -452,14 +452,14 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   className="h-8 px-2.5 text-xs hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                   style={{ color: CSS.textSecondary }}
                 >
-                  <Eye className="w-4 h-4 mr-1.5" />
+                  <Eye className="w-3.5 h-3.5 mr-1.5" />
                   Views
-                  <ChevronDown className="w-4 h-4 ml-1" />
+                  <ChevronDown className="w-3 h-3 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 rounded-[var(--app-radius-lg)]"
+                className="w-52 rounded-xl"
                 style={{ backgroundColor: CSS.cardBg, borderColor: CSS.borderStrong }}
               >
                 <DropdownMenuLabel className="text-xs" style={{ color: CSS.textMuted }}>
@@ -493,14 +493,14 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 className="h-8 px-2.5 text-xs hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
                 style={{ color: CSS.textSecondary }}
               >
-                <Settings2 className="w-4 h-4 mr-1.5" />
+                <Settings2 className="w-3.5 h-3.5 mr-1.5" />
                 Columns
-                <ChevronDown className="w-4 h-4 ml-1" />
+                <ChevronDown className="w-3 h-3 ml-1" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-48 rounded-[var(--app-radius-lg)]"
+              className="w-48 rounded-xl"
               style={{ backgroundColor: CSS.cardBg, borderColor: CSS.borderStrong }}
             >
               <DropdownMenuLabel className="text-xs" style={{ color: CSS.textMuted }}>
@@ -514,9 +514,9 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   className="flex items-center gap-2 text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] cursor-pointer"
                 >
                   {hiddenCols.has(col.key) ? (
-                    <EyeOff className="w-4 h-4" style={{ color: CSS.textDisabled }} />
+                    <EyeOff className="w-3.5 h-3.5" style={{ color: CSS.textDisabled }} />
                   ) : (
-                    <Eye className="w-4 h-4" style={{ color: CSS.accent }} />
+                    <Eye className="w-3.5 h-3.5" style={{ color: CSS.accent }} />
                   )}
                   {col.label}
                 </DropdownMenuItem>
@@ -527,7 +527,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                 className="text-[13px] cursor-pointer"
                 style={{ color: CSS.accent }}
               >
-                <Save className="w-4 h-4 mr-2" />
+                <Save className="w-3.5 h-3.5 mr-2" />
                 Save Current View
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -542,7 +542,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
               className="h-8 px-2.5 text-xs hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
               style={{ color: CSS.textSecondary }}
             >
-              <Download className="w-4 h-4 mr-1.5" />
+              <Download className="w-3.5 h-3.5 mr-1.5" />
               Export
             </Button>
           )}
@@ -554,7 +554,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
         <SkeletonTable rows={5} columns={visibleColumns.length} />
       ) : (
         <div
-          className="rounded-[var(--app-radius-xl)] overflow-hidden"
+          className="rounded-2xl overflow-hidden"
           style={{
             backgroundColor: CSS.cardBg,
             border: `1px solid ${CSS.border}`,
@@ -603,9 +603,9 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                       {col.sortable && (
                         <ArrowUpDown
                           className={cn(
-                            'w-4 h-4 transition-opacity',
-                            sortKey === col.key ? 'opacity-100' : 'opacity-30'
-                          )}
+                              'w-3.5 h-3.5 transition-opacity',
+                              sortKey === col.key ? 'opacity-100' : 'opacity-30'
+                            )}
                           style={{ color: COLORS.text.muted }}
                           aria-hidden="true"
                         />
@@ -721,7 +721,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                     }
                                   }}
                                   onBlur={() => commitEdit(idx)}
-                                  className="text-sm px-2 py-1 w-full rounded-[var(--app-radius-md)] border outline-none"
+                                  className="text-sm px-2 py-1 w-full rounded-lg border outline-none"
                                   style={{
                                     backgroundColor: CSS.hoverBg,
                                     borderColor: `${CSS.accent}60`,
@@ -737,7 +737,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                                   className="shrink-0"
                                   aria-hidden="true"
                                 >
-                                  <Check className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                                  <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                                 </motion.div>
                               </div>
                             ) : (
@@ -787,7 +787,7 @@ function SmartDataTableInner<T extends Record<string, unknown>>({
                   setPageSize(size);
                   setPage(0);
                 }}
-                className="text-xs px-2.5 py-1 rounded-[var(--app-radius-lg)] cursor-pointer transition-colors disabled:opacity-60"
+                className="text-xs px-2.5 py-1 rounded-lg cursor-pointer transition-colors disabled:opacity-60"
                 disabled={size === pageSize}
                 style={{
                   color: size === pageSize ? CSS.accent : CSS.textMuted,

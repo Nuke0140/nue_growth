@@ -78,19 +78,19 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] overflow-hidden',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border shadow-sm overflow-hidden',
+        'bg-[var(--ops-card-bg)] border-[var(--ops-border)]'
       )}
     >
       {/* Header with gradient */}
       <div className={cn(
-        'p-app-xl pb-4 bg-gradient-to-r',
+        'p-5 pb-4 bg-gradient-to-r',
         config.headerGradient
       )}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className={cn(
-              'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'w-8 h-8 rounded-xl flex items-center justify-center',
               config.iconBg
             )}>
               {type === 'revenue' ? (
@@ -103,7 +103,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             </div>
             <div>
               <h3 className="text-sm font-semibold">{title}</h3>
-              <p className="text-[10px] text-[var(--app-text-disabled)]">
+              <p className="text-[10px] text-[var(--ops-text-disabled)]">
                 Forecast Overview
               </p>
             </div>
@@ -114,9 +114,9 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
             </p>
             <div className="flex items-center justify-end gap-0.5">
               {avgChange >= 0 ? (
-                <ArrowUpRight className="w-4 h-4 text-emerald-500" />
+                <ArrowUpRight className="w-3 h-3 text-emerald-500" />
               ) : (
-                <ArrowDownRight className="w-4 h-4 text-red-500" />
+                <ArrowDownRight className="w-3 h-3 text-red-500" />
               )}
               <span className={cn('text-[10px] font-medium', avgChange >= 0 ? 'text-emerald-500' : 'text-red-500')}>
                 {avgChange >= 0 ? '+' : ''}{avgChange.toFixed(1)}% avg
@@ -127,7 +127,7 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
       </div>
 
       {/* Mini Bar Chart + Data Rows */}
-      <div className="px-app-xl pb-5 pt-2">
+      <div className="px-5 pb-5 pt-2">
         {/* Visual Bars */}
         <div className="space-y-2 mb-4">
           {data.map((item, index) => {
@@ -140,9 +140,9 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: index * 0.05 }}
               >
-                <div className={cn('h-6 rounded-[var(--app-radius-lg)] overflow-hidden relative', config.barBgColor)}>
+                <div className={cn('h-6 rounded-lg overflow-hidden relative', config.barBgColor)}>
                   <motion.div
-                    className={cn('h-full rounded-[var(--app-radius-lg)]', config.barColor)}
+                    className={cn('h-full rounded-lg', config.barColor)}
                     initial={{ width: 0 }}
                     animate={{ width: `${barWidth}%` }}
                     transition={{ duration: 0.6, delay: index * 0.05, ease: 'easeOut' }}
@@ -165,13 +165,13 @@ export default function ForecastWidget({ title, data, type = 'revenue' }: Foreca
               className="flex items-center justify-between"
             >
               <div className="flex items-center gap-2">
-                <div className={cn('w-2 h-2 rounded-[var(--app-radius-sm)]', config.barColor)} />
-                <span className="text-[11px] font-medium text-[var(--app-text-secondary)]">
+                <div className={cn('w-2 h-2 rounded-sm', config.barColor)} />
+                <span className="text-[11px] font-medium text-[var(--ops-text-secondary)]">
                   {item.label}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-[11px] font-semibold text-[var(--app-text)]">
+                <span className="text-[11px] font-semibold text-[var(--ops-text)]">
                   {formatCurrency(item.value)}
                 </span>
                 <div className={cn(

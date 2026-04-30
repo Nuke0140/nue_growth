@@ -30,7 +30,7 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
       whileHover={{ scale: 1.01, y: -1 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border p-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
+        'rounded-2xl border p-4 shadow-sm',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -38,14 +38,14 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', config.bg)}>
+          <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', config.bg)}>
             <StatusIcon className={cn('w-4 h-4', config.color)} />
           </div>
           <div>
-            <p className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <p className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
               {log.workflowName}
             </p>
-            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
               {log.triggeredBy === 'auto' ? 'Auto-triggered' : log.triggeredBy === 'webhook' ? 'Webhook' : 'Scheduled'}
             </p>
           </div>
@@ -65,11 +65,11 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
           const NI = nc.icon;
           return (
             <div key={node.nodeId} className="flex items-center gap-2">
-              <NI className={cn('w-4 h-4 shrink-0', nc.color)} />
-              <span className={cn('text-xs flex-1 truncate', 'text-[var(--app-text-secondary)]')}>
+              <NI className={cn('w-3 h-3 shrink-0', nc.color)} />
+              <span className={cn('text-xs flex-1 truncate', isDark ? 'text-white/60' : 'text-black/60')}>
                 {node.nodeName}
               </span>
-              <span className={cn('text-[10px] shrink-0', 'text-[var(--app-text-muted)]')}>
+              <span className={cn('text-[10px] shrink-0', isDark ? 'text-white/30' : 'text-black/30')}>
                 {node.duration}s
               </span>
             </div>
@@ -78,10 +78,10 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
       </div>
 
       {/* Footer */}
-      <div className={cn('flex items-center justify-between pt-2 border-t', 'border-[var(--app-border)]')}>
+      <div className={cn('flex items-center justify-between pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
         <div className="flex items-center gap-1.5">
-          <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+          <Clock className={cn('w-3 h-3', isDark ? 'text-white/30' : 'text-black/30')} />
+          <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
             Total: {log.duration}s
           </span>
           {log.retryCount > 0 && (
@@ -90,14 +90,14 @@ export default function ExecutionLogCard({ log }: ExecutionLogCardProps) {
             </span>
           )}
         </div>
-        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
           {new Date(log.startedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
         </span>
       </div>
 
       {log.errorMessage && (
         <div className={cn(
-          'mt-2 rounded-[var(--app-radius-lg)] p-2 text-[11px] leading-relaxed',
+          'mt-2 rounded-lg p-2 text-[11px] leading-relaxed',
           isDark ? 'bg-red-500/5 text-red-300/70 border border-red-500/10' : 'bg-red-50 text-red-600 border border-red-200',
         )}>
           {log.errorMessage}

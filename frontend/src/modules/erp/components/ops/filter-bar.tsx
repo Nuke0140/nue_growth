@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { ANIMATION } from '@/styles/design-tokens';
+import { ANIMATION } from '../../design-tokens';
 
 interface FilterItem {
   key: string;
@@ -44,11 +44,11 @@ export const FilterBar = React.memo(function FilterBar({
             )}
             style={{
               backgroundColor: isActive
-                ? 'var(--app-accent)'
+                ? 'var(--ops-accent)'
                 : 'transparent',
               color: isActive
                 ? '#ffffff'
-                : 'var(--app-text-secondary)',
+                : 'var(--ops-text-secondary)',
             }}
             whileTap={{ scale: 0.97 }}
             role="button"
@@ -59,14 +59,14 @@ export const FilterBar = React.memo(function FilterBar({
             {filter.label}
             {filter.count !== undefined && (
               <span
-                className="app-badge text-[10px] leading-none"
+                className="ops-badge text-[10px] leading-none"
                 style={{
                   backgroundColor: isActive
-                    ? 'var(--app-text-disabled)'
-                    : 'var(--app-hover-bg)',
+                    ? 'var(--ops-text-disabled)'
+                    : 'var(--ops-hover-bg)',
                   color: isActive
                     ? '#ffffff'
-                    : 'var(--app-text-muted)',
+                    : 'var(--ops-text-muted)',
                 }}
               >
                 {filter.count}

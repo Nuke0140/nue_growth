@@ -48,7 +48,7 @@ const priorityDotColor: Record<ProjectPriority, string> = {
   critical: '#f87171',
   high: '#fbbf24',
   medium: '#60a5fa',
-  low: 'var(--app-text-disabled)',
+  low: 'var(--ops-text-disabled)',
 };
 
 function getInitials(name: string): string {
@@ -110,7 +110,7 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
     <div className="space-y-1.5">
       <div
         className="relative h-2 rounded-full overflow-hidden"
-        style={{ backgroundColor: 'var(--app-hover-bg)' }}
+        style={{ backgroundColor: 'var(--ops-hover-bg)' }}
       >
         {/* Green (or amber warning) fill */}
         <motion.div
@@ -141,7 +141,7 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
         <span
           className="text-[10px]"
           style={{
-            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--app-text-muted)',
+            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--ops-text-muted)',
           }}
         >
           {formatINR(actualSpend)} / {formatINR(budget)}
@@ -149,7 +149,7 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
         <span
           className="text-[10px] font-semibold"
           style={{
-            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--app-text-secondary)',
+            color: overBudget ? '#f87171' : isWarning ? '#fbbf24' : 'var(--ops-text-secondary)',
           }}
         >
           {Math.round(spentPct)}%
@@ -183,8 +183,8 @@ function ProjectCard({
       transition={{ type: 'tween', duration: 0.2 }}
       onClick={onClick}
       className={cn(
-        'app-card app-glow app-card-hover cursor-pointer p-app-xl flex flex-col gap-3.5',
-        'rounded-[var(--app-radius-xl)] relative'
+        'ops-card ops-glow ops-card-hover cursor-pointer p-5 flex flex-col gap-3.5',
+        'rounded-2xl relative'
       )}
       role="button"
       tabIndex={0}
@@ -195,13 +195,13 @@ function ProjectCard({
         <div className="min-w-0 flex-1">
           <h3
             className="text-sm font-semibold leading-snug truncate"
-            style={{ color: 'var(--app-text)' }}
+            style={{ color: 'var(--ops-text)' }}
           >
             {project.name}
           </h3>
           <p
             className="text-xs mt-0.5 truncate"
-            style={{ color: 'var(--app-text-muted)' }}
+            style={{ color: 'var(--ops-text-muted)' }}
           >
             {project.client}
           </p>
@@ -217,7 +217,7 @@ function ProjectCard({
         <div className="flex items-center justify-between">
           <span
             className="text-[10px] font-medium uppercase tracking-wider"
-            style={{ color: 'var(--app-text-muted)' }}
+            style={{ color: 'var(--ops-text-muted)' }}
           >
             Progress
           </span>
@@ -230,7 +230,7 @@ function ProjectCard({
         </div>
         <div
           className="h-1.5 rounded-full overflow-hidden"
-          style={{ backgroundColor: 'var(--app-hover-bg)' }}
+          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
         >
           <motion.div
             className="h-full rounded-full"
@@ -246,12 +246,12 @@ function ProjectCard({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Users
-            className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--app-text-muted)' }}
+            className="w-3.5 h-3.5 shrink-0"
+            style={{ color: 'var(--ops-text-muted)' }}
           />
           <div className="flex -space-x-2">
             {shown.map((member, i) => (
-              <Avatar key={member} className="w-6 h-6 border-2" style={{ borderColor: 'var(--app-card-bg)' }}>
+              <Avatar key={member} className="w-6 h-6 border-2" style={{ borderColor: 'var(--ops-card-bg)' }}>
                 <AvatarFallback
                   className="text-[8px] font-semibold"
                   style={{
@@ -267,9 +267,9 @@ function ProjectCard({
               <span
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold border-2"
                 style={{
-                  borderColor: 'var(--app-card-bg)',
-                  backgroundColor: 'var(--app-hover-bg)',
-                  color: 'var(--app-text-secondary)',
+                  borderColor: 'var(--ops-card-bg)',
+                  backgroundColor: 'var(--ops-hover-bg)',
+                  color: 'var(--ops-text-secondary)',
                 }}
               >
                 +{overflow}
@@ -283,10 +283,10 @@ function ProjectCard({
           className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
           style={{
             backgroundColor: project.sla >= 90
-              ? 'var(--app-success-bg)'
+              ? 'rgba(52,211,153,0.1)'
               : project.sla >= 80
-                ? 'var(--app-warning-bg)'
-                : 'var(--app-danger-bg)',
+                ? 'rgba(251,191,36,0.1)'
+                : 'rgba(248,113,113,0.1)',
             color: project.sla >= 90
               ? '#34d399'
               : project.sla >= 80
@@ -301,7 +301,7 @@ function ProjectCard({
             }`,
           }}
         >
-          <Shield className="w-4 h-4" />
+          <Shield className="w-3 h-3" />
           SLA: {project.sla}%
         </div>
       </div>
@@ -312,8 +312,8 @@ function ProjectCard({
           <AvatarFallback
             className="text-[7px] font-semibold"
             style={{
-              backgroundColor: 'var(--app-shadow-accent)',
-              color: 'var(--app-accent)',
+              backgroundColor: 'rgba(204,92,55,0.15)',
+              color: 'var(--ops-accent)',
             }}
           >
             {getInitials(project.accountManager)}
@@ -321,19 +321,19 @@ function ProjectCard({
         </Avatar>
         <span
           className="text-[11px]"
-          style={{ color: 'var(--app-text-muted)' }}
+          style={{ color: 'var(--ops-text-muted)' }}
         >
           {project.accountManager}
         </span>
       </div>
 
       {/* Bottom row: due date + status + priority */}
-      <div className="flex items-center justify-between mt-auto pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
+      <div className="flex items-center justify-between mt-auto pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
         <div
           className="flex items-center gap-1 text-[11px]"
-          style={{ color: daysLeft <= 14 && project.status === 'active' ? '#f87171' : 'var(--app-text-muted)' }}
+          style={{ color: daysLeft <= 14 && project.status === 'active' ? '#f87171' : 'var(--ops-text-muted)' }}
         >
-          <Calendar className="w-4 h-4" />
+          <Calendar className="w-3 h-3" />
           {daysLeft > 0
             ? `${daysLeft}d left`
             : project.status === 'completed'
@@ -367,25 +367,25 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="app-card rounded-[var(--app-radius-xl)] p-4 flex flex-col gap-2">
+    <div className="ops-card rounded-2xl p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span
           className="text-xs font-medium"
-          style={{ color: 'var(--app-text-muted)' }}
+          style={{ color: 'var(--ops-text-muted)' }}
         >
           {label}
         </span>
         <div
-          className="w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center"
-          style={{ backgroundColor: 'var(--app-hover-bg)' }}
+          className="w-7 h-7 rounded-lg flex items-center justify-center"
+          style={{ backgroundColor: 'var(--ops-hover-bg)' }}
         >
           <Icon
-            className="w-4 h-4"
-            style={{ color: accent || 'var(--app-text-muted)' }}
+            className="w-3.5 h-3.5"
+            style={{ color: accent || 'var(--ops-text-muted)' }}
           />
         </div>
       </div>
-      <p className="text-xl font-bold" style={{ color: 'var(--app-text)' }}>
+      <p className="text-xl font-bold" style={{ color: 'var(--ops-text)' }}>
         {value}
       </p>
     </div>
@@ -478,7 +478,7 @@ function ProjectsPageInner() {
 
   return (
     <PageShell title="Projects" icon={FolderKanban} createType="project">
-      <div className="space-y-app-xl">
+      <div className="space-y-5">
         {/* ── Search (moved from header) ── */}
         <div className="flex items-center gap-3">
           <div className="flex-1 max-w-sm">
@@ -501,7 +501,7 @@ function ProjectsPageInner() {
         <div className="space-y-1.5">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--app-text-muted)' }}
+            style={{ color: 'var(--ops-text-muted)' }}
           >
             Health
           </span>
@@ -540,7 +540,7 @@ function ProjectsPageInner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3 }}
           >
-            <StatCard label="Total Budget" value={formatINR(stats.totalBudget)} icon={Wallet} accent="var(--app-accent)" />
+            <StatCard label="Total Budget" value={formatINR(stats.totalBudget)} icon={Wallet} accent="var(--ops-accent)" />
           </motion.div>
         </div>
 
@@ -557,15 +557,15 @@ function ProjectsPageInner() {
             {filtered.length === 0 ? (
               <div className="col-span-full flex flex-col items-center justify-center py-20 gap-3">
                 <div
-                  className="w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center"
-                  style={{ backgroundColor: 'var(--app-hover-bg)' }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                 >
                   <FolderKanban
                     className="w-6 h-6"
-                    style={{ color: 'var(--app-text-muted)' }}
+                    style={{ color: 'var(--ops-text-muted)' }}
                   />
                 </div>
-                <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
+                <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>
                   No projects found
                 </p>
               </div>

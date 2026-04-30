@@ -1,16 +1,20 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import {
-  Plus, Flame, Star, Snowflake, ArrowRightLeft, Users, DollarSign, Zap,
+  Plus, Search, Flame, Star, Snowflake, ChevronDown, Mail, Phone,
+  ArrowRightLeft, Users, DollarSign, Zap, X, Filter, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import { mockLeads } from '@/modules/crm-sales/data/mock-data';
@@ -48,47 +52,19 @@ const STATUS_VARIANT: Record<LeadStatus, 'default' | 'secondary' | 'destructive'
   lost: 'destructive',
 };
 
-const createLeadFields: FormField[] = [
-  { key: 'firstName', label: 'First Name', type: 'text', placeholder: 'John', required: true },
-  { key: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Doe', required: true },
-  { key: 'email', label: 'Email', type: 'text', placeholder: 'john@company.com', required: true },
-  { key: 'company', label: 'Company', type: 'text', placeholder: 'Acme Inc', required: true },
-  { key: 'expectedRevenue', label: 'Expected Revenue ($)', type: 'number', placeholder: '50000' },
-  {
-    key: 'source',
-    label: 'Source',
-    type: 'select',
-    options: [
-      { label: 'LinkedIn', value: 'linkedin' },
-      { label: 'Website', value: 'website' },
-      { label: 'Event', value: 'event' },
-      { label: 'Referral', value: 'referral' },
-      { label: 'Ad Campaign', value: 'ad_campaign' },
-      { label: 'Cold Call', value: 'cold_call' },
-      { label: 'Organic', value: 'organic' },
-    ],
-  },
-  {
-    key: 'intent',
-    label: 'Intent',
-    type: 'select',
-    options: [
-      { label: '🔥 Hot', value: 'hot' },
-      { label: '⭐ Warm', value: 'warm' },
-      { label: '❄️ Cold', value: 'cold' },
-    ],
-  },
-];
+const ITEMS_PER_PAGE = 8;
 
 export default function LeadsPage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const { selectLead } = useCrmSalesStore();
 
   const [search, setSearch] = useState('');
   const [intentFilter, setIntentFilter] = useState<LeadIntent | 'all'>('all');
   const [sourceFilter, setSourceFilter] = useState<ContactSource | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'all'>('all');
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [page, setPage] = useState(1);
+  const [selectedLeadModal, setSelectedLeadModal] = useState<Lead | null>(null);
 
   const filtered = useMemo(() => {
     return mockLeads.filter(l => {
@@ -109,118 +85,8 @@ export default function LeadsPage() {
     return { total, hot, warm, cold, totalRevenue };
   }, []);
 
-  // Table data
-  const tableData = useMemo(
-    () => filtered.map(l => ({
-      id: l.id,
-      name: `${l.firstName} ${l.lastName}`,
-      company: l.company,
-      ...l,
-    })) as unknown as Record<string, unknown>[],
-    [filtered]
-  );
-
-  // Column definitions
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'name',
-      label: 'Name',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return (
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
-              {l.firstName[0]}{l.lastName[0]}
-            </div>
-            <div>
-              <p className="text-sm font-medium">{l.firstName} {l.lastName}</p>
-              <p className="text-[11px] text-[var(--app-text-muted)]">{l.email}</p>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'company',
-      label: 'Company',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return <span className="text-xs text-[var(--app-text-secondary)]">{l.company}</span>;
-      },
-    },
-    {
-      key: 'source',
-      label: 'Source',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return (
-          <span className={cn('inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border capitalize', SOURCE_COLORS[l.source])}>
-            {l.source.replace('_', ' ')}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'score',
-      label: 'Score',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return (
-          <div className="flex items-center gap-2 min-w-[100px]">
-            <Progress value={l.score} className="h-1.5 w-16 bg-[var(--app-hover-bg)]" />
-            <span className="text-xs font-medium">{l.score}</span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'intent',
-      label: 'Intent',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        const intentCfg = INTENT_CONFIG[l.intent];
-        const IntentIcon = intentCfg.icon;
-        return (
-          <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold', intentCfg.bg, intentCfg.text)}>
-            <IntentIcon className="w-3 h-3" />
-            {intentCfg.label}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return <Badge variant={STATUS_VARIANT[l.status]} className="text-[10px] capitalize">{l.status}</Badge>;
-      },
-    },
-    {
-      key: 'expectedRevenue',
-      label: 'Revenue',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return <span className="text-xs font-medium">{formatCurrency(l.expectedRevenue)}</span>;
-      },
-    },
-    {
-      key: 'nextAction',
-      label: 'Next Action',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return <p className="text-xs max-w-[140px] truncate text-[var(--app-text-muted)]">{l.nextAction || '—'}</p>;
-      },
-    },
-    {
-      key: 'assignedRep',
-      label: 'Assigned',
-      render: (row) => {
-        const l = row as unknown as Lead;
-        return <p className="text-xs text-[var(--app-text-muted)]">{l.assignedRep}</p>;
-      },
-    },
-  ], []);
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginatedLeads = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -271,11 +137,11 @@ export default function LeadsPage() {
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
           >
             {[
-              { label: 'Total Leads', value: stats.total.toString(), icon: Users },
-              { label: 'Hot Leads', value: stats.hot.toString(), icon: Flame },
-              { label: 'Warm Leads', value: stats.warm.toString(), icon: Star },
-              { label: 'Cold Leads', value: stats.cold.toString(), icon: Snowflake },
-              { label: 'Expected Revenue', value: formatCurrency(stats.totalRevenue), icon: DollarSign },
+              { label: 'Total Leads', value: stats.total.toString(), icon: Users, color: '' },
+              { label: 'Hot Leads', value: stats.hot.toString(), icon: Flame, color: 'text-red-500' },
+              { label: 'Warm Leads', value: stats.warm.toString(), icon: Star, color: 'text-amber-500' },
+              { label: 'Cold Leads', value: stats.cold.toString(), icon: Snowflake, color: 'text-sky-500' },
+              { label: 'Expected Revenue', value: formatCurrency(stats.totalRevenue), icon: DollarSign, color: 'text-emerald-500' },
             ].map((stat) => (
               <div
                 key={stat.label}
@@ -295,18 +161,19 @@ export default function LeadsPage() {
 
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-2">
+            {/* Intent Chips */}
             <div className="flex items-center gap-1">
               {(['all', 'hot', 'warm', 'cold'] as const).map((intent) => {
                 const active = intentFilter === intent;
                 return (
                   <button
                     key={intent}
-                    onClick={() => setIntentFilter(intent)}
+                    onClick={() => { setIntentFilter(intent); setPage(1); }}
                     className={cn(
                       'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors border',
                       active
-                        ? 'bg-[var(--app-active-bg)] text-[var(--app-text)] border-[var(--app-active-bg)]'
-                        : 'text-[var(--app-text-muted)] border-[var(--app-border)] hover:bg-[var(--app-hover-bg)]'
+                        ? isDark ? 'bg-white text-black border-white' : 'bg-black text-white border-black'
+                        : isDark ? 'text-white/50 border-white/[0.06] hover:bg-white/[0.04]' : 'text-black/50 border-black/[0.06] hover:bg-black/[0.04]'
                     )}
                   >
                     {intent === 'all' ? 'All' : intent === 'hot' ? '🔥 Hot' : intent === 'warm' ? '⭐ Warm' : '❄️ Cold'}
@@ -327,9 +194,13 @@ export default function LeadsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sources</SelectItem>
-                {Object.entries(SOURCE_COLORS).map(([key]) => (
-                  <SelectItem key={key} value={key}>{key.replace('_', ' ')}</SelectItem>
-                ))}
+                <SelectItem value="linkedin">LinkedIn</SelectItem>
+                <SelectItem value="website">Website</SelectItem>
+                <SelectItem value="event">Event</SelectItem>
+                <SelectItem value="referral">Referral</SelectItem>
+                <SelectItem value="ad_campaign">Ad Campaign</SelectItem>
+                <SelectItem value="cold_call">Cold Call</SelectItem>
+                <SelectItem value="organic">Organic</SelectItem>
               </SelectContent>
             </Select>
 
@@ -586,59 +457,9 @@ export default function LeadsPage() {
   );
 }
 
-      {/* Lead Detail Sidebar */}
-      <ContextualSidebar
-        open={!!selectedLead}
-        onClose={() => setSelectedLead(null)}
-        title={selectedLead ? `${selectedLead.firstName} ${selectedLead.lastName}` : ''}
-        subtitle="Lead"
-        icon={Flame}
-        width={420}
-        footer={
-          selectedLead ? (
-            <div className="flex items-center gap-2">
-              <Button size="sm" className="flex-1 rounded-xl text-xs" variant="outline" onClick={() => setSelectedLead(null)}>
-                Close
-              </Button>
-              <Button
-                size="sm"
-                className="flex-1 rounded-xl text-xs text-white"
-                style={{ backgroundColor: CSS.accent }}
-                onClick={() => {
-                  console.log('Convert to deal:', selectedLead.id);
-                  setSelectedLead(null);
-                }}
-              >
-                <Zap className="w-3.5 h-3.5 mr-1.5" />
-                Convert to Deal
-              </Button>
-            </div>
-          ) : undefined
-        }
-      >
-        {selectedLead && (
-          <div className="space-y-5">
-            {/* Header info */}
-            <div className="rounded-xl p-4" style={{ backgroundColor: CSS.hoverBg }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-[var(--app-hover-bg)] text-[var(--app-text)]">
-                  {selectedLead.firstName[0]}{selectedLead.lastName[0]}
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">{selectedLead.company}</p>
-                  <p className="text-xs text-[var(--app-text-muted)]">{selectedLead.email}</p>
-                </div>
-                {(() => {
-                  const intentCfg = INTENT_CONFIG[selectedLead.intent];
-                  const IntentIcon = intentCfg.icon;
-                  return (
-                    <span className={cn('inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold', intentCfg.bg, intentCfg.text)}>
-                      <IntentIcon className="w-3.5 h-3.5" />
-                      {intentCfg.label}
-                    </span>
-                  );
-                })()}
-              </div>
+function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark: boolean; onClose: () => void }) {
+  const intentCfg = INTENT_CONFIG[lead.intent];
+  const IntentIcon = intentCfg.icon;
 
   const scoreBreakdown = [
     { label: 'Engagement', value: Math.round(lead.score * 0.35), weight: '35%' },
@@ -692,12 +513,19 @@ export default function LeadsPage() {
                     animate={{ width: `${item.value}%` }}
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className={cn(
-                      'h-full rounded-full transition-all',
-                      selectedLead.score >= 70 ? 'bg-emerald-500' : selectedLead.score >= 40 ? 'bg-amber-500' : 'bg-red-500'
+                      'h-full rounded-full',
+                      item.value >= 70 ? 'bg-emerald-500' : item.value >= 40 ? 'bg-amber-500' : 'bg-red-500'
                     )}
-                    style={{ width: `${selectedLead.score}%` }}
                   />
                 </div>
+                <span className={cn('text-[10px] font-medium w-8 text-right', 'text-[var(--app-text-muted)]')}>
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className={cn('grid grid-cols-2 gap-3 text-xs', 'text-[var(--app-text-secondary)]')}>
           <div>
             <span className={cn('block text-[10px] mb-0.5', 'text-[var(--app-text-muted)]')}>Source</span>

@@ -303,7 +303,7 @@ export default function RegisterPage() {
   const progressValue = (currentStep / STEPS.length) * 100;
 
   const rightPanel = (
-    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-app-3xl sm:py-app-4xl">
+    <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-8 sm:py-12">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -315,21 +315,21 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
-          className="flex justify-center mb-app-2xl lg:hidden"
+          className="flex justify-center mb-6 lg:hidden"
         >
           <Image src="/logo.png" alt="DigiNue" width={120} height={80} priority className="object-contain" />
         </motion.div>
 
-        <Card className="rounded-[var(--app-radius-xl)] border-gray-200/60 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
-          <CardContent className="p-6 md:p-app-3xl">
+        <Card className="rounded-2xl border-gray-200/60 shadow-sm">
+          <CardContent className="p-6 md:p-8">
             {/* Header */}
-            <div className="mb-app-2xl text-center">
+            <div className="mb-6 text-center">
               <h2 className="text-2xl font-bold text-gray-900">Create your account</h2>
               <p className="mt-1.5 text-sm text-gray-500">Get started with DigiNue in minutes</p>
             </div>
 
             {/* Stepper */}
-            <div className="mb-app-2xl">
+            <div className="mb-6">
               <div className="flex items-center justify-between">
                 {STEPS.map((step, index) => {
                   const isCompleted = currentStep > step.id;
@@ -388,7 +388,7 @@ export default function RegisterPage() {
                       </div>
 
                       {index < STEPS.length - 1 && (
-                        <div className="relative mx-2 mb-app-xl h-0.5 flex-1 overflow-hidden rounded-full bg-gray-200">
+                        <div className="relative mx-2 mb-5 h-0.5 flex-1 overflow-hidden rounded-full bg-gray-200">
                           <motion.div
                             className="absolute inset-y-0 left-0 rounded-full bg-gray-900"
                             initial={{ width: '0%' }}
@@ -406,7 +406,7 @@ export default function RegisterPage() {
 
               {/* Progress bar */}
               <div className="mt-4">
-                <Progress value={progressValue} className="h-1.5 [&>div]:bg-gray-900 [&>div]:transition-colors [&>div]:duration-200" />
+                <Progress value={progressValue} className="h-1.5 [&>div]:bg-gray-900 [&>div]:transition-all [&>div]:duration-500" />
               </div>
             </div>
 
@@ -449,7 +449,7 @@ export default function RegisterPage() {
                             setFullName(e.target.value);
                             clearError(1, 'fullName');
                           }}
-                          className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step1Errors.fullName ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -479,7 +479,7 @@ export default function RegisterPage() {
                             setEmail(e.target.value);
                             clearError(1, 'email');
                           }}
-                          className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step1Errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -500,7 +500,7 @@ export default function RegisterPage() {
                       </Label>
                       <div className="flex gap-2">
                         <Select value={countryCode} onValueChange={setCountryCode}>
-                          <SelectTrigger className="w-[110px] h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20">
+                          <SelectTrigger className="w-[110px] h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -522,7 +522,7 @@ export default function RegisterPage() {
                             placeholder="9876543210"
                             value={phone}
                             onChange={(e) => handlePhoneChange(e.target.value)}
-                            className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                            className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                               step1Errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                             }`}
                           />
@@ -553,7 +553,7 @@ export default function RegisterPage() {
                             setPassword(e.target.value);
                             clearError(1, 'password');
                           }}
-                          className={`pl-10 pr-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 pr-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step1Errors.password ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -592,7 +592,7 @@ export default function RegisterPage() {
                             setConfirmPassword(e.target.value);
                             clearError(1, 'confirmPassword');
                           }}
-                          className={`pl-10 pr-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 pr-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step1Errors.confirmPassword ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -618,7 +618,7 @@ export default function RegisterPage() {
                     <motion.div variants={fieldVariants} className="pt-2">
                       <Button
                         type="submit"
-                        className="h-10  w-full rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
+                        className="h-11 w-full rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
                       >
                         <span className="flex items-center gap-2">
                           Next Step
@@ -667,7 +667,7 @@ export default function RegisterPage() {
                             setBusinessName(e.target.value);
                             clearError(2, 'businessName');
                           }}
-                          className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step2Errors.businessName ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -685,7 +685,7 @@ export default function RegisterPage() {
                     <motion.div variants={fieldVariants} className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">Industry</Label>
                       <Select value={industry} onValueChange={(val) => { setIndustry(val); clearError(2, 'industry'); }}>
-                        <SelectTrigger className={`h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
+                        <SelectTrigger className={`h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
                           step2Errors.industry ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                         }`}>
                           <SelectValue placeholder="Select your industry" />
@@ -711,7 +711,7 @@ export default function RegisterPage() {
                     <motion.div variants={fieldVariants} className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">Company Size</Label>
                       <Select value={companySize} onValueChange={(val) => { setCompanySize(val); clearError(2, 'companySize'); }}>
-                        <SelectTrigger className={`h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
+                        <SelectTrigger className={`h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
                           step2Errors.companySize ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                         }`}>
                           <SelectValue placeholder="Select company size" />
@@ -749,7 +749,7 @@ export default function RegisterPage() {
                             setWebsite(e.target.value);
                             clearError(2, 'website');
                           }}
-                          className={`pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
+                          className={`pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 ${
                             step2Errors.website ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                           }`}
                         />
@@ -776,7 +776,7 @@ export default function RegisterPage() {
                           placeholder="22AAAAA0000A1Z5"
                           value={gstNumber}
                           onChange={(e) => setGstNumber(e.target.value)}
-                          className="pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 uppercase"
+                          className="pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 uppercase"
                         />
                       </div>
                     </motion.div>
@@ -785,7 +785,7 @@ export default function RegisterPage() {
                     <motion.div variants={fieldVariants} className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">Country</Label>
                       <Select value={country} onValueChange={(val) => { setCountry(val); clearError(2, 'country'); }}>
-                        <SelectTrigger className={`h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
+                        <SelectTrigger className={`h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 focus:border-gray-400 focus:ring-gray-400/20 ${
                           step2Errors.country ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : ''
                         }`}>
                           <SelectValue placeholder="Select your country" />
@@ -813,7 +813,7 @@ export default function RegisterPage() {
                         type="button"
                         onClick={handleBack}
                         variant="outline"
-                        className="h-10  flex-1 rounded-[var(--app-radius-lg)] border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        className="h-11 flex-1 rounded-xl border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       >
                         <span className="flex items-center gap-2">
                           <ArrowLeft className="h-4 w-4" />
@@ -822,7 +822,7 @@ export default function RegisterPage() {
                       </Button>
                       <Button
                         type="submit"
-                        className="h-10  flex-1 rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
+                        className="h-11 flex-1 rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
                       >
                         <span className="flex items-center gap-2">
                           Next Step
@@ -849,7 +849,7 @@ export default function RegisterPage() {
                     variants={formContainerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="space-y-app-xl"
+                    className="space-y-5"
                     onSubmit={(e) => {
                       e.preventDefault();
                       handleSubmit();
@@ -868,7 +868,7 @@ export default function RegisterPage() {
                           placeholder="My Workspace"
                           value={workspaceName}
                           onChange={(e) => setWorkspaceName(e.target.value)}
-                          className="pl-10 h-10  rounded-[var(--app-radius-lg)] border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20"
+                          className="pl-10 h-11 rounded-xl border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20"
                         />
                       </div>
                     </motion.div>
@@ -888,9 +888,9 @@ export default function RegisterPage() {
                             const val = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
                             setSubdomain(val);
                           }}
-                          className="h-10  rounded-[var(--app-radius-lg)] rounded-r-none border-r-0 border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 focus:z-10"
+                          className="h-11 rounded-xl rounded-r-none border-r-0 border-gray-200 bg-gray-50/50 text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:ring-gray-400/20 focus:z-10"
                         />
-                        <div className="flex h-10  items-center whitespace-nowrap rounded-[var(--app-radius-lg)] rounded-l-none border border-l-0 border-gray-200 bg-gray-100 px-3 text-sm text-gray-500">
+                        <div className="flex h-11 items-center whitespace-nowrap rounded-xl rounded-l-none border border-l-0 border-gray-200 bg-gray-100 px-3 text-sm text-gray-500">
                           .diginue.com
                         </div>
                       </div>
@@ -920,7 +920,7 @@ export default function RegisterPage() {
                             <motion.label
                               key={plan.id}
                               htmlFor={`plan-${plan.id}`}
-                              className={`relative flex cursor-pointer items-start gap-4 rounded-[var(--app-radius-xl)] border-2 p-4 transition-colors ${
+                              className={`relative flex cursor-pointer items-start gap-4 rounded-2xl border-2 p-4 transition-all ${
                                 isSelected
                                   ? 'border-gray-900 bg-gray-50'
                                   : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/50'
@@ -931,7 +931,7 @@ export default function RegisterPage() {
                               <RadioGroupItem value={plan.id} id={`plan-${plan.id}`} className="mt-0.5 sr-only" />
                               <div className="flex items-center justify-center">
                                 <div
-                                  className={`flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)] transition-colors ${
+                                  className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
                                     isSelected ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500'
                                   }`}
                                 >
@@ -976,7 +976,7 @@ export default function RegisterPage() {
                     {/* Free Trial Note */}
                     <motion.div
                       variants={fieldVariants}
-                      className="flex items-center gap-2 rounded-[var(--app-radius-lg)] bg-green-50 border border-green-100 p-3"
+                      className="flex items-center gap-2 rounded-xl bg-green-50 border border-green-100 p-3"
                     >
                       <Check className="h-4 w-4 shrink-0 text-green-600" />
                       <p className="text-xs text-green-700 font-medium">
@@ -990,7 +990,7 @@ export default function RegisterPage() {
                         type="button"
                         onClick={handleBack}
                         variant="outline"
-                        className="h-10  flex-1 rounded-[var(--app-radius-lg)] border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        className="h-11 flex-1 rounded-xl border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       >
                         <span className="flex items-center gap-2">
                           <ArrowLeft className="h-4 w-4" />
@@ -1000,7 +1000,7 @@ export default function RegisterPage() {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="h-10  flex-[2] rounded-[var(--app-radius-lg)] bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
+                        className="h-11 flex-[2] rounded-xl bg-gray-900 text-sm font-semibold text-white hover:bg-gray-800 active:bg-gray-950"
                       >
                         <AnimatePresence mode="wait">
                           {isSubmitting ? (
@@ -1041,7 +1041,7 @@ export default function RegisterPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-app-2xl text-center space-y-3"
+          className="mt-6 text-center space-y-3"
         >
           <p className="text-sm text-gray-500">
             Already have an account?{' '}

@@ -34,8 +34,8 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
 
   return (
     <div className={cn(
-      'h-full min-h-[400px] rounded-[var(--app-radius-xl)] border overflow-hidden relative',
-      'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+      'h-full min-h-[400px] rounded-2xl border overflow-hidden relative',
+      isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
     )}>
       {/* Grid background */}
       <div className="absolute inset-0" style={{
@@ -62,7 +62,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                 key={conn.id}
                 d={`M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`}
                 fill="none"
-                stroke={'var(--app-border-strong)'}
+                stroke={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
                 strokeWidth="2"
                 strokeDasharray={conn.condition ? '6 4' : 'none'}
               />
@@ -78,8 +78,8 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.08, duration: 0.3, ease: 'easeOut' as const }}
             className={cn(
-              'absolute flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border text-xs font-medium cursor-pointer',
-              'transition-colors duration-200 hover:scale-105',
+              'absolute flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-medium cursor-pointer',
+              'transition-all duration-200 hover:scale-105',
               nodeColors[node.type] || nodeColors.action,
               statusIndicator[node.status || 'idle'],
             )}

@@ -2,12 +2,18 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import {
-  Plus, Building2, DollarSign, TrendingUp, Users, Filter, MoreHorizontal,
+  Search, Plus, LayoutGrid, List, ArrowUpDown, ChevronLeft,
+  ChevronRight, ChevronsLeft, ChevronsRight, ArrowUp, ArrowDown,
+  Building2, DollarSign, TrendingUp, Users, Filter, MoreHorizontal
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
@@ -21,6 +27,8 @@ import CompanyCard from '@/modules/crm-sales/relationships/companies/company-car
 import type { Company } from '@/modules/crm-sales/system/types';
 
 type ViewMode = 'grid' | 'table';
+type SortField = 'name' | 'arr' | 'healthScore' | 'linkedContacts' | 'activeDeals';
+type SortDir = 'asc' | 'desc';
 
 function formatARR(arr: number): string {
   if (arr >= 1_000_000) return `$${(arr / 1_000_000).toFixed(1)}M`;
@@ -40,23 +48,19 @@ function getHealthBarColor(score: number) {
   return 'bg-red-500';
 }
 
-const createCompanyFields: FormField[] = [
-  { key: 'name', label: 'Company Name', type: 'text', placeholder: 'Acme Inc', required: true },
-  { key: 'industry', label: 'Industry', type: 'text', placeholder: 'SaaS' },
-  { key: 'website', label: 'Website', type: 'text', placeholder: 'https://acme.com' },
-  { key: 'owner', label: 'Owner', type: 'text', placeholder: 'Sales Rep Name' },
-  { key: 'arr', label: 'ARR ($)', type: 'number', placeholder: '500000' },
-  { key: 'employees', label: 'Employees', type: 'number', placeholder: '250' },
-];
+const ITEMS_PER_PAGE = 9;
 
 export default function CompaniesPage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const selectCompany = useCrmSalesStore((s) => s.selectCompany);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<ViewMode>('table');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [sortField, setSortField] = useState<SortField>('name');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [industryFilter, setIndustryFilter] = useState<string>('all');
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Industries from data
   const industries = useMemo(() => {
@@ -82,8 +86,24 @@ export default function CompaniesPage() {
       result = result.filter(c => c.industry === industryFilter);
     }
 
+    result.sort((a, b) => {
+      let cmp = 0;
+      switch (sortField) {
+        case 'name': cmp = a.name.localeCompare(b.name); break;
+        case 'arr': cmp = a.arr - b.arr; break;
+        case 'healthScore': cmp = a.healthScore - b.healthScore; break;
+        case 'linkedContacts': cmp = a.linkedContacts - b.linkedContacts; break;
+        case 'activeDeals': cmp = a.activeDeals - b.activeDeals; break;
+      }
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+
     return result;
-  }, [searchQuery, industryFilter]);
+  }, [searchQuery, industryFilter, sortField, sortDir]);
+
+  // Pagination
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   // Stats
   const stats = useMemo(() => ({
@@ -93,23 +113,14 @@ export default function CompaniesPage() {
     activeDeals: mockCompanies.reduce((sum, c) => sum + c.activeDeals, 0),
   }), []);
 
-  // Table data for SmartDataTable
-  const tableData = useMemo(
-    () => filtered.map(c => ({
-      id: c.id,
-      name: c.name,
-      industry: c.industry,
-      arr: c.arr,
-      linkedContacts: c.linkedContacts,
-      activeDeals: c.activeDeals,
-      healthScore: c.healthScore,
-      owner: c.owner,
-      website: c.website,
-      logo: c.logo,
-      ...c,
-    })) as unknown as Record<string, unknown>[],
-    [filtered]
-  );
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDir('asc');
+    }
+  };
 
   function renderSortIcon(field: SortField) {
     if (sortField !== field) return <ArrowUpDown className="w-4 h-4 opacity-40" />;
@@ -176,22 +187,22 @@ export default function CompaniesPage() {
                 className={cn(
                   'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   viewMode === 'grid'
-                    ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
-                    : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+                    ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
+                    : isDark ? 'text-white/30 hover:text-white/60' : 'text-black/30 hover:text-black/60'
                 )}
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                <LayoutGrid className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode('table')}
                 className={cn(
                   'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
                   viewMode === 'table'
-                    ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]'
-                    : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+                    ? isDark ? 'bg-white/[0.08] text-white' : 'bg-black/[0.08] text-black'
+                    : isDark ? 'text-white/30 hover:text-white/60' : 'text-black/30 hover:text-black/60'
                 )}
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                <List className="w-4 h-4" />
               </button>
             </div>
 
@@ -247,7 +258,7 @@ export default function CompaniesPage() {
         {/* Grid View */}
         {viewMode === 'grid' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.length === 0 ? (
+            {paginated.length === 0 ? (
               <div className="col-span-full flex flex-col items-center py-16">
                 <div className={cn(
                   'w-14 h-14 rounded-[var(--app-radius-xl)] flex items-center justify-center mb-3',
@@ -263,14 +274,12 @@ export default function CompaniesPage() {
                 </p>
               </div>
             ) : (
-              filtered.map((company, idx) => (
+              paginated.map((company, idx) => (
                 <motion.div
                   key={company.id}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.04, duration: 0.3 }}
-                  onClick={() => setSelectedCompany(company)}
-                  className="cursor-pointer"
+                  transition={{ delay: idx * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <CompanyCard company={company} />
                 </motion.div>
@@ -465,7 +474,7 @@ export default function CompaniesPage() {
                       'hover:bg-[var(--app-hover-bg)]'
                     )}
                   >
-                    <MoreHorizontal className="w-4 h-4 text-[var(--app-text-muted)]" />
+                    <ChevronsLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
@@ -614,97 +623,6 @@ export default function CompaniesPage() {
           </div>
         )}
       </div>
-
-      {/* Create Company Modal */}
-      <CreateModal
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        title="Create Company"
-        description="Add a new company to your CRM"
-        fields={createCompanyFields}
-        icon={Building2}
-        submitLabel="Create Company"
-        onSubmit={(data) => {
-          console.log('Creating company:', data);
-        }}
-      />
-
-      {/* Company Detail Sidebar */}
-      <ContextualSidebar
-        open={!!selectedCompany}
-        onClose={() => setSelectedCompany(null)}
-        title={selectedCompany?.name || ''}
-        subtitle="Company"
-        icon={Building2}
-        width={400}
-        footer={
-          selectedCompany ? (
-            <div className="flex items-center gap-2">
-              <Button size="sm" className="flex-1 rounded-xl text-xs" variant="outline" onClick={() => setSelectedCompany(null)}>
-                Close
-              </Button>
-              <Button size="sm" className="flex-1 rounded-xl text-xs text-white" style={{ backgroundColor: CSS.accent }}>
-                Edit
-              </Button>
-            </div>
-          ) : undefined
-        }
-      >
-        {selectedCompany && (
-          <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <Avatar className="h-14 w-14">
-                <AvatarImage src={selectedCompany.logo} alt={selectedCompany.name} />
-                <AvatarFallback className="text-lg font-bold bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
-                  {selectedCompany.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-sm font-semibold">{selectedCompany.industry}</p>
-                {selectedCompany.website && (
-                  <p className="text-xs text-[var(--app-text-muted)]">{selectedCompany.website}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">ARR</span>
-                <p className="text-lg font-bold mt-1">{formatARR(selectedCompany.arr)}</p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Health</span>
-                <p className={cn('text-lg font-bold mt-1', getHealthColor(selectedCompany.healthScore))}>
-                  {selectedCompany.healthScore}
-                </p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Contacts</span>
-                <p className="text-lg font-bold mt-1">{selectedCompany.linkedContacts}</p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Active Deals</span>
-                <p className="text-lg font-bold mt-1">{selectedCompany.activeDeals}</p>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Owner</span>
-              <p className="text-sm">{selectedCompany.owner}</p>
-            </div>
-
-            <div className="space-y-2">
-              <span className="text-xs font-medium text-[var(--app-text-secondary)]">Health Score</span>
-              <div className="h-2 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-                <div
-                  className={cn('h-full rounded-full', getHealthBarColor(selectedCompany.healthScore))}
-                  style={{ width: `${selectedCompany.healthScore}%` }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-      </ContextualSidebar>
     </div>
   );
 }

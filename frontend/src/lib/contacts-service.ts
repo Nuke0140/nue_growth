@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/http';
-import type { Contact } from '@/modules/crm-sales/system/types';
+import type { Contact } from '@/modules/crm-sales/types';
 
 export const contactsService = {
   // Fetch all contacts

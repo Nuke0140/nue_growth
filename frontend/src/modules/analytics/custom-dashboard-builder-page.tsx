@@ -96,19 +96,19 @@ export default function CustomDashboardBuilderPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-2xl">
+      <div className="space-y-6">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-              'bg-[var(--app-hover-bg)]',
+              'w-10 h-10 rounded-xl flex items-center justify-center',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
             )}>
-              <LayoutDashboard className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+              <LayoutDashboard className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Custom Dashboard Builder</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
                 Create your perfect dashboard
               </p>
             </div>
@@ -117,8 +117,8 @@ export default function CustomDashboardBuilderPage() {
 
         {/* ── Tab Switcher ── */}
         <div className={cn(
-          'inline-flex rounded-[var(--app-radius-xl)] border p-1',
-          'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+          'inline-flex rounded-2xl border p-1',
+          isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
         )}>
           {([
             { key: 'personal' as TabType, label: 'Personal', icon: User },
@@ -129,17 +129,17 @@ export default function CustomDashboardBuilderPage() {
               key={tab.key}
               onClick={() => { setActiveTab(tab.key); setSelectedTemplate(null); }}
               className={cn(
-                'inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                'inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200',
                 activeTab === tab.key
                   ? (isDark
-                      ? 'bg-white text-black shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/10'
-                      : 'bg-black text-white shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/10')
+                      ? 'bg-white text-black shadow-lg shadow-white/10'
+                      : 'bg-black text-white shadow-lg shadow-black/10')
                   : (isDark
                       ? 'text-white/50 hover:text-white/70 hover:bg-white/[0.04]'
                       : 'text-black/50 hover:text-black/70 hover:bg-black/[0.04]'),
               )}
             >
-              <tab.icon className="w-4 h-4" />
+              <tab.icon className="w-3.5 h-3.5" />
               {tab.label}
             </button>
           ))}
@@ -154,13 +154,13 @@ export default function CustomDashboardBuilderPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.35 }}
-              className="space-y-app-2xl"
+              className="space-y-6"
             >
               {/* Template Gallery */}
               <div>
                 <h2 className={cn(
                   'text-sm font-semibold uppercase tracking-wider mb-4',
-                  'text-[var(--app-text-muted)]',
+                  isDark ? 'text-white/40' : 'text-black/40',
                 )}>
                   Template Gallery
                 </h2>
@@ -180,18 +180,18 @@ export default function CustomDashboardBuilderPage() {
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleSelectTemplate(tpl.id)}
                         className={cn(
-                          'rounded-[var(--app-radius-xl)] border p-app-xl cursor-pointer transition-colors duration-200 group',
+                          'rounded-2xl border p-5 cursor-pointer transition-all duration-200 group',
                           isDark
-                            ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-white/[0.03]'
-                            : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04] hover:border-black/[0.1] hover:shadow-[var(--app-shadow-md)]-lg hover:shadow-[var(--app-shadow-md)]-black/[0.03]',
+                            ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1] hover:shadow-lg hover:shadow-white/[0.03]'
+                            : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04] hover:border-black/[0.1] hover:shadow-lg hover:shadow-black/[0.03]',
                         )}
                       >
                         <div className="flex items-start justify-between mb-3">
                           <div className={cn(
-                            'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-                            'bg-[var(--app-hover-bg)]',
+                            'w-10 h-10 rounded-xl flex items-center justify-center',
+                            isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
                           )}>
-                            <TemplateIcon className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+                            <TemplateIcon className={cn('w-5 h-5', isDark ? 'text-white/50' : 'text-black/50')} />
                           </div>
                           {tpl.isDefault && (
                             <span className={cn(
@@ -204,22 +204,22 @@ export default function CustomDashboardBuilderPage() {
                         </div>
                         <h3 className={cn(
                           'text-sm font-semibold mb-1 group-hover:underline underline-offset-2',
-                          'text-[var(--app-text)]',
+                          isDark ? 'text-white' : 'text-zinc-900',
                         )}>
                           {tpl.name}
                         </h3>
-                        <p className={cn('text-xs leading-relaxed mb-3', 'text-[var(--app-text-muted)]')}>
+                        <p className={cn('text-xs leading-relaxed mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
                           {tpl.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                          <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
                             {tpl.widgetCount} widgets included
                           </span>
                           <span className={cn(
                             'inline-flex items-center gap-1 text-[10px] font-semibold',
-                            'text-[var(--app-info)]',
+                            isDark ? 'text-blue-400' : 'text-blue-600',
                           )}>
-                            Use Template <ArrowRight className="w-4 h-4" />
+                            Use Template <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </motion.div>
@@ -230,26 +230,26 @@ export default function CustomDashboardBuilderPage() {
 
               {/* Empty State CTA */}
               <div className={cn(
-                'rounded-[var(--app-radius-xl)] border p-app-3xl sm:p-app-4xl text-center',
+                'rounded-2xl border p-8 sm:p-12 text-center',
                 isDark
                   ? 'bg-white/[0.02] border-white/[0.06] border-dashed'
                   : 'bg-black/[0.01] border-black/[0.06] border-dashed',
               )}>
                 <div className={cn(
-                  'w-16 h-16 rounded-[var(--app-radius-xl)] flex items-center justify-center mx-auto mb-4',
-                  'bg-[var(--app-hover-bg)]',
+                  'w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4',
+                  isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]',
                 )}>
-                  <Sparkles className={cn('w-8 h-8', 'text-[var(--app-text-disabled)]')} />
+                  <Sparkles className={cn('w-8 h-8', isDark ? 'text-white/20' : 'text-black/20')} />
                 </div>
                 <h3 className={cn(
                   'text-lg font-semibold mb-2',
-                  'text-[var(--app-text-secondary)]',
+                  isDark ? 'text-white/60' : 'text-black/60',
                 )}>
                   Or Start From Scratch
                 </h3>
                 <p className={cn(
                   'text-sm mb-4 max-w-md mx-auto',
-                  'text-[var(--app-text-muted)]',
+                  isDark ? 'text-white/30' : 'text-black/30',
                 )}>
                   Select a template above or create a completely custom dashboard by adding widgets one by one.
                 </p>
@@ -259,10 +259,10 @@ export default function CustomDashboardBuilderPage() {
                     setDashboardName('My Custom Dashboard');
                   }}
                   className={cn(
-                    'inline-flex items-center gap-2 px-app-xl py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                    'inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                     isDark
-                      ? 'bg-white text-black hover:bg-white/90 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/10'
-                      : 'bg-black text-white hover:bg-black/90 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/10',
+                      ? 'bg-white text-black hover:bg-white/90 shadow-lg shadow-white/10'
+                      : 'bg-black text-white hover:bg-black/90 shadow-lg shadow-black/10',
                   )}>
                   <Plus className="w-4 h-4" />
                   Build From Scratch
@@ -285,10 +285,10 @@ export default function CustomDashboardBuilderPage() {
                   onClick={() => setSelectedTemplate(null)}
                   className={cn(
                     'inline-flex items-center gap-1 text-xs font-medium transition-colors',
-                    'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]',
+                    isDark ? 'text-white/40 hover:text-white/60' : 'text-black/40 hover:text-black/60',
                   )}
                 >
-                  <ChevronRight className="w-4 h-4 -rotate-180" />
+                  <ChevronRight className="w-3.5 h-3.5 -rotate-180" />
                   Templates
                 </button>
                 <div className="flex-1" />
@@ -298,7 +298,7 @@ export default function CustomDashboardBuilderPage() {
                   onChange={(e) => setDashboardName(e.target.value)}
                   placeholder="Dashboard name..."
                   className={cn(
-                    'w-full sm:w-72 px-4 py-2.5 text-sm font-semibold rounded-[var(--app-radius-lg)] border outline-none transition-colors duration-200',
+                    'w-full sm:w-72 px-4 py-2.5 text-sm font-semibold rounded-xl border outline-none transition-all duration-200',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] text-white placeholder:text-white/20 focus:border-white/[0.15] focus:bg-white/[0.05]'
                       : 'bg-black/[0.02] border-black/[0.06] text-zinc-900 placeholder:text-black/20 focus:border-black/[0.15] focus:bg-black/[0.04]',
@@ -310,15 +310,15 @@ export default function CustomDashboardBuilderPage() {
               <div className="flex gap-4">
                 {/* ── Widget Palette Sidebar ── */}
                 <div className={cn(
-                  'shrink-0 rounded-[var(--app-radius-xl)] border overflow-hidden transition-colors duration-200',
-                  'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                  'shrink-0 rounded-2xl border overflow-hidden transition-all duration-300',
+                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
                   paletteOpen ? 'w-56' : 'w-12',
                 )}>
                   <button
                     onClick={() => setPaletteOpen(!paletteOpen)}
                     className={cn(
                       'flex items-center justify-between w-full px-3 py-3 text-left transition-colors',
-                      'hover:bg-[var(--app-hover-bg)]',
+                      isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]',
                     )}
                   >
                     <AnimatePresence mode="wait">
@@ -327,7 +327,7 @@ export default function CustomDashboardBuilderPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className={cn('text-xs font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}
+                          className={cn('text-xs font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}
                         >
                           Widgets
                         </motion.span>
@@ -337,7 +337,7 @@ export default function CustomDashboardBuilderPage() {
                       animate={{ rotate: paletteOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                      <ChevronDown className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
                     </motion.div>
                   </button>
                   <AnimatePresence>
@@ -358,20 +358,20 @@ export default function CustomDashboardBuilderPage() {
                                 whileHover={{ scale: 1.02, x: 2 }}
                                 whileTap={{ scale: 0.98 }}
                                 className={cn(
-                                  'flex items-center gap-2.5 w-full px-3 py-2 rounded-[var(--app-radius-lg)] text-left transition-colors cursor-pointer',
+                                  'flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-left transition-colors cursor-pointer',
                                   isDark
                                     ? 'hover:bg-white/[0.06] text-white/60 hover:text-white/80'
                                     : 'hover:bg-black/[0.04] text-black/60 hover:text-black/80',
                                 )}
                               >
                                 <div className={cn(
-                                  'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0',
-                                  'bg-[var(--app-hover-bg)]',
+                                  'w-7 h-7 rounded-lg flex items-center justify-center shrink-0',
+                                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
                                 )}>
-                                  <WtIcon className="w-4 h-4" />
+                                  <WtIcon className="w-3.5 h-3.5" />
                                 </div>
                                 <span className="text-xs font-medium">{wt.label}</span>
-                                <GripVertical className={cn('w-4 h-4 ml-auto opacity-0 group-hover:opacity-50', 'text-[var(--app-text)]')} />
+                                <GripVertical className={cn('w-3 h-3 ml-auto opacity-0 group-hover:opacity-50', isDark ? 'text-white' : 'text-black')} />
                               </motion.button>
                             );
                           })}
@@ -396,26 +396,26 @@ export default function CustomDashboardBuilderPage() {
                           onMouseEnter={() => setHoveredWidget(cw.id)}
                           onMouseLeave={() => setHoveredWidget(null)}
                           className={cn(
-                            'relative rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200 cursor-move group',
+                            'relative rounded-2xl border p-5 transition-all duration-200 cursor-move group',
                             isDark
                               ? 'bg-white/[0.03] border-white/[0.06]'
                               : 'bg-black/[0.02] border-black/[0.06]',
                             isHovered && (isDark
-                              ? 'bg-white/[0.05] border-white/[0.12] shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/[0.04]'
-                              : 'bg-black/[0.04] border-black/[0.12] shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/[0.04]'),
+                              ? 'bg-white/[0.05] border-white/[0.12] shadow-lg shadow-white/[0.04]'
+                              : 'bg-black/[0.04] border-black/[0.12] shadow-lg shadow-black/[0.04]'),
                           )}
                         >
                           {/* Drag handle */}
                           <div className={cn(
                             'absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity',
                           )}>
-                            <GripVertical className={cn('w-4 h-4', 'text-[var(--app-text-disabled)]')} />
+                            <GripVertical className={cn('w-4 h-4', isDark ? 'text-white/20' : 'text-black/20')} />
                           </div>
 
                           {/* Widget preview content */}
                           <div className="flex flex-col items-center justify-center h-40 gap-3">
                             <div className={cn(
-                              'w-12 h-12 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors duration-200',
+                              'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200',
                               isDark
                                 ? 'bg-white/[0.04] group-hover:bg-white/[0.08]'
                                 : 'bg-black/[0.03] group-hover:bg-black/[0.06]',
@@ -430,11 +430,11 @@ export default function CustomDashboardBuilderPage() {
                             <div className="text-center">
                               <p className={cn(
                                 'text-xs font-semibold',
-                                'text-[var(--app-text-secondary)]',
+                                isDark ? 'text-white/50' : 'text-black/50',
                               )}>
                                 {cw.title}
                               </p>
-                              <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-disabled)]')}>
+                              <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/20' : 'text-black/20')}>
                                 {cw.type.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                               </p>
                             </div>
@@ -447,12 +447,12 @@ export default function CustomDashboardBuilderPage() {
                                   animate={{ opacity: 1 }}
                                   exit={{ opacity: 0 }}
                                   className={cn(
-                                    'absolute inset-0 rounded-[var(--app-radius-xl)] flex items-center justify-center gap-2',
+                                    'absolute inset-0 rounded-2xl flex items-center justify-center gap-2',
                                     isDark ? 'bg-black/40 backdrop-blur-[2px]' : 'bg-white/40 backdrop-blur-[2px]',
                                   )}
                                 >
                                   <button className={cn(
-                                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
+                                    'w-8 h-8 rounded-lg flex items-center justify-center transition-colors',
                                     isDark
                                       ? 'bg-white/10 hover:bg-white/20 text-white'
                                       : 'bg-black/10 hover:bg-black/20 text-black',
@@ -462,7 +462,7 @@ export default function CustomDashboardBuilderPage() {
                                     <Settings className="w-4 h-4" />
                                   </button>
                                   <button className={cn(
-                                    'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
+                                    'w-8 h-8 rounded-lg flex items-center justify-center transition-colors',
                                     isDark
                                       ? 'bg-white/10 hover:bg-white/20 text-white'
                                       : 'bg-black/10 hover:bg-black/20 text-black',
@@ -478,15 +478,15 @@ export default function CustomDashboardBuilderPage() {
 
                           {/* Status indicator */}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t"
-                            style={{ borderColor: 'var(--app-hover-bg)' }}>
+                            style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
                             <span className={cn(
                               'flex items-center gap-1 text-[10px]',
                               isDark ? 'text-emerald-400/60' : 'text-emerald-600',
                             )}>
-                              <Eye className="w-4 h-4" />
+                              <Eye className="w-3 h-3" />
                               Active
                             </span>
-                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>
+                            <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>
                               {cw.type}
                             </span>
                           </div>
@@ -502,7 +502,7 @@ export default function CustomDashboardBuilderPage() {
                       whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                       className={cn(
-                        'rounded-[var(--app-radius-xl)] border-2 border-dashed p-app-xl transition-colors duration-200 group min-h-[240px]',
+                        'rounded-2xl border-2 border-dashed p-5 transition-all duration-200 group min-h-[240px]',
                         isDark
                           ? 'border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.02]'
                           : 'border-black/[0.08] hover:border-black/[0.15] hover:bg-black/[0.02]',
@@ -510,7 +510,7 @@ export default function CustomDashboardBuilderPage() {
                     >
                       <div className="flex flex-col items-center justify-center h-full gap-3 min-h-[180px]">
                         <div className={cn(
-                          'w-12 h-12 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
+                          'w-12 h-12 rounded-xl flex items-center justify-center transition-colors',
                           isDark
                             ? 'bg-white/[0.04] group-hover:bg-white/[0.08]'
                             : 'bg-black/[0.03] group-hover:bg-black/[0.06]',
@@ -538,7 +538,7 @@ export default function CustomDashboardBuilderPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className={cn(
-                  'rounded-[var(--app-radius-xl)] border p-4 sm:p-app-xl',
+                  'rounded-2xl border p-4 sm:p-5',
                   isDark
                     ? 'bg-white/[0.03] border-white/[0.06]'
                     : 'bg-black/[0.02] border-black/[0.06]',
@@ -547,17 +547,17 @@ export default function CustomDashboardBuilderPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   {/* Theme Selector */}
                   <div className="flex items-center gap-3">
-                    <Palette className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                    <Palette className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
                     <div className={cn(
-                      'flex items-center gap-2 rounded-[var(--app-radius-lg)] border px-3 py-2',
-                      'border-[var(--app-border)] bg-[var(--app-hover-bg)]',
+                      'flex items-center gap-2 rounded-xl border px-3 py-2',
+                      isDark ? 'border-white/[0.06] bg-white/[0.02]' : 'border-black/[0.06] bg-black/[0.02]',
                     )}>
                       <select
                         value={themeOption}
                         onChange={(e) => setThemeOption(e.target.value)}
                         className={cn(
                           'bg-transparent text-xs font-medium outline-none appearance-none cursor-pointer pr-4',
-                          'text-[var(--app-text)]',
+                          isDark ? 'text-white/70' : 'text-black/70',
                         )}
                       >
                         <option value="white-label" className="bg-white text-black">White Label</option>
@@ -566,8 +566,8 @@ export default function CustomDashboardBuilderPage() {
                         <option value="brand" className="bg-white text-black">Brand Colors</option>
                       </select>
                       <ChevronDown className={cn(
-                        'absolute right-2 w-4 h-4 pointer-events-none',
-                        'text-[var(--app-text-muted)]',
+                        'absolute right-2 w-3 h-3 pointer-events-none',
+                        isDark ? 'text-white/40' : 'text-black/40',
                       )} />
                     </div>
                   </div>
@@ -575,7 +575,7 @@ export default function CustomDashboardBuilderPage() {
                   {/* Action Buttons */}
                   <div className="flex items-center gap-3">
                     <button className={cn(
-                      'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                      'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                       isDark
                         ? 'bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white'
                         : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black',
@@ -584,7 +584,7 @@ export default function CustomDashboardBuilderPage() {
                       Preview
                     </button>
                     <button className={cn(
-                      'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                      'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                       isDark
                         ? 'bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white'
                         : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black',
@@ -593,10 +593,10 @@ export default function CustomDashboardBuilderPage() {
                       Share
                     </button>
                     <button className={cn(
-                      'inline-flex items-center gap-2 px-app-xl py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                      'inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                       isDark
-                        ? 'bg-white text-black hover:bg-white/90 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/10'
-                        : 'bg-black text-white hover:bg-black/90 shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/10',
+                        ? 'bg-white text-black hover:bg-white/90 shadow-lg shadow-white/10'
+                        : 'bg-black text-white hover:bg-black/90 shadow-lg shadow-black/10',
                     )}>
                       <Save className="w-4 h-4" />
                       Save Dashboard

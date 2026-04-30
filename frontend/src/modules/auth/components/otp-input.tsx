@@ -192,7 +192,7 @@ export default function OtpInput({
     : {};
 
   return (
-    <div className="w-full space-y-app-xl" ref={containerRef}>
+    <div className="w-full space-y-5" ref={containerRef}>
       {/* OTP Input Boxes */}
       <motion.div
         className="flex items-center justify-center gap-2 sm:gap-3"
@@ -223,7 +223,7 @@ export default function OtpInput({
               onPaste={index === 0 ? handlePaste : undefined}
               onFocus={() => handleFocus(index)}
               aria-label={`OTP digit ${index + 1} of ${length}`}
-              className={`w-12 h-14 rounded-[var(--app-radius-lg)] border-2 text-center text-xl font-bold outline-none transition-colors duration-200
+              className={`w-12 h-14 rounded-xl border-2 text-center text-xl font-bold outline-none transition-all duration-200
                 ${
                   error
                     ? 'border-red-500 bg-red-50/50 text-red-600 focus:border-red-500 focus:ring-2 focus:ring-red-500/10'

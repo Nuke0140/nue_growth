@@ -43,21 +43,21 @@ export default function SlaEscalationPage() {
   const avgResponseTime = Math.round(slaRules.reduce((sum, r) => sum + r.analytics.avgResponseTime, 0) / slaRules.length * 10) / 10;
 
   const card = cn(
-    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
-    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
   );
 
   const maxAnalytics = Math.max(...MODULE_ANALYTICS.flatMap((m) => [m.breaches, m.prevented]), 1);
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-2xl max-w-7xl mx-auto">
+      <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
             SLA Escalations
           </h1>
-          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
+          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
             Enterprise workflow escalation layer
           </p>
         </div>
@@ -79,14 +79,14 @@ export default function SlaEscalationPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
                     {stat.value}
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', stat.bg)}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.bg)}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function SlaEscalationPage() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Activity className={cn('w-4 h-4 text-red-400')} />
-            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
               Active Alerts
             </h2>
           </div>
@@ -124,8 +124,8 @@ export default function SlaEscalationPage() {
         {/* SLA Rule Cards */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <ShieldAlert className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <h2 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <ShieldAlert className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
+            <h2 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
               SLA Rules
             </h2>
           </div>
@@ -137,15 +137,15 @@ export default function SlaEscalationPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               className={cn(
-                'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl space-y-4',
-                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                'rounded-2xl border shadow-sm p-4 sm:p-5 space-y-4',
+                isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
               )}
             >
               {/* Header */}
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <h3 className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
+                    <h3 className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
                       {rule.name}
                     </h3>
                     <span className={cn(
@@ -162,13 +162,13 @@ export default function SlaEscalationPage() {
                       {rule.status === 'active' ? 'Active' : 'Paused'}
                     </span>
                   </div>
-                  <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+                  <p className={cn('text-xs', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
                     {rule.description}
                   </p>
                 </div>
                 <div className={cn(
-                  'flex items-center gap-1.5 rounded-[var(--app-radius-lg)] px-3 py-1.5 shrink-0',
-                  'bg-[var(--app-hover-bg)]',
+                  'flex items-center gap-1.5 rounded-xl px-3 py-1.5 shrink-0',
+                  isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
                 )}>
                   <Timer className={cn('h-4 w-4', isDark ? 'text-amber-400' : 'text-amber-500')} />
                   <span className={cn('text-sm font-bold', isDark ? 'text-amber-400' : 'text-amber-500')}>
@@ -179,7 +179,7 @@ export default function SlaEscalationPage() {
 
               {/* Escalation Ladder */}
               <div>
-                <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-3', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-3', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                   Escalation Ladder
                 </p>
                 <div className="relative ml-1">
@@ -190,35 +190,35 @@ export default function SlaEscalationPage() {
                         {/* Timeline rail */}
                         <div className="flex flex-col items-center">
                           <div className={cn(
-                            'flex h-8  w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold z-10',
+                            'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold z-10',
                             isDark ? 'bg-white/[0.08] text-zinc-300' : 'bg-black/[0.06] text-zinc-600',
                           )}>
                             {step.order}
                           </div>
                           {!isLastStep && (
-                            <div className={cn('w-0.5 flex-1 mt-1', 'bg-[var(--app-hover-bg)]')} />
+                            <div className={cn('w-0.5 flex-1 mt-1', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
                           )}
                         </div>
 
                         {/* Step Content */}
                         <div className={cn(
-                          'flex-1 rounded-[var(--app-radius-lg)] p-2.5 min-w-0',
-                          'bg-[var(--app-hover-bg)]',
+                          'flex-1 rounded-xl p-2.5 min-w-0',
+                          isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
                         )}>
                           <div className="flex items-center justify-between gap-2 flex-wrap">
-                            <span className={cn('text-xs font-semibold', 'text-[var(--app-text-secondary)]')}>
+                            <span className={cn('text-xs font-semibold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
                               {step.action}
                             </span>
-                            <span className={cn('text-[10px] font-mono', 'text-[var(--app-text-muted)]')}>
+                            <span className={cn('text-[10px] font-mono', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                               {step.delay}
                             </span>
                           </div>
                           <div className="flex items-center gap-3 mt-1 text-[10px]">
-                            <span className={cn('text-[var(--app-text-muted)]')}>
+                            <span className={cn(isDark ? 'text-zinc-400' : 'text-zinc-500')}>
                               → {step.assignee}
                             </span>
-                            <span className={cn('text-[var(--app-text-muted)]')}>·</span>
-                            <span className={cn('text-[var(--app-text-muted)]')}>
+                            <span className={cn(isDark ? 'text-zinc-500' : 'text-zinc-400')}>·</span>
+                            <span className={cn(isDark ? 'text-zinc-400' : 'text-zinc-500')}>
                               {step.channel}
                             </span>
                           </div>
@@ -231,10 +231,10 @@ export default function SlaEscalationPage() {
 
               {/* Team Overrides */}
               {rule.teamOverrides.length > 0 && (
-                <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <Users className={cn('h-3 w-3', 'text-[var(--app-text-muted)]')} />
-                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                    <Users className={cn('h-3 w-3', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
+                    <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                       Team Overrides
                     </p>
                   </div>
@@ -252,28 +252,28 @@ export default function SlaEscalationPage() {
               )}
 
               {/* Analytics Row */}
-              <div className={cn('rounded-[var(--app-radius-lg)] p-3', 'bg-[var(--app-hover-bg)]')}>
-                <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', 'text-[var(--app-text-muted)]')}>
+              <div className={cn('rounded-xl p-3', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]')}>
+                <p className={cn('text-[10px] font-medium uppercase tracking-wider mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                   Analytics
                 </p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center">
-                    <p className={cn('text-lg font-bold', 'text-[var(--app-danger)]')}>
+                    <p className={cn('text-lg font-bold', isDark ? 'text-red-400' : 'text-red-500')}>
                       {rule.analytics.totalBreaches}
                     </p>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Total Breaches</p>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Total Breaches</p>
                   </div>
                   <div className="text-center">
-                    <p className={cn('text-lg font-bold', 'text-[var(--app-success)]')}>
+                    <p className={cn('text-lg font-bold', isDark ? 'text-emerald-400' : 'text-emerald-500')}>
                       {rule.analytics.prevented}
                     </p>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Prevented</p>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Prevented</p>
                   </div>
                   <div className="text-center">
                     <p className={cn('text-lg font-bold', isDark ? 'text-amber-400' : 'text-amber-500')}>
                       {rule.analytics.avgResponseTime}m
                     </p>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Avg Response</p>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Avg Response</p>
                   </div>
                 </div>
               </div>
@@ -287,16 +287,16 @@ export default function SlaEscalationPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn(
-            'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
-            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+            'rounded-2xl border shadow-sm p-4 sm:p-5',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
           )}
         >
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <BarChart3 className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
               Escalation Analytics
             </h3>
-            <span className={cn('text-[10px] ml-auto', 'text-[var(--app-text-muted)]')}>
+            <span className={cn('text-[10px] ml-auto', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
               Breaches Prevented vs Actual
             </span>
           </div>
@@ -305,7 +305,7 @@ export default function SlaEscalationPage() {
             {MODULE_ANALYTICS.map((mod) => (
               <div key={mod.module} className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>
+                  <span className={cn('text-xs font-medium', isDark ? 'text-zinc-300' : 'text-zinc-700')}>
                     {mod.module}
                   </span>
                   <div className="flex items-center gap-3 text-[10px]">
@@ -334,14 +334,14 @@ export default function SlaEscalationPage() {
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: 'var(--app-border)' }}>
+          <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
             <div className="flex items-center gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500/40" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Prevented</span>
+              <div className="h-2.5 w-2.5 rounded-sm bg-emerald-500/40" />
+              <span className={cn('text-[10px]', isDark ? 'text-zinc-400' : 'text-zinc-500')}>Prevented</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-[var(--app-radius-sm)] bg-red-500/40" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Breaches</span>
+              <div className="h-2.5 w-2.5 rounded-sm bg-red-500/40" />
+              <span className={cn('text-[10px]', isDark ? 'text-zinc-400' : 'text-zinc-500')}>Breaches</span>
             </div>
           </div>
         </motion.div>

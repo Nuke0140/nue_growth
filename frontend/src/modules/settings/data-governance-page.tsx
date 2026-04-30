@@ -155,16 +155,16 @@ export default function DataGovernancePage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-2xl">
+      <div className="space-y-6">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-              <Database className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <Database className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Data Governance</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Manage data retention, privacy, and compliance</p>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Manage data retention, privacy, and compliance</p>
             </div>
           </div>
         </div>
@@ -176,9 +176,9 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.1, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Retention Policies</span>
-            <Badge variant="secondary" className={cn('text-[10px] px-1.5 py-0 border-0', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
+            <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Retention Policies</span>
+            <Badge variant="secondary" className={cn('text-[10px] px-1.5 py-0 border-0', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
               {retentionPolicies.length} policies
             </Badge>
           </div>
@@ -196,14 +196,14 @@ export default function DataGovernancePage() {
                   key={policy.id}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
+                    'rounded-2xl border p-5 transition-all duration-200',
                     isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
                   )}
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="text-sm font-semibold">{policy.module}</h3>
-                      <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>
+                      <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
                         {policy.purgeSchedule}
                       </p>
                     </div>
@@ -215,10 +215,10 @@ export default function DataGovernancePage() {
                   {/* Retention progress bar */}
                   <div className="mb-3">
                     <div className="flex items-center justify-between mb-1">
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Retention Period</span>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>Retention Period</span>
                       <span className="text-xs font-semibold">{formatRetentionDays(policy.retentionDays)}</span>
                     </div>
-                    <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
@@ -229,7 +229,7 @@ export default function DataGovernancePage() {
                   </div>
 
                   {/* Soft Delete toggle indicator */}
-                  <div className={cn('flex items-center gap-2 mb-3 text-xs', 'text-[var(--app-text-secondary)]')}>
+                  <div className={cn('flex items-center gap-2 mb-3 text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
                     <span className={cn(
                       'h-2 w-2 rounded-full',
                       policy.softDelete ? 'bg-emerald-400' : 'bg-red-400',
@@ -240,8 +240,8 @@ export default function DataGovernancePage() {
                   {/* Archive rules */}
                   <div className="space-y-1 mb-4">
                     {policy.archiveRules.map((rule, i) => (
-                      <div key={i} className={cn('flex items-start gap-2 text-[11px]', 'text-[var(--app-text-muted)]')}>
-                        <Archive className="w-4 h-4 shrink-0 mt-0.5" />
+                      <div key={i} className={cn('flex items-start gap-2 text-[11px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                        <Archive className="w-3 h-3 shrink-0 mt-0.5" />
                         <span>{rule}</span>
                       </div>
                     ))}
@@ -249,11 +249,11 @@ export default function DataGovernancePage() {
 
                   <button
                     className={cn(
-                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors w-full justify-center',
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors w-full justify-center',
                       isDark ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.1] hover:text-white' : 'bg-black/[0.06] text-black/50 hover:bg-black/[0.1] hover:text-black',
                     )}
                   >
-                    <Pencil className="w-4 h-4" /> Edit Policy
+                    <Pencil className="w-3 h-3" /> Edit Policy
                   </button>
                 </motion.div>
               );
@@ -268,70 +268,17 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.3, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Download className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Data Export Requests</span>
+            <Download className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Data Export Requests</span>
           </div>
-          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
-                    {['Request ID', 'Requested By', 'Module', 'Status', 'Requested', 'Completed', 'Format', 'Size', 'Action'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', 'text-[var(--app-text-muted)]')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataExportRequests.map((req, i) => {
-                    const sConf = statusConfig[req.status];
-                    return (
-                      <motion.tr
-                        key={req.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.35 + i * 0.04 }}
-                        className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
-                      >
-                        <td className="px-4 py-3 font-mono text-xs">{req.id}</td>
-                        <td className="px-4 py-3 text-xs">{req.requestedBy}</td>
-                        <td className="px-4 py-3 text-xs">{req.module}</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', isDark ? sConf.bgDark : sConf.bgLight)}>
-                            {sConf.label}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-xs">
-                          {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className="px-4 py-3 text-xs">{req.completedAt ? new Date(req.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-info-bg)] text-[var(--app-info)]')}>
-                            {req.format}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-xs">{req.size || '—'}</td>
-                        <td className="px-4 py-3">
-                          {req.status === 'completed' ? (
-                            <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500 hover:text-emerald-400 transition-colors')}>
-                              <Download className="w-4 h-4" /> Download
-                            </button>
-                          ) : req.status === 'pending' || req.status === 'processing' ? (
-                            <button className={cn('inline-flex items-center gap-1 text-[10px] font-medium text-red-400 hover:text-red-300 transition-colors')}>
-                              <XCircle className="w-4 h-4" /> Cancel
-                            </button>
-                          ) : (
-                            <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>—</span>
-                          )}
-                        </td>
-                      </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={dataExportRequests as unknown as Record<string, unknown>[]}
+            columns={exportColumns}
+            searchable
+            searchPlaceholder="Search exports..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* ── Consent Logs ── */}
@@ -341,53 +288,17 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.5, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Shield className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Consent Logs</span>
+            <Shield className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Consent Logs</span>
           </div>
-          <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className={cn('border-b', 'border-[var(--app-border)]')}>
-                    {['User', 'Consent Type', 'Granted', 'Timestamp', 'IP'].map((h) => (
-                      <th key={h} className={cn('text-left text-[11px] font-medium uppercase tracking-wider px-4 py-3', 'text-[var(--app-text-muted)]')}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {consentLogs.map((log, i) => (
-                    <motion.tr
-                      key={log.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.55 + i * 0.04 }}
-                      className={cn('border-b transition-colors', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
-                    >
-                      <td className="px-4 py-3 text-xs font-medium">{log.user}</td>
-                      <td className="px-4 py-3 text-xs">{log.consentType}</td>
-                      <td className="px-4 py-3">
-                        {log.granted ? (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-success-bg)] text-[var(--app-success)]')}>
-                            <CheckCircle2 className="w-2.5 h-2.5 mr-0.5" /> Yes
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 border-0', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
-                            <XCircle className="w-2.5 h-2.5 mr-0.5" /> No
-                          </Badge>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-xs">
-                        {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                      </td>
-                      <td className="px-4 py-3 font-mono text-xs">{log.ip}</td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SmartDataTable
+            data={consentLogs as unknown as Record<string, unknown>[]}
+            columns={consentColumns}
+            searchable
+            searchPlaceholder="Search consent logs..."
+            enableExport
+            pageSize={10}
+          />
         </motion.div>
 
         {/* ── GDPR / Delete Workflow ── */}
@@ -398,17 +309,17 @@ export default function DataGovernancePage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Trash2 className="w-4 h-4 text-red-400" />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>GDPR / Delete Workflow</span>
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>GDPR / Delete Workflow</span>
           </div>
           <div className={cn(
-            'rounded-[var(--app-radius-xl)] border-l-4 border-l-red-500 p-app-xl',
+            'rounded-2xl border-l-4 border-l-red-500 p-5',
             isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-black/[0.02] border border-black/[0.06]',
           )}>
             <h3 className="text-sm font-semibold mb-2">GDPR Data Deletion Workflow</h3>
-            <p className={cn('text-xs mb-4', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-xs mb-4', isDark ? 'text-white/40' : 'text-black/40')}>
               When a deletion request is received, the following steps are executed automatically:
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-app-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
               {[
                 { step: 1, label: 'Request Received', desc: 'User submits deletion request' },
                 { step: 2, label: 'Verification', desc: 'Identity verified via email OTP' },
@@ -416,23 +327,23 @@ export default function DataGovernancePage() {
                 { step: 4, label: 'Soft Delete', desc: 'Mark records for deletion (30-day grace)' },
                 { step: 5, label: 'Hard Purge', desc: 'Permanently remove from all systems' },
               ].map((s) => (
-                <div key={s.step} className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
+                <div key={s.step} className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
                   <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mb-2', isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-50 text-red-600')}>
                     {s.step}
                   </div>
                   <p className="text-xs font-semibold">{s.label}</p>
-                  <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>{s.desc}</p>
+                  <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>{s.desc}</p>
                 </div>
               ))}
             </div>
             <button
               onClick={() => setShowDeleteDialog(true)}
               className={cn(
-                'inline-flex items-center gap-2 px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
+                'inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-colors',
                 isDark ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-red-50 text-red-600 hover:bg-red-100',
               )}
             >
-              <Trash2 className="w-4 h-4" /> Request Data Deletion
+              <Trash2 className="w-3.5 h-3.5" /> Request Data Deletion
             </button>
           </div>
         </motion.div>
@@ -444,15 +355,15 @@ export default function DataGovernancePage() {
           transition={{ delay: 0.75, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Tenant Isolation</span>
+            <Building2 className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Tenant Isolation</span>
           </div>
           <div className={cn(
-            'rounded-[var(--app-radius-xl)] border p-app-xl',
-            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+            'rounded-2xl border p-5',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
           )}>
             <div className="flex items-start gap-4">
-              <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', 'bg-[var(--app-success-bg)]')}>
+              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/15' : 'bg-emerald-50')}>
                 <Shield className="w-5 h-5 text-emerald-400" />
               </div>
               <div className="flex-1">
@@ -460,7 +371,7 @@ export default function DataGovernancePage() {
                   <h3 className="text-sm font-semibold">Tenant Isolation Active</h3>
                   <span className={cn('h-2 w-2 rounded-full bg-emerald-400', isDark ? 'bg-emerald-400' : 'bg-emerald-500')} />
                 </div>
-                <p className={cn('text-xs mb-3', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-xs mb-3', isDark ? 'text-white/40' : 'text-black/40')}>
                   Data is fully isolated across tenants with row-level security policies, separate encryption keys, and independent backup schedules.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -469,8 +380,8 @@ export default function DataGovernancePage() {
                     { label: 'Encryption', value: 'AES-256 per tenant' },
                     { label: 'Isolation Level', value: 'Row-Level + Encryption' },
                   ].map((item) => (
-                    <div key={item.label} className={cn('rounded-[var(--app-radius-lg)] border p-3', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', 'text-[var(--app-text-muted)]')}>{item.label}</span>
+                    <div key={item.label} className={cn('rounded-xl border p-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                      <span className={cn('text-[10px] font-medium uppercase tracking-wider block mb-1', isDark ? 'text-white/30' : 'text-black/30')}>{item.label}</span>
                       <p className="text-xs font-semibold">{item.value}</p>
                     </div>
                   ))}

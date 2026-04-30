@@ -159,10 +159,6 @@ export const inlineStyles = {
   overlay: { backgroundColor: CSS.overlay },
   sidebar: { backgroundColor: CSS.sidebarBg },
   topbar: { backgroundColor: CSS.topbarBg, borderBottom: `1px solid ${CSS.topbarBorder}` },
-  purple: { color: CSS.purple },
-  purpleBg: { backgroundColor: CSS.purpleLight },
-  emerald: { color: CSS.emerald },
-  emeraldBg: { backgroundColor: CSS.emeraldLight },
 } as const;
 
 // ---- Animation (Framer Motion) ----
@@ -174,7 +170,7 @@ export const ANIMATION = {
   duration: {
     instant: 0.1,
     fast: 0.15,
-    normal: 0.25,
+    normal: 0.2,
     slow: 0.3,
     pageTransition: 0.35,
   },

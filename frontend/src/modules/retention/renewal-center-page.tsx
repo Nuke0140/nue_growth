@@ -45,11 +45,11 @@ export default function RenewalCenterPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'on-track': return { bg: 'bg-[var(--app-success-bg)]', text: 'text-emerald-500', label: 'On-Track', icon: CheckCircle2 };
-      case 'at-risk': return { bg: 'bg-[var(--app-warning-bg)]', text: 'text-amber-500', label: 'At-Risk', icon: ShieldAlert };
-      case 'overdue': return { bg: 'bg-[var(--app-danger-bg)]', text: 'text-red-500', label: 'Overdue', icon: AlertTriangle };
+      case 'on-track': return { bg: isDark ? 'bg-emerald-500/15' : 'bg-emerald-50', text: 'text-emerald-500', label: 'On-Track', icon: CheckCircle2 };
+      case 'at-risk': return { bg: isDark ? 'bg-amber-500/15' : 'bg-amber-50', text: 'text-amber-500', label: 'At-Risk', icon: ShieldAlert };
+      case 'overdue': return { bg: isDark ? 'bg-red-500/15' : 'bg-red-50', text: 'text-red-500', label: 'Overdue', icon: AlertTriangle };
       case 'lost': return { bg: isDark ? 'bg-slate-500/15' : 'bg-slate-100', text: 'text-slate-500', label: 'Lost', icon: XCircle };
-      default: return { bg: 'bg-[var(--app-hover-bg)]', text: '', label: status, icon: Clock };
+      default: return { bg: isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]', text: '', label: status, icon: Clock };
     }
   };
 
@@ -61,22 +61,22 @@ export default function RenewalCenterPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-app-2xl">
+      <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-              <RefreshCw className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <RefreshCw className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Renewal Center</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Renewal Workspace</p>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Renewal Workspace</p>
             </div>
           </div>
           <Button
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-[var(--app-radius-lg)] gap-2 transition-colors',
-              'bg-[var(--app-card-bg)] text-[var(--app-text)] hover:bg-[var(--app-card-bg-hover)]'
+              'px-4 py-2 text-sm font-medium rounded-xl gap-2 transition-colors',
+              isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
             )}
           >
             <FilePlus2 className="w-4 h-4" />
@@ -87,22 +87,22 @@ export default function RenewalCenterPage() {
         {/* Summary KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Renewal Value', value: formatINR(summary.total), icon: IndianRupee, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
-            { label: 'On-Track', value: summary.onTrack.toString(), icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]' },
-            { label: 'At-Risk', value: summary.atRisk.toString(), icon: ShieldAlert, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]' },
-            { label: 'Overdue', value: summary.overdue.toString(), icon: AlertTriangle, color: 'text-red-400', bg: 'bg-[var(--app-danger-bg)]' },
+            { label: 'Total Renewal Value', value: formatINR(summary.total), icon: IndianRupee, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+            { label: 'On-Track', value: summary.onTrack.toString(), icon: ShieldCheck, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+            { label: 'At-Risk', value: summary.atRisk.toString(), icon: ShieldAlert, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50' },
+            { label: 'Overdue', value: summary.overdue.toString(), icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
           ].map((item, i) => (
             <motion.div
               key={item.label}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{item.label}</span>
-                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', item.bg)}>
-                  <item.icon className={cn('w-4 h-4', item.color)} />
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{item.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', item.bg)}>
+                  <item.icon className={cn('w-3.5 h-3.5', item.color)} />
                 </div>
               </div>
               <p className="text-2xl font-bold">{item.value}</p>
@@ -117,10 +117,10 @@ export default function RenewalCenterPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'px-3 py-1.5 text-[11px] font-medium rounded-[var(--app-radius-lg)] transition-colors capitalize',
+                'px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors capitalize',
                 activeTab === tab
-                  ? ('bg-[var(--app-hover-bg)] text-[var(--app-text)]')
-                  : ('text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]')
+                  ? (isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                  : (isDark ? 'text-white/30 hover:text-white/50 hover:bg-white/[0.04]' : 'text-black/30 hover:text-black/50 hover:bg-black/[0.04]')
               )}
             >
               {tab === 'all' ? `All (${renewalsData.length})` : `${tab} (${renewalsData.filter((r) => r.status === tab).length})`}
@@ -140,12 +140,12 @@ export default function RenewalCenterPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors',
+                  'rounded-2xl border p-5 transition-colors',
                   renewal.status === 'overdue'
                     ? (isDark ? 'bg-red-500/[0.03] border-red-500/15' : 'bg-red-50/50 border-red-200')
                     : renewal.status === 'lost'
                       ? (isDark ? 'bg-slate-500/[0.03] border-slate-500/15' : 'bg-slate-50/50 border-slate-200')
-                      : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
+                      : (isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')
                 )}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
@@ -158,17 +158,17 @@ export default function RenewalCenterPage() {
                           {statusBadge.label}
                         </Badge>
                         {renewal.discountApproved && (
-                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 gap-1', 'bg-[var(--app-purple-light)] text-[var(--app-purple)]')}>
+                          <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0 gap-1', isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-50 text-violet-600')}>
                             <Tag className="w-2.5 h-2.5" />
                             {renewal.discountApproved}% discount
                           </Badge>
                         )}
                       </div>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                          <Calendar className="w-4 h-4 inline mr-1" />{renewal.renewalDate}
+                        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                          <Calendar className="w-3 h-3 inline mr-1" />{renewal.renewalDate}
                         </span>
-                        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                        <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
                           {renewal.contractPeriod}
                         </span>
                       </div>
@@ -178,7 +178,7 @@ export default function RenewalCenterPage() {
                     <div className="text-right">
                       <p className="text-lg font-bold">{formatINR(renewal.contractValue)}</p>
                       <div className="flex items-center gap-2 justify-end mt-1">
-                        <div className={cn('w-20 h-1.5 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+                        <div className={cn('w-20 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${renewal.renewalProbability}%` }}
@@ -196,21 +196,21 @@ export default function RenewalCenterPage() {
 
                 {/* Details Row */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-2">
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                    <User className="w-4 h-4 inline mr-1" />{renewal.accountManager}
+                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <User className="w-3 h-3 inline mr-1" />{renewal.accountManager}
                   </span>
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
-                    <MessageSquare className="w-4 h-4 inline mr-1" />{renewal.lastTouchpoint}
+                  <span className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
+                    <MessageSquare className="w-3 h-3 inline mr-1" />{renewal.lastTouchpoint}
                   </span>
                   <span className={cn('text-[10px] font-medium', isDark ? 'text-violet-400/70' : 'text-violet-600')}>
-                    <ArrowUpRight className="w-4 h-4 inline mr-1" />{renewal.nextStep}
+                    <ArrowUpRight className="w-3 h-3 inline mr-1" />{renewal.nextStep}
                   </span>
                 </div>
 
                 {/* Negotiation Notes */}
                 {renewal.negotiationNotes && (
                   <div className={cn(
-                    'mt-2 p-2.5 rounded-[var(--app-radius-lg)] text-[10px] leading-relaxed',
+                    'mt-2 p-2.5 rounded-lg text-[10px] leading-relaxed',
                     renewal.status === 'overdue'
                       ? (isDark ? 'bg-red-500/[0.06] text-red-400/70' : 'bg-red-100/60 text-red-700')
                       : (isDark ? 'bg-amber-500/[0.06] text-amber-400/70' : 'bg-amber-100/60 text-amber-700')
@@ -228,14 +228,14 @@ export default function RenewalCenterPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Upcoming Renewal Timeline</span>
+            <Clock className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Upcoming Renewal Timeline</span>
           </div>
           <div className="relative">
-            <div className={cn('absolute left-3 top-0 bottom-0 w-px', 'bg-[var(--app-hover-bg)]')} />
+            <div className={cn('absolute left-3 top-0 bottom-0 w-px', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
             <div className="space-y-3">
               {[...renewalsData]
                 .sort((a, b) => new Date(a.renewalDate).getTime() - new Date(b.renewalDate).getTime())
@@ -266,11 +266,11 @@ export default function RenewalCenterPage() {
                             {statusBadge.label}
                           </Badge>
                         </div>
-                        <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                        <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>
                           {r.renewalDate} • {formatINR(r.contractValue)} • {r.accountManager}
                         </p>
                       </div>
-                      <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{r.renewalProbability}%</span>
+                      <span className={cn('text-xs font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{r.renewalProbability}%</span>
                     </motion.div>
                   );
                 })}

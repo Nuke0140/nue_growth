@@ -48,7 +48,7 @@ export default function SecurityAlertChip({ severity, title, description, timest
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
       className={cn(
-        'flex items-start gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors',
+        'flex items-start gap-3 p-3 rounded-xl border transition-colors',
         isDark ? config.dark : config.light
       )}
     >
@@ -58,17 +58,17 @@ export default function SecurityAlertChip({ severity, title, description, timest
           <span className="text-xs font-semibold">{title}</span>
           <span
             className={cn(
-              'text-[9px] px-1.5 py-0 rounded-[var(--app-radius-md)] font-medium',
+              'text-[9px] px-1.5 py-0 rounded-md font-medium',
               isDark ? 'bg-white/[0.08] text-white/40' : 'bg-black/[0.06] text-black/40'
             )}
           >
             {config.label}
           </span>
         </div>
-        <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-muted)]')}>
+        <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
           {description}
         </p>
-        <span className={cn('text-[9px] mt-1 block', 'text-[var(--app-text-disabled)]')}>
+        <span className={cn('text-[9px] mt-1 block', isDark ? 'text-white/20' : 'text-black/20')}>
           {timestamp}
         </span>
       </div>
@@ -76,7 +76,7 @@ export default function SecurityAlertChip({ severity, title, description, timest
         <button
           onClick={onDismiss}
           className={cn(
-            'text-xs px-2 py-1 rounded-[var(--app-radius-lg)] transition-colors shrink-0',
+            'text-xs px-2 py-1 rounded-lg transition-colors shrink-0',
             isDark ? 'hover:bg-white/[0.06] text-white/30' : 'hover:bg-black/[0.06] text-black/30'
           )}
         >

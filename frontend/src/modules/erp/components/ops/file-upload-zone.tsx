@@ -67,7 +67,7 @@ function getFileIconColor(type: string): string {
   if (type.includes('spreadsheet') || type.includes('excel') || type.includes('csv'))
     return '#22c55e';
   if (type.startsWith('video/')) return '#f59e0b';
-  return 'var(--app-text-secondary)';
+  return 'var(--ops-text-secondary)';
 }
 
 function generateId(): string {
@@ -218,7 +218,7 @@ export function FileUploadZone({
   const completedCount = files.filter((f) => f.status === 'complete').length;
 
   return (
-    <div className="app-card p-0 overflow-hidden">
+    <div className="ops-card p-0 overflow-hidden">
       {/* Drop zone */}
       <div
         onClick={handleClick}
@@ -226,14 +226,14 @@ export function FileUploadZone({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={cn(
-          'relative cursor-pointer transition-colors duration-200',
-          compact ? 'p-6' : 'p-app-3xl'
+          'relative cursor-pointer transition-all duration-200',
+          compact ? 'p-6' : 'p-8'
         )}
         style={{
           backgroundColor: isDragOver
-            ? 'var(--app-accent-light)'
+            ? 'var(--ops-accent-light)'
             : 'transparent',
-          border: `2px dashed ${isDragOver ? 'var(--app-accent)' : 'var(--app-border-strong)'}`, 
+          border: `2px dashed ${isDragOver ? 'var(--ops-accent)' : 'var(--ops-border-strong)'}`, 
           borderRadius: 12,
         }}
       >
@@ -250,17 +250,17 @@ export function FileUploadZone({
           <motion.div
             animate={isDragOver ? { scale: 1.1, y: -4 } : { scale: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="flex items-center justify-center w-12 h-12 rounded-[var(--app-radius-lg)]"
+            className="flex items-center justify-center w-12 h-12 rounded-xl"
             style={{
               backgroundColor: isDragOver
-                ? 'var(--app-accent-light)'
-                : 'var(--app-hover-bg)',
+                ? 'var(--ops-accent-light)'
+                : 'var(--ops-hover-bg)',
             }}
           >
             <Upload
               className="w-5 h-5"
               style={{
-                color: isDragOver ? 'var(--app-accent)' : 'var(--app-text-muted)',
+                color: isDragOver ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
               }}
             />
           </motion.div>
@@ -268,13 +268,13 @@ export function FileUploadZone({
           <div>
             <p
               className="text-sm font-medium"
-              style={{ color: 'var(--app-text)' }}
+              style={{ color: 'var(--ops-text)' }}
             >
               {isDragOver ? 'Drop files here' : 'Drag & drop files here'}
             </p>
             <p
               className="text-xs mt-1"
-              style={{ color: 'var(--app-text-muted)' }}
+              style={{ color: 'var(--ops-text-muted)' }}
             >
               or click to browse
               {acceptedTypes && (
@@ -287,7 +287,7 @@ export function FileUploadZone({
           </div>
 
           {!compact && maxFiles && (
-            <p className="text-[10px]" style={{ color: 'var(--app-text-muted)' }}>
+            <p className="text-[10px]" style={{ color: 'var(--ops-text-muted)' }}>
               {files.length} of {maxFiles} files
             </p>
           )}
@@ -307,7 +307,7 @@ export function FileUploadZone({
               <div
                 className="flex flex-col"
                 style={{
-                  borderTop: '1px solid var(--app-border)',
+                  borderTop: '1px solid var(--ops-border)',
                 }}
               >
                 {files.map((file, idx) => {
@@ -322,14 +322,14 @@ export function FileUploadZone({
                       exit={{ opacity: 0, x: 12, height: 0 }}
                       transition={{ duration: 0.25, delay: idx * 0.03 }}
                       layout
-                      className="flex items-center gap-3 px-app-xl py-3"
+                      className="flex items-center gap-3 px-5 py-3"
                       style={{
-                        borderBottom: '1px solid var(--app-border)',
+                        borderBottom: '1px solid var(--ops-border)',
                       }}
                     >
                       {/* File icon */}
                       <div
-                        className="flex items-center justify-center w-9 h-10  rounded-[var(--app-radius-lg)] shrink-0"
+                        className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0"
                         style={{ backgroundColor: `${iconColor}15` }}
                       >
                         <FileIcon className="w-4 h-4" style={{ color: iconColor }} />
@@ -340,7 +340,7 @@ export function FileUploadZone({
                         <div className="flex items-center gap-2">
                           <p
                             className="text-xs font-medium truncate"
-                            style={{ color: 'var(--app-text)' }}
+                            style={{ color: 'var(--ops-text)' }}
                           >
                             {file.name}
                           </p>
@@ -348,8 +348,8 @@ export function FileUploadZone({
                             <span
                               className="text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0"
                               style={{
-                                backgroundColor: 'var(--app-accent-light)',
-                                color: 'var(--app-accent)',
+                                backgroundColor: 'var(--ops-accent-light)',
+                                color: 'var(--ops-accent)',
                               }}
                             >
                               v{file.version}
@@ -360,7 +360,7 @@ export function FileUploadZone({
                         <div className="flex items-center gap-3 mt-1">
                           <span
                             className="text-[10px]"
-                            style={{ color: 'var(--app-text-muted)' }}
+                            style={{ color: 'var(--ops-text-muted)' }}
                           >
                             {formatFileSize(file.size)}
                           </span>
@@ -369,18 +369,18 @@ export function FileUploadZone({
                             <div className="flex-1 flex items-center gap-2">
                               <div
                                 className="flex-1 h-1 rounded-full overflow-hidden"
-                                style={{ backgroundColor: 'var(--app-hover-bg)' }}
+                                style={{ backgroundColor: 'var(--ops-hover-bg)' }}
                               >
                                 <motion.div
                                   className="h-full rounded-full"
-                                  style={{ backgroundColor: 'var(--app-accent)' }}
+                                  style={{ backgroundColor: 'var(--ops-accent)' }}
                                   animate={{ width: `${file.progress}%` }}
                                   transition={{ duration: 0.3 }}
                                 />
                               </div>
                               <span
                                 className="text-[10px] shrink-0"
-                                style={{ color: 'var(--app-text-muted)' }}
+                                style={{ color: 'var(--ops-text-muted)' }}
                               >
                                 {Math.round(file.progress)}%
                               </span>
@@ -390,7 +390,7 @@ export function FileUploadZone({
                           {file.uploadedAt && (
                             <span
                               className="text-[10px]"
-                              style={{ color: 'var(--app-text-muted)' }}
+                              style={{ color: 'var(--ops-text-muted)' }}
                             >
                               {new Date(file.uploadedAt).toLocaleTimeString()}
                             </span>
@@ -403,7 +403,7 @@ export function FileUploadZone({
                         {file.status === 'uploading' && (
                           <Loader2
                             className="w-4 h-4 animate-spin"
-                            style={{ color: 'var(--app-accent)' }}
+                            style={{ color: 'var(--ops-accent)' }}
                           />
                         )}
                         {file.status === 'complete' && (
@@ -438,10 +438,10 @@ export function FileUploadZone({
                           e.stopPropagation();
                           removeFile(file.id);
                         }}
-                        className="p-1 rounded-[var(--app-radius-md)] hover:bg-[var(--app-hover-bg)] transition-colors"
-                        style={{ color: 'var(--app-text-muted)' }}
+                        className="p-1 rounded-md hover:bg-[var(--ops-hover-bg)] transition-colors"
+                        style={{ color: 'var(--ops-text-muted)' }}
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </motion.div>
                   );
@@ -449,19 +449,19 @@ export function FileUploadZone({
 
                 {/* Upload more button */}
                 {completedCount > 0 && (
-                  <div className="px-app-xl py-3">
+                  <div className="px-5 py-3">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleClick();
                       }}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors hover:bg-[var(--app-hover-bg)]"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:bg-[var(--ops-hover-bg)]"
                       style={{
-                        color: 'var(--app-accent)',
-                        border: '1px solid var(--app-accent-light)',
+                        color: 'var(--ops-accent)',
+                        border: '1px solid var(--ops-accent-light)',
                       }}
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-3.5 h-3.5" />
                       Upload more
                     </button>
                   </div>

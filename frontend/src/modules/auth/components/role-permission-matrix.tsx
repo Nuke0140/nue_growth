@@ -253,7 +253,7 @@ export default function RolePermissionMatrix() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-app-2xl"
+        className="mb-6"
       >
         <h2 className="text-xl font-semibold text-gray-900">
           Role-Based Permissions
@@ -264,7 +264,7 @@ export default function RolePermissionMatrix() {
       </motion.div>
 
       {/* Layout: Sidebar + Matrix */}
-      <div className="flex flex-col gap-app-2xl lg:flex-row">
+      <div className="flex flex-col gap-6 lg:flex-row">
         {/* ──── Left: Role List ──── */}
         <div className="w-full shrink-0 lg:w-64">
           <p className="mb-3 text-xs font-medium uppercase tracking-wider text-gray-400">
@@ -284,15 +284,15 @@ export default function RolePermissionMatrix() {
                   animate="visible"
                   whileTap={{ scale: 0.97 }}
                   onClick={() => setActiveRole(role.id)}
-                  className={`group relative min-w-[180px] cursor-pointer rounded-[var(--app-radius-lg)] p-3 transition-colors ${
+                  className={`group relative min-w-[180px] cursor-pointer rounded-xl p-3 transition-colors ${
                     isActive
-                      ? 'bg-gray-900 text-white shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-gray-900/20'
+                      ? 'bg-gray-900 text-white shadow-lg shadow-gray-900/20'
                       : 'bg-white text-gray-900 hover:bg-gray-50 border border-gray-100'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div
-                      className={`mt-0.5 flex h-10  w-9 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)] ${
+                      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
                         isActive ? 'bg-white/15' : 'bg-gray-100'
                       }`}
                     >
@@ -341,14 +341,14 @@ export default function RolePermissionMatrix() {
 
         {/* ──── Right: Permission Matrix ──── */}
         <div className="min-w-0 flex-1">
-          <Card className="overflow-hidden border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+          <Card className="overflow-hidden border border-gray-100 shadow-sm">
             <CardContent className="p-0">
               {/* Active role header */}
               <div className="flex items-center justify-between border-b border-gray-100 bg-gray-50/50 px-4 py-3 sm:px-6">
                 <div className="flex items-center gap-3">
                   {activeRoleData && (
                     <>
-                      <div className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-900 text-white">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900 text-white">
                         <activeRoleData.icon className="h-4 w-4" />
                       </div>
                       <div>
@@ -413,7 +413,7 @@ export default function RolePermissionMatrix() {
                             {/* Module name cell */}
                             <td className="px-4 py-3 sm:px-6">
                               <div className="flex items-center gap-2.5">
-                                <div className="flex h-8  w-7 shrink-0 items-center justify-center rounded-[var(--app-radius-md)] bg-gray-100">
+                                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-gray-100">
                                   <ModIcon className="h-3.5 w-3.5 text-gray-500" />
                                 </div>
                                 <span className="text-sm font-medium text-gray-700">

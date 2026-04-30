@@ -78,10 +78,10 @@ export default function LandingFunnelsPage() {
     return Math.max(...selectedFunnel.steps.map(s => s.visitors));
   }, [selectedFunnel]);
 
-  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const subtle = 'text-[var(--app-text-muted)]';
-  const medium = 'text-[var(--app-text-secondary)]';
+  const card = cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const subtle = isDark ? 'text-white/30' : 'text-black/30';
+  const medium = isDark ? 'text-white/50' : 'text-black/50';
 
   const ctaColumns: DataTableColumnDef[] = [
     {
@@ -128,14 +128,14 @@ export default function LandingFunnelsPage() {
   ];
 
   return (
-    <div className="space-y-app-2xl">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
             Landing Funnel Builder & Analytics
           </h1>
-          <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
+          <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
             Visualize conversion funnels and identify drop-off points
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function LandingFunnelsPage() {
             transition={{ delay: i * 0.05, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => setSelectedFunnelIdx(i)}
             className={cn(
-              'px-4 py-2 rounded-[var(--app-radius-lg)] text-sm font-medium transition-colors',
+              'px-4 py-2 rounded-xl text-sm font-medium transition-all',
               selectedFunnelIdx === i
                 ? 'bg-orange-500/15 text-orange-600 border border-orange-500/20'
                 : isDark
@@ -187,7 +187,7 @@ export default function LandingFunnelsPage() {
               <kpi.icon className={cn('w-4 h-4', kpi.color)} />
               <span className={cn('text-xs', medium)}>{kpi.label}</span>
             </div>
-            <p className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{kpi.value}</p>
+            <p className={cn('text-xl font-bold', isDark ? 'text-white' : 'text-gray-900')}>{kpi.value}</p>
             {kpi.sub && <p className={cn('text-[10px] mt-0.5', subtle)}>{kpi.sub}</p>}
           </motion.div>
         ))}
@@ -200,9 +200,9 @@ export default function LandingFunnelsPage() {
         transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-app-xl">
-          <Filter className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+        <div className="flex items-center gap-2 mb-5">
+          <Filter className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
             {selectedFunnel.name}
           </h3>
         </div>
@@ -221,17 +221,17 @@ export default function LandingFunnelsPage() {
                 <div className="flex items-center gap-4 py-3">
                   {/* Step Info */}
                   <div className="w-32 shrink-0 text-right">
-                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>{step.name}</p>
+                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>{step.name}</p>
                   </div>
 
                   {/* Bar */}
                   <div className="flex-1">
-                    <div className={cn('h-10 rounded-[var(--app-radius-lg)] overflow-hidden relative', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('h-10 rounded-xl overflow-hidden relative', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${widthPercent}%` }}
                         transition={{ delay: i * 0.1 + 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className="h-full rounded-[var(--app-radius-lg)] flex items-center px-4"
+                        className="h-full rounded-xl flex items-center px-4"
                         style={{ backgroundColor: barColor, opacity: 0.9 }}
                       >
                         <span className="text-white text-xs font-semibold">
@@ -245,13 +245,13 @@ export default function LandingFunnelsPage() {
                   <div className="w-40 shrink-0 grid grid-cols-2 gap-2 text-right">
                     <div>
                       <p className={cn('text-[10px]', subtle)}>Conversions</p>
-                      <p className={cn('text-xs font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                      <p className={cn('text-xs font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
                         {formatNumber(step.conversions)}
                       </p>
                     </div>
                     <div>
                       <p className={cn('text-[10px]', subtle)}>Rate</p>
-                      <p className={cn('text-xs font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                      <p className={cn('text-xs font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
                         {conversionPercent.toFixed(1)}%
                       </p>
                     </div>
@@ -263,7 +263,7 @@ export default function LandingFunnelsPage() {
                       <div>
                         <p className={cn('text-[10px]', subtle)}>Drop-off</p>
                         <div className="flex items-center justify-end gap-1">
-                          <TrendingDown className={cn('w-4 h-4', dropOffColor)} />
+                          <TrendingDown className={cn('w-3 h-3', dropOffColor)} />
                           <span className={cn('text-xs font-bold tabular-nums', dropOffColor)}>
                             {step.dropOff}%
                           </span>
@@ -318,59 +318,26 @@ export default function LandingFunnelsPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* CTA Tracking Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <MousePointerClick className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>CTA Tracking</h3>
+              <MousePointerClick className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>CTA Tracking</h3>
             </div>
             <span className={cn('text-xs', subtle)}>{CTA_DATA.length} CTAs</span>
           </div>
-          <div className="overflow-x-auto max-h-[320px] overflow-y-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-y', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
-                  {['CTA', 'Funnel', 'Clicks', 'Conversions', 'Rate'].map(h => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', medium)}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {CTA_DATA.map((row, i) => (
-                  <motion.tr
-                    key={i}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.04, duration: 0.2 }}
-                    className={cn('border-b', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
-                  >
-                    <td className={cn('px-4 py-2.5 font-medium', 'text-[var(--app-text)]')}>{row.cta}</td>
-                    <td className={cn('px-4 py-2.5', medium)}>{row.funnel}</td>
-                    <td className={cn('px-4 py-2.5 tabular-nums', 'text-[var(--app-text-secondary)]')}>{formatNumber(row.clicks)}</td>
-                    <td className={cn('px-4 py-2.5 tabular-nums', 'text-[var(--app-text-secondary)]')}>{formatNumber(row.conversions)}</td>
-                    <td className="px-4 py-2.5">
-                      <div className="flex items-center gap-2">
-                        <div className={cn('w-16 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
-                          <div
-                            className={cn('h-full rounded-full', row.rate >= 40 ? 'bg-green-500' : row.rate >= 20 ? 'bg-amber-500' : 'bg-red-500')}
-                            style={{ width: `${Math.min(row.rate, 100)}%` }}
-                          />
-                        </div>
-                        <span className={cn('tabular-nums text-[10px]', 'text-[var(--app-text-secondary)]')}>{row.rate}%</span>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={CTA_DATA as unknown as Record<string, unknown>[]}
+            columns={ctaColumns}
+            pageSize={10}
+          />
         </motion.div>
 
         {/* Funnel Comparison Bar Chart */}
@@ -381,13 +348,13 @@ export default function LandingFunnelsPage() {
           className={card}
         >
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Funnel Comparison</h3>
+            <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Funnel Comparison</h3>
           </div>
-          <div className="space-y-app-xl">
+          <div className="space-y-5">
             {/* Revenue comparison */}
             <div>
-              <p className={cn('text-xs font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Total Revenue</p>
+              <p className={cn('text-xs font-medium mb-3', isDark ? 'text-white/60' : 'text-gray-600')}>Total Revenue</p>
               <div className="space-y-2">
                 {mockFunnels.map((funnel, i) => {
                   const maxRev = Math.max(...mockFunnels.map(f => f.totalRevenue));
@@ -400,14 +367,14 @@ export default function LandingFunnelsPage() {
                       className="w-full"
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className={cn('text-[10px] font-medium truncate max-w-[160px]', isSelected ? ('text-[var(--app-text)]') : medium)}>
+                        <span className={cn('text-[10px] font-medium truncate max-w-[160px]', isSelected ? (isDark ? 'text-white' : 'text-gray-900') : medium)}>
                           {funnel.name}
                         </span>
-                        <span className={cn('text-[10px] font-semibold tabular-nums', isSelected ? ('text-[var(--app-text)]') : medium)}>
+                        <span className={cn('text-[10px] font-semibold tabular-nums', isSelected ? (isDark ? 'text-white' : 'text-gray-900') : medium)}>
                           {formatCurrency(funnel.totalRevenue)}
                         </span>
                       </div>
-                      <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${width}%` }}
@@ -424,7 +391,7 @@ export default function LandingFunnelsPage() {
 
             {/* Conversion Rate comparison */}
             <div>
-              <p className={cn('text-xs font-medium mb-3', 'text-[var(--app-text-secondary)]')}>Conversion Rate</p>
+              <p className={cn('text-xs font-medium mb-3', isDark ? 'text-white/60' : 'text-gray-600')}>Conversion Rate</p>
               <div className="space-y-2">
                 {mockFunnels.map((funnel, i) => {
                   const maxRate = Math.max(...mockFunnels.map(f => f.conversionRate));
@@ -437,14 +404,14 @@ export default function LandingFunnelsPage() {
                       className="w-full"
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className={cn('text-[10px] font-medium truncate max-w-[160px]', isSelected ? ('text-[var(--app-text)]') : medium)}>
+                        <span className={cn('text-[10px] font-medium truncate max-w-[160px]', isSelected ? (isDark ? 'text-white' : 'text-gray-900') : medium)}>
                           {funnel.name}
                         </span>
-                        <span className={cn('text-[10px] font-semibold tabular-nums', isSelected ? ('text-[var(--app-text)]') : medium)}>
+                        <span className={cn('text-[10px] font-semibold tabular-nums', isSelected ? (isDark ? 'text-white' : 'text-gray-900') : medium)}>
                           {funnel.conversionRate}%
                         </span>
                       </div>
-                      <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${width}%` }}

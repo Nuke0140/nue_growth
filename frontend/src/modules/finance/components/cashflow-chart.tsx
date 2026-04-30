@@ -45,10 +45,10 @@ export default function CashflowChart({ data }: CashflowChartProps) {
   if (data.length === 0) {
     return (
       <div className={cn(
-        'rounded-[var(--app-radius-xl)] border p-app-xl',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border p-5',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
       )}>
-        <p className={cn('text-xs text-center py-app-3xl', 'text-[var(--app-text-muted)]')}>
+        <p className={cn('text-xs text-center py-8', isDark ? 'text-white/30' : 'text-black/30')}>
           No cashflow data available
         </p>
       </div>
@@ -61,29 +61,29 @@ export default function CashflowChart({ data }: CashflowChartProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'rounded-[var(--app-radius-xl)] border p-app-xl',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'rounded-2xl border p-5',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
       )}
     >
       {/* Chart area */}
       <div className="relative">
         {/* Y-axis labels */}
         <div className="absolute left-0 top-0 bottom-6 w-14 flex flex-col justify-between text-right pr-2">
-          <span className={cn('text-[9px] tabular-nums', 'text-[var(--app-text-muted)]')}>
+          <span className={cn('text-[9px] tabular-nums', isDark ? 'text-white/30' : 'text-black/30')}>
             {formatAmount(maxVal)}
           </span>
-          <span className={cn('text-[9px] tabular-nums', 'text-[var(--app-text-muted)]')}>
+          <span className={cn('text-[9px] tabular-nums', isDark ? 'text-white/30' : 'text-black/30')}>
             {formatAmount(maxVal / 2)}
           </span>
-          <span className={cn('text-[9px] tabular-nums', 'text-[var(--app-text-muted)]')}>₹0</span>
+          <span className={cn('text-[9px] tabular-nums', isDark ? 'text-white/30' : 'text-black/30')}>₹0</span>
         </div>
 
         {/* Bars */}
         <div className="ml-16 flex items-end gap-1.5 h-44 pb-6 relative">
           {/* Grid lines */}
-          <div className={cn('absolute top-0 left-0 right-0 h-px', 'bg-[var(--app-hover-bg)]')} />
-          <div className={cn('absolute top-1/2 left-0 right-0 h-px', 'bg-[var(--app-hover-bg)]')} />
-          <div className={cn('absolute bottom-6 left-0 right-0 h-px', 'bg-[var(--app-hover-bg)]')} />
+          <div className={cn('absolute top-0 left-0 right-0 h-px', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
+          <div className={cn('absolute top-1/2 left-0 right-0 h-px', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')} />
+          <div className={cn('absolute bottom-6 left-0 right-0 h-px', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')} />
 
           {data.map((item, i) => {
             const inflowH = (item.inflow / maxVal) * 100;
@@ -104,13 +104,13 @@ export default function CashflowChart({ data }: CashflowChartProps) {
                 {/* Bar group */}
                 <div className="flex items-end gap-0.5 w-full flex-1">
                   <motion.div
-                    className="flex-1 rounded-t-[var(--app-radius-md)] bg-emerald-500 min-h-[2px]"
+                    className="flex-1 rounded-t-md bg-emerald-500 min-h-[2px]"
                     initial={{ height: 0 }}
                     animate={{ height: `${inflowH}%` }}
                     transition={{ duration: 0.5, delay: i * 0.03, ease: 'easeOut' }}
                   />
                   <motion.div
-                    className="flex-1 rounded-t-[var(--app-radius-md)] bg-rose-500 min-h-[2px]"
+                    className="flex-1 rounded-t-md bg-rose-500 min-h-[2px]"
                     initial={{ height: 0 }}
                     animate={{ height: `${outflowH}%` }}
                     transition={{ duration: 0.5, delay: i * 0.03 + 0.05, ease: 'easeOut' }}
@@ -118,7 +118,7 @@ export default function CashflowChart({ data }: CashflowChartProps) {
                 </div>
 
                 {/* Date label */}
-                <span className={cn('text-[9px] tabular-nums mt-1.5', 'text-[var(--app-text-muted)]')}>
+                <span className={cn('text-[9px] tabular-nums mt-1.5', isDark ? 'text-white/30' : 'text-black/30')}>
                   {shortDate(item.date)}
                 </span>
               </div>
@@ -129,22 +129,22 @@ export default function CashflowChart({ data }: CashflowChartProps) {
 
       {/* Legend */}
       <div className="flex items-center justify-center gap-4 mt-2 pt-3 border-t border-dashed"
-        style={{ borderColor: 'var(--app-border)' }}>
+        style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-emerald-500" />
-          <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Inflow</span>
+          <span className="w-2 h-2 rounded-sm bg-emerald-500" />
+          <span className={cn('text-[10px]', isDark ? 'text-white/50' : 'text-black/50')}>Inflow</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-[var(--app-radius-sm)] bg-rose-500" />
-          <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Outflow</span>
+          <span className="w-2 h-2 rounded-sm bg-rose-500" />
+          <span className={cn('text-[10px]', isDark ? 'text-white/50' : 'text-black/50')}>Outflow</span>
         </div>
         <div className="flex items-center gap-1.5">
           <ArrowUp className="w-2.5 h-2.5 text-emerald-500" />
-          <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Net positive</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/50' : 'text-black/50')}>Net positive</span>
         </div>
         <div className="flex items-center gap-1.5">
           <ArrowDown className="w-2.5 h-2.5 text-red-500" />
-          <span className={cn('text-[10px]', 'text-[var(--app-text-secondary)]')}>Net negative</span>
+          <span className={cn('text-[10px]', isDark ? 'text-white/50' : 'text-black/50')}>Net negative</span>
         </div>
       </div>
     </motion.div>

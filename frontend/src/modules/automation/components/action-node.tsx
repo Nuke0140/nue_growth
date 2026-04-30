@@ -34,7 +34,7 @@ export default function ActionNode({ action, onClick }: ActionNodeProps) {
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onClick={onClick}
       className={cn(
-        'flex flex-col gap-3 rounded-[var(--app-radius-xl)] border p-4 cursor-pointer shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors',
+        'flex flex-col gap-3 rounded-2xl border p-4 cursor-pointer shadow-sm transition-all',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -43,37 +43,37 @@ export default function ActionNode({ action, onClick }: ActionNodeProps) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
           <div className={cn(
-            'w-9 h-10  rounded-[var(--app-radius-lg)] flex items-center justify-center',
-            'bg-[var(--app-success-bg)]',
+            'w-9 h-9 rounded-xl flex items-center justify-center',
+            isDark ? 'bg-emerald-500/15' : 'bg-emerald-50',
           )}>
-            <Play className={cn('w-4 h-4', 'text-[var(--app-success)]')} />
+            <Play className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-500')} />
           </div>
           <div>
-            <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
               {action.name}
             </h4>
-            <p className={cn('text-xs mt-0.5 line-clamp-2', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-xs mt-0.5 line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
               {action.description}
             </p>
           </div>
         </div>
-        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-disabled)]')} />
+        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-white/20' : 'text-black/20')} />
       </div>
 
       <div className="flex items-center gap-2 flex-wrap">
         <span className={cn(
-          'inline-flex items-center rounded-[var(--app-radius-lg)] px-2 py-0.5 text-[10px] font-medium border',
+          'inline-flex items-center rounded-lg px-2 py-0.5 text-[10px] font-medium border',
           categoryColors[action.category] || categoryColors.communication,
         )}>
           {action.category.replace('-', ' ').toUpperCase()}
         </span>
       </div>
 
-      <div className={cn('flex items-center gap-2 pt-2 border-t', 'border-[var(--app-border)]')}>
-        <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+      <div className={cn('flex items-center gap-2 pt-2 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
+        <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
           Used in {action.usageCount.toLocaleString()} workflows
         </span>
-        <span className={cn('text-[10px] ml-auto', 'text-[var(--app-text-disabled)]')}>
+        <span className={cn('text-[10px] ml-auto', isDark ? 'text-white/20' : 'text-black/20')}>
           {action.configFields.length} fields
         </span>
       </div>

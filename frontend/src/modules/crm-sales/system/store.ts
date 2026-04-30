@@ -288,24 +288,12 @@ export const useCrmSalesStore = create<CrmSalesState>((set, get) => ({
   toggleDensity: () => set(s => ({ density: s.density === 'comfortable' ? 'compact' : 'comfortable' })),
 
   // Notifications
-  markNotificationRead: (id: string) => {
-    set(s => ({
-      notifications: s.notifications.map(n => n.id === id ? { ...n, read: true } : n),
-    }));
-    useFeedbackStore.getState().addToast('info', {
-      title: 'Notification Read',
-      message: 'Notification has been marked as read.',
-    });
-  },
-  markAllNotificationsRead: () => {
-    set(s => ({
-      notifications: s.notifications.map(n => ({ ...n, read: true })),
-    }));
-    useFeedbackStore.getState().addToast('success', {
-      title: 'All Notifications Read',
-      message: 'All notifications have been marked as read.',
-    });
-  },
+  markNotificationRead: (id: string) => set(s => ({
+    notifications: s.notifications.map(n => n.id === id ? { ...n, read: true } : n),
+  })),
+  markAllNotificationsRead: () => set(s => ({
+    notifications: s.notifications.map(n => ({ ...n, read: true })),
+  })),
 
   // Bulk operations
   toggleBulkSelection: (id: string) => set(s => ({

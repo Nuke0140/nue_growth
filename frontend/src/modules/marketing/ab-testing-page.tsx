@@ -51,21 +51,21 @@ export default function AbTestingPage() {
   const completedTests = useMemo(() => mockABTests.filter(t => t.status === 'completed'), []);
   const maxTestCount = Math.max(...typeDistribution.map(d => d.count), 1);
 
-  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const subtle = 'text-[var(--app-text-muted)]';
-  const medium = 'text-[var(--app-text-secondary)]';
+  const card = cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const subtle = isDark ? 'text-white/30' : 'text-black/30';
+  const medium = isDark ? 'text-white/50' : 'text-black/50';
 
   return (
-    <div className="space-y-app-2xl">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
           <div>
-            <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+            <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
               A/B Testing Dashboard
             </h1>
-            <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
+            <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
               Run experiments, compare variants, and optimize conversion rates
             </p>
           </div>
@@ -99,13 +99,13 @@ export default function AbTestingPage() {
               <kpi.icon className={cn('w-4 h-4', kpi.color)} />
               <span className={cn('text-xs', medium)}>{kpi.label}</span>
             </div>
-            <p className={cn('text-2xl font-bold', 'text-[var(--app-text)]')}>{kpi.value}</p>
+            <p className={cn('text-2xl font-bold', isDark ? 'text-white' : 'text-gray-900')}>{kpi.value}</p>
           </motion.div>
         ))}
       </div>
 
       {/* Test Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {mockABTests.map((test, i) => {
           const typeStyle = TYPE_STYLES[test.type];
           const statusConfig = STATUS_CONFIG[test.status];
@@ -125,8 +125,8 @@ export default function AbTestingPage() {
               <div className="flex items-start justify-between mb-4">
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <FlaskConical className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-                    <h4 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+                    <FlaskConical className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                    <h4 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
                       {test.name}
                     </h4>
                   </div>
@@ -155,7 +155,7 @@ export default function AbTestingPage() {
 
               {/* Dates */}
               <div className="flex items-center gap-2 mb-4">
-                <Calendar className={cn('w-4 h-4', subtle)} />
+                <Calendar className={cn('w-3 h-3', subtle)} />
                 <span className={cn('text-[10px]', medium)}>
                   {test.startDate} → {test.endDate}
                 </span>
@@ -171,7 +171,7 @@ export default function AbTestingPage() {
                       {test.confidence}%
                     </span>
                   </div>
-                  <div className={cn('h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${test.confidence}%` }}
@@ -194,19 +194,19 @@ export default function AbTestingPage() {
                     <div
                       key={variant.id}
                       className={cn(
-                        'rounded-[var(--app-radius-lg)] border p-3 transition',
+                        'rounded-xl border p-3 transition',
                         isWinner
                           ? isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-green-500/5 border-green-500/20'
-                          : 'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                          : isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
                       )}
                     >
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className={cn(
-                            'w-5 h-5 rounded-[var(--app-radius-md)] flex items-center justify-center text-[10px] font-bold',
+                            'w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-bold',
                             isWinner
                               ? 'bg-green-500 text-white'
-                              : 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]',
+                              : isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50',
                           )}>
                             {j === 0 ? 'A' : j === 1 ? 'B' : 'C'}
                           </span>
@@ -225,20 +225,20 @@ export default function AbTestingPage() {
                       <div className="grid grid-cols-3 gap-2">
                         <div>
                           <p className={cn('text-[9px]', subtle)}>Impressions</p>
-                          <p className={cn('text-xs font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                          <p className={cn('text-xs font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
                             {variant.impressions > 0 ? variant.impressions.toLocaleString() : '—'}
                           </p>
                         </div>
                         <div>
                           <p className={cn('text-[9px]', subtle)}>Conversions</p>
-                          <p className={cn('text-xs font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                          <p className={cn('text-xs font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
                             {variant.conversions > 0 ? variant.conversions.toLocaleString() : '—'}
                           </p>
                         </div>
                         <div>
                           <p className={cn('text-[9px]', subtle)}>Rate</p>
                           <p className={cn('text-xs font-bold tabular-nums',
-                            isWinner ? 'text-green-500' : 'text-[var(--app-text-secondary)]')}>
+                            isWinner ? 'text-green-500' : isDark ? 'text-white/70' : 'text-gray-700')}>
                             {variant.conversionRate > 0 ? `${variant.conversionRate}%` : '—'}
                           </p>
                         </div>
@@ -253,7 +253,7 @@ export default function AbTestingPage() {
       </div>
 
       {/* Bottom Row: Winner Announcements + Test Type Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Winner Announcements */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -263,7 +263,7 @@ export default function AbTestingPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="w-4 h-4 text-amber-500" />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Winner Announcements</h3>
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Winner Announcements</h3>
           </div>
           <div className="space-y-3">
             {completedTests.length === 0 ? (
@@ -276,14 +276,14 @@ export default function AbTestingPage() {
                   <div
                     key={test.id}
                     className={cn(
-                      'rounded-[var(--app-radius-lg)] border p-4',
+                      'rounded-xl border p-4',
                       isDark ? 'bg-green-500/[0.03] border-green-500/10' : 'bg-green-500/[0.03] border-green-500/10',
                     )}
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Trophy className="w-4 h-4 text-green-500" />
-                        <span className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                        <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
                           {test.name}
                         </span>
                       </div>
@@ -313,8 +313,8 @@ export default function AbTestingPage() {
           className={card}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Layers className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Test Type Distribution</h3>
+            <Layers className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Test Type Distribution</h3>
           </div>
           <div className="space-y-4">
             {typeDistribution.map((item, i) => {
@@ -326,11 +326,11 @@ export default function AbTestingPage() {
                     <div className="flex items-center gap-2">
                       <Badge className={cn('text-[10px]', typeStyle.className)}>{typeStyle.label}</Badge>
                     </div>
-                    <span className={cn('text-xs font-semibold tabular-nums', 'text-[var(--app-text)]')}>
+                    <span className={cn('text-xs font-semibold tabular-nums', isDark ? 'text-white' : 'text-gray-900')}>
                       {item.count} test{item.count > 1 ? 's' : ''}
                     </span>
                   </div>
-                  <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
@@ -348,10 +348,10 @@ export default function AbTestingPage() {
           </div>
 
           {/* Quick Stats */}
-          <div className={cn('mt-app-xl pt-4 border-t', 'border-[var(--app-border)]')}>
+          <div className={cn('mt-5 pt-4 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
             <div className="grid grid-cols-3 gap-3">
               <div className="text-center">
-                <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{mockABTests.length}</p>
+                <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>{mockABTests.length}</p>
                 <p className={cn('text-[10px]', medium)}>Total Tests</p>
               </div>
               <div className="text-center">
@@ -361,7 +361,7 @@ export default function AbTestingPage() {
                 <p className={cn('text-[10px]', medium)}>Big Wins ({'>'}20%)</p>
               </div>
               <div className="text-center">
-                <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
+                <p className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-gray-900')}>
                   {mockABTests.reduce((s, t) => s + t.variants.length, 0)}
                 </p>
                 <p className={cn('text-[10px]', medium)}>Total Variants</p>

@@ -85,8 +85,8 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'relative rounded-[var(--app-radius-xl)] border overflow-hidden shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
-        'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+        'relative rounded-2xl border overflow-hidden shadow-sm',
+        isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]'
       )}
     >
       {/* Left violet accent border */}
@@ -104,13 +104,13 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-2">
             <div className={cn(
-              'w-6 h-6 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'w-6 h-6 rounded-lg flex items-center justify-center',
               isDark ? 'bg-violet-500/15' : 'bg-violet-100'
             )}>
-              <Sparkles className="w-4 h-4 text-violet-500" />
+              <Sparkles className="w-3.5 h-3.5 text-violet-500" />
             </div>
             <span className={cn(
-              'inline-flex items-center px-1.5 py-0.5 rounded-[var(--app-radius-md)] text-[9px] font-medium',
+              'inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-medium',
               isDark ? 'bg-violet-500/10 text-violet-400' : 'bg-violet-50 text-violet-600'
             )}>
               AI Insight
@@ -119,7 +119,7 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
           <Badge
             variant="outline"
             className={cn(
-              'px-1.5 py-0 rounded-[var(--app-radius-md)] text-[9px] font-medium border',
+              'px-1.5 py-0 rounded-md text-[9px] font-medium border',
               isDark
                 ? `${impactConfig.bgDark} ${impactConfig.textDark} border-transparent`
                 : `${impactConfig.bgLight} ${impactConfig.textLight} border-transparent`
@@ -140,16 +140,16 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
         <h3 className="text-sm font-semibold mb-1.5 leading-relaxed">{insight.title}</h3>
 
         {/* Description */}
-        <p className={cn('text-xs leading-relaxed mb-3 line-clamp-2', 'text-[var(--app-text-secondary)]')}>
+        <p className={cn('text-xs leading-relaxed mb-3 line-clamp-2', isDark ? 'text-white/50' : 'text-black/50')}>
           {insight.description}
         </p>
 
         {/* Confidence meter */}
         <div className="flex items-center gap-2.5 mb-3">
-          <span className={cn('text-[10px] font-medium shrink-0', 'text-[var(--app-text-muted)]')}>
+          <span className={cn('text-[10px] font-medium shrink-0', isDark ? 'text-white/40' : 'text-black/40')}>
             Confidence
           </span>
-          <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+          <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
             <motion.div
               className={cn('h-full rounded-full', getConfidenceColor(insight.confidence))}
               initial={{ width: 0 }}
@@ -157,7 +157,7 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             />
           </div>
-          <span className={cn('text-[10px] font-bold shrink-0 tabular-nums', 'text-[var(--app-text-secondary)]')}>
+          <span className={cn('text-[10px] font-bold shrink-0 tabular-nums', isDark ? 'text-white/60' : 'text-black/60')}>
             {insight.confidence}%
           </span>
         </div>
@@ -165,14 +165,14 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
         {/* Recommendation */}
         {insight.recommendation && (
           <div className={cn(
-            'p-2.5 rounded-[var(--app-radius-lg)] mb-3',
+            'p-2.5 rounded-xl mb-3',
             isDark ? 'bg-purple-500/[0.06] border border-purple-500/[0.1]' : 'bg-purple-50 border border-purple-100'
           )}>
             <div className="flex items-start gap-2">
-              <Lightbulb className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
+              <Lightbulb className="w-3.5 h-3.5 text-purple-500 shrink-0 mt-0.5" />
               <div>
                 <p className={cn('text-[10px] font-semibold mb-0.5 text-purple-500')}>Recommendation</p>
-                <p className={cn('text-[11px] leading-relaxed', 'text-[var(--app-text-secondary)]')}>
+                <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/50' : 'text-black/50')}>
                   {insight.recommendation}
                 </p>
               </div>
@@ -183,17 +183,17 @@ export default function AiFinanceInsight({ insight }: AiFinanceInsightProps) {
         {/* Potential saving */}
         {insight.potentialSaving !== undefined && insight.potentialSaving > 0 && (
           <div className={cn(
-            'flex items-center gap-2 p-2.5 rounded-[var(--app-radius-lg)]',
+            'flex items-center gap-2 p-2.5 rounded-xl',
             isDark ? 'bg-emerald-500/[0.06] border border-emerald-500/[0.1]' : 'bg-emerald-50 border border-emerald-100'
           )}>
-            <PiggyBank className="w-4 h-4 text-emerald-500 shrink-0" />
+            <PiggyBank className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
             <div>
-              <p className={cn('text-[10px] font-semibold mb-0.5', 'text-[var(--app-success)]')}>
+              <p className={cn('text-[10px] font-semibold mb-0.5', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
                 Potential Saving
               </p>
               <div className="flex items-center gap-1">
-                <Zap className="w-4 h-4 text-emerald-500" />
-                <span className={cn('text-sm font-bold tabular-nums', 'text-[var(--app-success)]')}>
+                <Zap className="w-3 h-3 text-emerald-500" />
+                <span className={cn('text-sm font-bold tabular-nums', isDark ? 'text-emerald-400' : 'text-emerald-600')}>
                   {formatAmount(insight.potentialSaving)}
                 </span>
               </div>

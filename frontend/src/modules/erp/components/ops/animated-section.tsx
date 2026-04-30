@@ -3,7 +3,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { ANIMATION } from '@/styles/design-tokens';
+import { ANIMATION } from '../../design-tokens';
 
 interface AnimatedSectionProps {
   children: React.ReactNode;

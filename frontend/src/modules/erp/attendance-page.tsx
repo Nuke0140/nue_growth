@@ -91,13 +91,13 @@ function AttendancePageInner() {
                 className="text-[10px] font-semibold"
                 style={{
                   backgroundColor: avatarColors[Math.abs(hashCode(name)) % avatarColors.length],
-                  color: 'var(--app-accent)',
+                  color: CSS.accent,
                 }}
               >
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>
+            <span className="text-sm font-medium" style={{ color: CSS.text }}>
               {name}
             </span>
           </div>
@@ -109,8 +109,8 @@ function AttendancePageInner() {
       label: 'Check In',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-          {row.checkIn || '—'}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.checkIn || '—')}
         </span>
       ),
     },
@@ -119,8 +119,8 @@ function AttendancePageInner() {
       label: 'Check Out',
       sortable: true,
       render: (row) => (
-        <span className="text-sm" style={{ color: 'var(--app-text-secondary)' }}>
-          {row.checkOut || '—'}
+        <span className="text-sm" style={{ color: CSS.textSecondary }}>
+          {String(row.checkOut || '—')}
         </span>
       ),
     },
@@ -129,14 +129,9 @@ function AttendancePageInner() {
       label: 'Hours',
       sortable: true,
       render: (row) => {
-        const hours = row.hours as number;
-        const style: React.CSSProperties =
-          hours >= 9
-            ? { color: 'var(--app-success)' }
-            : hours === 0
-              ? { color: 'var(--app-text-muted)' }
-              : { color: 'var(--app-warning)' };
-        return <span className="text-sm font-medium" style={style}>{hours > 0 ? `${hours}h` : '—'}</span>;
+        const hours = Number(row.hours);
+        const color = hours >= 9 ? CSS.success : hours === 0 ? CSS.textMuted : CSS.warning;
+        return <span className="text-sm font-medium" style={{ color }}>{hours > 0 ? `${hours}h` : '—'}</span>;
       },
     },
     {
@@ -146,10 +141,7 @@ function AttendancePageInner() {
       render: (row) => {
         const ot = Number(row.overtime);
         return (
-          <span
-            className="text-sm"
-            style={{ color: ot > 0 ? 'var(--app-warning)' : 'var(--app-text-muted)' }}
-          >
+          <span className="text-sm" style={{ color: ot > 0 ? CSS.warning : CSS.textMuted }}>
             {ot > 0 ? `+${ot}h` : '—'}
           </span>
         );
@@ -172,7 +164,7 @@ function AttendancePageInner() {
             <span className="text-xs font-medium text-red-500 dark:text-red-400">Flag</span>
           </span>
         ) : (
-          <span style={{ color: 'var(--app-text-muted)' }}>—</span>
+          <span style={{ color: CSS.textMuted }}>—</span>
         ),
     },
   ];
@@ -186,23 +178,29 @@ function AttendancePageInner() {
           <button
             onClick={() => setDateIdx(i => Math.max(0, i - 1))}
             disabled={dateIdx === 0}
-            className="app-btn-ghost p-1.5 disabled:opacity-30"
+            className="p-1.5 rounded-lg transition-colors disabled:opacity-30"
+            style={{ color: CSS.textSecondary }}
+            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg}
+            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: 'var(--app-text)' }}>
+          <span className="text-sm font-medium px-3 min-w-[160px] text-center" style={{ color: CSS.text }}>
             {formatDateLabel(selectedDate)}
           </span>
           <button
             onClick={() => setDateIdx(i => Math.min(AVAILABLE_DATES.length - 1, i + 1))}
             disabled={dateIdx === AVAILABLE_DATES.length - 1}
-            className="app-btn-ghost p-1.5 disabled:opacity-30"
+            className="p-1.5 rounded-lg transition-colors disabled:opacity-30"
+            style={{ color: CSS.textSecondary }}
+            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg}
+            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       }>
-      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* KPI Widgets */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Present" value={stats.present} icon={UserCheck} color="success" />
@@ -227,12 +225,12 @@ function AttendancePageInner() {
         {dayData.some(a => a.isAnomaly) && (
           <motion.div
             variants={fadeUp}
-            className="app-card p-4"
+            className="rounded-2xl p-4"
             style={{ border: '1px solid rgba(248, 113, 113, 0.2)', backgroundColor: 'rgba(248, 113, 113, 0.04)' }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="w-4 h-4" style={{ color: 'var(--app-warning)' }} />
-              <span className="text-sm font-semibold" style={{ color: 'var(--app-warning)' }}>
+              <AlertTriangle className="w-4 h-4" style={{ color: CSS.warning }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.warning }}>
                 Anomaly Summary
               </span>
             </div>
@@ -242,8 +240,8 @@ function AttendancePageInner() {
                 .map(a => {
                   const name = getEmployeeName(a.employeeId);
                   return (
-                    <p key={a.id} className="text-xs" style={{ color: 'var(--app-text-secondary)' }}>
-                      <span className="font-medium" style={{ color: 'var(--app-text)' }}>{name}</span>
+                    <p key={a.id} className="text-xs" style={{ color: CSS.textSecondary }}>
+                      <span className="font-medium" style={{ color: CSS.text }}>{name}</span>
                       {' — '}
                       {a.status === 'absent'
                         ? 'No check-in recorded today'

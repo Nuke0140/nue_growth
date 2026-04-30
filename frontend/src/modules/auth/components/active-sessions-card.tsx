@@ -236,18 +236,18 @@ export default function ActiveSessionsCard() {
   };
 
   return (
-    <div className="w-full space-y-app-2xl">
+    <div className="w-full space-y-6">
       {/* ──── Current Session ──── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <Card className="border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
-          <CardContent className="p-app-xl">
+        <Card className="border border-gray-100 shadow-sm">
+          <CardContent className="p-5">
             <div className="flex items-start gap-4">
               {/* Device icon */}
-              <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)] bg-emerald-50">
+              <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50">
                 <Monitor className="h-5 w-5 text-emerald-600" />
                 {/* Green dot */}
                 <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
@@ -292,15 +292,15 @@ export default function ActiveSessionsCard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        <Card className="border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+        <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
                   <Globe className="h-4 w-4 text-gray-600" />
                 </div>
                 <div>
-                  <CardTitle className="text-sm text-gray-900">
+                  <CardTitle className="text-base text-gray-900">
                     Other Active Sessions
                   </CardTitle>
                   <CardDescription className="text-xs">
@@ -316,7 +316,7 @@ export default function ActiveSessionsCard() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="py-app-3xl text-center"
+                className="py-8 text-center"
               >
                 <Shield className="mx-auto h-8 w-8 text-gray-300" />
                 <p className="mt-2 text-sm text-gray-500">
@@ -338,10 +338,10 @@ export default function ActiveSessionsCard() {
                         animate="visible"
                         exit="exit"
                         layout
-                        className="group flex items-center gap-4 rounded-[var(--app-radius-lg)] border border-gray-100 bg-white p-4 transition-colors hover:bg-gray-50/60"
+                        className="group flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:bg-gray-50/60"
                       >
                         {/* Device icon */}
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-100">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gray-100">
                           <DeviceIcon className="h-4.5 w-4.5 text-gray-600" />
                         </div>
 
@@ -413,14 +413,14 @@ export default function ActiveSessionsCard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        <Card className="border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+        <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-100">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
                 <Fingerprint className="h-4 w-4 text-gray-600" />
               </div>
               <div>
-                <CardTitle className="text-sm text-gray-900">
+                <CardTitle className="text-base text-gray-900">
                   Login History
                 </CardTitle>
                 <CardDescription className="text-xs">
@@ -434,7 +434,7 @@ export default function ActiveSessionsCard() {
               {/* Vertical timeline line */}
               <div className="absolute left-[11px] top-2 bottom-2 w-px bg-gray-200" />
 
-              <div className="space-y-app-2xl">
+              <div className="space-y-6">
                 {initialHistory.map((entry, index) => {
                   const config = actionConfig[entry.action];
                   const ActionIcon = config.icon;
@@ -451,7 +451,7 @@ export default function ActiveSessionsCard() {
                     >
                       {/* Timeline dot */}
                       <div
-                        className={`absolute -left-8 top-0.5 z-10 flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-white ${config.bg} shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]`}
+                        className={`absolute -left-8 top-0.5 z-10 flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-white ${config.bg} shadow-sm`}
                       >
                         <ActionIcon className={`h-3 w-3 ${config.color}`} />
                       </div>

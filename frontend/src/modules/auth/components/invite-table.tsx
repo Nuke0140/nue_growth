@@ -230,17 +230,17 @@ export default function InviteTable() {
   const pendingCount = invites.filter((i) => i.status === 'pending').length;
 
   return (
-    <div className="w-full space-y-app-2xl">
+    <div className="w-full space-y-6">
       {/* ──── Invite Form Card ──── */}
       <motion.div variants={cardVariants} initial="hidden" animate="visible">
-        <Card className="border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+        <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-900">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900">
                 <UserPlus className="h-4 w-4 text-white" />
               </div>
               <div>
-                <CardTitle className="text-sm text-gray-900">
+                <CardTitle className="text-base text-gray-900">
                   Invite Team Member
                 </CardTitle>
                 <CardDescription className="text-xs">
@@ -334,7 +334,7 @@ export default function InviteTable() {
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Add a personal note to the invitation..."
                       rows={3}
-                      className="mt-2 w-full rounded-[var(--app-radius-lg)] border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 resize-none"
+                      className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 resize-none"
                     />
                   </motion.div>
                 )}
@@ -379,15 +379,15 @@ export default function InviteTable() {
         animate="visible"
         transition={{ delay: 0.15 }}
       >
-        <Card className="border border-gray-100 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]">
+        <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] bg-gray-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
                   <Inbox className="h-4 w-4 text-gray-600" />
                 </div>
                 <div>
-                  <CardTitle className="text-sm text-gray-900">
+                  <CardTitle className="text-base text-gray-900">
                     Pending Invitations
                   </CardTitle>
                   <CardDescription className="text-xs">
@@ -408,10 +408,10 @@ export default function InviteTable() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-app-4xl text-center"
+                className="flex flex-col items-center justify-center py-12 text-center"
               >
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                  <Users className="h-8  w-7 text-gray-400" />
+                  <Users className="h-7 w-7 text-gray-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-900">
                   No invitations sent yet
@@ -508,7 +508,7 @@ export default function InviteTable() {
                                       whileTap={{ scale: 0.9 }}
                                       whileHover={{ scale: 1.05 }}
                                       onClick={() => handleResend(invite.id)}
-                                      className="flex items-center gap-1 rounded-[var(--app-radius-lg)] border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                      className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                                     >
                                       <RefreshCw className="h-3 w-3" />
                                       Resend
@@ -518,7 +518,7 @@ export default function InviteTable() {
                                     whileTap={{ scale: 0.9 }}
                                     whileHover={{ scale: 1.05 }}
                                     onClick={() => handleCancel(invite.id)}
-                                    className="flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)] border border-gray-200 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-colors"
+                                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-colors"
                                     aria-label="Cancel invitation"
                                   >
                                     <Trash2 className="h-3.5 w-3.5" />
@@ -548,11 +548,11 @@ export default function InviteTable() {
                           initial="hidden"
                           animate="visible"
                           exit="exit"
-                          className="rounded-[var(--app-radius-lg)] border border-gray-100 bg-white p-4"
+                          className="rounded-xl border border-gray-100 bg-white p-4"
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex items-center gap-2.5">
-                              <div className="flex h-10  w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-600">
+                              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-600">
                                 {invite.email.charAt(0).toUpperCase()}
                               </div>
                               <div className="min-w-0">
@@ -589,7 +589,7 @@ export default function InviteTable() {
                                 <motion.button
                                   whileTap={{ scale: 0.9 }}
                                   onClick={() => handleResend(invite.id)}
-                                  className="flex items-center gap-1 rounded-[var(--app-radius-lg)] border border-gray-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-gray-700"
+                                  className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-gray-700"
                                 >
                                   <RefreshCw className="h-3 w-3" />
                                   Resend
@@ -598,7 +598,7 @@ export default function InviteTable() {
                               <motion.button
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => handleCancel(invite.id)}
-                                className="flex h-8  w-7 items-center justify-center rounded-[var(--app-radius-lg)] border border-gray-200 text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                                 aria-label="Cancel invitation"
                               >
                                 <Trash2 className="h-3 w-3" />

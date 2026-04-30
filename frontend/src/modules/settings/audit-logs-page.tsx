@@ -62,7 +62,7 @@ export default function AuditLogsPage() {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          'pl-3 pr-8 py-2 rounded-[var(--app-radius-lg)] text-xs border outline-none appearance-none transition-colors cursor-pointer',
+          'pl-3 pr-8 py-2 rounded-xl text-xs border outline-none appearance-none transition-colors cursor-pointer',
           isDark
             ? 'bg-white/[0.03] border-white/[0.06] text-white/60 focus:border-violet-500/40'
             : 'bg-black/[0.02] border-black/[0.06] text-black/60 focus:border-violet-500/40'
@@ -73,30 +73,30 @@ export default function AuditLogsPage() {
           <option key={opt} value={opt}>{opt.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
         ))}
       </select>
-      <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', 'text-[var(--app-text-muted)]')} />
+      <ChevronDown className={cn('absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none', isDark ? 'text-white/25' : 'text-black/25')} />
     </div>
   );
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-app-2xl">
+      <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-              <FileText className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+              <FileText className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Audit Logs</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Complete action history</p>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Complete action history</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
-              <Download className="w-4 h-4" /> Export PDF
+            <Button variant="outline" size="sm" className={cn('rounded-xl text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
+              <Download className="w-3.5 h-3.5" /> Export PDF
             </Button>
-            <Button variant="outline" size="sm" className={cn('rounded-[var(--app-radius-lg)] text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
-              <Download className="w-4 h-4" /> Export CSV
+            <Button variant="outline" size="sm" className={cn('rounded-xl text-xs gap-1.5', isDark ? 'border-white/[0.08] text-white/50 hover:bg-white/[0.06]' : 'border-black/[0.08] text-black/50 hover:bg-black/[0.06]')}>
+              <Download className="w-3.5 h-3.5" /> Export CSV
             </Button>
           </div>
         </div>
@@ -109,12 +109,12 @@ export default function AuditLogsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <kpi.icon className={cn('w-4 h-4', kpi.color)} />
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
+                  <kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} />
                 </div>
               </div>
               <p className={cn('text-2xl font-bold tracking-tight', kpi.color)}>{kpi.value}</p>
@@ -127,10 +127,10 @@ export default function AuditLogsPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
         >
           <div className="flex items-center gap-4 mb-3">
-            <span className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Severity Distribution</span>
+            <span className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Severity Distribution</span>
           </div>
           <div className="flex items-center gap-1 h-3 rounded-full overflow-hidden">
             {infoCount > 0 && (
@@ -161,15 +161,15 @@ export default function AuditLogsPage() {
           <div className="flex items-center gap-4 mt-2">
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-sky-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Info ({infoCount})</span>
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Info ({infoCount})</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Warning ({warningCount})</span>
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Warning ({warningCount})</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Critical ({criticalCount})</span>
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Critical ({criticalCount})</span>
             </div>
           </div>
         </motion.div>
@@ -177,8 +177,8 @@ export default function AuditLogsPage() {
         {/* Filter Bar */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <Filter className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-xs font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>Filters</span>
+            <Filter className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-xs font-medium uppercase tracking-wider', isDark ? 'text-white/30' : 'text-black/30')}>Filters</span>
           </div>
           <SelectFilter label="Event Type" value={eventTypeFilter} onChange={setEventTypeFilter} options={eventTypes} />
           <SelectFilter label="Severity" value={severityFilter} onChange={setSeverityFilter} options={severityOptions.filter(o => o !== 'all')} />
@@ -187,7 +187,7 @@ export default function AuditLogsPage() {
           <input
             type="date"
             className={cn(
-              'px-3 py-2 rounded-[var(--app-radius-lg)] text-xs border outline-none transition-colors',
+              'px-3 py-2 rounded-xl text-xs border outline-none transition-colors',
               isDark
                 ? 'bg-white/[0.03] border-white/[0.06] text-white/60 focus:border-violet-500/40'
                 : 'bg-black/[0.02] border-black/[0.06] text-black/60 focus:border-violet-500/40'
@@ -210,13 +210,13 @@ export default function AuditLogsPage() {
         </div>
 
         {filteredLogs.length === 0 && (
-          <div className={cn('text-center py-app-4xl rounded-[var(--app-radius-xl)] border', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-            <FileText className={cn('w-8 h-8 mx-auto mb-3', 'text-[var(--app-text-disabled)]')} />
-            <p className={cn('text-sm', 'text-[var(--app-text-muted)]')}>No audit logs match your filters</p>
+          <div className={cn('text-center py-12 rounded-2xl border', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}>
+            <FileText className={cn('w-8 h-8 mx-auto mb-3', isDark ? 'text-white/10' : 'text-black/10')} />
+            <p className={cn('text-sm', isDark ? 'text-white/30' : 'text-black/30')}>No audit logs match your filters</p>
           </div>
         )}
 
-        <Badge variant="secondary" className={cn('text-[10px] px-3 py-1 border-0 block w-fit', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
+        <Badge variant="secondary" className={cn('text-[10px] px-3 py-1 border-0 block w-fit', isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')}>
           Showing {filteredLogs.length} of {auditLogs.length} events
         </Badge>
       </div>

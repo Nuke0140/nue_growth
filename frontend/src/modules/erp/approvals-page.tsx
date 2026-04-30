@@ -33,13 +33,13 @@ const typeIconMap: Record<ApprovalType, typeof DollarSign> = {
 };
 
 const typeColorMap: Record<ApprovalType, string> = {
-  invoice: 'var(--app-success-bg)',
-  budget: 'var(--app-warning-bg)',
+  invoice: 'rgba(52, 211, 153, 0.12)',
+  budget: 'rgba(251, 191, 36, 0.12)',
   design: 'rgba(168, 85, 247, 0.12)',
-  leave: 'var(--app-info-bg)',
-  content: 'var(--app-info-bg)',
+  leave: 'rgba(96, 165, 250, 0.12)',
+  content: 'rgba(96, 165, 250, 0.12)',
   proposal: 'rgba(204, 92, 55, 0.12)',
-  payroll: 'var(--app-danger-bg)',
+  payroll: 'rgba(248, 113, 113, 0.12)',
 };
 
 const typeTextColor: Record<ApprovalType, string> = {
@@ -145,28 +145,28 @@ function ApprovalsPageInner() {
 
   function getStatusBadge(status: ApprovalStatus) {
     if (status === 'approved') return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}>
-        <CheckCircle2 className="w-4 h-4" /> Approved
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(52,211,153,0.12)', color: '#34d399' }}>
+        <CheckCircle2 className="w-3 h-3" /> Approved
       </span>
     );
     if (status === 'rejected') return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-danger-bg)', color: '#f87171' }}>
-        <XCircle className="w-4 h-4" /> Rejected
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(248,113,113,0.12)', color: '#f87171' }}>
+        <XCircle className="w-3 h-3" /> Rejected
       </span>
     );
     if (status === 'escalated') return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'var(--app-warning-bg)', color: '#fbbf24' }}>
-        <AlertTriangle className="w-4 h-4" /> Escalated
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(251,191,36,0.12)', color: '#fbbf24' }}>
+        <AlertTriangle className="w-3 h-3" /> Escalated
       </span>
     );
     return (
       <motion.span
         className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium"
-        style={{ backgroundColor: 'var(--app-warning-bg)', color: '#fbbf24' }}
+        style={{ backgroundColor: 'rgba(251,191,36,0.12)', color: '#fbbf24' }}
         animate={{ opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <Clock className="w-4 h-4" /> Pending
+        <Clock className="w-3 h-3" /> Pending
       </motion.span>
     );
   }
@@ -180,7 +180,7 @@ function ApprovalsPageInner() {
       title: 'Request submitted',
       description: `${approval.requestedBy} created this approval request`,
       timestamp: new Date(approval.createdAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      accentColor: 'var(--app-accent)',
+      accentColor: 'var(--ops-accent)',
     });
     // Comments as timeline items
     approval.comments.forEach(c => {
@@ -219,7 +219,7 @@ function ApprovalsPageInner() {
 
   return (
     <PageShell title="Approvals" icon={CheckCircle2} badge={filtered.length}>
-      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
 
         {/* Type filter pills */}
         <motion.div variants={fadeUp}>
@@ -238,9 +238,9 @@ function ApprovalsPageInner() {
         {/* Approval Cards */}
         <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length === 0 ? (
-            <div className="col-span-full app-card p-app-4xl text-center">
-              <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--app-text-muted)', opacity: 0.3 }} />
-              <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>No approvals in this category.</p>
+            <div className="col-span-full ops-card p-12 text-center">
+              <Shield className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--ops-text-muted)', opacity: 0.3 }} />
+              <p className="text-sm" style={{ color: 'var(--ops-text-muted)' }}>No approvals in this category.</p>
             </div>
           ) : (
             filtered.map((approval, idx) => {
@@ -256,11 +256,11 @@ function ApprovalsPageInner() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05, duration: 0.3 }}
-                  className="app-card transition-colors"
-                  style={{ ...cardStyle, borderRadius: 'var(--app-radius-md)', border: isSelected ? '1.5px solid #cc5c37' : cardStyle.border }}
+                  className="ops-card transition-colors"
+                  style={{ ...cardStyle, borderRadius: '1rem', border: isSelected ? '1.5px solid #cc5c37' : cardStyle.border }}
                 >
                   {/* Card body */}
-                  <div className="p-app-xl space-y-4">
+                  <div className="p-5 space-y-4">
                     {/* Top: Checkbox + Type icon + Status */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
@@ -273,7 +273,7 @@ function ApprovalsPageInner() {
                           />
                         </label>
                         <div
-                          className="flex items-center justify-center w-10 h-10 rounded-[var(--app-radius-lg)] shrink-0"
+                          className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
                           style={{ backgroundColor: typeColorMap[approval.type] }}
                         >
                           <TypeIcon className="w-5 h-5" style={{ color: typeTextColor[approval.type] }} />
@@ -284,9 +284,9 @@ function ApprovalsPageInner() {
 
                     {/* Title */}
                     <div>
-                      <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--app-text)' }}>{approval.title}</p>
+                      <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--ops-text)' }}>{approval.title}</p>
                       {approval.project && (
-                        <p className="text-[11px] mt-1" style={{ color: 'var(--app-text-muted)' }}>{approval.project}</p>
+                        <p className="text-[11px] mt-1" style={{ color: 'var(--ops-text-muted)' }}>{approval.project}</p>
                       )}
                     </div>
 
@@ -294,20 +294,20 @@ function ApprovalsPageInner() {
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
                         <Avatar className="h-5 w-5">
-                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
+                          <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
                             {approval.requestedBy.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-xs" style={{ color: 'var(--app-text-secondary)' }}>Requested by: {approval.requestedBy}</span>
+                        <span className="text-xs" style={{ color: 'var(--ops-text-secondary)' }}>Requested by: {approval.requestedBy}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--app-text-muted)' }}>
+                      <div className="flex items-center gap-3 text-[11px]" style={{ color: 'var(--ops-text-muted)' }}>
                         <span>{timeAgo(approval.createdAt)}</span>
                         {approval.version > 1 && (
-                          <span className="app-badge" style={{ backgroundColor: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' }}>v{approval.version}</span>
+                          <span className="ops-badge" style={{ backgroundColor: 'var(--ops-hover-bg)', color: 'var(--ops-text-muted)' }}>v{approval.version}</span>
                         )}
                         {approval.comments.length > 0 && (
                           <span className="inline-flex items-center gap-1">
-                            <MessageSquare className="w-4 h-4" /> {approval.comments.length}
+                            <MessageSquare className="w-3 h-3" /> {approval.comments.length}
                           </span>
                         )}
                       </div>
@@ -315,16 +315,16 @@ function ApprovalsPageInner() {
 
                     {/* Expand toggle */}
                     <button
-                      className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-[var(--app-radius-lg)]"
-                      style={{ color: 'var(--app-text-muted)' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-hover-bg)'; }}
+                      className="flex items-center justify-center w-full py-1.5 text-[11px] font-medium transition-colors rounded-lg"
+                      style={{ color: 'var(--ops-text-muted)' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--ops-hover-bg)'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
                       onClick={() => toggleExpand(approval.id)}
                     >
                       {isExpanded ? (
-                        <><ChevronUp className="w-4 h-4 mr-1" /> Hide Details</>
+                        <><ChevronUp className="w-3 h-3 mr-1" /> Hide Details</>
                       ) : (
-                        <><ChevronDown className="w-4 h-4 mr-1" /> View Details</>
+                        <><ChevronDown className="w-3 h-3 mr-1" /> View Details</>
                       )}
                     </button>
 
@@ -345,7 +345,7 @@ function ApprovalsPageInner() {
                                 approval.status === 'rejected' ? '#f87171' :
                                 approval.status === 'escalated' ? '#fbbf24' : '#fbbf24',
                             }} />
-                            <span className="text-xs font-medium capitalize" style={{ color: 'var(--app-text-secondary)' }}>
+                            <span className="text-xs font-medium capitalize" style={{ color: 'var(--ops-text-secondary)' }}>
                               Current Status: {approval.status}
                             </span>
                           </div>
@@ -357,24 +357,24 @@ function ApprovalsPageInner() {
 
                           {/* Action buttons */}
                           {isActionable && (
-                            <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
+                            <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
                               <button
-                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
-                                style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}
+                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                                style={{ backgroundColor: 'rgba(52,211,153,0.12)', color: '#34d399' }}
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(52,211,153,0.2)'; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-success-bg)'; }}
+                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(52,211,153,0.12)'; }}
                                 onClick={() => handleApprove(approval.id)}
                               >
-                                <ThumbsUp className="w-4 h-4" /> Approve
+                                <ThumbsUp className="w-3.5 h-3.5" /> Approve
                               </button>
                               <button
-                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
-                                style={{ backgroundColor: 'var(--app-danger-bg)', color: '#f87171' }}
+                                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
+                                style={{ backgroundColor: 'rgba(248,113,113,0.12)', color: '#f87171' }}
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(248,113,113,0.2)'; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--app-danger-bg)'; }}
+                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(248,113,113,0.12)'; }}
                                 onClick={() => handleReject(approval.id)}
                               >
-                                <ThumbsDown className="w-4 h-4" /> Reject
+                                <ThumbsDown className="w-3.5 h-3.5" /> Reject
                               </button>
                             </div>
                           )}

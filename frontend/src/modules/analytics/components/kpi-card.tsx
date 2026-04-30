@@ -24,8 +24,8 @@ const severityBorder: Record<string, string> = {
 
 const severityGlow: Record<string, string> = {
   normal: '',
-  warning: 'shadow-[var(--app-shadow-md)]-amber-500/5',
-  critical: 'shadow-[var(--app-shadow-md)]-red-500/5',
+  warning: 'shadow-amber-500/5',
+  critical: 'shadow-red-500/5',
 };
 
 export default function KPICard({
@@ -56,8 +56,8 @@ export default function KPICard({
       whileTap={{ scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className={cn(
-        'relative rounded-[var(--app-radius-xl)] border border-l-4 p-4 sm:p-app-xl',
-        'shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] hover:shadow-[var(--app-shadow-md)]-md transition-shadow',
+        'relative rounded-2xl border border-l-4 p-4 sm:p-5',
+        'shadow-sm hover:shadow-md transition-shadow',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -71,7 +71,7 @@ export default function KPICard({
           <p
             className={cn(
               'text-xs font-medium uppercase tracking-wider truncate',
-              'text-[var(--app-text-muted)]',
+              isDark ? 'text-zinc-400' : 'text-zinc-500',
             )}
           >
             {label}
@@ -80,7 +80,7 @@ export default function KPICard({
           <p
             className={cn(
               'text-2xl sm:text-3xl font-bold tracking-tight truncate',
-              'text-[var(--app-text)]',
+              isDark ? 'text-white' : 'text-zinc-900',
             )}
           >
             {value}
@@ -91,8 +91,8 @@ export default function KPICard({
             <span
               className={cn(
                 'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold',
-                isPositive && ('bg-[var(--app-success-bg)] text-[var(--app-success)]'),
-                isNegative && ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]'),
+                isPositive && (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'),
+                isNegative && (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600'),
                 resolvedTrend === 'stable' && (isDark ? 'bg-zinc-500/15 text-zinc-400' : 'bg-zinc-100 text-zinc-600'),
               )}
             >
@@ -103,7 +103,7 @@ export default function KPICard({
             <span
               className={cn(
                 'text-xs',
-                'text-[var(--app-text-muted)]',
+                isDark ? 'text-zinc-500' : 'text-zinc-400',
               )}
             >
               {changeLabel}
@@ -115,14 +115,14 @@ export default function KPICard({
         {Icon && (
           <div
             className={cn(
-              'flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
-              'bg-[var(--app-hover-bg)]',
+              'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
             )}
           >
             <Icon
               className={cn(
                 'h-6 w-6',
-                'text-[var(--app-text-muted)]',
+                isDark ? 'text-zinc-400' : 'text-zinc-500',
               )}
             />
           </div>

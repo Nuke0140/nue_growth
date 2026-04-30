@@ -30,7 +30,7 @@ function WorkloadPageInner() {
   const isDark = theme === 'dark';
 
   function getCellColor(allocation: number) {
-    if (allocation === 0) return 'bg-[var(--app-hover-bg)]';
+    if (allocation === 0) return isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]';
     if (allocation <= 30) return isDark ? 'bg-blue-500/20' : 'bg-blue-100';
     if (allocation <= 60) return isDark ? 'bg-emerald-500/20' : 'bg-emerald-100';
     if (allocation <= 85) return isDark ? 'bg-amber-500/20' : 'bg-amber-100';
@@ -74,7 +74,7 @@ function WorkloadPageInner() {
 
   return (
     <PageShell title="Workload" icon={BarChart2} headerRight={
-      <Badge variant="secondary" className={cn('text-xs font-medium', 'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]')}>
+      <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
         {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
       </Badge>
     }>
@@ -92,12 +92,12 @@ function WorkloadPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{stat.label}</span>
-                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <stat.icon className={cn('w-4 h-4', stat.color)} />
+                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
@@ -110,7 +110,7 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4" /> Allocation vs Capacity
@@ -124,22 +124,22 @@ function WorkloadPageInner() {
                 <div key={w.id} className="flex items-center gap-3">
                   <div className="w-[140px] shrink-0 flex items-center gap-2">
                     <Avatar className="h-6 w-6">
-                      <AvatarFallback className={cn('text-[9px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                      <AvatarFallback className={cn('text-[9px] font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
                         {w.employee!.avatar}
                       </AvatarFallback>
                     </Avatar>
-                    <span className={cn('text-xs font-medium truncate', 'text-[var(--app-text)]')}>
+                    <span className={cn('text-xs font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
                       {w.employee!.name.split(' ')[0]}
                     </span>
                     {isOverloaded && (
-                      <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0" />
                     )}
                     {isIdle && (
-                      <Info className="w-4 h-4 text-blue-400 shrink-0" />
+                      <Info className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                     )}
                   </div>
                   <div className="flex-1">
-                    <div className={cn('h-5 rounded-full overflow-hidden relative', 'bg-[var(--app-hover-bg)]')}>
+                    <div className={cn('h-5 rounded-full overflow-hidden relative', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
                       {/* Capacity line at 100% */}
                       <div className={cn('absolute top-0 bottom-0 w-px z-10', isDark ? 'bg-white/10' : 'bg-black/10')} style={{ left: '100%' }} />
                       <motion.div
@@ -151,7 +151,7 @@ function WorkloadPageInner() {
                     </div>
                   </div>
                   <div className="w-[70px] shrink-0 text-right">
-                    <span className={cn('text-xs font-bold', isOverloaded ? 'text-red-500 dark:text-red-400' : isIdle ? 'text-blue-400' : 'text-[var(--app-text-secondary)]')}>
+                    <span className={cn('text-xs font-bold', isOverloaded ? 'text-red-500 dark:text-red-400' : isIdle ? 'text-blue-400' : isDark ? 'text-white/60' : 'text-black/60')}>
                       {w.allocation}%
                     </span>
                   </div>
@@ -166,22 +166,22 @@ function WorkloadPageInner() {
               );
             })}
           </div>
-          <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: 'var(--app-hover-bg)' }}>
+          <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-emerald-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Optimal (60-85%)</span>
+              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Optimal (60-85%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-amber-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>At Capacity (90-100%)</span>
+              <div className="w-2.5 h-2.5 rounded-sm bg-amber-500" />
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>At Capacity (90-100%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-red-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Overloaded (&gt;95%)</span>
+              <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Overloaded (&gt;95%)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-[var(--app-radius-sm)] bg-blue-500" />
-              <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Under-utilized (&lt;60%)</span>
+              <div className="w-2.5 h-2.5 rounded-sm bg-blue-500" />
+              <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Under-utilized (&lt;60%)</span>
             </div>
           </div>
         </motion.div>
@@ -191,7 +191,7 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4">Project Allocation Heatmap</h3>
           <div className="overflow-x-auto">
@@ -204,7 +204,7 @@ function WorkloadPageInner() {
                     <TooltipProvider delayDuration={0}>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <p className={cn('text-[10px] font-medium text-center truncate px-1 cursor-help', 'text-[var(--app-text-muted)]')}>
+                          <p className={cn('text-[10px] font-medium text-center truncate px-1 cursor-help', isDark ? 'text-white/40' : 'text-black/40')}>
                             {proj.length > 20 ? proj.slice(0, 20) + '...' : proj}
                           </p>
                         </TooltipTrigger>
@@ -221,11 +221,11 @@ function WorkloadPageInner() {
                     <div className="w-[140px] shrink-0">
                       <div className="flex items-center gap-2">
                         <Avatar className="h-5 w-5">
-                          <AvatarFallback className={cn('text-[8px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                          <AvatarFallback className={cn('text-[8px] font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
                             {w.employee!.avatar}
                           </AvatarFallback>
                         </Avatar>
-                        <span className={cn('text-[11px] font-medium truncate', 'text-[var(--app-text-secondary)]')}>
+                        <span className={cn('text-[11px] font-medium truncate', isDark ? 'text-white/60' : 'text-black/60')}>
                           {w.employee!.name.split(' ')[0]} {w.employee!.name.split(' ')[1]?.charAt(0) || ''}
                         </span>
                       </div>
@@ -238,9 +238,9 @@ function WorkloadPageInner() {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <div className={cn(
-                                  'h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center text-[10px] font-medium cursor-default transition-colors',
+                                  'h-8 rounded-lg flex items-center justify-center text-[10px] font-medium cursor-default transition-colors',
                                   getCellColor(allocation),
-                                  allocation > 0 ? ('text-[var(--app-text-secondary)]') : ('text-[var(--app-text-disabled)]')
+                                  allocation > 0 ? (isDark ? 'text-white/60' : 'text-black/60') : (isDark ? 'text-white/15' : 'text-black/15')
                                 )}>
                                   {allocation > 0 ? `${allocation}%` : '—'}
                                 </div>
@@ -265,17 +265,17 @@ function WorkloadPageInner() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.3 }}
-          className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
             <Clock className="w-4 h-4" /> Overtime Summary
           </h3>
           <div className="space-y-2">
             {data.filter(w => w.overtime > 0).sort((a, b) => b.overtime - a.overtime).map(w => (
-              <div key={w.id} className={cn('flex items-center justify-between p-2.5 rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
+              <div key={w.id} className={cn('flex items-center justify-between p-2.5 rounded-lg', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-6 w-6">
-                    <AvatarFallback className={cn('text-[9px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                    <AvatarFallback className={cn('text-[9px] font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
                       {w.employee!.avatar}
                     </AvatarFallback>
                   </Avatar>
@@ -290,7 +290,7 @@ function WorkloadPageInner() {
               </div>
             ))}
             {data.filter(w => w.overtime > 0).length === 0 && (
-              <p className={cn('text-sm text-center py-4', 'text-[var(--app-text-muted)]')}>No overtime recorded</p>
+              <p className={cn('text-sm text-center py-4', isDark ? 'text-white/30' : 'text-black/30')}>No overtime recorded</p>
             )}
           </div>
         </motion.div>

@@ -56,19 +56,19 @@ export default function SettingsDashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-2xl">
+      <div className="space-y-6">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-              'bg-[var(--app-hover-bg)]',
+              'w-10 h-10 rounded-xl flex items-center justify-center',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
             )}>
-              <Settings className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+              <Settings className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Settings Dashboard</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
                 Your admin command center
               </p>
             </div>
@@ -100,8 +100,8 @@ export default function SettingsDashboardPage() {
         {/* ── Quick Navigation ── */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <ChevronRight className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <ChevronRight className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
               Quick Navigation
             </span>
           </div>
@@ -127,12 +127,12 @@ export default function SettingsDashboardPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-400" />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
               Active Alerts
             </span>
             <span className={cn(
               'rounded-full px-2 py-0.5 text-[10px] font-semibold',
-              'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
+              isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
             )}>
               {activeAlerts.length}
             </span>
@@ -148,14 +148,14 @@ export default function SettingsDashboardPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
                   className={cn(
-                    'flex items-start gap-3 p-4 rounded-[var(--app-radius-xl)] border-l-4 shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-colors duration-200',
+                    'flex items-start gap-3 p-4 rounded-2xl border-l-4 shadow-sm transition-all duration-200',
                     isDark
                       ? 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border border-black/[0.06] hover:bg-black/[0.04]',
                     config.border,
                   )}
                 >
-                  <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
+                  <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5', config.bg)}>
                     <AlertIcon className={cn('w-4 h-4', config.color)} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -164,24 +164,24 @@ export default function SettingsDashboardPage() {
                       <button
                         onClick={() => handleDismiss(alert.id)}
                         className={cn(
-                          'shrink-0 h-6 w-6 rounded-[var(--app-radius-lg)] flex items-center justify-center transition-colors',
+                          'shrink-0 h-6 w-6 rounded-lg flex items-center justify-center transition-colors',
                           isDark ? 'hover:bg-white/[0.06] text-zinc-500 hover:text-white' : 'hover:bg-black/[0.06] text-zinc-400 hover:text-black',
                         )}
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <p className={cn('text-xs leading-relaxed line-clamp-2', 'text-[var(--app-text-muted)]')}>
+                    <p className={cn('text-xs leading-relaxed line-clamp-2', isDark ? 'text-white/40' : 'text-black/40')}>
                       {alert.description}
                     </p>
                     <div className="flex items-center justify-between mt-2">
-                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                      <span className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>
                         {new Date(alert.detectedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       </span>
                       {alert.actionUrl && (
                         <button className={cn(
-                          'text-[10px] font-medium px-2 py-0.5 rounded-[var(--app-radius-md)] transition-colors',
-                          'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)] hover:bg-[var(--app-active-bg)]',
+                          'text-[10px] font-medium px-2 py-0.5 rounded-md transition-colors',
+                          isDark ? 'bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]' : 'bg-black/[0.04] text-zinc-600 hover:bg-black/[0.08]',
                         )}>
                           View
                         </button>
@@ -201,14 +201,14 @@ export default function SettingsDashboardPage() {
           transition={{ delay: 0.6, duration: 0.4 }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Clock className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-            <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+            <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
+            <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
               Recent Activity
             </span>
           </div>
           <div className={cn(
-            'rounded-[var(--app-radius-xl)] border p-4',
-            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+            'rounded-2xl border p-4',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
           )}>
             <div className="space-y-0">
               {recentLogs.map((log, i) => (
@@ -231,22 +231,22 @@ export default function SettingsDashboardPage() {
                         : 'bg-emerald-500',
                   )} />
                   <div className="min-w-0 flex-1">
-                    <p className={cn('text-xs', 'text-[var(--app-text)]')}>
+                    <p className={cn('text-xs', isDark ? 'text-white/80' : 'text-black/80')}>
                       <span className="font-semibold">{log.actor}</span>
                       <span className="mx-1.5">→</span>
                       <span>{log.action}</span>
                     </p>
-                    <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>
+                    <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
                       {log.module} · {new Date(log.timestamp).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
                   <span className={cn(
                     'shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-medium capitalize',
                     log.severity === 'critical'
-                      ? ('bg-[var(--app-danger-bg)] text-[var(--app-danger)]')
+                      ? (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')
                       : log.severity === 'warning'
-                        ? ('bg-[var(--app-warning-bg)] text-[var(--app-warning)]')
-                        : ('bg-[var(--app-success-bg)] text-[var(--app-success)]'),
+                        ? (isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600')
+                        : (isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'),
                   )}>
                     {log.severity}
                   </span>

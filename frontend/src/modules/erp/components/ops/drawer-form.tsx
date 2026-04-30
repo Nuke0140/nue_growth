@@ -51,7 +51,7 @@ export function DrawerForm({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-[var(--app-overlay)] backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -63,32 +63,32 @@ export function DrawerForm({
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className={cn(
-              'fixed top-0 right-0 z-50 h-full flex flex-col shadow-[var(--app-shadow-md)]-2xl',
+              'fixed top-0 right-0 z-50 h-full flex flex-col shadow-2xl',
               width
             )}
             style={{
-              backgroundColor: 'var(--app-elevated)',
-              borderLeft: '1px solid var(--app-border)',
+              backgroundColor: 'var(--ops-bg-dark)',
+              borderLeft: '1px solid var(--ops-border)',
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-6 py-4 shrink-0"
-              style={{ borderBottom: '1px solid var(--app-border)' }}
+              style={{ borderBottom: '1px solid var(--ops-border)' }}
             >
               <h2
                 className="text-lg font-semibold"
-                style={{ color: 'var(--app-text)' }}
+                style={{ color: 'var(--ops-text)' }}
               >
                 {title}
               </h2>
               <button
                 onClick={onClose}
-                className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] transition-colors"
-                style={{ color: 'var(--app-text-muted)' }}
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors"
+                style={{ color: 'var(--ops-text-muted)' }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor =
-                    'var(--app-hover-bg)';
+                    'var(--ops-hover-bg)';
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor =
@@ -109,17 +109,17 @@ export function DrawerForm({
             {onSubmit && (
               <div
                 className="flex items-center justify-end gap-3 px-6 py-4 shrink-0"
-                style={{ borderTop: '1px solid var(--app-border)' }}
+                style={{ borderTop: '1px solid var(--ops-border)' }}
               >
                 <button
                   onClick={onClose}
-                  className="app-btn-ghost"
+                  className="ops-btn-ghost"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={onSubmit}
-                  className="app-btn-primary"
+                  className="ops-btn-primary"
                 >
                   {submitLabel}
                 </button>

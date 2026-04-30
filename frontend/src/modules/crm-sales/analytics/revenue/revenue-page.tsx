@@ -2,9 +2,11 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import {
   DollarSign, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight,
-  Download, BrainCircuit, Sparkles, BarChart3, Target, Zap, PieChart, RefreshCw, Users,
+  Download, BrainCircuit, Sparkles, BarChart3, Target, Zap,
+  PieChart, RefreshCw, Users,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,6 +22,7 @@ function formatCurrency(value: number): string {
 
 type Period = 'monthly' | 'quarterly' | 'annual';
 
+/* MRR trend data (6 months) */
 const MRR_TREND = [
   { month: 'Nov', mrr: 320000 },
   { month: 'Dec', mrr: 345000 },
@@ -30,6 +33,7 @@ const MRR_TREND = [
 ];
 const maxMRR = Math.max(...MRR_TREND.map(d => d.mrr), 1);
 
+/* Source attribution data for pie chart */
 const SOURCE_ATTRIBUTION = [
   { name: 'LinkedIn', revenue: 580000, color: '#3b82f6' },
   { name: 'Google Ads', revenue: 660000, color: '#f59e0b' },
@@ -40,6 +44,7 @@ const SOURCE_ATTRIBUTION = [
 ];
 const totalSourceRevenue = SOURCE_ATTRIBUTION.reduce((s, d) => s + d.revenue, 0);
 
+/* Waterfall chart data */
 const WATERFALL = [
   { label: 'Starting ARR', value: 4320000, type: 'start' as const },
   { label: 'New Business', value: 1720000, type: 'increase' as const },
@@ -51,6 +56,8 @@ const WATERFALL = [
 const waterfallMax = Math.max(...WATERFALL.map(d => d.type === 'end' ? d.value : Math.abs(d.value)), 1);
 
 export default function RevenuePage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [period, setPeriod] = useState<Period>('monthly');
 
   const kpiCards = useMemo(() => [
@@ -64,6 +71,7 @@ export default function RevenuePage() {
     { label: 'Avg Deal Size', value: formatCurrency(revenueMetrics.avgDealSize), change: '-2%', up: false, icon: Target },
   ], []);
 
+  /* Source breakdown table data */
   const sourceTable = useMemo(() => {
     const sources = mockLeadSources.map(s => ({
       name: s.name,
@@ -74,75 +82,6 @@ export default function RevenuePage() {
     }));
     return sources.sort((a, b) => b.revenue - a.revenue);
   }, [totalSourceRevenue]);
-
-  const sourceTableData = useMemo(
-    () => sourceTable.map(s => ({
-      id: s.name,
-      ...s,
-    })) as unknown as Record<string, unknown>[],
-    [sourceTable]
-  );
-
-  const sourceColumns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'name',
-      label: 'Source',
-      render: (row) => {
-        const s = row as { name: string };
-        const srcAttrib = SOURCE_ATTRIBUTION.find(a => a.name === s.name);
-        return (
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: srcAttrib ? srcAttrib.color : CSS.textDisabled }} />
-            <span className="text-xs font-medium">{s.name}</span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'deals',
-      label: 'Leads',
-      render: (row) => {
-        const s = row as { deals: number };
-        return <span className="text-xs text-[var(--app-text-secondary)]">{s.deals}</span>;
-      },
-    },
-    {
-      key: 'revenue',
-      label: 'Revenue',
-      render: (row) => {
-        const s = row as { revenue: number };
-        return <span className="text-xs font-semibold">{formatCurrency(s.revenue)}</span>;
-      },
-    },
-    {
-      key: 'percentOfTotal',
-      label: '% of Total',
-      render: (row) => {
-        const s = row as { percentOfTotal: string };
-        return (
-          <div className="flex items-center gap-2">
-            <div className="h-1.5 w-16 rounded-full overflow-hidden bg-[var(--app-hover-bg)]">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${s.percentOfTotal}%` }}
-                transition={{ duration: 0.6 }}
-                className="h-full rounded-full bg-[var(--app-active-bg)]"
-              />
-            </div>
-            <span className="text-xs font-medium">{s.percentOfTotal}%</span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'avgDealSize',
-      label: 'Avg Deal Size',
-      render: (row) => {
-        const s = row as { avgDealSize: number };
-        return <span className="text-xs text-[var(--app-text-secondary)]">{formatCurrency(s.avgDealSize)}</span>;
-      },
-    },
-  ], []);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -166,8 +105,7 @@ export default function RevenuePage() {
                   <button
                     key={p}
                     onClick={() => setPeriod(p)}
-                    className={cn(
-                      'px-3 py-2 text-xs font-medium transition-colors capitalize',
+                    className={cn('px-3 py-2 text-xs font-medium transition-colors capitalize',
                       period === p
                         ? 'bg-[var(--app-hover-bg)] text-[var(--app-text)]'
                         : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
@@ -240,7 +178,7 @@ export default function RevenuePage() {
                           animate={{ height: `${height}%` }}
                           transition={{ duration: 0.6, ease: 'easeOut' }}
                           className="w-full rounded-t-sm"
-                          style={{ backgroundColor: 'rgba(168,85,247,0.4)' }}
+                          style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.5)' : 'rgba(168,85,247,0.4)' }}
                         />
                       </div>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
@@ -272,7 +210,9 @@ export default function RevenuePage() {
                     }).join(', ')})`,
                   }}
                 >
-                  <div className="absolute inset-3 rounded-full flex items-center justify-center" style={{ backgroundColor: CSS.bg }}>
+                  <div className={cn('absolute inset-3 rounded-full flex items-center justify-center',
+                    isDark ? 'bg-[#0a0a0a]' : 'bg-white'
+                  )}>
                     <div className="text-center">
                       <p className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>{formatCurrency(totalSourceRevenue)}</p>
                       <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Total</p>
@@ -280,6 +220,7 @@ export default function RevenuePage() {
                   </div>
                 </div>
 
+                {/* Legend */}
                 <div className="flex-1 space-y-2">
                   {SOURCE_ATTRIBUTION.map((s) => {
                     const pct = ((s.revenue / totalSourceRevenue) * 100).toFixed(0);
@@ -329,7 +270,7 @@ export default function RevenuePage() {
                             isIncrease ? 'bg-emerald-500/60' :
                             isDecrease ? 'bg-red-400/50' :
                             isEnd ? 'bg-purple-500/50' :
-                            'bg-[var(--app-hover-bg)]'
+                            isDark ? 'bg-white/15' : 'bg-black/15'
                           )}
                         />
                       </div>
@@ -401,16 +342,6 @@ export default function RevenuePage() {
                 </tbody>
               </table>
             </div>
-            <SmartDataTable
-              data={sourceTableData}
-              columns={sourceColumns}
-              pageSize={10}
-              emptyMessage="No data"
-              searchable
-              searchKeys={['name']}
-              searchPlaceholder="Search sources..."
-              enableExport
-            />
           </motion.div>
 
           {/* Revenue Insights */}
@@ -448,7 +379,9 @@ export default function RevenuePage() {
                   )}>
                     <insight.icon className="w-4 h-4 text-purple-400" />
                   </div>
-                  <Badge variant="outline" className="ml-auto text-[9px] px-1.5 py-0 border-purple-300 text-purple-700">
+                  <Badge variant="outline" className={cn('ml-auto text-[9px] px-1.5 py-0',
+                    isDark ? 'border-purple-500/30 text-purple-300' : 'border-purple-300 text-purple-700'
+                  )}>
                     <Sparkles className="w-2.5 h-2.5 mr-1" /> {insight.confidence}
                   </Badge>
                 </div>

@@ -32,17 +32,17 @@ function getPercentileColor(percentile: number): string {
 }
 
 function getPercentileBg(percentile: number, isDark: boolean): string {
-  if (percentile < 25) return 'bg-[var(--app-danger-bg)]';
+  if (percentile < 25) return isDark ? 'bg-red-500/15' : 'bg-red-50';
   if (percentile < 50) return isDark ? 'bg-orange-500/15' : 'bg-orange-50';
   if (percentile < 75) return isDark ? 'bg-yellow-500/15' : 'bg-yellow-50';
-  return 'bg-[var(--app-success-bg)]';
+  return isDark ? 'bg-emerald-500/15' : 'bg-emerald-50';
 }
 
 function getPercentileTextBg(percentile: number, isDark: boolean): string {
-  if (percentile < 25) return 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]';
+  if (percentile < 25) return isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600';
   if (percentile < 50) return isDark ? 'bg-orange-500/15 text-orange-400' : 'bg-orange-50 text-orange-600';
   if (percentile < 75) return isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-50 text-yellow-600';
-  return 'bg-[var(--app-success-bg)] text-[var(--app-success)]';
+  return isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600';
 }
 
 export default function BenchmarkComparisonPage() {
@@ -58,19 +58,19 @@ export default function BenchmarkComparisonPage() {
   }, []);
 
   const card = cn(
-    'rounded-[var(--app-radius-xl)] border shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] p-4 sm:p-app-xl',
-    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+    'rounded-2xl border shadow-sm p-4 sm:p-5',
+    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
   );
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-2xl max-w-7xl mx-auto">
+      <div className="space-y-6 max-w-7xl mx-auto">
         {/* Header */}
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-zinc-900')}>
             Benchmark Comparison
           </h1>
-          <p className={cn('text-sm mt-1', 'text-[var(--app-text-muted)]')}>
+          <p className={cn('text-sm mt-1', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
             Performance vs targets
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function BenchmarkComparisonPage() {
               transition={{ delay: i * 0.04, duration: 0.25 }}
               onClick={() => setSelectedTab(i)}
               className={cn(
-                'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors',
+                'px-3 py-1.5 rounded-xl text-xs font-medium transition-all',
                 i === selectedTab
                   ? 'bg-blue-500/15 text-blue-600 border border-blue-500/30'
                   : isDark
@@ -114,17 +114,17 @@ export default function BenchmarkComparisonPage() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                  <p className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                     {stat.label}
                   </p>
                   <p className={cn('text-2xl font-bold mt-1', stat.color)}>
                     {stat.value}
-                    <span className={cn('text-sm font-normal ml-1', 'text-[var(--app-text-muted)]')}>
+                    <span className={cn('text-sm font-normal ml-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                       / {stat.total}
                     </span>
                   </p>
                 </div>
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]')}>
                   <stat.icon className={cn('w-5 h-5', stat.color)} />
                 </div>
               </div>
@@ -151,14 +151,14 @@ export default function BenchmarkComparisonPage() {
                 {/* Metric Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-[var(--app-radius-lg)]', 'bg-[var(--app-hover-bg)]')}>
-                      <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                    <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]')}>
+                      <BarChart3 className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
                     </div>
                     <div>
-                      <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+                      <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                         {item.metric}
                       </h3>
-                      <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                      <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                         Unit: {item.unit}
                       </p>
                     </div>
@@ -172,21 +172,21 @@ export default function BenchmarkComparisonPage() {
 
                 {/* Values Row */}
                 <div className="grid grid-cols-3 gap-2">
-                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Current</p>
-                    <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
+                  <div className={cn('rounded-lg border p-2', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Current</p>
+                    <p className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
                       {formatValue(item.current, item.unit)}
                     </p>
                   </div>
-                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Previous</p>
-                    <p className={cn('text-xs font-bold', 'text-[var(--app-text-secondary)]')}>
+                  <div className={cn('rounded-lg border p-2', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Previous</p>
+                    <p className={cn('text-xs font-bold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
                       {formatValue(item.previous, item.unit)}
                     </p>
                   </div>
-                  <div className={cn('rounded-[var(--app-radius-lg)] border p-2', 'bg-[var(--app-hover-bg)] border-[var(--app-border)]')}>
-                    <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</p>
-                    <p className={cn('text-xs font-bold', 'text-[var(--app-text-secondary)]')}>
+                  <div className={cn('rounded-lg border p-2', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]')}>
+                    <p className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Target</p>
+                    <p className={cn('text-xs font-bold', isDark ? 'text-zinc-200' : 'text-zinc-800')}>
                       {formatValue(item.target, item.unit)}
                     </p>
                   </div>
@@ -198,11 +198,11 @@ export default function BenchmarkComparisonPage() {
                     className={cn(
                       'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold',
                       isPositive
-                        ? 'bg-[var(--app-success-bg)] text-[var(--app-success)]'
-                        : 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]',
+                        ? isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-50 text-emerald-600'
+                        : isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600',
                     )}
                   >
-                    {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                    {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                     {item.delta >= 0 ? '+' : ''}{formatValue(item.delta, item.unit)}
                   </span>
                   <span
@@ -218,14 +218,14 @@ export default function BenchmarkComparisonPage() {
                 {/* Target Progress Bar */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
+                    <span className={cn('text-[10px] font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                       Target Progress
                     </span>
                     <span className={cn('text-[10px] font-semibold', isAboveTarget ? 'text-emerald-400' : 'text-amber-400')}>
                       {progressRatio.toFixed(0)}%
                     </span>
                   </div>
-                  <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${progressRatio}%` }}

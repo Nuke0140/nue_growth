@@ -61,10 +61,10 @@ export default function AIWorkflowInsight({
       whileHover={{ y: -2, scale: 1.01 }}
       onClick={onClick}
       className={cn(
-        'relative rounded-[var(--app-radius-xl)] border border-l-4 border-l-violet-500 p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] transition-shadow cursor-pointer',
+        'relative rounded-2xl border border-l-4 border-l-violet-500 p-4 sm:p-5 shadow-sm transition-shadow cursor-pointer',
         isDark
-          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:shadow-[var(--app-shadow-md)]-violet-500/5'
-          : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03] hover:shadow-[var(--app-shadow-md)]-violet-500/5',
+          ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05] hover:shadow-violet-500/5'
+          : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03] hover:shadow-violet-500/5',
       )}
     >
       {/* Header */}
@@ -72,20 +72,20 @@ export default function AIWorkflowInsight({
         {/* AI Icon with glow */}
         <div
           className={cn(
-            'relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
-            'bg-[var(--app-purple-light)]',
+            'relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+            isDark ? 'bg-violet-500/15' : 'bg-violet-50',
           )}
         >
           {/* Subtle glow behind icon */}
           <motion.div
             className={cn(
-              'absolute inset-0 rounded-[var(--app-radius-lg)] blur-md',
+              'absolute inset-0 rounded-xl blur-md',
               isDark ? 'bg-violet-500/20' : 'bg-violet-400/20',
             )}
             animate={{ opacity: [0.4, 0.8, 0.4] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <BrainCircuit className={cn('relative h-5 w-5', 'text-[var(--app-purple)]')} />
+          <BrainCircuit className={cn('relative h-5 w-5', isDark ? 'text-violet-400' : 'text-violet-600')} />
         </div>
 
         <div className="min-w-0 flex-1 space-y-2">
@@ -94,7 +94,7 @@ export default function AIWorkflowInsight({
             <h4
               className={cn(
                 'text-sm font-semibold truncate',
-                'text-[var(--app-text)]',
+                isDark ? 'text-white' : 'text-zinc-900',
               )}
             >
               {title}
@@ -102,7 +102,7 @@ export default function AIWorkflowInsight({
             <Sparkles
               className={cn(
                 'h-3.5 w-3.5 shrink-0',
-                'text-[var(--app-purple)]',
+                isDark ? 'text-violet-400' : 'text-violet-500',
               )}
             />
           </div>
@@ -111,7 +111,7 @@ export default function AIWorkflowInsight({
           <p
             className={cn(
               'text-xs leading-relaxed line-clamp-2',
-              'text-[var(--app-text-muted)]',
+              isDark ? 'text-zinc-400' : 'text-zinc-500',
             )}
           >
             {description}
@@ -120,14 +120,14 @@ export default function AIWorkflowInsight({
           {/* Confidence bar */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-[10px]">
-              <span className={cn('font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+              <span className={cn('font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Confidence
               </span>
-              <span className={cn('font-bold tabular-nums', 'text-[var(--app-purple)]')}>
+              <span className={cn('font-bold tabular-nums', isDark ? 'text-violet-400' : 'text-violet-600')}>
                 {Math.round(confidence * 100)}%
               </span>
             </div>
-            <div className={cn('h-1.5 w-full rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+            <div className={cn('h-1.5 w-full rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${confidence * 100}%` }}
@@ -173,11 +173,11 @@ export default function AIWorkflowInsight({
           {/* Suggested action */}
           <div
             className={cn(
-              'flex items-center gap-2 rounded-[var(--app-radius-lg)] px-3 py-2.5',
+              'flex items-center gap-2 rounded-xl px-3 py-2.5',
               isDark ? 'bg-violet-500/[0.06]' : 'bg-violet-50/50',
             )}
           >
-            <ArrowUpRight className={cn('h-3.5 w-3.5 shrink-0', 'text-[var(--app-purple)]')} />
+            <ArrowUpRight className={cn('h-3.5 w-3.5 shrink-0', isDark ? 'text-violet-400' : 'text-violet-600')} />
             <span className={cn('text-xs font-medium leading-relaxed', isDark ? 'text-violet-300' : 'text-violet-700')}>
               {action}
             </span>

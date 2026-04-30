@@ -30,8 +30,8 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
         className="w-full"
       >
         <div
-          className={cn('rounded-[var(--app-radius-lg)] border p-3 transition-colors',
-            'bg-[var(--app-card-bg)] border-[var(--app-border)]',
+          className={cn('rounded-xl border p-3 transition-all',
+            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]',
             isLast && 'ring-1 ring-emerald-500/20'
           )}
           style={{ maxWidth: `${Math.max(120, widthPercent * 3)}px`, margin: '0 auto' }}
@@ -43,26 +43,26 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
               )}>
                 {index + 1}
               </span>
-              <span className={cn('text-xs font-medium', 'text-[var(--app-text)]')}>{step.name}</span>
+              <span className={cn('text-xs font-medium', isDark ? 'text-white' : 'text-gray-900')}>{step.name}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
             <div>
-              <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Visitors</p>
+              <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-gray-400')}>Visitors</p>
               <p className={cn('text-xs font-bold tabular-nums', isDark ? 'text-white/70' : 'text-gray-800')}>
                 {step.visitors.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Conversions</p>
+              <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-gray-400')}>Conversions</p>
               <p className={cn('text-xs font-bold tabular-nums', isDark ? 'text-white/70' : 'text-gray-800')}>
                 {step.conversions.toLocaleString()}
               </p>
             </div>
             {!isFirst && (
               <div>
-                <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Drop-off</p>
+                <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-gray-400')}>Drop-off</p>
                 <p className={cn('text-xs font-bold tabular-nums', step.dropOff > 60 ? 'text-red-500' : step.dropOff > 40 ? 'text-amber-500' : 'text-emerald-500')}>
                   {step.dropOff}%
                 </p>
@@ -70,7 +70,7 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
             )}
             {step.revenue > 0 && (
               <div>
-                <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>Revenue</p>
+                <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-gray-400')}>Revenue</p>
                 <p className={cn('text-xs font-bold tabular-nums text-emerald-500')}>
                   ₹{(step.revenue / 100000).toFixed(1)}L
                 </p>
@@ -92,7 +92,7 @@ export default function FunnelStepCard({ step, index, totalSteps }: FunnelStepCa
           />
           {step.dropOff > 0 && (
             <div className="flex items-center gap-0.5">
-              <ArrowDown className={cn('w-4 h-4', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')} />
+              <ArrowDown className={cn('w-3 h-3', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')} />
               <span className={cn('text-[9px] font-medium', step.dropOff > 60 ? 'text-red-400' : 'text-amber-400')}>
                 -{step.dropOff}%
               </span>

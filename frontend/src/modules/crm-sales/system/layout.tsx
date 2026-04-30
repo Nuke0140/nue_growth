@@ -44,7 +44,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { ErrorBoundary } from '@/components/shared/error-boundary';
 
 import type { CrmSalesPage } from '@/modules/crm-sales/system/types';
 
@@ -436,9 +435,7 @@ export default function CrmSalesLayout() {
 
           {/* Page Content */}
           <main className="flex-1 overflow-hidden">
-            <ErrorBoundary>
-              <PageContent />
-            </ErrorBoundary>
+            <PageContent />
           </main>
         </div>
       </div>

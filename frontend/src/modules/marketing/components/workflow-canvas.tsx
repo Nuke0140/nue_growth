@@ -65,7 +65,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
           y1={from.y * scaleY + 24}
           x2={to.x * scaleX + 70}
           y2={to.y * scaleY + 24}
-          stroke={'var(--app-border-strong)'}
+          stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}
           strokeWidth="1.5"
           strokeDasharray="4 4"
         />
@@ -74,7 +74,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
   }
 
   return (
-    <div className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}>
+    <div className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
       <div
         className="relative w-full overflow-auto"
         style={{ minHeight: `${Math.max(canvasH, 200)}px` }}
@@ -82,7 +82,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
         {/* Dot grid background */}
         <div className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: `radial-gradient(circle, ${'var(--app-border-strong)'} 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(circle, ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'} 1px, transparent 1px)`,
             backgroundSize: '20px 20px',
           }}
         />
@@ -104,8 +104,8 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.06, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('absolute rounded-[var(--app-radius-lg)] border p-2 w-[140px] shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])]',
-                  isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-white border-gray-200 shadow-[var(--app-shadow-md)]-black/5'
+                className={cn('absolute rounded-xl border p-2 w-[140px] shadow-sm',
+                  isDark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-white border-gray-200 shadow-black/5'
                 )}
                 style={{ left: node.x * scaleX, top: node.y * scaleY }}
                 title={node.description}
@@ -114,10 +114,10 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
                   <span className="text-sm">{icon}</span>
                   <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
                 </div>
-                <p className={cn('text-[10px] font-medium leading-tight line-clamp-2', 'text-[var(--app-text-secondary)]')}>
+                <p className={cn('text-[10px] font-medium leading-tight line-clamp-2', isDark ? 'text-white/70' : 'text-gray-700')}>
                   {node.title}
                 </p>
-                <p className={cn('text-[8px] mt-0.5 truncate', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-[8px] mt-0.5 truncate', isDark ? 'text-white/25' : 'text-gray-400')}>
                   {node.type.replace(/-/g, ' ')}
                 </p>
               </motion.div>

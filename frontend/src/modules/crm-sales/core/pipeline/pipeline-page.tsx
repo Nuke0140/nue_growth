@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import {
   Plus, Search, LayoutGrid, List, DollarSign, TrendingUp, BarChart3,
   AlertTriangle, Target, ArrowUpRight, ArrowDownRight, Handshake,
@@ -10,6 +11,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useCrmSalesStore } from '@/modules/crm-sales/system/store';
 import { mockSalesDeals } from '@/modules/crm-sales/data/mock-data';
@@ -28,18 +31,18 @@ const STAGE_LABELS: Record<DealStage, string> = {
   proposal: 'Proposal', negotiation: 'Negotiation', won: 'Won', lost: 'Lost',
 };
 
-const STAGE_COLORS: Record<DealStage, { header: string; dot: string }> = {
-  new:         { header: 'bg-[var(--app-hover-bg)]', dot: 'bg-[var(--app-text-muted)]' },
-  qualified:   { header: 'bg-blue-500/[0.08]', dot: 'bg-blue-400' },
-  discovery:   { header: 'bg-cyan-500/[0.08]', dot: 'bg-cyan-400' },
-  demo:        { header: 'bg-purple-500/[0.08]', dot: 'bg-purple-400' },
-  proposal:    { header: 'bg-amber-500/[0.08]', dot: 'bg-amber-400' },
-  negotiation: { header: 'bg-emerald-500/[0.08]', dot: 'bg-emerald-400' },
-  won:         { header: 'bg-emerald-500/[0.15]', dot: 'bg-emerald-500' },
-  lost:        { header: 'bg-red-500/[0.08]', dot: 'bg-red-400' },
+const STAGE_COLORS: Record<DealStage, { header: string; dot: string; isDarkHeader: string; isDarkDot: string }> = {
+  new:         { header: 'bg-black/[0.04]', dot: 'bg-black/30', isDarkHeader: 'bg-white/[0.04]', isDarkDot: 'bg-white/30' },
+  qualified:   { header: 'bg-blue-50', dot: 'bg-blue-400', isDarkHeader: 'bg-blue-500/[0.08]', isDarkDot: 'bg-blue-400/60' },
+  discovery:   { header: 'bg-cyan-50', dot: 'bg-cyan-400', isDarkHeader: 'bg-cyan-500/[0.08]', isDarkDot: 'bg-cyan-400/60' },
+  demo:        { header: 'bg-purple-50', dot: 'bg-purple-400', isDarkHeader: 'bg-purple-500/[0.08]', isDarkDot: 'bg-purple-400/60' },
+  proposal:    { header: 'bg-amber-50', dot: 'bg-amber-400', isDarkHeader: 'bg-amber-500/[0.08]', isDarkDot: 'bg-amber-400/60' },
+  negotiation: { header: 'bg-emerald-50', dot: 'bg-emerald-500', isDarkHeader: 'bg-emerald-500/[0.08]', isDarkDot: 'bg-emerald-400/60' },
+  won:         { header: 'bg-emerald-100', dot: 'bg-emerald-600', isDarkHeader: 'bg-emerald-500/[0.15]', isDarkDot: 'bg-emerald-400' },
+  lost:        { header: 'bg-red-50', dot: 'bg-red-400', isDarkHeader: 'bg-red-500/[0.08]', isDarkDot: 'bg-red-400/60' },
 };
 
-function getStageColor(stage: DealStage): string {
+function getStageColor(stage: DealStage, isDark: boolean): string {
   const map: Record<DealStage, string> = {
     new: 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]',
     qualified: 'bg-[var(--app-info-bg)] text-[var(--app-info)]',
@@ -53,24 +56,27 @@ function getStageColor(stage: DealStage): string {
   return map[stage];
 }
 
-function getProbabilityColor(probability: number): string {
-  if (probability >= 70) return 'bg-emerald-500/20 text-emerald-500 border-emerald-500/20';
-  if (probability >= 40) return 'bg-amber-500/20 text-amber-500 border-amber-500/20';
-  return 'bg-red-500/20 text-red-500 border-red-500/20';
+function getProbabilityColor(probability: number, isDark: boolean): string {
+  if (probability >= 70) return isDark ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+  if (probability >= 40) return isDark ? 'bg-amber-500/20 text-amber-300 border-amber-500/20' : 'bg-amber-50 text-amber-700 border-amber-200';
+  return isDark ? 'bg-red-500/20 text-red-300 border-red-500/20' : 'bg-red-50 text-red-700 border-red-200';
 }
 
 function getInitials(name: string): string {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 }
 
+/* Inline Pipeline Column */
 function PipelineColumn({
   stage,
   deals,
   onSelect,
+  isDark,
 }: {
   stage: DealStage;
   deals: SalesDeal[];
   onSelect: (deal: SalesDeal) => void;
+  isDark: boolean;
 }) {
   const colors = STAGE_COLORS[stage];
   const totalValue = deals.reduce((sum, d) => sum + d.value, 0);
@@ -145,7 +151,10 @@ function PipelineColumn({
               </div>
               <div className={cn('flex items-center justify-between pt-2 border-t', 'border-[var(--app-border-light)]')}>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
+                  <div className={cn(
+                    'w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold',
+                    isDark ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/60'
+                  )}>
                     {getInitials(deal.owner)}
                   </div>
                   <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
@@ -158,9 +167,6 @@ function PipelineColumn({
                     {deal.daysInStage}d
                   </span>
                 </div>
-                <span className={cn('text-[10px]', deal.daysInStage > 15 ? 'text-amber-500 font-medium' : 'text-[var(--app-text-muted)]')}>
-                  {deal.daysInStage}d
-                </span>
               </div>
               {deal.daysInStage > 15 && (
                 <div className={cn('flex items-center gap-1 mt-2', isDark ? 'text-amber-400/70' : 'text-amber-600')}>
@@ -176,6 +182,7 @@ function PipelineColumn({
   );
 }
 
+/* Monthly won/lost data */
 const MONTHLY_WIN_LOSS = [
   { month: 'Jan', won: 180000, lost: 45000 },
   { month: 'Feb', won: 320000, lost: 65000 },
@@ -187,11 +194,12 @@ const MONTHLY_WIN_LOSS = [
 const maxMonthly = Math.max(...MONTHLY_WIN_LOSS.flatMap(d => [d.won, d.lost]), 1);
 
 export default function DealsPipelinePage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const { selectDeal } = useCrmSalesStore();
   const [view, setView] = useState<'kanban' | 'table'>('kanban');
   const [search, setSearch] = useState('');
   const [stageFilter, setStageFilter] = useState<DealStage | 'all'>('all');
-  const [selectedDeal, setSelectedDeal] = useState<SalesDeal | null>(null);
 
   const totalPipeline = useMemo(() => mockSalesDeals.reduce((s, d) => s + d.value, 0), []);
   const weightedPipeline = useMemo(() => mockSalesDeals.reduce((s, d) => s + d.weightedValue, 0), []);
@@ -232,136 +240,8 @@ export default function DealsPipelinePage() {
   }, [search, stageFilter]);
 
   const handleSelect = (deal: SalesDeal) => {
-    setSelectedDeal(deal);
+    selectDeal(deal.id);
   };
-
-  const tableData = useMemo(
-    () => filteredDeals.map(d => ({
-      id: d.id,
-      name: d.name,
-      company: d.company,
-      ...d,
-    })) as unknown as Record<string, unknown>[],
-    [filteredDeals]
-  );
-
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'name',
-      label: 'Deal Name',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <p className="text-sm font-medium">{d.name}</p>;
-      },
-    },
-    {
-      key: 'company',
-      label: 'Company',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <span className="text-xs text-[var(--app-text-secondary)]">{d.company}</span>;
-      },
-    },
-    {
-      key: 'contactName',
-      label: 'Contact',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <span className="text-xs text-[var(--app-text-muted)]">{d.contactName}</span>;
-      },
-    },
-    {
-      key: 'value',
-      label: 'Value',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <span className="text-xs font-semibold">{formatCurrency(d.value)}</span>;
-      },
-    },
-    {
-      key: 'probability',
-      label: 'Probability',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return (
-          <span className={cn('inline-flex px-2 py-0.5 rounded-md text-[10px] font-bold border', getProbabilityColor(d.probability))}>
-            {d.probability}%
-          </span>
-        );
-      },
-    },
-    {
-      key: 'weightedValue',
-      label: 'Weighted',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <span className="text-xs text-[var(--app-text-secondary)]">{formatCurrency(d.weightedValue)}</span>;
-      },
-    },
-    {
-      key: 'expectedClose',
-      label: 'Expected Close',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return (
-          <span className="text-xs whitespace-nowrap text-[var(--app-text-muted)]">
-            {new Date(d.expectedClose).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'owner',
-      label: 'Owner',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return (
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]">
-              {getInitials(d.owner)}
-            </div>
-            <span className="text-xs text-[var(--app-text-muted)]">{d.owner.split(' ')[0]}</span>
-          </div>
-        );
-      },
-    },
-    {
-      key: 'stage',
-      label: 'Stage',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return (
-          <span className={cn('inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium capitalize', getStageColor(d.stage))}>
-            {STAGE_LABELS[d.stage]}
-          </span>
-        );
-      },
-    },
-    {
-      key: 'daysInStage',
-      label: 'Days',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        return <span className="text-xs text-[var(--app-text-muted)]">{d.daysInStage}d</span>;
-      },
-    },
-    {
-      key: 'stuck',
-      label: 'Aging',
-      render: (row) => {
-        const d = row as unknown as SalesDeal;
-        if (d.daysInStage > 15) {
-          return (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/15 text-amber-600 border border-amber-500/20">
-              <AlertTriangle className="w-2.5 h-2.5" />
-              Stuck
-            </span>
-          );
-        }
-        return <span className="text-xs text-[var(--app-text-disabled)]">—</span>;
-      },
-    },
-  ], []);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -522,6 +402,7 @@ export default function DealsPipelinePage() {
               </TabsList>
             </Tabs>
 
+            {/* Stage filter chips */}
             <div className="flex flex-wrap gap-1.5">
               <button
                 onClick={() => setStageFilter('all')}
@@ -541,8 +422,8 @@ export default function DealsPipelinePage() {
                   className={cn(
                     'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium transition-colors',
                     stageFilter === stage
-                      ? getStageColor(stage)
-                      : 'text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)]'
+                      ? getStageColor(stage, isDark)
+                      : isDark ? 'text-white/40 hover:text-white/60 hover:bg-white/[0.04]' : 'text-black/40 hover:text-black/60 hover:bg-black/[0.04]'
                   )}
                 >
                   {STAGE_LABELS[stage]}
@@ -553,9 +434,20 @@ export default function DealsPipelinePage() {
 
           {/* Kanban View */}
           {view === 'kanban' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="flex gap-3 overflow-x-auto pb-4 px-1">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex gap-3 overflow-x-auto pb-4 px-1"
+            >
               {STAGES.map((stage) => (
-                <PipelineColumn key={stage} stage={stage} deals={dealsByStage[stage]} onSelect={handleSelect} />
+                <PipelineColumn
+                  key={stage}
+                  stage={stage}
+                  deals={dealsByStage[stage]}
+                  onSelect={handleSelect}
+                  isDark={isDark}
+                />
               ))}
             </motion.div>
           )}
@@ -656,6 +548,7 @@ export default function DealsPipelinePage() {
 
           {/* Forecast Card + Won/Loss Chart */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Q2 Forecast */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -702,6 +595,7 @@ export default function DealsPipelinePage() {
               </div>
             </motion.div>
 
+            {/* Won vs Lost by Month */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -717,16 +611,26 @@ export default function DealsPipelinePage() {
               </div>
               <div className="flex items-end justify-between gap-3 h-40 mt-2">
                 {MONTHLY_WIN_LOSS.map((item) => {
-                  const wonH = maxMonthly > 0 ? (item.won / maxMonthly) * 100 : 0;
-                  const lostH = maxMonthly > 0 ? (item.lost / maxMonthly) * 100 : 0;
+                  const wonHeight = maxMonthly > 0 ? (item.won / maxMonthly) * 100 : 0;
+                  const lostHeight = maxMonthly > 0 ? (item.lost / maxMonthly) * 100 : 0;
                   return (
                     <div key={item.month} className="flex-1 flex flex-col items-center gap-1">
                       <div className="w-full flex items-end gap-0.5 h-32">
                         <div className="flex-1 flex flex-col justify-end">
-                          <motion.div initial={{ height: 0 }} animate={{ height: `${wonH}%` }} transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full rounded-t-sm bg-emerald-500" />
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: `${wonHeight}%` }}
+                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                            className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/60' : 'bg-emerald-500')}
+                          />
                         </div>
                         <div className="flex-1 flex flex-col justify-end">
-                          <motion.div initial={{ height: 0 }} animate={{ height: `${lostH}%` }} transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }} className="w-full rounded-t-sm bg-red-400" />
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: `${lostHeight}%` }}
+                            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                            className={cn('w-full rounded-t-sm', isDark ? 'bg-red-400/40' : 'bg-red-400')}
+                          />
                         </div>
                       </div>
                       <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>{item.month}</span>
@@ -737,74 +641,7 @@ export default function DealsPipelinePage() {
             </motion.div>
           </div>
         </div>
-      </div>
-
-      {/* Deal Detail Sidebar */}
-      <ContextualSidebar
-        open={!!selectedDeal}
-        onClose={() => setSelectedDeal(null)}
-        title={selectedDeal?.name || ''}
-        subtitle="Deal"
-        icon={BarChart3}
-        width={420}
-        footer={selectedDeal ? (
-          <div className="flex items-center gap-2">
-            <Button size="sm" className="flex-1 rounded-xl text-xs" variant="outline" onClick={() => setSelectedDeal(null)}>Close</Button>
-            <Button size="sm" className="flex-1 rounded-xl text-xs text-white" style={{ backgroundColor: CSS.accent }}>Edit Deal</Button>
-          </div>
-        ) : undefined}
-      >
-        {selectedDeal && (
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Value</span>
-                <p className="text-lg font-bold">{formatCurrency(selectedDeal.value)}</p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Weighted</span>
-                <p className="text-lg font-bold text-purple-400">{formatCurrency(selectedDeal.weightedValue)}</p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Probability</span>
-                <p className="text-lg font-bold">{selectedDeal.probability}%</p>
-              </div>
-              <div className="rounded-xl p-3" style={{ backgroundColor: CSS.hoverBg }}>
-                <span className="text-[10px] text-[var(--app-text-muted)]">Days in Stage</span>
-                <p className={cn('text-lg font-bold', selectedDeal.daysInStage > 15 ? 'text-amber-500' : '')}>{selectedDeal.daysInStage}</p>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Company</span>
-              <p className="text-sm font-medium">{selectedDeal.company}</p>
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Contact</span>
-              <p className="text-sm">{selectedDeal.contactName}</p>
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Stage</span>
-              <span className={cn('inline-flex px-3 py-1.5 rounded-lg text-xs font-medium', getStageColor(selectedDeal.stage))}>
-                {STAGE_LABELS[selectedDeal.stage]}
-              </span>
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Owner</span>
-              <p className="text-sm">{selectedDeal.owner}</p>
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs text-[var(--app-text-muted)]">Expected Close</span>
-              <p className="text-sm">{new Date(selectedDeal.expectedClose).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-            </div>
-            {selectedDeal.daysInStage > 15 && (
-              <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 text-amber-600">
-                <AlertTriangle className="w-4 h-4" />
-                <span className="text-xs font-medium">Deal has been in this stage for {selectedDeal.daysInStage} days</span>
-              </div>
-            )}
-          </div>
-        )}
-      </ContextualSidebar>
+      </ScrollArea>
     </div>
   );
 }

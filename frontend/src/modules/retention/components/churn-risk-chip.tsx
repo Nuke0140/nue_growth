@@ -56,7 +56,7 @@ export default function ChurnRiskChip({ level, score }: ChurnRiskChipProps) {
         />
       )}
       <span className="font-bold">{score}</span>
-      <span className={cn('hidden sm:inline', 'text-[var(--app-text-secondary)]')}>/ 100</span>
+      <span className={cn('hidden sm:inline', isDark ? 'text-white/50' : 'text-black/50')}>/ 100</span>
     </motion.span>
   );
 }

@@ -6,7 +6,7 @@ import { CSS } from '@/styles/design-tokens';
 
 // ── Shared skeleton base ───────────────────────────────
 
-const SKELETON_BASE = 'animate-pulse rounded-[var(--app-radius-xl)]';
+const SKELETON_BASE = 'animate-pulse rounded-2xl';
 
 // ── SkeletonCard ───────────────────────────────────────
 
@@ -33,7 +33,7 @@ export function SkeletonCard({
       {/* Optional image placeholder */}
       {hasImage && (
         <div
-          className="w-full h-32 rounded-[var(--app-radius-lg)] mb-4 animate-pulse"
+          className="w-full h-32 rounded-xl mb-4 animate-pulse"
           style={{ backgroundColor: CSS.hoverBg }}
         />
       )}
@@ -42,7 +42,7 @@ export function SkeletonCard({
         {/* Optional avatar */}
         {hasAvatar && (
           <div
-            className="w-9 h-10  rounded-full shrink-0 animate-pulse"
+            className="w-9 h-9 rounded-full shrink-0 animate-pulse"
             style={{ backgroundColor: CSS.hoverBg }}
           />
         )}
@@ -50,7 +50,7 @@ export function SkeletonCard({
         <div className="flex-1 min-w-0 space-y-2.5">
           {/* Title line */}
           <div
-            className="h-4 w-3/5 rounded-[var(--app-radius-lg)] animate-pulse"
+            className="h-4 w-3/5 rounded-lg animate-pulse"
             style={{ backgroundColor: CSS.borderStrong }}
           />
           {/* Body lines */}
@@ -58,7 +58,7 @@ export function SkeletonCard({
             <div
               key={i}
               className={cn(
-                'h-3 rounded-[var(--app-radius-lg)] animate-pulse',
+                'h-3 rounded-lg animate-pulse',
                 i === lines - 1 ? 'w-2/5' : 'w-full'
               )}
               style={{ backgroundColor: CSS.hoverBg }}
@@ -96,7 +96,7 @@ export function SkeletonTable({
         {Array.from({ length: columns }).map((_, i) => (
           <div
             key={`head-${i}`}
-            className="h-3 rounded-[var(--app-radius-lg)] animate-pulse"
+            className="h-3 rounded-lg animate-pulse"
             style={{
               width: `${60 + ((i * 17) % 40)}%`,
               backgroundColor: CSS.borderStrong,
@@ -117,7 +117,7 @@ export function SkeletonTable({
           {Array.from({ length: columns }).map((_, c) => (
             <div
               key={`cell-${r}-${c}`}
-              className="h-3 rounded-[var(--app-radius-lg)] animate-pulse"
+              className="h-3 rounded-lg animate-pulse"
               style={{
                 width: `${50 + ((c * 19 + r * 7) % 50)}%`,
                 backgroundColor: CSS.hoverBg,
@@ -144,11 +144,11 @@ export function SkeletonKPI({ className }: SkeletonKPIProps) {
     >
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-2 min-w-0">
-          <div className="h-3 w-24 rounded-[var(--app-radius-lg)] animate-pulse" style={{ backgroundColor: CSS.borderStrong }} />
-          <div className="h-8 w-20 rounded-[var(--app-radius-lg)] animate-pulse" style={{ backgroundColor: CSS.borderStrong }} />
-          <div className="h-3 w-16 rounded-[var(--app-radius-lg)] animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+          <div className="h-3 w-24 rounded-lg animate-pulse" style={{ backgroundColor: CSS.borderStrong }} />
+          <div className="h-8 w-20 rounded-lg animate-pulse" style={{ backgroundColor: CSS.borderStrong }} />
+          <div className="h-3 w-16 rounded-lg animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
         </div>
-        <div className="w-11 h-10  rounded-[var(--app-radius-lg)] animate-pulse shrink-0" style={{ backgroundColor: CSS.hoverBg }} />
+        <div className="w-11 h-11 rounded-xl animate-pulse shrink-0" style={{ backgroundColor: CSS.hoverBg }} />
       </div>
     </div>
   );

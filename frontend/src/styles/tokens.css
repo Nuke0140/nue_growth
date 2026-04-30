@@ -19,25 +19,25 @@
   --app-input-bg: #f5f5f5;
 
   /* ---- Text ---- */
-  --app-text: #0F172A;
-  --app-text-secondary: rgba(15, 23, 42, 0.65);
-  --app-text-muted: rgba(15, 23, 42, 0.4);
-  --app-text-disabled: rgba(15, 23, 42, 0.25);
+  --app-text: #0a0a0a;
+  --app-text-secondary: rgba(0, 0, 0, 0.6);
+  --app-text-muted: rgba(0, 0, 0, 0.35);
+  --app-text-disabled: rgba(0, 0, 0, 0.2);
 
   /* ---- Borders ---- */
-  --app-border: rgba(15, 23, 42, 0.08);
-  --app-border-light: rgba(15, 23, 42, 0.05);
-  --app-border-strong: rgba(15, 23, 42, 0.15);
+  --app-border: rgba(0, 0, 0, 0.08);
+  --app-border-light: rgba(0, 0, 0, 0.05);
+  --app-border-strong: rgba(0, 0, 0, 0.12);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(15, 23, 42, 0.04);
-  --app-active-bg: rgba(37, 99, 235, 0.06);
+  --app-hover-bg: rgba(0, 0, 0, 0.04);
+  --app-active-bg: rgba(204, 92, 55, 0.06);
 
   /* ---- Semantic ---- */
   --app-success: #059669;
-  --app-warning: #F97316;
-  --app-danger: #DC2626;
-  --app-info: #2563EB;
+  --app-warning: #d97706;
+  --app-danger: #dc2626;
+  --app-info: #2563eb;
 
   /* ---- Semantic light backgrounds ---- */
   --app-success-bg: rgba(5, 150, 105, 0.10);
@@ -72,15 +72,15 @@
   --app-space-4xl: 40px;
 
   /* ---- Scrollbar ---- */
-  --app-scrollbar-thumb: rgba(15, 23, 42, 0.12);
-  --app-scrollbar-thumb-hover: rgba(15, 23, 42, 0.2);
+  --app-scrollbar-thumb: rgba(0, 0, 0, 0.15);
+  --app-scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
 
   /* ---- Overlay ---- */
-  --app-overlay: rgba(15, 23, 42, 0.4);
+  --app-overlay: rgba(0, 0, 0, 0.4);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(15, 23, 42, 0.04);
-  --app-skeleton-to: rgba(15, 23, 42, 0.08);
+  --app-skeleton-from: rgba(0, 0, 0, 0.04);
+  --app-skeleton-to: rgba(0, 0, 0, 0.08);
 
   /* ---- Layout ---- */
   --app-sidebar-bg: #ffffff;
@@ -145,25 +145,25 @@
   --app-input-bg: #2a2b2e;
 
   /* ---- Text ---- */
-  --app-text: #F1F5F9;
-  --app-text-secondary: rgba(241, 245, 249, 0.6);
-  --app-text-muted: rgba(241, 245, 249, 0.4);
-  --app-text-disabled: rgba(241, 245, 249, 0.2);
+  --app-text: #f5f5f5;
+  --app-text-secondary: rgba(245, 245, 245, 0.6);
+  --app-text-muted: rgba(245, 245, 245, 0.35);
+  --app-text-disabled: rgba(245, 245, 245, 0.2);
 
   /* ---- Borders ---- */
-  --app-border: rgba(241, 245, 249, 0.06);
-  --app-border-light: rgba(241, 245, 249, 0.04);
-  --app-border-strong: rgba(241, 245, 249, 0.12);
+  --app-border: rgba(255, 255, 255, 0.06);
+  --app-border-light: rgba(255, 255, 255, 0.04);
+  --app-border-strong: rgba(255, 255, 255, 0.12);
 
   /* ---- Interaction ---- */
-  --app-hover-bg: rgba(241, 245, 249, 0.05);
-  --app-active-bg: rgba(59, 130, 246, 0.1);
+  --app-hover-bg: rgba(255, 255, 255, 0.04);
+  --app-active-bg: rgba(204, 92, 55, 0.08);
 
   /* ---- Semantic ---- */
-  --app-success: #34D399;
-  --app-warning: #FBBF24;
-  --app-danger: #F87171;
-  --app-info: #60A5FA;
+  --app-success: #34d399;
+  --app-warning: #fbbf24;
+  --app-danger: #f87171;
+  --app-info: #60a5fa;
 
   /* ---- Semantic light backgrounds ---- */
   --app-success-bg: rgba(52, 211, 153, 0.10);
@@ -205,8 +205,8 @@
   --app-overlay: rgba(0, 0, 0, 0.6);
 
   /* ---- Skeleton ---- */
-  --app-skeleton-from: rgba(241, 245, 249, 0.04);
-  --app-skeleton-to: rgba(241, 245, 249, 0.08);
+  --app-skeleton-from: rgba(255, 255, 255, 0.04);
+  --app-skeleton-to: rgba(255, 255, 255, 0.08);
 
   /* ---- Layout ---- */
   --app-sidebar-bg: #1b1c1e;

@@ -23,7 +23,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Calendar, GripVertical, Paperclip, CheckSquare } from 'lucide-react';
-import { ANIMATION } from '@/styles/design-tokens';
+import { ANIMATION } from '../../design-tokens';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -122,9 +122,9 @@ const TaskCard = React.memo(function TaskCard({
       ref={overlay ? undefined : setNodeRef}
       style={overlay ? undefined : style}
       className={cn(
-        'app-card p-3 cursor-grab active:cursor-grabbing',
-        overlay && 'app-drag-ghost rotate-1 scale-[1.03]',
-        onTaskClick && !overlay && 'cursor-grab hover:ring-1 hover:ring-[var(--app-accent)]/20',
+        'ops-card p-3 cursor-grab active:cursor-grabbing',
+        overlay && 'ops-drag-ghost rotate-1 scale-[1.03]',
+        onTaskClick && !overlay && 'cursor-grab hover:ring-1 hover:ring-[var(--ops-accent)]/20',
       )}
       {...(!overlay ? { ...attributes, ...listeners } : {})}
       onClick={handleClick}
@@ -135,7 +135,7 @@ const TaskCard = React.memo(function TaskCard({
       {task.projectName && (
         <p
           className="text-[10px] font-medium uppercase tracking-wider truncate mb-1"
-          style={{ color: 'var(--app-text-muted)' }}
+          style={{ color: 'var(--ops-text-muted)' }}
         >
           {task.projectName}
         </p>
@@ -145,13 +145,13 @@ const TaskCard = React.memo(function TaskCard({
       <div className="flex items-start gap-2">
         {!overlay && (
           <GripVertical
-            className="w-4 h-4 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
-            style={{ color: 'var(--app-text-muted)' }}
+            className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-0 group-hover:opacity-30 transition-opacity"
+            style={{ color: 'var(--ops-text-muted)' }}
           />
         )}
         <p
           className="text-sm font-medium leading-snug flex-1 min-w-0"
-          style={{ color: 'var(--app-text)' }}
+          style={{ color: 'var(--ops-text)' }}
         >
           {task.title}
         </p>
@@ -170,7 +170,7 @@ const TaskCard = React.memo(function TaskCard({
           {task.labels!.map((label) => (
             <span
               key={label.name}
-              className="app-badge text-[10px] px-1.5 py-0 leading-none"
+              className="ops-badge text-[10px] px-1.5 py-0 leading-none"
               style={{
                 backgroundColor: label.bg,
                 color: label.color,
@@ -182,9 +182,9 @@ const TaskCard = React.memo(function TaskCard({
           ))}
           {task.isBlocked && (
             <span
-              className="app-badge text-[10px] px-1.5 py-0 leading-none font-semibold"
+              className="ops-badge text-[10px] px-1.5 py-0 leading-none font-semibold"
               style={{
-                backgroundColor: 'var(--app-danger-bg)',
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
                 color: '#f87171',
                 border: '1px solid rgba(239, 68, 68, 0.3)',
               }}
@@ -199,28 +199,28 @@ const TaskCard = React.memo(function TaskCard({
       {hasSubtasks && (
         <div className="mt-2.5 space-y-1">
           <div className="flex items-center gap-1.5">
-            <CheckSquare className="w-4 h-4" style={{ color: 'var(--app-text-muted)' }} />
+            <CheckSquare className="w-3 h-3" style={{ color: 'var(--ops-text-muted)' }} />
             <span
               className="text-[10px] font-medium"
-              style={{ color: 'var(--app-text-muted)' }}
+              style={{ color: 'var(--ops-text-muted)' }}
             >
               {task.subtasks!.completed}/{task.subtasks!.total} subtasks
             </span>
             <span
               className="text-[10px] font-semibold ml-auto"
-              style={{ color: subtaskPct === 100 ? '#34d399' : 'var(--app-text-secondary)' }}
+              style={{ color: subtaskPct === 100 ? '#34d399' : 'var(--ops-text-secondary)' }}
             >
               {subtaskPct}%
             </span>
           </div>
           <div
             className="h-1 rounded-full overflow-hidden"
-            style={{ backgroundColor: 'var(--app-border)' }}
+            style={{ backgroundColor: 'var(--ops-border)' }}
           >
             <motion.div
               className="h-full rounded-full"
               style={{
-                backgroundColor: subtaskPct === 100 ? '#34d399' : 'var(--app-accent)',
+                backgroundColor: subtaskPct === 100 ? '#34d399' : 'var(--ops-accent)',
               }}
               initial={{ width: 0 }}
               animate={{ width: `${subtaskPct}%` }}
@@ -231,7 +231,7 @@ const TaskCard = React.memo(function TaskCard({
       )}
 
       {/* Bottom row: assignee, story points, attachments, due date */}
-      <div className="flex items-center justify-between mt-2.5 pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
+      <div className="flex items-center justify-between mt-2.5 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
         {/* Left side: assignee + story points */}
         <div className="flex items-center gap-2">
           {task.assigneeInitials ? (
@@ -239,7 +239,7 @@ const TaskCard = React.memo(function TaskCard({
               <AvatarFallback
                 className="text-[8px] font-semibold"
                 style={{
-                  backgroundColor: task.assigneeColor || 'var(--app-selection-bg)',
+                  backgroundColor: task.assigneeColor || 'rgba(204,92,55,0.2)',
                   color: task.assigneeColor ? '#fff' : '#cc5c37',
                 }}
               >
@@ -259,8 +259,8 @@ const TaskCard = React.memo(function TaskCard({
             <span
               className="text-[10px] font-semibold px-1.5 py-0 rounded"
               style={{
-                backgroundColor: 'var(--app-accent-light)',
-                color: 'var(--app-accent)',
+                backgroundColor: 'var(--ops-accent-light)',
+                color: 'var(--ops-accent)',
               }}
             >
               {task.storyPoints} SP
@@ -268,8 +268,8 @@ const TaskCard = React.memo(function TaskCard({
           )}
 
           {task.attachments !== undefined && task.attachments > 0 && (
-            <div className="flex items-center gap-0.5" style={{ color: 'var(--app-text-muted)' }}>
-              <Paperclip className="w-4 h-4" />
+            <div className="flex items-center gap-0.5" style={{ color: 'var(--ops-text-muted)' }}>
+              <Paperclip className="w-3 h-3" />
               <span className="text-[10px]">{task.attachments}</span>
             </div>
           )}
@@ -279,9 +279,9 @@ const TaskCard = React.memo(function TaskCard({
         {task.dueDate && (
           <div
             className="flex items-center gap-1 text-[10px]"
-            style={{ color: 'var(--app-text-muted)' }}
+            style={{ color: 'var(--ops-text-muted)' }}
           >
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3 h-3" />
             {task.dueDate}
           </div>
         )}
@@ -293,10 +293,10 @@ const TaskCard = React.memo(function TaskCard({
           {task.tags.map((tag) => (
             <span
               key={tag}
-              className="app-badge text-[10px]"
+              className="ops-badge text-[10px]"
               style={{
-                backgroundColor: 'var(--app-hover-bg)',
-                color: 'var(--app-text-muted)',
+                backgroundColor: 'var(--ops-hover-bg)',
+                color: 'var(--ops-text-muted)',
               }}
             >
               {tag}
@@ -334,8 +334,8 @@ const SortableColumn = React.memo(function SortableColumn({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-[var(--app-radius-lg)] p-2 transition-colors snap-start',
-        isOver && 'bg-[var(--app-accent-light)]'
+        'flex flex-col min-w-[300px] w-[300px] shrink-0 rounded-xl p-2 transition-colors snap-start',
+        isOver && 'bg-[var(--ops-accent-light)]'
       )}
       role="region"
       aria-label={`${column.title} column, ${column.items.length} tasks`}
@@ -345,15 +345,15 @@ const SortableColumn = React.memo(function SortableColumn({
         <div className="flex items-center gap-2">
           <span
             className="text-sm font-semibold"
-            style={{ color: 'var(--app-text)' }}
+            style={{ color: 'var(--ops-text)' }}
           >
             {column.title}
           </span>
           <span
-            className="app-badge text-[10px]"
+            className="ops-badge text-[10px]"
             style={{
-              backgroundColor: 'var(--app-hover-bg)',
-              color: 'var(--app-text-muted)',
+              backgroundColor: 'var(--ops-hover-bg)',
+              color: 'var(--ops-text-muted)',
             }}
           >
             {column.items.length}
@@ -372,10 +372,10 @@ const SortableColumn = React.memo(function SortableColumn({
           ))}
           {column.items.length === 0 && (
             <div
-              className="flex items-center justify-center h-24 rounded-[var(--app-radius-lg)] border border-dashed"
+              className="flex items-center justify-center h-24 rounded-lg border border-dashed"
               style={{
-                borderColor: 'var(--app-border)',
-                color: 'var(--app-text-muted)',
+                borderColor: 'var(--ops-border)',
+                color: 'var(--ops-text-muted)',
               }}
             >
               <p className="text-xs">No tasks</p>
@@ -450,7 +450,7 @@ export const KanbanBoard = memo(function KanbanBoard({
   return (
     <div
       className={cn('flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory', className)}
-      style={{ backgroundColor: 'var(--app-elevated)' }}
+      style={{ backgroundColor: 'var(--ops-bg-dark)' }}
       role="region"
       aria-label="Kanban board"
     >

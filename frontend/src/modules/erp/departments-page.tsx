@@ -27,7 +27,7 @@ interface Department {
 function useDepartments() {
   return useMemo(() => {
     const deptMap: Record<string, Department> = {};
-    const colors = ['var(--app-accent)', '#34d399', '#60a5fa', '#fbbf24', '#a855f7', '#f87171', '#06b6d4'];
+    const colors = ['var(--ops-accent)', '#34d399', '#60a5fa', '#fbbf24', '#a855f7', '#f87171', '#06b6d4'];
     const budgets: Record<string, number> = {
       Engineering: 3200000, Design: 1800000, QA: 950000, Operations: 1200000, HR: 800000, Sales: 2400000, Finance: 1100000,
     };
@@ -70,7 +70,7 @@ function DepartmentsPageInner() {
 
   return (
     <PageShell title="Departments" icon={Network}>
-      <motion.div className="space-y-app-2xl" variants={stagger} initial="hidden" animate="show">
+      <motion.div className="space-y-6" variants={stagger} initial="hidden" animate="show">
         {/* Stats */}
         <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KpiWidget label="Departments" value={stats.total} icon={Building2} color="accent" />
@@ -87,35 +87,35 @@ function DepartmentsPageInner() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06, duration: 0.35 }}
-              className="app-card overflow-hidden"
-              style={{ borderRadius: 'var(--app-radius-md)' }}
+              className="ops-card overflow-hidden"
+              style={{ borderRadius: '1rem' }}
             >
               {/* Color top bar */}
               <div className="h-1" style={{ backgroundColor: dept.color }} />
 
-              <div className="p-app-xl space-y-4">
+              <div className="p-5 space-y-4">
                 {/* Name + HOD */}
                 <div>
-                  <h3 className="text-sm font-bold" style={{ color: 'var(--app-text)' }}>{dept.name}</h3>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--app-text-muted)' }}>Head: {dept.hod}</p>
+                  <h3 className="text-base font-bold" style={{ color: 'var(--ops-text)' }}>{dept.name}</h3>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--ops-text-muted)' }}>Head: {dept.hod}</p>
                 </div>
 
                 {/* Badges row */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="app-badge" style={{ backgroundColor: 'var(--app-success-bg)', color: '#34d399' }}>
-                    <Users className="w-4 h-4" /> {dept.employees.length}
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(52,211,153,0.1)', color: '#34d399' }}>
+                    <Users className="w-3 h-3" /> {dept.employees.length}
                   </span>
-                  <span className="app-badge" style={{ backgroundColor: 'var(--app-info-bg)', color: '#60a5fa' }}>
-                    <FolderKanban className="w-4 h-4" /> {dept.projectCount} projects
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(96,165,250,0.1)', color: '#60a5fa' }}>
+                    <FolderKanban className="w-3 h-3" /> {dept.projectCount} projects
                   </span>
-                  <span className="app-badge" style={{ backgroundColor: 'var(--app-warning-bg)', color: '#fbbf24' }}>
+                  <span className="ops-badge" style={{ backgroundColor: 'rgba(251,191,36,0.1)', color: '#fbbf24' }}>
                     KPI {dept.kpiScore}%
                   </span>
                 </div>
 
                 {/* KPI Bar */}
                 <div>
-                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--app-hover-bg)' }}>
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--ops-hover-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.kpiScore}%` }}
@@ -127,29 +127,29 @@ function DepartmentsPageInner() {
                 </div>
 
                 {/* Employee List */}
-                <div className="space-y-2 pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
+                <div className="space-y-2 pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
                   {dept.employees.slice(0, 5).map((emp) => (
                     <div key={emp.name} className="flex items-center gap-2.5">
                       <Avatar className="h-6 w-6">
-                        <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--app-accent-light)', color: 'var(--app-accent)' }}>
+                        <AvatarFallback className="text-[8px] font-semibold" style={{ backgroundColor: 'var(--ops-accent-light)', color: 'var(--ops-accent)' }}>
                           {emp.avatar}
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-medium truncate" style={{ color: 'var(--app-text-secondary)' }}>{emp.name}</p>
-                        <p className="text-[10px] truncate" style={{ color: 'var(--app-text-muted)' }}>{emp.role}</p>
+                        <p className="text-xs font-medium truncate" style={{ color: 'var(--ops-text-secondary)' }}>{emp.name}</p>
+                        <p className="text-[10px] truncate" style={{ color: 'var(--ops-text-muted)' }}>{emp.role}</p>
                       </div>
                     </div>
                   ))}
                   {dept.employees.length > 5 && (
-                    <p className="text-[10px] pt-1" style={{ color: 'var(--app-text-muted)' }}>+{dept.employees.length - 5} more</p>
+                    <p className="text-[10px] pt-1" style={{ color: 'var(--ops-text-muted)' }}>+{dept.employees.length - 5} more</p>
                   )}
                 </div>
 
                 {/* Budget */}
-                <div className="flex items-center justify-between text-xs pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
-                  <span style={{ color: 'var(--app-text-muted)' }}>Monthly Budget</span>
-                  <span className="font-semibold" style={{ color: 'var(--app-text-secondary)' }}>{formatINR(dept.budget)}</span>
+                <div className="flex items-center justify-between text-xs pt-2" style={{ borderTop: '1px solid var(--ops-border)' }}>
+                  <span style={{ color: 'var(--ops-text-muted)' }}>Monthly Budget</span>
+                  <span className="font-semibold" style={{ color: 'var(--ops-text-secondary)' }}>{formatINR(dept.budget)}</span>
                 </div>
               </div>
             </motion.div>

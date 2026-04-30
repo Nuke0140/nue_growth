@@ -134,7 +134,7 @@ function GettingStartedChecklist() {
           <motion.button
             key={idx}
             onClick={() => toggle(idx)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-[var(--app-radius-lg)] text-left transition-colors w-full"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors w-full"
             style={{
               backgroundColor: isChecked ? 'rgba(34,197,94,0.06)' : CSS.hoverBg,
               border: `1px solid ${isChecked ? 'rgba(34,197,94,0.15)' : CSS.border}`,
@@ -142,7 +142,7 @@ function GettingStartedChecklist() {
             whileHover={{ x: 2 }}
           >
             <motion.div
-              className="flex items-center justify-center w-5 h-5 rounded-[var(--app-radius-md)] shrink-0"
+              className="flex items-center justify-center w-5 h-5 rounded-md shrink-0"
               style={{
                 backgroundColor: isChecked ? '#22c55e' : CSS.hoverBg,
                 border: isChecked ? undefined : `1.5px solid ${CSS.borderStrong}`,
@@ -152,7 +152,7 @@ function GettingStartedChecklist() {
             >
               {isChecked && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring' as const, stiffness: 500, damping: 25 }}>
-                  <Check className="w-4 h-4" style={{ color: '#fff' }} />
+                  <Check className="w-3 h-3" style={{ color: '#fff' }} />
                 </motion.div>
               )}
             </motion.div>
@@ -171,7 +171,7 @@ function GettingStartedChecklist() {
               </p>
             </div>
             {!isChecked && (
-              <ChevronRight className="w-4 h-4 ml-auto shrink-0" style={{ color: CSS.textDisabled }} />
+              <ChevronRight className="w-3.5 h-3.5 ml-auto shrink-0" style={{ color: CSS.textDisabled }} />
             )}
           </motion.button>
         );
@@ -200,13 +200,13 @@ const EmptyStateInner = memo(function EmptyStateInner({
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: ANIMATION.duration.slow, ease: 'easeOut' as const }}
-      className={cn('flex flex-col items-center justify-center py-app-4xl px-6 text-center', className)}
+      className={cn('flex flex-col items-center justify-center py-12 px-6 text-center', className)}
       role="status"
     >
       {/* Icon or Illustration */}
       {IllustrationComponent ? (
         <motion.div
-          className="mb-app-xl"
+          className="mb-5"
           initial={{ y: 8, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.15, duration: ANIMATION.duration.slow, ease: 'easeOut' as const }}
@@ -222,10 +222,10 @@ const EmptyStateInner = memo(function EmptyStateInner({
           <motion.div
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="flex items-center justify-center w-16 h-16 rounded-[var(--app-radius-xl)] mb-app-xl"
+            className="flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
             style={{ backgroundColor: CSS.hoverBg }}
           >
-            <Icon className="w-8 h-8" style={{ color: CSS.textMuted }} />
+            <Icon className="w-7 h-7" style={{ color: CSS.textMuted }} />
           </motion.div>
         </motion.div>
       ) : null}
@@ -261,16 +261,16 @@ const EmptyStateInner = memo(function EmptyStateInner({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: ANIMATION.duration.slow, delay: 0.25 }}
-          className="mt-app-2xl w-full max-w-sm"
+          className="mt-6 w-full max-w-sm"
         >
           <div className="flex items-center justify-center gap-1.5 mb-3">
-            <Eye className="w-4 h-4" style={{ color: CSS.textMuted }} />
+            <Eye className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
             <span className="text-[11px]" style={{ color: CSS.textMuted }}>
               Preview of what this will look like
             </span>
           </div>
           <div
-            className="rounded-[var(--app-radius-lg)] p-4 opacity-40"
+            className="rounded-lg p-4 opacity-40"
             style={{
               backgroundColor: CSS.hoverBg,
               border: `1px solid ${CSS.border}`,
@@ -287,7 +287,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: ANIMATION.duration.slow, delay: 0.2 }}
-          className="flex items-center gap-3 mt-app-2xl"
+          className="flex items-center gap-3 mt-6"
         >
           {primaryAction && (
             <motion.button
@@ -301,7 +301,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
                 }
               }}
               type="button"
-              className="px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-semibold transition-colors"
+              className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
               style={{
                 backgroundColor: CSS.accent,
                 color: '#fff',
@@ -323,7 +323,7 @@ const EmptyStateInner = memo(function EmptyStateInner({
                 }
               }}
               type="button"
-              className="px-4 py-2 rounded-[var(--app-radius-lg)] text-xs font-medium transition-colors"
+              className="px-4 py-2 rounded-lg text-xs font-medium transition-colors"
               style={{
                 backgroundColor: 'transparent',
                 color: CSS.textSecondary,

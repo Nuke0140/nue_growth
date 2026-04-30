@@ -64,7 +64,7 @@ const TYPE_ICON_MAP: Partial<Record<ActivityEventType, { icon: typeof CheckSquar
   payroll_paid: { icon: DollarSign, color: '#06b6d4' },
   asset_assigned: { icon: CheckSquare, color: '#6366f1' },
   asset_reported: { icon: AlertTriangle, color: '#f59e0b' },
-  comment_added: { icon: User, color: 'var(--app-text-secondary)' },
+  comment_added: { icon: User, color: 'var(--ops-text-secondary)' },
   ai_insight_generated: { icon: Sparkles, color: '#f59e0b' },
 };
 
@@ -161,9 +161,9 @@ export function EnhancedActivityFeed({
     <div
       className="flex items-center gap-1.5 p-1.5 overflow-x-auto"
       style={{
-        backgroundColor: 'var(--app-hover-bg)',
+        backgroundColor: 'var(--ops-hover-bg)',
         borderRadius: 10,
-        border: '1px solid var(--app-border)',
+        border: '1px solid var(--ops-border)',
       }}
     >
       {(Object.keys(CATEGORY_MAP) as FilterCategory[]).map((cat) => {
@@ -174,18 +174,18 @@ export function EnhancedActivityFeed({
             key={cat}
             onClick={() => handleFilterChange(cat)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[11px] font-medium whitespace-nowrap transition-colors duration-150 shrink-0'
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all duration-150 shrink-0'
             )}
             style={{
               backgroundColor: isActive
-                ? 'var(--app-accent-light)'
+                ? 'var(--ops-accent-light)'
                 : 'transparent',
               color: isActive
-                ? 'var(--app-accent)'
-                : 'var(--app-text-secondary)',
+                ? 'var(--ops-accent)'
+                : 'var(--ops-text-secondary)',
             }}
           >
-            <CatIcon className="w-4 h-4" />
+            <CatIcon className="w-3.5 h-3.5" />
             {label}
             <span
               className={cn(
@@ -193,11 +193,11 @@ export function EnhancedActivityFeed({
               )}
               style={{
                 backgroundColor: isActive
-                  ? 'var(--app-selection-bg)'
-                  : 'var(--app-hover-bg)',
+                  ? 'rgba(204,92,55,0.2)'
+                  : 'var(--ops-hover-bg)',
                 color: isActive
-                  ? 'var(--app-accent)'
-                  : 'var(--app-text-muted)',
+                  ? 'var(--ops-accent)'
+                  : 'var(--ops-text-muted)',
               }}
             >
               {categoryCounts[cat]}
@@ -222,21 +222,21 @@ export function EnhancedActivityFeed({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-app-4xl text-center"
+              className="flex flex-col items-center justify-center py-12 text-center"
             >
               <Inbox
                 className="w-8 h-8 mb-3"
-                style={{ color: 'var(--app-text-disabled)' }}
+                style={{ color: 'var(--ops-text-disabled)' }}
               />
               <p
                 className="text-sm font-medium"
-                style={{ color: 'var(--app-text-muted)' }}
+                style={{ color: 'var(--ops-text-muted)' }}
               >
                 No activities found
               </p>
               <p
                 className="text-xs mt-1"
-                style={{ color: 'var(--app-text-disabled)' }}
+                style={{ color: 'var(--ops-text-disabled)' }}
               >
                 Try adjusting your filters
               </p>
@@ -245,7 +245,7 @@ export function EnhancedActivityFeed({
             visibleItems.map((event, idx) => {
               const typeInfo = TYPE_ICON_MAP[event.type] || {
                 icon: Zap,
-                color: 'var(--app-text-secondary)',
+                color: 'var(--ops-text-secondary)',
               };
               const Icon = typeInfo.icon;
               const isCritical = CRITICAL_TYPES.has(event.type);
@@ -266,7 +266,7 @@ export function EnhancedActivityFeed({
                   {idx < visibleItems.length - 1 && (
                     <div
                       className="absolute left-[15px] top-[32px] bottom-0 w-px"
-                      style={{ backgroundColor: 'var(--app-border)' }}
+                      style={{ backgroundColor: 'var(--ops-border)' }}
                     />
                   )}
 
@@ -300,7 +300,7 @@ export function EnhancedActivityFeed({
                       }}
                     >
                       <Icon
-                        className="w-4 h-4"
+                        className="w-3.5 h-3.5"
                         style={{ color: typeInfo.color }}
                       />
                       {isRecentEvent && (
@@ -328,11 +328,11 @@ export function EnhancedActivityFeed({
                           {/* Actor + action */}
                           <p
                             className="text-[13px] leading-snug"
-                            style={{ color: 'var(--app-text)' }}
+                            style={{ color: 'var(--ops-text)' }}
                           >
                             <span
                               className="font-semibold"
-                              style={{ color: 'var(--app-text)' }}
+                              style={{ color: 'var(--ops-text)' }}
                             >
                               {event.actor}
                             </span>{' '}
@@ -348,7 +348,7 @@ export function EnhancedActivityFeed({
                                   <span
                                     key={pi}
                                     className="font-semibold"
-                                    style={{ color: 'var(--app-accent)' }}
+                                    style={{ color: 'var(--ops-accent)' }}
                                   >
                                     {part}
                                   </span>
@@ -361,7 +361,7 @@ export function EnhancedActivityFeed({
                           {/* Entity link */}
                           <button
                             className="text-[11px] mt-0.5 hover:underline inline-flex items-center gap-1"
-                            style={{ color: 'var(--app-text-muted)' }}
+                            style={{ color: 'var(--ops-text-muted)' }}
                             onClick={(e) => {
                               e.stopPropagation();
                             }}
@@ -372,12 +372,12 @@ export function EnhancedActivityFeed({
                           {/* Timestamp */}
                           <div className="flex items-center gap-1 mt-1">
                             <Clock
-                              className="w-4 h-4"
-                              style={{ color: 'var(--app-text-disabled)' }}
+                              className="w-3 h-3"
+                              style={{ color: 'var(--ops-text-disabled)' }}
                             />
                             <span
                               className="text-[10px]"
-                              style={{ color: 'var(--app-text-disabled)' }}
+                              style={{ color: 'var(--ops-text-disabled)' }}
                             >
                               {relativeTime(event.timestamp)}
                             </span>
@@ -401,10 +401,10 @@ export function EnhancedActivityFeed({
                           transition={{ duration: 0.2 }}
                           className="mt-1 shrink-0"
                           style={{
-                            color: 'var(--app-text-disabled)',
+                            color: 'var(--ops-text-disabled)',
                           }}
                         >
-                          <ChevronDown className="w-4 h-4" />
+                          <ChevronDown className="w-3.5 h-3.5" />
                         </motion.div>
                       </div>
 
@@ -419,26 +419,26 @@ export function EnhancedActivityFeed({
                             className="overflow-hidden"
                           >
                             <div
-                              className="mt-2 p-3 rounded-[var(--app-radius-lg)]"
+                              className="mt-2 p-3 rounded-lg"
                               style={{
-                                backgroundColor: 'var(--app-hover-bg)',
-                                border: '1px solid var(--app-border)',
+                                backgroundColor: 'var(--ops-hover-bg)',
+                                border: '1px solid var(--ops-border)',
                               }}
                             >
                               {/* Full description */}
                               <p
                                 className="text-xs leading-relaxed"
-                                style={{ color: 'var(--app-text-secondary)' }}
+                                style={{ color: 'var(--ops-text-secondary)' }}
                               >
                                 {event.description}
                               </p>
 
                               {/* Metadata */}
                               {event.metadata && Object.keys(event.metadata).length > 0 && (
-                                <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--app-border-light)' }}>
+                                <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--ops-border-light)' }}>
                                   <p
                                     className="text-[10px] font-medium mb-1.5"
-                                    style={{ color: 'var(--app-text-muted)' }}
+                                    style={{ color: 'var(--ops-text-muted)' }}
                                   >
                                     Changes
                                   </p>
@@ -452,14 +452,14 @@ export function EnhancedActivityFeed({
                                           <span
                                             className="font-medium"
                                             style={{
-                                              color: 'var(--app-text-secondary)',
+                                              color: 'var(--ops-text-secondary)',
                                             }}
                                           >
                                             {key}:
                                           </span>
                                           <span
                                             style={{
-                                              color: 'var(--app-text-secondary)',
+                                              color: 'var(--ops-text-secondary)',
                                             }}
                                           >
                                             {String(value)}
@@ -488,10 +488,10 @@ export function EnhancedActivityFeed({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => setVisibleCount((c) => c + 10)}
-            className="mt-2 py-2.5 text-center text-xs font-medium rounded-[var(--app-radius-lg)] transition-colors hover:bg-[var(--app-hover-bg)]"
+            className="mt-2 py-2.5 text-center text-xs font-medium rounded-lg transition-colors hover:bg-[var(--ops-hover-bg)]"
             style={{
-              color: 'var(--app-accent)',
-              border: '1px solid var(--app-shadow-accent)',
+              color: 'var(--ops-accent)',
+              border: '1px solid rgba(204,92,55,0.15)',
             }}
           >
             Load more ({filtered.length - visibleCount} remaining)

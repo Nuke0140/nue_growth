@@ -4,7 +4,7 @@ import React, { memo, useState, useCallback, useMemo, useRef, useEffect } from '
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ANIMATION } from '@/styles/design-tokens';
+import { ANIMATION } from '../../design-tokens';
 import type { LucideIcon } from 'lucide-react';
 import {
   CheckCircle2,
@@ -132,17 +132,17 @@ const projectOptions = mockProjects.map((p) => ({ label: p.name, value: p.id }))
 // ---- Priority / status visual configs ----
 
 const priorityConfig = [
-  { value: 'low', label: 'Low', color: '#10b981', bg: 'var(--app-success-bg)' },
+  { value: 'low', label: 'Low', color: '#10b981', bg: 'rgba(16,185,129,0.12)' },
   { value: 'medium', label: 'Medium', color: '#3b82f6', bg: 'rgba(59,130,246,0.12)' },
   { value: 'high', label: 'High', color: '#f59e0b', bg: 'rgba(245,158,11,0.12)' },
-  { value: 'critical', label: 'Critical', color: '#ef4444', bg: 'var(--app-danger-bg)' },
+  { value: 'critical', label: 'Critical', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
 ];
 
 const statusConfig = [
   { value: 'backlog', label: 'Backlog', color: '#8b5cf6' },
   { value: 'todo', label: 'To Do', color: '#3b82f6' },
   { value: 'in-progress', label: 'In Progress', color: '#f59e0b' },
-  { value: 'review', label: 'Review', color: 'var(--app-accent)' },
+  { value: 'review', label: 'Review', color: 'var(--ops-accent)' },
 ];
 
 function getFormFields(type: CreateEntityType): FormField[] {
@@ -274,10 +274,10 @@ function FormFieldInput({
         placeholder={field.placeholder}
         rows={3}
         className={cn(
-          'app-input w-full rounded-[var(--app-radius-lg)] border bg-[var(--app-hover-bg)] text-[var(--app-text)] text-[13px] placeholder:text-[var(--app-text-disabled)] resize-none transition-colors',
+          'ops-input w-full rounded-xl border bg-[var(--ops-hover-bg)] text-[var(--ops-text)] text-[13px] placeholder:text-[var(--ops-text-disabled)] resize-none transition-colors',
           error
             ? 'border-red-500/50 focus:outline-none focus:border-red-500'
-            : 'border-[var(--app-border-strong)] focus:outline-none focus:border-[var(--app-accent)]/50'
+            : 'border-[var(--ops-border-strong)] focus:outline-none focus:border-[var(--ops-accent)]/50'
         )}
       />
     );
@@ -289,18 +289,18 @@ function FormFieldInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          'app-input w-full rounded-[var(--app-radius-lg)] border bg-[var(--app-hover-bg)] text-[var(--app-text)] text-[13px] transition-colors cursor-pointer',
+          'ops-input w-full rounded-xl border bg-[var(--ops-hover-bg)] text-[var(--ops-text)] text-[13px] transition-colors cursor-pointer',
           error
             ? 'border-red-500/50 focus:outline-none focus:border-red-500'
-            : 'border-[var(--app-border-strong)] focus:outline-none focus:border-[var(--app-accent)]/50',
-          !value && 'text-[var(--app-text-disabled)]'
+            : 'border-[var(--ops-border-strong)] focus:outline-none focus:border-[var(--ops-accent)]/50',
+          !value && 'text-[var(--ops-text-disabled)]'
         )}
       >
-        <option value="" className="bg-[var(--app-card-bg)]">
+        <option value="" className="bg-[var(--ops-card-bg)]">
           Select...
         </option>
         {field.options?.map((opt) => (
-          <option key={opt.value} value={opt.value} className="bg-[var(--app-card-bg)]">
+          <option key={opt.value} value={opt.value} className="bg-[var(--ops-card-bg)]">
             {opt.label}
           </option>
         ))}
@@ -317,10 +317,10 @@ function FormFieldInput({
         placeholder={field.placeholder}
         min={0}
         className={cn(
-          'app-input w-full rounded-[var(--app-radius-lg)] border bg-[var(--app-hover-bg)] text-[var(--app-text)] text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
+          'ops-input w-full rounded-xl border bg-[var(--ops-hover-bg)] text-[var(--ops-text)] text-[13px] placeholder:text-[var(--ops-text-disabled)] transition-colors',
           error
             ? 'border-red-500/50 focus:outline-none focus:border-red-500'
-            : 'border-[var(--app-border-strong)] focus:outline-none focus:border-[var(--app-accent)]/50'
+            : 'border-[var(--ops-border-strong)] focus:outline-none focus:border-[var(--ops-accent)]/50'
         )}
       />
     );
@@ -338,10 +338,10 @@ function FormFieldInput({
               type="button"
               onClick={() => onChange(opt.getValue())}
               className={cn(
-                'text-[11px] px-2.5 py-1 rounded-[var(--app-radius-lg)] border transition-colors',
+                'text-[11px] px-2.5 py-1 rounded-lg border transition-colors',
                 value === opt.getValue()
-                  ? 'bg-[var(--app-accent-light)] border-[var(--app-accent)]/30 text-[var(--app-accent)]'
-                  : 'bg-[var(--app-hover-bg)] border-[var(--app-border)] text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+                  ? 'bg-[var(--ops-accent-light)] border-[var(--ops-accent)]/30 text-[var(--ops-accent)]'
+                  : 'bg-[var(--ops-hover-bg)] border-[var(--ops-border)] text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)]'
               )}
             >
               {opt.label}
@@ -353,10 +353,10 @@ function FormFieldInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={cn(
-            'app-input w-full rounded-[var(--app-radius-lg)] border bg-[var(--app-hover-bg)] text-[var(--app-text)] text-[13px] transition-colors',
+            'ops-input w-full rounded-xl border bg-[var(--ops-hover-bg)] text-[var(--ops-text)] text-[13px] transition-colors',
             error
               ? 'border-red-500/50 focus:outline-none focus:border-red-500'
-              : 'border-[var(--app-border-strong)] focus:outline-none focus:border-[var(--app-accent)]/50',
+              : 'border-[var(--ops-border-strong)] focus:outline-none focus:border-[var(--ops-accent)]/50',
             '[&::-webkit-calendar-picker-indicator]:opacity-30 [&::-webkit-calendar-picker-indicator]:invert'
           )}
         />
@@ -373,10 +373,10 @@ function FormFieldInput({
             type="button"
             onClick={() => onChange(p.value)}
             className={cn(
-              'flex-1 py-2 rounded-[var(--app-radius-lg)] text-[12px] font-medium border transition-colors',
+              'flex-1 py-2 rounded-xl text-[12px] font-medium border transition-all',
               value === p.value
                 ? 'border-transparent'
-                : 'bg-[var(--app-hover-bg)] border-[var(--app-border)] text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+                : 'bg-[var(--ops-hover-bg)] border-[var(--ops-border)] text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)]'
             )}
             style={
               value === p.value
@@ -400,10 +400,10 @@ function FormFieldInput({
             type="button"
             onClick={() => onChange(s.value)}
             className={cn(
-              'px-3 py-1.5 rounded-[var(--app-radius-lg)] text-[12px] font-medium border transition-colors',
+              'px-3 py-1.5 rounded-lg text-[12px] font-medium border transition-all',
               value === s.value
                 ? 'border-transparent text-white'
-                : 'bg-[var(--app-hover-bg)] border-[var(--app-border)] text-[var(--app-text-muted)] hover:text-[var(--app-text-secondary)]'
+                : 'bg-[var(--ops-hover-bg)] border-[var(--ops-border)] text-[var(--ops-text-muted)] hover:text-[var(--ops-text-secondary)]'
             )}
             style={
               value === s.value
@@ -426,10 +426,10 @@ function FormFieldInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={field.placeholder}
       className={cn(
-        'app-input w-full rounded-[var(--app-radius-lg)] border bg-[var(--app-hover-bg)] text-[var(--app-text)] text-[13px] placeholder:text-[var(--app-text-disabled)] transition-colors',
+        'ops-input w-full rounded-xl border bg-[var(--ops-hover-bg)] text-[var(--ops-text)] text-[13px] placeholder:text-[var(--ops-text-disabled)] transition-colors',
         error
           ? 'border-red-500/50 focus:outline-none focus:border-red-500'
-          : 'border-[var(--app-border-strong)] focus:outline-none focus:border-[var(--app-accent)]/50'
+          : 'border-[var(--ops-border-strong)] focus:outline-none focus:border-[var(--ops-accent)]/50'
       )}
     />
   );
@@ -456,13 +456,13 @@ function AiSuggestionChip({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
       onClick={() => onAccept(suggestion.value)}
-      className="flex items-center gap-1.5 mt-1.5 px-2.5 py-1 rounded-[var(--app-radius-lg)] bg-[var(--app-active-bg)] border border-[var(--app-accent)]/20 hover:bg-[var(--app-accent-light)] transition-colors group w-full text-left"
+      className="flex items-center gap-1.5 mt-1.5 px-2.5 py-1 rounded-lg bg-[var(--ops-active-bg)] border border-[var(--ops-accent)]/20 hover:bg-[var(--ops-accent-light)] transition-colors group w-full text-left"
     >
-      <Sparkles className="w-4 h-4 text-[var(--app-accent)] shrink-0" />
-      <span className="text-[11px] text-[var(--app-text-muted)] flex-1">
-        AI suggests: <span className="text-[var(--app-text-secondary)] font-medium">{suggestion.value}</span>
+      <Sparkles className="w-3 h-3 text-[var(--ops-accent)] shrink-0" />
+      <span className="text-[11px] text-[var(--ops-text-muted)] flex-1">
+        AI suggests: <span className="text-[var(--ops-text-secondary)] font-medium">{suggestion.value}</span>
       </span>
-      <span className="text-[10px] text-[var(--app-accent)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+      <span className="text-[10px] text-[var(--ops-accent)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
         Apply
       </span>
     </motion.button>
@@ -640,7 +640,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: ANIMATION.durationFast }}
-            className="fixed inset-0 z-50 bg-[var(--app-overlay)] backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[var(--ops-overlay)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -652,7 +652,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={ANIMATION.modalEnter}
-              className="w-full max-w-lg bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-[var(--app-radius-xl)] shadow-[var(--app-shadow-md)]-2xl overflow-hidden"
+              className="w-full max-w-lg bg-[var(--ops-card-bg)] border border-[var(--ops-border-strong)] rounded-2xl shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
               ref={modalRef}
               role="dialog"
@@ -667,7 +667,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: ANIMATION.durationMedium }}
-                    className="absolute inset-0 z-10 bg-emerald-500/15 rounded-[var(--app-radius-xl)] flex items-center justify-center pointer-events-none"
+                    className="absolute inset-0 z-10 bg-emerald-500/15 rounded-2xl flex items-center justify-center pointer-events-none"
                     aria-hidden="true"
                   >
                     <motion.div
@@ -682,14 +682,14 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
               </AnimatePresence>
 
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--app-border)]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--ops-border)]">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-10  rounded-[var(--app-radius-lg)] bg-[var(--app-accent-light)] flex items-center justify-center">
-                    <Icon className="w-[18px] h-[18px] text-[var(--app-accent)]" aria-hidden="true" />
+                  <div className="w-9 h-9 rounded-xl bg-[var(--ops-accent-light)] flex items-center justify-center">
+                    <Icon className="w-[18px] h-[18px] text-[var(--ops-accent)]" aria-hidden="true" />
                   </div>
                   <div>
-                    <h2 id="create-modal-title" className="text-sm font-semibold text-[var(--app-text)]">Create {config.label}</h2>
-                    <p className="text-[11px] text-[var(--app-text-muted)]">
+                    <h2 id="create-modal-title" className="text-sm font-semibold text-[var(--ops-text)]">Create {config.label}</h2>
+                    <p className="text-[11px] text-[var(--ops-text-muted)]">
                       Fill in the details below
                     </p>
                   </div>
@@ -698,7 +698,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                   variant="ghost"
                   size="icon"
                   onClick={onClose}
-                  className="h-8 w-8 rounded-[var(--app-radius-lg)] text-[var(--app-text-muted)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                  className="h-8 w-8 rounded-lg text-[var(--ops-text-muted)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                   aria-label="Close dialog"
                 >
                   <X className="w-4 h-4" />
@@ -712,11 +712,11 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="mx-6 mt-4 px-3 py-2 rounded-[var(--app-radius-lg)] bg-[rgba(59,130,246,0.08)] border border-[rgba(59,130,246,0.15)] flex items-center gap-2"
+                    className="mx-6 mt-4 px-3 py-2 rounded-lg bg-[rgba(59,130,246,0.08)] border border-[rgba(59,130,246,0.15)] flex items-center gap-2"
                   >
-                    <FolderKanban className="w-4 h-4 text-[var(--app-info)] shrink-0" />
-                    <span className="text-[11px] text-[var(--app-text-secondary)]">
-                      Creating for: <span className="text-[var(--app-text)] font-medium">{contextEntity.label}</span>
+                    <FolderKanban className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
+                    <span className="text-[11px] text-[var(--ops-text-secondary)]">
+                      Creating for: <span className="text-[var(--ops-text)] font-medium">{contextEntity.label}</span>
                     </span>
                   </motion.div>
                 )}
@@ -724,7 +724,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                 {/* Templates Section */}
                 {typeTemplates.length > 0 && (
                   <div className="px-6 mt-4">
-                    <p className="text-[11px] font-medium text-[var(--app-text-disabled)] uppercase tracking-wider mb-2">
+                    <p className="text-[11px] font-medium text-[var(--ops-text-disabled)] uppercase tracking-wider mb-2">
                       Templates
                     </p>
                     <div className="flex gap-2 overflow-x-auto pb-2">
@@ -737,10 +737,10 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => handleApplyTemplate(t)}
-                            className="flex items-center gap-2 px-3 py-2 rounded-[var(--app-radius-lg)] border border-[var(--app-border)] bg-[var(--app-hover-bg)] hover:bg-[var(--app-hover-bg)] transition-colors shrink-0"
+                            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--ops-border)] bg-[var(--ops-hover-bg)] hover:bg-[var(--ops-hover-bg)] transition-colors shrink-0"
                           >
-                            <TIcon className="w-4 h-4 text-[var(--app-text-muted)]" />
-                            <span className="text-[12px] text-[var(--app-text-secondary)] whitespace-nowrap">{t.name}</span>
+                            <TIcon className="w-3.5 h-3.5 text-[var(--ops-text-muted)]" />
+                            <span className="text-[12px] text-[var(--ops-text-secondary)] whitespace-nowrap">{t.name}</span>
                           </motion.button>
                         );
                       })}
@@ -752,7 +752,7 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                   {fields.map((field) => (
                     <div key={field.key} className="space-y-1.5">
-                      <label className="text-[12px] font-medium text-[var(--app-text-secondary)] flex items-center gap-1">
+                      <label className="text-[12px] font-medium text-[var(--ops-text-secondary)] flex items-center gap-1">
                         {field.label}
                         {field.required && <span className="text-red-500 dark:text-red-400 text-[11px]">*</span>}
                       </label>
@@ -776,23 +776,23 @@ function CreateModalInner({ open, onClose, type, onSubmit }: CreateModalProps) {
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--app-border)] bg-[var(--app-hover-bg)]">
+              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--ops-border)] bg-[var(--ops-hover-bg)]">
                 <Button
                   variant="ghost"
                   onClick={onClose}
                   disabled={submitting}
-                  className="h-10  px-4 rounded-[var(--app-radius-lg)] text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]"
+                  className="h-9 px-4 rounded-xl text-[13px] text-[var(--ops-text-secondary)] hover:text-[var(--ops-text)] hover:bg-[var(--ops-hover-bg)]"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleSubmit as unknown as () => void}
                   disabled={submitting}
-                  className="h-10  px-app-xl rounded-[var(--app-radius-lg)] bg-[var(--app-accent)] text-white text-[13px] font-medium hover:bg-[var(--app-accent-hover)] transition-colors"
+                  className="h-9 px-5 rounded-xl bg-[var(--ops-accent)] text-white text-[13px] font-medium hover:bg-[var(--ops-accent-hover)] transition-colors"
                 >
                   {submitting ? (
                     <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Creating...
                     </span>
                   ) : (

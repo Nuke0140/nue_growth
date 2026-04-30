@@ -109,35 +109,35 @@ export default function CustomerSuccessPage() {
 
   // KPI stats
   const kpiStats = useMemo(() => [
-    { label: 'Active Plans', value: `${successPlans.length}`, icon: Target, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: 'success plans active' },
+    { label: 'Active Plans', value: `${successPlans.length}`, icon: Target, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: 'success plans active' },
     { label: 'Avg Health Score', value: `${stats.avgHealth.toFixed(0)}`, icon: Heart, color: 'text-rose-400', bg: isDark ? 'bg-rose-500/10' : 'bg-rose-50', change: 4.2, changeLabel: 'portfolio health' },
-    { label: 'Value Delivered', value: formatINR(stats.totalValueDelivered), icon: BarChart3, color: 'text-violet-400', bg: 'bg-[var(--app-purple-light)]', change: 12.5, changeLabel: `of ${formatINR(stats.totalValueTarget)} target` },
-    { label: 'Milestones Done', value: `${stats.completed}/${stats.total}`, icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-[var(--app-success-bg)]', change: 0, changeLabel: `${stats.overdue} overdue` },
-    { label: 'Next QBR', value: qbrCalendar[0]?.nextQBR.split('-').slice(1).reverse().join('/') || '—', icon: Calendar, color: 'text-amber-400', bg: 'bg-[var(--app-warning-bg)]', change: 0, changeLabel: qbrCalendar[0]?.client || '' },
+    { label: 'Value Delivered', value: formatINR(stats.totalValueDelivered), icon: BarChart3, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50', change: 12.5, changeLabel: `of ${formatINR(stats.totalValueTarget)} target` },
+    { label: 'Milestones Done', value: `${stats.completed}/${stats.total}`, icon: CheckCircle2, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50', change: 0, changeLabel: `${stats.overdue} overdue` },
+    { label: 'Next QBR', value: qbrCalendar[0]?.nextQBR.split('-').slice(1).reverse().join('/') || '—', icon: Calendar, color: 'text-amber-400', bg: isDark ? 'bg-amber-500/10' : 'bg-amber-50', change: 0, changeLabel: qbrCalendar[0]?.client || '' },
   ], [isDark, stats, qbrCalendar]);
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-app-2xl">
+      <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-              'bg-[var(--app-hover-bg)]'
+              'w-10 h-10 rounded-xl flex items-center justify-center',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'
             )}>
-              <Users className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+              <Users className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold">Customer Success</h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Post-Sales Relationship Cockpit</p>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Post-Sales Relationship Cockpit</p>
             </div>
           </div>
           <Badge variant="secondary" className={cn(
             'px-3 py-1.5 text-xs font-medium gap-1.5',
-            'bg-[var(--app-hover-bg)] text-[var(--app-text-muted)]'
+            isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50'
           )}>
-            <Target className="w-4 h-4" />
+            <Target className="w-3.5 h-3.5" />
             {successPlans.length} Active Plans
           </Badge>
         </div>
@@ -151,16 +151,16 @@ export default function CustomerSuccessPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-[var(--app-radius-xl)] border p-4 transition-colors duration-200',
-                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
+                'rounded-2xl border p-4 transition-all duration-200',
+                isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-[11px] font-medium uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
                   {stat.label}
                 </span>
-                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', stat.bg)}>
-                  <stat.icon className={cn('w-4 h-4', stat.color)} />
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.bg)}>
+                  <stat.icon className={cn('w-3.5 h-3.5', stat.color)} />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
@@ -171,7 +171,7 @@ export default function CustomerSuccessPage() {
                   </span>
                 )}
               </div>
-              <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{stat.changeLabel}</p>
+              <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{stat.changeLabel}</p>
             </motion.div>
           ))}
         </div>
@@ -186,10 +186,10 @@ export default function CustomerSuccessPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + planIdx * 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                'rounded-[var(--app-radius-xl)] border p-app-xl',
+                'rounded-2xl border p-5',
                 overdueMilestones.length > 0
                   ? (isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')
-                  : ('bg-[var(--app-card-bg)] border-[var(--app-border)]')
+                  : (isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')
               )}
             >
               {/* Plan Header */}
@@ -198,25 +198,25 @@ export default function CustomerSuccessPage() {
                   <HealthRing score={plan.healthScore} isDark={isDark} />
                   <div>
                     <h3 className="text-sm font-bold">{plan.client}</h3>
-                    <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+                    <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
                       {plan.accountManager} · Started {plan.startDate}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <span className={cn('text-[10px] block', 'text-[var(--app-text-muted)]')}>Value Delivered</span>
+                    <span className={cn('text-[10px] block', isDark ? 'text-white/30' : 'text-black/30')}>Value Delivered</span>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold">{formatINR(plan.valueDelivered)}</span>
-                      <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>/ {formatINR(plan.valueTarget)}</span>
+                      <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>/ {formatINR(plan.valueTarget)}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last QBR:</span>
+                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Last QBR:</span>
                     <span className="text-[10px] font-medium">{plan.lastQBR}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Next QBR:</span>
+                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Next QBR:</span>
                     <Badge variant="secondary" className="text-[10px] px-2 py-0.5">
                       {plan.nextQBR}
                     </Badge>
@@ -227,14 +227,14 @@ export default function CustomerSuccessPage() {
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>
+                  <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
                     Value Realization
                   </span>
                   <span className={cn('text-[10px] font-medium', plan.valueDelivered >= plan.valueTarget ? 'text-emerald-500' : 'text-amber-500')}>
                     {Math.round((plan.valueDelivered / plan.valueTarget) * 100)}%
                   </span>
                 </div>
-                <div className={cn('h-2 rounded-full', 'bg-[var(--app-hover-bg)]')}>
+                <div className={cn('h-2 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min((plan.valueDelivered / plan.valueTarget) * 100, 100)}%` }}
@@ -249,7 +249,7 @@ export default function CustomerSuccessPage() {
 
               {/* Milestone Timeline */}
               <div className="space-y-2">
-                <span className={cn('text-[11px] font-semibold uppercase tracking-wider', 'text-[var(--app-text-muted)]')}>
+                <span className={cn('text-[11px] font-semibold uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>
                   Milestones
                 </span>
                 {plan.milestones.map((ms: SuccessMilestone, msIdx) => {
@@ -263,14 +263,14 @@ export default function CustomerSuccessPage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 + planIdx * 0.1 + msIdx * 0.05, duration: 0.3 }}
                       className={cn(
-                        'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] border transition-colors',
+                        'flex items-center gap-3 p-3 rounded-xl border transition-colors',
                         ms.status === 'overdue'
                           ? (isDark ? 'border-red-500/20 bg-red-500/[0.04]' : 'border-red-200 bg-red-50')
                           : (isDark ? 'border-white/[0.04] hover:bg-white/[0.02]' : 'border-black/[0.04] hover:bg-black/[0.01]')
                       )}
                     >
-                      <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center shrink-0', sConfig.bg)}>
-                        <StatusIcon className={cn('w-4 h-4', sConfig.color)} />
+                      <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center shrink-0', sConfig.bg)}>
+                        <StatusIcon className={cn('w-3.5 h-3.5', sConfig.color)} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -279,22 +279,22 @@ export default function CustomerSuccessPage() {
                             {cConfig.label}
                           </Badge>
                           {ms.status === 'overdue' && (
-                            <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', 'bg-[var(--app-danger-bg)] text-[var(--app-danger)]')}>
+                            <Badge variant="secondary" className={cn('text-[9px] px-1.5 py-0', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>
                               OVERDUE
                             </Badge>
                           )}
                         </div>
                         <div className="flex items-center gap-3 mt-0.5">
-                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
                             Due: {ms.dueDate}
                           </span>
-                          <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>·</span>
-                          <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>
+                          <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
+                          <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>
                             Owner: {ms.owner}
                           </span>
                           {ms.notes && (
                             <>
-                              <span className={cn('text-[10px]', 'text-[var(--app-text-disabled)]')}>·</span>
+                              <span className={cn('text-[10px]', isDark ? 'text-white/20' : 'text-black/20')}>·</span>
                               <span className="text-[10px] text-red-400 truncate max-w-[200px]">{ms.notes}</span>
                             </>
                           )}
@@ -314,14 +314,14 @@ export default function CustomerSuccessPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-[var(--app-radius-xl)] border p-app-xl',
-            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+            'rounded-2xl border p-5',
+            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Calendar className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+              <Calendar className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
                 QBR Calendar
               </span>
             </div>
@@ -334,7 +334,7 @@ export default function CustomerSuccessPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 + j * 0.06, duration: 0.3 }}
                 className={cn(
-                  'rounded-[var(--app-radius-lg)] border p-3',
+                  'rounded-xl border p-3',
                   isDark ? 'border-white/[0.04] bg-white/[0.02]' : 'border-black/[0.04] bg-black/[0.01]'
                 )}
               >
@@ -345,13 +345,13 @@ export default function CustomerSuccessPage() {
                   </span>
                 </div>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Last:</span>
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Last:</span>
                   <span className="text-[10px] font-medium">{qbr.lastQBR}</span>
-                  <span className={cn('text-[10px] mx-1', 'text-[var(--app-text-disabled)]')}>→</span>
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Next:</span>
+                  <span className={cn('text-[10px] mx-1', isDark ? 'text-white/15' : 'text-black/15')}>→</span>
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Next:</span>
                   <Badge variant="secondary" className="text-[10px] px-2 py-0">{qbr.nextQBR}</Badge>
                 </div>
-                <p className={cn('text-[10px] mt-1', 'text-[var(--app-text-muted)]')}>{qbr.accountManager}</p>
+                <p className={cn('text-[10px] mt-1', isDark ? 'text-white/25' : 'text-black/25')}>{qbr.accountManager}</p>
               </motion.div>
             ))}
           </div>
@@ -363,32 +363,32 @@ export default function CustomerSuccessPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-[var(--app-radius-xl)] border p-app-xl',
-            'bg-[var(--app-card-bg)] border-[var(--app-border)]'
+            'rounded-2xl border p-5',
+            isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
           )}
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
-              <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+              <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
+              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>
                 Value Realization Summary
               </span>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', 'bg-[var(--app-success)]')} />
-                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Delivered</span>
+                <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')} />
+                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Delivered</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className={cn('w-2.5 h-2.5 rounded-[var(--app-radius-sm)]', isDark ? 'bg-white/15' : 'bg-black/15')} />
-                <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Target</span>
+                <div className={cn('w-2.5 h-2.5 rounded-sm', isDark ? 'bg-white/15' : 'bg-black/15')} />
+                <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Target</span>
               </div>
             </div>
           </div>
           <div className="flex items-end gap-4 h-36">
             {valueData.map((entry, j) => (
               <div key={j} className="flex-1 flex flex-col justify-end items-center gap-1">
-                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>
+                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
                   {entry.pct}%
                 </span>
                 <div className="flex gap-0.5 w-full items-end h-24">
@@ -396,7 +396,7 @@ export default function CustomerSuccessPage() {
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.delivered / maxValue) * 100}%` }}
                     transition={{ delay: 0.6 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn('flex-1 rounded-t-sm', 'bg-[var(--app-success)]')}
+                    className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                   />
                   <motion.div
                     initial={{ height: 0 }}
@@ -405,7 +405,7 @@ export default function CustomerSuccessPage() {
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-white/10' : 'bg-black/10')}
                   />
                 </div>
-                <span className={cn('text-[9px] font-medium', 'text-[var(--app-text-muted)]')}>{entry.client}</span>
+                <span className={cn('text-[9px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{entry.client}</span>
               </div>
             ))}
           </div>
@@ -425,16 +425,16 @@ export default function CustomerSuccessPage() {
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}
               className={cn(
-                'rounded-[var(--app-radius-xl)] border p-4 text-left transition-colors duration-200 group',
-                'bg-[var(--app-card-bg)] border-[var(--app-border)] hover:bg-[var(--app-card-bg-hover)]'
+                'rounded-2xl border p-4 text-left transition-all duration-200 group',
+                isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
               )}
             >
               <div className="flex items-center justify-between">
                 <nav.icon className={cn('w-5 h-5', nav.color)} />
-                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', 'text-[var(--app-text-disabled)]')} />
+                <ChevronRight className={cn('w-4 h-4 transition-transform group-hover:translate-x-1', isDark ? 'text-white/15' : 'text-black/15')} />
               </div>
               <p className="text-xl font-bold mt-3">{nav.value}</p>
-              <p className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{nav.label}</p>
+              <p className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{nav.label}</p>
             </motion.button>
           ))}
         </div>

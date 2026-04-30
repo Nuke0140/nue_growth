@@ -77,10 +77,10 @@ export default function RetentionPage() {
     if (!reEngaged.includes(name)) setReEngaged(prev => [...prev, name]);
   };
 
-  const card = cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const kpiStyle = cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]');
-  const subtle = 'text-[var(--app-text-muted)]';
-  const medium = 'text-[var(--app-text-secondary)]';
+  const card = cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const kpiStyle = cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]');
+  const subtle = isDark ? 'text-white/30' : 'text-black/30';
+  const medium = isDark ? 'text-white/50' : 'text-black/50';
 
   const churnRiskColumns: DataTableColumnDef[] = [
     {
@@ -136,14 +136,14 @@ export default function RetentionPage() {
   ];
 
   return (
-    <div className="space-y-app-2xl">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={cn('text-2xl font-bold tracking-tight', 'text-[var(--app-text)]')}>
+          <h1 className={cn('text-2xl font-bold tracking-tight', isDark ? 'text-white' : 'text-gray-900')}>
             Customer Retention
           </h1>
-          <p className={cn('text-sm mt-1', 'text-[var(--app-text-secondary)]')}>
+          <p className={cn('text-sm mt-1', isDark ? 'text-white/50' : 'text-black/50')}>
             Monitor churn, engage at-risk customers, and maximize lifetime value
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function RetentionPage() {
               <kpi.icon className={cn('w-4 h-4', kpi.color)} />
               <span className={cn('text-xs', medium)}>{kpi.label}</span>
             </div>
-            <p className={cn('text-xl font-bold', 'text-[var(--app-text)]')}>{kpi.value}</p>
+            <p className={cn('text-xl font-bold', isDark ? 'text-white' : 'text-gray-900')}>{kpi.value}</p>
             <p className={cn('text-[10px] mt-0.5', subtle)}>{kpi.sub}</p>
           </motion.div>
         ))}
@@ -192,9 +192,9 @@ export default function RetentionPage() {
         transition={{ delay: 0.15, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={card}
       >
-        <div className="flex items-center gap-2 mb-app-xl">
-          <BarChart3 className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-          <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Cohort Retention</h3>
+        <div className="flex items-center gap-2 mb-5">
+          <BarChart3 className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+          <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Cohort Retention</h3>
           <span className={cn('text-xs ml-auto', subtle)}>Monthly retention rate %</span>
         </div>
 
@@ -216,7 +216,7 @@ export default function RetentionPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className={cn('flex-1 h-3 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                  <div className={cn('flex-1 h-3 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
@@ -237,7 +237,7 @@ export default function RetentionPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-app-xl pt-4 border-t" style={{ borderColor: 'var(--app-border)' }}>
+        <div className="flex items-center gap-4 mt-5 pt-4 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-green-500" />
             <span className={cn('text-[10px]', medium)}>≥80% Healthy</span>
@@ -253,86 +253,41 @@ export default function RetentionPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-2xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Churn Risk Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+          className={card}
         >
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-red-500" />
-              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Churn Risk Customers</h3>
+              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Churn Risk Customers</h3>
             </div>
             <Badge variant="secondary" className="bg-red-500/15 text-red-600">
               {CHURN_RISK_CUSTOMERS.length} at-risk
             </Badge>
           </div>
-          <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className={cn('border-y', 'border-[var(--app-border)] bg-[var(--app-hover-bg)]')}>
-                  {['Customer', 'Last Activity', 'Days Inactive', 'LTV', 'Risk', ''].map(h => (
-                    <th key={h} className={cn('px-4 py-2.5 text-left font-medium', medium)}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {CHURN_RISK_CUSTOMERS.map((customer, i) => {
-                  const risk = RISK_STYLES[customer.riskLevel];
-                  const isReEngaged = reEngaged.includes(customer.name);
-                  return (
-                    <motion.tr
-                      key={customer.name}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: i * 0.04, duration: 0.2 }}
-                      className={cn('border-b', 'border-[var(--app-border-light)] hover:bg-[var(--app-hover-bg)]')}
-                    >
-                      <td className={cn('px-4 py-3 font-medium', 'text-[var(--app-text)]')}>
-                        <div className="flex items-center gap-2">
-                          <div className={cn('w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white',
-                            customer.riskLevel === 'critical' ? 'bg-red-500' :
-                            customer.riskLevel === 'high' ? 'bg-orange-500' : 'bg-amber-500')}>
-                            {customer.name.split(' ').map(n => n[0]).join('')}
-                          </div>
-                          {customer.name}
-                        </div>
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', medium)}>{customer.lastActivity}</td>
-                      <td className={cn('px-4 py-3 tabular-nums font-semibold',
-                        customer.daysInactive > 20 ? 'text-red-500' : customer.daysInactive > 14 ? 'text-amber-500' : ('text-[var(--app-text-secondary)]'))}>
-                        {customer.daysInactive}d
-                      </td>
-                      <td className={cn('px-4 py-3 tabular-nums', 'text-[var(--app-text-secondary)]')}>
-                        {formatCurrency(customer.ltv)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <Badge className={cn('text-[10px]', risk.className)}>{risk.label}</Badge>
-                      </td>
-                      <td className="px-4 py-3">
-                        {isReEngaged ? (
-                          <Badge className="text-[10px] bg-green-500/15 text-green-600">Sent ✓</Badge>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-[10px] h-6 px-2"
-                            onClick={() => handleReEngage(customer.name)}
-                          >
-                            <Send className="w-4 h-4 mr-1" />
-                            Re-engage
-                          </Button>
-                        )}
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <SmartDataTable
+            data={CHURN_RISK_CUSTOMERS as unknown as Record<string, unknown>[]}
+            columns={churnRiskColumns}
+            pageSize={10}
+            actions={(row) => {
+              const name = row.name as string;
+              const isReEngaged = reEngaged.includes(name);
+              if (isReEngaged) {
+                return <Badge className="text-[10px] bg-green-500/15 text-green-600">Sent ✓</Badge>;
+              }
+              return (
+                <Button variant="outline" size="sm" className="text-[10px] h-6 px-2" onClick={() => handleReEngage(name)}>
+                  <Send className="w-3 h-3 mr-1" />
+                  Re-engage
+                </Button>
+              );
+            }}
+          />
         </motion.div>
 
         {/* Renewal Alerts */}
@@ -344,7 +299,7 @@ export default function RetentionPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <Bell className="w-4 h-4 text-amber-500" />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Upcoming Renewals</h3>
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Upcoming Renewals</h3>
             <Badge variant="secondary" className="bg-amber-500/15 text-amber-600">
               {RENEWAL_ALERTS.length} upcoming
             </Badge>
@@ -356,15 +311,15 @@ export default function RetentionPage() {
                 <div
                   key={i}
                   className={cn(
-                    'rounded-[var(--app-radius-lg)] border p-4 space-y-3',
-                    'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                    'rounded-xl border p-4 space-y-3',
+                    isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
                     isUrgent && (isDark ? 'border-red-500/20' : 'border-red-500/20'),
                   )}
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                        <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
                           {alert.customer}
                         </p>
                         {isUrgent && (
@@ -373,13 +328,13 @@ export default function RetentionPage() {
                       </div>
                       <p className={cn('text-[10px] mt-0.5', medium)}>{alert.plan} Plan</p>
                     </div>
-                    <p className={cn('text-xs font-bold', 'text-[var(--app-text)]')}>
+                    <p className={cn('text-xs font-bold', isDark ? 'text-white' : 'text-gray-900')}>
                       {formatCurrency(alert.amount)}
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Calendar className={cn('w-4 h-4', subtle)} />
+                      <Calendar className={cn('w-3 h-3', subtle)} />
                       <span className={cn('text-[10px]', medium)}>Renews: {alert.date}</span>
                     </div>
                     <div className={cn(
@@ -390,8 +345,8 @@ export default function RetentionPage() {
                       {alert.daysLeft} days left
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full text-[10px] h-8">
-                    <Send className="w-4 h-4 mr-1.5" />
+                  <Button variant="outline" size="sm" className="w-full text-[10px] h-7">
+                    <Send className="w-3 h-3 mr-1.5" />
                     Send Reminder
                   </Button>
                 </div>
@@ -410,8 +365,8 @@ export default function RetentionPage() {
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Activity className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-            <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>Retention Campaigns</h3>
+            <Activity className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+            <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-gray-900')}>Retention Campaigns</h3>
           </div>
           <Button size="sm" variant="outline">
             <Plus className="w-4 h-4 mr-1.5" />
@@ -423,13 +378,13 @@ export default function RetentionPage() {
             <div
               key={campaign.id}
               className={cn(
-                'rounded-[var(--app-radius-lg)] border p-4 space-y-3',
-                'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+                'rounded-xl border p-4 space-y-3',
+                isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-black/[0.01] border-black/[0.06]',
               )}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                  <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
                     {campaign.name}
                   </p>
                   <div className="flex items-center gap-1.5 mt-1">
@@ -450,17 +405,17 @@ export default function RetentionPage() {
                 <Shield className={cn('w-4 h-4', subtle)} />
               </div>
               <div className="flex items-center gap-2">
-                {campaign.channel.includes('Email') && <Mail className={cn('w-4 h-4', subtle)} />}
-                {campaign.channel.includes('WhatsApp') && <MessageSquare className={cn('w-4 h-4', subtle)} />}
+                {campaign.channel.includes('Email') && <Mail className={cn('w-3 h-3', subtle)} />}
+                {campaign.channel.includes('WhatsApp') && <MessageSquare className={cn('w-3 h-3', subtle)} />}
                 <span className={cn('text-[10px]', medium)}>{campaign.channel}</span>
               </div>
               <p className={cn('text-[10px]', subtle)}>Audience: {campaign.audience}</p>
 
               {campaign.status === 'active' && (
-                <div className="grid grid-cols-3 gap-2 pt-2 border-t" style={{ borderColor: 'var(--app-border)' }}>
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}>
                   <div>
                     <p className={cn('text-[9px]', subtle)}>Sent</p>
-                    <p className={cn('text-xs font-semibold', 'text-[var(--app-text)]')}>
+                    <p className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-gray-900')}>
                       {campaign.sent.toLocaleString()}
                     </p>
                   </div>

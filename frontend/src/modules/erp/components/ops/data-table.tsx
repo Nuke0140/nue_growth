@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { COLORS } from '@/styles/design-tokens';
+import { COLORS } from '../../design-tokens';
 
 export interface Column<T> {
   key: string;
@@ -141,16 +141,16 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
               setPage(0);
             }}
             placeholder={searchPlaceholder}
-            className="app-input w-full pl-9 pr-4 py-2 text-sm"
+            className="ops-input w-full pl-9 pr-4 py-2 text-sm"
             aria-label="Search table"
           />
         </div>
       )}
 
-      <div className="app-card overflow-hidden !p-0" role="grid" aria-label="Data table">
+      <div className="ops-card overflow-hidden !p-0" role="grid" aria-label="Data table">
         <Table ref={tableRef} tabIndex={0} onKeyDown={handleTableKeyDown}>
           <TableHeader>
-            <TableRow className="border-b" style={{ borderColor: 'var(--app-border)' }}>
+            <TableRow className="border-b" style={{ borderColor: 'var(--ops-border)' }}>
               {visibleColumns.map((col) => (
                 <TableHead
                   key={col.key}
@@ -158,7 +158,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                     col.sortable && 'cursor-pointer select-none',
                     col.hiddenMobile && 'hidden md:table-cell'
                   )}
-                  style={{ color: 'var(--app-text-muted)' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                   onClick={col.sortable ? () => handleSort(col.key) : undefined}
                   aria-label={col.sortable ? `Sort by ${col.label}` : undefined}
                   role="columnheader"
@@ -169,12 +169,12 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                     {col.sortable && (
                       <ArrowUpDown
                         className={cn(
-                          'w-4 h-4 transition-opacity',
+                          'w-3.5 h-3.5 transition-opacity',
                           sortKey === col.key
                             ? 'opacity-100'
                             : 'opacity-30'
                         )}
-                        style={{ color: 'var(--app-text-muted)' }}
+                        style={{ color: 'var(--ops-text-muted)' }}
                         aria-hidden="true"
                       />
                     )}
@@ -189,7 +189,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                 <TableCell
                   colSpan={visibleColumns.length}
                   className="h-32 text-center"
-                  style={{ color: 'var(--app-text-muted)' }}
+                  style={{ color: 'var(--ops-text-muted)' }}
                 >
                   {emptyMessage}
                 </TableCell>
@@ -203,7 +203,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                     focusedRow === idx && 'ring-1 ring-inset ring-[rgba(204,92,55,0.25)]'
                   )}
                   style={{
-                    borderColor: 'var(--app-border)',
+                    borderColor: 'var(--ops-border)',
                     cursor: onRowClick ? 'pointer' : undefined,
                   }}
                   role="row"
@@ -222,7 +222,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                     <TableCell
                       key={col.key}
                       className={cn(col.hiddenMobile && 'hidden md:table-cell')}
-                      style={{ color: 'var(--app-text-secondary)' }}
+                      style={{ color: 'var(--ops-text-secondary)' }}
                       role="gridcell"
                     >
                       {col.render
@@ -239,7 +239,7 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
 
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-1">
-          <p className="text-xs" style={{ color: 'var(--app-text-muted)' }}>
+          <p className="text-xs" style={{ color: 'var(--ops-text-muted)' }}>
             Showing {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, sorted.length)} of{' '}
             {sorted.length}
           </p>
@@ -251,11 +251,11 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
                   // pageSize is fixed via props but we provide visual feedback
                 }}
                 disabled={size === pageSize}
-                className="app-badge text-xs cursor-pointer disabled:opacity-60"
+                className="ops-badge text-xs cursor-pointer disabled:opacity-60"
                 style={{
-                  color: size === pageSize ? 'var(--app-accent)' : 'var(--app-text-muted)',
+                  color: size === pageSize ? 'var(--ops-accent)' : 'var(--ops-text-muted)',
                   backgroundColor:
-                    size === pageSize ? 'var(--app-accent-light)' : 'transparent',
+                    size === pageSize ? 'var(--ops-accent-light)' : 'transparent',
                 }}
               >
                 {size}
@@ -267,20 +267,20 @@ export const DataTable = React.memo(function DataTable<T extends Record<string, 
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              style={{ color: 'var(--app-text-secondary)' }}
+              style={{ color: 'var(--ops-text-secondary)' }}
               onClick={() => setPage(Math.max(0, safePage - 1))}
               disabled={safePage === 0}
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-xs px-2" style={{ color: 'var(--app-text-secondary)' }}>
+            <span className="text-xs px-2" style={{ color: 'var(--ops-text-secondary)' }}>
               {safePage + 1} / {totalPages}
             </span>
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              style={{ color: 'var(--app-text-secondary)' }}
+              style={{ color: 'var(--ops-text-secondary)' }}
               onClick={() => setPage(Math.min(totalPages - 1, safePage + 1))}
               disabled={safePage >= totalPages - 1}
             >

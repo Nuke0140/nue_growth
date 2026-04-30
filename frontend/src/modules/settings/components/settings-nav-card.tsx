@@ -36,7 +36,7 @@ export default function SettingsNavCard({
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onClick={() => navigateTo(page)}
       className={cn(
-        'relative cursor-pointer rounded-[var(--app-radius-xl)] border p-4 sm:p-app-xl shadow-[var(--app-shadow-md)]-[var(--app-shadow-[var(--app-shadow-sm)])] hover:shadow-[var(--app-shadow-md)]-md transition-colors',
+        'relative cursor-pointer rounded-2xl border p-4 sm:p-5 shadow-sm hover:shadow-md transition-all',
         isDark
           ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
           : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.03]',
@@ -46,17 +46,17 @@ export default function SettingsNavCard({
         <div className="flex items-start gap-3 min-w-0">
           <div
             className={cn(
-              'flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--app-radius-lg)]',
-              'bg-[var(--app-hover-bg)]',
+              'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.04]',
             )}
           >
             <Icon
-              className={cn('h-5 w-5', 'text-[var(--app-text-muted)]')}
+              className={cn('h-5 w-5', isDark ? 'text-zinc-400' : 'text-zinc-500')}
             />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <p className={cn('text-sm font-semibold truncate', 'text-[var(--app-text)]')}>
+              <p className={cn('text-sm font-semibold truncate', isDark ? 'text-white' : 'text-zinc-900')}>
                 {title}
               </p>
               {badge && (
@@ -68,12 +68,12 @@ export default function SettingsNavCard({
                 </span>
               )}
             </div>
-            <p className={cn('text-xs mt-1 line-clamp-2', 'text-[var(--app-text-muted)]')}>
+            <p className={cn('text-xs mt-1 line-clamp-2', isDark ? 'text-zinc-400' : 'text-zinc-500')}>
               {description}
             </p>
           </div>
         </div>
-        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', 'text-[var(--app-text-muted)]')} />
+        <ChevronRight className={cn('w-4 h-4 shrink-0 mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')} />
       </div>
     </motion.div>
   );

@@ -78,7 +78,7 @@ function CircularProgress({ score, maxScore, size = 96, strokeWidth = 6, isDark 
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className={cn('text-lg font-bold', 'text-[var(--app-text)]')}>
+        <span className={cn('text-lg font-bold', isDark ? 'text-white' : 'text-zinc-900')}>
           {score}
         </span>
       </div>
@@ -108,21 +108,21 @@ export default function ExecutiveBIPage() {
 
   return (
     <div className="h-full overflow-y-auto p-4 md:p-6">
-      <div className="space-y-app-3xl">
+      <div className="space-y-8">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={cn(
-              'w-10 h-10 rounded-[var(--app-radius-lg)] flex items-center justify-center',
-              'bg-[var(--app-hover-bg)]',
+              'w-10 h-10 rounded-xl flex items-center justify-center',
+              isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
             )}>
-              <Crown className={cn('w-5 h-5', 'text-[var(--app-text-secondary)]')} />
+              <Crown className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
             </div>
             <div>
               <h1 className={cn('font-bold', isBoardMode ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl')}>
                 Executive BI
               </h1>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
                 Board-ready business overview
               </p>
             </div>
@@ -130,19 +130,19 @@ export default function ExecutiveBIPage() {
 
           {/* Mode Toggle */}
           <div className={cn(
-            'inline-flex rounded-[var(--app-radius-xl)] border p-1',
-            'bg-[var(--app-hover-bg)] border-[var(--app-border)]',
+            'inline-flex rounded-2xl border p-1',
+            isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
           )}>
             {(['standard', 'board'] as const).map((m) => (
               <button
                 key={m}
                 onClick={() => setMode(m)}
                 className={cn(
-                  'px-4 py-2 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                  'px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200',
                   mode === m
                     ? (isDark
-                        ? 'bg-white text-black shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-white/10'
-                        : 'bg-black text-white shadow-[var(--app-shadow-md)]-lg shadow-[var(--app-shadow-md)]-black/10')
+                        ? 'bg-white text-black shadow-lg shadow-white/10'
+                        : 'bg-black text-white shadow-lg shadow-black/10')
                     : (isDark
                         ? 'text-white/50 hover:text-white/70 hover:bg-white/[0.04]'
                         : 'text-black/50 hover:text-black/70 hover:bg-black/[0.04]'),
@@ -158,7 +158,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            'text-[var(--app-text-muted)]',
+            isDark ? 'text-white/40' : 'text-black/40',
           )}>
             Business Health Scores
           </h2>
@@ -171,18 +171,18 @@ export default function ExecutiveBIPage() {
                   key={score.label}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-[var(--app-radius-xl)] border p-app-xl sm:p-6 transition-colors duration-200',
+                    'rounded-2xl border p-5 sm:p-6 transition-all duration-200',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
-                    isBoardMode && 'p-6 sm:p-app-3xl',
+                    isBoardMode && 'p-6 sm:p-8',
                   )}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0 space-y-3">
                       <p className={cn(
                         'text-xs font-medium uppercase tracking-wider',
-                        'text-[var(--app-text-muted)]',
+                        isDark ? 'text-white/40' : 'text-black/40',
                       )}>
                         {score.label}
                       </p>
@@ -200,19 +200,19 @@ export default function ExecutiveBIPage() {
                         'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold',
                         status.bg, status.color,
                       )}>
-                        {score.status === 'excellent' && <Star className="w-4 h-4" />}
-                        {score.status === 'good' && <CheckCircle2 className="w-4 h-4" />}
-                        {score.status === 'warning' && <AlertTriangle className="w-4 h-4" />}
+                        {score.status === 'excellent' && <Star className="w-3 h-3" />}
+                        {score.status === 'good' && <CheckCircle2 className="w-3 h-3" />}
+                        {score.status === 'warning' && <AlertTriangle className="w-3 h-3" />}
                         {status.label}
                       </span>
                       {/* Trend */}
                       <span className={cn(
                         'flex items-center gap-1 text-xs font-semibold',
                         isPositive
-                          ? ('text-[var(--app-success)]')
-                          : ('text-[var(--app-danger)]'),
+                          ? (isDark ? 'text-emerald-400' : 'text-emerald-600')
+                          : (isDark ? 'text-red-400' : 'text-red-600'),
                       )}>
-                        {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                        {isPositive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                         {Math.abs(score.trend)}%
                       </span>
                     </div>
@@ -227,7 +227,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            'text-[var(--app-text-muted)]',
+            isDark ? 'text-white/40' : 'text-black/40',
           )}>
             Quarterly Performance
           </h2>
@@ -239,7 +239,7 @@ export default function ExecutiveBIPage() {
                   key={q.quarter}
                   variants={fadeUp}
                   className={cn(
-                    'rounded-[var(--app-radius-xl)] border p-app-xl transition-colors duration-200',
+                    'rounded-2xl border p-5 transition-all duration-200',
                     isDark
                       ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                       : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
@@ -251,7 +251,7 @@ export default function ExecutiveBIPage() {
                   <div className="flex items-center justify-between mb-4">
                     <span className={cn(
                       'text-sm font-bold',
-                      'text-[var(--app-text)]',
+                      isDark ? 'text-white' : 'text-zinc-900',
                     )}>
                       {q.quarter}
                     </span>
@@ -272,21 +272,21 @@ export default function ExecutiveBIPage() {
                       { label: 'Team', value: `${q.team}`, change: changes.teamChange },
                     ].map((metric) => (
                       <div key={metric.label} className="flex items-center justify-between">
-                        <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
+                        <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
                           {metric.label}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+                          <span className={cn('text-sm font-semibold', isDark ? 'text-white/90' : 'text-black/90')}>
                             {metric.value}
                           </span>
                           {i > 0 && (
                             <span className={cn(
                               'flex items-center gap-0.5 text-[10px] font-semibold',
                               metric.change >= 0
-                                ? ('text-[var(--app-success)]')
-                                : ('text-[var(--app-danger)]'),
+                                ? (isDark ? 'text-emerald-400' : 'text-emerald-600')
+                                : (isDark ? 'text-red-400' : 'text-red-600'),
                             )}>
-                              {metric.change >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                              {metric.change >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                               {Math.abs(metric.change).toFixed(1)}%
                             </span>
                           )}
@@ -306,36 +306,36 @@ export default function ExecutiveBIPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'rounded-[var(--app-radius-xl)] border p-6 sm:p-app-3xl',
+            'rounded-2xl border p-6 sm:p-8',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
-            isBoardMode && 'p-app-3xl sm:p-app-4xl',
+            isBoardMode && 'p-8 sm:p-10',
           )}
         >
-          <div className="flex items-center gap-3 mb-app-2xl">
+          <div className="flex items-center gap-3 mb-6">
             <div className={cn(
-              'w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center',
+              'w-8 h-8 rounded-lg flex items-center justify-center',
               isDark ? 'bg-violet-500/15' : 'bg-violet-100',
             )}>
-              <Award className={cn('w-4 h-4', 'text-[var(--app-purple)]')} />
+              <Award className={cn('w-4 h-4', isDark ? 'text-violet-400' : 'text-violet-600')} />
             </div>
             <div>
               <h2 className={cn(
                 'font-bold',
                 isBoardMode ? 'text-xl' : 'text-lg',
-                'text-[var(--app-text)]',
+                isDark ? 'text-white' : 'text-zinc-900',
               )}>
                 Board Summary — FY 2024
               </h2>
-              <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>
                 Annual performance overview for board review
               </p>
             </div>
           </div>
 
           {/* Key Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-app-2xl mb-app-3xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {[
               { label: 'Total Revenue', value: formatINR(boardSummary.totalRevenue), icon: DollarSign, color: 'text-emerald-400' },
               { label: 'Total Profit', value: formatINR(boardSummary.totalProfit), icon: TrendingUp, color: 'text-blue-400' },
@@ -345,14 +345,14 @@ export default function ExecutiveBIPage() {
               <div key={m.label} className="space-y-2">
                 <div className="flex items-center gap-2">
                   <m.icon className={cn('w-4 h-4', m.color)} />
-                  <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>
+                  <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>
                     {m.label}
                   </span>
                 </div>
                 <p className={cn(
                   'font-bold tracking-tight',
                   isBoardMode ? 'text-3xl' : 'text-2xl',
-                  'text-[var(--app-text)]',
+                  isDark ? 'text-white' : 'text-zinc-900',
                 )}>
                   {m.value}
                 </p>
@@ -361,27 +361,27 @@ export default function ExecutiveBIPage() {
           </div>
 
           {/* Secondary Metrics Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-app-3xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
               { label: 'YoY Growth', value: `${boardSummary.yoyGrowth}%`, positive: true },
               { label: 'Client Retention', value: `${boardSummary.clientRetention}%`, positive: true },
               { label: 'NPS Score', value: `${boardSummary.npsScore}`, positive: boardSummary.npsScore >= 50 },
             ].map((m) => (
               <div key={m.label} className={cn(
-                'rounded-[var(--app-radius-lg)] p-4',
-                'bg-[var(--app-hover-bg)]',
+                'rounded-xl p-4',
+                isDark ? 'bg-white/[0.03]' : 'bg-black/[0.02]',
               )}>
-                <span className={cn('text-[10px] uppercase tracking-wider font-medium', 'text-[var(--app-text-muted)]')}>
+                <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>
                   {m.label}
                 </span>
                 <div className="flex items-center gap-2 mt-1">
                   <span className={cn(
                     'text-xl font-bold',
-                    m.positive ? ('text-[var(--app-success)]') : ('text-[var(--app-warning)]'),
+                    m.positive ? (isDark ? 'text-emerald-400' : 'text-emerald-600') : (isDark ? 'text-amber-400' : 'text-amber-600'),
                   )}>
                     {m.value}
                   </span>
-                  {m.positive && <ArrowUpRight className={cn('w-4 h-4', 'text-[var(--app-success)]')} />}
+                  {m.positive && <ArrowUpRight className={cn('w-4 h-4', isDark ? 'text-emerald-400' : 'text-emerald-600')} />}
                 </div>
               </div>
             ))}
@@ -389,15 +389,15 @@ export default function ExecutiveBIPage() {
 
           {/* Top Achievement */}
           <div className={cn(
-            'rounded-[var(--app-radius-lg)] p-4 flex items-start gap-3',
+            'rounded-xl p-4 flex items-start gap-3',
             isDark ? 'bg-violet-500/[0.06] border border-violet-500/10' : 'bg-violet-50 border border-violet-200',
           )}>
-            <Award className={cn('w-5 h-5 shrink-0 mt-0.5', 'text-[var(--app-purple)]')} />
+            <Award className={cn('w-5 h-5 shrink-0 mt-0.5', isDark ? 'text-violet-400' : 'text-violet-600')} />
             <div>
               <p className={cn('text-[10px] uppercase tracking-wider font-semibold mb-1', isDark ? 'text-violet-300/60' : 'text-violet-600')}>
                 Top Achievement
               </p>
-              <p className={cn('text-sm font-medium leading-relaxed', 'text-[var(--app-text)]')}>
+              <p className={cn('text-sm font-medium leading-relaxed', isDark ? 'text-white/80' : 'text-black/80')}>
                 {boardSummary.topAchievement}
               </p>
             </div>
@@ -408,7 +408,7 @@ export default function ExecutiveBIPage() {
         <motion.div variants={stagger} initial="hidden" animate="show">
           <h2 className={cn(
             'text-sm font-semibold uppercase tracking-wider mb-4',
-            'text-[var(--app-text-muted)]',
+            isDark ? 'text-white/40' : 'text-black/40',
           )}>
             Presentation Highlights
           </h2>
@@ -449,26 +449,26 @@ export default function ExecutiveBIPage() {
                 key={card.title}
                 variants={fadeUp}
                 className={cn(
-                  'rounded-[var(--app-radius-xl)] border p-app-xl sm:p-6 transition-colors duration-200',
+                  'rounded-2xl border p-5 sm:p-6 transition-all duration-200',
                   isDark
                     ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]'
                     : 'bg-black/[0.02] border-black/[0.06] hover:bg-black/[0.04]',
                 )}
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <card.icon className={cn('w-4 h-4', 'text-[var(--app-text-secondary)]')} />
-                  <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+                  <card.icon className={cn('w-4 h-4', isDark ? 'text-white/50' : 'text-black/50')} />
+                  <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                     {card.title}
                   </h3>
                 </div>
-                <p className={cn('text-xs leading-relaxed mb-4', 'text-[var(--app-text-muted)]')}>
+                <p className={cn('text-xs leading-relaxed mb-4', isDark ? 'text-white/40' : 'text-black/40')}>
                   {card.description}
                 </p>
                 <div className="grid grid-cols-3 gap-2">
                   {card.metrics.map((m) => (
-                    <div key={m.label} className={cn('rounded-[var(--app-radius-lg)] p-2 text-center', 'bg-[var(--app-hover-bg)]')}>
-                      <p className={cn('text-sm font-bold', 'text-[var(--app-text)]')}>{m.value}</p>
-                      <p className={cn('text-[9px]', 'text-[var(--app-text-muted)]')}>{m.label}</p>
+                    <div key={m.label} className={cn('rounded-lg p-2 text-center', isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]')}>
+                      <p className={cn('text-sm font-bold', isDark ? 'text-white' : 'text-zinc-900')}>{m.value}</p>
+                      <p className={cn('text-[9px]', isDark ? 'text-white/30' : 'text-black/30')}>{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -483,7 +483,7 @@ export default function ExecutiveBIPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
           className={cn(
-            'rounded-[var(--app-radius-xl)] border p-app-xl',
+            'rounded-2xl border p-5',
             isDark
               ? 'bg-white/[0.03] border-white/[0.06]'
               : 'bg-black/[0.02] border-black/[0.06]',
@@ -491,16 +491,16 @@ export default function ExecutiveBIPage() {
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className={cn('text-sm font-semibold', 'text-[var(--app-text)]')}>
+              <h3 className={cn('text-sm font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>
                 Export Board Pack
               </h3>
-              <p className={cn('text-xs mt-0.5', 'text-[var(--app-text-muted)]')}>
+              <p className={cn('text-xs mt-0.5', isDark ? 'text-white/30' : 'text-black/30')}>
                 Download presentation-ready reports for the board meeting
               </p>
             </div>
             <div className="flex items-center gap-3">
               <button className={cn(
-                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                 isDark
                   ? 'bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white'
                   : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black',
@@ -509,7 +509,7 @@ export default function ExecutiveBIPage() {
                 Export PDF
               </button>
               <button className={cn(
-                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-[var(--app-radius-lg)] transition-colors duration-200',
+                'inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200',
                 isDark
                   ? 'bg-white text-black hover:bg-white/90'
                   : 'bg-black text-white hover:bg-black/90',

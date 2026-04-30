@@ -102,7 +102,7 @@ function EmployeeAnalyticsPageInner() {
         'gap-1 px-2 py-0.5 text-[11px] font-medium border',
         isDark ? 'bg-purple-500/15 text-purple-400 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-200'
       )}>
-        <Brain className="w-4 h-4" /> AI-Powered
+        <Brain className="w-3 h-3" /> AI-Powered
       </Badge>
     }>
 
@@ -121,52 +121,52 @@ function EmployeeAnalyticsPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={cn('text-xs font-medium', 'text-[var(--app-text-muted)]')}>{kpi.label}</span>
-                <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                  <kpi.icon className={cn('w-4 h-4', kpi.color)} />
+                <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{kpi.label}</span>
+                <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                  <kpi.icon className={cn('w-3.5 h-3.5', kpi.color)} />
                 </div>
               </div>
               <p className="text-xl font-bold">{kpi.value}</p>
-              <p className={cn('text-[10px] mt-0.5', 'text-[var(--app-text-muted)]')}>{kpi.sub}</p>
+              <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/25' : 'text-black/25')}>{kpi.sub}</p>
             </motion.div>
           ))}
         </div>
 
         {/* Two Column Layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-app-2xl">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           {/* Left Column */}
-          <div className="space-y-app-2xl">
+          <div className="space-y-6">
             {/* Attrition Risk Table */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
-              <div className={cn('px-app-xl py-3 border-b flex items-center justify-between', 'border-[var(--app-border-light)]')}>
+              <div className={cn('px-5 py-3 border-b flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <h3 className="text-sm font-bold flex items-center gap-2">
                   <Shield className="w-4 h-4 text-red-500 dark:text-red-400" /> Attrition Risk Analysis
                 </h3>
                 <Badge variant="outline" className="text-[10px]">{attritionData.length} flagged</Badge>
               </div>
-              <div className="divide-y" style={{ borderColor: 'var(--app-hover-bg)' }}>
+              <div className="divide-y" style={{ borderColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)' }}>
                 {attritionData.map((d) => {
                   const risk = riskConfig[d.risk];
                   return (
-                    <div key={d.employeeId} className={cn('p-4', 'hover:bg-[var(--app-hover-bg)]')}>
+                    <div key={d.employeeId} className={cn('p-4', isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.01]')}>
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
-                            <AvatarFallback className={cn('text-xs font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                            <AvatarFallback className={cn('text-xs font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
                               {d.employee.avatar}
                             </AvatarFallback>
                           </Avatar>
                           <div>
                             <p className="text-sm font-medium">{d.employee.name}</p>
-                            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{d.employee.department} · Tenure: {d.tenure}</p>
+                            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{d.employee.department} · Tenure: {d.tenure}</p>
                           </div>
                         </div>
                         <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border', risk.className)}>
@@ -175,14 +175,14 @@ function EmployeeAnalyticsPageInner() {
                         </span>
                       </div>
                       <div className="flex items-center gap-4 mb-2">
-                        <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>
+                        <span className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>
                           Last Rating: <span className={cn('font-medium', d.lastRating >= 85 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400')}>{d.lastRating}%</span>
                         </span>
                       </div>
-                      <div className={cn('rounded-[var(--app-radius-lg)] p-2.5', 'bg-[var(--app-hover-bg)]')}>
+                      <div className={cn('rounded-lg p-2.5', isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]')}>
                         <div className="flex items-start gap-2">
-                          <Brain className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" />
-                          <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{d.recommendation}</p>
+                          <Brain className="w-3.5 h-3.5 text-purple-400 mt-0.5 shrink-0" />
+                          <p className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{d.recommendation}</p>
                         </div>
                       </div>
                     </div>
@@ -196,44 +196,44 @@ function EmployeeAnalyticsPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3 }}
-              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
-              <div className={cn('px-app-xl py-3 border-b flex items-center justify-between', 'border-[var(--app-border-light)]')}>
+              <div className={cn('px-5 py-3 border-b flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <h3 className="text-sm font-bold flex items-center gap-2">
                   <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Burnout Risk Assessment
                 </h3>
                 <Badge variant="outline" className="text-[10px]">{burnoutData.length} at risk</Badge>
               </div>
-              <div className="p-app-xl space-y-3">
+              <div className="p-5 space-y-3">
                 {burnoutData.map((d) => (
-                  <div key={d.employeeId} className={cn('rounded-[var(--app-radius-lg)] border p-4', 'border-[var(--app-border-light)]')}>
+                  <div key={d.employeeId} className={cn('rounded-xl border p-4', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-8  w-7">
-                          <AvatarFallback className={cn('text-[10px] font-semibold', 'bg-[var(--app-hover-bg)] text-[var(--app-text-secondary)]')}>
+                        <Avatar className="h-7 w-7">
+                          <AvatarFallback className={cn('text-[10px] font-semibold', isDark ? 'bg-white/[0.08] text-white/60' : 'bg-black/[0.08] text-black/60')}>
                             {d.employee.avatar}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="text-sm font-medium">{d.employee.name}</p>
-                          <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{d.department}</p>
+                          <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{d.department}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-center">
-                          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>OT Hours</p>
+                          <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>OT Hours</p>
                           <p className={cn('text-sm font-bold', d.overtimeHours >= 10 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>{d.overtimeHours}h</p>
                         </div>
                         <div className="text-center">
-                          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Consec. Days</p>
+                          <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Consec. Days</p>
                           <p className={cn('text-sm font-bold', d.consecutiveDays >= 10 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>{d.consecutiveDays}</p>
                         </div>
                       </div>
                     </div>
-                    <div className={cn('rounded-[var(--app-radius-lg)] p-2.5', isDark ? 'bg-purple-500/[0.05]' : 'bg-purple-50/50')}>
+                    <div className={cn('rounded-lg p-2.5', isDark ? 'bg-purple-500/[0.05]' : 'bg-purple-50/50')}>
                       <div className="flex items-start gap-2">
-                        <Zap className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" />
-                        <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
+                        <Zap className="w-3.5 h-3.5 text-purple-400 mt-0.5 shrink-0" />
+                        <p className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
                           <span className="font-medium text-purple-400">AI Suggestion:</span> {d.action}
                         </p>
                       </div>
@@ -245,13 +245,13 @@ function EmployeeAnalyticsPageInner() {
           </div>
 
           {/* Right Column */}
-          <div className="space-y-app-2xl">
+          <div className="space-y-6">
             {/* Productivity Trend Chart */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Productivity Trend
@@ -268,23 +268,23 @@ function EmployeeAnalyticsPageInner() {
                         style={{ height: `${(pt.score / maxTrend) * 100}%` }}
                       />
                     </div>
-                    <span className={cn('text-[10px] font-medium', 'text-[var(--app-text-muted)]')}>{pt.month}</span>
+                    <span className={cn('text-[10px] font-medium', isDark ? 'text-white/30' : 'text-black/30')}>{pt.month}</span>
                     <span className={cn('text-[10px] font-bold', pt.score >= 85 ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400')}>{pt.score}%</span>
                   </div>
                 ))}
               </div>
-              <div className={cn('flex items-center justify-between mt-4 pt-3 border-t', 'border-[var(--app-border-light)]')}>
+              <div className={cn('flex items-center justify-between mt-4 pt-3 border-t', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                  <span className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>
+                  <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>
                     +{kpis.avgProductivity - productivityTrend[0].score}% from Oct
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded bg-emerald-500/60" />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>≥ 85%</span>
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>≥ 85%</span>
                   <div className="w-2 h-2 rounded bg-amber-500/60 ml-2" />
-                  <span className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>&lt; 85%</span>
+                  <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>&lt; 85%</span>
                 </div>
               </div>
             </motion.div>
@@ -294,28 +294,28 @@ function EmployeeAnalyticsPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3 }}
-              className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
+              className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
-              <div className={cn('px-app-xl py-3 border-b flex items-center justify-between', 'border-[var(--app-border-light)]')}>
+              <div className={cn('px-5 py-3 border-b flex items-center justify-between', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                 <h3 className="text-sm font-bold flex items-center gap-2">
                   <UserPlus className="w-4 h-4 text-blue-400" /> Hiring Forecast
                 </h3>
                 <Badge variant="outline" className="text-[10px]">{hiringForecast.reduce((s, h) => s + h.required - h.current, 0)} positions</Badge>
               </div>
-              <div className="p-app-xl space-y-3">
+              <div className="p-5 space-y-3">
                 {hiringForecast.map((hf) => {
                   const priority = priorityConfig[hf.priority];
                   const gap = hf.required - hf.current;
                   return (
-                    <div key={hf.department} className={cn('rounded-[var(--app-radius-lg)] border p-4', 'border-[var(--app-border-light)]')}>
+                    <div key={hf.department} className={cn('rounded-xl border p-4', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          <div className={cn('w-8 h-8 rounded-[var(--app-radius-lg)] flex items-center justify-center', 'bg-[var(--app-hover-bg)]')}>
-                            <Building2 className={cn('w-4 h-4', 'text-[var(--app-text-muted)]')} />
+                          <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
+                            <Building2 className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
                           </div>
                           <div>
                             <p className="text-sm font-semibold">{hf.department}</p>
-                            <p className={cn('text-xs', 'text-[var(--app-text-muted)]')}>{hf.reason}</p>
+                            <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{hf.reason}</p>
                           </div>
                         </div>
                         <span className={cn('inline-flex px-2 py-0.5 rounded text-[10px] font-medium border', priority.className)}>
@@ -325,20 +325,20 @@ function EmployeeAnalyticsPageInner() {
                       <div className="flex items-center gap-4">
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
-                            <span className={cn('text-xs', 'text-[var(--app-text-muted)]')}>Current: {hf.current}</span>
-                            <span className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>Required: {hf.required}</span>
+                            <span className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>Current: {hf.current}</span>
+                            <span className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>Required: {hf.required}</span>
                           </div>
-                          <div className={cn('h-2 rounded-full overflow-hidden', 'bg-[var(--app-hover-bg)]')}>
+                          <div className={cn('h-2 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
                             <div className={cn('h-full rounded-full', hf.current / hf.required >= 0.7 ? 'bg-amber-500' : 'bg-red-500')} style={{ width: `${(hf.current / hf.required) * 100}%` }} />
                           </div>
                         </div>
                         <div className="text-center min-w-[60px]">
-                          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Gap</p>
+                          <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Gap</p>
                           <p className={cn('text-lg font-bold', gap >= 3 ? 'text-red-500 dark:text-red-400' : 'text-amber-500 dark:text-amber-400')}>+{gap}</p>
                         </div>
                         <div className="text-center min-w-[60px]">
-                          <p className={cn('text-[10px]', 'text-[var(--app-text-muted)]')}>Timeline</p>
-                          <p className={cn('text-xs font-medium', 'text-[var(--app-text-secondary)]')}>{hf.timeline}</p>
+                          <p className={cn('text-[10px]', isDark ? 'text-white/25' : 'text-black/25')}>Timeline</p>
+                          <p className={cn('text-xs font-medium', isDark ? 'text-white/60' : 'text-black/60')}>{hf.timeline}</p>
                         </div>
                       </div>
                     </div>
@@ -352,7 +352,7 @@ function EmployeeAnalyticsPageInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.3 }}
-              className={cn('rounded-[var(--app-radius-xl)] border-2 border-purple-500/30 p-app-xl', isDark ? 'bg-purple-500/[0.03]' : 'bg-purple-50/30')}
+              className={cn('rounded-2xl border-2 border-purple-500/30 p-5', isDark ? 'bg-purple-500/[0.03]' : 'bg-purple-50/30')}
             >
               <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                 <Brain className="w-4 h-4 text-purple-400" /> AI Summary
@@ -364,9 +364,9 @@ function EmployeeAnalyticsPageInner() {
                   { icon: UserPlus, text: `${kpis.hiringForecast} new hires needed in Q2-Q3 to meet project demands`, color: 'text-blue-400' },
                   { icon: Heart, text: 'Employee engagement stable at 82% — focus on recognition programs', color: 'text-pink-400' },
                 ].map((insight, i) => (
-                  <div key={i} className={cn('flex items-start gap-2.5 p-2 rounded-[var(--app-radius-lg)]', isDark ? 'bg-white/[0.02]' : 'bg-white/50')}>
+                  <div key={i} className={cn('flex items-start gap-2.5 p-2 rounded-lg', isDark ? 'bg-white/[0.02]' : 'bg-white/50')}>
                     <insight.icon className={cn('w-4 h-4 mt-0.5 shrink-0', insight.color)} />
-                    <p className={cn('text-xs', 'text-[var(--app-text-secondary)]')}>{insight.text}</p>
+                    <p className={cn('text-xs', isDark ? 'text-white/60' : 'text-black/60')}>{insight.text}</p>
                   </div>
                 ))}
               </div>

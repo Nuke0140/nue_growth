@@ -235,14 +235,14 @@ function RevenueTooltip({ active, payload, label }: { active?: boolean; payload?
   if (!active || !payload || !payload.length) return null;
   return (
     <div
-      className="px-3 py-2 rounded-[var(--app-radius-lg)] text-xs"
+      className="px-3 py-2 rounded-lg text-xs"
       style={{
-        backgroundColor: 'var(--app-card-bg)',
-        border: '1px solid var(--app-border-strong)',
-        color: 'var(--app-text)',
+        backgroundColor: 'var(--ops-card-bg)',
+        border: '1px solid var(--ops-border-strong)',
+        color: 'var(--ops-text)',
       }}
     >
-      <p className="font-semibold" style={{ color: 'var(--app-text)' }}>{label}</p>
+      <p className="font-semibold" style={{ color: 'var(--ops-text)' }}>{label}</p>
       <p style={{ color: ACCENT }}>₹{payload[0].value}L</p>
     </div>
   );
@@ -279,7 +279,7 @@ function OpsDashboardPageInner() {
   return (
     <PageShell title="Operations Dashboard" icon={LayoutDashboard}>
       <motion.div
-        className="flex flex-col gap-app-2xl"
+        className="flex flex-col gap-6"
         variants={containerVariants}
         initial="hidden"
         animate="show"
@@ -352,7 +352,7 @@ function OpsDashboardPageInner() {
                     domain={[0, 100]}
                     tickFormatter={(v: number) => `${v}%`}
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'var(--app-border)' }}
+                    axisLine={{ stroke: 'var(--ops-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -369,11 +369,11 @@ function OpsDashboardPageInner() {
                       const d = payload[0].payload as { name: string; progress: number };
                       return (
                         <div
-                          className="px-3 py-2 rounded-[var(--app-radius-lg)] text-xs"
+                          className="px-3 py-2 rounded-lg text-xs"
                           style={{
-                            backgroundColor: 'var(--app-card-bg)',
-                            border: '1px solid var(--app-border-strong)',
-                            color: 'var(--app-text)',
+                            backgroundColor: 'var(--ops-card-bg)',
+                            border: '1px solid var(--ops-border-strong)',
+                            color: 'var(--ops-text)',
                           }}
                         >
                           <p className="font-semibold">{d.name}</p>
@@ -381,7 +381,7 @@ function OpsDashboardPageInner() {
                         </div>
                       );
                     }}
-                    cursor={{ fill: 'var(--app-hover-bg)' }}
+                    cursor={{ fill: 'var(--ops-hover-bg)' }}
                   />
                   <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={18}>
                     {projectProgressData.map((entry, idx) => {
@@ -403,7 +403,7 @@ function OpsDashboardPageInner() {
                   <Bar
                     dataKey="remaining"
                     stackId="stack"
-                    fill="var(--app-border)"
+                    fill="var(--ops-border)"
                     radius={[0, 4, 4, 0]}
                     barSize={18}
                   />
@@ -432,7 +432,7 @@ function OpsDashboardPageInner() {
                   <XAxis
                     dataKey="month"
                     tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    axisLine={{ stroke: 'var(--app-border)' }}
+                    axisLine={{ stroke: 'var(--ops-border)' }}
                     tickLine={false}
                   />
                   <YAxis
@@ -449,7 +449,7 @@ function OpsDashboardPageInner() {
                     strokeWidth={2.5}
                     fill="url(#revenueGradient)"
                     dot={{ r: 4, fill: ACCENT, strokeWidth: 0 }}
-                    activeDot={{ r: 6, fill: ACCENT, stroke: 'var(--app-bg)', strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: ACCENT, stroke: 'var(--ops-bg)', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -471,22 +471,22 @@ function OpsDashboardPageInner() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.25, delay: idx * 0.06 }}
-                    className="flex items-start gap-3 p-2.5 rounded-[var(--app-radius-lg)]"
+                    className="flex items-start gap-3 p-2.5 rounded-lg"
                     style={{
-                      backgroundColor: 'var(--app-hover-bg)',
-                      border: '1px solid var(--app-border)',
+                      backgroundColor: 'var(--ops-hover-bg)',
+                      border: '1px solid var(--ops-border)',
                     }}
                   >
                     <div
-                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0 mt-0.5"
+                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
                       style={{ backgroundColor: `${iconColor}14` }}
                     >
-                      <Icon className="w-4 h-4" style={{ color: iconColor }} />
+                      <Icon className="w-3.5 h-3.5" style={{ color: iconColor }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p
                         className="text-xs font-semibold"
-                        style={{ color: 'var(--app-text)' }}
+                        style={{ color: 'var(--ops-text)' }}
                       >
                         {item.label}
                       </p>
@@ -498,7 +498,7 @@ function OpsDashboardPageInner() {
                       </p>
                       <p
                         className="text-[11px] mt-0.5"
-                        style={{ color: 'var(--app-text-muted)' }}
+                        style={{ color: 'var(--ops-text-muted)' }}
                       >
                         {item.detail}
                       </p>
@@ -533,7 +533,7 @@ function OpsDashboardPageInner() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.25, delay: idx * 0.07 }}
-                    className="flex items-center gap-3 p-2.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer"
+                    className="flex items-center gap-3 p-2.5 rounded-lg transition-colors cursor-pointer"
                     style={{
                       backgroundColor: bgColor,
                       border: `1px solid ${borderColor}`,
@@ -548,7 +548,7 @@ function OpsDashboardPageInner() {
                     <div className="flex-1 min-w-0">
                       <p
                         className="text-xs font-semibold truncate"
-                        style={{ color: 'var(--app-text)' }}
+                        style={{ color: 'var(--ops-text)' }}
                       >
                         {alert.title}
                       </p>
@@ -591,25 +591,25 @@ function OpsDashboardPageInner() {
         </OpsCard>
 
         {/* ── Right: AI Intelligence Panel ───────────────────── */}
-        <div className="app-card app-glow p-6 h-full flex flex-col">
+        <div className="ops-card ops-glow p-6 h-full flex flex-col">
           {/* Section header with Sparkles */}
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="flex items-center justify-center w-10 h-10 rounded-[var(--app-radius-lg)] shrink-0"
-              style={{ backgroundColor: 'var(--app-accent-light)' }}
+              className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+              style={{ backgroundColor: 'var(--ops-accent-light)' }}
             >
               <Sparkles className="w-5 h-5" style={{ color: ACCENT }} />
             </div>
             <div className="min-w-0">
               <h3
                 className="text-sm font-semibold truncate"
-                style={{ color: 'var(--app-text)' }}
+                style={{ color: 'var(--ops-text)' }}
               >
                 AI Intelligence
               </h3>
               <p
                 className="text-xs mt-0.5 truncate"
-                style={{ color: 'var(--app-text-muted)' }}
+                style={{ color: 'var(--ops-text-muted)' }}
               >
                 Automated insights &amp; recommendations
               </p>
@@ -632,20 +632,20 @@ function OpsDashboardPageInner() {
                     delay: idx * 0.08,
                     ease: 'easeOut',
                   }}
-                  className="app-card-hover rounded-[var(--app-radius-lg)] p-3.5 cursor-pointer transition-colors"
+                  className="ops-card-hover rounded-xl p-3.5 cursor-pointer transition-colors"
                   style={{
-                    backgroundColor: 'var(--app-hover-bg)',
-                    border: '1px solid var(--app-border)',
+                    backgroundColor: 'var(--ops-hover-bg)',
+                    border: '1px solid var(--ops-border)',
                   }}
                 >
                   {/* Top row: severity icon + title + confidence badge */}
                   <div className="flex items-start gap-2.5">
                     <div
-                      className="flex items-center justify-center w-8 h-8 rounded-[var(--app-radius-lg)] shrink-0 mt-0.5"
+                      className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 mt-0.5"
                       style={{ backgroundColor: `${sevColor}14` }}
                     >
                       <SeverityIcon
-                        className="w-4 h-4"
+                        className="w-3.5 h-3.5"
                         style={{ color: sevColor }}
                       />
                     </div>
@@ -653,7 +653,7 @@ function OpsDashboardPageInner() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <p
                           className="text-xs font-bold leading-snug"
-                          style={{ color: 'var(--app-text)' }}
+                          style={{ color: 'var(--ops-text)' }}
                         >
                           {insight.title}
                         </p>
@@ -661,7 +661,7 @@ function OpsDashboardPageInner() {
                       {/* Confidence badge */}
                       <div className="flex items-center gap-1.5 mt-1">
                         <div
-                          className="flex items-center gap-1 px-1.5 py-0.5 rounded-[var(--app-radius-md)]"
+                          className="flex items-center gap-1 px-1.5 py-0.5 rounded-md"
                           style={{
                             backgroundColor: `${sevColor}14`,
                             border: `1px solid ${sevColor}30`,
@@ -675,10 +675,10 @@ function OpsDashboardPageInner() {
                           </span>
                         </div>
                         <span
-                          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-[var(--app-radius-md)]"
+                          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
                           style={{
-                            backgroundColor: 'var(--app-hover-bg)',
-                            color: 'var(--app-text-secondary)',
+                            backgroundColor: 'var(--ops-hover-bg)',
+                            color: 'var(--ops-text-secondary)',
                           }}
                         >
                           {insight.confidence}% confidence
@@ -691,7 +691,7 @@ function OpsDashboardPageInner() {
                   <p
                     className="text-xs mt-2 leading-relaxed line-clamp-2"
                     style={{
-                      color: 'var(--app-text-muted)',
+                      color: 'var(--ops-text-muted)',
                       display: '-webkit-box',
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
@@ -703,7 +703,7 @@ function OpsDashboardPageInner() {
 
                   {/* View Details link */}
                   <div className="flex items-center gap-1 mt-2.5">
-                    <ExternalLink className="w-4 h-4" style={{ color: ACCENT }} />
+                    <ExternalLink className="w-3 h-3" style={{ color: ACCENT }} />
                     <span
                       className="text-[11px] font-medium"
                       style={{ color: ACCENT }}
