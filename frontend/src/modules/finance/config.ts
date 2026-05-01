@@ -5,41 +5,37 @@ import type { FinancePage } from './types';
 import { useFinanceStore } from './finance-store';
 
 // Direct imports
-import FinanceDashboardPage from './finance-dashboard-page';
-import RevenuePage from './revenue-page';
+import DashboardPage from './finance-dashboard-page';
+import CashflowPage from './cashflow-page';
 import ReceivablesPage from './receivables-page';
 import PayablesPage from './payables-page';
-import InvoicesPage from './invoices-page';
+import RevenuePage from './revenue-page';
 import ExpensesPage from './expenses-page';
-import BudgetsPage from './budgets-page';
-import GstTaxPage from './gst-tax-page';
-import PayoutsPage from './payouts-page';
-import PayrollFinancePage from './payroll-finance-page';
-import CashflowPage from './cashflow-page';
 import PnlPage from './pnl-page';
 import ProfitabilityPage from './profitability-page';
+import InvoicesPage from './invoices-page';
+import PayrollPage from './payroll-finance-page';
 import ApprovalsPage from './approvals-page';
+import BudgetsPage from './budgets-page';
 import ForecastingPage from './forecasting-page';
-import AiFinanceIntelligencePage from './ai-finance-intelligence-page';
+import TaxPage from './gst-tax-page';
 
 // Icons
 import {
   LayoutDashboard,
-  TrendingUp,
-  HandCoins,
-  FileText,
-  Receipt,
-  CreditCard,
-  Wallet,
-  Users,
-  PiggyBank,
-  Landmark,
-  FileCheck2,
-  Target,
   Waves,
+  HandCoins,
+  Receipt,
+  TrendingUp,
+  CreditCard,
   BarChart3,
   FileSpreadsheet,
-  BrainCircuit,
+  FileText,
+  Users,
+  FileCheck2,
+  PiggyBank,
+  Target,
+  Landmark,
 } from 'lucide-react';
 
 export const financeConfig: ModuleConfig<FinancePage> = {
@@ -47,94 +43,88 @@ export const financeConfig: ModuleConfig<FinancePage> = {
   moduleName: 'Finance',
   moduleShortName: 'Finance',
   moduleIcon: BarChart3,
-  collapsibleSections: false,
-  lazyLoading: false,
+  collapsibleSections: true,
+  lazyLoading: true,
 
   navSections: [
     {
-      id: 'overview',
-      label: 'Overview',
+      id: 'dashboard',
+      label: 'Dashboard',
       items: [
-        { id: 'finance-dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
-        { id: 'ai-finance-intelligence', label: 'AI Finance Intelligence', icon: BrainCircuit, isAI: true },
+        { id: 'dashboard', label: 'CFO Dashboard', icon: LayoutDashboard },
       ],
     },
     {
-      id: 'money-in',
-      label: 'Money In',
+      id: 'cash-management',
+      label: 'Cash Management',
+      items: [
+        { id: 'cashflow', label: 'Cashflow', icon: Waves },
+        { id: 'receivables', label: 'Receivables', icon: HandCoins, badge: 5 },
+        { id: 'payables', label: 'Payables', icon: Receipt },
+      ],
+    },
+    {
+      id: 'financials',
+      label: 'Financials',
       items: [
         { id: 'revenue', label: 'Revenue', icon: TrendingUp },
-        { id: 'receivables', label: 'Receivables', icon: HandCoins },
-        { id: 'invoices', label: 'Invoices', icon: FileText },
-      ],
-    },
-    {
-      id: 'money-out',
-      label: 'Money Out',
-      items: [
-        { id: 'payables', label: 'Payables', icon: Receipt },
         { id: 'expenses', label: 'Expenses', icon: CreditCard },
-        { id: 'payouts', label: 'Payouts', icon: Wallet },
-        { id: 'payroll-finance', label: 'Payroll Finance', icon: Users },
-      ],
-    },
-    {
-      id: 'planning-control',
-      label: 'Planning & Control',
-      items: [
-        { id: 'budgets', label: 'Budgets', icon: PiggyBank },
-        { id: 'gst-tax', label: 'GST & Tax', icon: Landmark },
-        { id: 'approvals', label: 'Approvals', icon: FileCheck2, badge: 3 },
-        { id: 'forecasting', label: 'Forecasting', icon: Target },
-      ],
-    },
-    {
-      id: 'statements',
-      label: 'Statements',
-      items: [
-        { id: 'cashflow', label: 'Cash Flow', icon: Waves },
         { id: 'pnl', label: 'P&L', icon: BarChart3 },
         { id: 'profitability', label: 'Profitability', icon: FileSpreadsheet },
+      ],
+    },
+    {
+      id: 'operations',
+      label: 'Operations',
+      items: [
+        { id: 'invoices', label: 'Invoices', icon: FileText },
+        { id: 'payroll', label: 'Payroll', icon: Users },
+        { id: 'approvals', label: 'Approvals', icon: FileCheck2, badge: 3 },
+      ],
+    },
+    {
+      id: 'planning',
+      label: 'Planning',
+      items: [
+        { id: 'budgets', label: 'Budgets', icon: PiggyBank },
+        { id: 'forecasting', label: 'Forecasting', icon: Target, isAI: true },
+        { id: 'tax', label: 'Tax', icon: Landmark, badge: 2 },
       ],
     },
   ],
 
   pageComponents: {
-    'finance-dashboard': FinanceDashboardPage,
-    'revenue': RevenuePage,
+    'dashboard': DashboardPage,
+    'cashflow': CashflowPage,
     'receivables': ReceivablesPage,
     'payables': PayablesPage,
-    'invoices': InvoicesPage,
+    'revenue': RevenuePage,
     'expenses': ExpensesPage,
-    'budgets': BudgetsPage,
-    'gst-tax': GstTaxPage,
-    'payouts': PayoutsPage,
-    'payroll-finance': PayrollFinancePage,
-    'cashflow': CashflowPage,
     'pnl': PnlPage,
     'profitability': ProfitabilityPage,
+    'invoices': InvoicesPage,
+    'payroll': PayrollPage,
     'approvals': ApprovalsPage,
+    'budgets': BudgetsPage,
     'forecasting': ForecastingPage,
-    'ai-finance-intelligence': AiFinanceIntelligencePage,
+    'tax': TaxPage,
   },
 
   allPageLabels: {
-    'finance-dashboard': 'Finance Dashboard',
-    'ai-finance-intelligence': 'AI Finance Intelligence',
-    'revenue': 'Revenue',
+    'dashboard': 'CFO Dashboard',
+    'cashflow': 'Cashflow',
     'receivables': 'Receivables',
-    'invoices': 'Invoices',
     'payables': 'Payables',
+    'revenue': 'Revenue',
     'expenses': 'Expenses',
-    'payouts': 'Payouts',
-    'payroll-finance': 'Payroll Finance',
-    'budgets': 'Budgets',
-    'gst-tax': 'GST & Tax',
-    'approvals': 'Approvals',
-    'forecasting': 'Forecasting',
-    'cashflow': 'Cash Flow',
     'pnl': 'P&L',
     'profitability': 'Profitability',
+    'invoices': 'Invoices',
+    'payroll': 'Payroll',
+    'approvals': 'Approvals',
+    'budgets': 'Budgets',
+    'forecasting': 'Forecasting',
+    'tax': 'Tax',
   },
 
   useStore: () => {

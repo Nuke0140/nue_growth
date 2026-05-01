@@ -1,28 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFinanceStore } from './finance-store';
 import { useAuthStore } from '@/store/auth-store';
-import FinanceDashboardPage from './finance-dashboard-page';
-import RevenuePage from './revenue-page';
+import { CSS, ANIMATION, MODULE_ACCENTS } from '@/styles/design-tokens';
+import { cn } from '@/lib/utils';
+import { ErrorBoundary } from '@/components/shared/error-boundary';
+
+// Page imports
+import DashboardPage from './finance-dashboard-page';
+import CashflowPage from './cashflow-page';
 import ReceivablesPage from './receivables-page';
 import PayablesPage from './payables-page';
-import InvoicesPage from './invoices-page';
+import RevenuePage from './revenue-page';
 import ExpensesPage from './expenses-page';
-import BudgetsPage from './budgets-page';
-import GstTaxPage from './gst-tax-page';
-import PayoutsPage from './payouts-page';
-import PayrollFinancePage from './payroll-finance-page';
-import CashflowPage from './cashflow-page';
 import PnlPage from './pnl-page';
 import ProfitabilityPage from './profitability-page';
+import InvoicesPage from './invoices-page';
+import PayrollPage from './payroll-finance-page';
 import ApprovalsPage from './approvals-page';
+import BudgetsPage from './budgets-page';
 import ForecastingPage from './forecasting-page';
-import AiFinanceIntelligencePage from './ai-finance-intelligence-page';
+import TaxPage from './gst-tax-page';
+
 import {
   Search, Bell, Moon, Sun,
   Menu, ChevronRight, Command, Sparkles, SlidersHorizontal,
@@ -30,14 +34,12 @@ import {
   Home, ArrowLeft, ArrowRight, IndianRupee,
   LayoutDashboard, TrendingUp, HandCoins, Receipt,
   FileText, CreditCard, PiggyBank, Landmark,
-  Wallet, Users, Waves, BarChart3,
-  Target, BrainCircuit, FileCheck2, FileSpreadsheet, Plus
+  Users, Waves, BarChart3,
+  Target, FileCheck2, FileSpreadsheet, Plus, AlertTriangle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import { ErrorBoundary } from '@/components/shared/error-boundary';
 
 import type { FinancePage } from './types';
 
@@ -46,8 +48,8 @@ interface NavItem {
   id: FinancePage;
   label: string;
   icon: React.ElementType;
-  badge?: string;
-  badgeColor?: string;
+  badge?: number;
+  isAI?: boolean;
 }
 
 interface NavSection {
@@ -57,73 +59,69 @@ interface NavSection {
 
 const navSections: NavSection[] = [
   {
-    title: 'Overview',
+    title: 'Dashboard',
     items: [
-      { id: 'finance-dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
-      { id: 'ai-finance-intelligence', label: 'AI Finance Intelligence', icon: BrainCircuit, badge: 'AI', badgeColor: 'from-violet-500/20 to-purple-500/20' },
+      { id: 'dashboard', label: 'CFO Dashboard', icon: LayoutDashboard },
     ],
   },
   {
-    title: 'Money In',
+    title: 'Cash Management',
+    items: [
+      { id: 'cashflow', label: 'Cashflow', icon: Waves },
+      { id: 'receivables', label: 'Receivables', icon: HandCoins, badge: 5 },
+      { id: 'payables', label: 'Payables', icon: Receipt },
+    ],
+  },
+  {
+    title: 'Financials',
     items: [
       { id: 'revenue', label: 'Revenue', icon: TrendingUp },
-      { id: 'receivables', label: 'Receivables', icon: HandCoins },
-      { id: 'invoices', label: 'Invoices', icon: FileText },
-    ],
-  },
-  {
-    title: 'Money Out',
-    items: [
-      { id: 'payables', label: 'Payables', icon: Receipt },
       { id: 'expenses', label: 'Expenses', icon: CreditCard },
-      { id: 'payouts', label: 'Payouts', icon: Wallet },
-      { id: 'payroll-finance', label: 'Payroll Finance', icon: Users },
-    ],
-  },
-  {
-    title: 'Planning & Control',
-    items: [
-      { id: 'budgets', label: 'Budgets', icon: PiggyBank },
-      { id: 'gst-tax', label: 'GST & Tax', icon: Landmark },
-      { id: 'approvals', label: 'Approvals', icon: FileCheck2, badge: '3', badgeColor: 'from-red-500/20 to-orange-500/20' },
-      { id: 'forecasting', label: 'Forecasting', icon: Target },
-    ],
-  },
-  {
-    title: 'Statements',
-    items: [
-      { id: 'cashflow', label: 'Cash Flow', icon: Waves },
       { id: 'pnl', label: 'P&L', icon: BarChart3 },
       { id: 'profitability', label: 'Profitability', icon: FileSpreadsheet },
+    ],
+  },
+  {
+    title: 'Operations',
+    items: [
+      { id: 'invoices', label: 'Invoices', icon: FileText },
+      { id: 'payroll', label: 'Payroll', icon: Users },
+      { id: 'approvals', label: 'Approvals', icon: FileCheck2, badge: 3 },
+    ],
+  },
+  {
+    title: 'Planning',
+    items: [
+      { id: 'budgets', label: 'Budgets', icon: PiggyBank },
+      { id: 'forecasting', label: 'Forecasting', icon: Target, isAI: true },
+      { id: 'tax', label: 'Tax', icon: Landmark, badge: 2 },
     ],
   },
 ];
 
 const allNavItems: NavItem[] = navSections.flatMap(s => s.items);
 
+// ---- Page Content Router ----
+const pageComponents: Record<FinancePage, React.ComponentType> = {
+  dashboard: DashboardPage,
+  cashflow: CashflowPage,
+  receivables: ReceivablesPage,
+  payables: PayablesPage,
+  revenue: RevenuePage,
+  expenses: ExpensesPage,
+  pnl: PnlPage,
+  profitability: ProfitabilityPage,
+  invoices: InvoicesPage,
+  payroll: PayrollPage,
+  approvals: ApprovalsPage,
+  budgets: BudgetsPage,
+  forecasting: ForecastingPage,
+  tax: TaxPage,
+};
+
 function PageContent() {
   const { currentPage } = useFinanceStore();
-
-  const pageComponents: Record<string, React.ComponentType> = {
-    'finance-dashboard': FinanceDashboardPage,
-    'revenue': RevenuePage,
-    'receivables': ReceivablesPage,
-    'payables': PayablesPage,
-    'invoices': InvoicesPage,
-    'expenses': ExpensesPage,
-    'budgets': BudgetsPage,
-    'gst-tax': GstTaxPage,
-    'payouts': PayoutsPage,
-    'payroll-finance': PayrollFinancePage,
-    'cashflow': CashflowPage,
-    'pnl': PnlPage,
-    'profitability': ProfitabilityPage,
-    'approvals': ApprovalsPage,
-    'forecasting': ForecastingPage,
-    'ai-finance-intelligence': AiFinanceIntelligencePage,
-  };
-
-  const PageComponent = pageComponents[currentPage] || null;
+  const PageComponent = pageComponents[currentPage];
 
   if (!PageComponent) return null;
 
@@ -131,10 +129,10 @@ function PageContent() {
     <AnimatePresence mode="wait">
       <motion.div
         key={currentPage}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        initial={ANIMATION.pageVariants.initial}
+        animate={ANIMATION.pageVariants.animate}
+        exit={ANIMATION.pageVariants.exit}
+        transition={{ duration: 0.25, ease: ANIMATION.ease }}
         className="h-full"
       >
         <PageComponent />
@@ -143,12 +141,84 @@ function PageContent() {
   );
 }
 
+// ---- Sidebar Nav Item ----
+function SidebarNavItem({ item, isActive, onClick }: {
+  item: NavItem;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        backgroundColor: isActive
+          ? CSS.activeBg
+          : hovered
+            ? CSS.hoverBg
+            : 'transparent',
+        color: isActive ? CSS.text : CSS.textSecondary,
+      }}
+      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group"
+    >
+      <item.icon
+        style={{ color: isActive ? MODULE_ACCENTS.finance.primary : CSS.textMuted }}
+        className="w-[18px] h-[18px] transition-colors shrink-0"
+      />
+      <span className="truncate flex-1 text-left">{item.label}</span>
+      {item.isAI && (
+        <Sparkles
+          style={{ color: MODULE_ACCENTS.finance.primary }}
+          className="w-3.5 h-3.5 shrink-0"
+        />
+      )}
+      {item.badge !== undefined && (
+        <Badge
+          style={{
+            backgroundColor: CSS.dangerBg,
+            color: CSS.danger,
+            border: 'none',
+            fontSize: '10px',
+            lineHeight: 1,
+            minWidth: 18,
+            height: 18,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: CSS.radiusFull,
+          }}
+          className="ml-auto px-1.5 py-0"
+        >
+          {item.badge}
+        </Badge>
+      )}
+    </button>
+  );
+}
+
+// ---- Main Layout ----
 export default function FinanceLayout() {
+  // useTheme ONLY for toggle logic, NOT for styling
   const { theme, setTheme } = useTheme();
-  const { user, logout, closeModule } = useAuthStore();
-  const { currentPage, sidebarOpen, setSidebarOpen, goBack, goForward, canGoBack, canGoForward, navigateTo } = useFinanceStore();
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const isDark = theme === 'dark';
+
+  const { user, logout, closeModule } = useAuthStore();
+  const {
+    currentPage,
+    sidebarOpen,
+    setSidebarOpen,
+    goBack,
+    goForward,
+    canGoBack,
+    canGoForward,
+    navigateTo,
+    unreadAlertCount,
+  } = useFinanceStore();
+
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const isMobile = useIsMobile();
 
   const canBack = canGoBack();
@@ -156,17 +226,26 @@ export default function FinanceLayout() {
 
   const currentLabel = allNavItems.find(n => n.id === currentPage)?.label || 'Finance';
 
+  const handleNavClick = useCallback((page: FinancePage) => {
+    navigateTo(page);
+    if (isMobile) setSidebarOpen(false);
+  }, [navigateTo, isMobile, setSidebarOpen]);
+
   return (
     <TooltipProvider delayDuration={300}>
-      <div className={cn(
-        'h-screen flex flex-col overflow-hidden transition-colors duration-300',
-        isDark ? 'bg-[#0a0a0a] text-white' : 'bg-[#fafafa] text-black'
-      )}>
+      <div
+        className="h-screen flex flex-col overflow-hidden"
+        style={{ backgroundColor: CSS.bg, color: CSS.text }}
+      >
         {/* ========== Top Bar ========== */}
-        <header className={cn(
-          'h-14 border-b flex items-center justify-between px-4 gap-4 shrink-0 transition-colors',
-          isDark ? 'bg-[#0a0a0a] border-white/[0.06]' : 'bg-white border-black/[0.06]'
-        )}>
+        <header
+          className="h-14 flex items-center justify-between px-4 gap-4 shrink-0"
+          style={{
+            backgroundColor: CSS.topbarBg,
+            borderBottom: `1px solid ${CSS.topbarBorder}`,
+          }}
+        >
+          {/* Left Side */}
           <div className="flex items-center gap-1.5">
             {/* Home Button */}
             <Tooltip>
@@ -175,25 +254,19 @@ export default function FinanceLayout() {
                   variant="ghost"
                   size="icon"
                   onClick={closeModule}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg',
-                    isDark
-                      ? 'hover:bg-white/[0.06] text-white/50 hover:text-white'
-                      : 'hover:bg-black/[0.06] text-black/50 hover:text-black'
-                  )}
+                  className="shrink-0 h-8 w-8 rounded-lg"
+                  style={{ color: CSS.textSecondary }}
                 >
                   <Home className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Home Dashboard</p>
-              </TooltipContent>
+              <TooltipContent side="bottom">Home Dashboard</TooltipContent>
             </Tooltip>
 
-            <div className={cn(
-              'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
-            )} />
+            <div
+              className="w-px h-5 mx-1 hidden md:block"
+              style={{ backgroundColor: CSS.divider }}
+            />
 
             {/* Back Button */}
             <Tooltip>
@@ -203,19 +276,16 @@ export default function FinanceLayout() {
                   size="icon"
                   onClick={goBack}
                   disabled={!canBack}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
-                    !canBack && 'opacity-30 cursor-not-allowed',
-                    canBack && isDark && 'hover:bg-white/[0.06]',
-                    canBack && !isDark && 'hover:bg-black/[0.06]'
-                  )}
+                  className="shrink-0 h-8 w-8 rounded-lg"
+                  style={{
+                    color: canBack ? CSS.textSecondary : CSS.textDisabled,
+                    opacity: canBack ? 1 : 0.3,
+                  }}
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Go Back</p>
-              </TooltipContent>
+              <TooltipContent side="bottom">Go Back</TooltipContent>
             </Tooltip>
 
             {/* Forward Button */}
@@ -226,66 +296,82 @@ export default function FinanceLayout() {
                   size="icon"
                   onClick={goForward}
                   disabled={!canForward}
-                  className={cn(
-                    'shrink-0 h-8 w-8 rounded-lg transition-opacity',
-                    !canForward && 'opacity-30 cursor-not-allowed',
-                    canForward && isDark && 'hover:bg-white/[0.06]',
-                    canForward && !isDark && 'hover:bg-black/[0.06]'
-                  )}
+                  className="shrink-0 h-8 w-8 rounded-lg"
+                  style={{
+                    color: canForward ? CSS.textSecondary : CSS.textDisabled,
+                    opacity: canForward ? 1 : 0.3,
+                  }}
                 >
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Go Forward</p>
-              </TooltipContent>
+              <TooltipContent side="bottom">Go Forward</TooltipContent>
             </Tooltip>
 
-            <div className={cn(
-              'w-px h-5 mx-1 hidden md:block',
-              isDark ? 'bg-white/[0.08]' : 'bg-black/[0.08]'
-            )} />
+            <div
+              className="w-px h-5 mx-1 hidden md:block"
+              style={{ backgroundColor: CSS.divider }}
+            />
 
-            {/* Mobile sidebar toggle */}
+            {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden shrink-0 h-8 w-8 rounded-lg"
+              style={{ color: CSS.textSecondary }}
             >
               <Menu className="w-4 h-4" />
             </Button>
 
             {/* Logo & Breadcrumb */}
             <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="DigiNue" width={24} height={16} className="object-contain rounded-sm" />
-              <span className={cn('text-sm font-semibold tracking-wide hidden sm:block', isDark ? 'text-white/60' : 'text-black/60')}>
+              <Image
+                src="/logo.png"
+                alt="NueEra"
+                width={24}
+                height={16}
+                className="object-contain rounded-sm"
+              />
+              <span
+                className="text-sm font-semibold tracking-wide hidden sm:block"
+                style={{ color: CSS.textMuted }}
+              >
                 Finance
               </span>
-              <ChevronRight className={cn('w-3 h-3 hidden sm:block', isDark ? 'text-white/20' : 'text-black/20')} />
-              <span className="text-sm font-medium">{currentLabel}</span>
+              <ChevronRight className="w-3 h-3 hidden sm:block" style={{ color: CSS.textDisabled }} />
+              <span className="text-sm font-medium" style={{ color: CSS.text }}>
+                {currentLabel}
+              </span>
             </div>
           </div>
 
+          {/* Right Side */}
           <div className="flex items-center gap-2">
             {/* Search */}
-            <div className={cn(
-              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border w-64 transition-colors',
-              isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-            )}>
-              <Search className={cn('w-4 h-4 shrink-0', isDark ? 'text-white/30' : 'text-black/30')} />
+            <div
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl w-64"
+              style={{
+                backgroundColor: CSS.inputBg,
+                border: `1px solid ${CSS.borderLight}`,
+              }}
+            >
+              <Search className="w-4 h-4 shrink-0" style={{ color: CSS.textDisabled }} />
               <input
                 type="text"
                 placeholder="Search finance... (⌘K)"
-                className={cn(
-                  'bg-transparent text-sm focus:outline-none w-full',
-                  isDark ? 'text-white/80 placeholder:text-white/25' : 'text-black/80 placeholder:text-black/25'
-                )}
+                className="bg-transparent text-sm focus:outline-none w-full"
+                style={{
+                  color: CSS.text,
+                }}
               />
-              <kbd className={cn(
-                'hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono',
-                isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30'
-              )}>
+              <kbd
+                className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono"
+                style={{
+                  backgroundColor: CSS.hoverBg,
+                  color: CSS.textMuted,
+                }}
+              >
                 <Command className="w-2.5 h-2.5" />K
               </kbd>
             </div>
@@ -293,7 +379,12 @@ export default function FinanceLayout() {
             {/* Date Range */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden md:flex h-8 w-8 rounded-lg"
+                  style={{ color: CSS.textSecondary }}
+                >
                   <Calendar className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -303,129 +394,173 @@ export default function FinanceLayout() {
             {/* Filters */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden md:flex h-8 w-8 rounded-lg"
+                  style={{ color: CSS.textSecondary }}
+                >
                   <SlidersHorizontal className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Filters</TooltipContent>
             </Tooltip>
 
-            {/* Export */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 rounded-lg">
-                  <FileSpreadsheet className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Export</TooltipContent>
-            </Tooltip>
-
-            {/* Quick Create Invoice */}
+            {/* Quick Create */}
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => { navigateTo('invoices'); if (isMobile) setSidebarOpen(false); }}
+                  onClick={() => handleNavClick('invoices')}
                   className="hidden md:flex h-8 w-8 rounded-lg"
+                  style={{ color: CSS.textSecondary }}
                 >
                   <Plus className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Quick Create Invoice</TooltipContent>
+              <TooltipContent>Create Invoice</TooltipContent>
             </Tooltip>
 
-            {/* Notifications */}
+            {/* Alerts Bell */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-lg">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative h-8 w-8 rounded-lg"
+                  style={{ color: CSS.textSecondary }}
+                >
                   <Bell className="w-4 h-4" />
-                  <span className={cn(
-                    'absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center',
-                    isDark ? 'bg-white text-black' : 'bg-black text-white'
-                  )}>8</span>
+                  {unreadAlertCount > 0 && (
+                    <span
+                      className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full text-[9px] font-bold flex items-center justify-center px-1"
+                      style={{
+                        backgroundColor: CSS.danger,
+                        color: '#fff',
+                      }}
+                    >
+                      {unreadAlertCount > 9 ? '9+' : unreadAlertCount}
+                    </span>
+                  )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Notifications</TooltipContent>
+              <TooltipContent>
+                {unreadAlertCount > 0 ? `${unreadAlertCount} unread alerts` : 'No new alerts'}
+              </TooltipContent>
             </Tooltip>
 
-            {/* AI CFO Assistant */}
+            {/* AI CFO Sparkles */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative hidden md:flex h-8 w-8 rounded-lg">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative hidden md:flex h-8 w-8 rounded-lg"
+                  style={{ color: MODULE_ACCENTS.finance.primary }}
+                >
                   <Sparkles className="w-4 h-4" />
                   <motion.div
                     className="absolute inset-0 rounded-lg"
-                    animate={{ boxShadow: ['0 0 0 0 rgba(139,92,246,0)', '0 0 0 4px rgba(139,92,246,0.1)', '0 0 0 0 rgba(139,92,246,0)'] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    animate={{
+                      boxShadow: [
+                        `0 0 0 0 rgba(139,92,246,0)`,
+                        `0 0 0 4px rgba(139,92,246,0.1)`,
+                        `0 0 0 0 rgba(139,92,246,0)`,
+                      ],
+                    }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                   />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>AI CFO Assistant</TooltipContent>
             </Tooltip>
 
-            {/* Theme Toggle */}
+            {/* Theme Toggle — useTheme only for setTheme, NOT for styling */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
               className="h-8 w-8 rounded-lg"
+              style={{ color: CSS.textSecondary }}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
-            {/* User Avatar */}
+            {/* User Avatar & Menu */}
             <div className="relative">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className={cn(
-                  'h-8 w-8 rounded-lg font-bold text-xs',
-                  isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-                )}
+                className="h-8 w-8 rounded-lg font-bold text-xs"
+                style={{
+                  backgroundColor: MODULE_ACCENTS.finance.primary,
+                  color: '#fff',
+                }}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </Button>
-              {showUserMenu && (
-                <motion.div
-                  initial={{ opacity: 0, y: -5, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={cn(
-                    'absolute right-0 top-11 w-56 rounded-xl border shadow-xl p-2 z-50',
-                    isDark ? 'bg-[#1a1a1a] border-white/[0.08]' : 'bg-white border-black/[0.08]'
-                  )}
-                >
-                  <div className={cn('px-3 py-2 border-b mb-1', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                    <p className="text-sm font-semibold">{user?.name || 'User'}</p>
-                    <p className={cn('text-xs', isDark ? 'text-white/40' : 'text-black/40')}>{user?.email || ''}</p>
-                  </div>
-                  <button
-                    onClick={() => { logout(); setShowUserMenu(false); }}
-                    className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
-                      isDark ? 'text-white/60 hover:text-white hover:bg-white/[0.06]' : 'text-black/60 hover:text-black hover:bg-black/[0.06]'
-                    )}
+
+              <AnimatePresence>
+                {showUserMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -5, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -5, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-11 w-56 rounded-xl p-2 z-50"
+                    style={{
+                      backgroundColor: CSS.elevated,
+                      border: `1px solid ${CSS.border}`,
+                      boxShadow: CSS.shadowDropdown,
+                    }}
                   >
-                    <LogOut className="w-4 h-4" />
-                    Sign Out
-                  </button>
-                </motion.div>
-              )}
+                    <div
+                      className="px-3 py-2 mb-1"
+                      style={{ borderBottom: `1px solid ${CSS.divider}` }}
+                    >
+                      <p className="text-sm font-semibold" style={{ color: CSS.text }}>
+                        {user?.name || 'User'}
+                      </p>
+                      <p className="text-xs" style={{ color: CSS.textMuted }}>
+                        {user?.email || ''}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => { logout(); setShowUserMenu(false); }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors"
+                      style={{ color: CSS.textSecondary }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg;
+                        (e.currentTarget as HTMLElement).style.color = CSS.text;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+                        (e.currentTarget as HTMLElement).style.color = CSS.textSecondary;
+                      }}
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>
 
-        {/* ========== Main Content ========== */}
+        {/* ========== Content Area ========== */}
         <div className="flex-1 flex overflow-hidden">
-          {/* Mobile backdrop */}
+          {/* Mobile Backdrop */}
           <AnimatePresence>
             {isMobile && sidebarOpen && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                className="fixed inset-0 z-40 md:hidden"
+                style={{ backgroundColor: CSS.overlay }}
                 onClick={() => setSidebarOpen(false)}
               />
             )}
@@ -438,89 +573,71 @@ export default function FinanceLayout() {
                 initial={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
                 animate={isMobile ? { x: 0 } : { width: 256, opacity: 1 }}
                 exit={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.2, ease: ANIMATION.ease }}
                 className={cn(
                   'border-r shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
                   isMobile && 'w-[280px]',
-                  isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white'
                 )}
+                style={{
+                  backgroundColor: CSS.sidebarBg,
+                  borderRight: `1px solid ${CSS.border}`,
+                }}
               >
+                {/* Nav Sections */}
                 <nav className="flex-1 py-3 px-2 overflow-y-auto">
                   {navSections.map((section, sectionIdx) => (
                     <div key={section.title} className="mb-2">
                       <div className="px-3 pt-3 pb-1.5">
-                        <span className={cn(
-                          'text-[10px] font-semibold tracking-wider uppercase',
-                          isDark ? 'text-white/25' : 'text-black/25'
-                        )}>
+                        <span
+                          className="text-[10px] font-semibold tracking-wider uppercase"
+                          style={{ color: CSS.textMuted }}
+                        >
                           {section.title}
                         </span>
                       </div>
 
                       <div className="space-y-0.5">
-                        {section.items.map((item) => {
-                          const isActive = currentPage === item.id;
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => { navigateTo(item.id); if (isMobile) setSidebarOpen(false); }}
-                              className={cn(
-                                'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group',
-                                isActive
-                                  ? isDark
-                                    ? 'bg-white/[0.08] text-white font-medium'
-                                    : 'bg-black/[0.06] text-black font-medium'
-                                  : isDark
-                                    ? 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
-                                    : 'text-black/50 hover:text-black/80 hover:bg-black/[0.04]'
-                              )}
-                            >
-                              <item.icon className={cn(
-                                'w-4.5 h-4.5 transition-colors shrink-0',
-                                isActive
-                                  ? isDark ? 'text-white' : 'text-black'
-                                  : isDark ? 'text-white/30 group-hover:text-white/60' : 'text-black/30 group-hover:text-black/60'
-                              )} />
-                              <span className="truncate">{item.label}</span>
-                              {item.badge && (
-                                <Badge variant="secondary" className={cn(
-                                  'ml-auto text-[9px] px-1.5 py-0 border-0 bg-gradient-to-r',
-                                  item.badgeColor || '',
-                                  isDark ? 'text-purple-300' : 'text-purple-600'
-                                )}>
-                                  {item.badge}
-                                </Badge>
-                              )}
-                            </button>
-                          );
-                        })}
+                        {section.items.map((item) => (
+                          <SidebarNavItem
+                            key={item.id}
+                            item={item}
+                            isActive={currentPage === item.id}
+                            onClick={() => handleNavClick(item.id)}
+                          />
+                        ))}
                       </div>
 
                       {sectionIdx < navSections.length - 1 && (
-                        <div className={cn(
-                          'mx-3 mt-3 mb-1 border-t',
-                          isDark ? 'border-white/[0.04]' : 'border-black/[0.04]'
-                        )} />
+                        <div
+                          className="mx-3 mt-3 mb-1"
+                          style={{ borderTop: `1px solid ${CSS.borderLight}` }}
+                        />
                       )}
                     </div>
                   ))}
                 </nav>
 
-                {/* Sidebar Footer */}
-                <div className={cn(
-                  'p-3 border-t space-y-3',
-                  isDark ? 'border-white/[0.06]' : 'border-black/[0.06]'
-                )}>
-                  <div className={cn(
-                    'rounded-xl p-3 border',
-                    isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]'
-                  )}>
+                {/* Sidebar Footer — Finance Alert Card */}
+                <div
+                  className="p-3 space-y-3"
+                  style={{ borderTop: `1px solid ${CSS.border}` }}
+                >
+                  <div
+                    className="rounded-xl p-3"
+                    style={{
+                      backgroundColor: CSS.warningBg,
+                      border: `1px solid ${CSS.borderLight}`,
+                    }}
+                  >
                     <div className="flex items-center gap-2 mb-2">
-                      <IndianRupee className="w-4 h-4 text-emerald-400" />
-                      <span className="text-xs font-medium">Finance Alert</span>
+                      <AlertTriangle className="w-4 h-4" style={{ color: CSS.warning }} />
+                      <span className="text-xs font-medium" style={{ color: CSS.warning }}>
+                        Finance Alert
+                      </span>
                     </div>
-                    <p className={cn('text-[11px] leading-relaxed', isDark ? 'text-white/40' : 'text-black/40')}>
-                      GSTR-1 for March is overdue — file by April 20 to avoid ₹200/day penalty. 8 invoices overdue totaling ₹87.5L.
+                    <p className="text-[11px] leading-relaxed" style={{ color: CSS.textSecondary }}>
+                      GSTR-1 for March is overdue — file by April 20 to avoid ₹200/day penalty.
+                      8 invoices overdue totaling ₹87.5L.
                     </p>
                   </div>
                 </div>
@@ -528,8 +645,11 @@ export default function FinanceLayout() {
             )}
           </AnimatePresence>
 
-          {/* Page Content */}
-          <main className="flex-1 overflow-hidden">
+          {/* Main Content */}
+          <main
+            className="flex-1 overflow-hidden"
+            style={{ backgroundColor: CSS.bg }}
+          >
             <ErrorBoundary>
               <PageContent />
             </ErrorBoundary>

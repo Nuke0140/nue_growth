@@ -1,241 +1,275 @@
-'use client';
-
+import { useState, useMemo } from 'react';
+import { Target, TrendingUp, TrendingDown, Sparkles, Zap, AlertTriangle, Shield, Activity, BarChart3 } from 'lucide-react';
+import { PageShell } from '@/components/shared/page-shell';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { FilterBar } from '@/components/shared/filter-bar';
+import { CSS } from '@/styles/design-tokens';
 import { formatINR } from './utils';
+import { forecastData, scenarioSimulations } from './data/mock-data';
+import { useFinanceStore } from './finance-store';
 
-import { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  TrendingUp, TrendingDown, Minus, BrainCircuit, ArrowUpRight, ArrowDownRight,
-  Shield, AlertTriangle, Sparkles, Zap,
-} from 'lucide-react';
-import { forecastData } from '@/modules/finance/data/mock-data';
-import type { ForecastEntry } from '@/modules/finance/types';
-
-
-function formatForecastValue(metric: string, value: number): string {
-  if (metric === 'Cash Runway' || metric === 'Profit Margin') return `${value.toFixed(1)}`;
-  if (metric === 'Receivables Risk') return formatINR(value);
-  return formatINR(value);
-}
-
-const trendIcons = {
-  up: TrendingUp,
-  down: TrendingDown,
-  stable: Minus,
-};
-
-const trendColors = {
-  up: 'text-emerald-500',
-  down: 'text-red-500',
-  stable: 'text-amber-500',
-};
+type QuickScenario = 'revenue-drop' | 'hiring-3' | 'cost-cut' | null;
 
 export default function ForecastingPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-  const today = new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  const [activeQuick, setActiveQuick] = useState<QuickScenario>(null);
+  const [simulated, setSimulated] = useState<string | null>(null);
+  const navigate = useFinanceStore((s) => s.navigateTo);
 
-  const avgConfidence = useMemo(() => {
-    const total = forecastData.reduce((s, f) => s + f.confidence, 0);
-    return (total / forecastData.length).toFixed(0);
-  }, []);
+  const revenueMetric = forecastData.find((f) => f.metric === 'Revenue')!;
+  const expenseMetric = forecastData.find((f) => f.metric === 'Expenses')!;
+  const profitMetric = forecastData.find((f) => f.metric === 'Profit')!;
 
-  const riskIndicators = useMemo(() => {
-    return forecastData.filter(f => f.confidence < 75 || (f.trend === 'down' && (f.metric === 'Cash Runway' || f.metric === 'Profit Margin')));
-  }, []);
+  const runwayMetric = useMemo(() => {
+    const runway = profitMetric.current > 0 ? (profitMetric.current * 3) / expenseMetric.current : 2.8;
+    return runway.toFixed(1);
+  }, [profitMetric, expenseMetric]);
 
-  const bestCaseSummary = useMemo(() => {
-    const rev = forecastData.find(f => f.metric === 'Revenue');
-    const margin = forecastData.find(f => f.metric === 'Profit Margin');
-    const runway = forecastData.find(f => f.metric === 'Cash Runway');
-    return { revenue: rev?.bestCase ?? 0, margin: margin?.bestCase ?? 0, runway: runway?.bestCase ?? 0 };
-  }, []);
+  const confidenceColor = (c: number) =>
+    c > 80 ? CSS.success : c > 60 ? CSS.info : CSS.warning;
 
-  const worstCaseSummary = useMemo(() => {
-    const rev = forecastData.find(f => f.metric === 'Revenue');
-    const margin = forecastData.find(f => f.metric === 'Profit Margin');
-    const runway = forecastData.find(f => f.metric === 'Cash Runway');
-    return { revenue: rev?.worstCase ?? 0, margin: margin?.worstCase ?? 0, runway: runway?.worstCase ?? 0 };
-  }, []);
+  const trendIcon = (t: string) =>
+    t === 'up' ? <TrendingUp size={14} style={{ color: CSS.success }} /> :
+    t === 'down' ? <TrendingDown size={14} style={{ color: CSS.danger }} /> :
+    <Activity size={14} style={{ color: CSS.info }} />;
+
+  const riskItems = useMemo(
+    () => forecastData.filter((f) => f.confidence < 70 || f.trend === 'down'),
+    []
+  );
+
+  const quickScenarioMap: Record<string, typeof scenarioSimulations[0] | undefined> = {
+    'revenue-drop': scenarioSimulations.find((s) => s.id === 'revenue-drop-20'),
+    'hiring-3': scenarioSimulations.find((s) => s.id === 'hiring-3-engineers'),
+    'cost-cut': scenarioSimulations.find((s) => s.id === 'cut-costs-15'),
+  };
+
+  const handleRunSim = (name: string) => {
+    setSimulated(name);
+    setTimeout(() => setSimulated(null), 2500);
+  };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <BrainCircuit className={cn('w-5 h-5', isDark ? 'text-white/60' : 'text-black/60')} />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">Forecasting</h1>
-              <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>AI CFO Forecasting</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button className={cn('px-4 py-2 text-sm font-medium rounded-xl gap-2', isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90')}>
-              <Sparkles className="w-4 h-4" /> Generate Report
-            </Button>
-          </div>
-        </div>
+    <PageShell title="AI Forecasting & Scenario Planning" subtitle="Predict financial outcomes and simulate what-if scenarios">
+      {/* KPIs */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <KpiWidget icon={Target} label="Revenue Forecast" value={formatINR(revenueMetric.nextMonth)} color="success" />
+        <KpiWidget icon={TrendingDown} label="Expense Forecast" value={formatINR(expenseMetric.nextMonth)} color="warning" />
+        <KpiWidget icon={TrendingUp} label="Profit Forecast" value={formatINR(profitMetric.nextMonth)} color="success" />
+        <KpiWidget icon={AlertTriangle} label="Runway Forecast" value={`${runwayMetric} mo`} color="danger" />
+      </div>
 
-        {/* Forecast Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {forecastData.map((forecast, i) => {
-            const TrendIcon = trendIcons[forecast.trend];
-            const isPositiveTrend = forecast.metric === 'Receivables Risk' || forecast.metric === 'Burn Rate' ? forecast.trend === 'down' : forecast.trend === 'up';
-            return (
-              <motion.div key={forecast.metric} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]', 'transition-all duration-200')}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className={cn('text-[11px] font-medium uppercase tracking-wider', isDark ? 'text-white/40' : 'text-black/40')}>{forecast.metric}</span>
-                  <TrendIcon className={cn('w-3.5 h-3.5', trendColors[forecast.trend])} />
-                </div>
-
-                <p className="text-lg font-bold tracking-tight">{formatForecastValue(forecast.metric, forecast.current)}</p>
-                <p className={cn('text-[10px] mt-0.5', isDark ? 'text-white/25' : 'text-black/25')}>Current</p>
-
-                <div className={cn('mt-3 pt-3 border-t', isDark ? 'border-white/[0.06]' : 'border-black/[0.06]')}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Next Month</span>
-                    <span className="text-xs font-semibold">{formatForecastValue(forecast.metric, forecast.nextMonth)}</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Best Case</span>
-                    <span className="text-[10px] font-semibold text-emerald-500">{formatForecastValue(forecast.metric, forecast.bestCase)}</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Worst Case</span>
-                    <span className="text-[10px] font-semibold text-red-500">{formatForecastValue(forecast.metric, forecast.worstCase)}</span>
-                  </div>
-
-                  {/* Confidence Meter */}
-                  <div className="flex items-center gap-2">
-                    <div className={cn('flex-1 h-1.5 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${forecast.confidence}%` }}
-                        transition={{ delay: 0.3 + i * 0.08, duration: 0.5 }}
-                        className={cn('h-full rounded-full', forecast.confidence >= 80 ? 'bg-emerald-500' : forecast.confidence >= 65 ? 'bg-amber-500' : 'bg-red-500')}
-                      />
-                    </div>
-                    <span className={cn('text-[9px] font-medium', forecast.confidence >= 80 ? 'text-emerald-500' : forecast.confidence >= 65 ? 'text-amber-500' : 'text-red-500')}>{forecast.confidence}%</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Scenario Comparison */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Best Case */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50/50 border-emerald-200')}>
-            <div className="flex items-center gap-2 mb-4">
-              <ArrowUpRight className="w-4 h-4 text-emerald-500" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Best Case Scenario</span>
+      {/* Forecast Metrics */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
+        {forecastData.map((f) => (
+          <div key={f.metric} style={{ background: CSS.cardBg, borderRadius: 12, padding: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: CSS.text }}>
+                <Sparkles size={14} style={{ marginRight: 6, verticalAlign: 'middle', color: CSS.accent }} />
+                {f.metric}
+              </h4>
+              {trendIcon(f.trend)}
             </div>
-            <div className="space-y-3">
-              {[
-                { label: 'Revenue', value: formatINR(bestCaseSummary.revenue) },
-                { label: 'Profit Margin', value: `${bestCaseSummary.margin}%` },
-                { label: 'Cash Runway', value: `${bestCaseSummary.runway} months` },
-              ].map((item, i) => (
-                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
-                  <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{item.label}</span>
-                  <span className="text-sm font-bold text-emerald-500">{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Worst Case */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50/50 border-red-200')}>
-            <div className="flex items-center gap-2 mb-4">
-              <ArrowDownRight className="w-4 h-4 text-red-500" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Worst Case Scenario</span>
-            </div>
-            <div className="space-y-3">
-              {[
-                { label: 'Revenue', value: formatINR(worstCaseSummary.revenue) },
-                { label: 'Profit Margin', value: `${worstCaseSummary.margin}%` },
-                { label: 'Cash Runway', value: `${worstCaseSummary.runway} months` },
-              ].map((item) => (
-                <div key={item.label} className={cn('flex items-center justify-between p-3 rounded-xl', isDark ? 'bg-white/[0.03]' : 'bg-white')}>
-                  <span className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>{item.label}</span>
-                  <span className="text-sm font-bold text-red-500">{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Confidence Overview & Risk Indicators */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Average Confidence */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className={cn('w-4 h-4 text-amber-400')} />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Model Confidence</span>
-            </div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="relative w-20 h-20">
-                <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-                  <circle cx="40" cy="40" r="34" fill="none" className={isDark ? 'stroke-white/[0.06]' : 'stroke-black/[0.06]'} strokeWidth="6" />
-                  <motion.circle cx="40" cy="40" r="34" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${(parseInt(avgConfidence) / 100) * 213.6} 213.6`} initial={{ strokeDasharray: '0 213.6' }} animate={{ strokeDasharray: `${(parseInt(avgConfidence) / 100) * 213.6} 213.6` }} transition={{ delay: 0.7, duration: 0.8, ease: 'easeOut' }} className="text-amber-500" />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-lg font-bold">{avgConfidence}%</span>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+              <div>
+                <div style={{ fontSize: 11, color: CSS.textSecondary }}>Current</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: CSS.text }}>{formatINR(f.current)}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, color: CSS.textSecondary }}>Next Month</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: f.trend === 'up' ? CSS.success : CSS.warning }}>
+                  {formatINR(f.nextMonth)}
                 </div>
               </div>
-              <div className="flex-1 space-y-2">
-                {forecastData.map(f => (
-                  <div key={f.metric} className="flex items-center gap-2">
-                    <span className={cn('text-[10px] w-28 truncate', isDark ? 'text-white/40' : 'text-black/40')}>{f.metric}</span>
-                    <div className={cn('flex-1 h-1 rounded-full', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${f.confidence}%` }} transition={{ delay: 0.7 + forecastData.indexOf(f) * 0.05, duration: 0.4 }} className={cn('h-full rounded-full', f.confidence >= 80 ? 'bg-emerald-500' : f.confidence >= 65 ? 'bg-amber-500' : 'bg-red-500')} />
-                    </div>
-                    <span className="text-[9px] w-6 text-right">{f.confidence}</span>
-                  </div>
-                ))}
+            </div>
+            <div style={{ fontSize: 12, color: CSS.textSecondary, marginBottom: 8 }}>
+              Range: <span style={{ color: CSS.success }}>{formatINR(f.bestCase)}</span> — <span style={{ color: CSS.danger }}>{formatINR(f.worstCase)}</span>
+            </div>
+            {/* Confidence bar */}
+            <div style={{ marginBottom: 4 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: CSS.textSecondary, marginBottom: 4 }}>
+                <span>Confidence</span>
+                <span style={{ fontWeight: 600, color: confidenceColor(f.confidence) }}>{f.confidence}%</span>
+              </div>
+              <div style={{ background: CSS.surface1, borderRadius: 6, height: 6, overflow: 'hidden' }}>
+                <div
+                  style={{ width: `${f.confidence}%`, height: '100%', borderRadius: 6, background: confidenceColor(f.confidence), transition: 'width 0.5s' }}
+                />
               </div>
             </div>
-          </motion.div>
+          </div>
+        ))}
+      </div>
 
-          {/* Key Risk Indicators */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.4 }} className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
-            <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="w-4 h-4 text-red-400" />
-              <span className={cn('text-sm font-semibold', isDark ? 'text-white/70' : 'text-black/70')}>Key Risk Indicators</span>
-              <Badge variant="secondary" className={cn('text-[10px]', isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-50 text-red-600')}>{riskIndicators.length}</Badge>
+      {/* Confidence Visualization */}
+      <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text }}>
+          <Shield size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+          Confidence Levels
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {forecastData.map((f) => (
+            <div key={f.metric} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ width: 100, fontSize: 13, color: CSS.text, fontWeight: 500 }}>{f.metric}</span>
+              <div style={{ flex: 1, background: CSS.surface1, borderRadius: 8, height: 28, position: 'relative', overflow: 'hidden' }}>
+                <div
+                  style={{
+                    width: `${f.confidence}%`,
+                    height: '100%',
+                    borderRadius: 8,
+                    background: confidenceColor(f.confidence),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: CSS.cardBg,
+                    transition: 'width 0.6s ease',
+                  }}
+                >
+                  {f.confidence}%
+                </div>
+              </div>
+              <span style={{ fontSize: 12, color: f.confidence > 80 ? CSS.success : f.confidence > 60 ? CSS.info : CSS.warning, fontWeight: 600, width: 80 }}>
+                {f.confidence > 80 ? 'High' : f.confidence > 60 ? 'Medium' : 'Low'}
+              </span>
             </div>
-            <div className="space-y-2">
-              {riskIndicators.map((risk, i) => {
-                const TrendIcon = trendIcons[risk.trend];
-                return (
-                  <motion.div key={risk.metric} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }} className={cn('flex items-center justify-between p-3 rounded-xl border', isDark ? 'border-white/[0.04]' : 'border-black/[0.04]')}>
-                    <div className="flex items-center gap-2">
-                      <TrendIcon className={cn('w-3.5 h-3.5', trendColors[risk.trend])} />
-                      <div>
-                        <p className="text-xs font-medium">{risk.metric}</p>
-                        <p className={cn('text-[10px]', isDark ? 'text-white/40' : 'text-black/40')}>{risk.trend === 'down' ? 'Declining' : risk.trend === 'up' ? 'Rising' : 'Stable'} · {risk.confidence}% confidence</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs font-semibold">{formatForecastValue(risk.metric, risk.current)}</p>
-                      <p className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>→ {formatForecastValue(risk.metric, risk.nextMonth)}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-              {riskIndicators.length === 0 && <p className={cn('text-xs', isDark ? 'text-white/30' : 'text-black/30')}>No critical risk indicators.</p>}
-            </div>
-          </motion.div>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* Scenario Planning Engine */}
+      <div style={{ marginBottom: 24 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Zap size={16} /> Scenario Planning Engine
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+          {scenarioSimulations.map((s) => (
+            <div key={s.id} style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, border: `1px solid ${CSS.border}` }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: CSS.text }}>{s.name}</h4>
+                <StatusBadge status={s.riskLevel} />
+              </div>
+              <p style={{ margin: '0 0 12px', fontSize: 12, color: CSS.textSecondary, lineHeight: 1.5 }}>{s.description}</p>
+              <div style={{ background: CSS.surface1, borderRadius: 8, padding: 10, marginBottom: 12 }}>
+                <div style={{ fontSize: 11, color: CSS.textSecondary, marginBottom: 4 }}>Variable: <strong style={{ color: CSS.accent }}>{s.variable}</strong> ({s.changePercent > 0 ? '+' : ''}{s.changePercent}%)</div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 14 }}>
+                <div>
+                  <div style={{ fontSize: 10, color: CSS.textSecondary }}>Revenue</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: CSS.text }}>{formatINR(s.projectedRevenue)}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, color: CSS.textSecondary }}>Profit</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: s.projectedProfit >= 0 ? CSS.success : CSS.danger }}>{formatINR(s.projectedProfit)}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, color: CSS.textSecondary }}>Runway</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: CSS.text }}>{s.projectedRunway} mo</div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleRunSim(s.name)}
+                style={{
+                  width: '100%',
+                  padding: '8px 0',
+                  border: `1px solid ${CSS.accent}`,
+                  borderRadius: 8,
+                  background: simulated === s.name ? CSS.accent : 'transparent',
+                  color: simulated === s.name ? CSS.cardBg : CSS.accent,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {simulated === s.name ? '✓ Simulation Complete' : 'Run Simulation'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* What-If Quick Scenarios */}
+      <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text }}>
+          <Sparkles size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+          What-If Quick Scenarios
+        </h3>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+          {([
+            { key: 'revenue-drop', label: 'Revenue drops 20%', icon: <TrendingDown size={14} /> },
+            { key: 'hiring-3', label: 'Hiring +3 engineers', icon: <Activity size={14} /> },
+            { key: 'cost-cut', label: 'Cut costs 15%', icon: <Zap size={14} /> },
+          ] as const).map((qs) => (
+            <button
+              key={qs.key}
+              onClick={() => setActiveQuick(activeQuick === qs.key ? null : qs.key)}
+              style={{
+                padding: '10px 18px',
+                border: `1px solid ${activeQuick === qs.key ? CSS.accent : CSS.border}`,
+                borderRadius: 8,
+                background: activeQuick === qs.key ? CSS.accent : CSS.surface1,
+                color: activeQuick === qs.key ? CSS.cardBg : CSS.text,
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                transition: 'all 0.2s',
+              }}
+            >
+              {qs.icon} {qs.label}
+            </button>
+          ))}
+        </div>
+        {activeQuick && quickScenarioMap[activeQuick] && (
+          <div style={{ background: CSS.surface1, borderRadius: 8, padding: 16, borderLeft: `3px solid ${CSS.accent}` }}>
+            <div style={{ fontWeight: 600, color: CSS.text, marginBottom: 8 }}>{quickScenarioMap[activeQuick]!.name}</div>
+            <div style={{ fontSize: 13, color: CSS.textSecondary, marginBottom: 8 }}>{quickScenarioMap[activeQuick]!.description}</div>
+            <div style={{ display: 'flex', gap: 24, fontSize: 13 }}>
+              <span style={{ color: CSS.text }}>Revenue: <strong>{formatINR(quickScenarioMap[activeQuick]!.projectedRevenue)}</strong></span>
+              <span style={{ color: CSS.text }}>Profit: <strong>{formatINR(quickScenarioMap[activeQuick]!.projectedProfit)}</strong></span>
+              <span style={{ color: CSS.text }}>Runway: <strong>{quickScenarioMap[activeQuick]!.projectedRunway} mo</strong></span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Risk Indicators */}
+      {riskItems.length > 0 && (
+        <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20 }}>
+          <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.danger, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <AlertTriangle size={16} /> Risk Indicators
+          </h3>
+          {riskItems.map((f) => (
+            <div
+              key={f.metric}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '12px 16px',
+                background: CSS.surface1,
+                borderRadius: 8,
+                marginBottom: 8,
+                borderLeft: `3px solid ${CSS.danger}`,
+              }}
+            >
+              <div>
+                <span style={{ fontWeight: 600, color: CSS.text, fontSize: 14 }}>{f.metric}</span>
+                <span style={{ marginLeft: 10, fontSize: 12, color: f.trend === 'down' ? CSS.danger : CSS.warning }}>
+                  {f.trend === 'down' ? '↓ Declining' : '↓ Low confidence'}
+                </span>
+              </div>
+              <div style={{ fontSize: 12, color: CSS.textSecondary }}>
+                Confidence: <strong style={{ color: CSS.warning }}>{f.confidence}%</strong> · Current: {formatINR(f.current)}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </PageShell>
   );
 }

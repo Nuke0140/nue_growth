@@ -1,238 +1,215 @@
-'use client';
-
-import { formatINR } from './utils';
-
-import { useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import React, { useState, useMemo } from 'react';
 import {
-  Calendar, HandCoins, Clock, AlertTriangle, CheckCircle2, XCircle,
-  Filter, CalendarClock, Zap,
+  Receipt, AlertTriangle, Clock, CheckCircle2, XCircle, ChevronRight, Shield,
 } from 'lucide-react';
-import { payables } from '@/modules/finance/data/mock-data';
-import { useFinanceStore } from '@/modules/finance/finance-store';
-import type { Payable } from '@/modules/finance/types';
+import { PageShell } from '@/components/shared/page-shell';
+import { KpiWidget } from '@/components/shared/kpi-widget';
 import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { PageShell } from '@/components/shared/page-shell';
-import { FilterBar } from '@/components/shared/filter-bar';
-import { KpiWidget } from '@/components/shared/kpi-widget';
 import { StatusBadge } from '@/components/shared/status-badge';
+import { FilterBar } from '@/components/shared/filter-bar';
+import { useFinanceStore } from './finance-store';
+import { formatINR } from './utils';
+import { payables } from './data/mock-data';
+import type { Payable } from './types';
 import { CSS } from '@/styles/design-tokens';
 
+/* ─── KPI cards ─── */
+const kpis = [
+  { label: 'Total Payables', value: formatINR(4280000), color: 'warning' as const, icon: Receipt },
+  { label: 'Overdue', value: formatINR(24000), color: 'danger' as const, icon: AlertTriangle },
+  { label: 'Pending Approval', value: formatINR(745000), color: 'info' as const, icon: Clock },
+];
 
-type StatusFilter = 'all' | 'pending' | 'approved' | 'rejected' | 'paid';
-type PriorityFilter = 'all' | 'high' | 'medium' | 'low';
+/* ─── Filter definitions ─── */
+type FilterKey = 'all' | 'pending' | 'approved' | 'overdue' | 'paid';
 
-export default function PayablesPage() {
-  const navigateTo = useFinanceStore((s) => s.navigateTo);
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>('all');
-
-  const today = new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-
-  const pendingPayables = useMemo(() => payables.filter((p: Payable) => p.approvalStatus === 'pending'), []);
-  const approvedPayables = useMemo(() => payables.filter((p: Payable) => p.approvalStatus === 'approved'), []);
-  const urgentPayables = useMemo(() => payables.filter((p: Payable) => p.payoutPriority === 'high' && p.approvalStatus !== 'paid'), []);
-
-  const totalPending = pendingPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
-  const totalApproved = approvedPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
-  const totalUrgent = urgentPayables.reduce((s: number, p: Payable) => s + p.amount, 0);
-
-  const filteredPayables = useMemo(() =>
-    payables.filter((p: Payable) => {
-      if (statusFilter !== 'all' && p.approvalStatus !== statusFilter) return false;
-      if (priorityFilter !== 'all' && p.payoutPriority !== priorityFilter) return false;
-      return true;
-    }),
-    [statusFilter, priorityFilter]
-  );
-
-  const statusFilterItems = useMemo(() => [
-    { key: 'all', label: 'All' },
-    { key: 'pending', label: 'Pending' },
-    { key: 'approved', label: 'Approved' },
-    { key: 'rejected', label: 'Rejected' },
-    { key: 'paid', label: 'Paid' },
-  ], []);
-
-  const priorityFilterItems = useMemo(() => [
-    { key: 'all', label: 'All Priority' },
-    { key: 'high', label: 'High' },
-    { key: 'medium', label: 'Medium' },
-    { key: 'low', label: 'Low' },
-  ], []);
-
-  const tableData = useMemo(() =>
-    filteredPayables.map((p: Payable) => ({
-      id: p.id,
-      vendor: p.vendor || p.freelancer,
-      linkedInvoice: p.linkedInvoice || '—',
-      amount: formatINR(p.amount),
-      dueDate: p.dueDate,
-      isOverdue: new Date(p.dueDate) < new Date() && p.approvalStatus !== 'paid',
-      approvalStatus: p.approvalStatus,
-      payoutPriority: p.payoutPriority,
-      penaltyRisk: p.penaltyRisk,
-      category: p.category,
-    })),
-    [filteredPayables]
-  );
-
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'vendor',
-      label: 'Vendor / Freelancer',
-      sortable: true,
-      render: (row) => (
-        <div>
-          <p className="text-sm font-medium" style={{ color: CSS.text }}>{row.vendor as string}</p>
-          <p className="text-[10px]" style={{ color: CSS.textMuted }}>{row.linkedInvoice as string}</p>
+/* ─── Priority Queue ─── */
+const PriorityQueue: React.FC<{ items: Payable[] }> = ({ items }) => {
+  const high = items.filter((p) => p.payoutPriority === 'high');
+  if (high.length === 0) return null;
+  return (
+    <div className="priority-queue">
+      <h3 className="queue-heading">
+        <AlertTriangle size={16} /> Priority Queue
+      </h3>
+      {high.map((p) => (
+        <div key={p.id} className="queue-card">
+          <div className="queue-card-top">
+            <span className="queue-vendor">{p.vendor || p.freelancer}</span>
+            <span className="queue-amount">{formatINR(p.amount)}</span>
+          </div>
+          <div className="queue-card-meta">
+            <span>Due {p.dueDate}</span>
+            <StatusBadge status={p.approvalStatus} />
+            {p.penaltyRisk && p.penaltyAmount && p.penaltyAmount > 0 && (
+              <span className="penalty-badge">
+                <Shield size={12} /> Penalty ₹{p.penaltyAmount.toLocaleString('en-IN')}
+              </span>
+            )}
+          </div>
+          {p.approvalFlow && (
+            <span className="approval-progress">
+              <CheckCircle2 size={12} />
+              {p.approvalFlow.filter((s) => s.status === 'approved').length}/{p.approvalFlow.length} approved
+            </span>
+          )}
         </div>
-      ),
-    },
-    {
-      key: 'amount',
-      label: 'Amount',
-      sortable: true,
-      render: (row) => (
-        <p className="text-sm font-semibold" style={{ color: CSS.text }}>{row.amount as string}</p>
-      ),
-    },
-    {
-      key: 'dueDate',
-      label: 'Due Date',
-      sortable: true,
-      render: (row) => (
-        <span
-          className="text-sm"
-          style={{ color: row.isOverdue ? CSS.danger : CSS.text, fontWeight: row.isOverdue ? 500 : 400 }}
-        >
-          {row.dueDate as string}
-        </span>
-      ),
-    },
-    {
-      key: 'approvalStatus',
-      label: 'Status',
-      sortable: true,
-      render: (row) => (
-        <StatusBadge status={row.approvalStatus as string} variant="pill" className="text-[10px] px-2 py-0 capitalize" />
-      ),
-    },
-    {
-      key: 'payoutPriority',
-      label: 'Priority',
-      sortable: true,
-      render: (row) => (
-        <StatusBadge status={row.payoutPriority as string} variant="pill" className="text-[10px] px-2 py-0 capitalize" />
-      ),
-    },
-    {
-      key: 'penaltyRisk',
-      label: 'Penalty Risk',
-      render: (row) =>
-        row.penaltyRisk ? (
-          <div className="flex items-center gap-1">
-            <AlertTriangle className="w-3.5 h-3.5" style={{ color: CSS.danger }} />
-            <span className="text-[10px] font-medium" style={{ color: CSS.danger }}>Yes</span>
-          </div>
-        ) : (
-          <span className="text-[10px]" style={{ color: CSS.textMuted }}>None</span>
-        ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      render: (row) => (
-        <StatusBadge status={row.category as string} variant="pill" className="text-[10px] px-2 py-0" />
-      ),
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      render: (row) => {
-        const status = row.approvalStatus as string;
-        return (
-          <div className="flex items-center gap-1">
-            {status === 'pending' && (
-              <>
-                <Button variant="ghost" size="sm" className="h-7 px-2 text-[10px] gap-1" style={{ color: CSS.success }}>
-                  <CheckCircle2 className="w-3 h-3" /> Approve
-                </Button>
-                <Button variant="ghost" size="sm" className="h-7 px-2 text-[10px] gap-1" style={{ color: CSS.danger }}>
-                  <XCircle className="w-3 h-3" /> Reject
-                </Button>
-              </>
-            )}
-            {status === 'approved' && (
-              <Button size="sm" className="h-7 px-3 text-[10px] gap-1 rounded-lg" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-                <CalendarClock className="w-3 h-3" /> Pay Now
-              </Button>
-            )}
-            {status === 'paid' && (
-              <StatusBadge status="completed" variant="pill" className="text-[10px] px-2 py-0">
-                <CheckCircle2 className="w-3 h-3 mr-0.5" /> Completed
-              </StatusBadge>
-            )}
-          </div>
-        );
-      },
-    },
+      ))}
+      <style>{`
+        .priority-queue { margin-bottom: var(--space-5); }
+        .queue-heading {
+          display: flex; align-items: center; gap: var(--space-2);
+          font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold);
+          color: var(--color-warning); margin-bottom: var(--space-3);
+        }
+        .queue-card {
+          display: flex; flex-direction: column; gap: var(--space-2);
+          padding: var(--space-3); margin-bottom: var(--space-2);
+          background: var(--surface-elevated, var(--surface-primary));
+          border: 1px solid color-mix(in srgb, var(--color-warning) 20%, transparent);
+          border-radius: var(--radius-md, 8px);
+        }
+        .queue-card-top { display: flex; justify-content: space-between; align-items: center; }
+        .queue-vendor { font-weight: var(--font-weight-medium); color: var(--text-primary); }
+        .queue-amount { font-weight: var(--font-weight-semibold); color: var(--text-primary); }
+        .queue-card-meta {
+          display: flex; gap: var(--space-3); align-items: center;
+          font-size: var(--font-size-xs); color: var(--text-secondary);
+        }
+        .penalty-badge {
+          display: inline-flex; align-items: center; gap: 4px;
+          color: var(--color-danger); font-weight: var(--font-weight-medium);
+        }
+        .approval-progress {
+          display: inline-flex; align-items: center; gap: 4px;
+          font-size: var(--font-size-xs); color: var(--color-info);
+        }
+      `}</style>
+    </div>
+  );
+};
+
+/* ─── Main Page ─── */
+export const PayablesPage: React.FC = () => {
+  const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const navigate = useFinanceStore((s) => s.navigateTo);
+
+  /* filter counts */
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { all: payables.length, pending: 0, approved: 0, overdue: 0, paid: 0 };
+    payables.forEach((p) => { if (c[p.approvalStatus] !== undefined) c[p.approvalStatus]++; });
+    return c;
+  }, []);
+
+  /* filtered rows */
+  const filtered = useMemo(
+    () => (activeFilter === 'all' ? payables : payables.filter((p) => p.approvalStatus === activeFilter)),
+    [activeFilter],
+  );
+
+  /* table columns */
+  const columns: DataTableColumnDef[] = useMemo(() => [
+    { key: 'vendor', label: 'Vendor / Freelancer', render: (row) => <span>{(row.vendor || row.freelancer) as string}</span> },
+    { key: 'amount', label: 'Amount', render: (row) => formatINR(row.amount as number) },
+    { key: 'dueDate', label: 'Due Date' },
+    { key: 'payoutPriority', label: 'Priority', render: (row) => <StatusBadge status={row.payoutPriority === 'high' ? 'danger' : row.payoutPriority === 'medium' ? 'warning' : 'info'} /> },
+    { key: 'approvalStatus', label: 'Status', render: (row) => <StatusBadge status={row.approvalStatus as string} /> },
+    { key: 'penaltyRisk', label: 'Penalty Risk', render: (row) => (row.penaltyAmount && (row.penaltyAmount as number) > 0 ? <span style={{ color: CSS.danger }}>₹{(row.penaltyAmount as number).toLocaleString('en-IN')}</span> : '—') },
+    { key: 'category', label: 'Category' },
   ], []);
+
+  const approveSelected = () => {
+    alert(`Approved ${selected.size} payables`);
+    setSelected(new Set());
+  };
+
+  const schedulePayment = () => {
+    alert(`Scheduled payment for ${selected.size} payables`);
+    setSelected(new Set());
+  };
+
+  const filterItems = useMemo(() => [
+    { key: 'all', label: `All (${counts.all})` },
+    { key: 'pending', label: `Pending (${counts.pending})` },
+    { key: 'approved', label: `Approved (${counts.approved})` },
+    { key: 'overdue', label: `Overdue (${counts.overdue})` },
+    { key: 'paid', label: `Paid (${counts.paid})` },
+  ], [counts]);
 
   return (
-    <PageShell
-      title="Payables"
-      subtitle="Vendor Payout Workspace"
-      icon={() => <HandCoins className="w-5 h-5" style={{ color: CSS.accent }} />}
-      headerRight={
-        <div className="flex items-center gap-3">
-          <span className="px-3 py-1.5 text-xs font-medium rounded-full" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
-            <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-            {today}
-          </span>
-          <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-            <CalendarClock className="w-4 h-4" /> Schedule Payout
-          </Button>
-        </div>
-      }
-    >
-      <div className="space-y-6">
-        {/* Summary KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <KpiWidget label="Total Pending" value={formatINR(totalPending)} icon={Clock} color="warning" trend={undefined} />
-          <KpiWidget label="Approved" value={formatINR(totalApproved)} icon={CheckCircle2} color="success" trend={undefined} />
-          <KpiWidget label="Urgent" value={formatINR(totalUrgent)} icon={Zap} color="danger" trend={undefined} />
-        </div>
-
-        {/* Filters */}
-        <div className="flex items-center gap-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4" style={{ color: CSS.textMuted }} />
-            <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>Status:</span>
-            <FilterBar filters={statusFilterItems} activeFilter={statusFilter} onFilterChange={(k) => setStatusFilter(k as StatusFilter)} />
-          </div>
-          <div className="w-px h-5" style={{ backgroundColor: CSS.border }} />
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium" style={{ color: CSS.textMuted }}>Priority:</span>
-            <FilterBar filters={priorityFilterItems} activeFilter={priorityFilter} onFilterChange={(k) => setPriorityFilter(k as PriorityFilter)} />
-          </div>
-        </div>
-
-        {/* Payables Table */}
-        <SmartDataTable
-          columns={columns}
-          data={tableData}
-          searchable
-          searchPlaceholder="Search payables..."
-          searchKeys={['vendor', 'linkedInvoice', 'category']}
-          enableExport
-          emptyMessage="No payables match the selected filters"
-          pageSize={10}
-        />
+    <PageShell title="Payables & Payouts">
+      {/* KPIs */}
+      <div className="kpi-row">
+        {kpis.map((k) => (
+          <KpiWidget key={k.label} label={k.label} value={k.value} color={k.color} icon={k.icon} />
+        ))}
       </div>
+
+      {/* Filter Bar */}
+      <FilterBar
+        filters={filterItems}
+        activeFilter={activeFilter}
+        onFilterChange={(k) => setActiveFilter(k as FilterKey)}
+      />
+
+      {/* Priority Queue */}
+      <PriorityQueue items={filtered} />
+
+      {/* Table */}
+      <SmartDataTable
+        data={filtered as unknown as Record<string, unknown>[]}
+        columns={columns}
+        selectable
+      />
+
+      {/* Quick Actions */}
+      <div className="actions-bar">
+        <button
+          className="action-btn action-btn--primary"
+          disabled={selected.size === 0}
+          onClick={approveSelected}
+        >
+          <CheckCircle2 size={16} /> Approve Selected ({selected.size})
+        </button>
+        <button
+          className="action-btn action-btn--secondary"
+          disabled={selected.size === 0}
+          onClick={schedulePayment}
+        >
+          <Clock size={16} /> Schedule Payment
+        </button>
+      </div>
+
+      <style>{`
+        .kpi-row {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: var(--space-4); margin-bottom: var(--space-5);
+        }
+        .actions-bar {
+          display: flex; gap: var(--space-3); margin-top: var(--space-4);
+        }
+        .action-btn {
+          display: inline-flex; align-items: center; gap: var(--space-2);
+          padding: var(--space-2) var(--space-4);
+          border-radius: var(--radius-md, 8px); font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-medium); cursor: pointer; border: none;
+          transition: opacity 0.2s;
+        }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .action-btn--primary {
+          background: var(--color-accent); color: var(--text-on-accent, #fff);
+        }
+        .action-btn--primary:hover:not(:disabled) { opacity: 0.9; }
+        .action-btn--secondary {
+          background: var(--surface-elevated, var(--surface-primary)); color: var(--text-primary);
+          border: 1px solid var(--border-primary, var(--border-default, #e2e8f0));
+        }
+        .action-btn--secondary:hover:not(:disabled) { background: var(--surface-hover, var(--surface-secondary)); }
+      `}</style>
     </PageShell>
   );
-}
+};
+
+export default PayablesPage;

@@ -4,32 +4,35 @@ import { formatINR } from './utils';
 
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import {
-  Calendar, CreditCard, Filter, BrainCircuit,
-  MessageCircle, Send, User,
-} from 'lucide-react';
-import { receivables } from '@/modules/finance/data/mock-data';
-import { useFinanceStore } from '@/modules/finance/finance-store';
-import type { Receivable } from '@/modules/finance/types';
+import { CSS, ANIMATION } from '@/styles/design-tokens';
+import { PageShell } from '@/components/shared/page-shell';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { FilterBar } from '@/components/shared/filter-bar';
 import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { PageShell } from '@/components/shared/page-shell';
-import { FilterBar } from '@/components/shared/filter-bar';
-import { StatusBadge } from '@/components/shared/status-badge';
-import { CSS } from '@/styles/design-tokens';
+import {
+  HandCoins, Clock, AlertTriangle, Send, Phone, Scale,
+  TrendingDown, Sparkles,
+} from 'lucide-react';
+import { receivables, agingBuckets } from './data/mock-data';
+import { useFinanceStore } from './finance-store';
+import type { Receivable } from './types';
 
+// ── Aging color mapping ───────────────────────────────
+const bucketColors: Record<string, string> = {
+  '0-30': 'success',
+  '31-60': 'warning',
+  '61-90': 'info',
+  '90+': 'danger',
+};
 
-type AgingFilter = 'all' | '0-30' | '31-60' | '61-90' | '90+';
-
-const agingBuckets: { label: string; value: AgingFilter }[] = [
-  { label: 'All', value: 'all' },
-  { label: '0-30 days', value: '0-30' },
-  { label: '31-60 days', value: '31-60' },
-  { label: '61-90 days', value: '61-90' },
-  { label: '90+ days', value: '90+' },
-];
+const bucketCssColors: Record<string, string> = {
+  '0-30': CSS.success,
+  '31-60': CSS.warning,
+  '61-90': CSS.info,
+  '90+': CSS.danger,
+};
 
 const stageLabels: Record<string, string> = {
   'first-reminder': '1st Reminder',
@@ -47,69 +50,67 @@ const stageStatusMap: Record<string, string> = {
   resolved: 'completed',
 };
 
-const bucketColors: Record<string, string> = {
-  '0-30': 'emerald',
-  '31-60': 'warning',
-  '61-90': 'orange',
-  '90+': 'danger',
-};
+type AgingFilter = 'all' | '0-30' | '31-60' | '61-90' | '90+';
 
 export default function ReceivablesPage() {
-  const navigateTo = useFinanceStore((s) => s.navigateTo);
+  const selectInvoice = useFinanceStore((s) => s.selectInvoice);
   const [agingFilter, setAgingFilter] = useState<AgingFilter>('all');
 
-  const today = new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-
-  const totalOutstanding = useMemo(() =>
-    receivables.reduce((s: number, r: Receivable) => s + r.dueAmount, 0),
-    []
+  // ── Derived data ─────────────────────────────────────
+  const totalOutstanding = useMemo(
+    () => receivables.reduce((s: number, r: Receivable) => s + r.dueAmount, 0),
+    [],
   );
 
-  const agingSummary = useMemo(() => {
-    const buckets = { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
-    receivables.forEach((r: Receivable) => { buckets[r.agingBucket] += r.dueAmount; });
-    return [
-      { label: '0-30 days', key: '0-30' as const, value: buckets['0-30'] },
-      { label: '31-60 days', key: '31-60' as const, value: buckets['31-60'] },
-      { label: '61-90 days', key: '61-90' as const, value: buckets['61-90'] },
-      { label: '90+ days', key: '90+' as const, value: buckets['90+'] },
-    ];
+  const avgOverdue = useMemo(() => {
+    const overdue = receivables.filter((r: Receivable) => r.overdueDays > 0);
+    if (overdue.length === 0) return 0;
+    return Math.round(overdue.reduce((s: number, r: Receivable) => s + r.overdueDays, 0) / overdue.length);
   }, []);
 
-  const filteredReceivables = useMemo(() =>
-    agingFilter === 'all' ? receivables : receivables.filter((r: Receivable) => r.agingBucket === agingFilter),
-    [agingFilter]
+  const collectionRate = useMemo(() => {
+    const total = receivables.reduce((s: number, r: Receivable) => s + r.dueAmount, 0);
+    const highProb = receivables
+      .filter((r: Receivable) => r.paymentProbability >= 70)
+      .reduce((s: number, r: Receivable) => s + r.dueAmount, 0);
+    return total > 0 ? Math.round((highProb / total) * 100) : 0;
+  }, []);
+
+  const filteredReceivables = useMemo(
+    () => agingFilter === 'all' ? receivables : receivables.filter((r: Receivable) => r.agingBucket === agingFilter),
+    [agingFilter],
   );
 
-  const getRecoveryPriority = (r: Receivable) => {
-    if (r.overdueDays > 30 && r.paymentProbability < 50) return 'critical';
-    if (r.overdueDays > 15 || r.followUpStage === 'escalation') return 'high';
-    if (r.overdueDays > 0) return 'medium';
-    return 'low';
-  };
+  const highRiskReceivables = useMemo(
+    () => receivables.filter((r: Receivable) => r.aiPrediction && r.aiPrediction.delayProbability > 0.5),
+    [],
+  );
 
-  const getOverdueColor = (days: number) => {
-    if (days > 30) return 'red';
-    if (days > 0) return 'amber';
-    return 'emerald';
-  };
+  const overdue90Plus = useMemo(
+    () => receivables.filter((r: Receivable) => r.agingBucket === '90+'),
+    [],
+  );
 
-  const tableData = useMemo(() =>
-    filteredReceivables.map((r: Receivable) => ({
+  // ── Filter items with counts ─────────────────────────
+  const filterItems = useMemo(() => [
+    { key: 'all', label: 'All', count: receivables.length },
+    ...agingBuckets.map((b) => ({ key: b.range, label: `${b.range} days`, count: b.count })),
+  ], []);
+
+  // ── Table columns ────────────────────────────────────
+  const tableData = useMemo(
+    () => filteredReceivables.map((r: Receivable) => ({
       id: r.id,
       client: r.client,
       invoiceNo: r.invoiceNo,
-      project: r.project,
-      dueAmount: formatINR(r.dueAmount),
+      dueAmount: r.dueAmount,
       overdueDays: r.overdueDays,
-      overdueColor: getOverdueColor(r.overdueDays),
-      assignedOwner: r.assignedOwner,
+      agingBucket: r.agingBucket,
       paymentProbability: r.paymentProbability,
-      expectedPaymentDate: r.expectedPaymentDate,
+      delayProbability: r.aiPrediction?.delayProbability ?? 0,
       followUpStage: r.followUpStage,
-      priority: getRecoveryPriority(r),
     })),
-    [filteredReceivables]
+    [filteredReceivables],
   );
 
   const columns: DataTableColumnDef[] = useMemo(() => [
@@ -117,65 +118,55 @@ export default function ReceivablesPage() {
       key: 'client',
       label: 'Client',
       sortable: true,
-      render: (row) => <p className="text-sm font-medium" style={{ color: CSS.text }}>{row.client as string}</p>,
+      render: (row) => <span className="text-sm font-medium" style={{ color: CSS.text }}>{row.client as string}</span>,
     },
     {
       key: 'invoiceNo',
-      label: 'Invoice No',
+      label: 'Invoice',
       sortable: true,
-      render: (row) => <span className="text-sm font-mono" style={{ color: CSS.text }}>{row.invoiceNo as string}</span>,
-    },
-    {
-      key: 'project',
-      label: 'Project',
-      render: (row) => <span className="text-sm" style={{ color: CSS.textSecondary }}>{row.project as string}</span>,
+      render: (row) => <span className="text-sm font-mono" style={{ color: CSS.textSecondary }}>{row.invoiceNo as string}</span>,
     },
     {
       key: 'dueAmount',
-      label: 'Due Amount',
+      label: 'Amount',
       sortable: true,
-      render: (row) => <p className="text-sm font-semibold" style={{ color: CSS.text }}>{row.dueAmount as string}</p>,
+      render: (row) => <span className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(row.dueAmount as number)}</span>,
     },
     {
       key: 'overdueDays',
-      label: 'Overdue',
+      label: 'Overdue Days',
       sortable: true,
       render: (row) => {
         const days = row.overdueDays as number;
-        const colorKey = row.overdueColor as string;
+        const colorKey = days > 60 ? CSS.danger : days > 30 ? CSS.warning : days > 0 ? CSS.info : CSS.success;
         return (
-          <span className="text-sm font-semibold" style={{ color: CSS[colorKey as keyof typeof CSS] ?? CSS.text }}>
+          <span className="text-sm font-semibold" style={{ color: colorKey }}>
             {days > 0 ? `${days}d` : 'Current'}
           </span>
         );
       },
     },
     {
-      key: 'assignedOwner',
-      label: 'Owner',
+      key: 'agingBucket',
+      label: 'Aging',
+      sortable: true,
       render: (row) => (
-        <div className="flex items-center gap-1.5">
-          <User className="w-3 h-3" style={{ color: CSS.textMuted }} />
-          <span className="text-xs" style={{ color: CSS.text }}>{row.assignedOwner as string}</span>
-        </div>
+        <StatusBadge status={bucketColors[row.agingBucket as string] ?? 'neutral'} variant="pill" className="text-[10px] px-2 py-0">
+          {row.agingBucket as string}
+        </StatusBadge>
       ),
     },
     {
       key: 'paymentProbability',
-      label: 'Probability',
+      label: 'Payment Prob.',
       sortable: true,
       render: (row) => {
         const prob = row.paymentProbability as number;
+        const color = prob >= 80 ? CSS.success : prob >= 60 ? CSS.warning : CSS.danger;
         return (
           <div className="flex items-center gap-2">
-            <div className="w-16 h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${prob}%`,
-                  backgroundColor: prob >= 80 ? 'var(--app-success)' : prob >= 60 ? 'var(--app-warning)' : 'var(--app-danger)',
-                }}
-              />
+            <div className="w-14 h-1.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+              <div className="h-full rounded-full" style={{ width: `${prob}%`, backgroundColor: color }} />
             </div>
             <span className="text-[10px] font-medium" style={{ color: CSS.text }}>{prob}%</span>
           </div>
@@ -183,13 +174,25 @@ export default function ReceivablesPage() {
       },
     },
     {
-      key: 'expectedPaymentDate',
-      label: 'Expected',
-      render: (row) => <span className="text-xs" style={{ color: CSS.text }}>{row.expectedPaymentDate as string}</span>,
+      key: 'delayProbability',
+      label: 'AI Prediction',
+      sortable: true,
+      render: (row) => {
+        const dp = row.delayProbability as number;
+        const color = dp > 0.6 ? CSS.danger : dp > 0.3 ? CSS.warning : CSS.success;
+        return (
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="w-3 h-3" style={{ color }} />
+            <span className="text-xs font-semibold" style={{ color }}>
+              {(dp * 100).toFixed(0)}% delay
+            </span>
+          </div>
+        );
+      },
     },
     {
       key: 'followUpStage',
-      label: 'Stage',
+      label: 'Follow-up Stage',
       sortable: true,
       render: (row) => {
         const stage = row.followUpStage as string;
@@ -201,128 +204,250 @@ export default function ReceivablesPage() {
       },
     },
     {
-      key: 'priority',
-      label: 'Priority',
-      sortable: true,
-      render: (row) => (
-        <StatusBadge status={row.priority as string} variant="pill" className="text-[9px] px-1.5 py-0">
-          <BrainCircuit className="w-2.5 h-2.5 mr-0.5" />
-          {(row.priority as string).charAt(0).toUpperCase() + (row.priority as string).slice(1)}
-        </StatusBadge>
-      ),
-    },
-    {
       key: 'actions',
       label: 'Actions',
-      render: () => (
+      render: (row) => (
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" className="h-7 w-7 p-0" style={{ color: CSS.success }}>
-            <MessageCircle className="w-3.5 h-3.5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-7 w-7 p-0" style={{ color: CSS.info }}>
+          <button
+            className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
+            style={{ color: CSS.success, backgroundColor: 'transparent' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+            aria-label="Send reminder"
+          >
             <Send className="w-3.5 h-3.5" />
-          </Button>
+          </button>
+          <button
+            className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
+            style={{ color: CSS.info, backgroundColor: 'transparent' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+            aria-label="Call client"
+          >
+            <Phone className="w-3.5 h-3.5" />
+          </button>
         </div>
       ),
     },
   ], []);
 
+  // ── Render ───────────────────────────────────────────
   return (
     <PageShell
-      title="Receivables"
-      subtitle={
-        <span>Total Outstanding: <span style={{ color: CSS.danger, fontWeight: 600 }}>{formatINR(totalOutstanding)}</span></span>
-      }
-      icon={() => <CreditCard className="w-5 h-5" style={{ color: CSS.accent }} />}
+      title="Collection Engine"
+      subtitle="Receivables & Payment Recovery"
+      icon={() => <HandCoins className="w-5 h-5" style={{ color: CSS.accent }} />}
       headerRight={
         <span className="px-3 py-1.5 text-xs font-medium rounded-full" style={{ backgroundColor: CSS.hoverBg, color: CSS.textSecondary }}>
-          <Calendar className="w-3.5 h-3.5 inline mr-1.5" />
-          {today}
+          <Clock className="w-3.5 h-3.5 inline mr-1.5" />
+          {new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
         </span>
       }
     >
       <div className="space-y-6">
-        {/* Aging Bucket Summary Cards */}
+        {/* ── Aging Bucket Summary Cards ──────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {agingSummary.map((bucket, i) => (
-            <motion.div
-              key={bucket.key}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => setAgingFilter(bucket.key === agingFilter ? 'all' : bucket.key)}
-              className="rounded-2xl border p-4 cursor-pointer transition-all duration-200"
-              style={{
-                backgroundColor: agingFilter === bucket.key ? CSS.activeBg : CSS.hoverBg,
-                borderColor: agingFilter === bucket.key ? CSS.accent : CSS.border,
-                boxShadow: agingFilter === bucket.key ? `0 0 0 1px ${CSS.accent}20` : CSS.shadowCard,
-              }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>
-                  {bucket.label}
-                </span>
-                <span className="text-[10px] font-medium" style={{ color: CSS[bucketColors[bucket.key] as keyof typeof CSS] ?? CSS.textMuted }}>
-                  {receivables.filter((r: Receivable) => r.agingBucket === bucket.key).length} invoices
-                </span>
-              </div>
-              <p className="text-2xl font-bold tracking-tight" style={{ color: CSS[bucketColors[bucket.key] as keyof typeof CSS] ?? CSS.text }}>
-                {formatINR(bucket.value)}
-              </p>
-            </motion.div>
-          ))}
+          {agingBuckets.map((bucket, i) => {
+            const colorKey = bucketColors[bucket.range] ?? 'info';
+            const cssColor = bucketCssColors[bucket.range] ?? CSS.info;
+            return (
+              <motion.div
+                key={bucket.range}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: ANIMATION.duration.slow, ease: ANIMATION.ease as unknown as number[] }}
+                onClick={() => setAgingFilter(agingFilter === bucket.range ? 'all' : (bucket.range as AgingFilter))}
+                className="rounded-2xl border p-4 cursor-pointer transition-all duration-200"
+                style={{
+                  backgroundColor: agingFilter === bucket.range ? CSS.activeBg : CSS.cardBg,
+                  borderColor: agingFilter === bucket.range ? cssColor : CSS.border,
+                  boxShadow: agingFilter === bucket.range ? `0 0 0 1px ${cssColor}20` : CSS.shadowCard,
+                }}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>
+                    {bucket.range} days
+                  </span>
+                  <span className="text-[10px] font-medium" style={{ color: cssColor }}>
+                    {bucket.count} invoices
+                  </span>
+                </div>
+                <p className="text-2xl font-bold tracking-tight" style={{ color: cssColor }}>
+                  {formatINR(bucket.total)}
+                </p>
+                <div className="w-full h-1.5 rounded-full mt-2" style={{ backgroundColor: CSS.hoverBg }}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${bucket.percentage}%` }}
+                    transition={{ delay: 0.2 + i * 0.06, duration: 0.5 }}
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: cssColor }}
+                  />
+                </div>
+                <p className="text-[10px] mt-1" style={{ color: CSS.textMuted }}>
+                  {bucket.percentage}% of total
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Filter Bar */}
-        <div className="flex items-center gap-3 flex-wrap">
-          <Filter className="w-4 h-4" style={{ color: CSS.textMuted }} />
+        {/* ── KPI Row ─────────────────────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <KpiWidget
+            label="Total Outstanding"
+            value={formatINR(totalOutstanding)}
+            icon={HandCoins}
+            color="warning"
+            trend="up"
+            trendValue="+5.2%"
+          />
+          <KpiWidget
+            label="Average Overdue"
+            value={`${avgOverdue} days`}
+            icon={Clock}
+            color="info"
+          />
+          <KpiWidget
+            label="Collection Rate"
+            value={`${collectionRate}%`}
+            icon={TrendingDown}
+            color="success"
+            trend="up"
+            trendValue="+3.1%"
+          />
+        </div>
+
+        {/* ── Filter Bar ──────────────────────────────── */}
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>
+            Filter
+          </span>
           <FilterBar
-            filters={agingBuckets.map((b) => ({ key: b.value, label: b.label }))}
+            filters={filterItems}
             activeFilter={agingFilter}
             onFilterChange={(k) => setAgingFilter(k as AgingFilter)}
           />
         </div>
 
-        {/* Receivables Table */}
+        {/* ── Receivables Table ───────────────────────── */}
         <SmartDataTable
           columns={columns}
           data={tableData}
+          onRowClick={(row) => selectInvoice(row.id as string)}
           searchable
           searchPlaceholder="Search receivables..."
-          searchKeys={['client', 'invoiceNo', 'project', 'assignedOwner']}
+          searchKeys={['client', 'invoiceNo']}
           enableExport
-          emptyMessage="No data for this aging bucket"
+          emptyMessage="No receivables for this aging bucket"
           pageSize={10}
         />
 
-        {/* WhatsApp CTA Section */}
-        {filteredReceivables.some((r: Receivable) => r.overdueDays > 0) && (
+        {/* ── AI Payment Risk Panel ───────────────────── */}
+        {highRiskReceivables.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
+            transition={{ delay: 0.3, duration: ANIMATION.duration.slow }}
             className="rounded-2xl border p-5"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 4%, transparent)', borderColor: 'color-mix(in srgb, var(--app-success) 20%, transparent)' }}
+            style={{
+              backgroundColor: 'color-mix(in srgb, var(--app-danger) 3%, transparent)',
+              borderColor: 'color-mix(in srgb, var(--app-danger) 12%, transparent)',
+            }}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 15%, transparent)' }}>
-                  <MessageCircle className="w-5 h-5" style={{ color: CSS.success }} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold" style={{ color: CSS.text }}>Bulk WhatsApp Reminder</p>
-                  <p className="text-xs" style={{ color: CSS.textMuted }}>
-                    Send payment reminders to {filteredReceivables.filter((r: Receivable) => r.overdueDays > 0).length} overdue clients
-                  </p>
-                </div>
-              </div>
-              <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: 'color-mix(in srgb, var(--app-success) 20%, transparent)', color: CSS.success }}>
-                <MessageCircle className="w-4 h-4" />
-                Send Reminders
-              </Button>
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-4 h-4" style={{ color: CSS.danger }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.danger }}>
+                AI Payment Risk — High Delay Probability
+              </span>
+            </div>
+            <div className="space-y-3">
+              {highRiskReceivables.map((r, i) => (
+                <motion.div
+                  key={r.id}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35 + i * 0.05, duration: 0.3 }}
+                  className="flex items-center justify-between p-3 rounded-xl border"
+                  style={{ borderColor: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' }}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: CSS.dangerBg }}>
+                      <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium truncate" style={{ color: CSS.text }}>
+                        {r.client} — {r.invoiceNo}
+                      </p>
+                      <p className="text-xs truncate" style={{ color: CSS.textMuted }}>
+                        {r.aiPrediction?.riskFactors.join(' · ') ?? 'No risk factors'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0 ml-3">
+                    <div className="text-right">
+                      <p className="text-xs font-semibold" style={{ color: CSS.danger }}>
+                        {(r.aiPrediction!.delayProbability * 100).toFixed(0)}% delay risk
+                      </p>
+                      <p className="text-[10px]" style={{ color: CSS.textMuted }}>{formatINR(r.dueAmount)}</p>
+                    </div>
+                    <button
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                      style={{ backgroundColor: CSS.dangerBg, color: CSS.danger }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = CSS.dangerBg; }}
+                    >
+                      <Send className="w-3 h-3" />
+                      Send Reminder
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         )}
+
+        {/* ── Bulk Actions ────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: ANIMATION.duration.slow }}
+          className="rounded-2xl border p-5"
+          style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border, boxShadow: CSS.shadowCard }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <HandCoins className="w-4 h-4" style={{ color: CSS.accent }} />
+            <span className="text-sm font-semibold" style={{ color: CSS.text }}>Bulk Actions</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+              style={{ backgroundColor: CSS.successBg, color: CSS.success }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.85'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+            >
+              <Phone className="w-4 h-4" />
+              Send WhatsApp Reminder
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+                {receivables.filter((r: Receivable) => r.overdueDays > 0).length} overdue
+              </span>
+            </button>
+            {overdue90Plus.length > 0 && (
+              <button
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                style={{ backgroundColor: CSS.dangerBg, color: CSS.danger }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.85'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+              >
+                <Scale className="w-4 h-4" />
+                Escalate to Legal
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ backgroundColor: CSS.hoverBg }}>
+                  {overdue90Plus.length} invoices
+                </span>
+              </button>
+            )}
+          </div>
+        </motion.div>
       </div>
     </PageShell>
   );

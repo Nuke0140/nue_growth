@@ -1,50 +1,156 @@
 // ============================================
-// Finance Module Types
+// Finance Module — AI CFO Type System
+// ============================================
+// Redesigned: Finance = Business Brain
+// Revenue → Expenses → Cashflow → Profit → Forecast → Decisions
 // ============================================
 
+// ---- Navigation ----
 export type FinancePage =
-  | 'finance-dashboard'
-  | 'revenue'
+  | 'dashboard'
+  | 'cashflow'
   | 'receivables'
   | 'payables'
-  | 'invoices'
+  | 'revenue'
   | 'expenses'
-  | 'budgets'
-  | 'gst-tax'
-  | 'payouts'
-  | 'payroll-finance'
-  | 'cashflow'
   | 'pnl'
   | 'profitability'
+  | 'invoices'
+  | 'payroll'
   | 'approvals'
+  | 'budgets'
   | 'forecasting'
-  | 'ai-finance-intelligence';
+  | 'tax';
 
-// ---- Dashboard Types ----
-export interface FinanceKPI {
+// ---- Dashboard — CFO Command Center ----
+export interface CFOKPI {
   id: string;
   label: string;
   value: number;
-  formattedValue: string;
+  formatted: string;
   change: number;
-  changeLabel: string;
+  trend: 'up' | 'down' | 'neutral';
+  severity: 'healthy' | 'warning' | 'critical';
   icon: string;
-  severity?: 'normal' | 'warning' | 'critical';
 }
 
-export interface FinanceDashboardStats {
-  totalRevenue: number;
-  pendingReceivables: number;
-  pendingPayables: number;
-  cashInBank: number;
-  burnRate: number;
+export interface CFOFunnelStep {
+  stage: string;
+  count: number;
+  value: number;
+  conversionRate: number;
+}
+
+export interface CashflowProjection {
+  month: string;
+  inflow: number;
+  outflow: number;
+  net: number;
+  closingBalance: number;
+  isProjected: boolean;
+}
+
+// ---- AI Insights (embedded everywhere, not a separate page) ----
+export interface AIInsight {
+  id: string;
+  type: 'cash-alert' | 'payment-risk' | 'overspend' | 'margin-leak' | 'pricing' | 'optimization' | 'churn-risk' | 'tax-alert';
+  title: string;
+  description: string;
+  confidence: number;
+  impact: 'low' | 'medium' | 'high' | 'critical';
+  recommendation: string;
+  potentialSaving: number;
+  module?: 'crm' | 'marketing' | 'hr' | 'finance';
+  metric?: string;
+  currentValue?: number;
+  thresholdValue?: number;
+  actionLabel?: string;
+  actionPage?: FinancePage;
+}
+
+// ---- Alert System ----
+export interface FinanceAlert {
+  id: string;
+  type: 'cash-low' | 'expense-high' | 'invoice-overdue' | 'tax-due' | 'runway-low' | 'anomaly';
+  severity: 'critical' | 'warning' | 'info';
+  title: string;
+  description: string;
+  timestamp: string;
+  isRead: boolean;
+  actionPage?: FinancePage;
+}
+
+// ---- Cashflow ----
+export interface CashFlowEntry {
+  date: string;
+  openingBalance: number;
+  inflow: number;
+  outflow: number;
+  closingBalance: number;
+  inflowBreakdown: { label: string; amount: number }[];
+  outflowBreakdown: { label: string; amount: number }[];
+}
+
+export interface BurnRateInfo {
+  monthlyBurn: number;
+  burnTrend: 'increasing' | 'stable' | 'decreasing';
   runwayMonths: number;
-  gstDue: number;
-  payrollDue: number;
-  profitMargin: number;
-  clientProfitability: number;
+  runwaySafetyThreshold: number;
+  cashShortageDate?: string;
 }
 
+// ---- Receivables (Collection Engine) ----
+export interface Receivable {
+  id: string;
+  client: string;
+  invoiceNo: string;
+  project: string;
+  dueAmount: number;
+  overdueDays: number;
+  assignedOwner: string;
+  paymentProbability: number;
+  expectedPaymentDate: string;
+  followUpStage: 'first-reminder' | 'second-reminder' | 'escalation' | 'legal' | 'resolved';
+  agingBucket: '0-30' | '31-60' | '61-90' | '90+';
+  aiPrediction?: {
+    delayProbability: number;
+    predictedPaymentDate: string;
+    riskFactors: string[];
+  };
+  disputeNotes?: string;
+}
+
+export interface AgingBucket {
+  range: string;
+  count: number;
+  total: number;
+  percentage: number;
+}
+
+// ---- Payables ----
+export interface Payable {
+  id: string;
+  vendor?: string;
+  freelancer?: string;
+  amount: number;
+  dueDate: string;
+  approvalStatus: 'pending' | 'approved' | 'rejected' | 'paid' | 'overdue';
+  payoutPriority: 'high' | 'medium' | 'low';
+  penaltyRisk: boolean;
+  penaltyAmount?: number;
+  linkedInvoice?: string;
+  category: string;
+  approvalFlow?: ApprovalStep[];
+}
+
+export interface ApprovalStep {
+  role: string;
+  status: 'pending' | 'approved' | 'rejected';
+  approver: string;
+  timestamp?: string;
+}
+
+// ---- Revenue Intelligence ----
 export interface RevenueEntry {
   month: string;
   revenue: number;
@@ -63,6 +169,7 @@ export interface RevenueByClient {
   mrr: number;
   growth: number;
   services: string[];
+  crmDealId?: string;
 }
 
 export interface RevenueByService {
@@ -72,37 +179,45 @@ export interface RevenueByService {
   growth: number;
 }
 
-// ---- Receivables Types ----
-export interface Receivable {
-  id: string;
+export interface CRMDealRevenue {
+  dealId: string;
   client: string;
-  invoiceNo: string;
-  project: string;
-  dueAmount: number;
-  overdueDays: number;
-  assignedOwner: string;
-  paymentProbability: number;
-  expectedPaymentDate: string;
-  followUpStage: 'first-reminder' | 'second-reminder' | 'escalation' | 'legal' | 'resolved';
-  agingBucket: '0-30' | '31-60' | '61-90' | '90+';
-  disputeNotes?: string;
+  stage: string;
+  dealValue: number;
+  probability: number;
+  expectedCloseDate: string;
+  source: 'crm';
 }
 
-// ---- Payables Types ----
-export interface Payable {
+// ---- Expense Intelligence ----
+export interface Expense {
   id: string;
-  vendor?: string;
-  freelancer?: string;
+  description: string;
+  category: 'ads' | 'payroll' | 'freelancers' | 'software' | 'office' | 'travel' | 'client-delivery' | 'refunds' | 'other';
   amount: number;
-  dueDate: string;
-  approvalStatus: 'pending' | 'approved' | 'rejected' | 'paid' | 'overdue';
-  payoutPriority: 'high' | 'medium' | 'low';
-  penaltyRisk: boolean;
-  linkedInvoice?: string;
-  category: string;
+  gstAmount: number;
+  total: number;
+  date: string;
+  project?: string;
+  vendor: string;
+  receiptUploaded: boolean;
+  approvalStatus: 'pending' | 'approved' | 'rejected';
+  approvedBy?: string;
+  taxCategory: string;
+  isAnomaly: boolean;
+  budgetId?: string;
+  marketingCampaignId?: string;
 }
 
-// ---- Invoice Types ----
+export interface ExpenseCategorySummary {
+  category: string;
+  total: number;
+  percentage: number;
+  trend: 'up' | 'down' | 'stable';
+  budgetUtilization: number;
+}
+
+// ---- Invoices ----
 export interface Invoice {
   id: string;
   invoiceNo: string;
@@ -134,124 +249,7 @@ export interface InvoiceItem {
   gstAmount: number;
 }
 
-// ---- Expense Types ----
-export interface Expense {
-  id: string;
-  description: string;
-  category: 'ads' | 'payroll' | 'freelancers' | 'software' | 'office' | 'travel' | 'client-delivery' | 'refunds' | 'other';
-  amount: number;
-  gstAmount: number;
-  total: number;
-  date: string;
-  project?: string;
-  vendor: string;
-  receiptUploaded: boolean;
-  approvalStatus: 'pending' | 'approved' | 'rejected';
-  approvedBy?: string;
-  taxCategory: string;
-  isAnomaly: boolean;
-  budgetId?: string;
-}
-
-// ---- Budget Types ----
-export interface Budget {
-  id: string;
-  name: string;
-  type: 'department' | 'campaign' | 'client' | 'delivery';
-  department?: string;
-  campaign?: string;
-  client?: string;
-  allocated: number;
-  spent: number;
-  remaining: number;
-  monthlyCap: number;
-  period: string;
-  status: 'on-track' | 'at-risk' | 'overspent' | 'locked';
-  variance: number;
-  variancePercent: number;
-}
-
-export interface BudgetTrend {
-  month: string;
-  allocated: number;
-  spent: number;
-}
-
-// ---- GST & Tax Types ----
-export interface GSTSummary {
-  period: string;
-  gstCollected: number;
-  cgst: number;
-  sgst: number;
-  igst: number;
-  gstPayable: number;
-  gstReceivable: number;
-  tds: number;
-  tdsDeducted: number;
-  taxLiability: number;
-  filingStatus: 'filed' | 'pending' | 'overdue';
-  filingDueDate: string;
-}
-
-export interface TaxFiling {
-  id: string;
-  period: string;
-  type: 'GSTR-1' | 'GSTR-3B' | 'TDS' | 'advance-tax';
-  dueDate: string;
-  filedDate?: string;
-  status: 'filed' | 'pending' | 'overdue';
-  amount: number;
-}
-
-// ---- Payout Types ----
-export interface Payout {
-  id: string;
-  beneficiary: string;
-  type: 'freelancer' | 'vendor' | 'refund' | 'salary' | 'reimbursement';
-  amount: number;
-  method: 'razorpay' | 'upi' | 'bank-transfer' | 'cheque';
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'retrying';
-  initiatedDate: string;
-  completedDate?: string;
-  utrNumber?: string;
-  failureReason?: string;
-  approvalId?: string;
-  batchId?: string;
-}
-
-// ---- Payroll Finance Types ----
-export interface PayrollRecord {
-  id: string;
-  employee: string;
-  designation: string;
-  department: string;
-  basicSalary: number;
-  hra: number;
-  allowances: number;
-  reimbursements: number;
-  incentives: number;
-  deductions: number;
-  tds: number;
-  pf: number;
-  esi: number;
-  grossPay: number;
-  netPay: number;
-  payDate: string;
-  status: 'pending' | 'approved' | 'processed';
-}
-
-// ---- Cash Flow Types ----
-export interface CashFlowEntry {
-  date: string;
-  openingBalance: number;
-  inflow: number;
-  outflow: number;
-  closingBalance: number;
-  inflowBreakdown: { label: string; amount: number }[];
-  outflowBreakdown: { label: string; amount: number }[];
-}
-
-// ---- P&L Types ----
+// ---- P&L ----
 export interface PnLEntry {
   category: string;
   currentMonth: number;
@@ -259,9 +257,12 @@ export interface PnLEntry {
   ytd: number;
   variance: number;
   variancePercent: number;
+  isSummary?: boolean;
+  isBold?: boolean;
+  indent?: number;
 }
 
-// ---- Profitability Types ----
+// ---- Profitability ----
 export interface ClientProfitability {
   client: string;
   revenue: number;
@@ -293,10 +294,56 @@ export interface ServiceMargin {
   avgRate: number;
 }
 
-// ---- Approval Types ----
+// ---- Budgets ----
+export interface Budget {
+  id: string;
+  name: string;
+  type: 'department' | 'campaign' | 'client' | 'delivery';
+  department?: string;
+  campaign?: string;
+  client?: string;
+  allocated: number;
+  spent: number;
+  remaining: number;
+  monthlyCap: number;
+  period: string;
+  status: 'on-track' | 'at-risk' | 'overspent' | 'locked';
+  variance: number;
+  variancePercent: number;
+}
+
+export interface BudgetTrend {
+  month: string;
+  allocated: number;
+  spent: number;
+}
+
+// ---- Payroll ----
+export interface PayrollRecord {
+  id: string;
+  employee: string;
+  designation: string;
+  department: string;
+  basicSalary: number;
+  hra: number;
+  allowances: number;
+  reimbursements: number;
+  incentives: number;
+  deductions: number;
+  tds: number;
+  pf: number;
+  esi: number;
+  grossPay: number;
+  netPay: number;
+  payDate: string;
+  status: 'pending' | 'approved' | 'processed';
+  hrEmployeeId?: string;
+}
+
+// ---- Approvals ----
 export interface FinanceApproval {
   id: string;
-  type: 'budget' | 'payout' | 'payroll' | 'expense' | 'discount' | 'refund' | 'write-off';
+  type: 'budget' | 'payout' | 'payroll' | 'expense' | 'discount' | 'refund' | 'write-off' | 'invoice';
   title: string;
   description: string;
   amount: number;
@@ -315,7 +362,7 @@ export interface ApprovalComment {
   timestamp: string;
 }
 
-// ---- Forecasting Types ----
+// ---- Forecasting & Scenario Planning ----
 export interface ForecastEntry {
   metric: string;
   current: number;
@@ -326,29 +373,65 @@ export interface ForecastEntry {
   trend: 'up' | 'down' | 'stable';
 }
 
-// ---- AI Finance Intelligence Types ----
-export interface AIFinanceInsight {
+export interface ScenarioSimulation {
   id: string;
-  type: 'delayed-payment' | 'margin-leak' | 'overspend-anomaly' | 'low-runway' | 'pricing-recommendation' | 'service-pricing' | 'budget-reallocation' | 'churn-risk';
-  title: string;
+  name: string;
   description: string;
-  confidence: number;
-  impact: 'low' | 'medium' | 'high' | 'critical';
-  recommendation: string;
-  potentialSaving: number;
-  client?: string;
-  metric?: string;
-  currentValue?: number;
-  thresholdValue?: number;
+  variable: string;
+  changePercent: number;
+  projectedRevenue: number;
+  projectedProfit: number;
+  projectedRunway: number;
+  riskLevel: 'low' | 'medium' | 'high';
 }
 
-// ---- Alert Types ----
-export interface FinanceAlert {
+// ---- GST & Tax ----
+export interface GSTSummary {
+  period: string;
+  gstCollected: number;
+  cgst: number;
+  sgst: number;
+  igst: number;
+  gstPayable: number;
+  gstReceivable: number;
+  tds: number;
+  tdsDeducted: number;
+  taxLiability: number;
+  filingStatus: 'filed' | 'pending' | 'overdue';
+  filingDueDate: string;
+}
+
+export interface TaxFiling {
   id: string;
-  type: string;
-  severity: 'critical' | 'warning' | 'info';
-  title: string;
-  description: string;
-  actionUrl?: string;
-  createdAt: string;
+  period: string;
+  type: 'GSTR-1' | 'GSTR-3B' | 'TDS' | 'advance-tax';
+  dueDate: string;
+  filedDate?: string;
+  status: 'filed' | 'pending' | 'overdue';
+  amount: number;
+}
+
+// ---- Cross-Module Integration ----
+export interface CRMIntegration {
+  pipelineValue: number;
+  weightedPipeline: number;
+  dealConversionRate: number;
+  avgDealSize: number;
+  topDeals: CRMDealRevenue[];
+}
+
+export interface MarketingIntegration {
+  totalSpend: number;
+  roi: number;
+  costPerLead: number;
+  campaignCount: number;
+  topCampaigns: { name: string; spend: number; revenue: number }[];
+}
+
+export interface HRIntegration {
+  totalPayroll: number;
+  headcount: number;
+  avgSalary: number;
+  pendingHires: number;
+  projectedPayrollIncrease: number;
 }

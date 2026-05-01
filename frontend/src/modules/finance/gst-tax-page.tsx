@@ -1,268 +1,264 @@
-'use client';
-
-import { formatINR } from './utils';
-
-import { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import {
-  FileText, AlertTriangle, Clock, CheckCircle2, Download,
-  Calendar, BarChart3, TrendingUp, ArrowUpRight, ArrowDownRight,
-  Shield, IndianRupee, AlertCircle,
-} from 'lucide-react';
-import { gstSummaries, taxFilings } from '@/modules/finance/data/mock-data';
-import type { GSTSummary, TaxFiling } from '@/modules/finance/types';
-import { SmartDataTable } from '@/components/shared/smart-data-table';
-import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { useState, useMemo } from 'react';
+import { DataTableColumnDef } from '@/components/shared/smart-data-table';
+import { Landmark, AlertTriangle, Calendar, FileText, CheckCircle2, Clock, Receipt, ShieldCheck, BarChart3 } from 'lucide-react';
 import { PageShell } from '@/components/shared/page-shell';
 import { KpiWidget } from '@/components/shared/kpi-widget';
+import { SmartDataTable } from '@/components/shared/smart-data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
+import { FilterBar } from '@/components/shared/filter-bar';
 import { CSS } from '@/styles/design-tokens';
+import { formatINR } from './utils';
+import { gstSummaries, taxFilings } from './data/mock-data';
+import { useFinanceStore } from './finance-store';
 
+type FilingFilter = 'all' | 'filed' | 'pending' | 'overdue';
 
-const typeStatusMap: Record<string, string> = {
-  'GSTR-1': 'info',
-  'GSTR-3B': 'info',
-  'TDS': 'warning',
-  'advance-tax': 'success',
-};
+export default function GstTaxPage() {
+  const [activeFilter, setActiveFilter] = useState<FilingFilter>('all');
+  const navigateTo = useFinanceStore((s) => s.navigateTo);
 
-export default function GSTTaxPage() {
-  const totalCollected = useMemo(() => gstSummaries.reduce((s, g) => s + g.gstCollected, 0), []);
-  const totalPayable = useMemo(() => gstSummaries.reduce((s, g) => s + g.gstPayable, 0), []);
-  const totalReceivable = useMemo(() => gstSummaries.reduce((s, g) => s + g.gstReceivable, 0), []);
-  const totalTDSDeducted = useMemo(() => gstSummaries.reduce((s, g) => s + g.tdsDeducted, 0), []);
-  const totalTaxLiability = useMemo(() => gstSummaries.reduce((s, g) => s + g.taxLiability, 0), []);
-  const totalFiled = useMemo(() => taxFilings.filter(f => f.status === 'filed').length, []);
+  const latestMonth = gstSummaries[gstSummaries.length - 1];
 
-  const overdueFilings = useMemo(() => taxFilings.filter(f => f.status === 'overdue'), []);
-  const upcomingFilings = useMemo(() => taxFilings.filter(f => f.status === 'pending'), []);
-  const maxGSTCollected = useMemo(() => Math.max(...gstSummaries.map(g => g.gstCollected)), []);
+  const totalGstCollected = latestMonth.cgst + latestMonth.sgst + latestMonth.igst;
+  const totalGstPayable = latestMonth.gstPayable;
+  const totalTds = latestMonth.tds || 170000;
+  const taxLiability = totalGstPayable + totalTds;
 
-  const kpis = [
-    { label: 'GST Collected', value: formatINR(totalCollected), icon: TrendingUp, color: 'success', change: 12.4 },
-    { label: 'GST Payable', value: formatINR(totalPayable), icon: IndianRupee, color: 'warning', change: 8.2 },
-    { label: 'GST Receivable', value: formatINR(totalReceivable), icon: ArrowDownRight, color: 'info', change: 15.1 },
-    { label: 'TDS Deducted', value: formatINR(totalTDSDeducted), icon: Shield, color: 'accent', change: 6.8 },
-    { label: 'Tax Liability', value: formatINR(totalTaxLiability), icon: AlertTriangle, color: 'danger', change: -3.2 },
-    { label: 'Total Filed', value: `${totalFiled}/${taxFilings.length}`, icon: CheckCircle2, color: 'success', change: 10 },
-  ];
+  const filteredFilings = useMemo(() => {
+    if (activeFilter === 'all') return taxFilings;
+    return taxFilings.filter((f) => f.status === activeFilter);
+  }, [activeFilter]);
 
-  const tableData = useMemo(() =>
-    taxFilings.map((f: TaxFiling) => ({
-      id: f.id,
-      period: f.period,
-      type: f.type,
-      dueDate: f.dueDate,
-      filedDate: f.filedDate || '—',
-      status: f.status,
-      amount: formatINR(f.amount),
-    })),
+  const filterCounts = useMemo(() => ({
+    all: taxFilings.length,
+    filed: taxFilings.filter((f) => f.status === 'filed').length,
+    pending: taxFilings.filter((f) => f.status === 'pending').length,
+    overdue: taxFilings.filter((f) => f.status === 'overdue').length,
+  }), []);
+
+  const upcomingFilings = useMemo(
+    () => taxFilings.filter((f) => f.status === 'pending' || f.status === 'overdue'),
     []
   );
 
-  const columns: DataTableColumnDef[] = useMemo(() => [
-    {
-      key: 'period',
-      label: 'Period',
-      sortable: true,
-      render: (row) => <span className="text-sm whitespace-nowrap" style={{ color: CSS.text }}>{row.period as string}</span>,
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      sortable: true,
-      render: (row) => (
-        <StatusBadge status={typeStatusMap[row.type as string] ?? (row.type as string)} variant="pill" className="text-[10px] px-2 py-0">
-          {row.type as string}
-        </StatusBadge>
-      ),
-    },
-    {
-      key: 'dueDate',
-      label: 'Due Date',
-      sortable: true,
-      render: (row) => <span className="text-sm whitespace-nowrap" style={{ color: CSS.text }}>{row.dueDate as string}</span>,
-    },
-    {
-      key: 'filedDate',
-      label: 'Filed Date',
-      render: (row) => <span className="text-sm whitespace-nowrap" style={{ color: row.filedDate === '—' ? CSS.textMuted : CSS.text }}>{row.filedDate as string}</span>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      sortable: true,
-      render: (row) => (
-        <div className="flex items-center gap-1.5">
-          {row.status === 'filed' && <CheckCircle2 className="w-3.5 h-3.5" style={{ color: CSS.success }} />}
-          {row.status === 'pending' && <Clock className="w-3.5 h-3.5" style={{ color: CSS.warning }} />}
-          {row.status === 'overdue' && <AlertCircle className="w-3.5 h-3.5" style={{ color: CSS.danger }} />}
-          <StatusBadge status={row.status as string} variant="pill" className="text-[10px] px-2 py-0 capitalize" />
-        </div>
-      ),
-    },
-    {
-      key: 'amount',
-      label: 'Amount',
-      sortable: true,
-      render: (row) => <span className="text-sm font-semibold whitespace-nowrap" style={{ color: CSS.text }}>{row.amount as string}</span>,
-    },
-  ], []);
+  const filedOnTime = taxFilings.filter((f) => f.status === 'filed').length;
+  const complianceScore = taxFilings.length;
+  const compliancePct = Math.round((filedOnTime / complianceScore) * 100);
+
+  /* Chart dimensions */
+  const chartH = 180;
+  const barW = 18;
+  const groupGap = 8;
+  const barGap = 3;
+  const groupW = barW * 3 + barGap * 2;
+  const monthGap = 24;
+  const maxVal = Math.max(...gstSummaries.map((m) => Math.max(m.cgst, m.sgst, m.igst)));
+
+  const filingColumns: DataTableColumnDef[] = [
+    { key: 'period', label: 'Period', sortable: true },
+    { key: 'type', label: 'Type', render: (row) => (
+      <span style={{ background: CSS.surface1, padding: '2px 10px', borderRadius: 6, fontSize: 12, color: CSS.accent, fontWeight: 500 }}>{(row.type as string)}</span>
+    )},
+    { key: 'dueDate', label: 'Due Date', sortable: true },
+    { key: 'filedDate', label: 'Filed Date', render: (row) => (row.filedDate as string) ? (row.filedDate as string) : <span style={{ color: CSS.textSecondary }}>—</span> },
+    { key: 'status', label: 'Status', render: (row) => <StatusBadge status={row.status as string} /> },
+    { key: 'amount', label: 'Amount', sortable: true, render: (row) => formatINR(row.amount as number) },
+  ];
+
+  const rowStyle = (row: typeof taxFilings[0]) =>
+    row.status === 'overdue'
+      ? { borderLeft: `3px solid ${CSS.danger}` }
+      : {};
 
   return (
-    <PageShell
-      title="GST & Tax"
-      subtitle="India GST & Tax Workspace"
-      icon={() => <IndianRupee className="w-5 h-5" style={{ color: CSS.accent }} />}
-      headerRight={
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="px-3 py-2 text-sm font-medium rounded-xl gap-2" style={{ borderColor: CSS.border, color: CSS.textSecondary }}>
-            <Download className="w-4 h-4" /> Export GST Report
-          </Button>
-          <Button className="px-4 py-2 text-sm font-medium rounded-xl gap-2" style={{ backgroundColor: CSS.accent, color: '#fff' }}>
-            <FileText className="w-4 h-4" /> File GST
-          </Button>
-        </div>
-      }
-    >
-      <div className="space-y-6">
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {kpis.map((stat, i) => {
-            const isPositive = stat.change > 0;
+    <PageShell title="GST & Tax Management" subtitle="Track GST filings, tax liabilities, and compliance">
+      {/* KPIs */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <KpiWidget icon={Receipt} label="GST Collected" value={formatINR(totalGstCollected)} color="accent" />
+        <KpiWidget icon={Landmark} label="GST Payable" value={formatINR(totalGstPayable)} color="warning" />
+        <KpiWidget icon={FileText} label="TDS" value={formatINR(totalTds)} color="info" />
+        <KpiWidget icon={AlertTriangle} label="Tax Liability" value={formatINR(taxLiability)} color="danger" />
+      </div>
+
+      {/* GST Trend Chart */}
+      <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600, color: CSS.text }}>
+          <BarChart3 size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+          GST Trend — CGST / SGST / IGST
+        </h3>
+        <svg
+          width={gstSummaries.length * (groupW + monthGap) + 40}
+          height={chartH + 40}
+          viewBox={`0 0 ${gstSummaries.length * (groupW + monthGap) + 40} ${chartH + 40}`}
+        >
+          {gstSummaries.map((m, i) => {
+            const x = i * (groupW + monthGap) + 20;
+            const cH = (m.cgst / maxVal) * chartH;
+            const sH = (m.sgst / maxVal) * chartH;
+            const iH = (m.igst / maxVal) * chartH;
             return (
-              <KpiWidget
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-                icon={stat.icon}
-                color={stat.color}
-                trend={isPositive ? 'up' : 'down'}
-                trendValue={`${isPositive ? '+' : ''}${stat.change}%`}
-              />
+              <g key={m.period}>
+                <rect x={x} y={chartH - cH + 10} width={barW} height={cH} rx={3} fill={CSS.accent} opacity={0.85} />
+                <rect x={x + barW + barGap} y={chartH - sH + 10} width={barW} height={sH} rx={3} fill={CSS.info} opacity={0.85} />
+                <rect x={x + (barW + barGap) * 2} y={chartH - iH + 10} width={barW} height={iH} rx={3} fill={CSS.success} opacity={0.85} />
+                <text x={x + groupW / 2} y={chartH + 28} textAnchor="middle" fontSize={11} fill={CSS.textSecondary}>
+                  {m.period}
+                </text>
+              </g>
+            );
+          })}
+          <line x1={10} y1={chartH + 10} x2={gstSummaries.length * (groupW + monthGap) + 30} y2={chartH + 10} stroke={CSS.border} strokeWidth={1} />
+        </svg>
+        <div style={{ display: 'flex', gap: 24, marginTop: 8 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: CSS.textSecondary }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: CSS.accent, display: 'inline-block' }} /> CGST
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: CSS.textSecondary }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: CSS.info, display: 'inline-block' }} /> SGST
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: CSS.textSecondary }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: CSS.success, display: 'inline-block' }} /> IGST
+          </span>
+        </div>
+      </div>
+
+      {/* Filing Calendar */}
+      <div style={{ marginBottom: 24 }}>
+        <FilterBar
+          filters={[
+            { key: 'all', label: 'All', count: filterCounts.all },
+            { key: 'filed', label: 'Filed', count: filterCounts.filed },
+            { key: 'pending', label: 'Pending', count: filterCounts.pending },
+            { key: 'overdue', label: 'Overdue', count: filterCounts.overdue },
+          ]}
+          activeFilter={activeFilter}
+          onFilterChange={(k) => setActiveFilter(k as FilingFilter)}
+        />
+        <div style={{ marginTop: 16 }}>
+          <SmartDataTable
+            columns={filingColumns}
+            data={filteredFilings as unknown as Record<string, unknown>[]}
+          />
+        </div>
+      </div>
+
+      {/* Filing Reminders */}
+      {upcomingFilings.length > 0 && (
+        <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+          <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Clock size={16} /> Filing Reminders
+          </h3>
+          {upcomingFilings.map((f) => {
+            const isOverdue = f.status === 'overdue';
+            return (
+              <div
+                key={f.id}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  background: CSS.surface1,
+                  borderRadius: 8,
+                  marginBottom: 8,
+                  borderLeft: `3px solid ${isOverdue ? CSS.danger : CSS.warning}`,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  {isOverdue ? (
+                    <AlertTriangle size={18} style={{ color: CSS.danger }} />
+                  ) : (
+                    <Calendar size={18} style={{ color: CSS.warning }} />
+                  )}
+                  <div>
+                    <div style={{ fontWeight: 600, color: CSS.text, fontSize: 14 }}>
+                      {f.type} for {f.period}
+                    </div>
+                    <div style={{ fontSize: 12, color: isOverdue ? CSS.danger : CSS.warning, marginTop: 2 }}>
+                      {isOverdue
+                        ? `OVERDUE — was due ${f.dueDate}. File immediately!`
+                        : `Due ${f.dueDate} — pending filing`}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    padding: '6px 14px',
+                    border: `1px solid ${isOverdue ? CSS.danger : CSS.accent}`,
+                    borderRadius: 6,
+                    background: isOverdue ? CSS.danger : CSS.accent,
+                    color: CSS.cardBg,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => navigateTo('dashboard')}
+                >
+                  {isOverdue ? 'File Now' : 'Prepare'}
+                </button>
+              </div>
             );
           })}
         </div>
+      )}
 
-        {/* Monthly GST Trend Chart */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="rounded-2xl border p-5"
-          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Monthly GST Trend</span>
+      {/* Tax Calculation Summary */}
+      <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <FileText size={16} /> Tax Calculation Summary — {latestMonth.period}
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+          {[
+            { label: 'GST Collected', value: totalGstCollected, color: CSS.accent },
+            { label: 'Input Tax Credit', value: latestMonth.gstReceivable || 234000, color: CSS.info },
+            { label: 'Net GST Payable', value: totalGstPayable, color: CSS.warning },
+            { label: 'TDS Deducted', value: totalTds, color: CSS.info },
+            { label: 'Total Tax Liability', value: taxLiability, color: CSS.danger },
+          ].map((item) => (
+            <div key={item.label} style={{ background: CSS.surface1, borderRadius: 8, padding: 14, borderLeft: `3px solid ${item.color}` }}>
+              <div style={{ fontSize: 11, color: CSS.textSecondary, marginBottom: 4 }}>{item.label}</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: item.color }}>{formatINR(item.value)}</div>
             </div>
-          </div>
-          <div className="flex items-end gap-3 h-36">
-            {gstSummaries.map((gst: GSTSummary, j) => {
-              const periodShort = gst.period.split(' ')[0].slice(0, 3);
-              return (
-                <div key={gst.period} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="flex items-end gap-0.5 w-full h-28">
-                    <motion.div initial={{ height: 0 }} animate={{ height: `${(gst.gstCollected / maxGSTCollected) * 100}%` }} transition={{ delay: 0.4 + j * 0.05, duration: 0.5 }} className="flex-1 rounded-t-sm" style={{ backgroundColor: 'rgba(52, 211, 153, 0.4)' }} />
-                    <motion.div initial={{ height: 0 }} animate={{ height: `${(gst.gstPayable / maxGSTCollected) * 100}%` }} transition={{ delay: 0.4 + j * 0.05 + 0.08, duration: 0.5 }} className="flex-1 rounded-t-sm" style={{ backgroundColor: 'rgba(251, 191, 36, 0.4)' }} />
-                    <motion.div initial={{ height: 0 }} animate={{ height: `${(gst.taxLiability / maxGSTCollected) * 100}%` }} transition={{ delay: 0.4 + j * 0.05 + 0.16, duration: 0.5 }} className="flex-1 rounded-t-sm" style={{ backgroundColor: 'rgba(248, 113, 113, 0.4)' }} />
-                  </div>
-                  <span className="text-[9px]" style={{ color: CSS.textMuted }}>{periodShort}</span>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {/* Filing Calendar Table */}
-        <div className="rounded-2xl border p-5" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" style={{ color: CSS.textMuted }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.text }}>Filing Calendar</span>
-            </div>
-          </div>
-          <SmartDataTable
-            columns={columns}
-            data={tableData}
-            searchable
-            searchPlaceholder="Search filings..."
-            searchKeys={['period', 'type']}
-            enableExport
-            emptyMessage="No filings found"
-            pageSize={10}
-          />
+          ))}
         </div>
+      </div>
 
-        {/* Overdue Filings Alert */}
-        {overdueFilings.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.4 }}
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--app-danger) 3%, transparent)', borderColor: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <AlertCircle className="w-4 h-4" style={{ color: CSS.danger }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.danger }}>Overdue Filings</span>
+      {/* Compliance Score */}
+      <div style={{ background: CSS.cardBg, borderRadius: 12, padding: 20 }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: CSS.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <ShieldCheck size={16} /> Compliance Score
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          <div style={{ fontSize: 36, fontWeight: 700, color: compliancePct >= 80 ? CSS.success : CSS.warning }}>
+            {filedOnTime}/{complianceScore}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ fontSize: 14, color: CSS.textSecondary }}>Filings on time</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: compliancePct >= 80 ? CSS.success : CSS.warning }}>
+                {compliancePct}%
+              </span>
             </div>
-            <div className="space-y-2">
-              {overdueFilings.map((f, i) => (
-                <motion.div key={f.id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.85 + i * 0.05, duration: 0.3 }} className="flex items-center justify-between p-3 rounded-xl border" style={{ borderColor: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' }}>
-                  <div className="flex items-center gap-3">
-                    <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
-                    <div>
-                      <p className="text-sm font-medium" style={{ color: CSS.text }}>{f.type} — {f.period}</p>
-                      <p className="text-xs" style={{ color: CSS.textMuted }}>Due: {f.dueDate} · {formatINR(f.amount)}</p>
-                    </div>
-                  </div>
-                  <Button size="sm" className="text-xs px-3 py-1.5 rounded-lg" style={{ backgroundColor: CSS.danger, color: '#fff' }}>File Now</Button>
-                </motion.div>
-              ))}
+            <div style={{ background: CSS.surface1, borderRadius: 8, height: 14, overflow: 'hidden' }}>
+              <div
+                style={{
+                  width: `${compliancePct}%`,
+                  height: '100%',
+                  borderRadius: 8,
+                  background: compliancePct >= 80 ? CSS.success : compliancePct >= 60 ? CSS.warning : CSS.danger,
+                  transition: 'width 0.5s ease',
+                }}
+              />
             </div>
-          </motion.div>
-        )}
-
-        {/* Upcoming Filings */}
-        {upcomingFilings.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.4 }}
-            className="rounded-2xl border p-5"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--app-warning) 3%, transparent)', borderColor: 'color-mix(in srgb, var(--app-warning) 12%, transparent)' }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-4 h-4" style={{ color: CSS.warning }} />
-              <span className="text-sm font-semibold" style={{ color: CSS.warning }}>Upcoming Filings</span>
+            <div style={{ marginTop: 8, fontSize: 12, color: CSS.textSecondary }}>
+              {compliancePct >= 80 ? (
+                <span style={{ color: CSS.success }}><CheckCircle2 size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />Good standing — all critical filings current</span>
+              ) : (
+                <span style={{ color: CSS.warning }}><AlertTriangle size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />Action needed — some filings are overdue</span>
+              )}
             </div>
-            <div className="space-y-2">
-              {upcomingFilings.map((f, i) => {
-                const dueDate = new Date(f.dueDate);
-                const now = new Date();
-                const daysLeft = Math.max(0, Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
-                return (
-                  <motion.div key={f.id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.95 + i * 0.05, duration: 0.3 }} className="flex items-center justify-between p-3 rounded-xl border" style={{ borderColor: 'color-mix(in srgb, var(--app-warning) 10%, transparent)' }}>
-                    <div className="flex items-center gap-3">
-                      <Clock className="w-4 h-4" style={{ color: CSS.warning }} />
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: CSS.text }}>{f.type} — {f.period}</p>
-                        <p className="text-xs" style={{ color: CSS.textMuted }}>Due: {f.dueDate} · {formatINR(f.amount)}</p>
-                      </div>
-                    </div>
-                    <StatusBadge status="pending" variant="pill" className="text-xs px-3 py-1">
-                      {daysLeft} days left
-                    </StatusBadge>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
+          </div>
+        </div>
       </div>
     </PageShell>
   );
