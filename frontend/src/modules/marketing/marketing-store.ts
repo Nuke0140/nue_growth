@@ -1,26 +1,75 @@
 import { create } from 'zustand';
 import { useFeedbackStore } from '@/hooks/use-action-feedback';
-import type { MarketingPage } from './types';
+import type { MarketingPage, CampaignBuilderStep, Campaign } from './types';
+
+// ---- Campaign Builder State ----
+export interface CampaignBuilderState {
+  step: CampaignBuilderStep;
+  campaign: Partial<Campaign>;
+  isEditing: boolean;
+  isValid: Record<CampaignBuilderStep, boolean>;
+}
+
+const initialBuilderState: CampaignBuilderState = {
+  step: 'objective',
+  campaign: {},
+  isEditing: false,
+  isValid: {
+    objective: false,
+    audience: false,
+    channels: false,
+    content: false,
+    offer: true, // optional
+    automation: true, // optional
+    schedule: false,
+    'ai-optimization': true, // optional
+  },
+};
 
 interface MarketingState {
+  // Navigation
   currentPage: MarketingPage;
   sidebarOpen: boolean;
   searchQuery: string;
   history: string[];
   forwardStack: string[];
-  selectedCampaignId: string | null;
-  selectedWorkflowId: string | null;
 
+  // Campaign Selection
+  selectedCampaignId: string | null;
+
+  // Campaign Builder
+  builder: CampaignBuilderState;
+
+  // Contextual Sidebar
+  contextualSidebarOpen: boolean;
+
+  // Navigation
   navigateTo: (page: MarketingPage) => void;
   setSidebarOpen: (open: boolean) => void;
   setSearchQuery: (query: string) => void;
-  selectCampaign: (id: string) => void;
-  selectWorkflow: (id: string) => void;
   goBack: () => void;
   goForward: () => void;
   canGoBack: () => boolean;
   canGoForward: () => boolean;
+
+  // Campaign Selection
+  selectCampaign: (id: string) => void;
+
+  // Campaign Builder Actions
+  setBuilderStep: (step: CampaignBuilderStep) => void;
+  updateBuilderCampaign: (updates: Partial<Campaign>) => void;
+  resetBuilder: () => void;
+  startEditingCampaign: (campaign: Campaign) => void;
+  setBuilderValid: (step: CampaignBuilderStep, valid: boolean) => void;
+
+  // Contextual Sidebar
+  setContextualSidebarOpen: (open: boolean) => void;
 }
+
+const BUILDER_STEPS: CampaignBuilderStep[] = [
+  'objective', 'audience', 'channels', 'content',
+  'offer', 'automation', 'schedule', 'ai-optimization',
+];
 
 export const useMarketingStore = create<MarketingState>((set, get) => ({
   currentPage: 'dashboard',
@@ -29,7 +78,8 @@ export const useMarketingStore = create<MarketingState>((set, get) => ({
   history: [],
   forwardStack: [],
   selectedCampaignId: null,
-  selectedWorkflowId: null,
+  builder: { ...initialBuilderState },
+  contextualSidebarOpen: false,
 
   navigateTo: (page: MarketingPage) => {
     const { currentPage } = get();
@@ -45,17 +95,10 @@ export const useMarketingStore = create<MarketingState>((set, get) => ({
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 
   selectCampaign: (id: string) => {
-    set({ selectedCampaignId: id });
+    set({ selectedCampaignId: id, contextualSidebarOpen: true });
     useFeedbackStore.getState().addToast('info', {
       title: 'Campaign Selected',
-      message: 'Now viewing campaign details.',
-    });
-  },
-  selectWorkflow: (id: string) => {
-    set({ selectedWorkflowId: id });
-    useFeedbackStore.getState().addToast('info', {
-      title: 'Workflow Selected',
-      message: 'Now viewing workflow details.',
+      message: 'Viewing campaign details in sidebar.',
     });
   },
 
@@ -85,4 +128,58 @@ export const useMarketingStore = create<MarketingState>((set, get) => ({
 
   canGoBack: () => get().history.length > 0,
   canGoForward: () => get().forwardStack.length > 0,
+
+  // Campaign Builder
+  setBuilderStep: (step: CampaignBuilderStep) => {
+    set({ builder: { ...get().builder, step } });
+  },
+
+  updateBuilderCampaign: (updates: Partial<Campaign>) => {
+    set({
+      builder: {
+        ...get().builder,
+        campaign: { ...get().builder.campaign, ...updates },
+      },
+    });
+  },
+
+  resetBuilder: () => {
+    set({ builder: { ...initialBuilderState } });
+  },
+
+  startEditingCampaign: (campaign: Campaign) => {
+    set({
+      builder: {
+        step: 'objective',
+        campaign: { ...campaign },
+        isEditing: true,
+        isValid: {
+          objective: true,
+          audience: true,
+          channels: true,
+          content: true,
+          offer: true,
+          automation: true,
+          schedule: true,
+          'ai-optimization': true,
+        },
+      },
+    });
+  },
+
+  setBuilderValid: (step: CampaignBuilderStep, valid: boolean) => {
+    set({
+      builder: {
+        ...get().builder,
+        isValid: { ...get().builder.isValid, [step]: valid },
+      },
+    });
+  },
+
+  // Contextual Sidebar
+  setContextualSidebarOpen: (open: boolean) => {
+    set({ contextualSidebarOpen: open });
+  },
 }));
+
+export { BUILDER_STEPS };

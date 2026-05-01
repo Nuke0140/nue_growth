@@ -53,7 +53,7 @@ export default function WorkflowCanvas({ workflow }: WorkflowCanvasProps) {
   const canvasW = maxX * scaleX;
   const canvasH = maxY * scaleY;
 
-  const connectors = [];
+  const connectors: React.ReactElement[] = [];
   for (let i = 0; i < nodes.length - 1; i++) {
     const from = nodes[i];
     const to = nodes[i + 1];
