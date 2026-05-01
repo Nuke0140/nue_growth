@@ -157,11 +157,8 @@ function WorkloadPageInner() {
             { label: 'Overloaded', value: stats.overloaded, icon: AlertTriangle, color: 'text-red-500 dark:text-red-400' },
             { label: 'Under-utilized', value: stats.underUtilized, icon: Info, color: 'text-blue-400' },
           ].map((stat, i) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -171,15 +168,12 @@ function WorkloadPageInner() {
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Workload Bars */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.3 }}
+        <div
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
@@ -212,11 +206,9 @@ function WorkloadPageInner() {
                     <div className={cn('h-5 rounded-full overflow-hidden relative', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')}>
                       {/* Capacity line at 100% */}
                       <div className={cn('absolute top-0 bottom-0 w-px z-10', isDark ? 'bg-white/10' : 'bg-black/10')} style={{ left: '100%' }} />
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(w.allocation, 100)}%` }}
-                        transition={{ delay: i * 0.05 + 0.1, duration: 0.2 }}
+                      <div
                         className={cn('h-full rounded-full', status.barColor, isOverloaded && 'opacity-80')}
+                        style={{ width: `${Math.min(w.allocation, 100)}%` }}
                       />
                     </div>
                   </div>
@@ -254,13 +246,10 @@ function WorkloadPageInner() {
               <span className={cn('text-[10px]', isDark ? 'text-white/30' : 'text-black/30')}>Under-utilized (&lt;60%)</span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Heatmap Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+        <div
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4">Project Allocation Heatmap</h3>
@@ -328,13 +317,10 @@ function WorkloadPageInner() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Overtime Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.3 }}
+        <div
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
@@ -363,7 +349,7 @@ function WorkloadPageInner() {
               <p className={cn('text-sm text-center py-4', isDark ? 'text-white/30' : 'text-black/30')}>No overtime recorded</p>
             )}
           </div>
-        </motion.div>
+        </div>
     </PageShell>
   );
 }

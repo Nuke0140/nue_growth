@@ -374,21 +374,13 @@ function PageContent() {
 
   return (
     <div className="relative h-full">
-      {/* Page content — Suspense handles lazy-load, no extra skeleton layer */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentPage}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full"
-        >
-          <Suspense fallback={<SkeletonDashboard />}>
-            <PageComponent />
-          </Suspense>
-        </motion.div>
-      </AnimatePresence>
+      <React.Suspense fallback={
+        <div className="flex items-center justify-center h-full">
+          <div className="animate-spin w-6 h-6 border-2 border-current border-t-transparent rounded-full" />
+        </div>
+      }>
+        <PageComponent />
+      </React.Suspense>
     </div>
   );
 }
@@ -399,24 +391,18 @@ function ToastContainer() {
 
   return (
     <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
-      <AnimatePresence mode="popLayout">
-        {toasts.map((toast: Toast) => {
-          const config = toastColorConfig[toast.type] || toastColorConfig.info;
-          const ToastIcon = config.icon;
-          return (
-            <motion.div
-              key={toast.id}
-              layout
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease }}
-              className={cn(
-                'pointer-events-auto flex items-start gap-3 p-3 rounded-xl border backdrop-blur-sm shadow-lg',
-                'bg-[var(--app-card-bg)] border-[var(--app-border-strong)]',
-                config.border
-              )}
-            >
+      {toasts.map((toast: Toast) => {
+        const config = toastColorConfig[toast.type] || toastColorConfig.info;
+        const ToastIcon = config.icon;
+        return (
+          <div
+            key={toast.id}
+            className={cn(
+              'pointer-events-auto flex items-start gap-3 p-3 rounded-xl border backdrop-blur-sm shadow-lg',
+              'bg-[var(--app-card-bg)] border-[var(--app-border-strong)]',
+              config.border
+            )}
+          >
               <div className={cn('w-5 h-5 mt-0.5 shrink-0', config.iconColor)}>
                 <ToastIcon className="w-5 h-5" />
               </div>
@@ -436,10 +422,9 @@ function ToastContainer() {
               >
                 <X className="w-3.5 h-3.5" />
               </button>
-            </motion.div>
+            </div>
           );
         })}
-      </AnimatePresence>
     </div>
   );
 }
@@ -454,57 +439,42 @@ function MobileFab() {
 
   return (
     <div className="fixed bottom-6 right-6 z-[90] md:hidden">
-      <AnimatePresence>
-        {fabOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-0"
-              onClick={() => setFabOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              transition={{ duration: ANIMATION.duration.fast }}
-              className="absolute bottom-16 right-0 bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-2xl p-1.5 min-w-[180px] shadow-xl"
-            >
-              {[
-                { label: 'New Project', icon: FolderKanban, action: () => openCreateModal('project') },
-                { label: 'Create Task', icon: ListPlus, action: () => openCreateModal('task') },
-                { label: 'Add Employee', icon: UserPlus, action: () => openCreateModal('employee') },
-                { label: 'Search', icon: Search, action: () => setCommandPaletteOpen(true) },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => {
-                    item.action();
-                    setFabOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
-                >
-                  <item.icon className="w-4 h-4 text-[var(--app-text-secondary)]" />
-                  {item.label}
-                </button>
-              ))}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-      <motion.button
-        whileTap={{ scale: 0.9 }}
+      {fabOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-0"
+            onClick={() => setFabOpen(false)}
+          />
+          <div className="absolute bottom-16 right-0 bg-[var(--app-card-bg)] border border-[var(--app-border-strong)] rounded-2xl p-1.5 min-w-[180px] shadow-xl">
+            {[
+              { label: 'New Project', icon: FolderKanban, action: () => openCreateModal('project') },
+              { label: 'Create Task', icon: ListPlus, action: () => openCreateModal('task') },
+              { label: 'Add Employee', icon: UserPlus, action: () => openCreateModal('employee') },
+              { label: 'Search', icon: Search, action: () => setCommandPaletteOpen(true) },
+            ].map((item) => (
+              <button
+                key={item.label}
+                onClick={() => {
+                  item.action();
+                  setFabOpen(false);
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)] transition-colors"
+              >
+                <item.icon className="w-4 h-4 text-[var(--app-text-secondary)]" />
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      <button
         onClick={() => setFabOpen(!fabOpen)}
         className="relative w-14 h-14 rounded-full bg-[var(--app-accent)] text-white shadow-lg shadow-[var(--app-accent)]/30 flex items-center justify-center"
       >
-        <motion.div
-          animate={{ rotate: fabOpen ? 45 : 0 }}
-          transition={{ duration: ANIMATION.duration.normal }}
-        >
+        <div style={{ transform: fabOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
           <Plus className="w-6 h-6" />
-        </motion.div>
-      </motion.button>
+        </div>
+      </button>
     </div>
   );
 }
@@ -533,11 +503,7 @@ function SidebarNavItem({
     >
       {/* Active left accent border */}
       {isActive && (
-        <motion.div
-          layoutId="sidebar-active"
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-[var(--app-accent)]"
-          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-        />
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-[var(--app-accent)]" />
       )}
       <item.icon
         className={cn(
@@ -598,52 +564,34 @@ function SidebarSection({
           }
         }}
         className={cn(
-          'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all duration-200 group',
-          isSectionActive && !isExpanded
-            ? 'text-[var(--app-text-secondary)]'
-            : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text)] hover:bg-[var(--app-hover-bg)]'
+          'w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] transition-colors',
+          isSectionActive ? 'bg-[var(--app-active-bg)] text-[var(--app-text)]' : 'text-[var(--app-text-secondary)] hover:bg-[var(--app-hover-bg)] hover:text-[var(--app-text)]'
         )}
       >
-        <section.icon
-          className={cn(
-            'w-[18px] h-[18px] transition-colors shrink-0',
-            isSectionActive
-              ? 'text-[var(--app-accent)]'
-              : 'text-[var(--app-text-muted)] group-hover:text-[var(--app-text-secondary)]'
-          )}
-        />
-        <span className="flex-1 text-left truncate">{section.label}</span>
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: ANIMATION.duration.normal }}
-        >
-          <ChevronDown className="w-3.5 h-3.5 text-[var(--app-text-disabled)]" />
-        </motion.div>
+        <section.icon className="w-4 h-4 shrink-0" />
+        <span className="flex-1 text-left font-medium">{section.label}</span>
+        {isExpanded ? (
+          <ChevronDown className="w-4 h-4 text-[var(--app-text-muted)] shrink-0" />
+        ) : (
+          <ChevronRight className="w-4 h-4 text-[var(--app-text-muted)] shrink-0" />
+        )}
       </button>
 
-      {/* Sub-items */}
-      <AnimatePresence initial={false}>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="ml-3 pl-3 border-l border-[var(--app-border)] space-y-0.5 py-1">
-              {filteredItems.map((item) => (
-                <SidebarNavItem
-                  key={item.id}
-                  item={item}
-                  isActive={currentPage === item.id}
-                  onClick={() => onNavClick(item.id)}
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Section items */}
+      {isExpanded && (
+        <div className="overflow-hidden">
+          <div className="ml-3 pl-3 border-l border-[var(--app-border)] space-y-0.5 py-1">
+            {filteredItems.map((item) => (
+              <SidebarNavItem
+                key={item.id}
+                item={item}
+                isActive={currentPage === item.id}
+                onClick={() => onNavClick(item.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -691,33 +639,23 @@ function Sidebar() {
   return (
     <>
       {/* Mobile backdrop */}
-      <AnimatePresence>
-        {isMobile && sidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: ANIMATION.duration.fast }}
-            className="fixed inset-0 bg-[var(--app-overlay)] backdrop-blur-sm z-40"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+      {isMobile && sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-[var(--app-overlay)] backdrop-blur-sm z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Sidebar panel */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.aside
-            initial={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
-            animate={isMobile ? { x: 0 } : { width: 240, opacity: 1 }}
-            exit={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className={cn(
-              'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
-              'bg-[var(--app-bg)] border-r border-[var(--app-border)]',
-              isMobile && 'w-[260px]'
-            )}
-          >
+      {sidebarOpen && (
+        <aside
+          className={cn(
+            'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
+            'bg-[var(--app-bg)] border-r border-[var(--app-border)]',
+            isMobile && 'w-[260px]',
+            !isMobile && 'w-60'
+          )}
+        >
             <div className="h-full flex flex-col">
               {/* Logo area */}
               <div className="h-14 flex items-center gap-2.5 px-4 shrink-0 border-b border-[var(--app-border)]">
@@ -798,9 +736,8 @@ function Sidebar() {
                 <SidebarFooter />
               </div>
             </div>
-          </motion.aside>
+          </aside>
         )}
-      </AnimatePresence>
     </>
   );
 }

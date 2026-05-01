@@ -78,24 +78,15 @@ function PageContent() {
   if (!PageComponent) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={currentPage}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="h-full"
-      >
-        <React.Suspense fallback={
-          <div className="flex items-center justify-center h-full">
-            <div className="animate-spin w-6 h-6 border-2 border-current border-t-transparent rounded-full" />
-          </div>
-        }>
-          <PageComponent />
-        </React.Suspense>
-      </motion.div>
-    </AnimatePresence>
+    <div className="h-full">
+      <React.Suspense fallback={
+        <div className="flex items-center justify-center h-full">
+          <div className="animate-spin w-6 h-6 border-2 border-current border-t-transparent rounded-full" />
+        </div>
+      }>
+        <PageComponent />
+      </React.Suspense>
+    </div>
   );
 }
 
@@ -185,22 +176,15 @@ export default function MarketingLayout() {
 
         {/* ========== Main Content ========== */}
         <div className="flex-1 flex overflow-hidden">
-          <AnimatePresence>
-            {isMobile && sidebarOpen && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
-            )}
-          </AnimatePresence>
+          {isMobile && sidebarOpen && (
+            <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
+          )}
 
           {/* Sidebar */}
-          <AnimatePresence>
-            {sidebarOpen && (
-              <motion.aside
-                initial={isMobile ? { x: -280, opacity: 0 } : { width: 0, opacity: 0 }}
-                animate={isMobile ? { x: 0, opacity: 1 } : { width: 256, opacity: 1 }}
-                exit={isMobile ? { x: -280, opacity: 0 } : { width: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className={cn('border-r shrink-0 overflow-hidden fixed md:relative inset-y-0 left-0 z-50 flex flex-col', isMobile && 'w-[280px]', isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white')}
-              >
+          {sidebarOpen && (
+            <aside
+              className={cn('border-r shrink-0 overflow-hidden fixed md:relative inset-y-0 left-0 z-50 flex flex-col', isMobile && 'w-[280px]', !isMobile && 'w-64', isDark ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-black/[0.06] bg-white')}
+            >
                 <nav className="flex-1 py-3 px-2 overflow-y-auto">
                   {navSections.map((section, sectionIdx) => (
                     <div key={section.title} className="mb-2">
@@ -235,9 +219,8 @@ export default function MarketingLayout() {
                     </p>
                   </div>
                 </div>
-              </motion.aside>
+              </aside>
             )}
-          </AnimatePresence>
 
           {/* Page Content */}
           <main className="flex-1 overflow-hidden">

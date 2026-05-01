@@ -13,10 +13,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
-import { PageShell } from '@/components/shared/page-shell';
+import { PageShell } from '@/components/shared/page-shell/index';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { FilterBar } from '@/components/shared/filter-bar';
-import { KpiWidget } from '@/components/shared/kpi-widget';
+import { KpiWidget } from '@/components/shared/kpi-widget/index';
 import { CSS } from '@/styles/design-tokens';
 import { mockIncentives, mockEmployees } from '@/modules/erp/data/mock-data';
 import type { IncentiveType, IncentiveStatus } from '@/modules/erp/types';

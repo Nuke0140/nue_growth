@@ -126,18 +126,9 @@ function PageContent() {
   if (!PageComponent) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={currentPage}
-        initial={ANIMATION.pageVariants.initial}
-        animate={ANIMATION.pageVariants.animate}
-        exit={ANIMATION.pageVariants.exit}
-        transition={{ duration: 0.25, ease: ANIMATION.ease }}
-        className="h-full"
-      >
-        <PageComponent />
-      </motion.div>
-    </AnimatePresence>
+    <div className="h-full">
+      <PageComponent />
+    </div>
   );
 }
 
@@ -553,40 +544,36 @@ export default function FinanceLayout() {
         {/* ========== Content Area ========== */}
         <div className="flex-1 flex overflow-hidden">
           {/* Mobile Backdrop */}
-          <AnimatePresence>
-            {isMobile && sidebarOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-40 md:hidden"
-                style={{ backgroundColor: CSS.overlay }}
-                onClick={() => setSidebarOpen(false)}
-              />
-            )}
-          </AnimatePresence>
+          {isMobile && sidebarOpen && (
+            <div
+              className="fixed inset-0 z-40 md:hidden"
+              style={{ backgroundColor: CSS.overlay }}
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
 
           {/* Sidebar */}
-          <AnimatePresence>
-            {sidebarOpen && (
-              <motion.aside
-                initial={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
-                animate={isMobile ? { x: 0 } : { width: 256, opacity: 1 }}
-                exit={isMobile ? { x: -280 } : { width: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: ANIMATION.ease }}
-                className={cn(
-                  'border-r shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
-                  isMobile && 'w-[280px]',
-                )}
-                style={{
-                  backgroundColor: CSS.sidebarBg,
-                  borderRight: `1px solid ${CSS.border}`,
-                }}
-              >
-                {/* Nav Sections */}
-                <nav className="flex-1 py-3 px-2 overflow-y-auto">
-                  {navSections.map((section, sectionIdx) => (
-                    <div key={section.title} className="mb-2">
+          {sidebarOpen && (
+            <aside
+              className={cn(
+                'border-r shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
+                isMobile && 'w-[280px]',
+                !isMobile && 'w-64',
+              )}
+              style={{ backgroundColor: CSS.surface, borderColor: CSS.border }}
+            >
+              {/* Nav Sections */}
+              <nav className="flex-1 py-3 px-2 overflow-y-auto">
+                {navSections.map((section, sectionIdx) => (
+                  <div key={section.title} className="mb-2">
+                    <div className="px-3 pt-3 pb-1.5">
+                      <span
+                        className="text-[10px] font-semibold tracking-wider uppercase"
+                        style={{ color: CSS.textMuted }}
+                      >
+                        {section.title}
+                      </span>
+                    </div>
                       <div className="px-3 pt-3 pb-1.5">
                         <span
                           className="text-[10px] font-semibold tracking-wider uppercase"
@@ -641,9 +628,8 @@ export default function FinanceLayout() {
                     </p>
                   </div>
                 </div>
-              </motion.aside>
+              </aside>
             )}
-          </AnimatePresence>
 
           {/* Main Content */}
           <main

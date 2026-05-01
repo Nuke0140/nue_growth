@@ -269,50 +269,41 @@ function LabelFilterBar({
 }) {
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-1">
-      <motion.button
+      <button
         onClick={() => onLabelChange(null)}
         className={cn(
-          'relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors'
+          'relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap'
         )}
         style={{
-          backgroundColor: activeLabel === null
-            ? 'var(--app-accent)'
-            : 'transparent',
-          color: activeLabel === null
-            ? '#ffffff'
-            : 'var(--app-text-secondary)',
+          backgroundColor: activeLabel === null ? 'var(--app-accent)' : 'var(--app-hover-bg)',
+          color: activeLabel === null ? 'var(--app-card-bg)' : 'var(--app-text)',
         }}
-        whileTap={{ scale: 0.97 }}
       >
         All Labels
-      </motion.button>
+      </button>
       {labels.map((label) => {
         const config = LABEL_CONFIG[label] || { bg: 'var(--app-hover-bg)', color: 'var(--app-text-muted)' };
         const isActive = activeLabel === label;
         return (
-          <motion.button
+          <button
             key={label}
             onClick={() => onLabelChange(isActive ? null : label)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all'
+              'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap'
             )}
             style={{
-              backgroundColor: isActive
-                ? config.color
-                : `${config.bg}`,
-              color: isActive
-                ? '#fff'
-                : config.color,
-              border: `1px solid ${isActive ? config.color : 'transparent'}`,
+              backgroundColor: isActive ? 'var(--app-accent)' : config.bg,
+              color: isActive ? 'var(--app-card-bg)' : config.color,
             }}
-            whileTap={{ scale: 0.97 }}
           >
-            <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ backgroundColor: config.color }}
-            />
+            {isActive && (
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: 'var(--app-card-bg)' }}
+              />
+            )}
             {label}
-          </motion.button>
+          </button>
         );
       })}
     </div>
@@ -518,53 +509,47 @@ function TaskDetailDrawer({
                 className="h-2 rounded-full overflow-hidden"
                 style={{ backgroundColor: 'var(--app-hover-bg)' }}
               >
-                <motion.div
+                <div
                   className="h-full rounded-full"
                   style={{
                     backgroundColor: completedCount === subtasks.length ? '#34d399' : 'var(--app-accent)',
+                    width: `${(completedCount / subtasks.length) * 100}%`,
                   }}
-                  initial={{ width: 0 }}
-                  animate={{
-                    width: `${subtasks.length > 0 ? (completedCount / subtasks.length) * 100 : 0}%`,
-                  }}
-                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
 
-              {/* Subtask list with checkboxes */}
+              {/* Subtask list */}
               <div className="space-y-1.5">
-                <AnimatePresence>
-                  {subtasks.map((subtask) => (
-                    <motion.button
-                      key={subtask.id}
-                      onClick={() => onSubtaskToggle(task.id, subtask.id)}
+                {subtasks.map((subtask) => (
+                  <button
+                    key={subtask.id}
+                    onClick={() => onSubtaskToggle(task.id, subtask.id)}
+                    className={cn(
+                      'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl',
+                    )}
+                    style={{
+                      backgroundColor: 'var(--app-hover-bg)',
+                    }}
+                  >
+                    <div
                       className={cn(
-                        'flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors',
+                        'w-4 h-4 rounded border flex items-center justify-center shrink-0',
+                        subtask.completed ? 'bg-green-500 border-green-500' : 'border-gray-300'
                       )}
-                      style={{
-                        backgroundColor: subtask.completed ? 'rgba(52,211,153,0.05)' : 'var(--app-hover-bg)',
-                      }}
-                      whileTap={{ scale: 0.99 }}
                     >
-                      {subtask.completed ? (
-                        <CheckSquare className="w-4 h-4 shrink-0" style={{ color: '#34d399' }} />
-                      ) : (
-                        <Square className="w-4 h-4 shrink-0" style={{ color: 'var(--app-text-muted)' }} />
+                      {subtask.completed && <CheckCircle className="w-3 h-3 text-white" />}
+                    </div>
+                    <span
+                      className={cn(
+                        'text-xs',
+                        subtask.completed ? 'line-through' : '',
+                        'var(--app-text-secondary)'
                       )}
-                      <span
-                        className={cn(
-                          'text-sm',
-                        )}
-                        style={{
-                          color: subtask.completed ? 'var(--app-text-muted)' : 'var(--app-text)',
-                          textDecoration: subtask.completed ? 'line-through' : 'none',
-                        }}
-                      >
-                        {subtask.title}
-                      </span>
-                    </motion.button>
-                  ))}
-                </AnimatePresence>
+                    >
+                      {subtask.title}
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
           )}
@@ -1034,34 +1019,18 @@ function TasksBoardPageInner() {
 
         {/* ── Stats ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15 }}
-          >
+          <div>
             <StatCard label="Total Tasks" value={stats.total} icon={GitBranch} />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05, duration: 0.3 }}
-          >
+          </div>
+          <div>
             <StatCard label="In Progress" value={stats.inProgress} icon={Clock} accent="#fbbf24" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.3 }}
-          >
+          </div>
+          <div>
             <StatCard label="Blocked" value={stats.blocked} icon={AlertTriangle} accent="#f87171" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.3 }}
-          >
+          </div>
+          <div>
             <StatCard label="Completed" value={stats.completed} icon={CheckCircle2} accent="#34d399" />
-          </motion.div>
+          </div>
         </div>
       </div>
 

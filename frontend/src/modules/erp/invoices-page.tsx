@@ -9,11 +9,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { PageShell } from '@/components/shared/page-shell';
+import { PageShell } from '@/components/shared/page-shell/index';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { FilterBar } from '@/components/shared/filter-bar';
-import { StatusBadge } from '@/components/shared/status-badge';
-import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge/index';
+import { KpiWidget } from '@/components/shared/kpi-widget/index';
 import { CSS } from '@/styles/design-tokens';
 import { useInvoices, formatINR } from '@/modules/erp/hooks/use-erp-api';
 import type { InvoiceListItem } from '@/modules/erp/hooks/use-erp-api';

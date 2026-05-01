@@ -151,13 +151,13 @@ function SopTemplatesPageInner() {
             { label: 'Draft', value: stats.draft, icon: Clock },
             { label: 'Departments', value: stats.depts, icon: Layers },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <div key={stat.label} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}><stat.icon className={cn('w-3.5 h-3.5', isDark ? 'text-white/40' : 'text-black/40')} /></div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -166,7 +166,7 @@ function SopTemplatesPageInner() {
           {paginated.map((sop, idx) => {
             const StatusIcon = getStatusIcon(sop.status);
             return (
-              <motion.div key={sop.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4 space-y-3 transition-colors', isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-gray-50')}>
+              <div key={sop.id} className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
@@ -217,7 +217,7 @@ function SopTemplatesPageInner() {
                     <p className={cn('text-[10px] pl-7', isDark ? 'text-white/25' : 'text-black/25')}>+{sop.steps.length - 3} more steps...</p>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -244,31 +244,27 @@ function SopTemplatesPageInner() {
         )}
 
         {/* AI SOP Generator FAB */}
-        <motion.button
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
+        <button
           onClick={() => setShowAiGenerator(!showAiGenerator)}
           className={cn(
-            'fixed bottom-6 right-6 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg z-50 transition-colors',
-            isDark ? 'bg-purple-600 hover:bg-purple-500 text-white' : 'bg-purple-600 hover:bg-purple-500 text-white'
+            'fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40',
+            isDark ? 'bg-purple-500 text-white' : 'bg-purple-600 text-white'
           )}
         >
           <Sparkles className="w-6 h-6" />
-        </motion.button>
+        </button>
 
         {showAiGenerator && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className={cn('fixed bottom-24 right-6 w-80 rounded-2xl border p-4 z-50 shadow-xl space-y-3', isDark ? 'bg-zinc-900 border-purple-500/30' : 'bg-white border-purple-200')}>
+          <div className={cn('fixed bottom-24 right-6 w-80 rounded-2xl border p-4 z-50 shadow-xl space-y-3', isDark ? 'bg-zinc-900 border-purple-500/30' : 'bg-white border-purple-200')}>
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-400" />
               <h3 className="text-sm font-semibold">AI SOP Generator</h3>
             </div>
             <p className={cn('text-xs', isDark ? 'text-white/50' : 'text-black/50')}>Describe a process and AI will generate a draft SOP with steps.</p>
-            <textarea placeholder="e.g., Client offboarding process..." className={cn('w-full h-24 px-3 py-2 rounded-xl border text-sm bg-transparent focus:outline-none focus:ring-1 resize-none', isDark ? 'border-white/[0.06] focus:ring-purple-500/50 text-white placeholder:text-white/25' : 'border-black/[0.06] focus:ring-purple-500/50 text-black placeholder:text-black/25')} />
-            <button className={cn('w-full py-2 rounded-xl text-xs font-medium', isDark ? 'bg-purple-600 text-white hover:bg-purple-500' : 'bg-purple-600 text-white hover:bg-purple-500')}>
+            <button className={cn('w-full py-2 rounded-lg text-xs font-semibold', isDark ? 'bg-purple-500 text-white' : 'bg-purple-600 text-white')}>
               Generate SOP
             </button>
-          </motion.div>
+          </div>
         )}
     </PageShell>
   );

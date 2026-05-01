@@ -7,9 +7,9 @@ import {
   TrendingUp, TrendingDown, AlertTriangle, CircleAlert, AlertCircle,
   Sparkles, ArrowRight, Zap, Send, Eye, Target,
 } from 'lucide-react';
-import { PageShell } from '@/components/shared/page-shell';
-import { KpiWidget } from '@/components/shared/kpi-widget';
-import { StatusBadge } from '@/components/shared/status-badge';
+import { PageShell } from '@/components/shared/page-shell/index';
+import { KpiWidget } from '@/components/shared/kpi-widget/index';
+import { StatusBadge } from '@/components/shared/status-badge/index';
 import { CSS, ANIMATION } from '@/styles/design-tokens';
 import { formatINR } from './utils';
 import {
@@ -124,10 +124,7 @@ export default function FinanceDashboardPage() {
         </div>
 
         {/* ── 2. Cashflow Visualization ──────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: ANIMATION.duration.slow }}
+        <div
           className="rounded-2xl p-6"
           style={{
             backgroundColor: CSS.cardBg,
@@ -164,7 +161,7 @@ export default function FinanceDashboardPage() {
                   <div className="flex items-end gap-1 w-full justify-center" style={{ height: 180 }}>
                     {/* Inflow bar */}
                     <div
-                      className="w-5 rounded-t-md transition-all"
+                      className="w-5 rounded-t-md"
                       style={{
                         height: inflowH,
                         backgroundColor: CSS.accent,
@@ -175,7 +172,7 @@ export default function FinanceDashboardPage() {
                     />
                     {/* Outflow bar */}
                     <div
-                      className="w-5 rounded-t-md transition-all"
+                      className="w-5 rounded-t-md"
                       style={{
                         height: outflowH,
                         backgroundColor: CSS.danger,
@@ -200,13 +197,10 @@ export default function FinanceDashboardPage() {
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         {/* ── 3. Revenue Funnel ───────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: ANIMATION.duration.slow, delay: 0.05 }}
+        <div
           className="rounded-2xl p-6"
           style={{
             backgroundColor: CSS.cardBg,
@@ -225,17 +219,14 @@ export default function FinanceDashboardPage() {
             {cfoFunnelData.map((step: CFOFunnelStep, idx: number) => {
               const widthPct = Math.max(20, (step.count / funnelMaxCount) * 100);
               return (
-                <motion.div
+                <div
                   key={step.stage}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: idx * 0.06 }}
                   className="flex items-center gap-4"
                 >
                   {/* Funnel bar */}
                   <div className="flex-1 min-w-0">
                     <div
-                      className="h-10 rounded-lg flex items-center px-4 transition-all"
+                      className="h-10 rounded-lg flex items-center px-4"
                       style={{
                         width: `${widthPct}%`,
                         backgroundColor:
@@ -271,17 +262,14 @@ export default function FinanceDashboardPage() {
                       <p className="text-[10px]" style={{ color: CSS.textMuted }}>conv.</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         {/* ── 4. AI Insights Panel ────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: ANIMATION.duration.slow, delay: 0.1 }}
+        <div
           className="rounded-2xl p-6"
           style={{
             backgroundColor: CSS.cardBg,
@@ -298,11 +286,8 @@ export default function FinanceDashboardPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {criticalInsights.map((insight: AIInsight, idx: number) => (
-              <motion.div
+              <div
                 key={insight.id}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.1 + idx * 0.05 }}
                 className="rounded-xl p-4 flex flex-col gap-3"
                 style={{
                   backgroundColor: CSS.surface2,
@@ -353,36 +338,25 @@ export default function FinanceDashboardPage() {
                   <button
                     type="button"
                     onClick={() => navigateTo(insight.actionPage!)}
-                    className="mt-auto flex items-center gap-1.5 text-xs font-medium self-start px-3 py-1.5 rounded-lg transition-colors"
+                    className="mt-auto flex items-center gap-1.5 text-xs font-medium self-start px-3 py-1.5 rounded-lg"
                     style={{
                       color: CSS.accent,
                       backgroundColor: CSS.accentLight,
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = CSS.accent;
-                      (e.currentTarget as HTMLElement).style.color = CSS.cardBg;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = CSS.accentLight;
-                      (e.currentTarget as HTMLElement).style.color = CSS.accent;
                     }}
                   >
                     {insight.actionLabel || 'Take Action'}
                     <ArrowRight className="w-3 h-3" />
                   </button>
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* ── 5. Quick Actions + Active Alerts ────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: ANIMATION.duration.slow, delay: 0.15 }}
+          <div
             className="rounded-2xl p-6"
             style={{
               backgroundColor: CSS.cardBg,
@@ -405,19 +379,11 @@ export default function FinanceDashboardPage() {
                     key={action.label}
                     type="button"
                     onClick={() => navigateTo(action.page)}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium"
                     style={{
                       backgroundColor: CSS.hoverBg,
                       color: CSS.text,
                       border: `1px solid ${CSS.border}`,
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = CSS.accentLight;
-                      (e.currentTarget as HTMLElement).style.borderColor = CSS.accent;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = CSS.hoverBg;
-                      (e.currentTarget as HTMLElement).style.borderColor = CSS.border;
                     }}
                   >
                     <ActionIcon className="w-4 h-4 shrink-0" style={{ color: CSS.accent }} />
@@ -427,13 +393,10 @@ export default function FinanceDashboardPage() {
                 );
               })}
             </div>
-          </motion.div>
+          </div>
 
           {/* Active Alerts */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: ANIMATION.duration.slow, delay: 0.2 }}
+          <div
             className="rounded-2xl p-6 lg:col-span-2"
             style={{
               backgroundColor: CSS.cardBg,
@@ -460,23 +423,14 @@ export default function FinanceDashboardPage() {
               {activeAlerts.map((alert: FinanceAlert, idx: number) => {
                 const isCritical = alert.severity === 'critical';
                 return (
-                  <motion.div
+                  <div
                     key={alert.id}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + idx * 0.05, duration: 0.3 }}
-                    className="flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                    className="flex items-start gap-3 p-3 rounded-xl cursor-pointer"
                     style={{
-                      backgroundColor: isCritical ? CSS.dangerBg : CSS.hoverBg,
-                      border: `1px solid ${isCritical ? CSS.danger : CSS.border}`,
+                      backgroundColor: isCritical ? CSS.dangerBg : CSS.warningBg,
+                      border: `1px solid ${isCritical ? CSS.danger : CSS.warning}`,
                     }}
                     onClick={() => alert.actionPage && navigateTo(alert.actionPage)}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = CSS.activeBg;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = isCritical ? CSS.dangerBg : CSS.hoverBg;
-                    }}
                   >
                     {/* Severity icon */}
                     <div
@@ -523,11 +477,11 @@ export default function FinanceDashboardPage() {
                         style={{ color: CSS.textMuted }}
                       />
                     )}
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </PageShell>

@@ -257,7 +257,7 @@ function VendorPageInner() {
             { label: 'Payout Due', value: formatINR(stats.payoutDue), icon: TrendingUp },
             { label: 'Avg SLA Score', value: `${stats.avgSla}%`, icon: Shield },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <div key={stat.label} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
@@ -265,19 +265,16 @@ function VendorPageInner() {
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Vendor Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {paginated.map((vendor, idx) => (
-            <motion.div
+            <div
               key={vendor.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn('rounded-2xl border p-4 space-y-3 transition-colors duration-200 hover:border-white/10', isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-gray-50')}
+              className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               {/* Card Header */}
               <div className="flex items-start justify-between">
@@ -358,7 +355,7 @@ function VendorPageInner() {
                 </div>
                 <StarRating rating={vendor.rating} />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 

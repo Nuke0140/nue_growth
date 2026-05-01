@@ -8,9 +8,9 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { PageShell } from '@/components/shared/page-shell';
+import { PageShell } from '@/components/shared/page-shell/index';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { KpiWidget } from '@/components/shared/kpi-widget';
+import { KpiWidget } from '@/components/shared/kpi-widget/index';
 import { CSS } from '@/styles/design-tokens';
 import { formatINR } from '@/modules/erp/hooks/use-erp-api';
 

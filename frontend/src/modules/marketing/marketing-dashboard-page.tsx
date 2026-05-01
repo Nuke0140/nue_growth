@@ -26,8 +26,8 @@ import {
   Shield,
   Clock,
 } from 'lucide-react';
-import { PageShell } from '@/components/shared/page-shell';
-import { StatusBadge } from '@/components/shared/status-badge';
+import { PageShell } from '@/components/shared/page-shell/index';
+import { StatusBadge } from '@/components/shared/status-badge/index';
 import { CSS, ANIMATION } from '@/styles/design-tokens';
 import {
   marketingDashboardStats,
@@ -230,19 +230,16 @@ export default function MarketingDashboardPage() {
           {kpiCards.map((card, i) => {
             const isPositive = card.change > 0;
             return (
-              <motion.div
-                key={card.label}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * staggerDelay, duration: 0.5, ease: baseEase }}
+              <div
+                key={card.id}
                 className={cn(
-                  'rounded-2xl border p-5 transition-all duration-200 group',
+                  'rounded-2xl border p-5',
                   isDark
-                    ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
-                    : 'bg-white border-black/[0.06] hover:bg-black/[0.02]',
+                    ? 'bg-white/[0.02] border-white/[0.06]'
+                    : 'bg-black/[0.02] border-black/[0.06]',
                 )}
+                style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}
               >
-                {/* Top row: label + icon */}
                 <div className="flex items-center justify-between mb-3">
                   <span
                     className={cn(
@@ -254,7 +251,7 @@ export default function MarketingDashboardPage() {
                   </span>
                   <div
                     className={cn(
-                      'w-9 h-9 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105',
+                      'w-9 h-9 rounded-xl flex items-center justify-center',
                       card.iconBg,
                     )}
                   >
@@ -294,11 +291,9 @@ export default function MarketingDashboardPage() {
                         isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]',
                       )}
                     >
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(card.progressPct, 100)}%` }}
-                        transition={{ delay: 0.4, duration: 0.8, ease: baseEase }}
+                      <div
                         className="h-full rounded-full bg-emerald-500"
+                        style={{ width: `${Math.min(card.progressPct, 100)}%` }}
                       />
                     </div>
                     <p
@@ -330,7 +325,7 @@ export default function MarketingDashboardPage() {
                     </span>
                   </div>
                 )}
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -338,10 +333,7 @@ export default function MarketingDashboardPage() {
         {/* ── 2. REVENUE TREND CHART + 3. CHANNEL ATTRIBUTION ── */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
           {/* Revenue Trend — takes 3 cols */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5, ease: baseEase }}
+          <div
             className={cn(
               'lg:col-span-3 rounded-2xl border p-5',
               isDark
@@ -376,7 +368,7 @@ export default function MarketingDashboardPage() {
                     key={p}
                     onClick={() => setPeriod(p)}
                     className={cn(
-                      'px-2.5 py-1 rounded-md text-[11px] font-medium transition-all',
+                      'px-2.5 py-1 rounded-md text-[11px] font-medium',
                       period === p
                         ? isDark
                           ? 'bg-white/[0.1] text-white/80 shadow-sm'
@@ -402,27 +394,20 @@ export default function MarketingDashboardPage() {
                   {/* Tooltip value on hover */}
                   <span
                     className={cn(
-                      'text-[10px] font-medium opacity-0 group-hover/bar:opacity-100 transition-opacity',
+                      'text-[10px] font-medium',
                       isDark ? 'text-white/60' : 'text-black/60',
                     )}
                   >
                     {formatINR(point.amount)}
                   </span>
-                  <motion.div
-                    initial={{ height: 0 }}
-                    animate={{ height: `${point.heightPct}%` }}
-                    transition={{
-                      delay: 0.35 + j * 0.04,
-                      duration: 0.6,
-                      ease: baseEase,
-                    }}
+                  <div
                     className={cn(
-                      'w-full rounded-t-md transition-all duration-200 cursor-pointer',
+                      'w-full rounded-t-md cursor-pointer',
                       isDark
-                        ? 'bg-emerald-500/25 group-hover/bar:bg-emerald-500/50'
-                        : 'bg-emerald-400/60 group-hover/bar:bg-emerald-500/80',
+                        ? 'bg-emerald-500/25'
+                        : 'bg-emerald-400/60',
                     )}
-                    style={{ minHeight: '4px' }}
+                    style={{ minHeight: '4px', height: `${point.heightPct}%` }}
                   />
                   <span
                     className={cn(
@@ -435,13 +420,10 @@ export default function MarketingDashboardPage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Channel Attribution — takes 2 cols */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5, ease: baseEase }}
+          <div
             className={cn(
               'lg:col-span-2 rounded-2xl border p-5',
               isDark
@@ -467,11 +449,8 @@ export default function MarketingDashboardPage() {
 
             <div className="space-y-3">
               {mockAttributionChannels.map((channel: AttributionChannel, i: number) => (
-                <motion.div
+                <div
                   key={channel.channel}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + i * 0.06, duration: 0.4, ease: baseEase }}
                   className="group/channel"
                 >
                   <div className="flex items-center justify-between mb-1">
@@ -512,25 +491,19 @@ export default function MarketingDashboardPage() {
                       isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]',
                     )}
                   >
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${channel.contribution}%` }}
-                      transition={{ delay: 0.5 + i * 0.08, duration: 0.6, ease: baseEase }}
-                      className="h-full rounded-full transition-all duration-200 group-hover/channel:brightness-125"
-                      style={{ backgroundColor: channel.color }}
+                    <div
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: channel.color, width: `${channel.contribution}%` }}
                     />
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* ── 4. ACTIVE CAMPAIGNS QUICK VIEW ────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.5, ease: baseEase }}
+        <div
           className={cn(
             'rounded-2xl border p-5',
             isDark
@@ -603,21 +576,14 @@ export default function MarketingDashboardPage() {
                         ? 'text-amber-500'
                         : 'text-red-500';
                   return (
-                    <motion.tr
+                    <tr
                       key={campaign.id}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: 0.5 + i * 0.05,
-                        duration: 0.3,
-                        ease: baseEase,
-                      }}
                       onClick={() => {
                         navigateTo('campaigns');
                         selectCampaign(campaign.id);
                       }}
                       className={cn(
-                        'cursor-pointer transition-colors group/row',
+                        'cursor-pointer group/row',
                         isDark
                           ? 'hover:bg-white/[0.03] border-t border-white/[0.04]'
                           : 'hover:bg-black/[0.02] border-t border-black/[0.04]',
@@ -690,19 +656,16 @@ export default function MarketingDashboardPage() {
                       <td className="py-3">
                         <StatusBadge status={campaign.status} />
                       </td>
-                    </motion.tr>
+                    </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
 
         {/* ── 5. AI INSIGHTS PANEL ──────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5, ease: baseEase }}
+        <div
           className={cn(
             'rounded-2xl border p-5 relative overflow-hidden',
             isDark
@@ -781,20 +744,13 @@ export default function MarketingDashboardPage() {
                 bg: 'bg-violet-500/10',
               };
               return (
-                <motion.div
+                <div
                   key={insight.id}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: 0.7 + i * 0.08,
-                    duration: 0.4,
-                    ease: baseEase,
-                  }}
                   className={cn(
-                    'p-4 rounded-xl border transition-all duration-200',
+                    'p-4 rounded-xl border',
                     isDark
-                      ? 'border-white/[0.04] hover:bg-white/[0.03]'
-                      : 'border-black/[0.04] hover:bg-black/[0.02]',
+                      ? 'border-white/[0.04]'
+                      : 'border-black/[0.04]',
                   )}
                 >
                   <div className="flex items-start gap-3">
@@ -892,30 +848,32 @@ export default function MarketingDashboardPage() {
                             </span>
                           )}
                         </div>
-                        <Button
-                          size="sm"
-                          className={cn(
-                            'text-[11px] h-7 px-3 rounded-lg gap-1.5 font-medium transition-all',
-                            isDark
-                              ? 'bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 hover:text-violet-300'
-                              : 'bg-violet-100 text-violet-700 hover:bg-violet-200',
-                          )}
-                          variant="ghost"
-                          onClick={() => {
-                            // Placeholder for apply suggestion action
-                          }}
-                        >
-                          <Zap className="w-3 h-3" />
-                          Apply Suggestion
-                        </Button>
+                        {insight.actionPage && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                              'text-[11px] h-7 px-3 rounded-lg gap-1.5 font-medium',
+                              isDark
+                                ? 'bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 hover:text-violet-300'
+                                : 'bg-violet-50 text-violet-600 hover:bg-violet-100 hover:text-violet-700',
+                            )}
+                            onClick={() => {
+                              // Placeholder for apply suggestion action
+                            }}
+                          >
+                            <Zap className="w-3 h-3" />
+                            Apply Suggestion
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </div>
     </PageShell>
   );
