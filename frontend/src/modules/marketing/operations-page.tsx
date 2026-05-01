@@ -195,7 +195,7 @@ function ServiceRequestCard({ request, isDark, index }: {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cardCls}
@@ -759,7 +759,7 @@ export default function OperationsPage() {
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.label}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className={cn(
@@ -823,7 +823,7 @@ export default function OperationsPage() {
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.label}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className={cn(

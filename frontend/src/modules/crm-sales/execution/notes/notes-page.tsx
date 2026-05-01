@@ -191,7 +191,7 @@ export default function NotesPage() {
                   key={note.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  transition={{ duration: 0.3}}
                   onClick={() => setSelectedNote(note)}
                   className={cn(
                     'rounded-[var(--app-radius-xl)] p-app-xl transition-colors duration-200 cursor-pointer group relative',

@@ -171,9 +171,9 @@ export default function ReferralGrowthPage() {
           {summaryStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -196,9 +196,9 @@ export default function ReferralGrowthPage() {
 
         {/* Leaderboard Podium */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+          transition={{ delay: 0.25, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center gap-2 mb-5">
@@ -218,9 +218,9 @@ export default function ReferralGrowthPage() {
               return (
                 <motion.div
                   key={entry.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 0 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + idx * 0.1, duration: 0.5 }}
+                  transition={{ delay: 0.3 + idx * 0.1, duration: 0.15 }}
                   className={cn('flex flex-col items-center gap-2', idx === 0 && 'order-2 md:order-1', idx === 1 && 'order-1 md:order-2', idx === 2 && 'order-3')}
                 >
                   <div className={cn('w-14 h-14 rounded-full flex items-center justify-center border-2', podiumBgs[idx])}>
@@ -245,9 +245,9 @@ export default function ReferralGrowthPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Referral Table */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4 }}
+            transition={{ delay: 0.35, duration: 0.15 }}
             className={cn('lg:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -268,9 +268,9 @@ export default function ReferralGrowthPage() {
           <div className="space-y-4">
             {/* ROI Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
+              transition={{ delay: 0.4, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -288,7 +288,7 @@ export default function ReferralGrowthPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(r.earned / maxRoi) * 100}%` }}
-                        transition={{ delay: 0.5 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.5 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('h-full rounded-full', j === 0 ? 'bg-emerald-500' : j === 1 ? 'bg-sky-500' : j === 2 ? 'bg-violet-500' : 'bg-amber-500')}
                       />
                     </div>
@@ -299,9 +299,9 @@ export default function ReferralGrowthPage() {
 
             {/* Fraud Warning */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.4 }}
+              transition={{ delay: 0.45, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', fraudEntries.length > 0
                 ? (isDark ? 'bg-red-500/[0.04] border-red-500/20' : 'bg-red-50 border-red-200')
                 : (isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')
@@ -330,9 +330,9 @@ export default function ReferralGrowthPage() {
 
             {/* Link Generation Placeholder */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
+              transition={{ delay: 0.5, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-3">

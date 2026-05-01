@@ -127,9 +127,9 @@ export default function LTVForecastPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4 transition-all duration-200',
                 isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -164,9 +164,9 @@ export default function LTVForecastPage() {
             return (
               <motion.div
                 key={forecast.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.2 + i * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-all duration-200',
                   colorConfig.bg(isDark),
@@ -215,7 +215,7 @@ export default function LTVForecastPage() {
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${forecast.confidence}%` }}
-                              transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
+                              transition={{ delay: 0.3 + i * 0.1, duration: 0.15 }}
                               className="h-full rounded-full bg-amber-400"
                             />
                           </div>
@@ -251,9 +251,9 @@ export default function LTVForecastPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* LTV Comparison Chart */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.5, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
               isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -284,13 +284,13 @@ export default function LTVForecastPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.current / maxLTV) * 100}%` }}
-                      transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.5 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('flex-1 rounded-t-sm', isDark ? 'bg-white/20' : 'bg-black/20')}
                     />
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.predicted / maxLTV) * 100}%` }}
-                      transition={{ delay: 0.55 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.55 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                     />
                   </div>
@@ -302,9 +302,9 @@ export default function LTVForecastPage() {
 
           {/* Churn Risk Breakdown */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.55, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
               isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -336,7 +336,7 @@ export default function LTVForecastPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${item.churnRisk}%` }}
-                        transition={{ delay: 0.6 + j * 0.08, duration: 0.5 }}
+                        transition={{ delay: 0.6 + j * 0.08, duration: 0.15 }}
                         className={cn('h-full rounded-full', riskColor)}
                       />
                     </div>
@@ -355,9 +355,9 @@ export default function LTVForecastPage() {
 
         {/* Expansion Potential Summary */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.6, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -387,7 +387,7 @@ export default function LTVForecastPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(f.expansionPotential / maxExp) * 100}%` }}
-                      transition={{ delay: 0.6 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.6 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                     />
                     <span className={cn('text-[8px] truncate w-full text-center', isDark ? 'text-white/20' : 'text-black/20')}>
@@ -408,7 +408,7 @@ export default function LTVForecastPage() {
           ].map((nav, i) => (
             <motion.button
               key={nav.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}

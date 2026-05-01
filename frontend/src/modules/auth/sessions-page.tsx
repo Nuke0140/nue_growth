@@ -13,9 +13,9 @@ export default function SessionsPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Page Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8"
         >
           <button
@@ -42,9 +42,9 @@ export default function SessionsPage() {
 
         {/* ActiveSessionsCard Component */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
           <ActiveSessionsCard />
         </motion.div>

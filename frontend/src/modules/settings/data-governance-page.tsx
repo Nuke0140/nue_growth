@@ -25,8 +25,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const statusConfig: Record<string, { label: string; bgDark: string; bgLight: string }> = {
@@ -171,9 +171,9 @@ export default function DataGovernancePage() {
 
         {/* ── Retention Policies ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.4 }}
+          transition={{ delay: 0.1, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -222,7 +222,7 @@ export default function DataGovernancePage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className="h-full rounded-full bg-emerald-500"
                       />
                     </div>
@@ -263,9 +263,9 @@ export default function DataGovernancePage() {
 
         {/* ── Data Export Requests ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Download className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -283,9 +283,9 @@ export default function DataGovernancePage() {
 
         {/* ── Consent Logs ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Shield className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -303,9 +303,9 @@ export default function DataGovernancePage() {
 
         {/* ── GDPR / Delete Workflow ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.4 }}
+          transition={{ delay: 0.65, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Trash2 className="w-4 h-4 text-red-400" />
@@ -350,9 +350,9 @@ export default function DataGovernancePage() {
 
         {/* ── Tenant Isolation ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.4 }}
+          transition={{ delay: 0.75, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Building2 className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />

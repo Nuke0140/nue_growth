@@ -94,9 +94,9 @@ export default function RenewalCenterPage() {
           ].map((item, i) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -136,9 +136,9 @@ export default function RenewalCenterPage() {
             return (
               <motion.div
                 key={renewal.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.2 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-colors',
                   renewal.status === 'overdue'
@@ -182,7 +182,7 @@ export default function RenewalCenterPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${renewal.renewalProbability}%` }}
-                            transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
+                            transition={{ delay: 0.3 + i * 0.05, duration: 0.15 }}
                             className={cn('h-full rounded-full', getProbColor(renewal.renewalProbability))}
                           />
                         </div>
@@ -225,9 +225,9 @@ export default function RenewalCenterPage() {
 
         {/* Timeline View — Upcoming Renewals */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center gap-2 mb-4">

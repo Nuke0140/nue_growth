@@ -85,7 +85,7 @@ export default function AiGrowthInsightCard({ insight }: AiGrowthInsightProps) {
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${insight.confidence}%` }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="h-full rounded-full"
             style={{ backgroundColor: color }}
           />

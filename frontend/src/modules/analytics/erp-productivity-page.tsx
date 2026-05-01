@@ -237,13 +237,13 @@ export default function ERPProductivityPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.created / maxThroughput) * 100}%` }}
-                        transition={{ delay: 0.3 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.3 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-blue-500/40' : 'bg-blue-300')}
                       />
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.completed / maxThroughput) * 100}%` }}
-                        transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.32 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                       />
                     </div>
@@ -260,9 +260,9 @@ export default function ERPProductivityPage() {
           <div className="flex flex-col gap-4">
             {/* Blocked Tasks Alert */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
+              transition={{ delay: 0.3, duration: 0.15 }}
               className="rounded-2xl border-l-4 border-l-red-500 p-4 flex-1"
               style={{ backgroundColor: isDark ? 'rgba(239, 68, 68, 0.06)' : 'rgba(239, 68, 68, 0.04)', borderColor: CSS.border, borderLeftColor: '#ef4444' }}
             >
@@ -289,9 +289,9 @@ export default function ERPProductivityPage() {
 
             {/* Revision Rounds */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
+              transition={{ delay: 0.4, duration: 0.15 }}
               className="rounded-2xl border p-4 flex-1"
               style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
             >
@@ -388,7 +388,7 @@ export default function ERPProductivityPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.utilization}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
                     />
                   </div>
@@ -397,7 +397,7 @@ export default function ERPProductivityPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.efficiency}%` }}
-                      transition={{ delay: 0.37 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.37 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-violet-500/50' : 'bg-violet-400')}
                     />
                   </div>

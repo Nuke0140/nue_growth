@@ -31,7 +31,7 @@ export default function BillingPlanCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'relative rounded-2xl border p-5 transition-all duration-200 flex flex-col',

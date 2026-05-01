@@ -83,7 +83,7 @@ export default function CohortReportPage() {
           {VIEW_TABS.map((tab, i) => (
             <motion.button
               key={tab}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.25 }}
               onClick={() => setSelectedView(i)}
@@ -143,7 +143,7 @@ export default function CohortReportPage() {
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className={statCard}
@@ -172,7 +172,7 @@ export default function CohortReportPage() {
             return (
               <motion.div
                 key={cohort.cohortLabel}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06, duration: 0.3 }}
                 whileHover={{ scale: 1.02, y: -2 }}

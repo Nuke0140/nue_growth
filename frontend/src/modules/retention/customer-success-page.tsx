@@ -147,9 +147,9 @@ export default function CustomerSuccessPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4 transition-all duration-200',
                 isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -182,9 +182,9 @@ export default function CustomerSuccessPage() {
           return (
             <motion.div
               key={plan.id}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + planIdx * 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: 0.2 + planIdx * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-5',
                 overdueMilestones.length > 0
@@ -238,7 +238,7 @@ export default function CustomerSuccessPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min((plan.valueDelivered / plan.valueTarget) * 100, 100)}%` }}
-                    transition={{ delay: 0.3 + planIdx * 0.1, duration: 0.6 }}
+                    transition={{ delay: 0.3 + planIdx * 0.1, duration: 0.15 }}
                     className={cn(
                       'h-full rounded-full',
                       plan.valueDelivered >= plan.valueTarget ? 'bg-emerald-500' : 'bg-amber-500'
@@ -310,9 +310,9 @@ export default function CustomerSuccessPage() {
 
         {/* QBR Calendar */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.5, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -359,9 +359,9 @@ export default function CustomerSuccessPage() {
 
         {/* Value Realization Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.6, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -395,13 +395,13 @@ export default function CustomerSuccessPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.delivered / maxValue) * 100}%` }}
-                    transition={{ delay: 0.6 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.6 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                   />
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.target / maxValue) * 100}%` }}
-                    transition={{ delay: 0.65 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.65 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-white/10' : 'bg-black/10')}
                   />
                 </div>
@@ -420,7 +420,7 @@ export default function CustomerSuccessPage() {
           ].map((nav, i) => (
             <motion.button
               key={nav.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}

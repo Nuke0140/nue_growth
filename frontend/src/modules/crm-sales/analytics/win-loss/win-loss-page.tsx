@@ -130,9 +130,9 @@ export default function WinLossAnalysisPage() {
 
             {/* Top KPI Cards */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.15 }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-3"
             >
               {[
@@ -158,9 +158,9 @@ export default function WinLossAnalysisPage() {
 
             {/* Win vs Loss Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -195,7 +195,7 @@ export default function WinLossAnalysisPage() {
                         <motion.div
                           initial={{ height: 0 }}
                           animate={{ height: `${wonHeight}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
+                          transition={{ duration: 0.15, ease: 'easeOut'}}
                           className="flex-1 rounded-t-[var(--app-radius-md)] bg-emerald-500 min-h-[2px] relative group"
                         >
                           <div className={cn(
@@ -209,7 +209,7 @@ export default function WinLossAnalysisPage() {
                         <motion.div
                           initial={{ height: 0 }}
                           animate={{ height: `${lostHeight}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 + 0.05 }}
+                          transition={{ duration: 0.15, ease: 'easeOut'}}
                           className="flex-1 rounded-t-[var(--app-radius-md)] bg-red-500 min-h-[2px] relative group"
                         >
                           <div className={cn(
@@ -232,9 +232,9 @@ export default function WinLossAnalysisPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-app-xl">
               {/* Competitor Analysis */}
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
+                transition={{ duration: 0.15}}
                 className={cn(
                   'rounded-[var(--app-radius-xl)] border p-app-xl',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -280,7 +280,7 @@ export default function WinLossAnalysisPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${lossPercent}%` }}
-                            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 + i * 0.1 }}
+                            transition={{ duration: 0.15, ease: 'easeOut'}}
                             className={cn(
                               'h-full rounded-full',
                               isTop ? 'bg-red-500' : (isDark ? 'bg-white/20' : 'bg-black/15')
@@ -298,9 +298,9 @@ export default function WinLossAnalysisPage() {
 
               {/* Loss Reasons Breakdown */}
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.25 }}
+                transition={{ duration: 0.15}}
                 className={cn(
                   'rounded-[var(--app-radius-xl)] border p-app-xl',
                   'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -364,9 +364,9 @@ export default function WinLossAnalysisPage() {
 
             {/* Stage Drop-off Funnel */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -403,7 +403,7 @@ export default function WinLossAnalysisPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.max(widthPercent, 8)}%` }}
-                            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 + i * 0.08 }}
+                            transition={{ duration: 0.15, ease: 'easeOut'}}
                             className="h-full rounded-[var(--app-radius-md)] flex items-center justify-between px-3"
                             style={{
                               background: STAGE_COLORS[i],
@@ -450,7 +450,7 @@ export default function WinLossAnalysisPage() {
                   return (
                     <motion.div
                       key={insight.title}
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5 + i * 0.1 }}
                       className={cn(
@@ -491,9 +491,9 @@ export default function WinLossAnalysisPage() {
 
             {/* Sales Cycle Analysis */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'

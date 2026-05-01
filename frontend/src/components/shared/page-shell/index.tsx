@@ -94,13 +94,7 @@ const PageShellInner = memo(function PageShellInner({
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* ── Header ────────────────────────────────────── */}
-      <motion.header
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: ANIMATION.duration.normal,
-          ease: ANIMATION.ease as unknown as number[],
-        }}
+      <header
         className={cn(
           'flex items-center justify-between gap-4',
           padded && 'px-6 pt-6 pb-2',
@@ -154,7 +148,7 @@ const PageShellInner = memo(function PageShellInner({
         <div className="flex items-center gap-2 shrink-0">
           {headerRight}
           {onCreate && (
-            <motion.button
+            <button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onCreate}
@@ -168,19 +162,13 @@ const PageShellInner = memo(function PageShellInner({
             >
               <Plus className="w-4 h-4" aria-hidden="true" />
               <span className="hidden sm:inline">{createLabel}</span>
-            </motion.button>
+            </button>
           )}
         </div>
-      </motion.header>
+      </header>
 
       {/* ── Content Area ──────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          duration: ANIMATION.duration.normal,
-          delay: 0.05,
-        }}
+      <div
         className={cn(
           'flex-1 overflow-y-auto custom-scrollbar',
           padded && 'px-6 pb-6',
@@ -207,7 +195,7 @@ const PageShellInner = memo(function PageShellInner({
         ) : (
           children
         )}
-      </motion.div>
+      </div>
     </div>
   );
 });

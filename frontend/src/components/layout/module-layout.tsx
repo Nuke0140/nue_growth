@@ -190,39 +190,7 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
   const handleBackToHome = config.onBackToHome ?? closeModule;
 
   // --- Progress bar for lazy loading ---
-  const [loading, setLoading] = useState(false);
-  const [progressWidth, setProgressWidth] = useState(0);
   const prevPageRef = useRef(currentPage);
-  const progressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (!config.lazyLoading || currentPage === prevPageRef.current) return;
-    prevPageRef.current = currentPage;
-    setLoading(true);
-    setProgressWidth(0);
-
-    if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-    if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-
-    progressTimerRef.current = setTimeout(() => setProgressWidth(100), 10);
-    clearTimerRef.current = setTimeout(() => setProgressWidth(0), 350);
-    const loadTimer = setTimeout(() => setLoading(false), 200);
-
-    return () => {
-      clearTimeout(loadTimer);
-      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-    };
-  }, [currentPage, config.lazyLoading]);
-
-  // Cleanup timers on unmount
-  useEffect(() => {
-    return () => {
-      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-    };
-  }, []);
 
   const PageComponent = config.pageComponents[currentPage] ?? null;
   if (!PageComponent) return null;
@@ -272,48 +240,26 @@ export function ModuleLayout({ config }: ModuleLayoutProps) {
           <main className="flex-1 overflow-hidden">
             {config.beforeContent}
             <ErrorBoundary>
-            <div className="relative h-full">
-              {/* Progress bar (lazy mode only) */}
-              {progressWidth > 0 && (
-                <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
-                  <div
-                    className="h-full transition-all duration-300 ease-out rounded-full"
-                    style={{
-                      width: `${progressWidth}%`,
-                      background: 'var(--app-gradient-brand)',
-                      backgroundSize: '200% 100%',
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Animated page transitions */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentPage}
-                  initial={ANIMATION.pageVariants.initial}
-                  animate={ANIMATION.pageVariants.animate}
-                  exit={ANIMATION.pageVariants.exit}
-                  transition={{
-                    duration: ANIMATION.duration.pageTransition,
-                    ease: ANIMATION.ease,
-                  }}
-                  className="h-full"
-                >
-                  {config.lazyLoading ? (
-                    loading ? (
-                      <ModuleSkeleton />
-                    ) : (
+              <div className="h-full">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPage}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    className="h-full"
+                  >
+                    {config.lazyLoading ? (
                       <Suspense fallback={<ModuleSkeleton />}>
                         <PageComponent />
                       </Suspense>
-                    )
-                  ) : (
-                    <PageComponent />
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                    ) : (
+                      <PageComponent />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </ErrorBoundary>
             {config.afterContent}
           </main>

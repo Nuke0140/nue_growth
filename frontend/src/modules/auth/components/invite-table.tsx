@@ -151,7 +151,7 @@ function formatDate(dateStr: string): string {
 // ─────────────────────────── Animations ──────────────────────
 
 const rowVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 4 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -170,8 +170,8 @@ const rowVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' } },
 };
 
 // ─────────────────────────── Component ───────────────────────

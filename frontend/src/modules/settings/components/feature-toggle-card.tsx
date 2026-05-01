@@ -36,7 +36,7 @@ export default function FeatureToggleCard({ flag, onToggle, onRolloutChange }: F
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'rounded-2xl border p-4 transition-all duration-200',

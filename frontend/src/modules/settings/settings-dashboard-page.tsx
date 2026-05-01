@@ -38,8 +38,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function SettingsDashboardPage() {
@@ -121,9 +121,9 @@ export default function SettingsDashboardPage() {
 
         {/* ── Alerts Section ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
+          transition={{ delay: 0.4, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-400" />
@@ -196,9 +196,9 @@ export default function SettingsDashboardPage() {
 
         {/* ── Recent Activity Timeline ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4 }}
+          transition={{ delay: 0.6, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />

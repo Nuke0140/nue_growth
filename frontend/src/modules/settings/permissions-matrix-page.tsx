@@ -44,8 +44,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function PermissionsMatrixPage() {
@@ -163,9 +163,9 @@ export default function PermissionsMatrixPage() {
 
         {/* ── Permission Matrix Grid ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.4 }}
+          transition={{ delay: 0.1, duration: 0.15 }}
         >
           <PermissionMatrixGrid
             data={permissionMatrix}
@@ -176,9 +176,9 @@ export default function PermissionsMatrixPage() {
 
         {/* ── Role Presets ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Users className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -246,9 +246,9 @@ export default function PermissionsMatrixPage() {
 
         {/* ── Permission Diff Preview ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',

@@ -99,9 +99,9 @@ export default function BillingSubscriptionPage() {
 
         {/* Current Plan Card (Large, Prominent) */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-6 relative overflow-hidden',
             isDark ? 'bg-gradient-to-br from-violet-500/[0.06] to-purple-500/[0.03] border-violet-500/20' : 'bg-gradient-to-br from-violet-50/80 to-purple-50/80 border-violet-200/60'
@@ -140,7 +140,7 @@ export default function BillingSubscriptionPage() {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${bar.percent}%` }}
-                          transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ delay: 0.3, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                           className={cn('h-full rounded-full', bar.color)}
                         />
                       </div>
@@ -199,9 +199,9 @@ export default function BillingSubscriptionPage() {
             {availablePlans.map((plan, i) => (
               <motion.div
                 key={plan.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + i * 0.06, duration: 0.4 }}
+                transition={{ delay: 0.15 + i * 0.06, duration: 0.15 }}
               >
                 <BillingPlanCard
                   name={plan.name}
@@ -218,7 +218,7 @@ export default function BillingSubscriptionPage() {
 
         {/* Invoice History */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -244,7 +244,7 @@ export default function BillingSubscriptionPage() {
 
         {/* Payment Methods */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -272,7 +272,7 @@ export default function BillingSubscriptionPage() {
 
         {/* Add-ons */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}

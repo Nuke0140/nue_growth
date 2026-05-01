@@ -34,7 +34,7 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.03 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 4 },
   show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
@@ -300,7 +300,7 @@ export default function UsersRolesPage() {
           {filteredUsers.map((user) => (
             <motion.div
               key={user.id}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               className={cn(
                 'rounded-2xl border p-4',

@@ -92,9 +92,9 @@ export default function CustomerJourneyPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -110,9 +110,9 @@ export default function CustomerJourneyPage() {
 
         {/* Journey Funnel Visualization */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+          transition={{ delay: 0.25, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center gap-2 mb-6">
@@ -134,7 +134,7 @@ export default function CustomerJourneyPage() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
+                    transition={{ delay: 0.3 + i * 0.1, duration: 0.15 }}
                     className="flex items-center gap-4"
                   >
                     <div className="w-24 shrink-0 text-right">
@@ -146,7 +146,7 @@ export default function CustomerJourneyPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${widthPct}%` }}
-                            transition={{ delay: 0.4 + i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ delay: 0.4 + i * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                             className={cn('h-full rounded-lg', sc.bar(isDark))}
                           />
                           <span className={cn('text-xs font-bold px-3 shrink-0', isDark ? 'text-white/60' : 'text-black/60')}>
@@ -199,9 +199,9 @@ export default function CustomerJourneyPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Events Timeline */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
+            transition={{ delay: 0.4, duration: 0.15 }}
             className={cn('lg:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -242,9 +242,9 @@ export default function CustomerJourneyPage() {
           <div className="space-y-4">
             {/* Friction Alerts */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.4 }}
+              transition={{ delay: 0.45, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-amber-500/[0.03] border-amber-500/20' : 'bg-amber-50 border-amber-200')}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -268,9 +268,9 @@ export default function CustomerJourneyPage() {
 
             {/* Milestone Events */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
+              transition={{ delay: 0.5, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -294,9 +294,9 @@ export default function CustomerJourneyPage() {
 
             {/* Lifecycle Conversion Summary */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.55, duration: 0.4 }}
+              transition={{ delay: 0.55, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-4">

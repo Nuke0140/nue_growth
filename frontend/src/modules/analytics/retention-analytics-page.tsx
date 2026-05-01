@@ -172,7 +172,7 @@ export default function RetentionAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(cohort.churnRate / maxChurnRate) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         cohort.churnRate >= 5
@@ -210,13 +210,13 @@ export default function RetentionAnalyticsPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.lost / maxRenewed) * 100}%` }}
-                      transition={{ delay: 0.3 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.3 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('flex-1 rounded-t-sm', isDark ? 'bg-red-500/40' : 'bg-red-300')}
                     />
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.renewed / maxRenewed) * 100}%` }}
-                      transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.32 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                     />
                   </div>
@@ -319,7 +319,7 @@ export default function RetentionAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.ltv / maxLTV) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-violet-500/50' : 'bg-violet-400')}
                     />
                   </div>
@@ -407,13 +407,13 @@ export default function RetentionAnalyticsPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.attempted / maxWinback) * 100}%` }}
-                    transition={{ delay: 0.3 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.3 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-blue-500/40' : 'bg-blue-300')}
                   />
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.won / maxWinback) * 100}%` }}
-                    transition={{ delay: 0.32 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.32 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                   />
                 </div>

@@ -98,7 +98,7 @@ function KPICard({ label, value, icon: Icon, color, isDark, index }: {
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
@@ -157,7 +157,7 @@ function CohortChart({ data, isDark }: { data: { month: string; rate: number }[]
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${heightPct}%` }}
-                  transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-lg min-h-[4px]', barColor)}
                 />
               </div>

@@ -99,11 +99,11 @@
   background-color: var(--app-card-bg);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow-card);
-  transition: box-shadow 0.3s var(--app-easing), transform 0.2s var(--app-easing);
+  transition: box-shadow 0.15s var(--app-easing);
 }
 
 .app-card-hover {
-  transition: transform 0.2s var(--app-easing), box-shadow 0.2s var(--app-easing);
+  transition: transform 0.15s var(--app-easing), box-shadow 0.15s var(--app-easing);
 }
 
 .app-card-hover:hover {
@@ -112,7 +112,7 @@
 }
 
 .app-glow {
-  transition: box-shadow 0.3s var(--app-easing);
+  transition: box-shadow 0.15s var(--app-easing);
 }
 
 .app-glow:hover {
@@ -120,7 +120,7 @@
 }
 
 .app-glow-orange {
-  transition: box-shadow 0.3s var(--app-easing);
+  transition: box-shadow 0.15s var(--app-easing);
 }
 
 .app-glow-orange:hover {
@@ -316,7 +316,7 @@
   height: 2px;
   background: var(--app-gradient-brand);
   z-index: 100;
-  transition: width 0.3s var(--app-easing);
+  transition: width 0.15s var(--app-easing);
 }
 
 /* Gradient accent */
@@ -391,8 +391,8 @@
 /* ---- Glass Effect ---- */
 .app-glass {
   background-color: var(--app-glass-bg);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
 }
 
 /* ---- Divider ---- */
@@ -420,7 +420,7 @@
 }
 
 .app-orbital-glow:hover::before {
-  opacity: 0.15;
+  opacity: 0.12;
 }
 
 @layer base {

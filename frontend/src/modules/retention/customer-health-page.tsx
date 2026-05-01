@@ -59,7 +59,7 @@ function FactorBar({ label, value }: { label: string; value: number }) {
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn('h-full rounded-full', value >= 75 ? 'bg-emerald-500' : value >= 50 ? 'bg-amber-500' : 'bg-red-500')}
         />
       </div>
@@ -150,9 +150,9 @@ export default function CustomerHealthPage() {
           ].map((item, i) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -169,9 +169,9 @@ export default function CustomerHealthPage() {
 
         {/* Score Trend */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -188,7 +188,7 @@ export default function CustomerHealthPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.avg / maxTrend) * 100}%` }}
-                  transition={{ delay: 0.3 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.3 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                 />
                 <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
@@ -207,9 +207,9 @@ export default function CustomerHealthPage() {
             return (
               <motion.div
                 key={customer.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.25 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-colors cursor-pointer',
                   customer.riskTag === 'high'

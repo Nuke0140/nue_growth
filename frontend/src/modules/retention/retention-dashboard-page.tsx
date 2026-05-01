@@ -149,9 +149,9 @@ export default function RetentionDashboardPage() {
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 cursor-pointer transition-all duration-200',
                   stat.severity === 'warning'
@@ -188,9 +188,9 @@ export default function RetentionDashboardPage() {
         {/* Charts Row 1 — Churn Trend & Renewal Trend */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.3, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
@@ -209,7 +209,7 @@ export default function RetentionDashboardPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.value / maxVal) * 100}%` }}
-                      transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.4 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                     />
                     <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
@@ -220,9 +220,9 @@ export default function RetentionDashboardPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.35, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
@@ -241,7 +241,7 @@ export default function RetentionDashboardPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(entry.value / maxVal) * 100}%` }}
-                      transition={{ delay: 0.4 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.4 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                     />
                     <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
@@ -255,9 +255,9 @@ export default function RetentionDashboardPage() {
         {/* Charts Row 2 — Cohort Retention & LTV Growth */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.4, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
@@ -284,13 +284,13 @@ export default function RetentionDashboardPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m1}%` }}
-                      transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.5 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-5 rounded-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                     />
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${c.m2}%` }}
-                      transition={{ delay: 0.55 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.55 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-5 rounded-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                     />
                   </div>
@@ -301,9 +301,9 @@ export default function RetentionDashboardPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.45, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
@@ -331,13 +331,13 @@ export default function RetentionDashboardPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.current / maxVal) * 100}%` }}
-                        transition={{ delay: 0.5 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.5 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                       />
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.predicted / maxVal) * 100}%` }}
-                        transition={{ delay: 0.55 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.55 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-400')}
                       />
                     </div>
@@ -351,9 +351,9 @@ export default function RetentionDashboardPage() {
 
         {/* NPS Trend */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.5, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -372,7 +372,7 @@ export default function RetentionDashboardPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.value / 100) * 100}%` }}
-                  transition={{ delay: 0.55 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.55 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                 />
                 <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>
@@ -383,9 +383,9 @@ export default function RetentionDashboardPage() {
 
         {/* Active Alerts */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4 }}
+          transition={{ delay: 0.6, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -437,9 +437,9 @@ export default function RetentionDashboardPage() {
 
         {/* Quick Navigation */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.4 }}
+          transition={{ delay: 0.75, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-3">
             <Navigation className={cn('w-4 h-4', isDark ? 'text-white/40' : 'text-black/40')} />
@@ -449,7 +449,7 @@ export default function RetentionDashboardPage() {
             {quickNavItems.map((nav, i) => (
               <motion.button
                 key={nav.label}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 + i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => navigateTo(nav.page)}

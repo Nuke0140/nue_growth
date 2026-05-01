@@ -149,9 +149,9 @@ export default function ProposalsPage() {
 
           {/* Stats Row */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.15 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-3"
           >
             {[
@@ -262,7 +262,7 @@ function ProposalCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15 + index * 0.05 }}
       className={cn(
@@ -349,7 +349,7 @@ function ProposalCard({
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${pagesPercent}%` }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  transition={{ duration: 0.15, ease: 'easeOut' }}
                   className="h-full rounded-full bg-violet-500"
                 />
               </div>

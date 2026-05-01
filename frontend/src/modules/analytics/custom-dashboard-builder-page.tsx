@@ -60,8 +60,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.05 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 type TabType = 'personal' | 'team' | 'client';
@@ -150,7 +150,7 @@ export default function CustomDashboardBuilderPage() {
           {!selectedTemplate ? (
             <motion.div
               key="empty-state"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.35 }}
@@ -273,7 +273,7 @@ export default function CustomDashboardBuilderPage() {
             /* ── Active Dashboard Builder ── */
             <motion.div
               key="builder"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.35 }}
@@ -390,7 +390,7 @@ export default function CustomDashboardBuilderPage() {
                       return (
                         <motion.div
                           key={cw.id}
-                          initial={{ opacity: 0, y: 12 }}
+                          initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.1 + i * 0.05, duration: 0.35 }}
                           onMouseEnter={() => setHoveredWidget(cw.id)}
@@ -534,9 +534,9 @@ export default function CustomDashboardBuilderPage() {
 
               {/* ── Dashboard Settings Bar ── */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
+                transition={{ delay: 0.3, duration: 0.15 }}
                 className={cn(
                   'rounded-2xl border p-4 sm:p-5',
                   isDark

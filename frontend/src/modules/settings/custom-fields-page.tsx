@@ -26,8 +26,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const moduleTabs = ['All', 'CRM', 'Sales', 'Finance', 'ERP', 'HR', 'Retention', 'Analytics'] as const;
@@ -95,9 +95,9 @@ export default function CustomFieldsPage() {
       <div className="space-y-6">
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.15 }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ export default function CustomFieldsPage() {
 
         {/* ── Module Filter Tabs ── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
         >
@@ -148,7 +148,7 @@ export default function CustomFieldsPage() {
 
         {/* ── Type Filter ── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
         >
@@ -308,10 +308,10 @@ export default function CustomFieldsPage() {
         {/* ── Create Custom Field Form ── */}
         {showCreateForm && (
           <motion.div
-            initial={{ opacity: 0, y: 16, height: 0 }}
+            initial={{ opacity: 0, y: 4, height: 0 }}
             animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, y: 16, height: 0 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, y: 4, height: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <div className="flex items-center gap-2 mb-4">
               <Plus className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />

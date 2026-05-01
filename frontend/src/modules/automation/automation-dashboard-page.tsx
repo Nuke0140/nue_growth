@@ -33,8 +33,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function AutomationDashboardPage() {
@@ -148,7 +148,7 @@ export default function AutomationDashboardPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(d.success / maxExec) * 100}%` }}
-                        transition={{ delay: 0.1 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.1 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           'flex-1 rounded-t-sm transition-opacity group-hover:opacity-80 cursor-pointer min-h-[4px]',
                           isDark ? 'bg-emerald-500/40' : 'bg-emerald-400',
@@ -158,7 +158,7 @@ export default function AutomationDashboardPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(d.failed / maxExec) * 100}%` }}
-                        transition={{ delay: 0.15 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.15 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           'flex-1 rounded-t-sm transition-opacity group-hover:opacity-80 cursor-pointer min-h-[4px]',
                           isDark ? 'bg-red-500/40' : 'bg-red-400',
@@ -183,7 +183,7 @@ export default function AutomationDashboardPage() {
                   key={mod.module}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
+                  transition={{ delay: 0.1 + i * 0.06, duration: 0.15 }}
                 >
                   <div className="flex items-center justify-between text-xs mb-1">
                     <span className={cn('font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
@@ -197,7 +197,7 @@ export default function AutomationDashboardPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(mod.hours / maxHours) * 100}%` }}
-                      transition={{ delay: 0.15 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.15 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', mod.color, isDark && 'opacity-50')}
                     />
                   </div>
@@ -209,9 +209,9 @@ export default function AutomationDashboardPage() {
 
         {/* ── Workflow Usage Leaderboard ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Workflow className={cn('w-4 h-4', isDark ? 'text-violet-400' : 'text-violet-500')} />
@@ -287,9 +287,9 @@ export default function AutomationDashboardPage() {
 
         {/* ── Recent Execution Logs ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
+          transition={{ delay: 0.4, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Clock className={cn('w-4 h-4', isDark ? 'text-sky-400' : 'text-sky-500')} />
@@ -312,9 +312,9 @@ export default function AutomationDashboardPage() {
 
         {/* ── Alerts Section ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className={cn('w-4 h-4 text-amber-400')} />

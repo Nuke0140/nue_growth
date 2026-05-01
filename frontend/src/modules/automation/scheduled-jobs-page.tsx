@@ -126,7 +126,7 @@ export default function ScheduledJobsPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={card}
@@ -157,7 +157,7 @@ export default function ScheduledJobsPage() {
             return (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
@@ -265,7 +265,7 @@ export default function ScheduledJobsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${job.successRate}%` }}
-                    transition={{ delay: i * 0.06 + 0.3, duration: 0.6 }}
+                    transition={{ delay: i * 0.06 + 0.3, duration: 0.15 }}
                     className={cn(
                       'h-full rounded-full',
                       job.successRate >= 95 ? 'bg-emerald-500' : job.successRate >= 90 ? 'bg-amber-500' : 'bg-red-500',

@@ -42,7 +42,7 @@ export default function RoiWidget({ roi, trend, label = 'Return on Investment' }
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${Math.min(100, roi / 5)}%` }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn('h-full rounded-full', colorClass)}
           style={{ opacity: 0.3 }}
         />

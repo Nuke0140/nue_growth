@@ -207,9 +207,9 @@ export default function AnalyticsPage() {
             return (
               <motion.div
                 key={card.label}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * staggerDelay, duration: 0.5, ease: baseEase }}
+                transition={{ delay: i * staggerDelay, duration: 0.15, ease: baseEase }}
                 className={cn(
                   'rounded-2xl border p-5 transition-all duration-200 group',
                   isDark
@@ -266,9 +266,9 @@ export default function AnalyticsPage() {
 
         {/* ── 2. CHANNEL ATTRIBUTION SECTION ──────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5, ease: baseEase }}
+          transition={{ delay: 0.2, duration: 0.15, ease: baseEase }}
           className={cn(
             'rounded-2xl border p-5',
             isDark
@@ -317,7 +317,7 @@ export default function AnalyticsPage() {
                 key={channel.channel}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 + i * 0.06, duration: 0.4, ease: baseEase }}
+                transition={{ delay: 0.3 + i * 0.06, duration: 0.15, ease: baseEase }}
                 className="group/channel"
               >
                 {/* Channel header */}
@@ -372,7 +372,7 @@ export default function AnalyticsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${channel.contribution}%` }}
-                    transition={{ delay: 0.4 + i * 0.08, duration: 0.7, ease: baseEase }}
+                    transition={{ delay: 0.4 + i * 0.08, duration: 0.15, ease: baseEase }}
                     className="h-full rounded-full transition-all duration-200 group-hover/channel:brightness-125"
                     style={{ backgroundColor: channel.color }}
                   />
@@ -384,9 +384,9 @@ export default function AnalyticsPage() {
 
         {/* ── 3. FUNNEL ANALYSIS ───────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.5, ease: baseEase }}
+          transition={{ delay: 0.35, duration: 0.15, ease: baseEase }}
           className={cn(
             'rounded-2xl border p-5',
             isDark
@@ -427,7 +427,7 @@ export default function AnalyticsPage() {
                   key={funnel.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + fi * 0.1, duration: 0.4, ease: baseEase }}
+                  transition={{ delay: 0.4 + fi * 0.1, duration: 0.15, ease: baseEase }}
                 >
                   {/* Funnel header */}
                   <div className="flex items-center justify-between mb-3">
@@ -494,7 +494,7 @@ export default function AnalyticsPage() {
                             animate={{ scaleX: 1, opacity: 1 }}
                             transition={{
                               delay: 0.5 + fi * 0.1 + si * 0.06,
-                              duration: 0.5,
+                              duration: 0.15,
                               ease: baseEase,
                             }}
                             className={cn(
@@ -558,9 +558,9 @@ export default function AnalyticsPage() {
 
         {/* ── 4. A/B TESTS SUMMARY ────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5, ease: baseEase }}
+          transition={{ delay: 0.5, duration: 0.15, ease: baseEase }}
           className={cn(
             'rounded-2xl border p-5',
             isDark
@@ -599,7 +599,7 @@ export default function AnalyticsPage() {
                 key={test.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55 + i * 0.06, duration: 0.4, ease: baseEase }}
+                transition={{ delay: 0.55 + i * 0.06, duration: 0.15, ease: baseEase }}
                 className={cn(
                   'rounded-xl border p-4 transition-all duration-200',
                   isDark
@@ -733,9 +733,9 @@ export default function AnalyticsPage() {
 
         {/* ── 5. AD PERFORMANCE ────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.5, ease: baseEase }}
+          transition={{ delay: 0.65, duration: 0.15, ease: baseEase }}
           className={cn(
             'rounded-2xl border p-5',
             isDark

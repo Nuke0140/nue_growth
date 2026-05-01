@@ -153,13 +153,13 @@ export default function OtpPage() {
         <motion.div
           initial={{ scale: 1, opacity: 0.4 }}
           animate={{ scale: 1.8, opacity: 0 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut' }}
+          transition={{ duration: 0.2, repeat: Infinity, ease: 'easeOut' }}
           className="absolute inset-0 rounded-full bg-green-400"
         />
         <motion.div
           initial={{ scale: 1, opacity: 0.3 }}
           animate={{ scale: 1.5, opacity: 0 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+          transition={{ duration: 0.2, repeat: Infinity, ease: 'easeOut'}}
           className="absolute inset-0 rounded-full bg-green-400"
         />
 
@@ -210,7 +210,7 @@ export default function OtpPage() {
   const rightPanel = (
     <div className="flex w-full flex-col items-center justify-center min-h-screen px-4 py-8 sm:py-12">
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        initial={{ opacity: 0, y: 0, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
         className="w-full max-w-md"
@@ -219,7 +219,7 @@ export default function OtpPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.05 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 20}}
           className="flex justify-center mb-4 lg:hidden"
         >
           <Image src="/logo.png" alt="DigiNue" width={120} height={80} priority className="object-contain" />

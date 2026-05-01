@@ -45,8 +45,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function BrandingWhiteLabelPage() {
@@ -93,7 +93,7 @@ export default function BrandingWhiteLabelPage() {
 
         {/* ── Brand Preview Card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
@@ -318,9 +318,9 @@ export default function BrandingWhiteLabelPage() {
 
         {/* ── Toggle Sections ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.15 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
@@ -378,9 +378,9 @@ export default function BrandingWhiteLabelPage() {
 
         {/* ── Custom Domain ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
           className={cn(
             'rounded-2xl border p-5 md:p-6',
             isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]',
@@ -417,9 +417,9 @@ export default function BrandingWhiteLabelPage() {
 
         {/* ── Save Button ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
+          transition={{ delay: 0.4, duration: 0.15 }}
           className="flex justify-end"
         >
           <button

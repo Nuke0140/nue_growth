@@ -130,9 +130,9 @@ export default function AdvocacyPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4 transition-all duration-200',
                 isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -154,7 +154,7 @@ export default function AdvocacyPage() {
 
         {/* Filters */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn(
@@ -218,9 +218,9 @@ export default function AdvocacyPage() {
             return (
               <motion.div
                 key={entry.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.25 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 transition-all duration-200',
                   entry.status === 'declined'
@@ -285,9 +285,9 @@ export default function AdvocacyPage() {
 
         {/* Top Advocates */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.5, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -313,7 +313,7 @@ export default function AdvocacyPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(adv.promoterScore / maxScore) * 100}%` }}
-                    transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.5 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('w-full rounded-t-sm', isDark ? 'bg-amber-500/30' : 'bg-amber-400')}
                   />
                   <span className={cn('text-[9px] font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{adv.client}</span>
@@ -326,9 +326,9 @@ export default function AdvocacyPage() {
         {/* Declined Section */}
         {declinedEntries.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.55, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
               isDark ? 'bg-red-500/[0.02] border-red-500/15' : 'bg-red-50/50 border-red-200'
@@ -387,7 +387,7 @@ export default function AdvocacyPage() {
           ].map((nav, i) => (
             <motion.button
               key={nav.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}

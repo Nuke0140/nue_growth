@@ -70,7 +70,7 @@ export default function QualificationScoreDisplay({
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn('h-full rounded-full', barColor)}
         />
       </div>

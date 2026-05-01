@@ -118,7 +118,7 @@ export default function SecurityCompliancePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Security Score Card */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -135,7 +135,7 @@ export default function SecurityCompliancePage() {
                   strokeDasharray={circumference}
                   initial={{ strokeDashoffset: circumference }}
                   animate={{ strokeDashoffset: dashOffset }}
-                  transition={{ delay: 0.4, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.4, duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
@@ -152,7 +152,7 @@ export default function SecurityCompliancePage() {
           <div className="lg:col-span-2 space-y-4">
             {/* Authentication */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -243,7 +243,7 @@ export default function SecurityCompliancePage() {
 
             {/* Network Security */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -291,7 +291,7 @@ export default function SecurityCompliancePage() {
 
             {/* Device Management */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -309,7 +309,7 @@ export default function SecurityCompliancePage() {
 
             {/* Compliance */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}

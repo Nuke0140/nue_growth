@@ -70,7 +70,7 @@ export default function AnomalyDetectionPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3 }}
               className={card}
@@ -158,7 +158,7 @@ export default function AnomalyDetectionPage() {
 
         {/* Timeline View */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
@@ -229,7 +229,7 @@ export default function AnomalyDetectionPage() {
 
         {/* AI Analysis Section */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
           className={cn(

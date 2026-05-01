@@ -98,7 +98,7 @@ export default function AttributionReportPage() {
             return (
               <motion.button
                 key={model}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.25 }}
                 onClick={() => setSelectedModelIndex(i)}
@@ -135,7 +135,7 @@ export default function AttributionReportPage() {
 
         {/* Revenue by Source - Horizontal Bar Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
           className={cn(card, 'p-4 sm:p-5')}
@@ -178,7 +178,7 @@ export default function AttributionReportPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${width}%` }}
-                      transition={{ delay: i * 0.08 + 0.2, duration: 0.5 }}
+                      transition={{ delay: i * 0.08 + 0.2, duration: 0.15 }}
                       className="h-full rounded-full"
                       style={{ backgroundColor: SOURCE_COLORS[i % SOURCE_COLORS.length] }}
                     />
@@ -193,7 +193,7 @@ export default function AttributionReportPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* CAC Table */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3 }}
             className={cn(card, 'overflow-hidden')}
@@ -219,7 +219,7 @@ export default function AttributionReportPage() {
 
           {/* Touchpoint Contribution */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3 }}
             className={cn(card, 'p-4 sm:p-5')}
@@ -251,7 +251,7 @@ export default function AttributionReportPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${width}%` }}
-                        transition={{ delay: i * 0.08 + 0.3, duration: 0.5 }}
+                        transition={{ delay: i * 0.08 + 0.3, duration: 0.15 }}
                         className="h-full rounded-full bg-blue-500"
                       />
                     </div>
@@ -264,7 +264,7 @@ export default function AttributionReportPage() {
 
         {/* Assisted Conversions Table */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.3 }}
           className={cn(card, 'overflow-hidden')}
@@ -290,7 +290,7 @@ export default function AttributionReportPage() {
 
         {/* Model Comparison Card */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3 }}
           className={cn(card, 'p-4 sm:p-5')}

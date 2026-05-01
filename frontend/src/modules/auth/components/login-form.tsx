@@ -35,7 +35,7 @@ const formVariants = {
 };
 
 const fieldVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 4 },
   visible: {
     opacity: 1,
     y: 0,

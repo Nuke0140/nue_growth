@@ -204,21 +204,21 @@ export default function FinanceAnalyticsPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.expense / maxPnl) * 100}%` }}
-                    transition={{ delay: 0.3 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.3 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-red-500/40' : 'bg-red-300')}
                     title={`Expense: ${formatINR(entry.expense)}`}
                   />
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.revenue / maxPnl) * 100}%` }}
-                    transition={{ delay: 0.32 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.32 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                     title={`Revenue: ${formatINR(entry.revenue)}`}
                   />
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.profit / maxPnl) * 100}%` }}
-                    transition={{ delay: 0.34 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.34 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('flex-1 rounded-t-sm', isDark ? 'bg-blue-500/40' : 'bg-blue-300')}
                     title={`Profit: ${formatINR(entry.profit)}`}
                   />
@@ -265,13 +265,13 @@ export default function FinanceAnalyticsPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.outflow / maxCashFlow) * 100}%` }}
-                        transition={{ delay: 0.3 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.3 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-red-500/40' : 'bg-red-300')}
                       />
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(entry.inflow / maxCashFlow) * 100}%` }}
-                        transition={{ delay: 0.32 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.32 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('flex-1 rounded-t-sm', isDark ? 'bg-emerald-500/40' : 'bg-emerald-300')}
                       />
                     </div>
@@ -307,7 +307,7 @@ export default function FinanceAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(bucket.amount / maxReceivable) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         i === 0 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
@@ -372,13 +372,13 @@ export default function FinanceAnalyticsPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(dept.budget / maxBurnDept) * 100}%` }}
-                        transition={{ delay: 0.35 + i * 0.06, duration: 0.5 }}
+                        transition={{ delay: 0.35 + i * 0.06, duration: 0.15 }}
                         className={cn('h-full rounded-full absolute', isDark ? 'bg-white/[0.12]' : 'bg-black/[0.08]')}
                       />
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(dept.burn / maxBurnDept) * 100}%` }}
-                        transition={{ delay: 0.37 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.37 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           'h-full rounded-full relative z-10',
                           dept.burn > dept.budget
@@ -424,7 +424,7 @@ export default function FinanceAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${client.margin}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         client.margin >= 50 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')

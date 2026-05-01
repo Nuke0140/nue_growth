@@ -151,7 +151,7 @@ export default function NotificationsPreferencesPage() {
         {Object.entries(groupedByCategory).map(([category, prefs], catIdx) => (
           <motion.div
             key={category}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: catIdx * 0.06, duration: 0.35 }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -221,7 +221,7 @@ export default function NotificationsPreferencesPage() {
 
         {/* Test Notifications */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}

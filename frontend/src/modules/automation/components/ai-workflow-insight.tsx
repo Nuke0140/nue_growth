@@ -131,7 +131,7 @@ export default function AIWorkflowInsight({
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${confidence * 100}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
                 className={cn(
                   'h-full rounded-full',
                   confidence >= 0.8

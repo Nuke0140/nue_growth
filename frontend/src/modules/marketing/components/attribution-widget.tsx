@@ -55,7 +55,7 @@ export default function AttributionWidget({ channels, model = 'Multi-Touch' }: A
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${widthPct}%` }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.1 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className="h-full rounded-full"
                   style={{ backgroundColor: channel.color }}
                 />

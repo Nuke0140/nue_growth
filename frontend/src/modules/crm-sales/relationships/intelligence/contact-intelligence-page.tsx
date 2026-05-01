@@ -216,7 +216,7 @@ export default function ContactIntelligencePage() {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${(bar.count / maxHealthCount) * 100}%` }}
-                          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                           className={cn('h-full rounded-full', bar.color)}
                         />
                       </div>

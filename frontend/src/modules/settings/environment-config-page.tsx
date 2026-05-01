@@ -23,8 +23,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const typeBadge: Record<string, { dark: string; light: string }> = {
@@ -67,9 +67,9 @@ export default function EnvironmentConfigPage() {
       <div className="space-y-6">
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.15 }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
@@ -244,9 +244,9 @@ export default function EnvironmentConfigPage() {
 
         {/* ── Global Config ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Layers className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />

@@ -52,7 +52,7 @@ export default function WhiteLabelClientReportsPage() {
           {whiteLabelReports.map((client, i) => (
             <motion.div
               key={client.id}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06, duration: 0.3 }}
               whileHover={{ y: -2 }}
@@ -156,7 +156,7 @@ export default function WhiteLabelClientReportsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(client.roiSummary.roi / 4, 100)}%` }}
-                      transition={{ delay: i * 0.1 + 0.3, duration: 0.6 }}
+                      transition={{ delay: i * 0.1 + 0.3, duration: 0.15 }}
                       className="h-full rounded-full bg-emerald-500"
                     />
                   </div>
@@ -269,7 +269,7 @@ export default function WhiteLabelClientReportsPage() {
 
           {/* Create New Client Report CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: whiteLabelReports.length * 0.06 + 0.1 }}
             whileHover={{ scale: 1.02, y: -2 }}

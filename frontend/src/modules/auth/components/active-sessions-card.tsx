@@ -195,7 +195,7 @@ function formatSessionLabel(session: Session): string {
 // ─────────────────────────── Animations ──────────────────────
 
 const sessionVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 4 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -239,9 +239,9 @@ export default function ActiveSessionsCard() {
     <div className="w-full space-y-6">
       {/* ──── Current Session ──── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.15 }}
       >
         <Card className="border border-gray-100 shadow-sm">
           <CardContent className="p-5">
@@ -288,9 +288,9 @@ export default function ActiveSessionsCard() {
 
       {/* ──── Other Active Sessions ──── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
+        transition={{ duration: 0.15}}
       >
         <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-3">
@@ -409,9 +409,9 @@ export default function ActiveSessionsCard() {
 
       {/* ──── Login History Timeline ──── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
+        transition={{ duration: 0.15}}
       >
         <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-3">

@@ -30,9 +30,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { useAuthStore } from '@/store/auth-store';
 
 const fadeUp = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 0 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.15, ease: [0.22, 1, 0.36, 1] },
 };
 
 const staggerContainer = {
@@ -40,7 +40,7 @@ const staggerContainer = {
 };
 
 const staggerItem = {
-  initial: { opacity: 0, y: 12 },
+  initial: { opacity: 0, y: 4 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.35 } },
 };
 
@@ -202,7 +202,7 @@ export default function ProfilePage() {
         {/* Tabs */}
         <motion.div
           {...fadeUp}
-          transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
           <Tabs defaultValue="profile" className="w-full">
             <TabsList className="w-full sm:w-auto grid grid-cols-4 mb-6 bg-gray-100 rounded-xl p-1">
@@ -239,7 +239,7 @@ export default function ProfilePage() {
             {/* ─── Tab 1: Profile ─── */}
             <TabsContent value="profile">
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
@@ -400,7 +400,7 @@ export default function ProfilePage() {
             {/* ─── Tab 2: Security ─── */}
             <TabsContent value="security">
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
                 className="space-y-6"
@@ -578,7 +578,7 @@ export default function ProfilePage() {
             {/* ─── Tab 3: Preferences ─── */}
             <TabsContent value="preferences">
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
@@ -704,7 +704,7 @@ export default function ProfilePage() {
             {/* ─── Tab 4: Notifications ─── */}
             <TabsContent value="notifications">
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >

@@ -80,7 +80,7 @@ export default function BenchmarkComparisonPage() {
           {COMPARISON_TABS.map((tab, i) => (
             <motion.button
               key={tab}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.25 }}
               onClick={() => setSelectedTab(i)}
@@ -107,7 +107,7 @@ export default function BenchmarkComparisonPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3 }}
               className={card}
@@ -142,7 +142,7 @@ export default function BenchmarkComparisonPage() {
             return (
               <motion.div
                 key={item.metric}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.3 }}
                 whileHover={{ y: -2 }}
@@ -229,7 +229,7 @@ export default function BenchmarkComparisonPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${progressRatio}%` }}
-                      transition={{ delay: i * 0.06 + 0.3, duration: 0.5 }}
+                      transition={{ delay: i * 0.06 + 0.3, duration: 0.15 }}
                       className={cn(
                         'h-full rounded-full',
                         isAboveTarget ? 'bg-emerald-500' : 'bg-amber-500',

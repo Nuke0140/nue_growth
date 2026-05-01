@@ -48,7 +48,7 @@ function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' 
         <motion.circle cx={radius + strokeWidth} cy={radius + strokeWidth} r={radius}
           fill="none" stroke={color} strokeWidth={strokeWidth}
           strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset: offset }} transition={{ duration: 1.2, ease: 'easeOut' }}
+          animate={{ strokeDashoffset: offset }} transition={{ duration: 0.2, ease: 'easeOut' }}
           strokeLinecap="round" />
       </svg>
       <span className={cn('absolute font-bold', size === 'sm' ? 'text-xs' : 'text-sm',
@@ -62,9 +62,9 @@ function ScoreMeter({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' 
 function TopPerformerCard({ rep, isDark }: { rep: TeamPerformance; isDark: boolean }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.15 }}
       className={cn(
         'rounded-[var(--app-radius-xl)] border p-6 md:p-app-3xl relative overflow-hidden',
         isDark
@@ -193,9 +193,9 @@ export default function TeamPerformancePage() {
 
             {/* Leaderboard Table */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border overflow-hidden',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -350,7 +350,7 @@ export default function TeamPerformancePage() {
                                 <motion.div
                                   initial={{ width: 0 }}
                                   animate={{ width: `${rep.targetProgress}%` }}
-                                  transition={{ duration: 1, ease: 'easeOut', delay: i * 0.1 }}
+                                  transition={{ duration: 1, ease: 'easeOut'}}
                                   className={cn(
                                     'h-full rounded-full',
                                     rep.targetProgress >= 80 ? 'bg-emerald-500' :
@@ -375,7 +375,7 @@ export default function TeamPerformancePage() {
                 return (
                   <motion.div
                     key={rep.id}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + i * 0.1 }}
                     className={cn(
@@ -428,7 +428,7 @@ export default function TeamPerformancePage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${rep.targetProgress}%` }}
-                            transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 + i * 0.1 }}
+                            transition={{ duration: 0.2, ease: 'easeOut'}}
                             className={cn(
                               'h-full rounded-full',
                               rep.targetProgress >= 80 ? 'bg-emerald-500' :

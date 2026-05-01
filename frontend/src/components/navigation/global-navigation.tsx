@@ -148,13 +148,11 @@ export default function GlobalNavigation() {
   return (
     <>
       {/* Top Navigation Bar */}
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className={`fixed top-0 left-0 right-0 h-14 backdrop-blur-xl border-b z-[${Z_INDEX.topbar}] transition-colors duration-300 ${
+      <header
+        className={`fixed top-0 left-0 right-0 h-14 border-b z-[${Z_INDEX.topbar}] transition-colors duration-200 ${
           isDark 
-            ? 'bg-[#050505]/80 border-white/[0.05]' 
-            : 'bg-[#f5f5f5]/80 border-black/[0.05]'
+            ? 'bg-[#0a0a0a] border-white/[0.06]' 
+            : 'bg-[#fafafa] border-black/[0.06]'
         }`}
       >
         <div className="flex items-center justify-between h-full px-4">
@@ -218,7 +216,7 @@ export default function GlobalNavigation() {
             />
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Navigation History Dropdown */}
       <AnimatePresence>
@@ -265,13 +263,11 @@ export default function GlobalNavigation() {
       </AnimatePresence>
 
       {/* Bottom Navigation Bar for Mobile */}
-      <motion.nav
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className={`fixed bottom-0 left-0 right-0 h-16 backdrop-blur-xl border-t z-[${Z_INDEX.topbar}] transition-colors duration-300 md:hidden ${
+      <nav
+        className={`fixed bottom-0 left-0 right-0 h-16 border-t z-[${Z_INDEX.topbar}] transition-colors duration-200 md:hidden ${
           isDark 
-            ? 'bg-[#050505]/80 border-white/[0.05]' 
-            : 'bg-[#f5f5f5]/80 border-black/[0.05]'
+            ? 'bg-[#0a0a0a] border-white/[0.06]' 
+            : 'bg-[#fafafa] border-black/[0.06]'
         }`}
       >
         <div className="flex items-center justify-around h-full px-4">
@@ -311,7 +307,7 @@ export default function GlobalNavigation() {
             variant="secondary"
           />
         </div>
-      </motion.nav>
+      </nav>
     </>
   );
 }

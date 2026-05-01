@@ -139,7 +139,7 @@ export default function AIBIAssistantPage() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* LEFT: Chat Interface */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="lg:col-span-2 space-y-4"
@@ -241,7 +241,7 @@ export default function AIBIAssistantPage() {
                             key={i}
                             className={cn('h-2 w-2 rounded-full', isDark ? 'bg-zinc-500' : 'bg-zinc-400')}
                             animate={{ y: [0, -4, 0] }}
-                            transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }}
+                            transition={{ duration: 0.15, repeat: Infinity}}
                           />
                         ))}
                       </div>
@@ -313,7 +313,7 @@ export default function AIBIAssistantPage() {
 
           {/* RIGHT: AI Insights Panel + Quick Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="lg:col-span-3 space-y-6"
@@ -323,7 +323,7 @@ export default function AIBIAssistantPage() {
               {QUICK_STATS.map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 + 0.25, duration: 0.3 }}
                   className={cn(card, 'flex items-center gap-3')}
@@ -353,7 +353,7 @@ export default function AIBIAssistantPage() {
 
             {/* AI Capabilities Info */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
               className={cn(card, 'space-y-3')}

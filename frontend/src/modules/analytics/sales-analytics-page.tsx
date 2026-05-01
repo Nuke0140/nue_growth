@@ -250,7 +250,7 @@ export default function SalesAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(bucket.value / maxDealAging) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         i === 0 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
@@ -283,7 +283,7 @@ export default function SalesAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
-                      transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.3 + i * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className="h-12 rounded-xl flex items-center justify-center"
                       style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                     >
@@ -343,7 +343,7 @@ export default function SalesAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.avgDays / maxSourceDays) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
                     />
                   </div>
@@ -359,7 +359,7 @@ export default function SalesAnalyticsPage() {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
+                transition={{ delay: 0.3, duration: 0.15 }}
                 className="relative w-40 h-40 rounded-full shrink-0"
                 style={{
                   background: `conic-gradient(${conicSegments.join(', ')})`,

@@ -1,15 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth-store';
 import { getModuleConfigFromPathname } from '@/lib/module-registry';
-import WindowsDesktop from '@/components/dashboard/windows-desktop';
-import PremiumDesktop from '@/components/dashboard/premium-desktop';
 import EnhancedPremiumDesktop from '@/components/dashboard/enhanced-premium-desktop';
 
 /* ============================================
@@ -128,16 +123,9 @@ const moduleLayoutMap: Record<string, React.ComponentType> = {
   settings: SettingsLayout,
 };
 
-const pageVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
-};
-
 export default function Home() {
   const { isAuthenticated, currentPage, activeModule } = useAuthStore();
   const pathname = usePathname();
-  const [isInitializing, setIsInitializing] = useState(true);
 
   const isAuthEntry = authEntryPages.has(currentPage);
   const isManagement = managementPages.has(currentPage);
@@ -152,37 +140,10 @@ export default function Home() {
     }
   }, [isAuthenticated]);
 
-  // Brief loading state for smooth initial hydration
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsInitializing(false);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [isAuthenticated]);
-
   let content: React.ReactNode;
   let renderKey = 'login';
 
-  if (isInitializing) {
-    content = (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--app-surface-0)]">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-col items-center gap-6"
-        >
-          <Image src="/logo.png" alt="NueEra" width={90} height={70} className="object-contain animate-pulse opacity-90" priority />
-          <div className="flex items-center gap-2 text-[var(--app-text-muted)]">
-            <Loader2 className="h-5 w-5 animate-spin text-[var(--app-structural)]" />
-            <span className="text-sm font-medium tracking-wide">Preparing Workspace...</span>
-          </div>
-        </motion.div>
-      </div>
-    );
-    renderKey = 'loader';
-  } else if (!isAuthenticated) {
+  if (!isAuthenticated) {
     if (isAuthEntry && CurrentPage) {
       content = <CurrentPage />;
       renderKey = currentPage;
@@ -216,17 +177,8 @@ export default function Home() {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={renderKey}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {content}
-      </motion.div>
-    </AnimatePresence>
+    <div key={renderKey} className="contents">
+      {content}
+    </div>
   );
 }

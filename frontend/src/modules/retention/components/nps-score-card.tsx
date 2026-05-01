@@ -30,7 +30,7 @@ export default function NpsScoreCard({ score, totalResponses, promoters, passive
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
@@ -46,7 +46,7 @@ export default function NpsScoreCard({ score, totalResponses, promoters, passive
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, type: 'spring' }}
+          transition={{ duration: 0.15, type: 'spring' }}
         >
           <span className={cn('text-5xl font-bold', colors.text)}>{score}</span>
         </motion.div>
@@ -62,19 +62,19 @@ export default function NpsScoreCard({ score, totalResponses, promoters, passive
           className="bg-emerald-400 h-full"
           initial={{ width: 0 }}
           animate={{ width: `${promoterPct}%` }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.15}}
         />
         <motion.div
           className="bg-amber-400 h-full"
           initial={{ width: 0 }}
           animate={{ width: `${passivePct}%` }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.15}}
         />
         <motion.div
           className="bg-red-400 h-full"
           initial={{ width: 0 }}
           animate={{ width: `${detractorPct}%` }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.15}}
         />
       </div>
 

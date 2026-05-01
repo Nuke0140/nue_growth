@@ -58,7 +58,7 @@ const STAGE_CONVERSION_RATES: Record<string, number> = {
 
 const STAGE_PROBABILITIES: Record<string, number> = {
   new: 10,
-  discovery: 20,
+  discovery: 0,
   qualified: 35,
   demo: 50,
   proposal: 50,

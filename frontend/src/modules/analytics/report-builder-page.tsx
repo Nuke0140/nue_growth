@@ -139,7 +139,7 @@ export default function ReportBuilderPage() {
 
         {/* Template Gallery */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
@@ -164,7 +164,7 @@ export default function ReportBuilderPage() {
           {/* Builder Area */}
           <div className="lg:col-span-2 space-y-6">
             {/* Report Title */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className={card}>
               <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Report Title
               </label>
@@ -183,7 +183,7 @@ export default function ReportBuilderPage() {
             </motion.div>
 
             {/* Data Source Selector */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }} className={card}>
               <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Data Source
               </label>
@@ -210,7 +210,7 @@ export default function ReportBuilderPage() {
             </motion.div>
 
             {/* Widget Selector */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={card}>
               <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Widgets
               </label>
@@ -242,7 +242,7 @@ export default function ReportBuilderPage() {
             </motion.div>
 
             {/* Sections List */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }} className={card}>
               <div className="flex items-center justify-between mb-3">
                 <label className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                   Sections
@@ -292,7 +292,7 @@ export default function ReportBuilderPage() {
             </motion.div>
 
             {/* Brand Header Section */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} className={card}>
               <div className="flex items-center gap-2 mb-3">
                 <Palette className={cn('w-4 h-4', isDark ? 'text-zinc-400' : 'text-zinc-500')} />
                 <label className={cn('text-[10px] font-medium uppercase tracking-wider', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
@@ -338,7 +338,7 @@ export default function ReportBuilderPage() {
             </motion.div>
 
             {/* Notes Section */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }} className={card}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }} className={card}>
               <label className={cn('text-[10px] font-medium uppercase tracking-wider block mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
                 Notes
               </label>
@@ -359,7 +359,7 @@ export default function ReportBuilderPage() {
 
           {/* Preview Section */}
           <div className="space-y-4">
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
               <h2 className={cn('text-sm font-semibold mb-3', isDark ? 'text-white' : 'text-zinc-900')}>
                 Preview
               </h2>

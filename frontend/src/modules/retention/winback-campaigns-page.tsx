@@ -126,9 +126,9 @@ export default function WinbackCampaignsPage() {
           ].map((item, i) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -189,9 +189,9 @@ export default function WinbackCampaignsPage() {
             return (
               <motion.div
                 key={campaign.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.2 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-colors',
                   isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -237,7 +237,7 @@ export default function WinbackCampaignsPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${campaign.successRate}%` }}
-                            transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
+                            transition={{ delay: 0.3 + i * 0.05, duration: 0.15 }}
                             className={cn('h-full rounded-full', campaign.successRate >= 50 ? (isDark ? 'bg-emerald-500/40' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/40' : 'bg-amber-400'))}
                           />
                         </div>
@@ -263,9 +263,9 @@ export default function WinbackCampaignsPage() {
 
         {/* Success Rate Analytics Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -281,7 +281,7 @@ export default function WinbackCampaignsPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.rate / maxRate) * 100}%` }}
-                  transition={{ delay: 0.55 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.55 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', entry.rate >= 50 ? (isDark ? 'bg-emerald-500/30' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/30' : 'bg-amber-400'))}
                 />
                 <span className={cn('text-[7px] text-center truncate w-full', isDark ? 'text-white/20' : 'text-black/20')}>{entry.name}</span>
@@ -292,9 +292,9 @@ export default function WinbackCampaignsPage() {
 
         {/* Inactivity Segment Breakdown */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.4 }}
+          transition={{ delay: 0.55, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -311,7 +311,7 @@ export default function WinbackCampaignsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${seg.rate}%` }}
-                    transition={{ delay: 0.6 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.6 + i * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('h-full rounded-lg', seg.rate >= 40 ? (isDark ? 'bg-emerald-500/30' : 'bg-emerald-400') : (isDark ? 'bg-amber-500/30' : 'bg-amber-400'))}
                   />
                 </div>

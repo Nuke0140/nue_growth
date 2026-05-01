@@ -262,7 +262,7 @@ export default function ActivitiesPage() {
                         key={activity.id}
                         initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.25, delay: gi * 0.1 + i * 0.04 }}
+                        transition={{ duration: 0.25}}
                         className={cn(
                           'flex items-start gap-3 px-4 py-3 rounded-[var(--app-radius-lg)] transition-colors duration-200 group cursor-default',
                           isDark

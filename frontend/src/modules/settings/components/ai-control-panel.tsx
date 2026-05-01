@@ -70,7 +70,7 @@ export default function AIControlPanel({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       className={cn(
@@ -100,7 +100,7 @@ export default function AIControlPanel({
                   opacity: [0.3, 0.6, 0.3],
                   scale: [0.95, 1.05, 0.95],
                 }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: 0.2, repeat: Infinity, ease: 'easeInOut' }}
                 style={{ background: isDark ? 'rgba(139,92,246,0.4)' : 'rgba(124,58,237,0.3)' }}
               />
             )}
@@ -222,7 +222,7 @@ export default function AIControlPanel({
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${tokenPercent}%` }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
                 className={cn(
                   'h-full rounded-full',
                   isNearLimit ? 'bg-amber-500' : 'bg-violet-500',
@@ -333,7 +333,7 @@ export default function AIControlPanel({
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          transition={{ duration: 0.15, ease: 'easeOut' }}
                           className={cn(
                             'h-full rounded-full',
                             overLimit ? 'bg-red-500' : 'bg-violet-500',

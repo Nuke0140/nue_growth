@@ -143,9 +143,9 @@ export default function ChurnRiskPage() {
           ].map((item, i) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', item.border, isDark ? `bg-white/[0.02] ${item.border}` : `bg-white ${item.border}`)}
             >
               <div className="flex items-center justify-between mb-2">
@@ -162,9 +162,9 @@ export default function ChurnRiskPage() {
 
         {/* Risk Score Distribution Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -180,7 +180,7 @@ export default function ChurnRiskPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.riskScore / 100) * 100}%` }}
-                  transition={{ delay: 0.3 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.3 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', getRiskBarColor(entry.riskScore))}
                 />
                 <span className={cn('text-[7px] text-center truncate w-full', isDark ? 'text-white/20' : 'text-black/20')}>{entry.client}</span>
@@ -191,9 +191,9 @@ export default function ChurnRiskPage() {
 
         {/* Churn Risk Table */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -214,9 +214,9 @@ export default function ChurnRiskPage() {
 
         {/* High Risk Action Buttons Row */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center gap-2 mb-4">
@@ -262,9 +262,9 @@ export default function ChurnRiskPage() {
 
         {/* Churn Trend Over Time */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4 }}
+          transition={{ delay: 0.6, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -283,7 +283,7 @@ export default function ChurnRiskPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.value / maxTrend) * 100}%` }}
-                  transition={{ delay: 0.65 + j * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.65 + j * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                 />
                 <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.month}</span>

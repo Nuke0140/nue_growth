@@ -119,7 +119,7 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
               '0 0 0 0 rgba(239,68,68,0)',
             ],
           }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 0.2, repeat: Infinity, ease: 'easeInOut' }}
         />
       )}
 
@@ -183,7 +183,7 @@ export default function LeadCard({ lead }: { lead: SalesLead }) {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${lead.score}%` }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('h-full rounded-full', getScoreBarColor(lead.score))}
             />
           </div>

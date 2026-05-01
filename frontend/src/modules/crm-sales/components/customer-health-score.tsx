@@ -55,7 +55,7 @@ export default function CustomerHealthScore({ score, name, size = 'md', showLabe
         className={cn('relative', config.container)}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* Pulse animation for at-risk */}
         {isAtRisk && (
@@ -94,7 +94,7 @@ export default function CustomerHealthScore({ score, name, size = 'md', showLabe
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1]}}
             transform="rotate(-90 50 50)"
           />
         </svg>

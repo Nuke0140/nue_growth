@@ -88,7 +88,7 @@ export default function DealDetailPage() {
       <div className="p-4 md:p-6 max-w-[1400px] mx-auto space-y-app-2xl">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -185,9 +185,9 @@ export default function DealDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-app-2xl">
           {/* Center - Activity Timeline */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-7"
           >
             <div className={cn(
@@ -252,7 +252,7 @@ export default function DealDetailPage() {
           <motion.div
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-5 space-y-4"
           >
             {/* Deal Info Cards */}
@@ -441,9 +441,9 @@ export default function DealDetailPage() {
 
         {/* Action Bar */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
+          transition={{ duration: 0.3}}
           className={cn(
             'sticky bottom-0 -mx-4 md:-mx-6 px-4 md:px-6 py-4 border-t',
             isDark ? 'bg-[#0a0a0a]/90 border-white/[0.06]' : 'bg-white/90 border-black/[0.06]'

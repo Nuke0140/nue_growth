@@ -15,8 +15,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.05 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const operatorOptions = ['equals', 'not-equals', 'greater-than', 'less-than', 'contains', 'between', 'in', 'is-empty', 'is-not-empty'] as const;
@@ -110,9 +110,9 @@ export default function ConditionsPage() {
 
         {/* ── Visual Rule Builder ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Code2 className={cn('w-4 h-4', isDark ? 'text-violet-400' : 'text-violet-500')} />

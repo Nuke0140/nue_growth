@@ -35,8 +35,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function AnalyticsDashboardPage() {
@@ -156,7 +156,7 @@ export default function AnalyticsDashboardPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(d.leads / maxLeads) * 100}%` }}
-                        transition={{ delay: 0.1 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.1 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           'flex-1 rounded-t-sm transition-opacity group-hover:opacity-80 cursor-pointer min-h-[4px]',
                           isDark ? 'bg-blue-500/40' : 'bg-blue-400',
@@ -166,7 +166,7 @@ export default function AnalyticsDashboardPage() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(d.revenue / maxRevenue) * 100}%` }}
-                        transition={{ delay: 0.15 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.15 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           'flex-1 rounded-t-sm transition-opacity group-hover:opacity-80 cursor-pointer min-h-[4px]',
                           isDark ? 'bg-emerald-500/40' : 'bg-emerald-400',
@@ -292,7 +292,7 @@ export default function AnalyticsDashboardPage() {
                     key={stage.stage}
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: '100%' }}
-                    transition={{ delay: 0.1 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.1 + i * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className="space-y-1"
                   >
                     <div className="flex items-center justify-between text-xs">
@@ -307,7 +307,7 @@ export default function AnalyticsDashboardPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${widthPct}%` }}
-                        transition={{ delay: 0.15 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.15 + i * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('absolute inset-y-0 left-0 rounded-lg', colors[i])}
                       />
                       <span className={cn('relative z-10 text-[10px] font-semibold', isDark ? 'text-white' : 'text-white')}>
@@ -339,7 +339,7 @@ export default function AnalyticsDashboardPage() {
                   key={src.source}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
+                  transition={{ delay: 0.1 + i * 0.06, duration: 0.15 }}
                 >
                   <div className="flex items-center justify-between text-xs mb-1">
                     <span className={cn('font-medium truncate', isDark ? 'text-white/70' : 'text-black/70')}>
@@ -353,7 +353,7 @@ export default function AnalyticsDashboardPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.percentage / sourceMax) * 100}%` }}
-                      transition={{ delay: 0.15 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.15 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         i === 0 ? (isDark ? 'bg-blue-500/50' : 'bg-blue-400') :
@@ -464,7 +464,7 @@ export default function AnalyticsDashboardPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.margin / marginMax) * 100}%` }}
-                      transition={{ delay: 0.1 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.1 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'w-full rounded-t-sm cursor-pointer min-h-[4px]',
                         isDark ? 'bg-amber-500/40 hover:bg-amber-500/60' : 'bg-amber-400 hover:bg-amber-500',
@@ -521,7 +521,7 @@ export default function AnalyticsDashboardPage() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.score / productivityMax) * 100}%` }}
-                      transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.1 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'w-full rounded-t-sm min-h-[4px] transition-colors cursor-pointer',
                         d.score >= d.target
@@ -541,9 +541,9 @@ export default function AnalyticsDashboardPage() {
 
         {/* ── Alerts Section ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className={cn('w-4 h-4 text-amber-400')} />

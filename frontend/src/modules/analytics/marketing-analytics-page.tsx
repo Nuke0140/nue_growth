@@ -227,7 +227,7 @@ export default function MarketingAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(ch.roi / maxChannelROI) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-full',
                         ch.roi >= 8 ? (isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')
@@ -314,7 +314,7 @@ export default function MarketingAnalyticsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${widthPct}%` }}
-                    transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.3 + i * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className="h-10 rounded-xl flex items-center justify-center"
                     style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                   >
@@ -340,9 +340,9 @@ export default function MarketingAnalyticsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Email Metrics */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
+            transition={{ delay: 0.4, duration: 0.15 }}
             className="rounded-2xl border p-5"
             style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
           >
@@ -362,7 +362,7 @@ export default function MarketingAnalyticsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(data.emailCTR / 10) * 100}%` }}
-                    transition={{ delay: 0.5, duration: 0.6 }}
+                    transition={{ delay: 0.5, duration: 0.15 }}
                     className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
                   />
                 </div>
@@ -395,9 +395,9 @@ export default function MarketingAnalyticsPage() {
 
           {/* WhatsApp Metrics */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
+            transition={{ delay: 0.5, duration: 0.15 }}
             className="rounded-2xl border p-5"
             style={{ backgroundColor: CSS.cardBg, borderColor: CSS.border }}
           >
@@ -417,7 +417,7 @@ export default function MarketingAnalyticsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${data.whatsappReplyRate}%` }}
-                    transition={{ delay: 0.6, duration: 0.6 }}
+                    transition={{ delay: 0.6, duration: 0.15 }}
                     className={cn('h-full rounded-full', isDark ? 'bg-emerald-500/50' : 'bg-emerald-400')}
                   />
                 </div>

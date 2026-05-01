@@ -54,7 +54,7 @@ function ScoreRing({ score, isDark }: { score: number; isDark: boolean }) {
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
           className={color}
         />
       </svg>
@@ -209,9 +209,9 @@ export default function LeadDetailPage() {
 
           {/* Center Panel - Activity */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-6"
           >
             <Tabs defaultValue="activity" className="space-y-4">
@@ -306,7 +306,7 @@ export default function LeadDetailPage() {
           <motion.div
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-3 space-y-4"
           >
             {/* AI Insights Card */}
@@ -443,9 +443,9 @@ export default function LeadDetailPage() {
 
         {/* Action Bar */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
+          transition={{ duration: 0.3}}
           className={cn(
             'sticky bottom-0 mt-app-2xl -mx-4 md:-mx-6 px-4 md:px-6 py-4 border-t',
             isDark ? 'bg-[#0a0a0a]/90 border-white/[0.06]' : 'bg-white/90 border-black/[0.06]'

@@ -22,8 +22,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const tokenUsageByModule = [
@@ -76,9 +76,9 @@ export default function AIControlsPage() {
       <div className="space-y-6">
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.15 }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
@@ -121,9 +121,9 @@ export default function AIControlsPage() {
 
         {/* ── AI Control Panels ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <BrainCircuit className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -133,9 +133,9 @@ export default function AIControlsPage() {
             {aiControls.map((control, i) => (
               <motion.div
                 key={control.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
+                transition={{ delay: 0.25 + i * 0.06, duration: 0.15 }}
               >
                 <AIControlPanel
                   title={control.name}
@@ -161,9 +161,9 @@ export default function AIControlsPage() {
 
         {/* ── AI Usage Analytics ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Activity className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -183,7 +183,7 @@ export default function AIControlsPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
+                        transition={{ duration: 0.15, ease: 'easeOut' }}
                         className={cn('h-full rounded-full', m.color)}
                       />
                     </div>
@@ -213,7 +213,7 @@ export default function AIControlsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(totalTokenUsed / totalTokenBudget) * 100}%` }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      transition={{ duration: 0.15, ease: 'easeOut' }}
                       className="h-full rounded-full bg-violet-500"
                     />
                   </div>
@@ -225,9 +225,9 @@ export default function AIControlsPage() {
 
         {/* ── AI Governance Settings ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4 }}
+          transition={{ delay: 0.6, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <ShieldCheck className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />

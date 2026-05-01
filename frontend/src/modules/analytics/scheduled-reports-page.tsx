@@ -162,7 +162,7 @@ export default function ScheduledReportsPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3 }}
               className="rounded-2xl border shadow-sm p-4 sm:p-5"
@@ -187,7 +187,7 @@ export default function ScheduledReportsPage() {
 
         {/* Reports Table */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
           className="rounded-2xl border shadow-sm overflow-hidden"
@@ -215,7 +215,7 @@ export default function ScheduledReportsPage() {
         {/* Failure Retry Alerts */}
         {scheduledReports.some((r) => r.failureCount > 0) && (
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
           >

@@ -246,9 +246,9 @@ export default function CompanyDetailPage() {
 
           {/* Center Panel - Tabs */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-6"
           >
             <Tabs defaultValue="contacts" className="space-y-4">
@@ -424,7 +424,7 @@ export default function CompanyDetailPage() {
           <motion.div
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+            transition={{ duration: 0.3}}
             className="lg:col-span-3 space-y-4"
           >
             {/* Account Insights */}
@@ -466,7 +466,7 @@ export default function CompanyDetailPage() {
                       key={i}
                       initial={{ height: 0 }}
                       animate={{ height: `${val}%` }}
-                      transition={{ duration: 0.5, delay: i * 0.05 }}
+                      transition={{ duration: 0.15}}
                       className={cn(
                         'flex-1 rounded-[var(--app-radius-sm)]',
                         i === 8

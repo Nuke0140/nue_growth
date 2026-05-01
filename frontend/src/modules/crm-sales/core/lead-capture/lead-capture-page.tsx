@@ -77,7 +77,7 @@ export default function LeadCapturePage() {
               <motion.div
                 className="w-2 h-2 rounded-full bg-emerald-500"
                 animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                transition={{ duration: 0.2, repeat: Infinity }}
               />
               <span className="text-xs font-medium text-emerald-500">Live</span>
             </div>
@@ -96,9 +96,9 @@ export default function LeadCapturePage() {
             return (
               <motion.div
                 key={source.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-[var(--app-radius-xl)] p-app-xl border transition-colors duration-200 group cursor-default',
                   isDark
@@ -173,7 +173,7 @@ export default function LeadCapturePage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(source.conversionRate / maxConversion) * 100}%` }}
-                      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
                         'h-full rounded-[var(--app-radius-lg)] flex items-center justify-end pr-2',
                         source.conversionRate >= 30 ? 'bg-emerald-500/20'
@@ -206,7 +206,7 @@ export default function LeadCapturePage() {
                 <motion.div
                   className="w-1.5 h-1.5 rounded-full bg-emerald-500"
                   animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  transition={{ duration: 0.2, repeat: Infinity }}
                 />
                 <span className="text-[10px] font-medium text-emerald-500">Live Feed</span>
               </div>
@@ -217,7 +217,7 @@ export default function LeadCapturePage() {
                   key={i}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.25, delay: i * 0.08 }}
+                  transition={{ duration: 0.25}}
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-[var(--app-radius-lg)] transition-colors',
                     'hover:bg-[var(--app-hover-bg)]'

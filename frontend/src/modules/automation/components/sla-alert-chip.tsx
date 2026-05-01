@@ -82,7 +82,7 @@ export default function SLAAlertChip({
         <motion.span
           className="absolute -left-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-red-500/50"
           animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity, ease: 'easeOut' }}
+          transition={{ duration: 0.2, repeat: Infinity, ease: 'easeOut' }}
         />
       )}
 
@@ -91,7 +91,7 @@ export default function SLAAlertChip({
         {severity === 'critical' && !breached ? (
           <motion.span
             animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 2 }}
+            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2 }}
           >
             <SeverityIcon className="h-3.5 w-3.5" />
           </motion.span>

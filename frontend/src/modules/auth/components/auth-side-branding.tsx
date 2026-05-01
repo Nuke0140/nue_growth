@@ -43,12 +43,12 @@ const trustBadges = [
 ];
 
 const floatingShapes = [
-  { size: 120, top: '8%', left: '10%', delay: 0, duration: 7 },
-  { size: 80, top: '15%', right: '12%', delay: 1.5, duration: 9 },
-  { size: 60, bottom: '20%', left: '5%', delay: 3, duration: 8 },
-  { size: 100, bottom: '10%', right: '8%', delay: 0.5, duration: 10 },
-  { size: 40, top: '45%', left: '70%', delay: 2, duration: 6 },
-  { size: 50, top: '65%', left: '15%', delay: 4, duration: 11 },
+  { size: 120, top: '8%', left: '10%', duration: 7 },
+  { size: 80, top: '15%', right: '12%', duration: 9 },
+  { size: 60, bottom: '20%', left: '5%', duration: 8 },
+  { size: 100, bottom: '10%', right: '8%', duration: 10 },
+  { size: 40, top: '45%', left: '70%', duration: 6 },
+  { size: 50, top: '65%', left: '15%', duration: 11 },
 ];
 
 const featureListVariants = {
@@ -107,9 +107,9 @@ export default function AuthSideBranding() {
 
       {/* Logo & Tagline */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20}}
         className="relative z-10"
       >
         <motion.div
@@ -170,9 +170,9 @@ export default function AuthSideBranding() {
 
       {/* Bottom section: Trust badges + Testimonial */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20}}
         className="relative z-10 space-y-5"
       >
         {/* Trust Badges */}

@@ -102,9 +102,9 @@ export default function UpsellCrosssellPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -129,9 +129,9 @@ export default function UpsellCrosssellPage() {
         {/* Insight Highlight */}
         {topInsight && (
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.4 }}
+            transition={{ delay: 0.25, duration: 0.15 }}
             className={cn('rounded-2xl border p-4 flex items-start gap-3', isDark ? 'bg-emerald-500/[0.04] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
           >
             <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', isDark ? 'bg-emerald-500/15' : 'bg-emerald-100')}>
@@ -176,7 +176,7 @@ export default function UpsellCrosssellPage() {
               return (
                 <motion.div
                   key={opp.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05, duration: 0.35 }}
                   className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
@@ -210,7 +210,7 @@ export default function UpsellCrosssellPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${opp.fitScore}%` }}
-                            transition={{ delay: 0.4 + i * 0.05, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ delay: 0.4 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                             className={cn('h-full rounded-full', opp.fitScore >= 85 ? 'bg-emerald-500' : opp.fitScore >= 70 ? 'bg-amber-500' : 'bg-red-500')}
                           />
                         </div>
@@ -225,7 +225,7 @@ export default function UpsellCrosssellPage() {
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${opp.probability}%` }}
-                            transition={{ delay: 0.5 + i * 0.05, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ delay: 0.5 + i * 0.05, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                             className={cn('h-full rounded-full', opp.probability >= 75 ? 'bg-violet-500' : opp.probability >= 60 ? 'bg-amber-500' : 'bg-red-500')}
                           />
                         </div>
@@ -263,9 +263,9 @@ export default function UpsellCrosssellPage() {
 
           {/* Fit Score Distribution Chart */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4 }}
+            transition={{ delay: 0.35, duration: 0.15 }}
             className={cn('rounded-2xl border p-5 h-fit', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -290,7 +290,7 @@ export default function UpsellCrosssellPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(bucket.value / maxFitBucket) * 100}%` }}
-                        transition={{ delay: 0.5 + j * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ delay: 0.5 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                         className={cn('h-full rounded-full', colors[j])}
                       />
                     </div>

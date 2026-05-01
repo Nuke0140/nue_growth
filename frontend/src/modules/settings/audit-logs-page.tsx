@@ -106,7 +106,7 @@ export default function AuditLogsPage() {
           {summaryKPIs.map((kpi, i) => (
             <motion.div
               key={kpi.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-black/[0.02] border-black/[0.06]')}
@@ -137,7 +137,7 @@ export default function AuditLogsPage() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(infoCount / severityTotal) * 100}%` }}
-                transition={{ delay: 0.3, duration: 0.8 }}
+                transition={{ delay: 0.3, duration: 0.15 }}
                 className="h-full bg-sky-500 rounded-l-full"
               />
             )}
@@ -145,7 +145,7 @@ export default function AuditLogsPage() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(warningCount / severityTotal) * 100}%` }}
-                transition={{ delay: 0.4, duration: 0.8 }}
+                transition={{ delay: 0.4, duration: 0.15 }}
                 className="h-full bg-amber-500"
               />
             )}
@@ -153,7 +153,7 @@ export default function AuditLogsPage() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(criticalCount / severityTotal) * 100}%` }}
-                transition={{ delay: 0.5, duration: 0.8 }}
+                transition={{ delay: 0.5, duration: 0.15 }}
                 className="h-full bg-red-500 rounded-r-full"
               />
             )}

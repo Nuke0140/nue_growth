@@ -235,7 +235,7 @@ export default function CRMAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(src.leads / maxLeadSource) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-blue-500/50' : 'bg-blue-400')}
                     />
                   </div>
@@ -260,7 +260,7 @@ export default function CRMAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${widthPct}%` }}
-                      transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.3 + i * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className="h-10 rounded-xl flex items-center justify-center"
                       style={{ backgroundColor: CSS.hoverBg, maxWidth: '100%' }}
                     >
@@ -356,7 +356,7 @@ export default function CRMAnalyticsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(stage.avgDays / maxPipelineDays) * 100}%` }}
-                      transition={{ delay: 0.35 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.35 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', isDark ? 'bg-violet-500/50' : 'bg-violet-400')}
                     />
                   </div>

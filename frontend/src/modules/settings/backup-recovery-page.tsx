@@ -27,8 +27,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 const statusConfig: Record<string, { label: string; dark: string; light: string }> = {
@@ -75,9 +75,9 @@ export default function BackupRecoveryPage() {
       <div className="space-y-6">
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.15 }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3">
@@ -115,9 +115,9 @@ export default function BackupRecoveryPage() {
 
         {/* ── Backup Schedule ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
+          transition={{ delay: 0.15, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Clock className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -152,7 +152,7 @@ export default function BackupRecoveryPage() {
         {/* ── Backup Alert ── */}
         {!autoBackupEnabled && (
           <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.98 }}
+            initial={{ opacity: 0, y: 4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
@@ -175,9 +175,9 @@ export default function BackupRecoveryPage() {
 
         {/* ── Recent Backups ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+          transition={{ delay: 0.25, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Archive className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -259,9 +259,9 @@ export default function BackupRecoveryPage() {
 
         {/* ── Point-in-Time Restore ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.4 }}
+          transition={{ delay: 0.55, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <RotateCcw className={cn('w-4 h-4', isDark ? 'text-white/30' : 'text-black/30')} />
@@ -302,9 +302,9 @@ export default function BackupRecoveryPage() {
 
         {/* ── Disaster Recovery ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.4 }}
+          transition={{ delay: 0.65, duration: 0.15 }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Shield className={cn('w-4 h-4 text-red-400')} />

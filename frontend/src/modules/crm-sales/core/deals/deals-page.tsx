@@ -117,9 +117,9 @@ export default function DealsPage() {
 
           {/* Revenue Stats Cards */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.15 }}
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
           >
             {[
@@ -206,7 +206,7 @@ export default function DealsPage() {
           {/* Table View */}
           {view === 'table' && (
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
               className={cn(
@@ -317,9 +317,9 @@ export default function DealsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Q2 Forecast */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -358,7 +358,7 @@ export default function DealsPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: '76%' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                     className="h-full bg-gradient-to-r from-emerald-500/60 to-emerald-400 rounded-full"
                   />
                 </div>
@@ -371,9 +371,9 @@ export default function DealsPage() {
 
             {/* Won/Lost Analytics */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{ duration: 0.15}}
               className={cn(
                 'rounded-[var(--app-radius-xl)] border p-app-xl',
                 'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -399,7 +399,7 @@ export default function DealsPage() {
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${wonHeight}%` }}
-                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                            transition={{ duration: 0.15, ease: 'easeOut' }}
                             className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/60' : 'bg-emerald-500')}
                           />
                         </div>
@@ -407,7 +407,7 @@ export default function DealsPage() {
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${lostHeight}%` }}
-                            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                            transition={{ duration: 0.15, ease: 'easeOut'}}
                             className={cn('w-full rounded-t-sm', isDark ? 'bg-red-400/40' : 'bg-red-400')}
                           />
                         </div>

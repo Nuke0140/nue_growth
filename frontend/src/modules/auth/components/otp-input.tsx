@@ -187,7 +187,7 @@ export default function OtpInput({
   const shakeAnimation = error
     ? {
         animate: { x: [0, -5, 5, -5, 5, 0] },
-        transition: { duration: 0.4 },
+        transition: { duration: 0.15 },
       }
     : {};
 

@@ -18,8 +18,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 export default function TemplatesPage() {
@@ -155,9 +155,9 @@ export default function TemplatesPage() {
         {/* ── Featured Template ── */}
         {activeCategory === 'All' && searchQuery === '' && (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
+            transition={{ delay: 0.1, duration: 0.15 }}
           >
             <div className="flex items-center gap-2 mb-4">
               <Star className={cn('w-4 h-4 text-amber-400')} />

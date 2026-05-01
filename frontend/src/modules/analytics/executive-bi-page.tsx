@@ -27,8 +27,8 @@ const stagger = {
   show: { opacity: 1, transition: { staggerChildren: 0.06 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 0 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' as const } },
 };
 
 function formatINR(num: number): string {
@@ -74,7 +74,7 @@ function CircularProgress({ score, maxScore, size = 96, strokeWidth = 6, isDark 
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
@@ -302,9 +302,9 @@ export default function ExecutiveBIPage() {
 
         {/* ── Board Summary Card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.3, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-6 sm:p-8',
             isDark
@@ -479,9 +479,9 @@ export default function ExecutiveBIPage() {
 
         {/* ── Export Section ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.5, duration: 0.15 }}
           className={cn(
             'rounded-2xl border p-5',
             isDark

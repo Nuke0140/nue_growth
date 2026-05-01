@@ -237,9 +237,9 @@ export default function FeedbackNpsPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -257,16 +257,16 @@ export default function FeedbackNpsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Large NPS Score */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.4 }}
+            transition={{ delay: 0.25, duration: 0.15 }}
             className={cn('rounded-2xl border p-6 flex flex-col items-center justify-center text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <p className={cn('text-xs font-medium uppercase tracking-wider mb-2', isDark ? 'text-white/40' : 'text-black/40')}>Net Promoter Score</p>
             <motion.p
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: 0.4, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('text-7xl font-black tracking-tighter', npsCalc.npsScore >= 50 ? 'text-emerald-500' : npsCalc.npsScore >= 0 ? 'text-amber-500' : 'text-red-500')}
             >
               {npsCalc.npsScore}
@@ -278,9 +278,9 @@ export default function FeedbackNpsPage() {
 
           {/* NPS Distribution */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
+            transition={{ delay: 0.3, duration: 0.15 }}
             className={cn('md:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center gap-2 mb-5">
@@ -310,7 +310,7 @@ export default function FeedbackNpsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${maxCategory > 0 ? (cat.count / maxCategory) * 100 : 0}%` }}
-                      transition={{ delay: 0.4 + j * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ delay: 0.4 + j * 0.1, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                       className={cn('h-full rounded-full', cat.color)}
                     />
                   </div>
@@ -346,9 +346,9 @@ export default function FeedbackNpsPage() {
 
         {/* Feedback Inbox */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.4 }}
+          transition={{ delay: 0.35, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">
@@ -374,9 +374,9 @@ export default function FeedbackNpsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Promoter List */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.4 }}
+            transition={{ delay: 0.45, duration: 0.15 }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-emerald-500/[0.03] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200')}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -405,9 +405,9 @@ export default function FeedbackNpsPage() {
 
           {/* Detractor Alerts */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
+            transition={{ delay: 0.5, duration: 0.15 }}
             className={cn('rounded-2xl border p-5', isDark ? 'bg-red-500/[0.03] border-red-500/20' : 'bg-red-50 border-red-200')}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -442,9 +442,9 @@ export default function FeedbackNpsPage() {
 
         {/* NPS Responses Table */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.4 }}
+          transition={{ delay: 0.55, duration: 0.15 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <div className="flex items-center justify-between mb-4">

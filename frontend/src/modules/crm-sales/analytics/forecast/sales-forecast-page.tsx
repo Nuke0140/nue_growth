@@ -36,7 +36,7 @@ const maxForecast = Math.max(...MONTHLY_FORECAST.flatMap(d => [d.forecast, d.act
 /* Stage revenue trend data */
 const STAGE_TREND = [
   { month: 'Jan', new: 80000, qualified: 120000, discovery: 150000, demo: 100000, proposal: 80000, negotiation: 60000 },
-  { month: 'Feb', new: 95000, qualified: 140000, discovery: 160000, demo: 120000, proposal: 90000, negotiation: 75000 },
+  { month: 'Feb', new: 95000, qualified: 140000, discovery: 40000, demo: 120000, proposal: 90000, negotiation: 75000 },
   { month: 'Mar', new: 110000, qualified: 160000, discovery: 180000, demo: 140000, proposal: 110000, negotiation: 85000 },
   { month: 'Apr', new: 130000, qualified: 180000, discovery: 200000, demo: 150000, proposal: 120000, negotiation: 95000 },
   { month: 'May', new: 120000, qualified: 170000, discovery: 190000, demo: 135000, proposal: 105000, negotiation: 90000 },
@@ -113,9 +113,9 @@ export default function SalesForecastPage() {
 
           {/* Top Widgets Row */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.15 }}
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
           >
             {[
@@ -150,9 +150,9 @@ export default function SalesForecastPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Monthly Forecast Bar Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -177,7 +177,7 @@ export default function SalesForecastPage() {
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${forecastH}%` }}
-                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                            transition={{ duration: 0.15, ease: 'easeOut' }}
                             className="w-full rounded-t-sm"
                             style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.5)' : 'rgba(168,85,247,0.3)' }}
                           />
@@ -187,7 +187,7 @@ export default function SalesForecastPage() {
                             <motion.div
                               initial={{ height: 0 }}
                               animate={{ height: `${actualH}%` }}
-                              transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                              transition={{ duration: 0.15, ease: 'easeOut'}}
                               className="w-full rounded-t-sm bg-emerald-500"
                             />
                           </div>
@@ -202,9 +202,9 @@ export default function SalesForecastPage() {
 
             {/* Rep Forecast Comparison */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -230,19 +230,19 @@ export default function SalesForecastPage() {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pipelineW}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          transition={{ duration: 0.15, ease: 'easeOut' }}
                           className={cn('h-full rounded-[var(--app-radius-sm)]', 'bg-[var(--app-hover-bg)]')}
                         />
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${weightedW}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                          transition={{ duration: 0.15, ease: 'easeOut'}}
                           className="h-full rounded-[var(--app-radius-sm)] bg-purple-500/60"
                         />
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${committedW}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+                          transition={{ duration: 0.15, ease: 'easeOut'}}
                           className="h-full rounded-[var(--app-radius-sm)] bg-emerald-500"
                         />
                       </div>
@@ -254,9 +254,9 @@ export default function SalesForecastPage() {
 
             {/* Stage Revenue Trend (Stacked) */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -291,7 +291,7 @@ export default function SalesForecastPage() {
                               key={idx}
                               initial={{ height: 0 }}
                               animate={{ height: `${h}%` }}
-                              transition={{ duration: 0.5, ease: 'easeOut', delay: idx * 0.05 }}
+                              transition={{ duration: 0.15, ease: 'easeOut'}}
                               className="w-full"
                               style={{ backgroundColor: `${STAGE_COLORS_ARR[idx]}${isDark ? '80' : '40'}` }}
                             />
@@ -307,9 +307,9 @@ export default function SalesForecastPage() {
 
             {/* Confidence Trend (Line Chart with dots) */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.25 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -344,7 +344,7 @@ export default function SalesForecastPage() {
                               strokeWidth="2"
                               initial={{ pathLength: 0 }}
                               animate={{ pathLength: 1 }}
-                              transition={{ duration: 0.6, delay: i * 0.1 }}
+                              transition={{ duration: 0.15}}
                             />
                           )}
                         </svg>
@@ -353,7 +353,7 @@ export default function SalesForecastPage() {
                           <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            transition={{ duration: 0.3, delay: i * 0.1 }}
+                            transition={{ duration: 0.3}}
                             className={cn('w-4 h-4 rounded-full border-2 shrink-0',
                               isDark ? 'bg-[#0a0a0a] border-purple-400' : 'bg-white border-purple-600'
                             )}
@@ -370,9 +370,9 @@ export default function SalesForecastPage() {
 
           {/* Rep Breakdown Table */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
+            transition={{ duration: 0.15}}
             className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
@@ -436,9 +436,9 @@ export default function SalesForecastPage() {
 
           {/* AI Recommendation */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.35 }}
+            transition={{ duration: 0.15}}
             className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', isDark ? 'bg-purple-500/[0.04] border-purple-500/15' : 'bg-purple-50/50 border-purple-200/50')}
           >
             <div className="flex items-start gap-3">

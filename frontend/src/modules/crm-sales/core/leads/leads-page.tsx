@@ -131,9 +131,9 @@ export default function LeadsPage() {
 
           {/* Stats Row */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.15 }}
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
           >
             {[
@@ -226,9 +226,9 @@ export default function LeadsPage() {
 
           {/* Table */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.15}}
             className={cn(
               'rounded-[var(--app-radius-xl)] border overflow-hidden',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'
@@ -511,7 +511,7 @@ function LeadQualificationModal({ lead, isDark, onClose }: { lead: Lead; isDark:
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${item.value}%` }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                     className={cn(
                       'h-full rounded-full',
                       item.value >= 70 ? 'bg-emerald-500' : item.value >= 40 ? 'bg-amber-500' : 'bg-red-500'

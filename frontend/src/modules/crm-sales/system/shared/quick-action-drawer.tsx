@@ -67,7 +67,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                 key={action.label}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25, delay: i * 0.04 }}
+                transition={{ duration: 0.25}}
                 onClick={() => onOpenChange(false)}
                 className={cn(
                   'flex items-center gap-3 p-3.5 rounded-[var(--app-radius-lg)] transition-colors duration-200 text-left group',
@@ -105,7 +105,7 @@ export default function QuickActionDrawer({ open, onOpenChange, contactName }: Q
                   key={i}
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.25, delay: 0.3 + i * 0.04 }}
+                  transition={{ duration: 0.25}}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded-[var(--app-radius-lg)] transition-colors cursor-pointer',
                     'hover:bg-[var(--app-hover-bg)]'

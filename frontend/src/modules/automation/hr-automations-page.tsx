@@ -52,7 +52,7 @@ function AutomationCard({ item, index }: { item: DomainAutomation; index: number
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: index * 0.05 }}
+      initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35}}
       whileHover={{ y: -3, boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.4)' : '0 8px 30px rgba(0,0,0,0.08)' }}
       className={cn('rounded-2xl border p-5 transition-colors', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.01]')}
     >
@@ -90,7 +90,7 @@ function AutomationCard({ item, index }: { item: DomainAutomation; index: number
           <p className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-zinc-500' : 'text-zinc-400')}>Success Rate</p>
           <div className="flex items-center gap-2 mt-1">
             <div className={cn('flex-1 h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-              <motion.div initial={{ width: 0 }} animate={{ width: `${successRate}%` }} transition={{ duration: 0.8, ease: 'easeOut' }}
+              <motion.div initial={{ width: 0 }} animate={{ width: `${successRate}%` }} transition={{ duration: 0.15, ease: 'easeOut' }}
                 className={cn('h-full rounded-full', successRate >= 95 ? 'bg-emerald-500' : successRate >= 80 ? 'bg-amber-500' : 'bg-red-500')} />
             </div>
             <span className={cn('text-xs font-semibold', isDark ? 'text-white' : 'text-zinc-900')}>{successRate}%</span>
@@ -132,7 +132,7 @@ function HrWorkflowSummary() {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}
+    <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15}}
       className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
       <div className="flex items-center gap-2.5 mb-5">
         <div className={cn('flex h-8 w-8 items-center justify-center rounded-xl', isDark ? 'bg-rose-500/10' : 'bg-rose-500/10')}>
@@ -157,7 +157,7 @@ function HrWorkflowSummary() {
                 </div>
                 <p className={cn('text-[10px] leading-relaxed mb-2', isDark ? 'text-zinc-500' : 'text-zinc-400')}>{wf.description}</p>
                 <div className={cn('h-1.5 rounded-full overflow-hidden', isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]')}>
-                  <motion.div initial={{ width: 0 }} animate={{ width: `${wf.stats.pct}%` }} transition={{ duration: 0.8, ease: 'easeOut' }}
+                  <motion.div initial={{ width: 0 }} animate={{ width: `${wf.stats.pct}%` }} transition={{ duration: 0.15, ease: 'easeOut' }}
                     className={cn('h-full rounded-full', wf.color.replace('text-', 'bg-'))} />
                 </div>
                 <p className={cn('text-[9px] mt-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>{wf.stats.automated} of {wf.stats.total} tasks automated</p>
@@ -193,7 +193,7 @@ export default function HrAutomationsPage() {
           </Button>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }} className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <KpiCard label="Total Rules" value={hrAutomationStats.totalRules.toString()} icon={Bot} color="text-rose-500" />
           <KpiCard label="Active" value={hrAutomationStats.active.toString()} icon={Play} color="text-emerald-500" />
           <KpiCard label="Alerts Sent" value={hrAutomationStats.alertsSent.toLocaleString()} icon={Bell} color="text-amber-500" />

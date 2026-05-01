@@ -167,9 +167,9 @@ export default function LoyaltyProgramPage() {
             return (
               <motion.div
                 key={tier.tier}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: i * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn('rounded-2xl border p-5', config.bg, config.border)}
               >
                 <div className="flex items-center justify-between mb-4">
@@ -204,9 +204,9 @@ export default function LoyaltyProgramPage() {
           {walletStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 + i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: 0.25 + i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -231,9 +231,9 @@ export default function LoyaltyProgramPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Member List Table */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
+            transition={{ delay: 0.4, duration: 0.15 }}
             className={cn('lg:col-span-2 rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
           >
             <div className="flex items-center justify-between mb-4">
@@ -259,9 +259,9 @@ export default function LoyaltyProgramPage() {
           <div className="space-y-4">
             {/* Gamification Progress Rings */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.4 }}
+              transition={{ delay: 0.45, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -294,9 +294,9 @@ export default function LoyaltyProgramPage() {
 
             {/* Tier Distribution */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
+              transition={{ delay: 0.5, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -320,7 +320,7 @@ export default function LoyaltyProgramPage() {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
-                          transition={{ delay: 0.55 + j * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ delay: 0.55 + j * 0.08, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                           className="h-full rounded-full"
                           style={{ backgroundColor: t.color, opacity: 0.8 }}
                         />
@@ -333,9 +333,9 @@ export default function LoyaltyProgramPage() {
 
             {/* Milestone Tracker */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.55, duration: 0.4 }}
+              transition={{ delay: 0.55, duration: 0.15 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center gap-2 mb-4">

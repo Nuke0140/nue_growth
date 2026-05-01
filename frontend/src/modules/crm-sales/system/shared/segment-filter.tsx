@@ -58,9 +58,9 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'rounded-[var(--app-radius-xl)] p-6 transition-colors duration-200 group cursor-default',
         isDark
@@ -118,7 +118,7 @@ export default function SegmentFilter({ segment, index = 0 }: SegmentFilterProps
               key={i}
               initial={{ height: 0 }}
               animate={{ height: `${height}%` }}
-              transition={{ duration: 0.5, delay: index * 0.06 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'flex-1 rounded-[var(--app-radius-md)] min-h-[4px] transition-colors',
                 isLast

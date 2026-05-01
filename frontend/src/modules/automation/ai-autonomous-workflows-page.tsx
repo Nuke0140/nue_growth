@@ -63,7 +63,7 @@ export default function AiAutonomousWorkflowsPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={card}
@@ -100,7 +100,7 @@ export default function AiAutonomousWorkflowsPage() {
             return (
               <motion.div
                 key={workflow.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
@@ -124,7 +124,7 @@ export default function AiAutonomousWorkflowsPage() {
                             <motion.span
                               className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"
                               animate={{ scale: [1, 1.8, 1], opacity: [0.75, 0, 0.75] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
+                              transition={{ duration: 0.2, repeat: Infinity }}
                             />
                             <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
                           </span>
@@ -186,7 +186,7 @@ export default function AiAutonomousWorkflowsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${workflow.confidence}%` }}
-                      transition={{ delay: i * 0.06 + 0.3, duration: 0.8, ease: 'easeOut' }}
+                      transition={{ delay: i * 0.06 + 0.3, duration: 0.15, ease: 'easeOut' }}
                       className={cn(
                         'h-full rounded-full',
                         workflow.confidence >= 90 ? 'bg-emerald-500' :
@@ -334,7 +334,7 @@ export default function AiAutonomousWorkflowsPage() {
             ].map((insight, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 + 0.3 }}
               >
@@ -354,7 +354,7 @@ export default function AiAutonomousWorkflowsPage() {
 
         {/* AI Monitoring Status */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className={cn(

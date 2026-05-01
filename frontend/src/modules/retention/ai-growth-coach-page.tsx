@@ -148,9 +148,9 @@ export default function AIGrowthCoachPage() {
           {kpiStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 'rounded-2xl border p-4 transition-all duration-200',
                 stat.label === 'Critical Actions'
@@ -174,7 +174,7 @@ export default function AIGrowthCoachPage() {
 
         {/* Filters */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn(
@@ -239,9 +239,9 @@ export default function AIGrowthCoachPage() {
             return (
               <motion.div
                 key={insight.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.25 + i * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-5 transition-all duration-200',
                   insight.impact === 'critical'
@@ -284,7 +284,7 @@ export default function AIGrowthCoachPage() {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${insight.confidence}%` }}
-                          transition={{ delay: 0.3 + i * 0.08, duration: 0.6 }}
+                          transition={{ delay: 0.3 + i * 0.08, duration: 0.15 }}
                           className={cn('h-full rounded-full', insight.confidence >= 85 ? 'bg-emerald-500' : insight.confidence >= 70 ? 'bg-amber-500' : 'bg-red-500')}
                         />
                       </div>
@@ -396,7 +396,7 @@ export default function AIGrowthCoachPage() {
           ].map((nav, i) => (
             <motion.button
               key={nav.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}

@@ -83,7 +83,7 @@ export default function FollowupDrawer({
                   key={action.label}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2, delay: i * 0.03 }}
+                  transition={{ duration: 0.2}}
                   className={cn(
                     'flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-200 group',
                     isDark
@@ -144,7 +144,7 @@ export default function FollowupDrawer({
                   key={i}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.25, delay: i * 0.05 }}
+                  transition={{ duration: 0.25}}
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-xl transition-colors',
                     isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-black/[0.02]'

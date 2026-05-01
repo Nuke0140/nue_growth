@@ -51,7 +51,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
@@ -91,7 +91,7 @@ export default function AIRetentionInsight({ insight }: AIRetentionInsightProps)
             className={cn('h-full rounded-full', insight.confidence >= 70 ? 'bg-emerald-400' : insight.confidence >= 40 ? 'bg-amber-400' : 'bg-red-400')}
             initial={{ width: 0 }}
             animate={{ width: `${insight.confidence}%` }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.15}}
           />
         </div>
         <span className="text-[10px] font-medium">{insight.confidence}%</span>

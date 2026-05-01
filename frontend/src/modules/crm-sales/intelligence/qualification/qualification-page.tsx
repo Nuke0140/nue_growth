@@ -42,7 +42,7 @@ function AiCircularWidget({ label, value, isDark }: { label: string; value: numb
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
@@ -104,7 +104,7 @@ function BantCard({
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn('h-full rounded-full', barColor)}
         />
       </div>
@@ -215,7 +215,7 @@ export default function QualificationPage() {
 
         {/* Score Dashboard */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             'rounded-[var(--app-radius-xl)] border p-app-3xl flex flex-col sm:flex-row items-center gap-app-3xl',
@@ -233,7 +233,7 @@ export default function QualificationPage() {
                 strokeDasharray={2 * Math.PI * 64}
                 initial={{ strokeDashoffset: 2 * Math.PI * 64 }}
                 animate={{ strokeDashoffset: 2 * Math.PI * 64 * (1 - qualification.overallScore / 100) }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">

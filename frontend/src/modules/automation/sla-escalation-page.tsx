@@ -72,7 +72,7 @@ export default function SlaEscalationPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={card}
@@ -133,7 +133,7 @@ export default function SlaEscalationPage() {
           {slaRules.map((rule, i) => (
             <motion.div
               key={rule.id}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               className={cn(
@@ -283,7 +283,7 @@ export default function SlaEscalationPage() {
 
         {/* Escalation Analytics Bar Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn(
@@ -318,14 +318,14 @@ export default function SlaEscalationPage() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(mod.prevented / maxAnalytics) * 100}%` }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                     className={cn('h-4 rounded-l-md bg-emerald-500/40')}
                   />
                   {/* Breach bar */}
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.max((mod.breaches / maxAnalytics) * 100, 2)}%` }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+                    transition={{ duration: 0.15, ease: 'easeOut'}}
                     className={cn('h-4 rounded-r-md bg-red-500/40')}
                   />
                 </div>

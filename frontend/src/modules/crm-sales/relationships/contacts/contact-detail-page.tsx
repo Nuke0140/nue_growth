@@ -617,7 +617,7 @@ export default function ContactDetailPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.15 }}
             className={cn(
               'rounded-[var(--app-radius-xl)] border p-app-xl text-center',
               'bg-[var(--app-card-bg)] border-[var(--app-border)]'

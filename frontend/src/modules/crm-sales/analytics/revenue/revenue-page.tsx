@@ -124,9 +124,9 @@ export default function RevenuePage() {
 
           {/* KPI Cards Row */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.15 }}
             className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3"
           >
             {kpiCards.map((kpi) => (
@@ -152,9 +152,9 @@ export default function RevenuePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Revenue Trend (MRR) */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -176,7 +176,7 @@ export default function RevenuePage() {
                         <motion.div
                           initial={{ height: 0 }}
                           animate={{ height: `${height}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          transition={{ duration: 0.15, ease: 'easeOut' }}
                           className="w-full rounded-t-sm"
                           style={{ backgroundColor: isDark ? 'rgba(168,85,247,0.5)' : 'rgba(168,85,247,0.4)' }}
                         />
@@ -190,9 +190,9 @@ export default function RevenuePage() {
 
             {/* Source Attribution (Pie Chart using divs) */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -238,9 +238,9 @@ export default function RevenuePage() {
 
             {/* Revenue Waterfall Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{ duration: 0.15}}
               className={cn('rounded-[var(--app-radius-xl)] border p-app-xl lg:col-span-2', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
             >
               <div className="flex items-center justify-between mb-4">
@@ -265,7 +265,7 @@ export default function RevenuePage() {
                         <motion.div
                           initial={{ height: 0 }}
                           animate={{ height: `${Math.max(h, 4)}%` }}
-                          transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
+                          transition={{ duration: 0.15, ease: 'easeOut'}}
                           className={cn('w-full rounded-t-sm',
                             isIncrease ? 'bg-emerald-500/60' :
                             isDecrease ? 'bg-red-400/50' :
@@ -284,9 +284,9 @@ export default function RevenuePage() {
 
           {/* Source Breakdown Table */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.25 }}
+            transition={{ duration: 0.15}}
             className={cn('rounded-[var(--app-radius-xl)] border overflow-hidden', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
           >
             <div className={cn('px-app-xl py-4 border-b', 'border-[var(--app-border)]')}>
@@ -328,7 +328,7 @@ export default function RevenuePage() {
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${row.percentOfTotal}%` }}
-                                transition={{ duration: 0.6, delay: i * 0.04 }}
+                                transition={{ duration: 0.15}}
                                 className={cn('h-full rounded-full', isDark ? 'bg-white/20' : 'bg-black/20')}
                               />
                             </div>
@@ -368,9 +368,9 @@ export default function RevenuePage() {
             ].map((insight, i) => (
               <motion.div
                 key={insight.title}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
+                transition={{ duration: 0.3}}
                 className={cn('rounded-[var(--app-radius-xl)] border p-4', 'bg-[var(--app-card-bg)] border-[var(--app-border)]')}
               >
                 <div className="flex items-center gap-2 mb-3">

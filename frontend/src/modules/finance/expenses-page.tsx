@@ -1,320 +1,333 @@
-import { useState, useMemo } from 'react';
-import {
-  CreditCard,
-  AlertTriangle,
-  TrendingDown,
-  Sparkles,
-  BarChart3,
-  Receipt,
-  FileText,
-  TrendingUp,
-  ExternalLink,
-  ArrowUpRight,
-  ArrowDownRight,
-} from 'lucide-react';
-import { PageShell } from '@/components/shared/page-shell';
-import { KpiWidget } from '@/components/shared/kpi-widget';
+'use client';
+
+import { formatINR } from './utils';
+
+import { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Plus, AlertTriangle, Filter, IndianRupee, Upload } from 'lucide-react';
+import { expenses } from '@/modules/finance/data/mock-data';
+import type { Expense } from '@/modules/finance/types';
 import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
-import { StatusBadge } from '@/components/shared/status-badge';
+import { PageShell } from '@/components/shared/page-shell';
 import { FilterBar } from '@/components/shared/filter-bar';
-import { useFinanceStore } from './finance-store';
-import { formatINR } from './utils';
-import {
-  expenseCategories,
-  expenses,
-  aiInsights,
-  marketingIntegration,
-} from './data/mock-data';
+import { KpiWidget } from '@/components/shared/kpi-widget';
+import { StatusBadge } from '@/components/shared/status-badge';
 import { CSS } from '@/styles/design-tokens';
 
-/* ── Category → badge colour mapping ── */
-const CATEGORY_COLOR: Record<string, string> = {
-  ads: 'warning',
-  payroll: 'info',
-  software: 'accent',
-  office: 'accent',
-  freelancers: 'info',
-  travel: 'success',
-  other: 'accent',
+
+const categoryConfig: Record<string, { label: string; color: string }> = {
+  ads: { label: 'Ads', color: 'violet' },
+  payroll: { label: 'Payroll', color: 'emerald' },
+  freelancers: { label: 'Freelancers', color: 'sky' },
+  software: { label: 'Software', color: 'amber' },
+  office: { label: 'Office', color: 'pink' },
+  travel: { label: 'Travel', color: 'orange' },
+  'client-delivery': { label: 'Client Delivery', color: 'teal' },
+  refunds: { label: 'Refunds', color: 'red' },
+  other: { label: 'Other', color: 'slate' },
 };
 
-/* ── KPI definitions ── */
-const KPIS = [
-  { label: 'Total Expenses', value: '₹27.5L', icon: CreditCard, color: 'warning' as const },
-  { label: 'Anomalies', value: '2 flagged', icon: AlertTriangle, color: 'danger' as const },
-  { label: 'Budget Utilization', value: '68%', icon: BarChart3, color: 'info' as const },
-  { label: 'Marketing ROI', value: '3.2x', icon: Sparkles, color: 'success' as const },
-];
-
-/* ── Filter options derived from categories ── */
-function buildFilters() {
-  const counts: Record<string, number> = { All: expenses.length };
-  expenses.forEach((t) => {
-    counts[t.category] = (counts[t.category] || 0) + 1;
-  });
-  return [
-    { key: 'all', label: 'All', count: counts.All },
-    { key: 'ads', label: 'Ads', count: counts.ads ?? 0 },
-    { key: 'software', label: 'Software', count: counts.software ?? 0 },
-    { key: 'freelancers', label: 'Freelancers', count: counts.freelancers ?? 0 },
-    { key: 'office', label: 'Office', count: counts.office ?? 0 },
-    { key: 'travel', label: 'Travel', count: counts.travel ?? 0 },
-    { key: 'other', label: 'Other', count: counts.other ?? 0 },
-  ];
-}
+const categoryColors: Record<string, string> = {
+  violet: 'bg-violet-500/15 text-violet-400',
+  emerald: 'bg-emerald-500/15 text-emerald-400',
+  sky: 'bg-sky-500/15 text-sky-400',
+  amber: 'bg-amber-500/15 text-amber-400',
+  pink: 'bg-pink-500/15 text-pink-400',
+  orange: 'bg-orange-500/15 text-orange-400',
+  teal: 'bg-teal-500/15 text-teal-400',
+  red: 'bg-red-500/15 text-red-400',
+  slate: 'bg-slate-500/15 text-slate-400',
+};
 
 export default function ExpensesPage() {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const navigate = useFinanceStore((s) => s.navigateTo);
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [approvalFilter, setApprovalFilter] = useState<string>('all');
 
-  /* ── Filtered transactions ── */
-  const filtered = useMemo(
-    () =>
-      activeFilter === 'all'
-        ? expenses
-        : expenses.filter((t) => t.category === activeFilter),
-    [activeFilter],
+  const categorySummary = useMemo(() => {
+    const summary: Record<string, { total: number; count: number }> = {};
+    expenses.forEach((exp: Expense) => {
+      if (!summary[exp.category]) summary[exp.category] = { total: 0, count: 0 };
+      summary[exp.category].total += exp.total;
+      summary[exp.category].count += 1;
+    });
+    return Object.entries(summary).map(([cat, data]) => ({ category: cat, ...data }));
+  }, []);
+
+  const filteredExpenses = useMemo(() => {
+    return expenses.filter((exp: Expense) => {
+      if (categoryFilter !== 'all' && exp.category !== categoryFilter) return false;
+      if (approvalFilter !== 'all' && exp.approvalStatus !== approvalFilter) return false;
+      return true;
+    });
+  }, [categoryFilter, approvalFilter]);
+
+  const totalExpenses = useMemo(() => expenses.reduce((s, e) => s + e.total, 0), []);
+  const anomalyExpenses = useMemo(() => expenses.filter(e => e.isAnomaly), []);
+  const pendingCount = useMemo(() => expenses.filter(e => e.approvalStatus === 'pending').length, []);
+  const gstTotal = useMemo(() => expenses.reduce((s, e) => s + e.gstAmount, 0), []);
+
+  const categoryFilterItems = useMemo(() => [
+    { key: 'all', label: 'All Categories' },
+    ...Object.entries(categoryConfig).map(([key, val]) => ({ key, label: val.label })),
+  ], []);
+
+  const approvalFilterItems = useMemo(() => [
+    { key: 'all', label: 'All Status' },
+    { key: 'approved', label: 'Approved' },
+    { key: 'pending', label: 'Pending' },
+    { key: 'rejected', label: 'Rejected' },
+  ], []);
+
+  const tableData = useMemo(() =>
+    filteredExpenses.map((exp: Expense) => ({
+      id: exp.id,
+      description: exp.description,
+      category: exp.category,
+      amount: formatINR(exp.amount),
+      gstAmount: formatINR(exp.gstAmount),
+      total: formatINR(exp.total),
+      date: exp.date,
+      vendor: exp.vendor,
+      receiptUploaded: exp.receiptUploaded,
+      approvalStatus: exp.approvalStatus,
+      isAnomaly: exp.isAnomaly,
+    })),
+    [filteredExpenses]
   );
 
-  /* ── AI insights for expenses ── */
-  const expenseInsights = useMemo(
-    () => aiInsights.filter((i) => i.type === 'overspend' || i.type === 'optimization'),
-    [],
-  );
-
-  /* ── Table columns ── */
   const columns: DataTableColumnDef[] = useMemo(() => [
-    { key: 'description', label: 'Description', sortable: true },
+    {
+      key: 'description',
+      label: 'Description',
+      sortable: true,
+      render: (row) => (
+        <p className="text-sm font-medium max-w-[200px] truncate" style={{ color: CSS.text }}>
+          {row.description as string}
+        </p>
+      ),
+    },
     {
       key: 'category',
       label: 'Category',
       sortable: true,
-      render: (row) => <StatusBadge status={row.category as string} />,
+      render: (row) => {
+        const cat = categoryConfig[row.category as string];
+        return (
+          <StatusBadge status={cat?.label ?? (row.category as string)} variant="pill" className="text-[10px] px-2 py-0" />
+        );
+      },
     },
     {
       key: 'amount',
       label: 'Amount',
       sortable: true,
-      render: (row) => formatINR(row.amount as number),
+      type: 'currency',
     },
     {
       key: 'gstAmount',
       label: 'GST',
-      sortable: true,
-      render: (row) => formatINR(row.gstAmount as number),
+      type: 'currency',
     },
     {
       key: 'total',
       label: 'Total',
       sortable: true,
-      render: (row) => formatINR(row.total as number),
+      render: (row) => (
+        <span className="text-sm font-semibold" style={{ color: CSS.text }}>
+          {row.total as string}
+        </span>
+      ),
     },
-    { key: 'date', label: 'Date', sortable: true },
-    { key: 'vendor', label: 'Vendor', sortable: true },
+    {
+      key: 'date',
+      label: 'Date',
+      sortable: true,
+      type: 'date',
+    },
+    {
+      key: 'vendor',
+      label: 'Vendor',
+      sortable: true,
+      render: (row) => (
+        <p className="text-sm max-w-[120px] truncate" style={{ color: CSS.textSecondary }}>
+          {row.vendor as string}
+        </p>
+      ),
+    },
     {
       key: 'receiptUploaded',
       label: 'Receipt',
-      render: (row) =>
-        row.receiptUploaded ? <FileText style={{ width: 16, height: 16 }} /> : '—',
+      render: (row) => (
+        <Upload
+          className="w-4 h-4"
+          style={{ color: row.receiptUploaded ? '#34d399' : CSS.textDisabled }}
+        />
+      ),
     },
     {
       key: 'approvalStatus',
-      label: 'Status',
+      label: 'Approval',
       sortable: true,
-      render: (row) => <StatusBadge status={row.approvalStatus as string} />,
+      render: (row) => (
+        <StatusBadge status={row.approvalStatus as string} variant="pill" className="text-[10px] px-2 py-0 capitalize" />
+      ),
     },
     {
       key: 'isAnomaly',
       label: 'Anomaly',
       render: (row) =>
-        row.isAnomaly ? <StatusBadge status="Flagged" /> : null,
+        row.isAnomaly ? <AlertTriangle className="w-4 h-4 text-red-500" /> : null,
     },
   ], []);
 
   return (
-    <PageShell title="Expense Intelligence" subtitle="Track, analyze, and optimize business spending">
-      {/* ── KPI Row ── */}
-      <div className="kpi-row">
-        {KPIS.map((k) => (
-          <KpiWidget key={k.label} label={k.label} value={k.value} icon={k.icon} color={k.color} />
-        ))}
-      </div>
-
-      {/* ── Category Summary Cards ── */}
-      <section className="card-section">
-        <h3 className="section-title">
-          <Receipt style={{ width: 18, height: 18 }} /> Category Summary
-        </h3>
-        <div className="category-cards">
-          {expenseCategories.map((cat) => {
-            const color = CATEGORY_COLOR[cat.category] ?? 'accent';
+    <PageShell
+      title="Expenses"
+      subtitle="Expense Control & Tracking"
+      icon={() => <Upload className="w-5 h-5" style={{ color: CSS.accent }} />}
+      onCreate={() => {}}
+      createLabel="Add Expense"
+    >
+      <div className="space-y-6">
+        {/* Category Summary Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {categorySummary.map((cat, i) => {
+            const config = categoryConfig[cat.category] || categoryConfig.other;
             return (
-              <div key={cat.category} className={`category-card tone-${color}`}>
-                <div className="cat-header">
-                  <span className="cat-name">{cat.category}</span>
-                  <span className="cat-trend">
-                    {cat.trend === 'up' ? (
-                      <ArrowUpRight style={{ width: 14, height: 14 }} />
-                    ) : cat.trend === 'down' ? (
-                      <ArrowDownRight style={{ width: 14, height: 14 }} />
-                    ) : null}
-                    {cat.percentage}%
+              <motion.div
+                key={cat.category}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-2xl p-4 cursor-pointer transition-all duration-200"
+                style={{
+                  backgroundColor: CSS.cardBg,
+                  border: `1px solid ${CSS.border}`,
+                  boxShadow: CSS.shadowCard,
+                }}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <StatusBadge status={config.label} variant="pill" className="text-[10px] px-2 py-0" />
+                  <span className="text-[10px] font-medium" style={{ color: CSS.textMuted }}>
+                    {cat.count} items
                   </span>
                 </div>
-                <div className="cat-amount">{formatINR(cat.total)}</div>
-                <div className="cat-bar-track">
-                  <div
-                    className={`cat-bar-fill tone-${color}`}
-                    style={{ width: `${cat.budgetUtilization}%` }}
-                  />
-                </div>
-                <div className="cat-meta">
-                  <span>Budget: {cat.budgetUtilization}%</span>
-                  <span>{cat.percentage}% of total</span>
-                </div>
-              </div>
+                <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(cat.total)}</p>
+              </motion.div>
             );
           })}
         </div>
-      </section>
 
-      {/* ── AI Recommendations ── */}
-      <section className="card-section">
-        <h3 className="section-title">
-          <Sparkles style={{ width: 18, height: 18 }} /> AI Recommendations
-        </h3>
-        <div className="insight-cards">
-          {expenseInsights.map((ins) => (
-            <div key={ins.id} className={`insight-card tone-${ins.type === 'overspend' ? 'danger' : 'info'}`}>
-              <div className="insight-header">
-                <AlertTriangle style={{ width: 16, height: 16 }} />
-                <span className="insight-title">{ins.title}</span>
+        {/* KPI Summary */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <KpiWidget label="Total Expenses" value={formatINR(totalExpenses)} icon={IndianRupee} color="success" trend="down" trendValue="-12.3%" />
+          <KpiWidget label="Total GST" value={formatINR(gstTotal)} icon={AlertTriangle} color="warning" />
+          <KpiWidget label="Pending Approval" value={pendingCount.toString()} icon={Upload} color="info" />
+          <KpiWidget label="Anomalies" value={anomalyExpenses.length.toString()} icon={AlertTriangle} color="danger" />
+        </div>
+
+        {/* Anomaly Alerts */}
+        {anomalyExpenses.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.15 }}
+            className="rounded-2xl border p-5"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--app-danger) 3%, transparent)', borderColor: 'color-mix(in srgb, var(--app-danger) 12%, transparent)' }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
+              <span className="text-sm font-semibold" style={{ color: CSS.danger }}>Anomaly Alerts</span>
+            </div>
+            <div className="space-y-2">
+              {anomalyExpenses.map((exp, i) => (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.45 + i * 0.05, duration: 0.3 }}
+                  className="flex items-center justify-between p-3 rounded-xl border"
+                  style={{ borderColor: 'color-mix(in srgb, var(--app-danger) 10%, transparent)' }}
+                >
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="w-4 h-4" style={{ color: CSS.danger }} />
+                    <div>
+                      <p className="text-sm font-medium" style={{ color: CSS.text }}>{exp.description}</p>
+                      <p className="text-xs" style={{ color: CSS.textMuted }}>{exp.vendor} · {exp.date}</p>
+                    </div>
+                  </div>
+                  <span className="text-sm font-semibold" style={{ color: CSS.danger }}>{formatINR(exp.total)}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2 min-w-0" style={{ color: CSS.textMuted }}>
+            <Filter className="w-4 h-4" />
+            <span className="text-xs font-medium uppercase tracking-wider">Category</span>
+          </div>
+          <FilterBar filters={categoryFilterItems} activeFilter={categoryFilter} onFilterChange={setCategoryFilter} />
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <span className="text-xs font-medium uppercase tracking-wider" style={{ color: CSS.textMuted }}>Status</span>
+          <FilterBar filters={approvalFilterItems} activeFilter={approvalFilter} onFilterChange={setApprovalFilter} />
+        </div>
+
+        {/* Expense Table */}
+        <SmartDataTable
+          columns={columns}
+          data={tableData}
+          searchable
+          searchPlaceholder="Search expenses..."
+          searchKeys={['description', 'vendor', 'category']}
+          enableExport
+          emptyMessage="No expenses match the selected filters"
+          pageSize={10}
+        />
+
+        {/* Total Expenses Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.15 }}
+          className="rounded-2xl border p-5"
+          style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: CSS.accentLight }}>
+                <IndianRupee className="w-5 h-5" style={{ color: CSS.accent }} />
               </div>
-              <p className="insight-body">{ins.recommendation}</p>
-              <div className="insight-footer">
-                <span className="potential-saving">
-                  Potential saving: <strong>{formatINR(ins.potentialSaving)}</strong>
-                </span>
-                <button className="btn-action" onClick={() => navigate('expenses')}>
-                  Take Action
-                </button>
+              <div>
+                <p className="text-xs" style={{ color: CSS.textMuted }}>Total Expenses (All Categories)</p>
+                <p className="text-2xl font-bold" style={{ color: CSS.text }}>{formatINR(totalExpenses)}</p>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Filter Bar ── */}
-      <FilterBar
-        filters={buildFilters()}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-      />
-
-      {/* ── Expense Table ── */}
-      <section className="card-section">
-        <SmartDataTable
-          data={filtered as unknown as Record<string, unknown>[]}
-          columns={columns}
-        />
-      </section>
-
-      {/* ── Marketing Spend Card ── */}
-      <section className="card-section">
-        <h3 className="section-title">
-          <BarChart3 style={{ width: 18, height: 18 }} /> Marketing Spend
-        </h3>
-        <div className="marketing-card">
-          <div className="mkt-stat">
-            <span className="mkt-label">Total Spend</span>
-            <span className="mkt-value">{formatINR(marketingIntegration.totalSpend)}</span>
+            <div className="flex items-center gap-6">
+              <div className="text-center">
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Base Amount</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(totalExpenses - gstTotal)}</p>
+              </div>
+              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
+              <div className="text-center">
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>GST</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{formatINR(gstTotal)}</p>
+              </div>
+              <div className="w-px h-8" style={{ backgroundColor: CSS.border }} />
+              <div className="text-center">
+                <p className="text-[10px] uppercase tracking-wider" style={{ color: CSS.textMuted }}>Entries</p>
+                <p className="text-sm font-semibold" style={{ color: CSS.text }}>{expenses.length}</p>
+              </div>
+            </div>
           </div>
-          <div className="mkt-stat">
-            <span className="mkt-label">ROI</span>
-            <span className="mkt-value tone-success">{marketingIntegration.roi}x</span>
-          </div>
-          <div className="mkt-stat">
-            <span className="mkt-label">Cost per Lead</span>
-            <span className="mkt-value">{formatINR(marketingIntegration.costPerLead)}</span>
-          </div>
-          <button
-            className="btn-link"
-            onClick={() => navigate('expenses')}
-          >
-            <ExternalLink style={{ width: 14, height: 14 }} /> Open Marketing Module
-          </button>
-        </div>
-      </section>
-
-      {/* ── Scoped styles ── */}
-      <style>{`
-        .kpi-row {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: var(--space-3);
-          margin-bottom: var(--space-5);
-        }
-        .card-section {
-          background: var(--surface-primary);
-          border-radius: var(--radius-lg);
-          padding: var(--space-4);
-          margin-bottom: var(--space-4);
-        }
-        .section-title {
-          display: flex;
-          align-items: center;
-          gap: var(--space-2);
-          font-size: var(--font-size-lg);
-          font-weight: var(--font-weight-semibold);
-          color: var(--text-primary);
-          margin-bottom: var(--space-3);
-        }
-        .category-cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: var(--space-3);
-        }
-        .category-card {
-          background: var(--surface-secondary);
-          border-radius: var(--radius-md);
-          padding: var(--space-3);
-          border-left: 4px solid var(--color-accent);
-        }
-        .category-card.tone-warning { border-left-color: var(--color-warning); }
-        .category-card.tone-info    { border-left-color: var(--color-info); }
-        .category-card.tone-accent  { border-left-color: var(--color-accent); }
-        .category-card.tone-success { border-left-color: var(--color-success); }
-        .cat-header { display: flex; justify-content: space-between; align-items: center; }
-        .cat-name { font-weight: var(--font-weight-medium); color: var(--text-primary); }
-        .cat-trend { font-size: var(--font-size-sm); display: flex; align-items: center; gap: 2px; }
-        .cat-amount { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--text-primary); margin: var(--space-1) 0; }
-        .cat-bar-track { height: 6px; background: var(--surface-tertiary); border-radius: var(--radius-full); overflow: hidden; }
-        .cat-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.4s ease; }
-        .cat-bar-fill.tone-warning { background: var(--color-warning); }
-        .cat-bar-fill.tone-info    { background: var(--color-info); }
-        .cat-bar-fill.tone-accent  { background: var(--color-accent); }
-        .cat-bar-fill.tone-success { background: var(--color-success); }
-        .cat-meta { display: flex; justify-content: space-between; font-size: var(--font-size-xs); color: var(--text-secondary); margin-top: var(--space-1); }
-        .insight-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-3); }
-        .insight-card { background: var(--surface-secondary); border-radius: var(--radius-md); padding: var(--space-3); border-left: 4px solid var(--color-info); }
-        .insight-card.tone-danger { border-left-color: var(--color-danger); }
-        .insight-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
-        .insight-title { font-weight: var(--font-weight-semibold); color: var(--text-primary); }
-        .insight-body { font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-2); }
-        .insight-footer { display: flex; justify-content: space-between; align-items: center; }
-        .potential-saving { font-size: var(--font-size-sm); color: var(--text-secondary); }
-        .btn-action { padding: var(--space-1) var(--space-3); border-radius: var(--radius-md); background: var(--color-accent); color: var(--text-on-accent); border: none; cursor: pointer; font-size: var(--font-size-sm); }
-        .btn-action:hover { opacity: 0.9; }
-        .marketing-card { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
-        .mkt-stat { display: flex; flex-direction: column; }
-        .mkt-label { font-size: var(--font-size-xs); color: var(--text-secondary); }
-        .mkt-value { font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); color: var(--text-primary); }
-        .mkt-value.tone-success { color: var(--color-success); }
-        .btn-link { display: flex; align-items: center; gap: var(--space-1); background: none; border: none; color: var(--color-accent); cursor: pointer; font-size: var(--font-size-sm); margin-left: auto; }
-        .btn-link:hover { text-decoration: underline; }
-        :global(.row-anomaly) { border-left: 3px solid var(--color-danger) !important; background: var(--surface-danger-subtle) !important; }
-      `}</style>
+        </motion.div>
+      </div>
     </PageShell>
   );
 }

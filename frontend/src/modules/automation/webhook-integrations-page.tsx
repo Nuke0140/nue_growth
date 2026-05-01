@@ -94,7 +94,7 @@ export default function WebhookIntegrationsPage() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={card}
@@ -126,7 +126,7 @@ export default function WebhookIntegrationsPage() {
             return (
               <motion.div
                 key={webhook.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className={cn(
@@ -256,7 +256,7 @@ export default function WebhookIntegrationsPage() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(webhook.failureRate * 5, 100)}%` }}
-                      transition={{ delay: i * 0.06 + 0.3, duration: 0.6 }}
+                      transition={{ delay: i * 0.06 + 0.3, duration: 0.15 }}
                       className={cn(
                         'h-full rounded-full',
                         webhook.failureRate === 0 ? 'bg-emerald-500' : webhook.failureRate < 5 ? 'bg-amber-500' : 'bg-red-500',
@@ -317,7 +317,7 @@ export default function WebhookIntegrationsPage() {
 
         {/* Event Mapping Configuration */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className={cn(

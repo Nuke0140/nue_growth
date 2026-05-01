@@ -165,9 +165,9 @@ export default function CohortAnalysisPage() {
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: i * 0.04, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
                   'rounded-2xl border p-4 transition-all duration-200',
                   isDark ? 'bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.05]' : 'bg-white border-black/[0.06] hover:bg-black/[0.02]'
@@ -203,9 +203,9 @@ export default function CohortAnalysisPage() {
 
         {/* Cohort Heatmap Table */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.2, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -308,9 +308,9 @@ export default function CohortAnalysisPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Repeat Purchase Rate */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.35, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
               isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -334,7 +334,7 @@ export default function CohortAnalysisPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.rate / maxRepeat) * 100}%` }}
-                    transition={{ delay: 0.4 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.4 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('w-full rounded-t-sm', isDark ? 'bg-emerald-500/30' : 'bg-emerald-400')}
                   />
                   <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
@@ -345,9 +345,9 @@ export default function CohortAnalysisPage() {
 
           {/* Churn Rate */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.4, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'rounded-2xl border p-5',
               isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -371,7 +371,7 @@ export default function CohortAnalysisPage() {
                   <motion.div
                     initial={{ height: 0 }}
                     animate={{ height: `${(entry.rate / maxChurn) * 100}%` }}
-                    transition={{ delay: 0.4 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.4 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className={cn('w-full rounded-t-sm', isDark ? 'bg-red-500/30' : 'bg-red-400')}
                   />
                   <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
@@ -383,9 +383,9 @@ export default function CohortAnalysisPage() {
 
         {/* Revenue Per Cohort Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.45, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -411,7 +411,7 @@ export default function CohortAnalysisPage() {
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${(entry.totalRev / maxRev) * 100}%` }}
-                  transition={{ delay: 0.5 + j * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.5 + j * 0.06, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                   className={cn('w-full rounded-t-sm', isDark ? 'bg-violet-500/30' : 'bg-violet-400')}
                 />
                 <span className={cn('text-[9px]', isDark ? 'text-white/20' : 'text-black/20')}>{entry.cohort}</span>
@@ -422,9 +422,9 @@ export default function CohortAnalysisPage() {
 
         {/* Key Insights */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.55, duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
             'rounded-2xl border p-5',
             isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
@@ -508,7 +508,7 @@ export default function CohortAnalysisPage() {
           ].map((nav, i) => (
             <motion.button
               key={nav.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.65 + i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => navigateTo(nav.page)}

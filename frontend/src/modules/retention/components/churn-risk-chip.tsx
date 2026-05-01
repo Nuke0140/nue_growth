@@ -52,7 +52,7 @@ export default function ChurnRiskChip({ level, score }: ChurnRiskChipProps) {
         <motion.span
           className="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-red-400"
           animate={{ opacity: [1, 0.3, 1], scale: [1, 1.4, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          transition={{ duration: 0.2, repeat: Infinity }}
         />
       )}
       <span className="font-bold">{score}</span>

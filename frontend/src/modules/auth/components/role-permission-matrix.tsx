@@ -209,7 +209,7 @@ const roleCardVariants = {
 };
 
 const matrixRowVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 4 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -252,7 +252,7 @@ export default function RolePermissionMatrix() {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.15 }}
         className="mb-6"
       >
         <h2 className="text-xl font-semibold text-gray-900">
