@@ -9,7 +9,7 @@ import { Loader2, Eye, EyeOff, ArrowRight, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { PremiumButton, LinkButton } from '@/components/ui/premium-button';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
@@ -180,13 +180,13 @@ export default function LoginPage() {
                   <Label htmlFor="password" className="text-xs font-medium text-gray-700 dark:text-zinc-300">
                     Password
                   </Label>
-                  <button
+                  <LinkButton 
                     type="button"
                     onClick={handleForgotPassword}
-                    className="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-xs font-medium"
                   >
                     Forgot password?
-                  </button>
+                  </LinkButton>
                 </div>
                 <div className="relative">
                   <Input
@@ -221,49 +221,27 @@ export default function LoginPage() {
               )}
             </AnimatePresence>
 
-            <Button
+            <PremiumButton
               type="submit"
               disabled={isLoading}
-              className="group relative h-11 w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-orange-500 text-sm font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] disabled:opacity-70 disabled:hover:scale-100"
+              loading={isLoading}
+              fullWidth
+              gradient="blue-orange"
+              magnetic
+              ripple
+              size="md"
+              className="h-11"
             >
-              <AnimatePresence mode="wait">
-                {isLoading ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <span>Signing in...</span>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="idle"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <span>Sign In</span>
-                    <ArrowRight className="h-4 w-4 opacity-70 transition-transform group-hover:translate-x-1" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Button>
+              Sign In
+            </PremiumButton>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-500 dark:text-zinc-400">
               Don't have an account?{' '}
-              <button
-                type="button"
-                onClick={handleRegister}
-                className="font-medium text-gray-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-              >
+              <LinkButton onClick={handleRegister} className="font-medium">
                 Create account
-              </button>
+              </LinkButton>
             </p>
           </div>
         </div>

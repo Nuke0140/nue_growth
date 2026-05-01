@@ -44,6 +44,9 @@ import {
   Target,
 } from 'lucide-react';
 
+// Import premium button components
+import { PremiumButton, LinkButton } from '@/components/ui/premium-button';
+
 // Import custom hooks
 import { useMagneticCursor } from '@/hooks/use-magnetic-cursor';
 import { useDragReorder } from '@/hooks/use-drag-reorder';
