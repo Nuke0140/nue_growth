@@ -22,58 +22,18 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
-  ChevronLeft,
-  ChevronRight,
-  Wifi,
-  Battery,
-  Volume2,
-  Zap,
-  Moon,
-  Sun,
-  Grid3X3,
-  Sparkles,
-  Target,
-  Rocket,
-  Shield,
-  Globe,
-  ZapOff,
   Maximize2,
   Minimize2,
-  Expand,
-  Compress,
-  Menu,
+  Grid3X3,
   X,
   ArrowRight,
   Star,
   TrendingUp as TrendingUpIcon,
-  Activity,
-  Clock,
-  Calendar,
-  Filter,
-  SortAsc,
-  SortDesc,
-  Eye,
-  EyeOff,
-  RefreshCw,
-  Download,
-  Upload,
-  Share2,
   Bookmark,
   Heart,
-  MessageSquare,
-  ThumbsUp,
-  Award,
-  Gem,
   Crown,
   Flame,
-  Bolt,
-  Layers,
-  Box,
-  Package,
-  ShoppingBag,
-  Briefcase,
-  Target as TargetIcon,
-  Zap as ZapIcon,
+  Sparkles,
 } from 'lucide-react';
 
 interface Module {
@@ -100,28 +60,28 @@ interface Module {
 
 const premiumModules: Module[] = [
   { 
-    id: 'crm', 
-    name: 'CRM & Sales', 
-    icon: Users, 
-    shade: 'bg-gradient-to-br from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30', 
-    span: 'col-span-2', 
-    description: 'Customer relationships & revenue pipeline', 
-    featured: true, 
-    stats: { users: '2.4k', growth: '+23%', revenue: '$1.2M', rating: 4.8 },
-    color: 'blue',
-    gradient: 'from-blue-500 to-purple-600'
-  },
-  { 
     id: 'erp', 
     name: 'ERP Operations', 
     icon: Factory, 
     shade: 'bg-gradient-to-br from-emerald-500/20 to-teal-600/20 hover:from-emerald-500/30 hover:to-teal-600/30', 
-    span: 'col-span-2', 
+    span: 'col-span-1', 
     description: 'Enterprise resource planning & management', 
     featured: true, 
     stats: { users: '1.8k', growth: '+15%', revenue: '$890K', rating: 4.7 },
     color: 'emerald',
     gradient: 'from-emerald-500 to-teal-600'
+  },
+  { 
+    id: 'crm', 
+    name: 'CRM & Sales', 
+    icon: Users, 
+    shade: 'bg-gradient-to-br from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30', 
+    span: 'col-span-1', 
+    description: 'Customer relationships & revenue pipeline', 
+    featured: true, 
+    stats: { users: '2.4k', growth: '+23%', revenue: '$1.2M', rating: 4.8 },
+    color: 'blue',
+    gradient: 'from-blue-500 to-purple-600'
   },
   { 
     id: 'marketing', 
@@ -487,139 +447,6 @@ function PremiumModuleTile({
   );
 }
 
-// Premium Sidebar
-function PremiumSidebar({ 
-  isDark, 
-  isCollapsed, 
-  onToggleCollapse,
-  onToggleTheme 
-}: { 
-  isDark: boolean; 
-  isCollapsed: boolean; 
-  onToggleCollapse: () => void;
-  onToggleTheme: () => void;
-}) {
-  const [activeSection, setActiveSection] = useState('overview');
-
-  const sidebarItems = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard, count: 8 },
-    { id: 'favorites', label: 'Favorites', icon: Heart, count: 3 },
-    { id: 'recent', label: 'Recent', icon: Clock, count: 5 },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, count: 12 },
-    { id: 'notifications', label: 'Notifications', icon: Bell, count: 7 },
-  ];
-
-  return (
-    <motion.div
-      initial={false}
-      animate={{ 
-        width: isCollapsed ? 80 : 280,
-        transition: { duration: 0.3, ease: "easeInOut" }
-      }}
-      className={`relative flex-shrink-0 border-r backdrop-blur-xl ${
-        isDark 
-          ? 'bg-black/40 border-white/[0.08]' 
-          : 'bg-white/40 border-black/[0.08]'
-      }`}
-    >
-      {/* Sidebar Header */}
-      <div className="p-4 border-b border-inherit">
-        <div className="flex items-center justify-between">
-          {!isCollapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                <Gem className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-black'}`}>
-                  NueEra
-                </h3>
-                <p className={`text-xs ${isDark ? 'text-white/50' : 'text-black/50'}`}>
-                  Premium OS
-                </p>
-              </div>
-            </motion.div>
-          )}
-          
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onToggleCollapse}
-            className={`w-8 h-8 rounded-lg backdrop-blur-sm flex items-center justify-center transition-colors ${
-              isDark ? 'bg-white/10 text-white/60 hover:bg-white/20' : 'bg-black/10 text-black/60 hover:bg-black/20'
-            }`}
-          >
-            {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Sidebar Navigation */}
-      <nav className="p-4 space-y-2">
-        {sidebarItems.map((item, index) => (
-          <motion.button
-            key={item.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02 }}
-            onClick={() => setActiveSection(item.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
-              activeSection === item.id
-                ? isDark 
-                  ? 'bg-white/10 text-white' 
-                  : 'bg-black/10 text-black'
-                : isDark 
-                  ? 'text-white/60 hover:text-white hover:bg-white/5' 
-                  : 'text-black/60 hover:text-black hover:bg-black/5'
-            }`}
-          >
-            <item.icon className="w-5 h-5 flex-shrink-0" />
-            {!isCollapsed && (
-              <motion.div
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: "auto" }}
-                className="flex items-center justify-between flex-1"
-              >
-                <span className="text-sm font-medium">{item.label}</span>
-                {item.count > 0 && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    isDark ? 'bg-white/10 text-white/70' : 'bg-black/10 text-black/70'
-                  }`}>
-                    {item.count}
-                  </span>
-                )}
-              </motion.div>
-            )}
-          </motion.button>
-        ))}
-      </nav>
-
-      {/* Sidebar Footer */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-inherit">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onToggleTheme}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors ${
-            isDark ? 'text-white/60 hover:text-white hover:bg-white/5' : 'text-black/60 hover:text-black hover:bg-black/5'
-          }`}
-        >
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          {!isCollapsed && (
-            <span className="text-sm font-medium">
-              {isDark ? 'Light Mode' : 'Dark Mode'}
-            </span>
-          )}
-        </motion.button>
-      </div>
-    </motion.div>
-  );
-}
 
 // Premium Top Bar
 function PremiumTopBar({ 
@@ -824,11 +651,8 @@ export default function PremiumDesktop() {
   const { user, logout, openModule } = useAuthStore();
   const { theme, setTheme } = useTheme();
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'name' | 'rating' | 'users'>('rating');
   const [expandedModule, setExpandedModule] = useState<string | null>(null);
   
   const isDark = theme === 'dark' || (!theme && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -854,26 +678,12 @@ export default function PremiumDesktop() {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  // Filter and sort modules
+  // Filter modules by search only
   const filteredModules = premiumModules
-    .filter(module => 
-      selectedCategory === 'all' || module.category === selectedCategory
-    )
     .filter(module => 
       module.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       module.description.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'rating':
-          return (b.stats?.rating || 0) - (a.stats?.rating || 0);
-        case 'users':
-          return parseInt(b.stats?.users || '0') - parseInt(a.stats?.users || '0');
-        case 'name':
-        default:
-          return a.name.localeCompare(b.name);
-      }
-    });
+    );
 
   const displayName = user?.full_name || user?.email || 'User';
   const currentHour = new Date().getHours();
@@ -886,14 +696,6 @@ export default function PremiumDesktop() {
         isDark ? 'bg-[#0a0a0a]' : 'bg-gradient-to-br from-gray-50 to-white'
       }`}
     >
-      {/* Premium Sidebar */}
-      <PremiumSidebar
-        isDark={isDark}
-        isCollapsed={isCollapsed}
-        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
-        onToggleTheme={() => setTheme(isDark ? 'light' : 'dark')}
-      />
-
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Premium Top Bar */}
@@ -961,55 +763,7 @@ export default function PremiumDesktop() {
                 </motion.div>
               </div>
 
-              {/* Filter Bar */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-center gap-4 mb-8"
-              >
-                {/* Category Filter */}
-                <div className="flex gap-2">
-                  {['all', 'Operations', 'Finance', 'Data', 'System'].map((category) => (
-                    <motion.button
-                      key={category}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                        selectedCategory === category
-                          ? isDark 
-                            ? 'bg-white/15 text-white border border-white/25' 
-                            : 'bg-black/15 text-black border border-black/25'
-                          : isDark 
-                            ? 'text-white/60 hover:text-white hover:bg-white/5' 
-                            : 'text-black/60 hover:text-black hover:bg-black/5'
-                      }`}
-                    >
-                      {category === 'all' ? 'All Modules' : category}
-                    </motion.button>
-                  ))}
-                </div>
-
-                {/* Sort Options */}
-                <div className="flex items-center gap-2 ml-auto">
-                  <span className={`text-sm ${isDark ? 'text-white/50' : 'text-black/50'}`}>Sort by:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as any)}
-                    className={`px-3 py-2 rounded-xl text-sm backdrop-blur-sm border ${
-                      isDark 
-                        ? 'bg-white/10 border-white/20 text-white' 
-                        : 'bg-black/10 border-black/20 text-black'
-                    }`}
-                  >
-                    <option value="rating">Rating</option>
-                    <option value="users">Users</option>
-                    <option value="name">Name</option>
-                  </select>
-                </div>
-              </motion.div>
-
+              
               {/* Module Grid */}
               <AnimatePresence mode="wait">
                 {viewMode === 'grid' ? (
@@ -1018,7 +772,7 @@ export default function PremiumDesktop() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    className="grid grid-cols-2 md:grid-cols-3 gap-6"
                   >
                     {filteredModules.map((module, index) => (
                       <PremiumModuleTile
