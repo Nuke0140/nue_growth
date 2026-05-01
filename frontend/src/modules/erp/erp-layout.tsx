@@ -9,7 +9,7 @@ import { useErpStore } from './erp-store';
 import { useAuthStore } from '@/store/auth-store';
 
 // Lazy-loaded pages — code-split for faster initial load
-const ErpDashboardPage = lazy(() => import('./erp-dashboard-page').then(m => ({ default: m.default })));
+const ErpDashboardPage = lazy(() => import('./erp-dashboard-page-optimized').then(m => ({ default: m.default })));
 const ProjectsPage = lazy(() => import('./projects-page').then(m => ({ default: m.default })));
 const ProjectDetailPage = lazy(() => import('./project-detail-page').then(m => ({ default: m.default })));
 const TasksBoardPage = lazy(() => import('./tasks-board-page').then(m => ({ default: m.default })));

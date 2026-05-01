@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
@@ -66,10 +65,7 @@ export const KpiWidget = React.memo(function KpiWidget({
         : 'var(--app-text-muted)';
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.12 }}
+    <div
       className={cn('ops-card ops-glow relative overflow-hidden p-6', className)}
       role="status"
       aria-label={`${label}: ${value}`}
@@ -115,6 +111,6 @@ export const KpiWidget = React.memo(function KpiWidget({
           <Icon className="w-5 h-5" style={{ color: colors.text }} />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 });
