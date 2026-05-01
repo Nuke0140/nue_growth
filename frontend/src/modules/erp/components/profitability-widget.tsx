@@ -135,7 +135,7 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
             key={client.clientId}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2, delay: index * 0.04 }}
+            transition={{ duration: 0.2}}
           >
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -156,7 +156,7 @@ export default function ProfitabilityWidget({ data }: ProfitabilityWidgetProps) 
                   className={cn('h-full rounded-full', getMarginBarColor(client.margin))}
                   initial={{ width: 0 }}
                   animate={{ width: `${Math.min(Math.abs(client.revenue / maxRevenue) * 100, 100)}%` }}
-                  transition={{ duration: 0.6, delay: index * 0.04, ease: 'easeOut' }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
                 />
               </div>
               <span className="text-[10px] shrink-0 w-16 text-right text-[var(--app-text-disabled)]">

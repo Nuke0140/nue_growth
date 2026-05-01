@@ -186,7 +186,7 @@ function CompensationPageInner() {
   ];
 
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
-  const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
+  const fadeUp = { hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
     <PageShell title="Compensation" icon={Wallet}>
@@ -219,7 +219,7 @@ function CompensationPageInner() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${barWidth}%` }}
-                      transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                       className="h-full rounded-lg flex items-center justify-end pr-3"
                       style={{ backgroundColor: barColor, minWidth: '3rem' }}
                     >

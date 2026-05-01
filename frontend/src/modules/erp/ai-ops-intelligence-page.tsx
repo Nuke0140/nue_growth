@@ -136,7 +136,7 @@ function AiOpsIntelligencePageInner() {
             { label: 'Optimizations', value: stats.optimizations, icon: Target },
             { label: 'Avg Confidence', value: `${stats.avgConfidence}%`, icon: Brain },
           ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
               <div className="flex items-center justify-between mb-2">
                 <span className={cn('text-xs font-medium', isDark ? 'text-white/40' : 'text-black/40')}>{stat.label}</span>
                 <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center', stat.warn ? (isDark ? 'bg-red-500/15' : 'bg-red-50') : (isDark ? 'bg-white/[0.06]' : 'bg-black/[0.06]'))}>
@@ -158,7 +158,7 @@ function AiOpsIntelligencePageInner() {
             return (
               <motion.div
                 key={insight.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
@@ -172,7 +172,7 @@ function AiOpsIntelligencePageInner() {
                   <motion.div
                     className="absolute inset-0 rounded-2xl pointer-events-none"
                     animate={{ boxShadow: ['0 0 0 0 rgba(239,68,68,0)', '0 0 20px 2px rgba(239,68,68,0.08)', '0 0 0 0 rgba(239,68,68,0)'] }}
-                    transition={{ repeat: Infinity, duration: 2.5 }}
+                    transition={{ repeat: Infinity, duration: 0.35 }}
                   />
                 )}
 
@@ -228,7 +228,7 @@ function AiOpsIntelligencePageInner() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${insight.confidence}%` }}
-                        transition={{ delay: 0.3 + idx * 0.05, duration: 0.5 }}
+                        transition={{ delay: 0.3 + idx * 0.05, duration: 0.2 }}
                         className={cn('h-full rounded-full', insight.confidence >= 90 ? 'bg-emerald-500' : insight.confidence >= 75 ? 'bg-amber-500' : 'bg-red-500')}
                       />
                     </div>

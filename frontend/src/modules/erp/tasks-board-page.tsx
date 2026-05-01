@@ -527,7 +527,7 @@ function TaskDetailDrawer({
                   animate={{
                     width: `${subtasks.length > 0 ? (completedCount / subtasks.length) * 100 : 0}%`,
                   }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
 
@@ -1035,28 +1035,28 @@ function TasksBoardPageInner() {
         {/* ── Stats ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0, duration: 0.3 }}
+            transition={{ duration: 0.15 }}
           >
             <StatCard label="Total Tasks" value={stats.total} icon={GitBranch} />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05, duration: 0.3 }}
           >
             <StatCard label="In Progress" value={stats.inProgress} icon={Clock} accent="#fbbf24" />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3 }}
           >
             <StatCard label="Blocked" value={stats.blocked} icon={AlertTriangle} accent="#f87171" />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3 }}
           >

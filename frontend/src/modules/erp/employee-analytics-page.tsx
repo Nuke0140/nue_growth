@@ -118,7 +118,7 @@ function EmployeeAnalyticsPageInner() {
           ].map((kpi, i) => (
             <motion.div
               key={kpi.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -141,7 +141,7 @@ function EmployeeAnalyticsPageInner() {
           <div className="space-y-6">
             {/* Attrition Risk Table */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
               className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -193,7 +193,7 @@ function EmployeeAnalyticsPageInner() {
 
             {/* Burnout Risk Cards */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3 }}
               className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -248,7 +248,7 @@ function EmployeeAnalyticsPageInner() {
           <div className="space-y-6">
             {/* Productivity Trend Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
               className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -263,7 +263,7 @@ function EmployeeAnalyticsPageInner() {
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(pt.score / maxTrend) * 100}%` }}
-                        transition={{ delay: i * 0.08 + 0.2, duration: 0.5 }}
+                        transition={{ delay: i * 0.08 + 0.2, duration: 0.2 }}
                         className={cn('w-full rounded-t', pt.score >= 85 ? 'bg-emerald-500/60' : 'bg-amber-500/60')}
                         style={{ height: `${(pt.score / maxTrend) * 100}%` }}
                       />
@@ -291,7 +291,7 @@ function EmployeeAnalyticsPageInner() {
 
             {/* Hiring Forecast */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.3 }}
               className={cn('rounded-2xl border overflow-hidden', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -349,7 +349,7 @@ function EmployeeAnalyticsPageInner() {
 
             {/* AI Insights Summary */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.3 }}
               className={cn('rounded-2xl border-2 border-purple-500/30 p-5', isDark ? 'bg-purple-500/[0.03]' : 'bg-purple-50/30')}

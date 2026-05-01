@@ -13,16 +13,12 @@ interface AnimatedSectionProps {
   className?: string;
 }
 
-function AnimatedSectionInner({ children, delay = 0, className }: AnimatedSectionProps) {
+function AnimatedSectionInner({ children, className }: AnimatedSectionProps) {
   return (
     <motion.div
-      initial={ANIMATION.fadeUp.initial}
-      animate={ANIMATION.fadeUp.animate}
-      transition={{
-        duration: ANIMATION.duration.normal,
-        ease: ANIMATION.ease as unknown as number[],
-        delay,
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.1 }}
       className={cn(className)}
     >
       {children}

@@ -22,14 +22,14 @@ import { PageShell } from './components/ops/page-shell';
 import type { ErpPage } from '@/modules/erp/types';
 import { useDashboard, formatINR } from '@/modules/erp/hooks/use-erp-api';
 
-// ── Stagger animation helper ──
+// ── Stagger animation helper (fast, no lag) ──
 const container = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.02 } },
 };
 const item = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } },
 };
 
 // ── Custom tooltip for chart ──
@@ -297,9 +297,9 @@ function ErpDashboardPageInner() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
           {/* Left: Revenue Chart */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
             className="lg:col-span-3 rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-5">
@@ -333,9 +333,9 @@ function ErpDashboardPageInner() {
 
           {/* Right: Risk Alerts */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
             className="lg:col-span-2 rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5 flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
@@ -352,9 +352,9 @@ function ErpDashboardPageInner() {
               {riskAlerts.length > 0 ? riskAlerts.map((alert, i) => (
                 <motion.div
                   key={alert.title}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.35 + i * 0.06 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className={cn(
                     'rounded-xl border p-3 cursor-pointer transition-colors hover:bg-[var(--app-hover-bg)]',
                     'border-[var(--app-border)]',
@@ -402,9 +402,9 @@ function ErpDashboardPageInner() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Left: AI Recommendations */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
             className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-4">
@@ -423,9 +423,9 @@ function ErpDashboardPageInner() {
                 return (
                   <motion.div
                     key={rec.title}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.45 + i * 0.06 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.15 }}
                     className="rounded-xl border border-[var(--app-border)] bg-[var(--app-hover-bg)] p-4 flex gap-3"
                   >
                     <div className="w-9 h-9 rounded-lg bg-[var(--app-accent-light)] flex items-center justify-center shrink-0">
@@ -451,9 +451,9 @@ function ErpDashboardPageInner() {
 
           {/* Right: Activity Feed */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
             className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card-bg)] p-5"
           >
             <div className="flex items-center justify-between mb-4">

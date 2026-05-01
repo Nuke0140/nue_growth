@@ -203,7 +203,7 @@ function ProfitabilityPageInner() {
         {/* Right Column */}
         <div className="space-y-4">
           {/* Profit by Service Type */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
+          <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
             <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: CSS.text }}>
               <BarChart3 className="w-4 h-4" style={{ color: CSS.textMuted }} />
               Profit by Service
@@ -218,7 +218,7 @@ function ProfitabilityPageInner() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(s.revenue / maxRevenue) * 100}%` }}
-                    transition={{ delay: 0.3 + i * 0.08, duration: 0.5 }}
+                    transition={{ duration: 0.15 }}
                     className={`h-full rounded-full ${barColors[i % barColors.length]}`}
                   />
                 </div>
@@ -227,7 +227,7 @@ function ProfitabilityPageInner() {
           </motion.div>
 
           {/* Burn vs Revenue Chart */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
+          <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }} className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: CSS.text }}>
                 <Zap className="w-4 h-4" style={{ color: CSS.textMuted }} />
@@ -245,13 +245,13 @@ function ProfitabilityPageInner() {
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.burn / maxBurnRevenue) * 100}%` }}
-                      transition={{ delay: 0.4 + i * 0.05, duration: 0.4 }}
+                      transition={{ duration: 0.15 }}
                       className="flex-1 bg-red-400/60 rounded-t-sm"
                     />
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${(d.revenue / maxBurnRevenue) * 100}%` }}
-                      transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
+                      transition={{ duration: 0.15 }}
                       className="flex-1 bg-emerald-400/60 rounded-t-sm"
                     />
                   </div>

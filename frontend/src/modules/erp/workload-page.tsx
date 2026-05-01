@@ -159,7 +159,7 @@ function WorkloadPageInner() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -177,7 +177,7 @@ function WorkloadPageInner() {
 
         {/* Workload Bars */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -215,7 +215,7 @@ function WorkloadPageInner() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.min(w.allocation, 100)}%` }}
-                        transition={{ delay: i * 0.05 + 0.1, duration: 0.6 }}
+                        transition={{ delay: i * 0.05 + 0.1, duration: 0.2 }}
                         className={cn('h-full rounded-full', status.barColor, isOverloaded && 'opacity-80')}
                       />
                     </div>
@@ -258,7 +258,7 @@ function WorkloadPageInner() {
 
         {/* Heatmap Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -332,7 +332,7 @@ function WorkloadPageInner() {
 
         {/* Overtime Summary */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.3 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}

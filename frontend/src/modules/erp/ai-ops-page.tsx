@@ -124,7 +124,7 @@ function ConfidenceRing({ value, size = 44 }: { value: number; size?: number }) 
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
@@ -138,7 +138,7 @@ function ConfidenceRing({ value, size = 44 }: { value: number; size?: number }) 
 function StatMiniCard({ label, value, icon: Icon, accent }: { label: string; value: string | number; icon: typeof Sparkles; accent?: boolean }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'ops-card rounded-2xl p-4 border',
@@ -218,16 +218,16 @@ function AiOpsPageInner() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         {/* ---- Stats Summary ---- */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }}>
             <StatMiniCard label="Critical Alerts" value={stats.critical} icon={AlertTriangle} accent={stats.critical > 0} />
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }}>
             <StatMiniCard label="High Priority" value={stats.high} icon={Zap} accent={stats.high > 0} />
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }}>
             <StatMiniCard label="Confidence Avg" value={`${stats.avgConfidence}%`} icon={Sparkles} />
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15 }}>
             <StatMiniCard label="Affected Areas" value={stats.uniqueAreas} icon={Users} />
           </motion.div>
         </div>
@@ -241,7 +241,7 @@ function AiOpsPageInner() {
             return (
               <motion.div
                 key={insight.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * idx, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(

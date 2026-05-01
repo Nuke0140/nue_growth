@@ -542,9 +542,9 @@ function ProjectDetailPageInner() {
           {statsCards.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.04, duration: 0.3 }}
+              transition={{ duration: 0.15 }}
               className="ops-card rounded-xl p-3"
             >
               <div className="flex items-center gap-1.5 mb-1.5">
@@ -566,7 +566,7 @@ function ProjectDetailPageInner() {
                     style={{ backgroundColor: stat.color }}
                     initial={{ width: 0 }}
                     animate={{ width: `${stat.bar}%` }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
+                    transition={{ delay: 0.4, duration: 0.2 }}
                   />
                 </div>
               )}

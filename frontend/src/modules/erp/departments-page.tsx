@@ -66,7 +66,7 @@ function DepartmentsPageInner() {
   }), [departments]);
 
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
-  const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
+  const fadeUp = { hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
   return (
     <PageShell title="Departments" icon={Network}>
@@ -84,7 +84,7 @@ function DepartmentsPageInner() {
           {departments.map((dept, idx) => (
             <motion.div
               key={dept.name}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06, duration: 0.35 }}
               className="ops-card overflow-hidden"
@@ -119,7 +119,7 @@ function DepartmentsPageInner() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dept.kpiScore}%` }}
-                      transition={{ delay: idx * 0.06 + 0.2, duration: 0.6 }}
+                      transition={{ delay: idx * 0.06 + 0.2, duration: 0.2 }}
                       className="h-full rounded-full"
                       style={{ backgroundColor: dept.kpiScore >= 85 ? '#34d399' : dept.kpiScore >= 70 ? '#fbbf24' : '#f87171' }}
                     />

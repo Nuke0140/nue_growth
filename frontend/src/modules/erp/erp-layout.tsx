@@ -365,81 +365,28 @@ const pageComponents: Record<string, React.ComponentType> = {
   'asset-management': AssetsPage,
 };
 
-// ---- Page Content (with progress bar + skeleton loading) ----
+// ---- Page Content (instant switch, no double-skeleton flash) ----
 function PageContent() {
   const { currentPage } = useErpStore();
-  const [loading, setLoading] = useState(false);
-  const [progressWidth, setProgressWidth] = useState(0);
-  const prevPageRef = useRef(currentPage);
-  const progressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (currentPage !== prevPageRef.current) {
-      prevPageRef.current = currentPage;
-      setLoading(true);
-      setProgressWidth(0);
-
-      // Clear any existing timers
-      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-
-      // Start progress bar animation after a tick
-      progressTimerRef.current = setTimeout(() => setProgressWidth(100), 10);
-
-      // Hide progress bar after animation completes
-      clearTimerRef.current = setTimeout(() => setProgressWidth(0), 350);
-
-      // End skeleton loading after 200ms
-      const loadTimer = setTimeout(() => setLoading(false), 200);
-
-      return () => {
-        clearTimeout(loadTimer);
-        if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-        if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-      };
-    }
-  }, [currentPage]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
-      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-    };
-  }, []);
-
   const PageComponent = pageComponents[currentPage] || null;
 
   if (!PageComponent) return null;
 
   return (
     <div className="relative h-full">
-      {/* Page transition progress bar */}
-      {progressWidth > 0 && (
-        <div className="absolute top-0 left-0 right-0 h-[2px] z-10 overflow-hidden">
-          <div
-            className="ops-progress-bar h-full bg-[var(--app-accent)] transition-all duration-300 ease-out rounded-full"
-            style={{ width: `${progressWidth}%` }}
-          />
-        </div>
-      )}
-
-      {/* Page content with skeleton loading */}
+      {/* Page content — Suspense handles lazy-load, no extra skeleton layer */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentPage}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: ANIMATION.duration.normal }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.12, ease: [0.22, 1, 0.36, 1] }}
           className="h-full"
         >
-          {loading ? <SkeletonDashboard /> : (
-            <Suspense fallback={<SkeletonDashboard />}>
-              <PageComponent />
-            </Suspense>
-          )}
+          <Suspense fallback={<SkeletonDashboard />}>
+            <PageComponent />
+          </Suspense>
         </motion.div>
       </AnimatePresence>
     </div>
@@ -681,7 +628,7 @@ function SidebarSection({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
             <div className="ml-3 pl-3 border-l border-[var(--app-border)] space-y-0.5 py-1">
@@ -764,7 +711,7 @@ function Sidebar() {
             initial={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
             animate={isMobile ? { x: 0 } : { width: 240, opacity: 1 }}
             exit={isMobile ? { x: -260 } : { width: 0, opacity: 0 }}
-            transition={{ duration: ANIMATION.duration.slow, ease: ANIMATION.ease }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
               'shrink-0 overflow-hidden flex flex-col fixed md:relative inset-y-0 left-0 z-50',
               'bg-[var(--app-bg)] border-r border-[var(--app-border)]',

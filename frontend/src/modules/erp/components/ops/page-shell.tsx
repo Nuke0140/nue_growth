@@ -89,9 +89,9 @@ function PageShellInner({
 
   const headerContent = (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: ANIMATION.duration.normal, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.1, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'flex items-center justify-between gap-4',
         padded && 'px-6 pt-6 pb-2'
@@ -158,7 +158,7 @@ function PageShellInner({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: ANIMATION.duration.normal, delay: 0.05 }}
+        transition={{ duration: 0.1 }}
         className={cn('flex-1 overflow-y-auto custom-scrollbar', padded && 'px-6 pb-6', className)}
       >
         {contentArea}

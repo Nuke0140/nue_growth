@@ -95,7 +95,7 @@ function ShiftsPageInner() {
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -113,7 +113,7 @@ function ShiftsPageInner() {
 
         {/* Visual Timeline */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
@@ -145,7 +145,7 @@ function ShiftsPageInner() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${td.widthPercent}%` }}
-                    transition={{ delay: i * 0.1 + 0.2, duration: 0.5 }}
+                    transition={{ delay: i * 0.1 + 0.2, duration: 0.2 }}
                     className={cn('absolute top-1 bottom-1 rounded-md', deptColor(td.shift.department))}
                     style={{ left: `${td.leftPercent}%`, opacity: 0.7 }}
                   />
@@ -187,7 +187,7 @@ function ShiftsPageInner() {
             return (
               <motion.div
                 key={shift.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.06 + 0.2, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(

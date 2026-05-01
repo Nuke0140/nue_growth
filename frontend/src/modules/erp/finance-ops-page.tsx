@@ -94,7 +94,7 @@ function FinanceOpsPageInner() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min(spentPct, 100)}%` }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.2 }}
                 className="h-full rounded-full"
                 style={{ backgroundColor: spentPct > 100 ? '#f87171' : spentPct > 80 ? '#fbbf24' : '#34d399' }}
               />
@@ -184,7 +184,7 @@ function FinanceOpsPageInner() {
 
         {/* Monthly Trend Chart */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className="rounded-2xl p-5"
@@ -224,13 +224,13 @@ function FinanceOpsPageInner() {
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${revHeight}%` }}
-                            transition={{ delay: 0.4 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ delay: 0.4 + i * 0.06, duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                             className="flex-1 rounded-t-sm bg-emerald-300 group-hover:bg-emerald-400 transition-all"
                           />
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${expHeight}%` }}
-                            transition={{ delay: 0.5 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ delay: 0.5 + i * 0.06, duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                             className="flex-1 rounded-t-sm bg-red-200 group-hover:bg-red-300 transition-all"
                           />
                         </div>
@@ -276,9 +276,9 @@ function FinanceOpsPageInner() {
         {/* Summary Footer */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ duration: 0.15 }}
             className="rounded-2xl p-4"
             style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
@@ -286,9 +286,9 @@ function FinanceOpsPageInner() {
             <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(data.projectCostCenters.reduce((s, c) => s + c.budget, 0))}</p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }}
+            transition={{ duration: 0.15 }}
             className="rounded-2xl p-4"
             style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
@@ -296,9 +296,9 @@ function FinanceOpsPageInner() {
             <p className="text-lg font-bold" style={{ color: CSS.text }}>{formatINR(data.projectCostCenters.reduce((s, c) => s + c.spent, 0))}</p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ duration: 0.15 }}
             className="rounded-2xl p-4"
             style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >
@@ -311,9 +311,9 @@ function FinanceOpsPageInner() {
             </p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65 }}
+            transition={{ duration: 0.15 }}
             className="rounded-2xl p-4"
             style={{ backgroundColor: CSS.cardBg, border: `1px solid ${CSS.border}`, boxShadow: CSS.shadowCard }}
           >

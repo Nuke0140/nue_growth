@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
-// ─── Generic fetch hook ───
+// ─── Generic fetch hook with timeout ───
 function useApiFetch<T>(url: string | null) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const mountedRef = useRef(true);
 
   const fetchData = useCallback(async () => {
     if (!url) {
@@ -16,19 +17,39 @@ function useApiFetch<T>(url: string | null) {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(url);
+
+      // 8-second timeout so pages don't hang forever
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const json = await res.json();
-      setData(json);
+
+      if (mountedRef.current) {
+        setData(json);
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      if (mountedRef.current) {
+        // Don't treat abort as a hard error — just mark as timed out
+        const msg = err instanceof DOMException && err.name === 'AbortError'
+          ? 'Request timed out'
+          : err instanceof Error ? err.message : 'Unknown error';
+        setError(msg);
+      }
     } finally {
-      setLoading(false);
+      if (mountedRef.current) {
+        setLoading(false);
+      }
     }
   }, [url]);
 
   useEffect(() => {
+    mountedRef.current = true;
     fetchData();
+    return () => { mountedRef.current = false; };
   }, [fetchData]);
 
   return { data, loading, error, refetch: fetchData };

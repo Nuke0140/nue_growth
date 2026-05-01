@@ -116,7 +116,7 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
           }}
           initial={{ width: 0 }}
           animate={{ width: `${greenWidth}%` }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         />
         {/* Red overflow */}
         {overBudget && (
@@ -236,7 +236,7 @@ function ProjectCard({
             style={{ backgroundColor: healthColor }}
             initial={{ width: 0 }}
             animate={{ width: `${project.progress}%` }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
       </div>
@@ -550,28 +550,28 @@ function ProjectsPageInner() {
         {/* ── Stats ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0, duration: 0.3 }}
+            transition={{ duration: 0.15 }}
           >
             <StatCard label="Total Projects" value={stats.total} icon={FolderKanban} />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05, duration: 0.3 }}
           >
             <StatCard label="Active" value={stats.active} icon={TrendingUp} accent="#34d399" />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3 }}
           >
             <StatCard label="At Risk" value={stats.atRisk} icon={AlertTriangle} accent="#f87171" />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.3 }}
           >
@@ -608,7 +608,7 @@ function ProjectsPageInner() {
               filtered.map((project, idx) => (
                 <motion.div
                   key={project.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
                     delay: idx * 0.04,

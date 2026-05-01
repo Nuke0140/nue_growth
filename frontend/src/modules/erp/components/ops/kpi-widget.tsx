@@ -67,9 +67,9 @@ export const KpiWidget = React.memo(function KpiWidget({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: ANIMATION.duration.normal }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.12 }}
       className={cn('ops-card ops-glow relative overflow-hidden p-6', className)}
       role="status"
       aria-label={`${label}: ${value}`}

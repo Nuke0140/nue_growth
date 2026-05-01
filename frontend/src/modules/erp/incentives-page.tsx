@@ -241,7 +241,7 @@ function IncentivesPageInner() {
           {/* Sidebar - Type Distribution */}
           <div className="w-full xl:w-72 shrink-0">
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
               className="rounded-2xl p-5"
@@ -261,7 +261,7 @@ function IncentivesPageInner() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(d.amount / maxTypeAmount) * 100}%` }}
-                        transition={{ delay: i * 0.1, duration: 0.6 }}
+                        transition={{ delay: i * 0.1, duration: 0.2 }}
                         className="h-full rounded-full bg-purple-500/70"
                       />
                     </div>
