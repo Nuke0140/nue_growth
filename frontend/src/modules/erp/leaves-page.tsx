@@ -3,37 +3,29 @@
 import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { CalendarDays, Clock, CheckCircle2, Wallet, CalendarOff } from 'lucide-react';
+import { CalendarDays, Clock, CheckCircle2, Wallet, CalendarOff, AlertTriangle } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { DrawerForm } from './components/ops/drawer-form';
 import { StatusBadge } from './components/ops/status-badge';
 import { FilterBar } from './components/ops/filter-bar';
 import { KpiWidget } from './components/ops/kpi-widget';
-import { mockLeaveRequests, mockEmployees, mockResources } from './data/mock-data';
+import { useLeaves, useEmployees, formatINR } from '@/modules/erp/hooks/use-erp-api';
+import type { EmployeeListItem } from '@/modules/erp/hooks/use-erp-api';
 import type { LeaveRequest } from './types';
 import { PageShell } from './components/ops/page-shell';
 import { CSS } from '@/styles/design-tokens';
 
 type TabKey = 'my' | 'team' | 'all';
 
-function formatINR(num: number): string {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-}
-
-function getEmployee(id: string) {
-  return mockEmployees.find(e => e.id === id);
-}
-
 const leaveTypeLabels: Record<string, string> = {
   casual: 'Casual', sick: 'Sick', earned: 'Earned',
   maternity: 'Maternity', paternity: 'Paternity',
   'comp-off': 'Comp-off', 'loss-of-pay': 'LOP',
 };
-
-const deptFilterOptions = [...new Set(mockResources.map(r => r.department))];
 
 function LeavesPageInner() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -47,24 +39,59 @@ function LeavesPageInner() {
   const [reason, setReason] = useState('');
   const [approver, setApprover] = useState('');
 
-  const myLeaves = useMemo(() => mockLeaveRequests.slice(0, 3), []);
-  const teamLeaves = useMemo(() => [...mockLeaveRequests], []);
+  const { data: leavesData, loading, error, refetch } = useLeaves();
+  const { data: employeesData } = useEmployees();
+
+  const leaves = leavesData?.leaves ?? [];
+  const employees = employeesData?.employees ?? [];
+
+  // Build employee lookup map
+  const employeeMap = useMemo(() => {
+    const map = new Map<string, EmployeeListItem>();
+    for (const emp of employees) {
+      map.set(emp.id, emp);
+    }
+    return map;
+  }, [employees]);
+
+  function getEmployee(id: string): EmployeeListItem | undefined {
+    return employeeMap.get(id);
+  }
+
+  // Derive department filter options from employees
+  const deptFilterOptions = useMemo(() => {
+    const depts = [...new Set(employees.map(e => e.department).filter(Boolean))];
+    return depts;
+  }, [employees]);
+
+  const myLeaves = useMemo(() => leaves.slice(0, 3), [leaves]);
+  const teamLeaves = useMemo(() => [...leaves], [leaves]);
 
   const displayData = useMemo(() => {
-    let data: LeaveRequest[] = activeTab === 'my' ? myLeaves : teamLeaves;
+    let data: any[] = activeTab === 'my' ? myLeaves : teamLeaves;
     if (activeTab === 'all' && deptFilter !== 'all') {
-      const deptEmpIds = mockEmployees.filter(e => e.department === deptFilter).map(e => e.id);
+      const deptEmpIds = employees.filter(e => e.department === deptFilter).map(e => e.id);
       data = data.filter(l => deptEmpIds.includes(l.employeeId));
     }
     return data;
-  }, [activeTab, deptFilter, myLeaves, teamLeaves]);
+  }, [activeTab, deptFilter, myLeaves, teamLeaves, employees]);
 
-  const stats = useMemo(() => ({
-    total: mockLeaveRequests.length,
-    pending: mockLeaveRequests.filter(l => l.status === 'pending').length,
-    approved: mockLeaveRequests.filter(l => l.status === 'approved').length,
-    balance: 12,
-  }), []);
+  const stats = useMemo(() => {
+    if (leavesData?.summary) {
+      return {
+        total: leavesData.total,
+        pending: leavesData.summary.pendingCount,
+        approved: leavesData.summary.approvedCount,
+        balance: leavesData.summary.totalDaysRequested > 0 ? 12 : 12,
+      };
+    }
+    return {
+      total: leaves.length,
+      pending: leaves.filter(l => l.status === 'pending').length,
+      approved: leaves.filter(l => l.status === 'approved').length,
+      balance: 12,
+    };
+  }, [leaves, leavesData?.summary, leavesData?.total]);
 
   const tabFilters = [
     { key: 'my', label: 'My Leaves' },
@@ -79,15 +106,16 @@ function LeavesPageInner() {
       sortable: true,
       render: (row) => {
         const emp = getEmployee(row.employeeId as string);
+        const initials = emp?.avatar || emp?.name?.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || '??';
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="text-[10px] font-semibold" style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}>
-                {emp?.avatar || '??'}
+                {initials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium" style={{ color: CSS.text }}>{emp?.name || row.employeeId}</p>
+              <p className="text-sm font-medium" style={{ color: CSS.text }}>{emp?.name || String(row.employeeId)}</p>
               <p className="text-[11px]" style={{ color: CSS.textMuted }}>{emp?.department}</p>
             </div>
           </div>
@@ -99,7 +127,7 @@ function LeavesPageInner() {
       label: 'Type',
       sortable: true,
       render: (row) => (
-        <span className="ops-badge capitalize">{leaveTypeLabels[(row.type as string)] || row.type}</span>
+        <span className="ops-badge capitalize">{leaveTypeLabels[(row.type as string)] || String(row.type)}</span>
       ),
     },
     {
@@ -109,9 +137,9 @@ function LeavesPageInner() {
       render: (row) => (
         <div>
           <p className="text-sm" style={{ color: CSS.textSecondary }}>
-            {row.startDate} → {row.endDate}
+            {String(row.startDate)} → {String(row.endDate)}
           </p>
-          <p className="text-[11px]" style={{ color: CSS.textMuted }}>{row.days} day{Number(row.days) > 1 ? 's' : ''}</p>
+          <p className="text-[11px]" style={{ color: CSS.textMuted }}>{String(row.days)} day{Number(row.days) > 1 ? 's' : ''}</p>
         </div>
       ),
     },
@@ -155,6 +183,33 @@ function LeavesPageInner() {
     hidden: { opacity: 0, y: 12 },
     show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
+
+  if (loading) {
+    return (
+      <PageShell title="Leave Management" icon={CalendarOff} createType="leave">
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+            ))}
+          </div>
+          <div className="h-96 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+        </div>
+      </PageShell>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageShell title="Leave Management" icon={CalendarOff} createType="leave">
+        <div className="flex flex-col items-center justify-center py-20 space-y-4">
+          <AlertTriangle className="w-10 h-10" style={{ color: CSS.danger }} />
+          <p className="text-sm" style={{ color: CSS.textSecondary }}>Failed to load leaves: {error}</p>
+          <Button variant="outline" onClick={refetch}>Retry</Button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <>
@@ -238,7 +293,7 @@ function LeavesPageInner() {
           <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Approver</label>
           <select value={approver} onChange={(e) => setApprover(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
             <option value="">Select approver</option>
-            {mockEmployees.filter(e => ['E4', 'E5'].includes(e.salaryBand)).map(e => (
+            {employees.filter(e => ['E4', 'E5'].includes(e.salaryBand || '')).map(e => (
               <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>
             ))}
           </select>

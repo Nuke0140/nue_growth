@@ -15,41 +15,46 @@ import { FilterBar } from '@/components/shared/filter-bar';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
-import { mockInvoices } from '@/modules/erp/data/mock-data';
+import { useInvoices, formatINR } from '@/modules/erp/hooks/use-erp-api';
+import type { InvoiceListItem } from '@/modules/erp/hooks/use-erp-api';
 import type { InvoiceStatus } from '@/modules/erp/types';
 
 type FilterKey = 'all' | 'draft' | 'sent' | 'paid' | 'overdue' | 'partial';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(0)}K`;
-  return `₹${num}`;
-}
-
 function InvoicesPageInner() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const { data, loading, error, refetch } = useInvoices();
+
+  const invoices = data?.invoices ?? [];
 
   const filtered = useMemo(() => {
-    if (activeFilter === 'all') return mockInvoices;
-    return mockInvoices.filter(i => i.status === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === 'all') return invoices;
+    return invoices.filter(i => i.status === activeFilter);
+  }, [activeFilter, invoices]);
 
   const stats = useMemo(() => {
-    const total = mockInvoices.reduce((s, i) => s + i.amount, 0);
-    const paid = mockInvoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.paidAmount, 0);
-    const overdue = mockInvoices.filter(i => i.status === 'overdue').reduce((s, i) => s + i.amount, 0);
-    const receivable = mockInvoices.filter(i => i.status === 'sent' || i.status === 'overdue' || i.status === 'partial').reduce((s, i) => s + (i.amount - i.paidAmount), 0);
+    if (data?.summary) {
+      return {
+        total: data.summary.totalAmount,
+        paid: data.summary.totalPaid,
+        overdue: invoices.filter(i => i.status === 'overdue').reduce((s, i) => s + i.amount, 0),
+        receivable: data.summary.pendingAmount,
+      };
+    }
+    const total = invoices.reduce((s, i) => s + i.amount, 0);
+    const paid = invoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.paidAmount, 0);
+    const overdue = invoices.filter(i => i.status === 'overdue').reduce((s, i) => s + i.amount, 0);
+    const receivable = invoices.filter(i => i.status === 'sent' || i.status === 'overdue' || i.status === 'partial').reduce((s, i) => s + (i.amount - i.paidAmount), 0);
     return { total, paid, overdue, receivable };
-  }, []);
+  }, [invoices, data?.summary]);
 
   const filters = [
-    { key: 'all', label: 'All', count: mockInvoices.length },
-    { key: 'draft', label: 'Draft', count: mockInvoices.filter(i => i.status === 'draft').length },
-    { key: 'sent', label: 'Sent', count: mockInvoices.filter(i => i.status === 'sent').length },
-    { key: 'paid', label: 'Paid', count: mockInvoices.filter(i => i.status === 'paid').length },
-    { key: 'overdue', label: 'Overdue', count: mockInvoices.filter(i => i.status === 'overdue').length },
-    { key: 'partial', label: 'Partial', count: mockInvoices.filter(i => i.status === 'partial').length },
+    { key: 'all', label: 'All', count: invoices.length },
+    { key: 'draft', label: 'Draft', count: invoices.filter(i => i.status === 'draft').length },
+    { key: 'sent', label: 'Sent', count: invoices.filter(i => i.status === 'sent').length },
+    { key: 'paid', label: 'Paid', count: invoices.filter(i => i.status === 'paid').length },
+    { key: 'overdue', label: 'Overdue', count: invoices.filter(i => i.status === 'overdue').length },
+    { key: 'partial', label: 'Partial', count: invoices.filter(i => i.status === 'partial').length },
   ];
 
   const columns: DataTableColumnDef[] = [
@@ -58,7 +63,7 @@ function InvoicesPageInner() {
       label: 'Invoice',
       sortable: true,
       render: (row) => {
-        const inv = row as unknown as typeof mockInvoices[0];
+        const inv = row as unknown as InvoiceListItem;
         return (
           <div className="flex items-center gap-2">
             <div
@@ -136,7 +141,7 @@ function InvoicesPageInner() {
       key: 'paidAmount',
       label: 'Paid',
       render: (row) => {
-        const inv = row as unknown as typeof mockInvoices[0];
+        const inv = row as unknown as InvoiceListItem;
         const paidPct = inv.amount > 0 ? Math.round((inv.paidAmount / inv.amount) * 100) : 0;
         if (inv.status === 'partial') {
           return (
@@ -178,6 +183,38 @@ function InvoicesPageInner() {
     },
   ];
 
+  if (loading) {
+    return (
+      <PageShell title="Invoices" icon={Receipt}>
+        <div className="space-y-6">
+          <div className="flex gap-2">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="h-8 w-20 rounded-full animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+            ))}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+            ))}
+          </div>
+          <div className="h-96 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+        </div>
+      </PageShell>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageShell title="Invoices" icon={Receipt}>
+        <div className="flex flex-col items-center justify-center py-20 space-y-4">
+          <AlertTriangle className="w-10 h-10" style={{ color: CSS.danger }} />
+          <p className="text-sm" style={{ color: CSS.textSecondary }}>Failed to load invoices: {error}</p>
+          <Button variant="outline" onClick={refetch}>Retry</Button>
+        </div>
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell title="Invoices" icon={Receipt}>
       <div className="space-y-6">
@@ -207,7 +244,7 @@ function InvoicesPageInner() {
           pageSize={8}
           enableExport
           actions={(row) => {
-            const inv = row as unknown as typeof mockInvoices[0];
+            const inv = row as unknown as InvoiceListItem & { paymentLink?: string | null };
             return (
               <TooltipProvider delayDuration={0}>
                 <div className="flex items-center justify-center gap-1">

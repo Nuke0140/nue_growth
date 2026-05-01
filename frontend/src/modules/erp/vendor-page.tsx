@@ -13,8 +13,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { PageShell } from './components/ops/page-shell';
-import { mockVendors } from '@/modules/erp/data/mock-data';
-import type { VendorStatus } from '@/modules/erp/types';
+import { useVendors, formatINR } from '@/modules/erp/hooks/use-erp-api';
+import type { VendorStatus, Vendor } from '@/modules/erp/types';
 
 type FilterKey = 'all' | 'active' | 'on-notice' | 'suspended';
 
@@ -69,9 +69,7 @@ function getScoreTextColor(score: number) {
   return 'text-red-500 dark:text-red-400';
 }
 
-function formatCurrency(val: number) {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
-}
+// formatINR is now imported from use-erp-api
 
 function StarRating({ rating }: { rating: number }) {
   const { theme } = useTheme();
@@ -96,13 +94,16 @@ function StarRating({ rating }: { rating: number }) {
 function VendorPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const { data: apiData, loading, error, refetch } = useVendors();
+
+  const vendors = (apiData?.vendors ?? []) as Vendor[];
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const [currentPage, setCurrentPage] = useState(1);
 
   const filtered = useMemo(() => {
-    let result = [...mockVendors];
+    let result = [...vendors];
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(v =>
@@ -116,24 +117,100 @@ function VendorPageInner() {
       case 'suspended': result = result.filter(v => v.status === 'suspended'); break;
     }
     return result;
-  }, [searchQuery, activeFilter]);
+  }, [vendors, searchQuery, activeFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   const stats = useMemo(() => ({
-    total: mockVendors.length,
-    activeContracts: mockVendors.filter(v => v.status === 'active').length,
-    payoutDue: mockVendors.reduce((sum, v) => sum + v.payoutDue, 0),
-    avgSla: (mockVendors.reduce((sum, v) => sum + v.slaScore, 0) / mockVendors.length).toFixed(1),
-  }), []);
+    total: apiData?.total ?? vendors.length,
+    activeContracts: apiData?.summary?.activeVendors ?? vendors.filter(v => v.status === 'active').length,
+    payoutDue: apiData?.summary?.totalPayoutDue ?? vendors.reduce((sum, v) => sum + v.payoutDue, 0),
+    avgSla: vendors.length > 0 ? (vendors.reduce((sum, v) => sum + v.slaScore, 0) / vendors.length).toFixed(1) : '0.0',
+  }), [vendors, apiData]);
 
   const filters: { key: FilterKey; label: string; icon: React.ElementType; count: number }[] = [
     { key: 'all', label: 'All', icon: Users, count: stats.total },
-    { key: 'active', label: 'Active', icon: Shield, count: mockVendors.filter(v => v.status === 'active').length },
-    { key: 'on-notice', label: 'On Notice', icon: AlertTriangle, count: mockVendors.filter(v => v.status === 'on-notice').length },
-    { key: 'suspended', label: 'Suspended', icon: AlertTriangle, count: mockVendors.filter(v => v.status === 'suspended').length },
+    { key: 'active', label: 'Active', icon: Shield, count: vendors.filter(v => v.status === 'active').length },
+    { key: 'on-notice', label: 'On Notice', icon: AlertTriangle, count: vendors.filter(v => v.status === 'on-notice').length },
+    { key: 'suspended', label: 'Suspended', icon: AlertTriangle, count: vendors.filter(v => v.status === 'suspended').length },
   ];
+
+  // Loading state
+  if (loading) {
+    return (
+      <PageShell title="Vendors" icon={Package}>
+        <div className="space-y-6">
+          {/* Search skeleton */}
+          <div className="flex items-center justify-end gap-2">
+            <div className={cn('h-9 w-64 rounded-xl animate-pulse', isDark ? 'bg-white/[0.04]' : 'bg-black/[0.04]')} />
+          </div>
+          {/* Filter skeleton */}
+          <div className="flex items-center gap-2">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-8 w-24 rounded-lg animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }} />
+            ))}
+          </div>
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-3 w-20 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                  <div className="w-7 h-7 rounded-lg animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                </div>
+                <div className="h-6 w-16 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+              </div>
+            ))}
+          </div>
+          {/* Cards skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className={cn('rounded-2xl border p-4 space-y-3', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <div className="h-4 w-32 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                    <div className="h-4 w-20 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                  </div>
+                  <div className="h-5 w-14 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <div className="h-2 w-16 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                    <div className="h-4 w-20 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="h-2 w-16 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                    <div className="h-4 w-20 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <PageShell title="Vendors" icon={Package}>
+        <div className={cn('rounded-2xl border p-12 text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+          <AlertTriangle className={cn('w-12 h-12 mx-auto mb-3', isDark ? 'text-red-400' : 'text-red-500')} style={{ opacity: 0.6 }} />
+          <p className={cn('text-sm font-medium', isDark ? 'text-white/70' : 'text-black/70')}>Failed to load vendors</p>
+          <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{error}</p>
+          <button
+            className="mt-4 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
+            style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}
+            onClick={() => refetch()}
+          >
+            Retry
+          </button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell title="Vendors" icon={Package}>
@@ -177,7 +254,7 @@ function VendorPageInner() {
           {[
             { label: 'Total Vendors', value: stats.total, icon: Users },
             { label: 'Active Contracts', value: stats.activeContracts, icon: FileCheck },
-            { label: 'Payout Due', value: formatCurrency(stats.payoutDue), icon: TrendingUp },
+            { label: 'Payout Due', value: formatINR(stats.payoutDue), icon: TrendingUp },
             { label: 'Avg SLA Score', value: `${stats.avgSla}%`, icon: Shield },
           ].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
@@ -235,12 +312,12 @@ function VendorPageInner() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Contract Value</span>
-                  <p className="text-sm font-semibold mt-0.5">{formatCurrency(vendor.contractValue)}</p>
+                  <p className="text-sm font-semibold mt-0.5">{formatINR(vendor.contractValue)}</p>
                 </div>
                 <div>
                   <span className={cn('text-[10px] uppercase tracking-wider font-medium', isDark ? 'text-white/30' : 'text-black/30')}>Payout Due</span>
                   <p className={cn('text-sm font-semibold mt-0.5', vendor.payoutDue > 0 ? 'text-amber-500 dark:text-amber-400' : '')}>
-                    {formatCurrency(vendor.payoutDue)}
+                    {formatINR(vendor.payoutDue)}
                   </p>
                 </div>
               </div>

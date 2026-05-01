@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react';
+import { useState, useMemo, useCallback, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, UserCheck, Clock, AlertTriangle, MoreHorizontal,
@@ -36,7 +36,7 @@ import { CSS } from '@/styles/design-tokens';
 import { useActionFeedback } from '@/hooks/use-action-feedback';
 
 // ── ERP-specific dependencies ───────────────────────────
-import { mockEmployees, mockResources } from '@/modules/erp/data/mock-data';
+import { useEmployees, formatINR, type EmployeeListItem } from '@/modules/erp/hooks/use-erp-api';
 import { useErpStore } from '@/modules/erp/erp-store';
 import type { Employee, EmployeeStatus } from '@/modules/erp/types';
 import { BulkActionBar } from '@/modules/erp/components/ops/bulk-action-bar';
@@ -45,29 +45,8 @@ import { BulkActionBar } from '@/modules/erp/components/ops/bulk-action-bar';
 type FilterKey = 'all' | 'active' | 'on-leave' | 'probation' | 'notice-period';
 type ViewMode = 'table' | 'grid';
 
-// Skills map from mockResources + defaults for missing employees
-function buildSkillsMap(): Record<string, string[]> {
-  const map: Record<string, string[]> = {};
-  for (const r of mockResources) {
-    const emp = mockEmployees.find((e) => e.name === r.name);
-    if (emp) {
-      map[emp.id] = r.skills;
-    }
-  }
-  const defaults: Record<string, string[]> = {
-    e11: ['Negotiation', 'CRM', 'Salesforce', 'B2B Sales'],
-    e12: ['Tally', 'Excel', 'GST Filing', 'Budgeting'],
-    e13: ['Python', 'Spark', 'Airflow', 'SQL'],
-    e14: ['Figma', 'Surveys', 'Analytics', 'A/B Testing'],
-    e15: ['Lead Gen', 'Cold Calling', 'HubSpot', 'Negotiation'],
-  };
-  for (const [id, skills] of Object.entries(defaults)) {
-    if (!map[id]) map[id] = skills;
-  }
-  return map;
-}
-
-const SKILLS_MAP = buildSkillsMap();
+// Skills map (API does not provide skills; fallback for demo display)
+const SKILLS_MAP: Record<string, string[]> = {};
 
 // Skill tag color variants
 const TAG_COLORS: Record<string, { bg: string; text: string }> = {
@@ -176,21 +155,17 @@ function EmployeesPageInner() {
   // Action feedback hook
   const { success, error: showError, info, warning, loading: showLoadingToast } = useActionFeedback();
 
-  // UX State: Loading
-  const [isLoading, setIsLoading] = useState(true);
+  // API data hook
+  const { data: employeesData, loading: apiLoading, error: apiError, refetch: apiRefetch } = useEmployees();
 
-  // UX State: Error
-  const [error, setError] = useState<string | null>(null);
+  // Local error override (for simulate error demo)
+  const [errorOverride, setErrorOverride] = useState<string | null>(null);
+  const isLoading = apiLoading;
+  const error = errorOverride || apiError;
 
   // UX State: Interaction (submitting for create modal)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submittingRef = useRef(false);
-
-  // Simulate initial data load
-  useEffect(() => {
-    const t = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(t);
-  }, []);
 
   // Local state
   const [searchQuery, setSearchQuery] = useState('');
@@ -200,19 +175,54 @@ function EmployeesPageInner() {
   const [createOpen, setCreateOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
+  // Map API data to Employee type for UI compatibility
+  const employeesApiMap = useMemo(() => {
+    const map = new Map<string, EmployeeListItem>();
+    if (employeesData?.employees) {
+      for (const emp of employeesData.employees) {
+        map.set(emp.id, emp);
+      }
+    }
+    return map;
+  }, [employeesData]);
+
+  const employees = useMemo((): Employee[] => {
+    if (!employeesData?.employees) return [];
+    return employeesData.employees.map((emp): Employee => ({
+      id: emp.id,
+      name: emp.name,
+      email: emp.email,
+      phone: emp.phone || '—',
+      department: emp.department,
+      designation: emp.designation,
+      manager: emp.managerId || 'Not assigned',
+      salaryBand: emp.salaryBand || '—',
+      joinDate: emp.joinDate,
+      status: emp.status as EmployeeStatus,
+      activeProjects: 0,
+      productivityScore: emp.productivityScore,
+      avatar: emp.avatar || emp.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2),
+    }));
+  }, [employeesData]);
+
+  // Look up full API data for the selected employee (sidebar detail)
+  const selectedEmployeeApiData = selectedEmployee
+    ? employeesApiMap.get(selectedEmployee.id) ?? null
+    : null;
+
   // Grid view pagination (SmartDataTable handles its own for table view)
   const [gridPage, setGridPage] = useState(0);
   const gridPageSize = 10;
 
   // Unique departments for filter
   const departments = useMemo(
-    () => [...new Set(mockEmployees.map((e) => e.department))].sort(),
-    [],
+    () => [...new Set(employees.map((e) => e.department))].sort(),
+    [employees],
   );
 
   // Compute filtered data (status + department + search)
   const filtered = useMemo(() => {
-    let result = [...mockEmployees];
+    let result = [...employees];
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -241,7 +251,7 @@ function EmployeesPageInner() {
       result = result.filter((e) => e.department === departmentFilter);
     }
     return result;
-  }, [searchQuery, activeFilter, departmentFilter]);
+  }, [employees, searchQuery, activeFilter, departmentFilter]);
 
   // Reset grid page when filters change (render-time adjustment pattern)
   const [prevFilterKey, setPrevFilterKey] = useState('');
@@ -259,35 +269,37 @@ function EmployeesPageInner() {
   // Stats
   const stats = useMemo(
     () => ({
-      total: mockEmployees.length,
-      active: mockEmployees.filter((e) => e.status === 'active').length,
-      onLeave: mockEmployees.filter((e) => e.status === 'on-leave').length,
-      avgProductivity: Math.round(
-        mockEmployees.reduce((s, e) => s + e.productivityScore, 0) /
-          mockEmployees.length,
-      ),
+      total: employees.length,
+      active: employees.filter((e) => e.status === 'active').length,
+      onLeave: employees.filter((e) => e.status === 'on-leave').length,
+      avgProductivity: employees.length
+        ? Math.round(
+            employees.reduce((s, e) => s + e.productivityScore, 0) /
+              employees.length,
+          )
+        : 0,
     }),
-    [],
+    [employees],
   );
 
   // Filter bar items
   const filterItems = useMemo(
     () => [
-      { key: 'all', label: 'All', count: mockEmployees.length },
+      { key: 'all', label: 'All', count: employees.length },
       { key: 'active', label: 'Active', count: stats.active },
       { key: 'on-leave', label: 'On Leave', count: stats.onLeave },
       {
         key: 'probation',
         label: 'Probation',
-        count: mockEmployees.filter((e) => e.status === 'probation').length,
+        count: employees.filter((e) => e.status === 'probation').length,
       },
       {
         key: 'notice-period',
         label: 'Notice Period',
-        count: mockEmployees.filter((e) => e.status === 'notice-period').length,
+        count: employees.filter((e) => e.status === 'notice-period').length,
       },
     ],
-    [stats],
+    [employees, stats],
   );
 
   // Clear all filters
@@ -324,17 +336,16 @@ function EmployeesPageInner() {
   );
 
   const handleRetry = useCallback(() => {
-    setError(null);
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 600);
-  }, []);
+    setErrorOverride(null);
+    apiRefetch();
+  }, [apiRefetch]);
 
   const handleSimulateError = useCallback(() => {
     showError({
       title: 'Connection Error',
       message: 'Failed to load employee data. Check your connection and try again.',
     });
-    setError('Failed to load employee data. Please check your connection and try again.');
+    setErrorOverride('Failed to load employee data. Please check your connection and try again.');
   }, [showError]);
 
   const handleEditFromSidebar = useCallback(() => {
@@ -1131,6 +1142,20 @@ function EmployeesPageInner() {
                     <p className="text-[11px]" style={{ color: CSS.textMuted }}>Salary Band</p>
                     <p className="text-xs" style={{ color: CSS.text }}>
                       {selectedEmployee.salaryBand}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: CSS.hoverBg }}
+                  >
+                    <DollarSign className="w-4 h-4" style={{ color: CSS.textMuted }} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[11px]" style={{ color: CSS.textMuted }}>Base Salary</p>
+                    <p className="text-xs" style={{ color: CSS.text }}>
+                      {selectedEmployeeApiData ? formatINR(selectedEmployeeApiData.baseSalary) : '—'}
                     </p>
                   </div>
                 </div>

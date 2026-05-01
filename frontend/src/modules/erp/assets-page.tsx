@@ -17,14 +17,13 @@ import { FilterBar } from './components/ops/filter-bar';
 import { SearchInput } from './components/ops/search-input';
 import { KpiWidget } from './components/ops/kpi-widget';
 import { Timeline, type TimelineItem } from './components/ops/timeline';
-import { mockAssets, mockEmployees } from './data/mock-data';
-import type { Asset, IssueLog } from './types';
+import { useAssets, useEmployees, formatINR as formatINRFromApi } from '@/modules/erp/hooks/use-erp-api';
+import type { Asset, IssueLog, Employee } from './types';
 import { PageShell } from './components/ops/page-shell';
 import { CSS } from '@/styles/design-tokens';
 
-function formatINR(num: number): string {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-}
+// formatINR is now imported from use-erp-api as formatINRFromApi; using local alias to avoid conflict
+const formatINR = formatINRFromApi;
 
 const statusLabels: Record<string, string> = {
   active: 'Active', 'in-repair': 'In Repair', disposed: 'Disposed', retired: 'Retired',
@@ -307,6 +306,11 @@ function AssetsPageInner() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [viewMode, setViewMode] = useState<ViewMode>('table');
 
+  const { data: apiData, loading, error, refetch } = useAssets();
+  const { data: employeesData } = useEmployees();
+  const assets = (apiData?.assets ?? []) as Asset[];
+  const employees = (employeesData?.employees ?? []) as unknown as Employee[];
+
   // Form state
   const [formName, setFormName] = useState('');
   const [formType, setFormType] = useState('Laptop');
@@ -317,7 +321,7 @@ function AssetsPageInner() {
   const [formWarranty, setFormWarranty] = useState('');
 
   const filtered = useMemo(() => {
-    let data = [...mockAssets];
+    let data = [...assets];
     if (search) {
       const q = search.toLowerCase();
       data = data.filter(a =>
@@ -329,21 +333,21 @@ function AssetsPageInner() {
     }
     if (activeFilter !== 'all') data = data.filter(a => a.status === activeFilter);
     return data;
-  }, [search, activeFilter]);
+  }, [assets, search, activeFilter]);
 
   const stats = useMemo(() => ({
-    total: mockAssets.length,
-    active: mockAssets.filter(a => a.status === 'active').length,
-    inRepair: mockAssets.filter(a => a.status === 'in-repair').length,
-    totalValue: mockAssets.reduce((s, a) => s + a.purchaseCost, 0),
-  }), []);
+    total: apiData?.total ?? assets.length,
+    active: apiData?.summary?.activeAssets ?? assets.filter(a => a.status === 'active').length,
+    inRepair: apiData?.summary?.inRepair ?? assets.filter(a => a.status === 'in-repair').length,
+    totalValue: apiData?.summary?.totalValue ?? assets.reduce((s, a) => s + a.purchaseCost, 0),
+  }), [assets, apiData]);
 
   const filterOptions = [
     { key: 'all', label: 'All', count: stats.total },
     { key: 'active', label: 'Active', count: stats.active },
     { key: 'in-repair', label: 'In Repair', count: stats.inRepair },
-    { key: 'retired', label: 'Retired', count: mockAssets.filter(a => a.status === 'retired').length },
-    { key: 'disposed', label: 'Disposed', count: mockAssets.filter(a => a.status === 'disposed').length },
+    { key: 'retired', label: 'Retired', count: assets.filter(a => a.status === 'retired').length },
+    { key: 'disposed', label: 'Disposed', count: assets.filter(a => a.status === 'disposed').length },
   ];
 
   const columns: DataTableColumnDef[] = [
@@ -419,6 +423,74 @@ function AssetsPageInner() {
 
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
+
+  // Loading state
+  if (loading) {
+    return (
+      <PageShell title="Assets" icon={Monitor} createType="asset">
+        <div className="space-y-6">
+          {/* Search + filter skeleton */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="h-9 max-w-sm w-full rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+            <div className="flex items-center gap-2">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-8 w-20 rounded-lg animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+              ))}
+            </div>
+          </div>
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="ops-card p-4" style={{ borderRadius: '1rem' }}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-3 w-20 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                  <div className="w-7 h-7 rounded-lg animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                </div>
+                <div className="h-6 w-16 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+              </div>
+            ))}
+          </div>
+          {/* Table skeleton */}
+          <div className="ops-card overflow-hidden" style={{ borderRadius: '1rem' }}>
+            <div className="p-4 space-y-3">
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="w-8 h-8 rounded-lg animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                  <div className="flex-1 space-y-1">
+                    <div className="h-3 w-1/3 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                    <div className="h-2 w-1/4 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                  </div>
+                  <div className="h-3 w-20 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                  <div className="h-3 w-16 rounded animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                  <div className="h-5 w-14 rounded-full animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <PageShell title="Assets" icon={Monitor} createType="asset">
+        <div className="ops-card p-12 text-center" style={{ borderRadius: '1rem' }}>
+          <AlertTriangle className="w-12 h-12 mx-auto mb-3" style={{ color: '#f87171', opacity: 0.6 }} />
+          <p className="text-sm font-medium" style={{ color: CSS.text }}>Failed to load assets</p>
+          <p className="text-xs mt-1" style={{ color: CSS.textMuted }}>{error}</p>
+          <button
+            className="mt-4 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
+            style={{ backgroundColor: CSS.accentLight, color: CSS.accent }}
+            onClick={() => refetch()}
+          >
+            Retry
+          </button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <>
@@ -540,7 +612,7 @@ function AssetsPageInner() {
           <label className="block text-xs font-medium mb-1.5" style={{ color: CSS.textSecondary }}>Assigned To</label>
           <select value={formAssigned} onChange={(e) => setFormAssigned(e.target.value)} className="ops-input w-full px-3 py-2 text-sm">
             <option value="">Select employee</option>
-            {mockEmployees.map(e => <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>)}
+            {employees.map(e => <option key={e.id} value={e.name}>{e.name} — {e.designation}</option>)}
           </select>
         </div>
         <div className="grid grid-cols-2 gap-3">

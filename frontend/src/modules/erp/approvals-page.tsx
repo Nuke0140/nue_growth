@@ -16,7 +16,7 @@ import { KpiWidget } from './components/ops/kpi-widget';
 import { BulkActionBar } from './components/ops/bulk-action-bar';
 import { PageShell } from './components/ops/page-shell';
 import { Timeline, type TimelineItem } from './components/ops/timeline';
-import { mockApprovals } from './data/mock-data';
+import { useApprovals } from '@/modules/erp/hooks/use-erp-api';
 import type { Approval, ApprovalType, ApprovalStatus } from './types';
 
 type TabKey = 'pending' | 'approved' | 'rejected';
@@ -81,7 +81,22 @@ function ApprovalsPageInner() {
   const [activeType, setActiveType] = useState<TypeFilter>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [localApprovals, setLocalApprovals] = useState<Approval[]>(mockApprovals);
+
+  const { data: apiData, loading, error, refetch } = useApprovals();
+  const [localApprovals, setLocalApprovals] = useState<Approval[]>([]);
+
+  // Sync API data to local state when it loads/changes
+  const syncedRef = useState(false);
+  if (apiData?.approvals && !syncedRef[0]) {
+    syncedRef[1](true);
+    setLocalApprovals(apiData.approvals as Approval[]);
+  }
+  // Re-sync when apiData reference changes
+  const prevApprovalsRef = useState<typeof apiData>(null);
+  if (apiData && apiData !== prevApprovalsRef[0]) {
+    prevApprovalsRef[1](apiData);
+    setLocalApprovals(apiData.approvals as Approval[]);
+  }
 
   const filtered = useMemo(() => {
     let data = localApprovals;
@@ -95,10 +110,10 @@ function ApprovalsPageInner() {
   }, [localApprovals, activeTab, activeType]);
 
   const stats = useMemo(() => ({
-    pending: localApprovals.filter(a => a.status === 'pending' || a.status === 'escalated').length,
-    approved: localApprovals.filter(a => a.status === 'approved').length,
-    rejected: localApprovals.filter(a => a.status === 'rejected').length,
-  }), [localApprovals]);
+    pending: apiData?.summary?.pending ?? localApprovals.filter(a => a.status === 'pending' || a.status === 'escalated').length,
+    approved: apiData?.summary?.approved ?? localApprovals.filter(a => a.status === 'approved').length,
+    rejected: apiData?.summary?.rejected ?? localApprovals.filter(a => a.status === 'rejected').length,
+  }), [localApprovals, apiData]);
 
   const tabFilters = [
     { key: 'pending', label: 'Pending', count: stats.pending },
@@ -216,6 +231,70 @@ function ApprovalsPageInner() {
 
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
+
+  // Loading state
+  if (loading) {
+    return (
+      <PageShell title="Approvals" icon={CheckCircle2} badge={0}>
+        <div className="space-y-6">
+          {/* Filter pills skeleton */}
+          <div className="flex items-center gap-2">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="h-8 w-20 rounded-full animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+            ))}
+          </div>
+          {/* Tab skeleton */}
+          <div className="flex items-center gap-2">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-8 w-24 rounded-full animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+            ))}
+          </div>
+          {/* Card skeletons */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="ops-card p-5 space-y-4" style={{ borderRadius: '1rem' }}>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                    <div className="w-10 h-10 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                  </div>
+                  <div className="h-5 w-16 rounded-full animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-3/4 rounded animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                  <div className="h-3 w-1/2 rounded animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-3 w-2/3 rounded animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                  <div className="h-3 w-1/3 rounded animate-pulse" style={{ backgroundColor: 'var(--app-hover-bg)' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <PageShell title="Approvals" icon={CheckCircle2} badge={0}>
+        <div className="ops-card p-12 text-center" style={{ borderRadius: '1rem' }}>
+          <AlertTriangle className="w-12 h-12 mx-auto mb-3" style={{ color: '#f87171', opacity: 0.6 }} />
+          <p className="text-sm font-medium" style={{ color: 'var(--app-text)' }}>Failed to load approvals</p>
+          <p className="text-xs mt-1" style={{ color: 'var(--app-text-muted)' }}>{error}</p>
+          <button
+            className="mt-4 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
+            style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}
+            onClick={() => refetch()}
+          >
+            Retry
+          </button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell title="Approvals" icon={CheckCircle2} badge={filtered.length}>
