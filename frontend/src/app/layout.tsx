@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/providers/auth-provider';
 import { AppSystemProviders } from '@/app-system/providers';
+import GlobalNavigation from '@/components/navigation/global-navigation';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -24,6 +25,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <AppSystemProviders>
+              <GlobalNavigation />
               {children}
             </AppSystemProviders>
           </AuthProvider>

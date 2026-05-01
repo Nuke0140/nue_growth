@@ -429,6 +429,10 @@ export const LAYOUT = {
   sidebarMobileWidth: 280,
   topbarHeight: 56,
   topbarHeightPx: '3.5rem',
+  globalNavHeight: 56,
+  globalNavHeightPx: '3.5rem',
+  bottomNavHeight: 64,
+  bottomNavHeightPx: '4rem',
   footerHeight: 40,
   maxContentWidth: 1440,
 } as const;
