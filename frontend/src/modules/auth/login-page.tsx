@@ -67,7 +67,7 @@ export default function LoginPage() {
       // Force Zustand state update instantly to swap the UI to the dashboard
       useAuthStore.setState({
         isAuthenticated: true,
-        currentPage: 'dashboard',
+        currentPage: 'login',
         activeModule: null,
         user: {
           id: 'usr-demo-001',

@@ -68,7 +68,7 @@ export default function OtpPage() {
 
           useAuthStore.setState({
             isAuthenticated: true,
-            currentPage: 'dashboard',
+            currentPage: 'login',
             activeModule: null,
             user: {
               id: 'usr-demo-001',

@@ -202,14 +202,14 @@ export default function Home() {
         renderKey = renderModule;
       } else {
         content = <WindowsDesktop />;
-        renderKey = 'dashboard';
+        renderKey = 'desktop';
       }
     } else if (isManagement && CurrentPage) {
       content = <CurrentPage />;
       renderKey = currentPage;
     } else {
       content = <WindowsDesktop />;
-      renderKey = 'dashboard';
+      renderKey = 'desktop';
     }
   }
 
