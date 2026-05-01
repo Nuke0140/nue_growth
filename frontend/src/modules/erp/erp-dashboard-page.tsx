@@ -23,7 +23,7 @@ import { KpiWidget } from '@/modules/erp/components/ops/kpi-widget';
 import { ActivityFeed } from '@/modules/erp/components/ops/activity-feed';
 import { LayoutDashboard } from 'lucide-react';
 import { PageShell } from './components/ops/page-shell';
-import type { ErpPage, LucideIcon } from '@/modules/erp/types';
+import type { ErpPage } from '@/modules/erp/types';
 
 // ── Stagger animation helper ──
 const container = {
@@ -140,7 +140,7 @@ function ErpDashboardPageInner() {
       a => a.status === 'pending' || a.status === 'escalated'
     ).length;
     const urgentApprovals = mockApprovals.filter(
-      a => (a.status === 'pending' || a.status === 'escalated') && a.priority === 'critical'
+      a => (a.status === 'pending' || a.status === 'escalated') && a.type === 'budget'
     ).length;
     const atRisk = mockProjects.filter(p => p.health === 'at-risk' || p.health === 'critical').length;
     const activeProjects = mockProjects.filter(p => p.status === 'active').length;

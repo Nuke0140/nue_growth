@@ -7,11 +7,9 @@ import { useAuthStore } from '@/store/auth-store';
 import { useTheme } from 'next-themes';
 import {
   LogOut,
-  LayoutDashboard,
   Factory,
   Users,
   Megaphone,
-  TrendingUp,
   DollarSign,
   Sprout,
   BarChart3,
@@ -23,7 +21,6 @@ import {
   Wifi,
   Battery,
   Volume2,
-  Zap,
   Moon,
   Sun,
 } from 'lucide-react';
@@ -37,7 +34,6 @@ interface Module {
 }
 
 const darkModules: Module[] = [
-  { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, shade: 'bg-white/[0.12] hover:bg-white/[0.16]', span: 'col-span-2', description: 'Overview & Analytics' },
   { id: 'erp', name: 'ERP', icon: Factory, shade: 'bg-white/[0.08] hover:bg-white/[0.12]', span: 'col-span-1', description: 'Enterprise Resource' },
   { id: 'crm', name: 'CRM & Sales', icon: Users, shade: 'bg-white/[0.18] hover:bg-white/[0.22]', span: 'col-span-2', description: 'Contacts, Pipeline & Revenue' },
   { id: 'marketing', name: 'Marketing', icon: Megaphone, shade: 'bg-white/[0.06] hover:bg-white/[0.10]', span: 'col-span-2', description: 'Campaigns & Outreach' },
@@ -49,7 +45,6 @@ const darkModules: Module[] = [
 ];
 
 const lightModules: Module[] = [
-  { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, shade: 'bg-black/[0.08] hover:bg-black/[0.12]', span: 'col-span-2', description: 'Overview & Analytics' },
   { id: 'erp', name: 'ERP', icon: Factory, shade: 'bg-black/[0.05] hover:bg-black/[0.09]', span: 'col-span-1', description: 'Enterprise Resource' },
   { id: 'crm', name: 'CRM & Sales', icon: Users, shade: 'bg-black/[0.12] hover:bg-black/[0.16]', span: 'col-span-2', description: 'Contacts, Pipeline & Revenue' },
   { id: 'marketing', name: 'Marketing', icon: Megaphone, shade: 'bg-black/[0.04] hover:bg-black/[0.08]', span: 'col-span-2', description: 'Campaigns & Outreach' },
@@ -308,7 +303,7 @@ export default function WindowsDesktop() {
                 index={index}
                 isDark={isDark}
                 onClick={() => {
-                  const validModules = ['dashboard', 'crm', 'erp', 'marketing', 'sales', 'finance', 'growth', 'analytics', 'automation', 'settings'];
+                  const validModules = ['crm', 'erp', 'marketing', 'sales', 'finance', 'growth', 'analytics', 'automation', 'settings'];
                   if (validModules.includes(module.id)) {
                     openModule(module.id as any);
                   }

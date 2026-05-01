@@ -15,7 +15,6 @@ export type AuthPage =
   | 'sessions';
 
 export type ModuleId =
-  | 'dashboard'
   | 'crm'
   | 'erp'
   | 'marketing'

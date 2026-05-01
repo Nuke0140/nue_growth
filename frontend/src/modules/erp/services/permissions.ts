@@ -8,16 +8,31 @@ const ALL_PAGES: ErpPage[] = [
   'tasks-board',
   'employees',
   'employee-detail',
+  'employee-analytics',
   'departments',
   'attendance',
+  'shifts',
   'leaves',
   'payroll',
   'compensation',
+  'incentives',
   'performance',
+  'onboarding',
   'documents',
+  'invoices',
+  'vendors',
+  'finance-ops',
+  'profitability',
+  'delivery-ops',
+  'resource-planning',
+  'workload',
+  'sop-templates',
   'assets',
+  'asset-management',
   'approvals',
   'ai-ops',
+  'ai-ops-intelligence',
+  'internal-chat',
   'hrm',
 ];
 
@@ -26,6 +41,8 @@ const MANAGER_RESTRICTED_PAGES: ErpPage[] = [
   'payroll',
   'compensation',
   'performance',
+  'finance-ops',
+  'profitability',
 ];
 
 // Pages where managers can approve (leaves, approvals, tasks)
@@ -33,16 +50,20 @@ const MANAGER_APPROVE_PAGES: ErpPage[] = [
   'leaves',
   'approvals',
   'tasks-board',
+  'invoices',
+  'onboarding',
 ];
 
 // Pages where employees can create
 const EMPLOYEE_CREATE_PAGES: ErpPage[] = [
   'leaves',
+  'internal-chat',
 ];
 
 // Pages where employees can edit (own data)
 const EMPLOYEE_EDIT_PAGES: ErpPage[] = [
   'attendance',
+  'documents',
 ];
 
 // Role permission definitions

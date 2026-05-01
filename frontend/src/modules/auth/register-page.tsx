@@ -257,7 +257,7 @@ export default function RegisterPage() {
 
     useAuthStore.setState({
       isAuthenticated: true,
-      currentPage: 'dashboard',
+      currentPage: 'login',
       activeModule: null,
       user: {
         id: 'usr-demo-001',
