@@ -27,7 +27,7 @@ export type ErpPage =
   // Delivery & Operations
   | 'delivery-ops' | 'resource-planning' | 'workload' | 'sop-templates'
   // Assets
-  | 'assets'
+  | 'assets' | 'asset-management'
   // Approvals
   | 'approvals'
   // AI

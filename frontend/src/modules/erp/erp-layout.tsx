@@ -42,8 +42,7 @@ const IncentivesPage = lazy(() => import('./incentives-page').then(m => ({ defau
 const OnboardingPage = lazy(() => import('./onboarding-page').then(m => ({ default: m.default })));
 const ShiftsPage = lazy(() => import('./shifts-page').then(m => ({ default: m.default })));
 const InternalChatPage = lazy(() => import('./internal-chat-page').then(m => ({ default: m.default })));
-const AssetManagementPage = lazy(() => import('./asset-management-page').then(m => ({ default: m.default })));
-const OpsDashboardPage = lazy(() => import('./ops-dashboard-page').then(m => ({ default: m.default })));
+// Note: asset-management-page and ops-dashboard-page removed — assets-page and erp-dashboard-page serve those roles
 
 // Design tokens for consistent animation
 import { ANIMATION } from '@/styles/design-tokens';
@@ -219,6 +218,7 @@ const navSections: NavSection[] = [
     icon: Settings,
     items: [
       { id: 'assets', label: 'Assets', icon: Monitor },
+      { id: 'asset-management' as ErpPage, label: 'Asset Mgmt', icon: Package },
       { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
     ],
   },
@@ -261,6 +261,7 @@ const allNavMap: Record<string, string> = {
   'workload': 'Workload',
   'sop-templates': 'SOP Templates',
   'assets': 'Assets',
+  'asset-management': 'Asset Management',
   'approvals': 'Approvals',
   'ai-ops': 'AI Ops',
   'ai-ops-intelligence': 'AI Deep Dive',
@@ -296,6 +297,7 @@ const navIconMap: Record<string, LucideIcon> = {
   'workload': BarChart2,
   'sop-templates': FileCode,
   'assets': Monitor,
+  'asset-management': Package,
   'approvals': CheckCircle2,
   'ai-ops': Brain,
   'ai-ops-intelligence': Sparkles,
@@ -359,6 +361,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'onboarding': OnboardingPage,
   'shifts': ShiftsPage,
   'internal-chat': InternalChatPage,
+  'asset-management': AssetsPage,
 };
 
 // ---- Page Content (with progress bar + skeleton loading) ----
@@ -730,7 +733,7 @@ function Sidebar() {
     hrm: ['hrm', 'employees', 'employee-detail', 'employee-analytics', 'departments', 'attendance', 'shifts', 'leaves', 'payroll', 'compensation', 'incentives', 'performance', 'onboarding', 'documents'],
     finance: ['invoices', 'vendors', 'finance-ops', 'profitability'],
     resources: ['resource-planning', 'workload'],
-    management: ['assets', 'approvals'],
+    management: ['assets', 'asset-management', 'approvals'],
     intelligence: ['ai-ops', 'ai-ops-intelligence'],
   }), []);
 

@@ -138,7 +138,8 @@ export const erpConfig: ModuleConfig = {
       icon: CheckCircle2,
       items: [
         { id: 'assets', label: 'Assets', icon: Monitor },
-        { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
+        { id: 'asset-management', label: 'Asset Mgmt', icon: Package },
+      { id: 'approvals', label: 'Approvals', icon: CheckCircle2, badge: 3 },
       ],
     },
     {
@@ -184,6 +185,7 @@ export const erpConfig: ModuleConfig = {
     'onboarding': OnboardingPage,
     'shifts': ShiftsPage,
     'internal-chat': InternalChatPage,
+    'asset-management': AssetsPage,
   },
 
   allPageLabels: {
@@ -213,6 +215,7 @@ export const erpConfig: ModuleConfig = {
     'workload': 'Workload',
     'sop-templates': 'SOP Templates',
     'assets': 'Assets',
+    'asset-management': 'Asset Management',
     'approvals': 'Approvals',
     'ai-ops': 'AI Ops',
     'ai-ops-intelligence': 'AI Deep Dive',
