@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth-store';
 import { getModuleConfigFromPathname } from '@/lib/module-registry';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
+import PremiumDesktop from '@/components/dashboard/premium-desktop';
 
 /* ============================================
    Dynamic imports — each module loads only when needed.
@@ -201,15 +202,15 @@ export default function Home() {
         content = <LayoutComponent />;
         renderKey = renderModule;
       } else {
-        content = <WindowsDesktop />;
-        renderKey = 'desktop';
+        content = <PremiumDesktop />;
+        renderKey = 'premium-desktop';
       }
     } else if (isManagement && CurrentPage) {
       content = <CurrentPage />;
       renderKey = currentPage;
     } else {
-      content = <WindowsDesktop />;
-      renderKey = 'desktop';
+      content = <PremiumDesktop />;
+      renderKey = 'premium-desktop';
     }
   }
 
