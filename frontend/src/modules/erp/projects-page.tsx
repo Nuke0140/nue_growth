@@ -3,32 +3,25 @@
 import { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Plus, FolderKanban, Wallet, AlertTriangle, TrendingUp, Calendar,
-  Users, Shield,
+  FolderKanban, Wallet, AlertTriangle, TrendingUp, Calendar,
+  Users, Shield, Loader2,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { mockProjects, mockResources } from '@/modules/erp/data/mock-data';
+import { useProjects, formatINR } from '@/modules/erp/hooks/use-erp-api';
+import type { ProjectListItem } from '@/modules/erp/hooks/use-erp-api';
 import { useErpStore } from '@/modules/erp/erp-store';
 import { SearchInput } from '@/modules/erp/components/ops/search-input';
 import { FilterBar } from '@/modules/erp/components/ops/filter-bar';
 import { StatusBadge } from '@/modules/erp/components/ops/status-badge';
-import type { ProjectStatus, ProjectHealth, ProjectPriority, ErpProject } from '@/modules/erp/types';
+import type { ProjectStatus, ProjectHealth, ProjectPriority } from '@/modules/erp/types';
 import { PageShell } from './components/ops/page-shell';
 
 // ── Helpers ──────────────────────────────────────────────
 
 type FilterKey = 'all' | 'active' | 'completed' | 'on-hold' | 'critical' | 'inception';
 type HealthFilterKey = 'all' | 'excellent' | 'good' | 'at-risk' | 'critical';
-
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(0)}K`;
-  return `₹${num}`;
-}
 
 const healthColorMap: Record<ProjectHealth, string> = {
   excellent: '#34d399',
@@ -55,21 +48,24 @@ function getInitials(name: string): string {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 }
 
-/** Build a team member list for a given project from mockResources */
-function getProjectTeam(projectId: string): string[] {
-  const team: string[] = [];
-  mockResources.forEach(r => {
-    if (r.projects.some(p => p.projectId === projectId)) {
-      team.push(r.name);
-    }
-  });
-  return team;
-}
-
 function getDaysRemaining(dueDate: string): number {
   const due = new Date(dueDate);
   const now = new Date();
   return Math.max(0, Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+}
+
+/** Cast API string fields to the union types used by the UI */
+function asProjectHealth(h: string): ProjectHealth {
+  if (h === 'excellent' || h === 'good' || h === 'at-risk' || h === 'critical') return h;
+  return 'good';
+}
+function asProjectPriority(p: string): ProjectPriority {
+  if (p === 'low' || p === 'medium' || p === 'high' || p === 'critical') return p;
+  return 'medium';
+}
+function asProjectStatus(s: string): ProjectStatus {
+  if (s === 'active' || s === 'on-hold' || s === 'completed' || s === 'cancelled' || s === 'inception') return s;
+  return 'active';
 }
 
 // ── Health Indicator Pill ──────────────────────────────
@@ -163,19 +159,22 @@ function BudgetBar({ actualSpend, budget }: { actualSpend: number; budget: numbe
 
 function ProjectCard({
   project,
-  teamMembers,
   onClick,
 }: {
-  project: ErpProject;
-  teamMembers: string[];
+  project: ProjectListItem;
   onClick: () => void;
 }) {
-  const healthColor = healthColorMap[project.health];
-  const priorityColor = priorityDotColor[project.priority];
+  const health = asProjectHealth(project.health);
+  const priority = asProjectPriority(project.priority);
+  const status = asProjectStatus(project.status);
+  const healthColor = healthColorMap[health];
+  const priorityColor = priorityDotColor[priority];
   const daysLeft = getDaysRemaining(project.dueDate);
+
+  // Build a minimal team display from the account manager
+  const teamMembers = [project.accountManager];
   const maxShow = 3;
   const shown = teamMembers.slice(0, maxShow);
-  const overflow = teamMembers.length - maxShow;
 
   return (
     <motion.div
@@ -206,7 +205,7 @@ function ProjectCard({
             {project.client}
           </p>
         </div>
-        <HealthPill health={project.health} />
+        <HealthPill health={health} />
       </div>
 
       {/* Budget bar */}
@@ -242,7 +241,7 @@ function ProjectCard({
         </div>
       </div>
 
-      {/* Team avatars + Account manager + SLA */}
+      {/* Team avatars + SLA */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Users
@@ -263,18 +262,6 @@ function ProjectCard({
                 </AvatarFallback>
               </Avatar>
             ))}
-            {overflow > 0 && (
-              <span
-                className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold border-2"
-                style={{
-                  borderColor: 'var(--app-card-bg)',
-                  backgroundColor: 'var(--app-hover-bg)',
-                  color: 'var(--app-text-secondary)',
-                }}
-              >
-                +{overflow}
-              </span>
-            )}
           </div>
         </div>
 
@@ -331,17 +318,17 @@ function ProjectCard({
       <div className="flex items-center justify-between mt-auto pt-2" style={{ borderTop: '1px solid var(--app-border)' }}>
         <div
           className="flex items-center gap-1 text-[11px]"
-          style={{ color: daysLeft <= 14 && project.status === 'active' ? '#f87171' : 'var(--app-text-muted)' }}
+          style={{ color: daysLeft <= 14 && status === 'active' ? '#f87171' : 'var(--app-text-muted)' }}
         >
           <Calendar className="w-3 h-3" />
           {daysLeft > 0
             ? `${daysLeft}d left`
-            : project.status === 'completed'
+            : status === 'completed'
               ? 'Completed'
               : 'Overdue'}
         </div>
         <div className="flex items-center gap-1.5">
-          <StatusBadge status={project.status} className="text-[9px] px-1.5 py-0" />
+          <StatusBadge status={status} className="text-[9px] px-1.5 py-0" />
           <span
             className="w-2 h-2 rounded-full"
             style={{ backgroundColor: priorityColor }}
@@ -400,9 +387,13 @@ function ProjectsPageInner() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const [activeHealthFilter, setActiveHealthFilter] = useState<HealthFilterKey>('all');
 
+  // ── API data ──
+  const { data, loading, error, refetch } = useProjects();
+  const projects = data?.projects ?? [];
+
   // ── Filtering ──
   const filtered = useMemo(() => {
-    let result = [...mockProjects];
+    let result = [...projects];
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -438,43 +429,87 @@ function ProjectsPageInner() {
     }
 
     return result;
-  }, [searchQuery, activeFilter, activeHealthFilter]);
+  }, [projects, searchQuery, activeFilter, activeHealthFilter]);
 
   // ── Stats ──
   const stats = useMemo(() => {
-    const total = mockProjects.length;
-    const active = mockProjects.filter((p) => p.status === 'active').length;
-    const atRisk = mockProjects.filter(
+    const total = projects.length;
+    const active = projects.filter((p) => p.status === 'active').length;
+    const atRisk = projects.filter(
       (p) => p.health === 'at-risk' || p.health === 'critical'
     ).length;
-    const totalBudget = mockProjects.reduce((s, p) => s + p.budget, 0);
+    const totalBudget = projects.reduce((s, p) => s + p.budget, 0);
     return { total, active, atRisk, totalBudget };
-  }, []);
+  }, [projects]);
 
   // ── Status Filters ──
   const filterItems = useMemo(
     () => [
-      { key: 'all', label: 'All', count: mockProjects.length },
-      { key: 'active', label: 'Active', count: mockProjects.filter((p) => p.status === 'active').length },
-      { key: 'completed', label: 'Completed', count: mockProjects.filter((p) => p.status === 'completed').length },
-      { key: 'on-hold', label: 'On Hold', count: mockProjects.filter((p) => p.status === 'on-hold').length },
-      { key: 'critical', label: 'Critical', count: mockProjects.filter((p) => p.priority === 'critical').length },
-      { key: 'inception', label: 'Inception', count: mockProjects.filter((p) => p.status === 'inception').length },
+      { key: 'all', label: 'All', count: projects.length },
+      { key: 'active', label: 'Active', count: projects.filter((p) => p.status === 'active').length },
+      { key: 'completed', label: 'Completed', count: projects.filter((p) => p.status === 'completed').length },
+      { key: 'on-hold', label: 'On Hold', count: projects.filter((p) => p.status === 'on-hold').length },
+      { key: 'critical', label: 'Critical', count: projects.filter((p) => p.priority === 'critical').length },
+      { key: 'inception', label: 'Inception', count: projects.filter((p) => p.status === 'inception').length },
     ],
-    []
+    [projects]
   );
 
   // ── Health Filters ──
   const healthFilterItems = useMemo(
     () => [
-      { key: 'all', label: 'All Health', count: mockProjects.length },
-      { key: 'excellent', label: 'On Track', count: mockProjects.filter((p) => p.health === 'excellent').length },
-      { key: 'good', label: 'Good', count: mockProjects.filter((p) => p.health === 'good').length },
-      { key: 'at-risk', label: 'At Risk', count: mockProjects.filter((p) => p.health === 'at-risk').length },
-      { key: 'critical', label: 'Critical', count: mockProjects.filter((p) => p.health === 'critical').length },
+      { key: 'all', label: 'All Health', count: projects.length },
+      { key: 'excellent', label: 'On Track', count: projects.filter((p) => p.health === 'excellent').length },
+      { key: 'good', label: 'Good', count: projects.filter((p) => p.health === 'good').length },
+      { key: 'at-risk', label: 'At Risk', count: projects.filter((p) => p.health === 'at-risk').length },
+      { key: 'critical', label: 'Critical', count: projects.filter((p) => p.health === 'critical').length },
     ],
-    []
+    [projects]
   );
+
+  // ── Loading State ──
+  if (loading) {
+    return (
+      <PageShell title="Projects" icon={FolderKanban} createType="project">
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--app-accent)' }} />
+          <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
+            Loading projects...
+          </p>
+        </div>
+      </PageShell>
+    );
+  }
+
+  // ── Error State ──
+  if (error) {
+    return (
+      <PageShell title="Projects" icon={FolderKanban} createType="project">
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(248,113,113,0.1)' }}
+          >
+            <AlertTriangle className="w-6 h-6" style={{ color: '#f87171' }} />
+          </div>
+          <p className="text-sm" style={{ color: 'var(--app-text-muted)' }}>
+            Failed to load projects
+          </p>
+          <p className="text-xs" style={{ color: 'var(--app-text-disabled)' }}>
+            {error}
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={refetch}
+            className="mt-2"
+          >
+            Try Again
+          </Button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell title="Projects" icon={FolderKanban} createType="project">
@@ -583,7 +618,6 @@ function ProjectsPageInner() {
                 >
                   <ProjectCard
                     project={project}
-                    teamMembers={getProjectTeam(project.id)}
                     onClick={() => selectProject(project.id)}
                   />
                 </motion.div>

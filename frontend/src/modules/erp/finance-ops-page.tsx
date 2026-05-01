@@ -13,14 +13,26 @@ import { PageShell } from '@/components/shared/page-shell';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
-import { mockFinanceOps } from '@/modules/erp/data/mock-data';
+import { formatINR } from '@/modules/erp/hooks/use-erp-api';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(0)}K`;
-  return `₹${num}`;
-}
+// TODO: Replace with API data when finance endpoint is available
+const financeOpsPlaceholder = {
+  receivables: 3857500,
+  payables: 1240000,
+  cashFlow: 2617500,
+  budgetVariance: -320000,
+  burnRate: 1850000,
+  vendorPayouts: 680000,
+  monthlyProfit: 1875000,
+  projectCostCenters: [
+    { projectId: 'p1', projectName: 'NexaBank Digital Transformation', budget: 2400000, spent: 1980000, variance: 420000, burnRate: 660000 },
+    { projectId: 'p2', projectName: 'ShopVerse E-Commerce Platform', budget: 1800000, spent: 1240000, variance: 560000, burnRate: 413333 },
+    { projectId: 'p3', projectName: 'MediCare Patient Portal', budget: 950000, spent: 980000, variance: -30000, burnRate: 490000 },
+    { projectId: 'p4', projectName: 'AutoFlow Fleet Management', budget: 1200000, spent: 720000, variance: 480000, burnRate: 257143 },
+    { projectId: 'p7', projectName: 'FinEdge Trading Platform', budget: 3200000, spent: 2850000, variance: 350000, burnRate: 712500 },
+    { projectId: 'p11', projectName: 'LegalEase Document Management', budget: 440000, spent: 520000, variance: -80000, burnRate: 346667 },
+  ],
+};
 
 const monthlyTrend = [
   { month: 'Oct', revenue: 3200000, expense: 2100000 },
@@ -33,7 +45,7 @@ const monthlyTrend = [
 ];
 
 function FinanceOpsPageInner() {
-  const data = mockFinanceOps;
+  const data = financeOpsPlaceholder;
   const maxTrendRevenue = Math.max(...monthlyTrend.map(m => m.revenue));
 
   const columns: DataTableColumnDef[] = [

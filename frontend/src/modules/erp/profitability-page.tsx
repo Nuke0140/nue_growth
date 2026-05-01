@@ -12,11 +12,17 @@ import { PageShell } from '@/components/shared/page-shell';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
-import { mockProfitability } from '@/modules/erp/data/mock-data';
+import { formatINR } from '@/modules/erp/hooks/use-erp-api';
 
-function formatCurrency(val: number) {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
-}
+// TODO: Replace with API data when profitability endpoint is available
+const profitabilityPlaceholder = [
+  { clientName: 'NexaBank Holdings', revenue: 2400000, cost: 1980000, margin: 17.5, burnRate: 660000, alerts: [{ id: 'pa1', type: 'margin-warning', severity: 'warning', message: 'Margin declining 3% MoM — review scope creep' }] },
+  { clientName: 'ShopVerse Inc.', revenue: 1800000, cost: 1240000, margin: 31.1, burnRate: 413333, alerts: [] },
+  { clientName: 'MediCare Global', revenue: 950000, cost: 980000, margin: -3.2, burnRate: 490000, alerts: [{ id: 'pa2', type: 'over-budget', severity: 'critical', message: 'Project over budget — immediate scope review required' }] },
+  { clientName: 'AutoFlow Logistics', revenue: 1200000, cost: 720000, margin: 40.0, burnRate: 257143, alerts: [] },
+  { clientName: 'FinEdge Capital', revenue: 3200000, cost: 2850000, margin: 10.9, burnRate: 712500, alerts: [{ id: 'pa3', type: 'burn-rate', severity: 'warning', message: 'Burn rate exceeds 70% of revenue — optimize resource allocation' }] },
+  { clientName: 'LegalEase LLP', revenue: 440000, cost: 520000, margin: -18.2, burnRate: 346667, alerts: [{ id: 'pa4', type: 'over-budget', severity: 'critical', message: 'Loss-making project — renegotiate contract terms' }] },
+];
 
 function getMarginColor(margin: number) {
   if (margin >= 20) return { bar: 'bg-emerald-500', text: '#34d399' };
@@ -56,10 +62,10 @@ const barColors = ['bg-emerald-500', 'bg-sky-500', 'bg-violet-500', 'bg-pink-500
 
 function ProfitabilityPageInner() {
   const kpis = useMemo(() => {
-    const totalRevenue = mockProfitability.reduce((s, p) => s + p.revenue, 0);
-    const totalCost = mockProfitability.reduce((s, p) => s + p.cost, 0);
+    const totalRevenue = profitabilityPlaceholder.reduce((s, p) => s + p.revenue, 0);
+    const totalCost = profitabilityPlaceholder.reduce((s, p) => s + p.cost, 0);
     const netMargin = ((totalRevenue - totalCost) / totalRevenue * 100);
-    const avgBurn = mockProfitability.reduce((s, p) => s + p.burnRate, 0) / mockProfitability.filter(p => p.burnRate > 0).length;
+    const avgBurn = profitabilityPlaceholder.reduce((s, p) => s + p.burnRate, 0) / profitabilityPlaceholder.filter(p => p.burnRate > 0).length;
     return { totalRevenue, totalCost, netMargin: netMargin.toFixed(1), burnRate: avgBurn };
   }, []);
 
@@ -67,7 +73,7 @@ function ProfitabilityPageInner() {
   const maxBurnRevenue = Math.max(...burnRevenueData.map(d => Math.max(d.burn, d.revenue)));
 
   const allAlerts = useMemo(() => {
-    return mockProfitability.flatMap(p =>
+    return profitabilityPlaceholder.flatMap(p =>
       p.alerts.map(a => ({ ...a, clientName: p.clientName }))
     ).sort((a, b) => {
       if (a.severity === 'critical' && b.severity !== 'critical') return -1;
@@ -82,7 +88,7 @@ function ProfitabilityPageInner() {
       label: 'Client',
       sortable: true,
       render: (row) => {
-        const client = row as unknown as typeof mockProfitability[0];
+        const client = row as unknown as typeof profitabilityPlaceholder[0];
         const isNegMargin = client.margin < 0;
         return (
           <div className="flex items-center gap-2">
@@ -100,7 +106,7 @@ function ProfitabilityPageInner() {
       sortable: true,
       render: (row) => (
         <span className="text-xs font-medium" style={{ color: CSS.text }}>
-          {formatCurrency(Number(row.revenue))}
+          {formatINR(Number(row.revenue))}
         </span>
       ),
     },
@@ -110,7 +116,7 @@ function ProfitabilityPageInner() {
       sortable: true,
       render: (row) => (
         <span className="text-xs font-medium" style={{ color: CSS.text }}>
-          {formatCurrency(Number(row.cost))}
+          {formatINR(Number(row.cost))}
         </span>
       ),
     },
@@ -119,7 +125,7 @@ function ProfitabilityPageInner() {
       label: 'Margin',
       sortable: true,
       render: (row) => {
-        const client = row as unknown as typeof mockProfitability[0];
+        const client = row as unknown as typeof profitabilityPlaceholder[0];
         const marginColor = getMarginColor(client.margin);
         return (
           <div className="flex items-center justify-end gap-2">
@@ -139,7 +145,7 @@ function ProfitabilityPageInner() {
       sortable: true,
       render: (row) => (
         <span className="text-xs" style={{ color: CSS.textSecondary }}>
-          {Number(row.burnRate) > 0 ? formatCurrency(Number(row.burnRate)) : '—'}
+          {Number(row.burnRate) > 0 ? formatINR(Number(row.burnRate)) : '—'}
         </span>
       ),
     },
@@ -147,7 +153,7 @@ function ProfitabilityPageInner() {
       key: 'alerts',
       label: 'Alerts',
       render: (row) => {
-        const client = row as unknown as typeof mockProfitability[0];
+        const client = row as unknown as typeof profitabilityPlaceholder[0];
         const hasAlerts = client.alerts.length > 0;
         if (!hasAlerts) {
           return <span style={{ color: CSS.textDisabled }}>—</span>;
@@ -173,10 +179,10 @@ function ProfitabilityPageInner() {
     }>
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KpiWidget label="Total Revenue" value={formatCurrency(kpis.totalRevenue)} icon={DollarSign} color="success" trend="up" trendValue="+15%" />
-        <KpiWidget label="Total Cost" value={formatCurrency(kpis.totalCost)} icon={TrendingDown} color="danger" trend="down" trendValue="-8%" />
+        <KpiWidget label="Total Revenue" value={formatINR(kpis.totalRevenue)} icon={DollarSign} color="success" trend="up" trendValue="+15%" />
+        <KpiWidget label="Total Cost" value={formatINR(kpis.totalCost)} icon={TrendingDown} color="danger" trend="down" trendValue="-8%" />
         <KpiWidget label="Net Margin" value={`${kpis.netMargin}%`} icon={Target} color={Number(kpis.netMargin) >= 10 ? 'success' : 'warning'} trend={Number(kpis.netMargin) > 0 ? 'up' : 'down'} trendValue={String(kpis.netMargin)} />
-        <KpiWidget label="Burn Rate" value={`${formatCurrency(kpis.burnRate)}/mo`} icon={Flame} color="warning" />
+        <KpiWidget label="Burn Rate" value={`${formatINR(kpis.burnRate)}/mo`} icon={Flame} color="warning" />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -184,7 +190,7 @@ function ProfitabilityPageInner() {
         <div className="xl:col-span-2 space-y-3">
           <h2 className="text-sm font-semibold" style={{ color: CSS.textSecondary }}>Client Profitability</h2>
           <SmartDataTable
-            data={mockProfitability as unknown as Record<string, unknown>[]}
+            data={profitabilityPlaceholder as unknown as Record<string, unknown>[]}
             columns={columns}
             searchable
             searchPlaceholder="Search clients..."
@@ -206,7 +212,7 @@ function ProfitabilityPageInner() {
               <div key={s.service} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium" style={{ color: CSS.text }}>{s.service}</span>
-                  <span className="text-[11px] font-medium" style={{ color: CSS.textSecondary }}>{formatCurrency(s.revenue)}</span>
+                  <span className="text-[11px] font-medium" style={{ color: CSS.textSecondary }}>{formatINR(s.revenue)}</span>
                 </div>
                 <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: CSS.hoverBg }}>
                   <motion.div

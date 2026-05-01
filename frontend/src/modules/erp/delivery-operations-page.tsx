@@ -11,7 +11,7 @@ import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { PageShell } from './components/ops/page-shell';
-import { mockDeliveryItems, mockProjects } from '@/modules/erp/data/mock-data';
+import { useDeliveries, useProjects } from '@/modules/erp/hooks/use-erp-api';
 import type { DeliveryStatus } from '@/modules/erp/types';
 
 function getStatusLabel(status: DeliveryStatus) {
@@ -27,12 +27,24 @@ function isOverdue(dueDate: string) {
 }
 
 function DeliveryOperationsPageInner() {
+  const { data: deliveriesData, loading: deliveriesLoading, error: deliveriesError } = useDeliveries();
+  const { data: projectsData, loading: projectsLoading, error: projectsError } = useProjects();
+
+  const deliveryItems = (deliveriesData?.deliveries || []) as any[];
+  const projects = projectsData?.projects || [];
+
   const enriched = useMemo(() => {
-    return mockDeliveryItems.map(item => {
-      const project = mockProjects.find(p => p.id === item.projectId);
+    return deliveryItems.map((item: any) => {
+      const project = projects.find((p: any) => p.id === item.projectId);
       return { ...item, projectName: project?.name || item.projectId };
     });
-  }, []);
+  }, [deliveryItems, projects]);
+
+  const loading = deliveriesLoading || projectsLoading;
+  const error = deliveriesError || projectsError;
+
+  if (loading) return <div className="flex items-center justify-center h-64"><p className="text-sm" style={{ color: CSS.textMuted }}>Loading deliveries...</p></div>;
+  if (error) return <div className="flex items-center justify-center h-64"><p className="text-sm text-red-500">Error: {error}</p></div>;
 
   const todayStr = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 

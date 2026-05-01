@@ -4,21 +4,15 @@ import { useState, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, UserCheck, UserX, Clock, Home, AlertTriangle } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { PageShell } from '@/components/shared/page-shell';
 import { SmartDataTable, type DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { KpiWidget } from '@/components/shared/kpi-widget';
 import { CSS } from '@/styles/design-tokens';
-import { mockEmployees, mockAttendance } from '@/modules/erp/data/mock-data';
+import { useAttendance, useEmployees } from '@/modules/erp/hooks/use-erp-api';
+import type { EmployeeListItem } from '@/modules/erp/hooks/use-erp-api';
 import type { AttendanceRecord } from '@/modules/erp/types';
-
-function getEmployeeName(id: string): string {
-  return mockEmployees.find(e => e.id === id)?.name || id;
-}
-
-function getEmployeeInitials(id: string): string {
-  return mockEmployees.find(e => e.id === id)?.avatar || '??';
-}
 
 const avatarColors = [
   'rgba(204, 92, 55, 0.12)',
@@ -61,19 +55,48 @@ function AttendancePageInner() {
   const [dateIdx, setDateIdx] = useState(2); // default: 2026-04-10
   const selectedDate = AVAILABLE_DATES[dateIdx];
 
-  const dayData = useMemo(() => {
-    const records = mockAttendance.filter(a => a.date === selectedDate);
-    if (records.length > 0) return records;
-    // For dates without data, return mockAttendance as fallback
-    return mockAttendance;
-  }, [selectedDate]);
+  const { data: attendanceData, loading, error, refetch } = useAttendance({ date: selectedDate });
+  const { data: employeesData } = useEmployees();
 
-  const stats = useMemo(() => ({
-    present: dayData.filter(a => a.status === 'present').length,
-    absent: dayData.filter(a => a.status === 'absent').length,
-    halfDay: dayData.filter(a => a.status === 'half-day').length,
-    wfh: dayData.filter(a => a.status === 'wfh').length,
-  }), [dayData]);
+  const employees = employeesData?.employees ?? [];
+  const records = attendanceData?.records ?? [];
+
+  // Build employee lookup map for O(1) access
+  const employeeMap = useMemo(() => {
+    const map = new Map<string, EmployeeListItem>();
+    for (const emp of employees) {
+      map.set(emp.id, emp);
+    }
+    return map;
+  }, [employees]);
+
+  function getEmployeeName(id: string): string {
+    return employeeMap.get(id)?.name || (records as any[]).find((r: any) => r.employeeId === id)?.employeeName || id;
+  }
+
+  function getEmployeeInitials(id: string): string {
+    const emp = employeeMap.get(id);
+    if (emp?.avatar) return emp.avatar;
+    const name = emp?.name || id;
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  const stats = useMemo(() => {
+    if (attendanceData?.todaySummary) {
+      return {
+        present: attendanceData.todaySummary.present,
+        absent: attendanceData.todaySummary.absent,
+        halfDay: attendanceData.todaySummary.halfDay,
+        wfh: attendanceData.todaySummary.wfh,
+      };
+    }
+    return {
+      present: records.filter((a: any) => a.status === 'present').length,
+      absent: records.filter((a: any) => a.status === 'absent').length,
+      halfDay: records.filter((a: any) => a.status === 'half-day').length,
+      wfh: records.filter((a: any) => a.status === 'wfh').length,
+    };
+  }, [records, attendanceData?.todaySummary]);
 
   const columns: DataTableColumnDef[] = [
     {
@@ -172,6 +195,33 @@ function AttendancePageInner() {
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
   const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
 
+  if (loading) {
+    return (
+      <PageShell title="Attendance" icon={Clock} subtitle="Real-time">
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+            ))}
+          </div>
+          <div className="h-96 rounded-xl animate-pulse" style={{ backgroundColor: CSS.hoverBg }} />
+        </div>
+      </PageShell>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageShell title="Attendance" icon={Clock} subtitle="Real-time">
+        <div className="flex flex-col items-center justify-center py-20 space-y-4">
+          <AlertTriangle className="w-10 h-10" style={{ color: CSS.danger }} />
+          <p className="text-sm" style={{ color: CSS.textSecondary }}>Failed to load attendance: {error}</p>
+          <Button variant="outline" onClick={refetch}>Retry</Button>
+        </div>
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell title="Attendance" icon={Clock} subtitle="Real-time" headerRight={
         <div className="flex items-center gap-1">
@@ -212,7 +262,7 @@ function AttendancePageInner() {
         {/* Data Table */}
         <motion.div variants={fadeUp}>
           <SmartDataTable
-            data={dayData as unknown as Record<string, unknown>[]}
+            data={records as unknown as Record<string, unknown>[]}
             columns={columns}
             searchable
             searchPlaceholder="Search employees..."
@@ -222,7 +272,7 @@ function AttendancePageInner() {
         </motion.div>
 
         {/* Anomaly Summary */}
-        {dayData.some(a => a.isAnomaly) && (
+        {records.some((a: any) => a.isAnomaly) && (
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-4"
@@ -235,9 +285,9 @@ function AttendancePageInner() {
               </span>
             </div>
             <div className="space-y-1.5">
-              {dayData
-                .filter(a => a.isAnomaly)
-                .map(a => {
+              {records
+                .filter((a: any) => a.isAnomaly)
+                .map((a: any) => {
                   const name = getEmployeeName(a.employeeId);
                   return (
                     <p key={a.id} className="text-xs" style={{ color: CSS.textSecondary }}>

@@ -11,8 +11,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { PageShell } from './components/ops/page-shell';
-import { mockWorkload, mockEmployees } from '@/modules/erp/data/mock-data';
-import type { WorkloadStatus } from '@/modules/erp/types';
+import { useWorkload } from '@/modules/erp/hooks/use-erp-api';
+import type { WorkloadStatus, WorkloadItem, Employee } from '@/modules/erp/types';
 
 const statusConfig: Record<WorkloadStatus, { label: string; className: string; dotClass: string; barColor: string }> = {
   optimal: { label: 'Optimal', className: 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20', dotClass: 'bg-emerald-500', barColor: 'bg-emerald-500' },
@@ -21,13 +21,18 @@ const statusConfig: Record<WorkloadStatus, { label: string; className: string; d
   'at-capacity': { label: 'At Capacity', className: 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20', dotClass: 'bg-amber-500', barColor: 'bg-amber-500' },
 };
 
-function getEmployee(id: string) {
-  return mockEmployees.find(e => e.id === id);
+// Employee lookup helper — will use API-provided employee data from workload items
+function getEmployeeFromWorkload(w: any): { name: string; avatar: string } | null {
+  if (w.employee) return w.employee;
+  // Fallback: derive avatar from name if present
+  if (w.employeeName) return { name: w.employeeName, avatar: w.employeeName.split(' ').map((n: string) => n[0]).join('') };
+  return null;
 }
 
 function WorkloadPageInner() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const { data: apiData, loading, error, refetch } = useWorkload();
 
   function getCellColor(allocation: number) {
     if (allocation === 0) return isDark ? 'bg-white/[0.03]' : 'bg-black/[0.03]';
@@ -38,11 +43,12 @@ function WorkloadPageInner() {
   }
 
   const data = useMemo(() => {
-    return mockWorkload.map(w => ({
+    const workloads = (apiData?.workloads ?? []) as any[];
+    return workloads.map(w => ({
       ...w,
-      employee: getEmployee(w.employeeId),
+      employee: getEmployeeFromWorkload(w),
     })).filter(w => w.employee);
-  }, []);
+  }, [apiData]);
 
   // Collect all unique projects
   const allProjects = useMemo(() => {
@@ -64,13 +70,77 @@ function WorkloadPageInner() {
   }, [data]);
 
   const stats = useMemo(() => ({
-    total: data.length,
-    optimal: data.filter(w => w.status === 'optimal').length,
-    overloaded: data.filter(w => w.status === 'overloaded').length,
-    underUtilized: data.filter(w => w.status === 'under-utilized').length,
-  }), [data]);
+    total: apiData?.total ?? data.length,
+    optimal: apiData?.summary?.optimal ?? data.filter(w => w.status === 'optimal').length,
+    overloaded: apiData?.summary?.overloaded ?? data.filter(w => w.status === 'overloaded').length,
+    underUtilized: apiData?.summary?.underUtilized ?? data.filter(w => w.status === 'under-utilized').length,
+  }), [data, apiData]);
 
   const maxAllocation = Math.max(...data.map(d => d.allocation), 100);
+
+  // Loading state
+  if (loading) {
+    return (
+      <PageShell title="Workload" icon={BarChart2} headerRight={
+        <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+          {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+        </Badge>
+      }>
+        <div className="space-y-6">
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-3 w-20 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                  <div className="w-7 h-7 rounded-lg animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+                </div>
+                <div className="h-6 w-12 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+              </div>
+            ))}
+          </div>
+          {/* Bars skeleton */}
+          <div className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+            <div className="h-4 w-40 rounded animate-pulse mb-4" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }} />
+            <div className="space-y-3">
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-[140px] h-5 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }} />
+                  <div className="flex-1 h-5 rounded-full animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }} />
+                  <div className="w-[70px] h-5 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }} />
+                  <div className="w-[90px] h-5 rounded animate-pulse" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <PageShell title="Workload" icon={BarChart2} headerRight={
+        <Badge variant="secondary" className={cn('text-xs font-medium', isDark ? 'bg-white/[0.06] text-white/50' : 'bg-black/[0.06] text-black/50')}>
+          {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+        </Badge>
+      }>
+        <div className={cn('rounded-2xl border p-12 text-center', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}>
+          <AlertTriangle className={cn('w-12 h-12 mx-auto mb-3', isDark ? 'text-red-400' : 'text-red-500')} style={{ opacity: 0.6 }} />
+          <p className={cn('text-sm font-medium', isDark ? 'text-white/70' : 'text-black/70')}>Failed to load workload data</p>
+          <p className={cn('text-xs mt-1', isDark ? 'text-white/30' : 'text-black/30')}>{error}</p>
+          <button
+            className="mt-4 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
+            style={{ backgroundColor: 'rgba(204,92,55,0.12)', color: '#cc5c37' }}
+            onClick={() => refetch()}
+          >
+            Retry
+          </button>
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell title="Workload" icon={BarChart2} headerRight={
