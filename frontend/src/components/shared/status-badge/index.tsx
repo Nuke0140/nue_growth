@@ -13,6 +13,8 @@ export interface StatusBadgeProps {
   status: string;
   /** Visual variant: 'dot' shows a colored dot + text, 'pill' shows a colored background pill */
   variant?: 'dot' | 'pill';
+  /** Optional children to render instead of the raw status text */
+  children?: React.ReactNode;
   /** Additional class name */
   className?: string;
 }
@@ -121,10 +123,12 @@ function getColor(status: string): StatusColorVariant {
 export const StatusBadge = memo(function StatusBadge({
   status,
   variant = 'pill',
+  children,
   className,
 }: StatusBadgeProps) {
   const color = getColor(status);
   const styles = colorStyles[color];
+  const displayText = children ?? status;
 
   // 'dot' variant: colored dot + text
   if (variant === 'dot') {
@@ -143,7 +147,7 @@ export const StatusBadge = memo(function StatusBadge({
           className="text-xs font-medium capitalize"
           style={{ color: styles.text }}
         >
-          {status}
+          {displayText}
         </span>
       </span>
     );
@@ -163,7 +167,7 @@ export const StatusBadge = memo(function StatusBadge({
       role="status"
       aria-label={`Status: ${status}`}
     >
-      {status}
+      {displayText}
     </span>
   );
 });

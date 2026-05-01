@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -18,12 +20,6 @@ import { FilterBar } from '@/components/shared/filter-bar';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { CSS } from '@/styles/design-tokens';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 type AgingFilter = 'all' | '0-30' | '31-60' | '61-90' | '90+';
 
@@ -53,9 +49,9 @@ const stageStatusMap: Record<string, string> = {
 
 const bucketColors: Record<string, string> = {
   '0-30': 'emerald',
-  '31-60': 'amber',
+  '31-60': 'warning',
   '61-90': 'orange',
-  '90+': 'red',
+  '90+': 'danger',
 };
 
 export default function ReceivablesPage() {

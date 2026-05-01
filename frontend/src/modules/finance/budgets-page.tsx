@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -13,12 +15,6 @@ import {
 import { budgets, budgetTrends } from '@/modules/finance/data/mock-data';
 import type { Budget, BudgetTrend } from '@/modules/finance/types';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 const statusConfig: Record<string, { label: string; color: string; bgDark: string; bgLight: string; barColor: string }> = {
   'on-track': { label: 'On Track', color: 'text-emerald-400', bgDark: 'bg-emerald-500/15', bgLight: 'bg-emerald-50 text-emerald-600', barColor: 'bg-emerald-500' },

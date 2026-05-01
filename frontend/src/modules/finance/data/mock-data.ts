@@ -100,14 +100,14 @@ export const invoices: Invoice[] = [
   },
   {
     id: 'inv-03', invoiceNo: 'INV-2026-043', client: 'Navi', project: 'Website Development', amount: 650000, gst: 117000, total: 767000,
-    status: 'paid', issuedDate: '2026-03-20', dueDate: '2026-04-20', paidDate: '2026-04-18', paymentMethod: 'Bank Transfer',
+    status: 'paid', issuedDate: '2026-03-20', dueDate: '2026-04-20', paidDate: '2026-04-18', paymentMethod: 'Bank Transfer', isRecurring: false,
     items: [
       { description: 'Website Design & Development', hsnSac: '998313', quantity: 1, rate: 650000, amount: 650000, gstRate: 18, gstAmount: 117000 },
     ],
   },
   {
     id: 'inv-04', invoiceNo: 'INV-2026-042', client: 'Groww', project: 'UI/UX Overhaul', amount: 1100000, gst: 198000, total: 1298000,
-    status: 'overdue', issuedDate: '2026-03-15', dueDate: '2026-04-14', reminders: 3,
+    status: 'overdue', issuedDate: '2026-03-15', dueDate: '2026-04-14', isRecurring: false, reminders: 3,
     items: [
       { description: 'UX Research & Wireframes', hsnSac: '998314', quantity: 1, rate: 350000, amount: 350000, gstRate: 18, gstAmount: 63000 },
       { description: 'Visual Design System', hsnSac: '998314', quantity: 1, rate: 400000, amount: 400000, gstRate: 18, gstAmount: 72000 },
@@ -116,7 +116,7 @@ export const invoices: Invoice[] = [
   },
   {
     id: 'inv-05', invoiceNo: 'INV-2026-041', client: 'Razorpay', project: 'Dashboard Redesign', amount: 1850000, gst: 333000, total: 2183000,
-    status: 'overdue', issuedDate: '2026-03-10', dueDate: '2026-04-10', reminders: 4,
+    status: 'overdue', issuedDate: '2026-03-10', dueDate: '2026-04-10', isRecurring: false, reminders: 4,
     items: [
       { description: 'Dashboard UI Redesign', hsnSac: '998314', quantity: 1, rate: 1200000, amount: 1200000, gstRate: 18, gstAmount: 216000 },
       { description: 'Data Visualization Components', hsnSac: '998314', quantity: 1, rate: 650000, amount: 650000, gstRate: 18, gstAmount: 117000 },
@@ -131,7 +131,7 @@ export const invoices: Invoice[] = [
   },
   {
     id: 'inv-07', invoiceNo: 'INV-2026-039', client: 'PhonePe', project: 'Payment Module UI', amount: 1750000, gst: 315000, total: 2065000,
-    status: 'overdue', issuedDate: '2026-02-28', dueDate: '2026-03-30', reminders: 5,
+    status: 'overdue', issuedDate: '2026-02-28', dueDate: '2026-03-30', isRecurring: false, reminders: 5,
     items: [
       { description: 'Payment Flow Design', hsnSac: '998314', quantity: 1, rate: 900000, amount: 900000, gstRate: 18, gstAmount: 162000 },
       { description: 'Frontend Implementation', hsnSac: '998313', quantity: 1, rate: 850000, amount: 850000, gstRate: 18, gstAmount: 153000 },
@@ -139,7 +139,7 @@ export const invoices: Invoice[] = [
   },
   {
     id: 'inv-08', invoiceNo: 'INV-2026-040', client: 'Swiggy', project: 'App Rebrand Phase 1', amount: 2400000, gst: 432000, total: 2832000,
-    status: 'overdue', issuedDate: '2026-03-05', dueDate: '2026-04-05', reminders: 3,
+    status: 'overdue', issuedDate: '2026-03-05', dueDate: '2026-04-05', isRecurring: false, reminders: 3,
     items: [
       { description: 'Brand Identity System', hsnSac: '998314', quantity: 1, rate: 800000, amount: 800000, gstRate: 18, gstAmount: 144000 },
       { description: 'App Icon & Marketing Collateral', hsnSac: '998314', quantity: 1, rate: 600000, amount: 600000, gstRate: 18, gstAmount: 108000 },

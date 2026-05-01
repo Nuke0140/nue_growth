@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -18,12 +20,6 @@ import { SmartDataTable } from '@/components/shared/smart-data-table';
 import type { DataTableColumnDef } from '@/components/shared/smart-data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 type InvoiceStatus = 'all' | 'draft' | 'sent' | 'viewed' | 'paid' | 'overdue';
 
@@ -329,11 +325,11 @@ export default function InvoicesPage() {
                               </span>
                             </div>
                           )}
-                          {inv.reminders > 0 && (
+                          {(inv.reminders ?? 0) > 0 && (
                             <div className="flex items-center gap-1.5">
                               <Send className="w-3.5 h-3.5" style={{ color: CSS.textMuted }} />
                               <span className="text-xs" style={{ color: CSS.textSecondary }}>
-                                {inv.reminders} reminders sent
+                                {inv.reminders ?? 0} reminders sent
                               </span>
                             </div>
                           )}

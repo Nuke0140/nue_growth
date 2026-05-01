@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -12,12 +14,6 @@ import {
 } from 'lucide-react';
 import { cashFlowData, financeDashboardStats } from '@/modules/finance/data/mock-data';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 export default function CashFlowPage() {
   const { theme } = useTheme();
@@ -65,7 +61,7 @@ export default function CashFlowPage() {
   ];
 
   const projectionDays = useMemo(() => {
-    const days = [];
+    const days: { day: number; value: number; upper: number; lower: number }[] = [];
     const base = closingBalance;
     for (let i = 1; i <= 30; i++) {
       const projected = base - (stats.burnRate / 30) * i + (totalInflow / cashFlowData.length / 30) * i * 0.6;

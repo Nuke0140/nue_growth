@@ -14,13 +14,16 @@ import { Plus } from 'lucide-react';
 
 export type SkeletonType = 'table' | 'cards' | 'dashboard';
 
+/** Icon type that accepts both Lucide icon components and inline render functions */
+export type PageShellIcon = LucideIcon | (() => React.ReactElement);
+
 export interface PageShellProps {
   /** Page title shown in header */
   title: string;
-  /** Optional subtitle below the title */
-  subtitle?: string;
-  /** Page icon component (Lucide icon) */
-  icon?: LucideIcon;
+  /** Optional subtitle below the title (string or custom ReactNode) */
+  subtitle?: React.ReactNode;
+  /** Page icon component (LucideIcon or inline render function) */
+  icon?: PageShellIcon;
   /** Optional badge count displayed next to the title */
   badge?: number;
   /** Custom content rendered on the right side of the header */
@@ -110,11 +113,9 @@ const PageShellInner = memo(function PageShellInner({
               className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0"
               style={{ backgroundColor: CSS.accentLight }}
             >
-              <Icon
-                className="w-[18px] h-[18px]"
-                style={{ color: CSS.accent }}
-                aria-hidden="true"
-              />
+              {'$$typeof' in Icon
+                ? <Icon className="w-[18px] h-[18px]" style={{ color: CSS.accent }} aria-hidden="true" />
+                : (Icon as () => React.ReactNode)()}
             </div>
           )}
           <div className="min-w-0">

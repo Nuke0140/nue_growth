@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -13,12 +15,6 @@ import {
 import { payouts } from '@/modules/finance/data/mock-data';
 import type { Payout } from '@/modules/finance/types';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 const statusConfig: Record<string, { label: string; color: string; bgDark: string; bgLight: string; icon: React.ElementType }> = {
   pending: { label: 'Pending', color: 'text-amber-400', bgDark: 'bg-amber-500/15', bgLight: 'bg-amber-50 text-amber-600', icon: Clock },

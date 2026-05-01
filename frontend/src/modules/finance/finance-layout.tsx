@@ -27,7 +27,7 @@ import {
   Search, Bell, Moon, Sun,
   Menu, ChevronRight, Command, Sparkles, SlidersHorizontal,
   LogOut, Calendar,
-  Home, ArrowLeft, ArrowRight, Zap, IndianRupee,
+  Home, ArrowLeft, ArrowRight, IndianRupee,
   LayoutDashboard, TrendingUp, HandCoins, Receipt,
   FileText, CreditCard, PiggyBank, Landmark,
   Wallet, Users, Waves, BarChart3,

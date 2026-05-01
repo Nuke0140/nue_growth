@@ -16,7 +16,14 @@ export interface NavSection {
   items: NavSubItem[];
 }
 
-export interface ModuleConfig {
+/**
+ * Module configuration.
+ * Generic over TPage so modules with narrower page unions (e.g. FinancePage)
+ * can type their store precisely while remaining assignable to ModuleConfig<string>.
+ * Method syntax on navigateTo enables bivariant parameter checking so that
+ * ModuleConfig<FinancePage> is assignable to ModuleConfig<string>.
+ */
+export interface ModuleConfig<TPage extends string = string> {
   moduleId: string;
   moduleName: string;
   moduleShortName?: string;
@@ -26,14 +33,14 @@ export interface ModuleConfig {
   pageComponents: Record<string, ComponentType>;
   allPageLabels: Record<string, string>;
   useStore: () => {
-    currentPage: string;
+    currentPage: TPage;
     sidebarOpen: boolean;
     setSidebarOpen: (open: boolean) => void;
-    navigateTo: (page: string) => void;
-    goBack: () => void;
-    goForward: () => void;
-    canGoBack: () => boolean;
-    canGoForward: () => boolean;
+    navigateTo(page: TPage): void;
+    goBack(): void;
+    goForward(): void;
+    canGoBack(): boolean;
+    canGoForward(): boolean;
   };
   collapsibleSections?: boolean;
   lazyLoading?: boolean;
