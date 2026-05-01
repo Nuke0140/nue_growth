@@ -42,6 +42,7 @@ const IncentivesPage = lazy(() => import('./incentives-page').then(m => ({ defau
 const OnboardingPage = lazy(() => import('./onboarding-page').then(m => ({ default: m.default })));
 const ShiftsPage = lazy(() => import('./shifts-page').then(m => ({ default: m.default })));
 const InternalChatPage = lazy(() => import('./internal-chat-page').then(m => ({ default: m.default })));
+
 // Note: asset-management-page and ops-dashboard-page removed — assets-page and erp-dashboard-page serve those roles
 
 // Design tokens for consistent animation
@@ -431,7 +432,7 @@ function PageContent() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease }}
+          transition={{ duration: ANIMATION.duration.normal }}
           className="h-full"
         >
           {loading ? <SkeletonDashboard /> : (
@@ -1385,115 +1386,42 @@ export default function ErpLayout() {
   const { recentPages, navigateTo, commandPaletteOpen, setCommandPaletteOpen, createModalOpen, createModalType, closeCreateModal, sidebarOpen, setSidebarOpen, contextualSidebar, closeContextualSidebar } = useErpStore();
 
   // Toast feedback for entity creation via CreateModal
-  const handleCreateSubmit = useCallback((_data: Record<string, unknown>) => {
-    const entityLabels: Record<CreateEntityType, string> = {
-      task: 'Task',
-      employee: 'Employee',
-      project: 'Project',
-      leave: 'Leave Request',
-      asset: 'Asset',
-    };
-    const label = entityLabels[createModalType || 'task'];
-    useFeedbackStore.getState().addToast('success', { title: `${label} Created`, message: `New ${label.toLowerCase()} has been created successfully` });
-  }, [createModalType]);
+  const handleCreateSubmit = useCallback(
+    (data: Record<string, unknown>) => {
+      // This would normally save to API, but for now just show success
+      console.log('Created entity:', data);
+    },
+    []
+  );
 
-  // Build command items for the command palette from all nav sections
+  // Commands for command palette
   const commands = useMemo(() => {
-    const allItems: Array<{
-      id: string;
-      icon: LucideIcon;
-      label: string;
-      section: 'pages';
-      action: () => void;
-    }> = [];
-    for (const section of navSections) {
-      for (const item of section.items) {
-        allItems.push({
-          id: item.id,
-          icon: item.icon,
-          label: item.label,
-          section: 'pages' as const,
-          action: () => navigateTo(item.id),
+    const cmdList: Array<{ label: string; action: () => void; icon: LucideIcon; shortcut?: string }> = [];
+    // Add navigation commands
+    Object.entries(allNavMap).forEach(([id, label]) => {
+      const Icon = navIconMap[id];
+      if (Icon) {
+        cmdList.push({
+          label: `Navigate to ${label}`,
+          action: () => navigateTo(id as ErpPage),
+          icon: Icon,
         });
       }
-    }
-    return allItems;
+    });
+    return cmdList;
   }, [navigateTo]);
 
-  // Build recent pages for command palette
   const recentCommands = useMemo(() => {
-    return recentPages
-      .slice(0, 5)
-      .map((page) => ({
-        id: `recent-${page}`,
-        icon: (navIconMap[page] || LayoutDashboard) as LucideIcon,
-        label: allNavMap[page] || page,
-        action: () => navigateTo(page),
-      }));
+    return recentPages.slice(0, 5).map(page => ({
+      label: allNavMap[page.id] || page.id,
+      action: () => navigateTo(page.id as ErpPage),
+      icon: navIconMap[page.id] || LayoutDashboard,
+    }));
   }, [recentPages, navigateTo]);
 
-  // Global keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
-      const isInputFocused = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
-
-      // Escape: close any open panel
-      if (e.key === 'Escape') {
-        if (commandPaletteOpen) {
-          setCommandPaletteOpen(false);
-          e.preventDefault();
-          return;
-        }
-        if (createModalOpen) {
-          closeCreateModal();
-          e.preventDefault();
-          return;
-        }
-        if (contextualSidebar) {
-          closeContextualSidebar();
-          e.preventDefault();
-          return;
-        }
-        return;
-      }
-
-      // Don't fire shortcuts when typing in inputs
-      if (isInputFocused) return;
-
-      const isMod = e.metaKey || e.ctrlKey;
-
-      // ⌘K / Ctrl+K: Command palette
-      if (isMod && e.key === 'k') {
-        e.preventDefault();
-        setCommandPaletteOpen(!commandPaletteOpen);
-        return;
-      }
-
-      // ⌘B / Ctrl+B: Toggle sidebar
-      if (isMod && e.key === 'b') {
-        e.preventDefault();
-        setSidebarOpen(!sidebarOpen);
-        return;
-      }
-
-      // Digit 1-9: Navigate to recent pages
-      if (e.key >= '1' && e.key <= '9' && !isMod && !e.shiftKey && !e.altKey) {
-        const index = parseInt(e.key) - 1;
-        if (index < recentPages.length) {
-          e.preventDefault();
-          navigateTo(recentPages[index]);
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [commandPaletteOpen, createModalOpen, contextualSidebar, sidebarOpen, recentPages, setCommandPaletteOpen, closeCreateModal, closeContextualSidebar, setSidebarOpen, navigateTo]);
-
   return (
-    <TooltipProvider delayDuration={300}>
-      <div className="h-screen flex flex-col overflow-hidden bg-[var(--app-bg)] text-[var(--app-text)]">
+    <TooltipProvider>
+      <div className="h-screen flex flex-col bg-[var(--app-bg)] overflow-hidden">
         {/* Topbar */}
         <Topbar />
 

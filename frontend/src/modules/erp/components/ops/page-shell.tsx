@@ -91,7 +91,7 @@ function PageShellInner({
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: ANIMATION.duration.normal, ease: ANIMATION.ease as unknown as number[] }}
+      transition={{ duration: ANIMATION.duration.normal, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'flex items-center justify-between gap-4',
         padded && 'px-6 pt-6 pb-2'
