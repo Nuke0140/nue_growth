@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/auth-store';
 import { getModuleConfigFromPathname } from '@/lib/module-registry';
 import WindowsDesktop from '@/components/dashboard/windows-desktop';
 import PremiumDesktop from '@/components/dashboard/premium-desktop';
+import EnhancedPremiumDesktop from '@/components/dashboard/enhanced-premium-desktop';
 
 /* ============================================
    Dynamic imports — each module loads only when needed.
@@ -202,15 +203,15 @@ export default function Home() {
         content = <LayoutComponent />;
         renderKey = renderModule;
       } else {
-        content = <PremiumDesktop />;
-        renderKey = 'premium-desktop';
+        content = <EnhancedPremiumDesktop />;
+        renderKey = 'enhanced-premium-desktop';
       }
     } else if (isManagement && CurrentPage) {
       content = <CurrentPage />;
       renderKey = currentPage;
     } else {
-      content = <PremiumDesktop />;
-      renderKey = 'premium-desktop';
+      content = <EnhancedPremiumDesktop />;
+      renderKey = 'enhanced-premium-desktop';
     }
   }
 
