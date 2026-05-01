@@ -1,6 +1,7 @@
 'use client';
 
 import type { ModuleConfig } from '@/types/module-config';
+import type { FinancePage } from './types';
 import { useFinanceStore } from './finance-store';
 
 // Direct imports
@@ -41,7 +42,7 @@ import {
   BrainCircuit,
 } from 'lucide-react';
 
-export const financeConfig: ModuleConfig = {
+export const financeConfig: ModuleConfig<FinancePage> = {
   moduleId: 'finance',
   moduleName: 'Finance',
   moduleShortName: 'Finance',

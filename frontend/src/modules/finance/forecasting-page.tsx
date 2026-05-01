@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -13,12 +15,6 @@ import {
 import { forecastData } from '@/modules/finance/data/mock-data';
 import type { ForecastEntry } from '@/modules/finance/types';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 function formatForecastValue(metric: string, value: number): string {
   if (metric === 'Cash Runway' || metric === 'Profit Margin') return `${value.toFixed(1)}`;

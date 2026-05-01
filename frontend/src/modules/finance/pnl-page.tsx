@@ -1,5 +1,7 @@
 'use client';
 
+import { formatINR } from './utils';
+
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -14,12 +16,6 @@ import { KpiWidget } from '@/components/shared/kpi-widget';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { CSS } from '@/styles/design-tokens';
 
-function formatINR(num: number): string {
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(1)}Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1)}L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)}K`;
-  return `₹${num}`;
-}
 
 const majorRows = ['Total Revenue', 'Gross Margin', 'Total OpEx', 'EBITDA', 'Net Profit', 'Net Margin %'];
 
@@ -58,7 +54,7 @@ export default function PnLPage() {
       const accent = isCategoryAccent(entry.category);
       const positive = isVariancePositive(entry);
       const isPercent = entry.category === 'Net Margin %';
-      const isMajor = entry.category === 'Gross Margin' || entry.category === 'EBITDA' || entry.category === 'Net Profit' || entry === 'Net Margin %';
+      const isMajor = entry.category === 'Gross Margin' || entry.category === 'EBITDA' || entry.category === 'Net Profit' || entry.category === 'Net Margin %';
       return {
         id: entry.category,
         category: entry.category,

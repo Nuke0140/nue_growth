@@ -91,11 +91,11 @@ export interface Receivable {
 // ---- Payables Types ----
 export interface Payable {
   id: string;
-  vendor: string;
+  vendor?: string;
   freelancer?: string;
   amount: number;
   dueDate: string;
-  approvalStatus: 'pending' | 'approved' | 'rejected' | 'paid';
+  approvalStatus: 'pending' | 'approved' | 'rejected' | 'paid' | 'overdue';
   payoutPriority: 'high' | 'medium' | 'low';
   penaltyRisk: boolean;
   linkedInvoice?: string;
@@ -120,7 +120,7 @@ export interface Invoice {
   discount?: number;
   isRecurring: boolean;
   recurringCycle?: 'monthly' | 'quarterly' | 'yearly';
-  reminders: number;
+  reminders?: number;
   lastViewedDate?: string;
 }
 

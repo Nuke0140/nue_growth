@@ -11,19 +11,22 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 export type KpiColorVariant = 'accent' | 'success' | 'warning' | 'danger' | 'info';
 
+/** Icon type that accepts both Lucide icon components and inline render functions */
+export type KpiIcon = LucideIcon | (() => React.ReactElement);
+
 export interface KpiWidgetProps {
   /** KPI label displayed above the value */
   label: string;
   /** Primary value to display */
   value: string | number;
-  /** Icon component */
-  icon: LucideIcon;
+  /** Icon component (LucideIcon or inline render function) */
+  icon: KpiIcon;
   /** Trend direction */
   trend?: 'up' | 'down' | 'neutral';
   /** Trend value (e.g. "+12.5%") */
   trendValue?: string;
-  /** Color variant */
-  color?: KpiColorVariant;
+  /** Color variant (accepts KpiColorVariant or arbitrary string for data-driven usage) */
+  color?: KpiColorVariant | string;
   /** Additional class names */
   className?: string;
 }
@@ -69,7 +72,7 @@ export const KpiWidget = React.memo(function KpiWidget({
   color = 'accent',
   className,
 }: KpiWidgetProps) {
-  const colors = colorMap[color];
+  const colors = colorMap[color as KpiColorVariant] ?? colorMap.accent;
   const TrendIcon =
     trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
 
@@ -99,7 +102,7 @@ export const KpiWidget = React.memo(function KpiWidget({
         className="absolute top-0 right-0 w-24 h-24 opacity-[0.04] pointer-events-none"
         aria-hidden="true"
       >
-        <Icon className="w-full h-full" />
+        {'$$typeof' in Icon ? <Icon className="w-full h-full" /> : (Icon as () => React.ReactNode)()}
       </div>
 
       <div className="flex items-start justify-between relative z-10">
@@ -129,7 +132,7 @@ export const KpiWidget = React.memo(function KpiWidget({
           className="flex items-center justify-center w-11 h-11 rounded-xl shrink-0"
           style={{ backgroundColor: colors.iconBg }}
         >
-          <Icon className="w-5 h-5" style={{ color: colors.text }} />
+          {'$$typeof' in Icon ? <Icon className="w-5 h-5" style={{ color: colors.text }} /> : (Icon as () => React.ReactNode)()}
         </div>
       </div>
     </motion.div>
