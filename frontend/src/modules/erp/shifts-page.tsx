@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, memo } from 'react';
-import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Plus, Clock, Moon, Zap, Users, Building2, AlertTriangle, ChevronRight, CalendarClock
@@ -93,11 +92,8 @@ function ShiftsPageInner() {
             { label: 'Flexible Shifts', value: stats.flexible, icon: Zap, color: 'text-amber-500 dark:text-amber-400' },
             { label: 'Support Coverage', value: stats.supportCoverage, icon: Users, color: 'text-emerald-500 dark:text-emerald-400' },
           ].map((stat, i) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn('rounded-2xl border p-4', isDark ? 'bg-white/[0.03] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
             >
               <div className="flex items-center justify-between mb-2">
@@ -107,15 +103,12 @@ function ShiftsPageInner() {
                 </div>
               </div>
               <p className="text-xl font-bold">{stat.value}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Visual Timeline */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.3 }}
+        <div
           className={cn('rounded-2xl border p-5', isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]')}
         >
           <h3 className="text-sm font-bold mb-4">24-Hour Timeline</h3>
@@ -142,12 +135,9 @@ function ShiftsPageInner() {
                     />
                   ))}
                   {/* Shift bar */}
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${td.widthPercent}%` }}
-                    transition={{ delay: i * 0.1 + 0.2, duration: 0.2 }}
+                  <div
                     className={cn('absolute top-1 bottom-1 rounded-md', deptColor(td.shift.department))}
-                    style={{ left: `${td.leftPercent}%`, opacity: 0.7 }}
+                    style={{ left: `${td.leftPercent}%`, width: `${td.widthPercent}%`, opacity: 0.7 }}
                   />
                   {/* Time labels on bar */}
                   <div className="absolute inset-0 flex items-center justify-between px-2">
@@ -172,7 +162,7 @@ function ShiftsPageInner() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Shift Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -185,14 +175,11 @@ function ShiftsPageInner() {
             const durationMins = duration % 60;
 
             return (
-              <motion.div
+              <div
                 key={shift.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.06 + 0.2, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  'rounded-2xl border overflow-hidden transition-all duration-200',
-                  isDark ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]' : 'bg-white border-black/[0.06] hover:shadow-lg'
+                  'rounded-2xl border overflow-hidden',
+                  isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-black/[0.06]'
                 )}
               >
                 <div className={cn('h-1', getDeptColor(shift.department))} />
@@ -259,7 +246,7 @@ function ShiftsPageInner() {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

@@ -11,44 +11,41 @@ import { Button } from '@/components/ui/button';
 import {
   Sparkles, BrainCircuit, AlertTriangle, Clock, DollarSign, TrendingDown, Shield, Tag, RefreshCw, Target, Lightbulb, Users, Zap,
 } from 'lucide-react';
-import { aiFinanceInsights } from '@/modules/finance/data/mock-data';
-import type { AIFinanceInsight } from '@/modules/finance/types';
+import { aiInsights } from '@/modules/finance/data/mock-data';
+import type { AIInsight } from '@/modules/finance/types';
 
 
-type CategoryFilter = 'all' | 'delayed-payment' | 'margin-leak' | 'overspend-anomaly' | 'low-runway' | 'pricing-recommendation' | 'budget-reallocation' | 'churn-risk';
+type CategoryFilter = 'all' | 'cash-alert' | 'payment-risk' | 'overspend' | 'margin-leak' | 'pricing' | 'optimization' | 'tax-alert';
 type ImpactFilter = 'all' | 'critical' | 'high' | 'medium' | 'low';
 
 const typeIcons: Record<string, React.ElementType> = {
-  'delayed-payment': Clock,
+  'cash-alert': Clock,
+  'payment-risk': AlertTriangle,
+  'overspend': TrendingDown,
   'margin-leak': TrendingDown,
-  'overspend-anomaly': AlertTriangle,
-  'low-runway': Shield,
-  'pricing-recommendation': Tag,
-  'service-pricing': DollarSign,
-  'budget-reallocation': Target,
-  'churn-risk': Users,
+  'pricing': Tag,
+  'optimization': Zap,
+  'tax-alert': Shield,
 };
 
 const typeColors: Record<string, { color: string; bg: string }> = {
-  'delayed-payment': { color: 'text-amber-400', bg: 'bg-amber-500/10' },
+  'cash-alert': { color: 'text-amber-400', bg: 'bg-amber-500/10' },
+  'payment-risk': { color: 'text-red-400', bg: 'bg-red-500/10' },
+  'overspend': { color: 'text-rose-400', bg: 'bg-rose-500/10' },
   'margin-leak': { color: 'text-rose-400', bg: 'bg-rose-500/10' },
-  'overspend-anomaly': { color: 'text-red-400', bg: 'bg-red-500/10' },
-  'low-runway': { color: 'text-orange-400', bg: 'bg-orange-500/10' },
-  'pricing-recommendation': { color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-  'service-pricing': { color: 'text-sky-400', bg: 'bg-sky-500/10' },
-  'budget-reallocation': { color: 'text-violet-400', bg: 'bg-violet-500/10' },
-  'churn-risk': { color: 'text-red-400', bg: 'bg-red-500/10' },
+  'pricing': { color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+  'optimization': { color: 'text-sky-400', bg: 'bg-sky-500/10' },
+  'tax-alert': { color: 'text-orange-400', bg: 'bg-orange-500/10' },
 };
 
 const typeLabels: Record<string, string> = {
-  'delayed-payment': 'Delayed Payment',
+  'cash-alert': 'Cash Alert',
+  'payment-risk': 'Payment Risk',
+  'overspend': 'Overspend',
   'margin-leak': 'Margin Leak',
-  'overspend-anomaly': 'Overspend',
-  'low-runway': 'Low Runway',
-  'pricing-recommendation': 'Pricing',
-  'service-pricing': 'Pricing',
-  'budget-reallocation': 'Budget',
-  'churn-risk': 'Churn',
+  'pricing': 'Pricing',
+  'optimization': 'Optimization',
+  'tax-alert': 'Tax Alert',
 };
 
 const impactColors: Record<string, (isDark: boolean) => string> = {
@@ -62,13 +59,13 @@ const impactOrder = { critical: 0, high: 1, medium: 2, low: 3 };
 
 const categoryTabs: { label: string; value: CategoryFilter }[] = [
   { label: 'All', value: 'all' },
-  { label: 'Delayed Payment', value: 'delayed-payment' },
+  { label: 'Cash Alert', value: 'cash-alert' },
+  { label: 'Payment Risk', value: 'payment-risk' },
+  { label: 'Overspend', value: 'overspend' },
   { label: 'Margin Leak', value: 'margin-leak' },
-  { label: 'Overspend', value: 'overspend-anomaly' },
-  { label: 'Low Runway', value: 'low-runway' },
-  { label: 'Pricing', value: 'pricing-recommendation' },
-  { label: 'Budget', value: 'budget-reallocation' },
-  { label: 'Churn', value: 'churn-risk' },
+  { label: 'Pricing', value: 'pricing' },
+  { label: 'Optimization', value: 'optimization' },
+  { label: 'Tax Alert', value: 'tax-alert' },
 ];
 
 const impactTabs: { label: string; value: ImpactFilter }[] = [
@@ -86,18 +83,18 @@ export default function AIFinanceIntelligencePage() {
   const [impactFilter, setImpactFilter] = useState<ImpactFilter>('all');
 
   const filteredInsights = useMemo(() => {
-    let items = [...aiFinanceInsights];
+    let items = [...aiInsights];
     if (categoryFilter !== 'all') items = items.filter(i => i.type === categoryFilter);
     if (impactFilter !== 'all') items = items.filter(i => i.impact === impactFilter);
     items.sort((a, b) => impactOrder[a.impact] - impactOrder[b.impact]);
     return items;
   }, [categoryFilter, impactFilter]);
 
-  const totalSavings = useMemo(() => aiFinanceInsights.reduce((s, i) => s + i.potentialSaving, 0), []);
-  const criticalCount = aiFinanceInsights.filter(i => i.impact === 'critical').length;
+  const totalSavings = useMemo(() => aiInsights.reduce((s, i) => s + i.potentialSaving, 0), []);
+  const criticalCount = aiInsights.filter(i => i.impact === 'critical').length;
   const avgConfidence = useMemo(() => {
-    const total = aiFinanceInsights.reduce((s, i) => s + i.confidence, 0);
-    return (total / aiFinanceInsights.length).toFixed(0);
+    const total = aiInsights.reduce((s, i) => s + i.confidence, 0);
+    return (total / aiInsights.length).toFixed(0);
   }, []);
 
   return (
@@ -124,7 +121,7 @@ export default function AIFinanceIntelligencePage() {
         {/* Summary KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Insights', value: aiFinanceInsights.length, icon: BrainCircuit, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
+            { label: 'Total Insights', value: aiInsights.length, icon: BrainCircuit, color: 'text-violet-400', bg: isDark ? 'bg-violet-500/10' : 'bg-violet-50' },
             { label: 'Potential Savings', value: formatINR(totalSavings), icon: DollarSign, color: 'text-emerald-400', bg: isDark ? 'bg-emerald-500/10' : 'bg-emerald-50' },
             { label: 'Critical Alerts', value: criticalCount, icon: AlertTriangle, color: 'text-red-400', bg: isDark ? 'bg-red-500/10' : 'bg-red-50' },
             { label: 'Avg Confidence', value: `${avgConfidence}%`, icon: Target, color: 'text-sky-400', bg: isDark ? 'bg-sky-500/10' : 'bg-sky-50' },
@@ -181,7 +178,7 @@ export default function AIFinanceIntelligencePage() {
                   impactFilter === tab.value
                     ? (isDark ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/60')
                     : (isDark ? 'bg-white/[0.06] text-white/30' : 'bg-black/[0.06] text-black/30')
-                )}>{aiFinanceInsights.filter(i => i.impact === tab.value).length}</span>
+                )}>{aiInsights.filter(i => i.impact === tab.value).length}</span>
               )}
             </Button>
           ))}
